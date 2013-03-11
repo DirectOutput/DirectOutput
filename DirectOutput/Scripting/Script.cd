@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DirectOutput.Scripting.Script">
+    <Position X="12.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAAAAEAIAAAABAAAAAAAA=</HashCode>
+      <FileName>Scripting\Script.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DirectOutput.Scripting.ScriptList">
+    <Position X="8.5" Y="0.75" Width="1.5" />
+    <Members>
+      <Field Name="InternalList" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAABAICAAAAAQAAABAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>Scripting\ScriptList.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="this[System.String]" />
+      <Property Name="this[System.Int32]" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

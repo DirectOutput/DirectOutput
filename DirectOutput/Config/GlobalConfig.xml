@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Global configuration for the DirectOutput framework.-->
+<Config>
+  <LedControlIniFiles>
+    <LedControlIniFile>
+      <Filename>C:\Users\Tom\Documents\Visual Studio 2010\Projects\B2SBackglassServer\B2SBackglassServer\bin\Debug\plugins\DirectOutput\Config\ledcontrol.ini</Filename>
+      <LedWizNumber>1</LedWizNumber>
+    </LedControlIniFile>
+    <LedControlIniFile>
+      <Filename>C:\Users\Tom\Documents\Visual Studio 2010\Projects\B2SBackglassServer\B2SBackglassServer\bin\Debug\plugins\DirectOutput\Config\ledcontrol2.ini</Filename>
+      <LedWizNumber>2</LedWizNumber>
+    </LedControlIniFile>
+  </LedControlIniFiles>
+  <CabinetConfigFilePattern>{GlobalConfigDir}\cabinet.xml</CabinetConfigFilePattern>
+  <CabinetScriptFilePatterns />
+  <TableScriptFilePatterns />
+  <TableConfigFilePattern>{GlobalConfigDir}\{TableName}.xml</TableConfigFilePattern>
+  <UpdateTimerIntervall>20</UpdateTimerIntervall>
+</Config>

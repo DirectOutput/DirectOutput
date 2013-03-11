@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="More effects might exist in your copy of the framework.&#xD;&#xA;Additional effects can also be added through scripts.">
+    <Position X="9.031" Y="1.51" Height="1.104" Width="2.565" />
+  </Comment>
+  <Comment CommentText="All effects have to implement IEffect.">
+    <Position X="4.01" Y="1.76" Height="0.75" Width="1.7" />
+  </Comment>
+  <Class Name="DirectOutput.FX.EffectBase">
+    <Position X="6.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAACAAAAAAg=</HashCode>
+      <FileName>FX\EffectBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DirectOutput.FX.ListFX.ListEffect">
+    <Position X="2.25" Y="3.5" Width="1.5" />
+    <Members>
+      <Field Name="_Effects" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAAQAAAAAQAAAAAAAAAACAAAAAAg=</HashCode>
+      <FileName>FX\ListFX\ListEffect.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Effects" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="DirectOutput.FX.LedControlFX.LedControlEffect">
+    <Position X="10.25" Y="3.5" Width="1.5" />
+    <Members>
+      <Field Name="_Blink" Hidden="true" />
+      <Field Name="_BlinkInterval" Hidden="true" />
+      <Field Name="_Duration" Hidden="true" />
+      <Field Name="_FirstOutputNumber" Hidden="true" />
+      <Field Name="_Intensity" Hidden="true" />
+      <Field Name="_LedWizEquivalentName" Hidden="true" />
+      <Field Name="_RGBColor" Hidden="true" />
+      <Method Name="BlinkAlarmHandler" Hidden="true" />
+      <Field Name="BlinkCount" Hidden="true" />
+      <Method Name="BlinkFinish" Hidden="true" />
+      <Method Name="BlinkInit" Hidden="true" />
+      <Field Name="BlinkState" Hidden="true" />
+      <Method Name="DurationAlarmHandler" Hidden="true" />
+      <Method Name="LedControlEffect" Hidden="true" />
+      <Field Name="LedWizEquivalent" Hidden="true" />
+      <Method Name="ResolveName" Hidden="true" />
+      <Method Name="Set" Hidden="true" />
+      <Method Name="SetAnalogOutput" Hidden="true" />
+      <Method Name="SetOutputColor" Hidden="true" />
+      <Method Name="SetOutputValue" Hidden="true" />
+      <Method Name="Unset" Hidden="true" />
+      <Method Name="UnsetAnalogOutput" Hidden="true" />
+      <Method Name="UnsetOutputColor" Hidden="true" />
+      <Field Name="UpdateTimer" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>gTBBAAAAAAACBBASICACAIAIEACMAABIhASCAAQABIg=</HashCode>
+      <FileName>FX\LedControlFX\LedControlEffect.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DirectOutput.FX.BasicFX.BasicAnalogEffect">
+    <Position X="6.25" Y="3.5" Width="1.5" />
+    <Members>
+      <Field Name="_AnalogToy" Hidden="true" />
+      <Field Name="_AnalogToyName" Hidden="true" />
+      <Field Name="_ValueOff" Hidden="true" />
+      <Field Name="_ValueOn" Hidden="true" />
+      <Method Name="ResolveName" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AgAAACAAAAAAABAAACAIAACCAAAAAAAAAAAKAggAAAg=</HashCode>
+      <FileName>FX\BasicFX\BasicAnalogEffect.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DirectOutput.FX.BasicFX.BasicDigitalEffect">
+    <Position X="4.25" Y="3.5" Width="1.5" />
+    <Members>
+      <Field Name="_DigitalToy" Hidden="true" />
+      <Field Name="_DigitalToyName" Hidden="true" />
+      <Property Name="DigitalToy" Hidden="true" />
+      <Method Name="ResolveName" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAACAAAAAAAEIAAAAQACACAAAAAAg=</HashCode>
+      <FileName>FX\BasicFX\BasicDigitalEffect.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DirectOutput.FX.BasicFX.BasicRGBLedEffect">
+    <Position X="8.25" Y="3.5" Width="1.5" />
+    <Members>
+      <Field Name="_RGBLed" Hidden="true" />
+      <Field Name="_RGBLedName" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAgAAABAAIABAABAAAAAAAAAAAAAAAAAACgAAAAAg=</HashCode>
+      <FileName>FX\BasicFX\BasicRGBLedEffect.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DirectOutput.FX.AssignedEffect" Collapsed="true">
+    <Position X="2.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAEAAAIAAAggABAAAAgEAAACAAAAAAgAIAACAAAAAAg=</HashCode>
+      <FileName>FX\AssignedEffect.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="DirectOutput.FX.IEffect">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <Members>
+      <Event Name="AfterNameChanged" Hidden="true" />
+      <Event Name="BeforeNameChange" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAAAAAAwAAAAAAAABAAACAAAAAAg=</HashCode>
+      <FileName>FX\IEffect.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

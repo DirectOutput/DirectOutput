@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Alphabetical">
+  <Class Name="DirectOutput.Pinball" Collapsed="true">
+    <Position X="2.5" Y="0.5" Width="1.25" />
+    <Members>
+      <Field Name="_Cabinet" Hidden="true" />
+      <Field Name="_Scripts" Hidden="true" />
+      <Field Name="_Table" Hidden="true" />
+      <Field Name="_UpdateTimer" Hidden="true" />
+      <Method Name="Finish" Hidden="true" />
+      <Method Name="Init" Hidden="true" />
+      <Method Name="Pinball" Hidden="true" />
+      <Field Name="PinmameInputManager" Hidden="true" />
+      <Method Name="PinmameInputManager_AllPinmameDataProcessed" Hidden="true" />
+      <Method Name="PinmameInputManager_PinmameDataReceived" Hidden="true" />
+      <Method Name="ReceivePinmameData" Hidden="true" />
+      <Method Name="UpdateTimer_AlarmsTriggered" Hidden="true" />
+    </Members>
+    <AssociationLine Name="Scripts" Type="DirectOutput.Scripting.Script" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="3.188" Y="1.062" />
+        <Point X="3.188" Y="4.562" />
+        <Point X="5.75" Y="4.562" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="Cabinet" Type="DirectOutput.Cab.Cabinet" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="3.75" Y="0.953" />
+        <Point X="4.125" Y="0.953" />
+        <Point X="4.125" Y="3.127" />
+        <Point X="5.75" Y="3.127" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAIEAAAAAAAQAAAAQAQAAASAAQAoQBBAACBAAEAAg=</HashCode>
+      <FileName>Pinball.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Table" />
+      <Property Name="Cabinet" />
+      <Property Name="UpdateTimer" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Scripts" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="DirectOutput.Table.Table" Collapsed="true">
+    <Position X="5.75" Y="0.5" Width="1.25" />
+    <Members>
+      <Field Name="_AssignedStaticEffects" Hidden="true" />
+      <Field Name="_Effects" Hidden="true" />
+      <Field Name="_RomName" Hidden="true" />
+      <Field Name="_TableName" Hidden="true" />
+      <Method Name="Finish" Hidden="true" />
+      <Method Name="GetConfigXml" Hidden="true" />
+      <Method Name="GetTableFromConfigXml" Hidden="true" />
+      <Method Name="GetTableFromConfigXmlFile" Hidden="true" />
+      <Method Name="Init" Hidden="true" />
+      <Event Name="RomNameChanged" Hidden="true" />
+      <Method Name="SaveConfigXmlFile" Hidden="true" />
+      <Method Name="Table" Hidden="true" />
+      <Event Name="TableNameChanged" Hidden="true" />
+      <Method Name="TriggerStaticEffects" Hidden="true" />
+      <Method Name="UpdateTableElement" Hidden="true" />
+    </Members>
+    <AssociationLine Name="Effects" Type="DirectOutput.FX.IEffect" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.375" Y="1.062" />
+        <Point X="6.375" Y="1.875" />
+        <Point X="11.25" Y="1.875" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="TableElements" Type="DirectOutput.Table.TableElement" ManuallyRouted="true">
+      <Path>
+        <Point X="7" Y="0.75" />
+        <Point X="7.214" Y="0.75" />
+        <Point X="7.214" Y="0.938" />
+        <Point X="8.5" Y="0.938" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAACQAAAAAAQAIAAIQJBAAEBACAICAQAgAAk=</HashCode>
+      <FileName>Table\Table.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="TableElements" />
+      <Property Name="Effects" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="DirectOutput.Cab.Cabinet" Collapsed="true">
+    <Position X="5.75" Y="3" Width="1.5" />
+    <Members>
+      <Field Name="_Colors" Hidden="true" />
+      <Field Name="_Effects" Hidden="true" />
+      <Field Name="_OutputControllers" Hidden="true" />
+      <Field Name="_Outputs" Hidden="true" />
+      <Field Name="_Toys" Hidden="true" />
+      <Method Name="AutoConfig" Hidden="true" />
+      <Method Name="Cabinet" Hidden="true" />
+      <Method Name="Finish" Hidden="true" />
+      <Method Name="GetCabinetFromConfigXml" Hidden="true" />
+      <Method Name="GetCabinetFromConfigXmlFile" Hidden="true" />
+      <Method Name="GetConfigXml" Hidden="true" />
+      <Method Name="Init" Hidden="true" />
+      <Method Name="SaveConfigXmlFile" Hidden="true" />
+    </Members>
+    <AssociationLine Name="Toys" Type="DirectOutput.Cab.Toys.IToy" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="7.25" Y="3.223" />
+        <Point X="10.396" Y="3.223" />
+        <Point X="10.396" Y="3.438" />
+        <Point X="11.25" Y="3.438" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="Effects" Type="DirectOutput.FX.IEffect" FixedToPoint="true">
+      <Path>
+        <Point X="6.5" Y="3" />
+        <Point X="6.5" Y="2.313" />
+        <Point X="11.25" Y="2.313" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="OutputControllers" Type="DirectOutput.Cab.Out.IOutputController" ManuallyRouted="true">
+      <Path>
+        <Point X="7.25" Y="3.376" />
+        <Point X="9.609" Y="3.376" />
+        <Point X="9.609" Y="5.616" />
+        <Point X="11.25" Y="5.616" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>DAAQAAAAAAAAAEAAAAQAIAQIQBIAQEQAAAACgAAgAAg=</HashCode>
+      <FileName>Cab\Cabinet.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Toys" />
+      <Property Name="Effects" />
+      <Property Name="OutputControllers" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="DirectOutput.Table.TableElement" Collapsed="true">
+    <Position X="8.5" Y="0.75" Width="1.5" />
+    <Members>
+      <Field Name="_Name" Hidden="true" />
+      <Field Name="_Number" Hidden="true" />
+      <Field Name="_TableElementEffectList" Hidden="true" />
+      <Field Name="_TableElementType" Hidden="true" />
+      <Field Name="_Value" Hidden="true" />
+      <Event Name="NameChanged" Hidden="true" />
+      <Method Name="TableElement" Hidden="true" />
+      <Method Name="TableElement_ValueChanged" Hidden="true" />
+      <Event Name="ValueChanged" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AgABAAAAAAAAEBAQAEAMIAQAAEAAAAAAAAAgAAAIAAA=</HashCode>
+      <FileName>Table\TableElement.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="AssignedEffects" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="DirectOutput.FX.AssignedEffect">
+    <Position X="11.25" Y="0.5" Width="1.5" />
+    <Members>
+      <Field Name="_Effect" Hidden="true" />
+      <Field Name="_EffectName" Hidden="true" />
+      <Field Name="_Order" Hidden="true" />
+      <Method Name="AssignedEffect" Hidden="true" />
+      <Property Name="Effect" Hidden="true" />
+      <Event Name="EffectNameChanged" Hidden="true" />
+      <Method Name="Finish" Hidden="true" />
+      <Method Name="Init" Hidden="true" />
+      <Property Name="Order" Hidden="true" />
+      <Event Name="OrderChanged" Hidden="true" />
+      <Method Name="ResolveEffectName" Hidden="true" />
+      <Method Name="TableElementEffect_EffectNameChanged" Hidden="true" />
+      <Method Name="Trigger" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>IAEAAAIAAAggABAAAAgEAAACAAAAAAgAIAACAAAAAAg=</HashCode>
+      <FileName>FX\AssignedEffect.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DirectOutput.UpdateTimer" Collapsed="true">
+    <Position X="5.75" Y="5.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>QACAAAAAEAAAAAAAACAAABACAQAggCQAQARCACQEAAg=</HashCode>
+      <FileName>UpdateTimer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DirectOutput.Scripting.Script" Collapsed="true">
+    <Position X="5.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAAAAEAIAAAABAAAAAAAA=</HashCode>
+      <FileName>Scripting\Script.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="DirectOutput.Cab.Out.IOutputController">
+    <Position X="11.25" Y="5" Width="1.5" />
+    <Members>
+      <Method Name="Finish" Hidden="true" />
+      <Method Name="Init" Hidden="true" />
+      <Method Name="Update" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>BAQAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAACAAAAAAg=</HashCode>
+      <FileName>Cab\Out\IOutputController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Outputs" />
+    </ShowAsCollectionAssociation>
+  </Interface>
+  <Interface Name="DirectOutput.FX.IEffect">
+    <Position X="11.25" Y="1.75" Width="1.5" />
+    <Members>
+      <Event Name="AfterNameChanged" Hidden="true" />
+      <Event Name="BeforeNameChange" Hidden="true" />
+      <Method Name="Finish" Hidden="true" />
+      <Method Name="Init" Hidden="true" />
+      <Method Name="Trigger" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAAAAAAwAAAAAAAABAAACAAAAAAg=</HashCode>
+      <FileName>FX\IEffect.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="DirectOutput.Cab.Out.IOutput">
+    <Position X="11.25" Y="7" Width="1.5" />
+    <Members>
+      <Event Name="ValueChanged" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Cab\Out\IOutput.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="DirectOutput.Cab.Toys.IToy">
+    <Position X="11.25" Y="3.25" Width="1.5" />
+    <Members>
+      <Method Name="Finish" Hidden="true" />
+      <Method Name="Init" Hidden="true" />
+      <Method Name="Reset" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAQAAAAAAAAAAAACAAAAAAg=</HashCode>
+      <FileName>Cab\Toys\IToy.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

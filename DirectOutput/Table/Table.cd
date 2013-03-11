@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DirectOutput.Table.Table">
+    <Position X="0.75" Y="2.25" Width="1.75" />
+    <Members>
+      <Field Name="_AssignedStaticEffects" Hidden="true" />
+      <Field Name="_Effects" Hidden="true" />
+      <Field Name="_RomName" Hidden="true" />
+      <Field Name="_TableName" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAACQAAAAAAQAIAAIQJBAAEBACAICAQAgAAg=</HashCode>
+      <FileName>Table\Table.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="TableElements" />
+      <Property Name="Effects" />
+      <Property Name="AssignedStaticEffects" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="DirectOutput.Table.TableElement">
+    <Position X="8.25" Y="1.5" Width="1.5" />
+    <Members>
+      <Field Name="_Name" Hidden="true" />
+      <Field Name="_Number" Hidden="true" />
+      <Field Name="_TableElementEffectList" Hidden="true" />
+      <Field Name="_TableElementType" Hidden="true" />
+      <Field Name="_Value" Hidden="true" />
+      <Method Name="TableElement_ValueChanged" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AgABAAAAAAAAEBAQAEAMIAQAAEAAAAAAAAAgAAAIAAA=</HashCode>
+      <FileName>Table\TableElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DirectOutput.Table.TableElementList">
+    <Position X="5.25" Y="1" Width="2.25" />
+    <Members>
+      <Field Name="_TableElementsDictionary" Hidden="true" />
+      <Method Name="~TableElementList" Hidden="true" />
+      <Method Name="Item_ValueChanged" Hidden="true" />
+      <Method Name="OnTableElementValueChanged" Hidden="true" />
+      <Method Name="TableElementList_AfterInsert" Hidden="true" />
+      <Method Name="TableElementList_AfterRemove" Hidden="true" />
+      <Method Name="TableElementList_AfterSet" Hidden="true" />
+      <Method Name="TableElementList_BeforeSet" Hidden="true" />
+    </Members>
+    <NestedTypes>
+      <Delegate Name="DirectOutput.Table.TableElementList.TableElementValueChangedEventHandler" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Table\TableElementList.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAYAAAAACAIAIIAIDAhgBAAgAAAAAAAAASAABQAYAAA=</HashCode>
+      <FileName>Table\TableElementList.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="this[DirectOutput.TableElementTypeEnum, System.Int32]" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="DirectOutput.FX.AssignedEffect">
+    <Position X="13.75" Y="1.5" Width="2.5" />
+    <Members>
+      <Field Name="_Effect" Hidden="true" />
+      <Field Name="_EffectName" Hidden="true" />
+      <Field Name="_Order" Hidden="true" />
+      <Method Name="ResolveEffectName" Hidden="true" />
+      <Method Name="TableElementEffect_EffectNameChanged" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>IAEAAAIAAAggABAAAAgEAAACAAAAAAgAIAACAAAAAAg=</HashCode>
+      <FileName>FX\AssignedEffect.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DirectOutput.FX.AssignedEffectList">
+    <Position X="11.25" Y="1.5" Width="2" />
+    <Members>
+      <Method Name="~AssignedEffectList" Hidden="true" />
+      <Method Name="SubscribeEvents" Hidden="true" />
+      <Method Name="TableElementEffect_EffectNameChanged" Hidden="true" />
+      <Method Name="TableElementEffect_OrderChanged" Hidden="true" />
+      <Method Name="TableElementEffectList_AfterInsert" Hidden="true" />
+      <Method Name="TableElementEffectList_AfterRemove" Hidden="true" />
+      <Method Name="TableElementEffectList_AfterSet" Hidden="true" />
+      <Method Name="TableElementEffectList_BeforeClear" Hidden="true" />
+      <Method Name="UnsubscribeEvents" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAARQAAQAQAAEAAAAQAAAAIAACBAAAAAg=</HashCode>
+      <FileName>FX\AssignedEffectList.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DirectOutput.FX.EffectList">
+    <Position X="3.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAACAABAAAAAAAACgAAAAAg=</HashCode>
+      <FileName>FX\EffectList.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

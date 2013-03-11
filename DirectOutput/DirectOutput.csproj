@@ -1,0 +1,266 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DA43ACDD-8241-4A28-8EB2-DAE80D91FAA8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DirectOutput</RootNamespace>
+    <AssemblyName>DirectOutput</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Plugin.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="B2SBackglassServer, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>T:\Pinball\B2S.Server with PluginInterface\B2SBackglassServer.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="CSScriptLibrary">
+      <HintPath>..\..\..\..\..\Downloads\CSScript\cs-script\cs-script\Lib\Bin\NET 4.0\CSScriptLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Cab\Out\LW\LW.cs" />
+    <Compile Include="DirectOutput.cs" />
+    <Compile Include="Extensions\ArrayExtensions.cs" />
+    <Compile Include="Extensions\ByteExtensions.cs" />
+    <Compile Include="Extensions\DirectoryInfoExtensions.cs" />
+    <Compile Include="Extensions\DoubleExtensions.cs" />
+    <Compile Include="Extensions\IntExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="FrontEnd\MainMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrontEnd\MainMenu.Designer.cs">
+      <DependentUpon>MainMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GlobalConfig\FilePattern.cs" />
+    <Compile Include="GlobalConfig\FilePatternList.cs" />
+    <Compile Include="GlobalConfig\GlobalConfigEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GlobalConfig\GlobalConfigEditor.Designer.cs">
+      <DependentUpon>GlobalConfigEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FX\LedControlFX\LedControlFX.cs" />
+    <Compile Include="General\Generic\SortableBindingList.cs" />
+    <Compile Include="GlobalConfig\LedControlIniFile.cs" />
+    <Compile Include="GlobalConfig\LedControlIniFileList.cs" />
+    <Compile Include="LedControl\LedControl.cs" />
+    <Compile Include="Pinball.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="UpdateTimer.cs" />
+    <Compile Include="Cab\Cab.cs" />
+    <Compile Include="Cab\Cabinet.cs" />
+    <Compile Include="Cab\Out\IOutput.cs" />
+    <Compile Include="Cab\Out\IOutputController.cs" />
+    <Compile Include="Cab\Out\LW\LedWiz.cs" />
+    <Compile Include="Cab\Out\Out.cs" />
+    <Compile Include="Cab\Out\OutputEventArgs.cs" />
+    <Compile Include="Cab\Out\OutputControllerBase.cs" />
+    <Compile Include="Cab\CabinetOutputList.cs" />
+    <Compile Include="Cab\Out\OutputControllerEventArgs.cs" />
+    <Compile Include="Cab\Toys\Color.cs" />
+    <Compile Include="Cab\Toys\ColorList.cs" />
+    <Compile Include="Cab\Toys\Contactor.cs" />
+    <Compile Include="Cab\Toys\Flasher.cs" />
+    <Compile Include="Cab\Toys\IAnalogToy.cs" />
+    <Compile Include="Cab\Toys\IDigitalToy.cs" />
+    <Compile Include="Cab\Toys\IToy.cs" />
+    <Compile Include="Cab\Toys\LEDWizEquivalent.cs" />
+    <Compile Include="Cab\Toys\LEDWizEquivalentOutput.cs" />
+    <Compile Include="Cab\Toys\LEDWizEquivalentOutputList.cs" />
+    <Compile Include="Cab\Toys\ToyEventArgs.cs" />
+    <Compile Include="Cab\Toys\Toys.cs" />
+    <Compile Include="FX\BasicFX\BasicDigitalEffect.cs" />
+    <Compile Include="FX\BasicFX\BasicFX.cs" />
+    <Compile Include="FX\BasicFX\BasicRGBLedEffect.cs" />
+    <Compile Include="FX\BasicFX\BasicAnalogEffect.cs" />
+    <Compile Include="FX\CombinedEffectList.cs" />
+    <Compile Include="FX\EffectEventArgs.cs" />
+    <Compile Include="FX\EffectList.cs" />
+    <Compile Include="FX\EffectBase.cs" />
+    <Compile Include="FX\LedControlFX\LedControlEffect.cs" />
+    <Compile Include="FX\ListFX\ListEffect.cs" />
+    <Compile Include="FX\FX.cs" />
+    <Compile Include="Cab\Out\LW\LEDWizOutput.cs" />
+    <Compile Include="Cab\Out\Output.cs" />
+    <Compile Include="Cab\Toys\GearMotor.cs" />
+    <Compile Include="Cab\Toys\GenericAnalogToy.cs" />
+    <Compile Include="Cab\Toys\GenericDigitalToy.cs" />
+    <Compile Include="Cab\Toys\Lamp.cs" />
+    <Compile Include="Cab\Out\OutputControllerList.cs" />
+    <Compile Include="Cab\Out\OutputList.cs" />
+    <Compile Include="FX\IEffect.cs" />
+    <Compile Include="General\FileReader.cs" />
+    <Compile Include="General\General.cs" />
+    <Compile Include="General\Generic\NameChangeEventArgs.cs" />
+    <Compile Include="General\Generic\ExtList.cs" />
+    <Compile Include="General\Generic\NamedItemList.cs" />
+    <Compile Include="General\Generic\INamedItem.cs" />
+    <Compile Include="General\Generic\InsertEventArgs.cs" />
+    <Compile Include="General\Generic\NamedItemBase.cs" />
+    <Compile Include="General\Generic\RemoveEventArgs.cs" />
+    <Compile Include="General\Generic\SetEventArgs.cs" />
+    <Compile Include="General\Generic\ValidateItemEventArgs.cs" />
+    <Compile Include="General\TypeList.cs" />
+    <Compile Include="GlobalConfig\Config.cs" />
+    <Compile Include="LedControl\ColorConfig.cs" />
+    <Compile Include="LedControl\ColorConfigList.cs" />
+    <Compile Include="LedControl\LedControlConfig.cs" />
+    <Compile Include="LedControl\LedControlConfigList.cs" />
+    <Compile Include="LedControl\OutputControlEnum.cs" />
+    <Compile Include="LedControl\OutputTypeEnum.cs" />
+    <Compile Include="LedControl\TableConfig.cs" />
+    <Compile Include="LedControl\TableConfigColumn.cs" />
+    <Compile Include="LedControl\TableConfigColumnList.cs" />
+    <Compile Include="LedControl\TableConfigList.cs" />
+    <Compile Include="LedControl\TableConfigSetting.cs" />
+    <Compile Include="PinmameHandling\PinmameData.cs" />
+    <Compile Include="PinmameHandling\PinmameInput.cs" />
+    <Compile Include="PinmameHandling\PinmameInputManager.cs" />
+    <Compile Include="Cab\Toys\ReplayKnocker.cs" />
+    <Compile Include="Cab\Toys\RGBLed.cs" />
+    <Compile Include="Cab\Toys\Shaker.cs" />
+    <Compile Include="Scripting\Script.cs" />
+    <Compile Include="Scripting\ScriptList.cs" />
+    <Compile Include="FX\AssignedEffectList.cs" />
+    <Compile Include="Table\TableElementTypeEnum.cs" />
+    <Compile Include="Plugin.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Table\Table.cs" />
+    <Compile Include="Table\TableElement.cs" />
+    <Compile Include="FX\AssignedEffect.cs" />
+    <Compile Include="Table\TableElementList.cs" />
+    <Compile Include="Table\TableElementValueChangedEventArgs.cs" />
+    <Compile Include="Cab\Toys\ToyBase.cs" />
+    <Compile Include="Cab\Toys\ToyList.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Config\Cabinet.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Docu\img\CabinetArchitecture.png" />
+    <Content Include="Docu\img\DirectOutput_Big.png" />
+    <Content Include="Docu\img\OutputControllerArchitecture.png" />
+    <Content Include="Docu\img\Plugin.png" />
+    <Content Include="Docu\img\swisslizard.png" />
+    <Content Include="Docu\img\TableArchitecture.png" />
+    <Content Include="Docu\img\EffectsArchitecture.png" />
+    <Content Include="Docu\img\GlobalArchitecture.png" />
+    <Content Include="Docu\img\Herweh.png" />
+    <Content Include="Docu\img\ToyArchitecture.png" />
+    <Content Include="Docu\Pinmame Interface.html" />
+    <Content Include="Config\GlobalConfig.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ledwiz.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Plugin.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Docu\25_CabinetConfig.md" />
+    <None Include="Docu\27_TableConfig.md" />
+    <None Include="Docu\80_Contribute.md" />
+    <None Include="Docu\Diagramms\CabinetArchitecture.cd" />
+    <None Include="Docu\Diagramms\EffectsArchitecture.cd" />
+    <None Include="Docu\Diagramms\OutputControllerArchitecture.cd" />
+    <None Include="Docu\Diagramms\Plugin.cd" />
+    <None Include="Docu\Diagramms\TableArchitecture.cd" />
+    <None Include="Docu\Diagramms\GlobalArchitecture.cd" />
+    <None Include="Cab\Cabinet.cd" />
+    <None Include="Config\ledcontrol2.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Docu\50_Architecture.md" />
+    <None Include="Docu\90_Credits.md" />
+    <None Include="Docu\99_MainpageAndAbout.md" />
+    <None Include="Docu\10_Installation and configuration.md" />
+    <None Include="Docu\30_LedControl Files.md" />
+    <None Include="Docu\70_Plugin.md" />
+    <None Include="Docu\Diagramms\ToyArchitecture.cd" />
+    <None Include="FX\FX.cd" />
+    <None Include="Docu\60_FX.md" />
+    <None Include="Docu\20_GlobalConfig.md" />
+    <None Include="Config\ledcontrol.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="LedControl\LedControl.cd" />
+    <None Include="Main.cd" />
+    <None Include="Properties\DataSources\DirectOutput.GlobalConfig.Config.datasource" />
+    <None Include="Properties\DataSources\DirectOutput.GlobalConfig.FilePatternList.datasource" />
+    <None Include="Properties\DataSources\DirectOutput.GlobalConfig.GlobalConfigEditor.datasource" />
+    <None Include="Properties\DataSources\DirectOutput.GlobalConfig.LedControlIniFileList.datasource" />
+    <None Include="Scripting\Script.cd" />
+    <None Include="Table\Table.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="FrontEnd\MainMenu.resx">
+      <DependentUpon>MainMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GlobalConfig\GlobalConfigEditor.resx">
+      <DependentUpon>GlobalConfigEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>mkdir "$(SolutionDir)$(SolutionName)\$(OutDir)plugins"
+mkdir "$(SolutionDir)$(SolutionName)\$(OutDir)plugins\DirectOutput"
+mkdir "$(SolutionDir)$(SolutionName)\$(OutDir)plugins\DirectOutput\Config"
+copy "$(TargetDir)*.dll" "$(SolutionDir)$(SolutionName)\$(OutDir)plugins\DirectOutput"
+del "$(SolutionDir)$(SolutionName)\$(OutDir)plugins\DirectOutput\B2S*.dll"
+xcopy "$(TargetDir)config\*" "$(SolutionDir)$(SolutionName)\$(OutDir)plugins\DirectOutput\Config\" /E /Y</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DirectOutput.Table.Table">
+    <Position X="0.75" Y="0.5" Width="1.75" />
+    <Members>
+      <Field Name="_AssignedStaticEffects" Hidden="true" />
+      <Field Name="_Effects" Hidden="true" />
+      <Field Name="_RomName" Hidden="true" />
+      <Field Name="_TableName" Hidden="true" />
+      <Method Name="GetConfigXml" Hidden="true" />
+      <Method Name="GetTableFromConfigXml" Hidden="true" />
+      <Method Name="GetTableFromConfigXmlFile" Hidden="true" />
+      <Event Name="RomNameChanged" Hidden="true" />
+      <Method Name="SaveConfigXmlFile" Hidden="true" />
+      <Event Name="TableNameChanged" Hidden="true" />
+    </Members>
+    <AssociationLine Name="Effects" Type="DirectOutput.FX.IEffect" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="2.5" Y="2.875" />
+        <Point X="2.875" Y="2.875" />
+        <Point X="2.875" Y="4.936" />
+        <Point X="4.25" Y="4.936" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAACQAAAAAAQAIAAIQJBAAEBACAICAQAgAAk=</HashCode>
+      <FileName>Table\Table.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="TableElements" />
+      <Property Name="Effects" />
+      <Property Name="AssignedStaticEffects" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="DirectOutput.Table.TableElement">
+    <Position X="4.25" Y="1.25" Width="1.75" />
+    <Members>
+      <Field Name="_Name" Hidden="true" />
+      <Field Name="_Number" Hidden="true" />
+      <Field Name="_TableElementEffectList" Hidden="true" />
+      <Field Name="_TableElementType" Hidden="true" />
+      <Field Name="_Value" Hidden="true" />
+      <Event Name="NameChanged" Hidden="true" />
+      <Method Name="TableElement" Hidden="true" />
+      <Method Name="TableElement_ValueChanged" Hidden="true" />
+      <Event Name="ValueChanged" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AgABAAAAAAAAEJAQAEAMIAQAgEAAAAAAAAAgAAAIAAA=</HashCode>
+      <FileName>Table\TableElement.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="AssignedEffects" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DirectOutput.FX.AssignedEffect">
+    <Position X="7.75" Y="1" Width="2.25" />
+    <Members>
+      <Field Name="_Effect" Hidden="true" />
+      <Field Name="_EffectName" Hidden="true" />
+      <Field Name="_Order" Hidden="true" />
+      <Method Name="AssignedEffect" Hidden="true" />
+      <Method Name="Finish" Hidden="true" />
+      <Method Name="ResolveEffectName" Hidden="true" />
+      <Method Name="TableElementEffect_EffectNameChanged" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>IAEAAAIAAAggABAAAAgEAAACAAAAAAgAIAACAAAAAAg=</HashCode>
+      <FileName>FX\AssignedEffect.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="DirectOutput.FX.IEffect">
+    <Position X="4.25" Y="4" Width="1.75" />
+    <Members>
+      <Event Name="AfterNameChanged" Hidden="true" />
+      <Event Name="BeforeNameChange" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAAAAAAwAAAAAAAABAAACAAAAAAg=</HashCode>
+      <FileName>FX\IEffect.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

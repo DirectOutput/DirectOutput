@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DirectOutput.Plugin">
+    <Position X="4" Y="1" Width="3" />
+    <Members>
+      <Field Name="_Pinball" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AABEAAAAAAAAAAAAAAgAkAQAAAAAAQCAAAAAAABBAEA=</HashCode>
+      <FileName>Plugin.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Pinball" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DirectOutput.Pinball" Collapsed="true">
+    <Position X="7.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIEAAAAAAAQAAAAQAQAAASAAQAoQBBAACBAAEAAg=</HashCode>
+      <FileName>Pinball.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="B2S.IDirectPlugin">
+    <Position X="1.5" Y="1" Width="1.75" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="B2S.IDirectPluginFrontend">
+    <Position X="1.5" Y="4.25" Width="1.75" />
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

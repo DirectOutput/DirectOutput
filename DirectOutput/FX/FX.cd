@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DirectOutput.FX.ListFX.ListEffect">
+    <Position X="10" Y="1.25" Width="1.5" />
+    <Members>
+      <Field Name="_Effects" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAAQAAAAAQAAAAAAAAAACAAAAAAg=</HashCode>
+      <FileName>FX\ListFX\ListEffect.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Effects" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="DirectOutput.FX.EffectList">
+    <Position X="4.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAACAABAAAAAAAACgAAAAAg=</HashCode>
+      <FileName>FX\EffectList.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DirectOutput.FX.BasicFX.BasicRGBLedEffect">
+    <Position X="10.25" Y="7.5" Width="1.5" />
+    <Members>
+      <Field Name="_RGBLed" Hidden="true" />
+      <Field Name="_RGBLedName" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAgAAABAAIABAABCAAAAAAAAAAAAAAAAACgAAAAAg=</HashCode>
+      <FileName>FX\BasicFX\BasicRGBLedEffect.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DirectOutput.FX.AssignedEffectList">
+    <Position X="12.75" Y="1" Width="1.5" />
+    <Members>
+      <Method Name="~AssignedEffectList" Hidden="true" />
+      <Method Name="SubscribeEvents" Hidden="true" />
+      <Method Name="TableElementEffect_EffectNameChanged" Hidden="true" />
+      <Method Name="TableElementEffect_OrderChanged" Hidden="true" />
+      <Method Name="TableElementEffectList_AfterInsert" Hidden="true" />
+      <Method Name="TableElementEffectList_AfterRemove" Hidden="true" />
+      <Method Name="TableElementEffectList_AfterSet" Hidden="true" />
+      <Method Name="TableElementEffectList_BeforeClear" Hidden="true" />
+      <Method Name="UnsubscribeEvents" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAARQAAQAQAAEAAAAQAAAAIAACBAAAAAg=</HashCode>
+      <FileName>FX\AssignedEffectList.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DirectOutput.FX.AssignedEffect">
+    <Position X="15" Y="1" Width="1.5" />
+    <Members>
+      <Field Name="_Effect" Hidden="true" />
+      <Field Name="_EffectName" Hidden="true" />
+      <Field Name="_Order" Hidden="true" />
+      <Method Name="ResolveEffectName" Hidden="true" />
+      <Method Name="TableElementEffect_EffectNameChanged" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>IAEAAAIAAAggABAAAAgEAAACAAAAAAgAIAACAAAAAAg=</HashCode>
+      <FileName>FX\AssignedEffect.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="DirectOutput.FX.IEffect">
+    <Position X="7" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAAAAAAwAAAAAAAABAAACAAAAAAg=</HashCode>
+      <FileName>FX\IEffect.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

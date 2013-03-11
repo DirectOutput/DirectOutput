@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DirectOutput.Cab.Out.Output">
+    <Position X="16.75" Y="0.5" Width="1.5" />
+    <Members>
+      <Field Name="_Value" Hidden="true" />
+      <Method Name="OnValueChanged" Hidden="true" />
+    </Members>
+    <NestedTypes>
+      <Delegate Name="DirectOutput.Cab.Out.Output.ValueChangedEventHandler" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Cab\Out\Output.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAAAAAAAAAEAAAAEAAAAgAAAAAAI=</HashCode>
+      <FileName>Cab\Out\Output.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DirectOutput.Cab.Cabinet">
+    <Position X="0.75" Y="6.75" Width="1.5" />
+    <Members>
+      <Field Name="_OutputControllers" Hidden="true" />
+      <Field Name="_Outputs" Hidden="true" />
+      <Field Name="_Toys" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>DAAQAAAAAAAAAEAAAAQAIAQAQBIAQEQAAAACgAAgAAg=</HashCode>
+      <FileName>Cab\Cabinet.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Toys" />
+      <Property Name="Outputs" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="DirectOutput.Cab.CabinetOutputList">
+    <Position X="4" Y="3.25" Width="1.5" />
+    <NestedTypes>
+      <Class Name="DirectOutput.Cab.CabinetOutputList.Enumerator" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Cab\CabinetOutputList.cs</NewMemberFileName>
+        </TypeIdentifier>
+        <Lollipop Position="0.2" />
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAFAACAAAAAQAAAAQAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>Cab\CabinetOutputList.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DirectOutput.Cab.Toys.ToyList">
+    <Position X="6.75" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAACAABAAAAAAAACgAAAAAg=</HashCode>
+      <FileName>Cab\Toys\ToyList.cs</FileName>
+      <NewMemberFileName>Cab\Toys\Toy.cs</NewMemberFileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DirectOutput.Cab.Toys.Contactor">
+    <Position X="12.75" Y="15.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Cab\Toys\Contactor.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DirectOutput.Cab.Toys.Shaker">
+    <Position X="16.75" Y="15.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>Cab\Toys\Shaker.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DirectOutput.Cab.Toys.RGBLed">
+    <Position X="6.25" Y="12" Width="1.5" />
+    <Members>
+      <Field Name="_BrightnessBlue" Hidden="true" />
+      <Field Name="_BrightnessGreen" Hidden="true" />
+      <Field Name="_BrightnessRed" Hidden="true" />
+      <Field Name="_OutputBlue" Hidden="true" />
+      <Field Name="_OutputGreen" Hidden="true" />
+      <Field Name="_OutputRed" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAgABAAAAAAAAAAABIARAgAgQUgCAAAAAQo=</HashCode>
+      <FileName>Cab\Toys\RGBLed.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DirectOutput.Cab.Toys.Lamp">
+    <Position X="14.75" Y="15.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAIA=</HashCode>
+      <FileName>Cab\Toys\Lamp.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DirectOutput.Cab.Toys.ReplayKnocker">
+    <Position X="10.75" Y="15.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Cab\Toys\ReplayKnocker.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DirectOutput.Cab.Toys.GearMotor">
+    <Position X="18.75" Y="15.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>Cab\Toys\GearMotor.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DirectOutput.Cab.Toys.GenericDigitalToy">
+    <Position X="12.75" Y="12" Width="1.5" />
+    <Members>
+      <Field Name="_Output" Hidden="true" />
+      <Field Name="_State" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>EAAABAAAAAAABAAAIAAAAAAAAAAAAAAAAAACBCAAABA=</HashCode>
+      <FileName>Cab\Toys\GenericDigitalToy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DirectOutput.Cab.Toys.GenericAnalogToy">
+    <Position X="14.75" Y="12" Width="1.5" />
+    <Members>
+      <Field Name="_Output" Hidden="true" />
+      <Field Name="_Value" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAABhAAIAAAAAAAAAAAAAAAAAAiAAAAABA=</HashCode>
+      <FileName>Cab\Toys\GenericAnalogToy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DirectOutput.Cab.Toys.Flasher">
+    <Position X="8.5" Y="15.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Cab\Toys\Flasher.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DirectOutput.Cab.Out.OutputControllerList">
+    <Position X="7" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAACAABAAAAAAAACgAAAAAg=</HashCode>
+      <FileName>Cab\Out\OutputControllerList.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DirectOutput.Cab.Out.OutputList">
+    <Position X="13.75" Y="0.75" Width="1.5" />
+    <Members>
+      <Method Name="OnOutputValueChanged" Hidden="true" />
+    </Members>
+    <NestedTypes>
+      <Delegate Name="DirectOutput.Cab.Out.OutputList.OutputValueChangedEventHandler" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Cab\Out\OutputList.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAEQAQAAAAAAAAAAAACCAABAAAAAAAAAhQAAAAE=</HashCode>
+      <FileName>Cab\Out\OutputList.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DirectOutput.UpdateTimer">
+    <Position X="2" Y="9.25" Width="1.5" />
+    <Members>
+      <Field Name="Timer" Hidden="true" />
+      <Method Name="Timer_Elapsed" Hidden="true" />
+    </Members>
+    <NestedTypes>
+      <Class Name="DirectOutput.UpdateTimer.AlarmSetting" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>UpdateTimer.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+      <Class Name="DirectOutput.UpdateTimer.IntervalAlarmSetting" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>UpdateTimer.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>QACAAAAAEAAAAAAAACAAABACAAAgAAQAQARCAAAEAAg=</HashCode>
+      <FileName>UpdateTimer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

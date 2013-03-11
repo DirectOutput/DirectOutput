@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DirectOutput.Cab.Cabinet">
+    <Position X="2.25" Y="1" Width="2" />
+    <Members>
+      <Field Name="_Colors" Hidden="true" />
+      <Field Name="_Effects" Hidden="true" />
+      <Field Name="_OutputControllers" Hidden="true" />
+      <Field Name="_Outputs" Hidden="true" />
+      <Field Name="_Toys" Hidden="true" />
+      <Method Name="Cabinet" Hidden="true" />
+      <Method Name="GetCabinetFromConfigXml" Hidden="true" />
+      <Method Name="GetCabinetFromConfigXmlFile" Hidden="true" />
+      <Method Name="GetConfigXml" Hidden="true" />
+      <Method Name="SaveConfigXmlFile" Hidden="true" />
+    </Members>
+    <AssociationLine Name="Colors" Type="DirectOutput.Cab.Toys.Color">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.06" Y="0.277" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="OutputControllers" Type="DirectOutput.Cab.Out.IOutputController" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="4.25" Y="1.937" />
+        <Point X="4.896" Y="1.937" />
+        <Point X="4.896" Y="6.402" />
+        <Point X="6" Y="6.402" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="Toys" Type="DirectOutput.Cab.Toys.IToy" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="4.25" Y="1.562" />
+        <Point X="5.146" Y="1.562" />
+        <Point X="5.146" Y="4.286" />
+        <Point X="6" Y="4.286" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="Outputs" Type="DirectOutput.Cab.Out.IOutput" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="4.25" Y="2.25" />
+        <Point X="4.458" Y="2.25" />
+        <Point X="4.458" Y="8.125" />
+        <Point X="6" Y="8.125" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>DAAQAAAAAAAAAEAAAAQAIAQIQBIAQEQAAAACgAAgAAg=</HashCode>
+      <FileName>Cab\Cabinet.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Colors" />
+      <Property Name="OutputControllers" />
+      <Property Name="Toys" />
+      <Property Name="Outputs" />
+      <Property Name="Effects" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="DirectOutput.Cab.Toys.Color">
+    <Position X="2.25" Y="6.75" Width="1.5" />
+    <Members>
+      <Field Name="_BrightnessBlue" Hidden="true" />
+      <Field Name="_BrightnessGreen" Hidden="true" />
+      <Field Name="_BrightnessRed" Hidden="true" />
+      <Method Name="Color" Hidden="true" />
+      <Method Name="SetColor" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAABIABAAQAAQgAAAAAAQI=</HashCode>
+      <FileName>Cab\Toys\Color.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="1.002" />
+  </Class>
+  <Interface Name="DirectOutput.Cab.Out.IOutputController">
+    <Position X="6" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAQAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAACAAAAAAg=</HashCode>
+      <FileName>Cab\Out\IOutputController.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="DirectOutput.Cab.Toys.IToy">
+    <Position X="6" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAQAAAAAAAAAAAACAAAAAAg=</HashCode>
+      <FileName>Cab\Toys\IToy.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="DirectOutput.Cab.Out.IOutput">
+    <Position X="6" Y="7.5" Width="1.5" />
+    <Members>
+      <Event Name="ValueChanged" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Cab\Out\IOutput.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="DirectOutput.FX.IEffect">
+    <Position X="6" Y="0.5" Width="1.5" />
+    <Members>
+      <Event Name="AfterNameChanged" Hidden="true" />
+      <Event Name="BeforeNameChange" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAAAAAAwAAAAAAAABAAACAAAAAAg=</HashCode>
+      <FileName>FX\IEffect.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

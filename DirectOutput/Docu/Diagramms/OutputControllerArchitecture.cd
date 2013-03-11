@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DirectOutput.Cab.Out.OutputControllerBase">
+    <Position X="4.75" Y="2" Width="1.5" />
+    <AssociationLine Name="Outputs" Type="DirectOutput.Cab.Out.IOutput" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="5.5" Y="3.617" />
+        <Point X="5.5" Y="4.938" />
+        <Point X="4" Y="4.938" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>BAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAg=</HashCode>
+      <FileName>Cab\Out\OutputControllerBase.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Outputs" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DirectOutput.Cab.Out.LW.LedWiz">
+    <Position X="7.25" Y="2" Width="1.5" />
+    <Members>
+      <Field Name="_Number" Hidden="true" />
+      <Field Name="_Outputs" Hidden="true" />
+      <Method Name="~LedWiz" Hidden="true" />
+      <Method Name="AddMissingOutputs" Hidden="true" />
+      <Field Name="deviceList" Hidden="true" />
+      <Method Name="Dispose" Hidden="true" />
+      <Field Name="disposed" Hidden="true" />
+      <Method Name="LedWiz" Hidden="true" />
+      <Field Name="LedWizUnits" Hidden="true" />
+      <Field Name="LWZ_ADD" Hidden="true" />
+      <Field Name="LWZ_DELETE" Hidden="true" />
+      <Field Name="LWZ_MAX_DEVICES" Hidden="true" />
+      <Method Name="LWZ_PBA" Hidden="true" />
+      <Method Name="LWZ_REGISTER" Hidden="true" />
+      <Method Name="LWZ_SBA" Hidden="true" />
+      <Method Name="LWZ_SET_NOTIFY" Hidden="true" />
+      <Field Name="MainWindow" Hidden="true" />
+      <Method Name="Notify" Hidden="true" />
+      <Field Name="NumberUpdateLocker" Hidden="true" />
+      <Method Name="Outputs_OutputValueChanged" Hidden="true" />
+      <Field Name="StartedUp" Hidden="true" />
+      <Method Name="StartupLedWiz" Hidden="true" />
+      <Field Name="StartupLocker" Hidden="true" />
+      <Method Name="TerminateLedWiz" Hidden="true" />
+    </Members>
+    <NestedTypes>
+      <Class Name="DirectOutput.Cab.Out.LW.LedWiz.LedWizUnit" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Cab\Out\LW\LedWiz.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+      <Struct Name="DirectOutput.Cab.Out.LW.LedWiz.LWZDEVICELIST" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Cab\Out\LW\LedWiz.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+      <Delegate Name="DirectOutput.Cab.Out.LW.LedWiz.NotifyDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Cab\Out\LW\LedWiz.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Enum Name="DirectOutput.Cab.Out.LW.LedWiz.AutoPulseMode" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Cab\Out\LW\LedWiz.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>BkYCkAAAACAjgAACEEAEAAgAAAIAAAFABAACIAAEAGg=</HashCode>
+      <FileName>Cab\Out\LW\LedWiz.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Outputs" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DirectOutput.Cab.Out.LW.LedWizOutput">
+    <Position X="9.5" Y="2" Width="2" />
+    <Members>
+      <Field Name="_LedWizOutputNumber" Hidden="true" />
+      <Method Name="LedWizOutput" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>Cab\Out\LW\LEDWizOutput.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DirectOutput.Cab.Out.Output">
+    <Position X="9.5" Y="4.25" Width="2" />
+    <Members>
+      <Field Name="_Value" Hidden="true" />
+      <Method Name="OnValueChanged" Hidden="true" />
+      <Event Name="ValueChanged" Hidden="true" />
+      <Field Name="ValueChangeLocker" Hidden="true" />
+    </Members>
+    <NestedTypes>
+      <Delegate Name="DirectOutput.Cab.Out.Output.ValueChangedEventHandler" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Cab\Out\Output.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAAAAAAAAAEAAAAEAAAAgAAAAAAI=</HashCode>
+      <FileName>Cab\Out\Output.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="DirectOutput.Cab.Out.IOutputController">
+    <Position X="2.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAQAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAACAAAAAAg=</HashCode>
+      <FileName>Cab\Out\IOutputController.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="DirectOutput.Cab.Out.IOutput">
+    <Position X="2.5" Y="4.75" Width="1.5" />
+    <Members>
+      <Event Name="ValueChanged" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Cab\Out\IOutput.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
