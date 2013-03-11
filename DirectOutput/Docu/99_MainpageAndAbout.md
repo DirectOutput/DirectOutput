@@ -3,12 +3,29 @@
 The DirectOutput framework was implemented by <a href="http://www.vpforums.org/index.php?showuser=58068">SwissLizard</a>.
 \image html swisslizard.png "Swisslizard"
 
+This documentation has been compiled from data in the source code of the following version of the DirectOutput framework:
+\htmlinclude .\Version.txt
+as of
+\htmlinclude .\AsOf.txt
 
 \mainpage notitle
 
 \image html DirectOutput_Big.png "DirectOutput framework for virtual pinball cabinets"
 
-Welcome to the DirectOutput framework for virtual pinball cabinets.
+\htmlinclude .\Version.txt
+as of
+\htmlinclude .\AsOf.txt
+
+Welcome to the DirectOutput framework for virtual pinball cabinets
+===================================================================
+
+The current version of the framework is
+\htmlinclude .\Version.txt
+as of
+\htmlinclude .\AsOf.txt
+and can be downloaded from 
+\htmlinclude .\latestzip.txt
+</a>.
 
 This framework tries to solve several issues with the current solution to control toys in cabinets:
 
