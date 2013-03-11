@@ -69,11 +69,6 @@
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="B2SBackglassServer, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>T:\Pinball\B2S.Server with PluginInterface\B2SBackglassServer.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="CSScriptLibrary">
       <HintPath>..\..\..\..\Downloads\CSScript\cs-script\cs-script\Lib\Bin\NET 4.0\CSScriptLibrary.dll</HintPath>
     </Reference>
