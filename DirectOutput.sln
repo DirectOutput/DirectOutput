@@ -34,6 +34,7 @@ Global
 		{FFD1C931-D563-4BB1-8656-F3C0952B287A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FFD1C931-D563-4BB1-8656-F3C0952B287A}.Release|Itanium.ActiveCfg = Release|Any CPU
 		{FFD1C931-D563-4BB1-8656-F3C0952B287A}.Release|x86.ActiveCfg = Release|Any CPU
+		{FFD1C931-D563-4BB1-8656-F3C0952B287A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

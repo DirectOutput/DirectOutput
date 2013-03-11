@@ -3,7 +3,9 @@ using System.IO;
 using DirectOutput;
 using DirectOutput.GlobalConfig;
 
-
+/// <summary>
+/// DirectOutputPlugin is the namespace of the Dll implementing the actual plugin interface for the B2S Server.
+/// </summary> 
 namespace DirectOutputPlugin
 {
 

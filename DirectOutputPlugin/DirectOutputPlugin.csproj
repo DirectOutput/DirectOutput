@@ -31,6 +31,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Plugin.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="B2SBackglassServer">
       <HintPath>T:\Pinball\B2S.Server with PluginInterface\B2SBackglassServer.dll</HintPath>
@@ -56,7 +59,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Docu\img\Plugin.png" />
     <Content Include="Plugin.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Docu\70_Plugin.md" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
