@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.Composition;
 using System.IO;
+using DirectOutput;
 using DirectOutput.GlobalConfig;
 
 
-namespace DirectOutput
+namespace DirectOutputPlugin
 {
 
     /// <summary>

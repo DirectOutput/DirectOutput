@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using DirectOutput.FX;
 using System.IO;
+using System.Text;
 using System.Xml.Serialization;
+using DirectOutput.FX;
 
 
 /// <summary>
