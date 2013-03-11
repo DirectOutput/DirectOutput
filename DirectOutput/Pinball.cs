@@ -179,8 +179,9 @@ namespace DirectOutput
                 {
                     Table = new Table.Table();
                 }
+                Table.TableName = Path.GetFileNameWithoutExtension(TableFile.FullName);
             }
-            Table.TableName = Path.GetFileNameWithoutExtension(TableFile.FullName);
+            Table.TableFilename = TableFile.FullName;
             Table.RomName = RomName;
 
             Effects = new CombinedEffectList(new EffectList[] { Table.Effects, Cabinet.Effects });

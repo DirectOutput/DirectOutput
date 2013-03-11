@@ -80,6 +80,35 @@ namespace DirectOutput.Table
         public event EventHandler<EventArgs> RomNameChanged;
         #endregion
 
+        #region TableFilename
+        private string _TableFilename;
+        /// <summary>
+        /// Property TableFilename of type string.
+        /// Triggers TableFilenameChanged if value is changed
+        /// </summary>    
+        public string TableFilename
+        {
+            get { return _TableFilename; }
+            set
+            {
+                if (_TableFilename != value)
+                {
+                    _TableFilename = value;
+                    if (TableFilenameChanged != null)
+                    {
+                        TableFilenameChanged(this, new EventArgs());
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// Event is fired if the value of the property TableFilename is changed
+        /// </summary>
+        public event EventHandler<EventArgs> TableFilenameChanged;
+        #endregion
+
+
+
         private EffectList _Effects;
         /// <summary>
         /// List of table specific effects.

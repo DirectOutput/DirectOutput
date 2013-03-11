@@ -1,8 +1,6 @@
-﻿using System;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.IO;
 using DirectOutput.GlobalConfig;
-using DirectOutput.Scripting;
 
 
 namespace DirectOutput
