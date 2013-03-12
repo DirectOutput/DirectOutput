@@ -196,6 +196,7 @@
             this.Controls.Add(this.CabinetOutputControllerOutputs);
             this.Controls.Add(this.CabinetOutputControllers);
             this.Controls.Add(this.label2);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CabinetInfo";
             this.Text = "CabinetInfo";
             ((System.ComponentModel.ISupportInitialize)(this.CabinetOutputControllers)).EndInit();
