@@ -26,8 +26,7 @@ namespace DirectOutputPlugin
         /// </summary>
         public void PluginShowFrontend()
         {
-            GlobalConfigEditor E = new GlobalConfigEditor();
-            E.Show();
+            DirectOutput.FrontEnd.MainMenu.Open(Pinball);
         }
 
         #endregion

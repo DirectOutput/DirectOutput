@@ -95,7 +95,7 @@ del "X:\Visual Pinball\Tables\plugins\DirectOutput\B2S*.dll"
 
 del "$(SolutionDir)..\DirectOutput_Docu\plugin\DirectOutput_V*.zip"
 "c:\program files\7-zip\7z" a "$(SolutionDir)..\DirectOutput_Docu\plugin\DirectOutput_V%25VERSION%25.zip" "$(TargetDir)*.dll"
-$(SolutionDir)docusupport\echohtmllink plugin\DirectOutput_V%25VERSION%25.zip plugin\DirectOutput_V%25VERSION%25.zip&gt;$(SolutionDir)DocuSupport\latestzip.txt
+$(SolutionDir)docusupport\echohtmllink plugin/DirectOutput_V%25VERSION%25.zip plugin/DirectOutput_V%25VERSION%25.zip&gt;$(SolutionDir)DocuSupport\latestzip.txt
 
 cd $(SolutionDir)DocuSupport
 doxygen DoxygenConfigFile
