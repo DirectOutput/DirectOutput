@@ -26,7 +26,7 @@ namespace DirectOutput.Cab
         public void AutoConfig()
         {
 
-            if (!OutputControllers.Any(OC => OC is LedWiz)) 
+            if (!OutputControllers.Any(OC => OC is LedWiz))
             {
                 List<int> Numbers = LedWiz.GetLedwizNumbers();
                 foreach (int N in Numbers)
@@ -36,7 +36,8 @@ namespace DirectOutput.Cab
                     OutputControllers.Add(LW);
                 }
             }
-            if(!Toys.Any(Toy=>Toy is LEDWizEquivalent)) {
+            if (!Toys.Any(Toy => Toy is LEDWizEquivalent))
+            {
                 foreach (IOutputController OC in OutputControllers.Where(OC => OC is LedWiz))
                 {
                     Toys.Add(new LEDWizEquivalent((LedWiz)OC));
@@ -53,6 +54,15 @@ namespace DirectOutput.Cab
         [XmlElementAttribute(Order = 1)]
         public string Name { get; set; }
 
+        /// <summary>
+        /// Gets or sets the filename from which the cabiet configuration was loaded.
+        /// </summary>
+        /// <value>
+        /// The filename of the cabinet configuration file.
+        /// </value>
+        [XmlIgnoreAttribute]
+        public string CabinetConfigurationFilename { get; set; }
+
         private Toys.ToyList _Toys;
 
         /// <summary>
@@ -67,7 +77,7 @@ namespace DirectOutput.Cab
         }
 
 
-        private EffectList _Effects=new EffectList();
+        private EffectList _Effects = new EffectList();
 
         /// <summary>
         /// List of cabinet specific effects.
@@ -95,7 +105,7 @@ namespace DirectOutput.Cab
 
 
         private CabinetOutputList _Outputs;
-                /// <summary>
+        /// <summary>
         /// List of IOutput objects representing all outputs of all all output controllers in the cabinet.
         /// </summary>
         [XmlIgnoreAttribute]
@@ -118,7 +128,7 @@ namespace DirectOutput.Cab
         {
             get { return _OutputControllers; }
             set { _OutputControllers = value; }
-        } 
+        }
         #endregion
 
         #region Serialization
@@ -129,14 +139,14 @@ namespace DirectOutput.Cab
         /// <returns>XMLString</returns>
         public string GetConfigXml()
         {
-            string Xml="";
+            string Xml = "";
             using (MemoryStream ms = new MemoryStream())
             {
                 new XmlSerializer(typeof(Cabinet)).Serialize(ms, this);
                 ms.Position = 0;
                 using (StreamReader sr = new StreamReader(ms, Encoding.Default))
                 {
-                    Xml= sr.ReadToEnd();
+                    Xml = sr.ReadToEnd();
                     sr.Dispose();
                 }
             }
@@ -169,7 +179,7 @@ namespace DirectOutput.Cab
             }
             catch (Exception E)
             {
-                throw new Exception("Could not read cabinet config file {0}.".Build(FileName),E);
+                throw new Exception("Could not read cabinet config file {0}.".Build(FileName), E);
             }
 
             return GetCabinetFromConfigXml(Xml);
@@ -203,7 +213,7 @@ namespace DirectOutput.Cab
                 {
                     Exception Ex = new Exception("Could not deserialize the cabinet config from XML data.", E);
                     Ex.Data.Add("XML Data", ConfigXml);
-                    throw Ex;                    
+                    throw Ex;
                 }
             }
         }

@@ -35,8 +35,9 @@
     <ApplicationIcon>Plugin.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="B2SBackglassServer">
-      <HintPath>T:\Pinball\B2S.Server with PluginInterface\B2SBackglassServer.dll</HintPath>
+    <Reference Include="B2SBackglassServer, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Downloads\B2S Backglass Server 1.2\B2SBackglassServer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />

@@ -114,9 +114,7 @@ namespace DirectOutputPlugin
 
         #region Properties
 
-
-
-
+        
 
         private Pinball _Pinball=new Pinball();
 

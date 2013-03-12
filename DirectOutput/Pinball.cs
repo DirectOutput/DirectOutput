@@ -124,6 +124,7 @@ namespace DirectOutput
                 try
                 {
                     Cabinet = Cabinet.GetCabinetFromConfigXmlFile(CCF);
+                    Cabinet.CabinetConfigurationFilename = CCF.FullName;
                 }
                 catch
                 {
@@ -146,6 +147,7 @@ namespace DirectOutput
                 try
                 {
                     Table = DirectOutput.Table.Table.GetTableFromConfigXmlFile(GlobalConfig.GetTableConfigFile(TableFile.FullName));
+                    Table.TableConfigurationFilename = GlobalConfig.GetTableConfigFile(TableFile.FullName).FullName;
                 }
                 catch (Exception)
                 {

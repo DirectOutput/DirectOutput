@@ -92,6 +92,12 @@
     <Compile Include="Extensions\DoubleExtensions.cs" />
     <Compile Include="Extensions\IntExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="FrontEnd\CabinetInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrontEnd\CabinetInfo.Designer.cs">
+      <DependentUpon>CabinetInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrontEnd\MainMenu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -263,6 +269,9 @@
     <None Include="Table\Table.cd" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="FrontEnd\CabinetInfo.resx">
+      <DependentUpon>CabinetInfo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrontEnd\MainMenu.resx">
       <DependentUpon>MainMenu.cs</DependentUpon>
     </EmbeddedResource>
