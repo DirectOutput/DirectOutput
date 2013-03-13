@@ -113,7 +113,7 @@
             this.TableEffects.Name = "TableEffects";
             this.TableEffects.ReadOnly = true;
             this.TableEffects.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.TableEffects.Size = new System.Drawing.Size(517, 673);
+            this.TableEffects.Size = new System.Drawing.Size(517, 628);
             this.TableEffects.TabIndex = 0;
             this.TableEffects.SelectionChanged += new System.EventHandler(this.TableEffects_SelectionChanged);
             // 
@@ -129,7 +129,7 @@
             this.TableEffectProperties.Name = "TableEffectProperties";
             this.TableEffectProperties.ReadOnly = true;
             this.TableEffectProperties.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.TableEffectProperties.Size = new System.Drawing.Size(666, 672);
+            this.TableEffectProperties.Size = new System.Drawing.Size(666, 627);
             this.TableEffectProperties.TabIndex = 1;
             // 
             // TableAssignedStaticEffects
@@ -144,7 +144,7 @@
             this.TableAssignedStaticEffects.Name = "TableAssignedStaticEffects";
             this.TableAssignedStaticEffects.ReadOnly = true;
             this.TableAssignedStaticEffects.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.TableAssignedStaticEffects.Size = new System.Drawing.Size(1195, 667);
+            this.TableAssignedStaticEffects.Size = new System.Drawing.Size(1195, 622);
             this.TableAssignedStaticEffects.TabIndex = 2;
             // 
             // TableElements
@@ -159,7 +159,7 @@
             this.TableElements.Name = "TableElements";
             this.TableElements.ReadOnly = true;
             this.TableElements.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.TableElements.Size = new System.Drawing.Size(1191, 326);
+            this.TableElements.Size = new System.Drawing.Size(1191, 303);
             this.TableElements.TabIndex = 3;
             this.TableElements.SelectionChanged += new System.EventHandler(this.TableElements_SelectionChanged);
             // 
@@ -175,7 +175,7 @@
             this.TableElementAssignedEffects.Name = "TableElementAssignedEffects";
             this.TableElementAssignedEffects.ReadOnly = true;
             this.TableElementAssignedEffects.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.TableElementAssignedEffects.Size = new System.Drawing.Size(1191, 321);
+            this.TableElementAssignedEffects.Size = new System.Drawing.Size(1191, 299);
             this.TableElementAssignedEffects.TabIndex = 4;
             // 
             // label1
@@ -238,15 +238,15 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1209, 728);
+            this.tabControl1.Size = new System.Drawing.Size(1209, 683);
             this.tabControl1.TabIndex = 10;
             // 
             // tabPage4
             // 
-            this.tabPage4.Controls.Add(this.splitContainer8);
+            this.tabPage4.Controls.Add(this.TableGeneral);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(1201, 702);
+            this.tabPage4.Size = new System.Drawing.Size(1201, 657);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "General";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -272,7 +272,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1201, 702);
+            this.tabPage1.Size = new System.Drawing.Size(1201, 657);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Table Elements";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -292,8 +292,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer3);
-            this.splitContainer1.Size = new System.Drawing.Size(1195, 696);
-            this.splitContainer1.SplitterDistance = 348;
+            this.splitContainer1.Size = new System.Drawing.Size(1195, 651);
+            this.splitContainer1.SplitterDistance = 325;
             this.splitContainer1.TabIndex = 7;
             // 
             // splitContainer2
@@ -312,7 +312,7 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.TableElements);
-            this.splitContainer2.Size = new System.Drawing.Size(1191, 344);
+            this.splitContainer2.Size = new System.Drawing.Size(1191, 321);
             this.splitContainer2.SplitterDistance = 14;
             this.splitContainer2.TabIndex = 6;
             // 
@@ -332,7 +332,7 @@
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.TableElementAssignedEffects);
-            this.splitContainer3.Size = new System.Drawing.Size(1191, 340);
+            this.splitContainer3.Size = new System.Drawing.Size(1191, 318);
             this.splitContainer3.SplitterDistance = 15;
             this.splitContainer3.TabIndex = 0;
             // 
@@ -342,7 +342,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1201, 702);
+            this.tabPage2.Size = new System.Drawing.Size(1201, 657);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Assigned startup effects";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -363,7 +363,7 @@
             // splitContainer4.Panel2
             // 
             this.splitContainer4.Panel2.Controls.Add(this.TableAssignedStaticEffects);
-            this.splitContainer4.Size = new System.Drawing.Size(1195, 696);
+            this.splitContainer4.Size = new System.Drawing.Size(1195, 651);
             this.splitContainer4.SplitterDistance = 25;
             this.splitContainer4.TabIndex = 8;
             // 
@@ -373,7 +373,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(1201, 702);
+            this.tabPage3.Size = new System.Drawing.Size(1201, 657);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Effects";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -392,7 +392,7 @@
             // splitContainer5.Panel2
             // 
             this.splitContainer5.Panel2.Controls.Add(this.splitContainer7);
-            this.splitContainer5.Size = new System.Drawing.Size(1195, 696);
+            this.splitContainer5.Size = new System.Drawing.Size(1195, 651);
             this.splitContainer5.SplitterDistance = 521;
             this.splitContainer5.TabIndex = 10;
             // 
@@ -412,7 +412,7 @@
             // splitContainer6.Panel2
             // 
             this.splitContainer6.Panel2.Controls.Add(this.TableEffects);
-            this.splitContainer6.Size = new System.Drawing.Size(517, 692);
+            this.splitContainer6.Size = new System.Drawing.Size(517, 647);
             this.splitContainer6.SplitterDistance = 15;
             this.splitContainer6.TabIndex = 0;
             // 
@@ -432,7 +432,7 @@
             // splitContainer7.Panel2
             // 
             this.splitContainer7.Panel2.Controls.Add(this.TableEffectProperties);
-            this.splitContainer7.Size = new System.Drawing.Size(666, 692);
+            this.splitContainer7.Size = new System.Drawing.Size(666, 647);
             this.splitContainer7.SplitterDistance = 16;
             this.splitContainer7.TabIndex = 0;
             // 
@@ -446,21 +446,21 @@
             // 
             // splitContainer8.Panel1
             // 
-            this.splitContainer8.Panel1.Controls.Add(this.TableGeneral);
+            this.splitContainer8.Panel1.Controls.Add(this.tabControl1);
             // 
             // splitContainer8.Panel2
             // 
             this.splitContainer8.Panel2.Controls.Add(this.RefreshWindow);
             this.splitContainer8.Panel2.Controls.Add(this.ExportTableConfiguration);
-            this.splitContainer8.Size = new System.Drawing.Size(1201, 702);
-            this.splitContainer8.SplitterDistance = 657;
+            this.splitContainer8.Size = new System.Drawing.Size(1209, 728);
+            this.splitContainer8.SplitterDistance = 683;
             this.splitContainer8.TabIndex = 1;
             // 
             // ExportTableConfiguration
             // 
             this.ExportTableConfiguration.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ExportTableConfiguration.Image = ((System.Drawing.Image)(resources.GetObject("ExportTableConfiguration.Image")));
-            this.ExportTableConfiguration.Location = new System.Drawing.Point(883, 3);
+            this.ExportTableConfiguration.Location = new System.Drawing.Point(891, 3);
             this.ExportTableConfiguration.Name = "ExportTableConfiguration";
             this.ExportTableConfiguration.Size = new System.Drawing.Size(173, 32);
             this.ExportTableConfiguration.TabIndex = 0;
@@ -473,7 +473,7 @@
             // 
             this.RefreshWindow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.RefreshWindow.Image = ((System.Drawing.Image)(resources.GetObject("RefreshWindow.Image")));
-            this.RefreshWindow.Location = new System.Drawing.Point(1062, 3);
+            this.RefreshWindow.Location = new System.Drawing.Point(1070, 3);
             this.RefreshWindow.Name = "RefreshWindow";
             this.RefreshWindow.Size = new System.Drawing.Size(136, 32);
             this.RefreshWindow.TabIndex = 1;
@@ -493,7 +493,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1209, 728);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.splitContainer8);
             this.Name = "TableInfo";
             this.Text = "TableInfo";
             ((System.ComponentModel.ISupportInitialize)(this.TableEffects)).EndInit();

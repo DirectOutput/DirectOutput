@@ -113,10 +113,10 @@
     </Compile>
     <Compile Include="GlobalConfig\FilePattern.cs" />
     <Compile Include="GlobalConfig\FilePatternList.cs" />
-    <Compile Include="GlobalConfig\GlobalConfigEditor.cs">
+    <Compile Include="FrontEnd\GlobalConfigEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GlobalConfig\GlobalConfigEditor.Designer.cs">
+    <Compile Include="FrontEnd\GlobalConfigEditor.Designer.cs">
       <DependentUpon>GlobalConfigEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="FX\LedControlFX\LedControlFX.cs" />
@@ -286,7 +286,7 @@
     <EmbeddedResource Include="FrontEnd\TableInfo.resx">
       <DependentUpon>TableInfo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GlobalConfig\GlobalConfigEditor.resx">
+    <EmbeddedResource Include="FrontEnd\GlobalConfigEditor.resx">
       <DependentUpon>GlobalConfigEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

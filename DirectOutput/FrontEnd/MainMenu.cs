@@ -14,10 +14,42 @@ namespace DirectOutput.FrontEnd
         private Pinball Pinball { get; set; }
 
 
-        private MainMenu()
+        private MainMenu(Pinball Pinball)
         {
             InitializeComponent();
+
+            this.Pinball = Pinball;
+            
             Version.Text = "Version: {0}".Build(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
+
+            TableName.Text = Pinball.Table.TableName;
+            TableFilename.Text = Pinball.Table.TableFilename;
+            TableRomname.Text = Pinball.Table.RomName;
+
+            GlobalConfigFilename.Text = (GlobalConfig.Config.GetGlobalConfigFile().Exists ? GlobalConfig.Config.GlobalConfigFilename : "<no global config file found>");
+
+            switch (Pinball.Table.ConfigurationSource)
+            {
+                case DirectOutput.Table.TableConfigSourceEnum.TableConfigurationFile:
+                    TableConfigFilename.Text = Pinball.Table.TableConfigurationFilename;
+                    break;
+                case DirectOutput.Table.TableConfigSourceEnum.LedControlIni:
+                    TableConfigFilename.Text = "Table config parsed from LedControl file.";
+                    break;
+                default:
+                    TableConfigFilename.Text = "<no config file loaded>";
+                    break;
+            }
+
+            if (Pinball.Cabinet.CabinetConfigurationFilename.IsNullOrWhiteSpace())
+            {
+                CabinetConfigFilename.Text = "<no config file loaded>";
+            }
+            else
+            {
+                CabinetConfigFilename.Text = Pinball.Cabinet.CabinetConfigurationFilename;
+            }
+             
         }
 
 
@@ -31,7 +63,7 @@ namespace DirectOutput.FrontEnd
                 }
             }
 
-            MainMenu M = new MainMenu() {Pinball=Pinball};
+            MainMenu M = new MainMenu(Pinball);
             M.Show();
         }
 
@@ -63,6 +95,22 @@ namespace DirectOutput.FrontEnd
             TableInfo CI = new TableInfo(Pinball) ;
             CI.Show();
         }
+
+        private void EditGlobalConfiguration_Click(object sender, EventArgs e)
+        {
+            foreach (Form F in Application.OpenForms)
+            {
+                if (F.GetType() == typeof(GlobalConfigEditor))
+                {
+                    F.Focus();
+                    return;
+                }
+            }
+            GlobalConfigEditor CI = new GlobalConfigEditor(GlobalConfig.Config.GlobalConfigFilename);
+            CI.Show();
+        }
+
+ 
 
     }
 }

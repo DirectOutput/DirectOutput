@@ -1,4 +1,4 @@
-﻿namespace DirectOutput.GlobalConfig
+﻿namespace DirectOutput.FrontEnd
 {
     partial class GlobalConfigEditor
     {

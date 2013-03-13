@@ -158,18 +158,6 @@
   <metadata name="LedControlIniFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>371, 17</value>
   </metadata>
-  <metadata name="TableConfigFileContextMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>772, 17</value>
-  </metadata>
-  <metadata name="TableScriptFilePatternsBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>510, 56</value>
-  </metadata>
-  <metadata name="Order.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="LedControlIniFilesBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>133, 17</value>
-  </metadata>
   <data name="label1.Text" xml:space="preserve">
     <value>LedControl.ini files are used by the DirectOutput framework as a fallback solution if no cable config can be found or if the table config contains errors.
 If no LedControl.ini files are specified in this table, the framework will try to lookup a file called ledcontrol.ini in the following locations:
@@ -185,6 +173,9 @@ Check  the Docu on the DirectOutput framework for more information.</value>
   </metadata>
   <metadata name="LedControlIniFilesBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>133, 17</value>
+  </metadata>
+  <metadata name="TableConfigFileContextMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>772, 17</value>
   </metadata>
   <data name="label2.Text" xml:space="preserve">
     <value>The table config file pattern specifies the the name for the table config file.
@@ -206,9 +197,6 @@ Please check the docu on the DirectOutput framework for more information.
   </metadata>
   <metadata name="CabinetConfigFileContextMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>550, 17</value>
-  </metadata>
-  <metadata name="CabinetScriptFilePatternsBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>244, 56</value>
   </metadata>
   <data name="label5.Text" xml:space="preserve">
     <value>The file pattern for the table config file specifies the pattern for the name of the table configuration file.
