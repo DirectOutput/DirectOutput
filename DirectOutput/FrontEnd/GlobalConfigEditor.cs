@@ -10,7 +10,7 @@ using DirectOutput.GlobalConfig;
 using System.IO;
 using System.Reflection;
 
-namespace DirectOutput.FrontEnd
+namespace DirectOutput.Frontend
 {
     public partial class GlobalConfigEditor : Form
     {

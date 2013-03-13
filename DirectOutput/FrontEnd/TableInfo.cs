@@ -11,7 +11,7 @@ using DirectOutput.Table;
 using System.Reflection;
 using System.IO;
 
-namespace DirectOutput.FrontEnd
+namespace DirectOutput.Frontend
 {
     public partial class TableInfo : Form
     {

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace DirectOutput.FrontEnd
+namespace DirectOutput.Frontend
 {
     public partial class MainMenu : Form
     {

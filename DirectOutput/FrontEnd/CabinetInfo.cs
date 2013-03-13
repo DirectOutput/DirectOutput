@@ -12,7 +12,7 @@ using System.Reflection;
 using DirectOutput.Cab.Toys;
 using System.IO;
 
-namespace DirectOutput.FrontEnd
+namespace DirectOutput.Frontend
 {
     public partial class CabinetInfo : Form
     {

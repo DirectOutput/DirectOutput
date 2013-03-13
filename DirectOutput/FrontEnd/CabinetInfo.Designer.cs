@@ -1,4 +1,4 @@
-﻿namespace DirectOutput.FrontEnd
+﻿namespace DirectOutput.Frontend
 {
     partial class CabinetInfo
     {

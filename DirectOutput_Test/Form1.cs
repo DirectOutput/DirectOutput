@@ -22,7 +22,7 @@ namespace DirectOutput_Test
         {
             DirectOutput.Cab.Cabinet C = new DirectOutput.Cab.Cabinet();
             C.AutoConfig();
-            DirectOutput.FrontEnd.CabinetInfo CI = new DirectOutput.FrontEnd.CabinetInfo(C);
+            DirectOutput.Frontend.CabinetInfo CI = new DirectOutput.Frontend.CabinetInfo(C);
             CI.Show();
         }
 

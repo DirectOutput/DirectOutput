@@ -17,16 +17,16 @@ namespace DirectOutputPlugin
     {
 
         
-        #region IDirectPluginFrontEnd Member
+        #region IDirectPluginFrontend Member
 
 
         /// <summary>
-        /// Shows the FrontEnd of the Plugin.<br/>
+        /// Shows the Frontend of the Plugin.<br/>
         /// The IDirectPluginFrontend interface requires the implementation of this method.
         /// </summary>
         public void PluginShowFrontend()
         {
-            DirectOutput.FrontEnd.MainMenu.Open(Pinball);
+            DirectOutput.Frontend.MainMenu.Open(Pinball);
         }
 
         #endregion
