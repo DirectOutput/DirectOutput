@@ -90,6 +90,7 @@
     <Compile Include="Extensions\ByteExtensions.cs" />
     <Compile Include="Extensions\DirectoryInfoExtensions.cs" />
     <Compile Include="Extensions\DoubleExtensions.cs" />
+    <Compile Include="Extensions\FileInfoExtensions.cs" />
     <Compile Include="Extensions\IntExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="FrontEnd\CabinetInfo.cs">
@@ -103,6 +104,12 @@
     </Compile>
     <Compile Include="FrontEnd\MainMenu.Designer.cs">
       <DependentUpon>MainMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrontEnd\TableInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrontEnd\TableInfo.Designer.cs">
+      <DependentUpon>TableInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="GlobalConfig\FilePattern.cs" />
     <Compile Include="GlobalConfig\FilePatternList.cs" />
@@ -123,6 +130,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Table\TableConfigSourceEnum.cs" />
     <Compile Include="UpdateTimer.cs" />
     <Compile Include="Cab\Cab.cs" />
     <Compile Include="Cab\Cabinet.cs" />
@@ -274,6 +282,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrontEnd\MainMenu.resx">
       <DependentUpon>MainMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrontEnd\TableInfo.resx">
+      <DependentUpon>TableInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GlobalConfig\GlobalConfigEditor.resx">
       <DependentUpon>GlobalConfigEditor.cs</DependentUpon>

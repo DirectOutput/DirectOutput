@@ -26,6 +26,7 @@ namespace DirectOutput.LedControl
         public DirectOutput.Table.Table GetTable(string RomName, Cabinet Cabinet)
         {
             DirectOutput.Table.Table T = new DirectOutput.Table.Table();
+            T.ConfigurationSource = Table.TableConfigSourceEnum.LedControlIni;
             T.RomName = RomName;
 
             List<IToy> LedWizEqivalentList = Cabinet.Toys.Where(Toy => Toy is LEDWizEquivalent).ToList();

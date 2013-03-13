@@ -57,6 +57,7 @@ namespace DirectOutput.Table
         /// Name of the table rom.<br/>
         /// Triggers RomNameChanged if value is changed.
         /// </summary>    
+        [XmlIgnoreAttribute]
         public string RomName
         {
             get { return _RomName; }
@@ -84,6 +85,7 @@ namespace DirectOutput.Table
         /// <value>
         /// The filename of the table.
         /// </value>
+        [XmlIgnoreAttribute]
         public string TableFilename { get; set; }
 
         /// <summary>
@@ -92,8 +94,24 @@ namespace DirectOutput.Table
         /// <value>
         /// The table configuration filename.
         /// </value>
+        [XmlIgnoreAttribute]
         public string TableConfigurationFilename { get; set; }
 
+        private TableConfigSourceEnum _ConfigurationSource=TableConfigSourceEnum.Unknown;
+
+        /// <summary>
+        /// Gets or sets the configuration source.
+        /// </summary>
+        /// <value>
+        /// The configuration source.
+        /// </value>
+        [XmlIgnoreAttribute]
+        public TableConfigSourceEnum ConfigurationSource
+        {
+            get { return _ConfigurationSource; }
+            set { _ConfigurationSource = value; }
+        }
+        
 
         
 
@@ -236,7 +254,9 @@ namespace DirectOutput.Table
             byte[] xmlBytes = Encoding.Default.GetBytes(ConfigXml);
             using (MemoryStream ms = new MemoryStream(xmlBytes))
             {
-                return (Table)new XmlSerializer(typeof(Table)).Deserialize(ms);
+                Table T= (Table)new XmlSerializer(typeof(Table)).Deserialize(ms);
+                T.ConfigurationSource = TableConfigSourceEnum.TableConfigurationFile;
+                return T;
             }
         }
         #endregion

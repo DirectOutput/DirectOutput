@@ -50,5 +50,19 @@ namespace DirectOutput.FrontEnd
             
         }
 
+        private void ShowTableConfiguration_Click(object sender, EventArgs e)
+        {
+            foreach (Form F in Application.OpenForms)
+            {
+                if (F.GetType() == typeof(TableInfo))
+                {
+                    F.Focus();
+                    return;
+                }
+            }
+            TableInfo CI = new TableInfo(Pinball) ;
+            CI.Show();
+        }
+
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using DirectOutput.FX;
 using DirectOutput.Table;
+using System.Xml.Serialization;
 
 namespace DirectOutput.FX
 {
@@ -83,6 +84,7 @@ namespace DirectOutput.FX
         /// Effect for the AssignedEffect (ReadOnly).<br/>
         /// The property is resolved from the EffectName. If EffectName is empty or unknown this property will return null.
         /// </summary>
+        [XmlIgnoreAttribute]
         public IEffect Effect
         {
             get

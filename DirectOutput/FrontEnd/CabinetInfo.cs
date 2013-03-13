@@ -274,7 +274,7 @@ namespace DirectOutput.FrontEnd
                 {
                     Cabinet.SaveConfigXmlFile(SaveCabinetConfiguration.FileName);
                     UpdateWindowTitle();
-                    MessageBox.Show("Cabinet configuration saved to\n{1}".Build(SaveCabinetConfiguration.FileName), "Cabinet configuration saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Cabinet configuration saved to\n{0}".Build(SaveCabinetConfiguration.FileName), "Cabinet configuration saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception E)
                 {

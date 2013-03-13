@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using DirectOutput.FX;
 using System.ComponentModel;
+using System.Xml.Serialization;
+using DirectOutput.FX;
 
 namespace DirectOutput.Table
 {
@@ -40,7 +38,7 @@ namespace DirectOutput.Table
         public TableElementTypeEnum TableElementType
         {
             get { return _TableElementType; }
-            private set
+            set
             {
                 if (_TableElementType != value)
                 {
@@ -59,7 +57,7 @@ namespace DirectOutput.Table
         public int Number
         {
             get { return _Number; }
-            private set
+            set
             {
                 if (_Number != value)
                 {
@@ -72,7 +70,7 @@ namespace DirectOutput.Table
 
         #endregion
 
-        #region  string Name
+        #region  Name
         private string _Name = "";
         /// <summary>
         /// Name of the TableElement.<br/>
@@ -100,12 +98,13 @@ namespace DirectOutput.Table
         public event EventHandler<EventArgs> NameChanged;
         #endregion
 
-        #region  int Value
+        #region  Value
         private int _Value = -1;
         /// <summary>
         /// Value of the TableElement.<br/>
         /// Triggers ValueChanged if the value is changed.
         /// </summary>    
+        [XmlIgnoreAttribute]
         public int Value
         {
             get { return _Value; }

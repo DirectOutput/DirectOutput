@@ -231,17 +231,20 @@ namespace DirectOutput.GlobalConfig
             Dictionary<string, string> D = new Dictionary<string, string>();
             D.Add("GlobalConfigDirectory", GlobalConfigDirectory.FullName);
             D.Add("GlobalConfigDir", GlobalConfigDirectory.FullName);
-            D.Add("DllDirectory", Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
-            D.Add("DllDir", Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
-            D.Add("AssemblyDirectory", Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
-            D.Add("AssemblyDir", Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+
+            FileInfo FI = new FileInfo(Assembly.GetExecutingAssembly().Location);
+            D.Add("DllDirectory", FI.Directory.FullName);
+            D.Add("DllDir", FI.Directory.FullName);
+            D.Add("AssemblyDirectory", FI.Directory.FullName);
+            D.Add("AssemblyDir", FI.Directory.FullName);
             if (!TableFileName.IsNullOrWhiteSpace())
             {
-                D.Add("TableDirectory", Path.GetFullPath(TableFileName));
-                D.Add("TableDir", Path.GetFullPath(TableFileName));
-                D.Add("TableDirectoryName", new DirectoryInfo(Path.GetFullPath(TableFileName)).Name);
-                D.Add("TableDirName", new DirectoryInfo(Path.GetFullPath(TableFileName)).Name);
-                D.Add("TableName", Path.GetFileNameWithoutExtension(TableFileName));
+                FI = new FileInfo(TableFileName);
+                D.Add("TableDirectory", FI.Directory.FullName);
+                D.Add("TableDir", FI.Directory.FullName);
+                D.Add("TableDirectoryName", FI.Directory.Name);
+                D.Add("TableDirName", FI.Directory.Name);
+                D.Add("TableName", Path.GetFileNameWithoutExtension(FI.FullName));
             }
 
 
