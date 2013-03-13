@@ -69,12 +69,12 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
-mkdir "C:\Program Files (x86)\Visual Pinball\Tables\plugins"
-mkdir "C:\Program Files (x86)\Visual Pinball\Tables\plugins\DirectOutput"
-mkdir "C:\Program Files (x86)\Visual Pinball\Tables\plugins\DirectOutput\Config"
-copy "$(TargetDir)*.dll" "C:\Program Files (x86)\Visual Pinball\Tables\plugins\DirectOutput"
+mkdir "C:\Users\Tom\Documents\Visual Studio 2010\Projects\B2SBackglassServer\B2SBackglassServer\bin\Release\plugins"
+mkdir "C:\Users\Tom\Documents\Visual Studio 2010\Projects\B2SBackglassServer\B2SBackglassServer\bin\Release\plugins\DirectOutput"
+mkdir "C:\Users\Tom\Documents\Visual Studio 2010\Projects\B2SBackglassServer\B2SBackglassServer\bin\Release\plugins\DirectOutput\Config"
+copy "$(TargetDir)*.dll" "C:\Users\Tom\Documents\Visual Studio 2010\Projects\B2SBackglassServer\B2SBackglassServer\bin\Release\plugins\DirectOutput"
 del "C:\Program Files (x86)\Visual Pinball\Tables\plugins\DirectOutput\B2S*.dll"
-xcopy "$(TargetDir)config\*" "C:\Program Files (x86)\Visual Pinball\Tables\plugins\DirectOutput\Config\" /E /Y
+xcopy "$(TargetDir)config\*" "C:\Users\Tom\Documents\Visual Studio 2010\Projects\B2SBackglassServer\B2SBackglassServer\bin\Release\plugins\DirectOutput\Config" /E /Y
 
 
 for /F "tokens=4" %25%25F in ('filever.exe /B /A /D $(TargetPath)') do (
