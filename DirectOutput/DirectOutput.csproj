@@ -104,12 +104,6 @@
     <Compile Include="FrontEnd\MainMenu.Designer.cs">
       <DependentUpon>MainMenu.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrontEnd\TableElementState.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FrontEnd\TableElementState.Designer.cs">
-      <DependentUpon>TableElementState.cs</DependentUpon>
-    </Compile>
     <Compile Include="GlobalConfig\FilePattern.cs" />
     <Compile Include="GlobalConfig\FilePatternList.cs" />
     <Compile Include="GlobalConfig\GlobalConfigEditor.cs">
@@ -280,9 +274,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrontEnd\MainMenu.resx">
       <DependentUpon>MainMenu.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FrontEnd\TableElementState.resx">
-      <DependentUpon>TableElementState.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GlobalConfig\GlobalConfigEditor.resx">
       <DependentUpon>GlobalConfigEditor.cs</DependentUpon>

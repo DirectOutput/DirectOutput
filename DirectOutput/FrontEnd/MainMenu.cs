@@ -50,9 +50,5 @@ namespace DirectOutput.FrontEnd
             
         }
 
-        private void ShowTableElementStates_Click(object sender, EventArgs e)
-        {
-            TableElementState.Open(Pinball.Table);
-        }
     }
 }
