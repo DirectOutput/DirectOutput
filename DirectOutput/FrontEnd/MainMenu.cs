@@ -11,9 +11,48 @@ namespace DirectOutput.FrontEnd
 {
     public partial class MainMenu : Form
     {
-        public MainMenu()
+        private Pinball Pinball { get; set; }
+
+
+        private MainMenu()
         {
             InitializeComponent();
+            Version.Text = "Version: {0}".Build(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
+        }
+
+
+        public static void Open(Pinball Pinball) {
+            foreach (Form F in Application.OpenForms)
+            {
+                if (F.GetType() == typeof(MainMenu))
+                {
+                    F.Focus();
+                    return;
+                }
+            }
+
+            MainMenu M = new MainMenu() {Pinball=Pinball};
+            M.Show();
+        }
+
+        private void ShowCabinetConfiguration_Click(object sender, EventArgs e)
+        {
+            foreach (Form F in Application.OpenForms)
+            {
+                if (F.GetType() == typeof(CabinetInfo))
+                {
+                    F.Focus();
+                    return;
+                }
+            }
+            CabinetInfo CI = new CabinetInfo(Pinball.Cabinet);
+            CI.Show();
+            
+        }
+
+        private void ShowTableElementStates_Click(object sender, EventArgs e)
+        {
+            TableElementState.Open(Pinball.Table);
         }
     }
 }

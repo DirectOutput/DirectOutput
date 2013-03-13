@@ -37,7 +37,7 @@
   <ItemGroup>
     <Reference Include="B2SBackglassServer, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Downloads\B2S Backglass Server 1.2\B2SBackglassServer.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Visual Pinball\Tables\B2SBackglassServer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -75,7 +75,6 @@ mkdir "C:\Program Files (x86)\Visual Pinball\Tables\plugins\DirectOutput\Config"
 copy "$(TargetDir)*.dll" "C:\Program Files (x86)\Visual Pinball\Tables\plugins\DirectOutput"
 del "C:\Program Files (x86)\Visual Pinball\Tables\plugins\DirectOutput\B2S*.dll"
 xcopy "$(TargetDir)config\*" "C:\Program Files (x86)\Visual Pinball\Tables\plugins\DirectOutput\Config\" /E /Y
-
 
 
 for /F "tokens=4" %25%25F in ('filever.exe /B /A /D $(TargetPath)') do (

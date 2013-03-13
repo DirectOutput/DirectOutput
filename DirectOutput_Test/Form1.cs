@@ -24,5 +24,10 @@ namespace DirectOutput_Test
             DirectOutput.FrontEnd.CabinetInfo CI = new DirectOutput.FrontEnd.CabinetInfo(C);
             CI.Show();
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+ 
+        }
     }
 }
