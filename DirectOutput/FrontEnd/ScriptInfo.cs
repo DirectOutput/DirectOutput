@@ -30,7 +30,7 @@ namespace DirectOutput.Frontend
         }
 
 
-        private void UpdateScriptTypes()
+        private void UpdateScriptTypes() 
         {
             DataTable DT = new DataTable();
             DT.Columns.Add("Type", typeof(string));

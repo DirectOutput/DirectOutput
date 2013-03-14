@@ -99,42 +99,42 @@
     <Compile Include="Extensions\IntExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
-    <Compile Include="Frontend\AvailableToysInfo.cs">
+    <Compile Include="FrontEnd\AvailableToysInfo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Frontend\AvailableToysInfo.Designer.cs">
+    <Compile Include="FrontEnd\AvailableToysInfo.Designer.cs">
       <DependentUpon>AvailableToysInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="Frontend\CabinetInfo.cs">
+    <Compile Include="FrontEnd\CabinetInfo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Frontend\CabinetInfo.Designer.cs">
+    <Compile Include="FrontEnd\CabinetInfo.Designer.cs">
       <DependentUpon>CabinetInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="Frontend\MainMenu.cs">
+    <Compile Include="FrontEnd\MainMenu.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Frontend\MainMenu.Designer.cs">
+    <Compile Include="FrontEnd\MainMenu.Designer.cs">
       <DependentUpon>MainMenu.cs</DependentUpon>
     </Compile>
-    <Compile Include="Frontend\ScriptInfo.cs">
+    <Compile Include="FrontEnd\ScriptInfo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Frontend\ScriptInfo.Designer.cs">
+    <Compile Include="FrontEnd\ScriptInfo.Designer.cs">
       <DependentUpon>ScriptInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="Frontend\TableInfo.cs">
+    <Compile Include="FrontEnd\TableInfo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Frontend\TableInfo.Designer.cs">
+    <Compile Include="FrontEnd\TableInfo.Designer.cs">
       <DependentUpon>TableInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="GlobalConfig\FilePattern.cs" />
     <Compile Include="GlobalConfig\FilePatternList.cs" />
-    <Compile Include="Frontend\GlobalConfigEditor.cs">
+    <Compile Include="FrontEnd\GlobalConfigEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Frontend\GlobalConfigEditor.Designer.cs">
+    <Compile Include="FrontEnd\GlobalConfigEditor.Designer.cs">
       <DependentUpon>GlobalConfigEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="FX\LedControlFX\LedControlFX.cs" />
@@ -295,22 +295,22 @@
     <None Include="Table\Table.cd" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Frontend\AvailableToysInfo.resx">
+    <EmbeddedResource Include="FrontEnd\AvailableToysInfo.resx">
       <DependentUpon>AvailableToysInfo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Frontend\CabinetInfo.resx">
+    <EmbeddedResource Include="FrontEnd\CabinetInfo.resx">
       <DependentUpon>CabinetInfo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Frontend\MainMenu.resx">
+    <EmbeddedResource Include="FrontEnd\MainMenu.resx">
       <DependentUpon>MainMenu.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Frontend\ScriptInfo.resx">
+    <EmbeddedResource Include="FrontEnd\ScriptInfo.resx">
       <DependentUpon>ScriptInfo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Frontend\TableInfo.resx">
+    <EmbeddedResource Include="FrontEnd\TableInfo.resx">
       <DependentUpon>TableInfo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Frontend\GlobalConfigEditor.resx">
+    <EmbeddedResource Include="FrontEnd\GlobalConfigEditor.resx">
       <DependentUpon>GlobalConfigEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

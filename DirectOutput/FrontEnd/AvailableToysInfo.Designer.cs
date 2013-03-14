@@ -31,13 +31,13 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AvailableToysInfo));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.label1 = new System.Windows.Forms.Label();
             this.AvailableToys = new System.Windows.Forms.DataGridView();
-            this.TypeXml = new System.Windows.Forms.TextBox();
+            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.splitContainer6 = new System.Windows.Forms.SplitContainer();
             this.label3 = new System.Windows.Forms.Label();
             this.CopyToClipboard = new System.Windows.Forms.Button();
+            this.TypeXml = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -46,11 +46,11 @@
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.AvailableToys)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.AvailableToys)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer6)).BeginInit();
             this.splitContainer6.Panel1.SuspendLayout();
             this.splitContainer6.Panel2.SuspendLayout();
@@ -94,26 +94,6 @@
             this.splitContainer2.SplitterDistance = 25;
             this.splitContainer2.TabIndex = 0;
             // 
-            // splitContainer3
-            // 
-            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer3.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.splitContainer3.IsSplitterFixed = true;
-            this.splitContainer3.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer3.Name = "splitContainer3";
-            this.splitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer3.Panel1
-            // 
-            this.splitContainer3.Panel1.Controls.Add(this.splitContainer6);
-            // 
-            // splitContainer3.Panel2
-            // 
-            this.splitContainer3.Panel2.Controls.Add(this.TypeXml);
-            this.splitContainer3.Size = new System.Drawing.Size(376, 410);
-            this.splitContainer3.SplitterDistance = 25;
-            this.splitContainer3.TabIndex = 0;
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -141,15 +121,25 @@
             this.AvailableToys.TabIndex = 0;
             this.AvailableToys.SelectionChanged += new System.EventHandler(this.AvailableToys_SelectionChanged);
             // 
-            // TypeXml
+            // splitContainer3
             // 
-            this.TypeXml.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TypeXml.Location = new System.Drawing.Point(0, 0);
-            this.TypeXml.Multiline = true;
-            this.TypeXml.Name = "TypeXml";
-            this.TypeXml.ReadOnly = true;
-            this.TypeXml.Size = new System.Drawing.Size(376, 381);
-            this.TypeXml.TabIndex = 3;
+            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer3.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainer3.IsSplitterFixed = true;
+            this.splitContainer3.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer3.Name = "splitContainer3";
+            this.splitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer3.Panel1
+            // 
+            this.splitContainer3.Panel1.Controls.Add(this.splitContainer6);
+            // 
+            // splitContainer3.Panel2
+            // 
+            this.splitContainer3.Panel2.Controls.Add(this.TypeXml);
+            this.splitContainer3.Size = new System.Drawing.Size(376, 410);
+            this.splitContainer3.SplitterDistance = 25;
+            this.splitContainer3.TabIndex = 0;
             // 
             // splitContainer6
             // 
@@ -195,6 +185,16 @@
             this.CopyToClipboard.UseVisualStyleBackColor = true;
             this.CopyToClipboard.Click += new System.EventHandler(this.CopyToClipboard_Click);
             // 
+            // TypeXml
+            // 
+            this.TypeXml.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TypeXml.Location = new System.Drawing.Point(0, 0);
+            this.TypeXml.Multiline = true;
+            this.TypeXml.Name = "TypeXml";
+            this.TypeXml.ReadOnly = true;
+            this.TypeXml.Size = new System.Drawing.Size(376, 381);
+            this.TypeXml.TabIndex = 3;
+            // 
             // AvailableToysInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -212,12 +212,12 @@
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.AvailableToys)).EndInit();
             this.splitContainer3.Panel1.ResumeLayout(false);
             this.splitContainer3.Panel2.ResumeLayout(false);
             this.splitContainer3.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.AvailableToys)).EndInit();
             this.splitContainer6.Panel1.ResumeLayout(false);
             this.splitContainer6.Panel1.PerformLayout();
             this.splitContainer6.Panel2.ResumeLayout(false);
