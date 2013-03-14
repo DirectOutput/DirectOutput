@@ -47,13 +47,13 @@ namespace DirectOutput.FX.BasicFX
         public string Color { get; set; }
 
 
-        private RGBLed _RGBLed;
+        private IRGBToy _RGBLed;
 
         /// <summary>
         /// Refrence to the RGBLed Toy specified in the RGBLedName property.<br/>
         /// If the RGBLedname property is empty or contains a unknown name or the name of a toy which is not of type RGBLed this property will return null.
         /// </summary>
-        public RGBLed RGBLed
+        public IRGBToy RGBLed
         {
             get
             {
@@ -67,9 +67,9 @@ namespace DirectOutput.FX.BasicFX
 
             if (!RGBLedName.IsNullOrWhiteSpace() && Pinball.Cabinet.Toys.Contains(RGBLedName))
             {
-                if (Pinball.Cabinet.Toys[RGBLedName] is RGBLed)
+                if (Pinball.Cabinet.Toys[RGBLedName] is IRGBToy)
                 {
-                    _RGBLed = (RGBLed)Pinball.Cabinet.Toys[RGBLedName];
+                    _RGBLed = (IRGBToy)Pinball.Cabinet.Toys[RGBLedName];
                 }
 
             }
@@ -79,20 +79,28 @@ namespace DirectOutput.FX.BasicFX
         /// <summary>
         /// Triggers the effect.<br />
         /// If the Value property of the TableElement is 0 the RGBLed will be turned off resp. set to color #000000, if the value is not 0 the RGBLEd will be set to the color specified in the Color property.
+        /// If TableElement is null, the RGBLed toy will be set to the value of Color.
         /// </summary>
         /// <param name="TableElement">TableElement which has triggered the effect.</param>
         public override void Trigger(TableElement TableElement)
         {
             if (RGBLed != null && !Color.IsNullOrWhiteSpace())
             {
-                if (TableElement.Value == 0)
+                if (TableElement != null)
                 {
-                    RGBLed.SetColor("#000000");
+                    if (TableElement.Value == 0)
+                    {
+                        RGBLed.SetColor("#000000");
+                    }
+                    else
+                    {
+                        RGBLed.SetColor(Color);
+                    }
                 }
-                else
-                {
-                    RGBLed.SetColor(Color);
-                }
+            }
+            else
+            {
+                RGBLed.SetColor(Color);
             }
         }
 

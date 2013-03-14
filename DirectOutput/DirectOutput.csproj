@@ -85,6 +85,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cab\Out\LW\LW.cs" />
+    <Compile Include="Cab\Toys\IRGBToy.cs" />
+    <Content Include="Config\TimedDimmerLampEffect.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Compile Include="Cab\Toys\ILampToy.cs" />
     <Compile Include="DirectOutput.cs" />
     <Compile Include="Extensions\ArrayExtensions.cs" />
     <Compile Include="Extensions\ByteExtensions.cs" />
@@ -93,30 +98,43 @@
     <Compile Include="Extensions\FileInfoExtensions.cs" />
     <Compile Include="Extensions\IntExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="FrontEnd\CabinetInfo.cs">
+    <Compile Include="Extensions\TypeExtensions.cs" />
+    <Compile Include="Frontend\AvailableToysInfo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrontEnd\CabinetInfo.Designer.cs">
+    <Compile Include="Frontend\AvailableToysInfo.Designer.cs">
+      <DependentUpon>AvailableToysInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frontend\CabinetInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frontend\CabinetInfo.Designer.cs">
       <DependentUpon>CabinetInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrontEnd\MainMenu.cs">
+    <Compile Include="Frontend\MainMenu.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrontEnd\MainMenu.Designer.cs">
+    <Compile Include="Frontend\MainMenu.Designer.cs">
       <DependentUpon>MainMenu.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrontEnd\TableInfo.cs">
+    <Compile Include="Frontend\ScriptInfo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrontEnd\TableInfo.Designer.cs">
+    <Compile Include="Frontend\ScriptInfo.Designer.cs">
+      <DependentUpon>ScriptInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frontend\TableInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frontend\TableInfo.Designer.cs">
       <DependentUpon>TableInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="GlobalConfig\FilePattern.cs" />
     <Compile Include="GlobalConfig\FilePatternList.cs" />
-    <Compile Include="FrontEnd\GlobalConfigEditor.cs">
+    <Compile Include="Frontend\GlobalConfigEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrontEnd\GlobalConfigEditor.Designer.cs">
+    <Compile Include="Frontend\GlobalConfigEditor.Designer.cs">
       <DependentUpon>GlobalConfigEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="FX\LedControlFX\LedControlFX.cs" />
@@ -233,8 +251,8 @@
     <Content Include="Docu\img\ToyArchitecture.png" />
     <Content Include="Docu\Pinmame Interface.html" />
     <Content Include="Config\GlobalConfig.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="ledwiz.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -277,16 +295,22 @@
     <None Include="Table\Table.cd" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="FrontEnd\CabinetInfo.resx">
+    <EmbeddedResource Include="Frontend\AvailableToysInfo.resx">
+      <DependentUpon>AvailableToysInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frontend\CabinetInfo.resx">
       <DependentUpon>CabinetInfo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrontEnd\MainMenu.resx">
+    <EmbeddedResource Include="Frontend\MainMenu.resx">
       <DependentUpon>MainMenu.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrontEnd\TableInfo.resx">
+    <EmbeddedResource Include="Frontend\ScriptInfo.resx">
+      <DependentUpon>ScriptInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frontend\TableInfo.resx">
       <DependentUpon>TableInfo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrontEnd\GlobalConfigEditor.resx">
+    <EmbeddedResource Include="Frontend\GlobalConfigEditor.resx">
       <DependentUpon>GlobalConfigEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

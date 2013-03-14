@@ -59,13 +59,21 @@ namespace DirectOutput.FX.BasicFX
 
         /// <summary>
         /// Triggers the effect.<br/>
-        /// If the value of the TableElement is 0 the <see cref="IDigitalToy"/> will be turned off, if the value is not equal 0 the <see cref="IDigitalToy"/> will be turned on
+        /// If the value of the TableElement is 0 the <see cref="IDigitalToy"/> will be turned off, if the value is not equal 0 the <see cref="IDigitalToy"/> will be turned on.
+        /// If TableElement is null, the State of the IDigitalToy will be set to true.
         /// </summary>
         public override void Trigger(TableElement TableElement)
         {
             if (DigitalToy != null)
             {
-                DigitalToy.State = (TableElement.Value == 0 ? false : true);
+                if (TableElement != null)
+                {
+                    DigitalToy.State = (TableElement.Value == 0 ? false : true);
+                }
+                else
+                {
+                    DigitalToy.State = true;
+                }
             }
         }
 

@@ -47,6 +47,8 @@
             this.GlobalConfigFilename = new System.Windows.Forms.TextBox();
             this.TableConfigFilename = new System.Windows.Forms.TextBox();
             this.CabinetConfigFilename = new System.Windows.Forms.TextBox();
+            this.ShowLoadedScripts = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -83,7 +85,7 @@
             // 
             // ShowCabinetConfiguration
             // 
-            this.ShowCabinetConfiguration.Location = new System.Drawing.Point(719, 359);
+            this.ShowCabinetConfiguration.Location = new System.Drawing.Point(341, 387);
             this.ShowCabinetConfiguration.Name = "ShowCabinetConfiguration";
             this.ShowCabinetConfiguration.Size = new System.Drawing.Size(157, 23);
             this.ShowCabinetConfiguration.TabIndex = 3;
@@ -93,7 +95,7 @@
             // 
             // ShowTableConfiguration
             // 
-            this.ShowTableConfiguration.Location = new System.Drawing.Point(719, 324);
+            this.ShowTableConfiguration.Location = new System.Drawing.Point(178, 387);
             this.ShowTableConfiguration.Name = "ShowTableConfiguration";
             this.ShowTableConfiguration.Size = new System.Drawing.Size(157, 23);
             this.ShowTableConfiguration.TabIndex = 4;
@@ -157,7 +159,7 @@
             // 
             // EditGlobalConfiguration
             // 
-            this.EditGlobalConfiguration.Location = new System.Drawing.Point(719, 289);
+            this.EditGlobalConfiguration.Location = new System.Drawing.Point(15, 387);
             this.EditGlobalConfiguration.Name = "EditGlobalConfiguration";
             this.EditGlobalConfiguration.Size = new System.Drawing.Size(157, 23);
             this.EditGlobalConfiguration.TabIndex = 11;
@@ -213,11 +215,33 @@
             this.CabinetConfigFilename.Size = new System.Drawing.Size(565, 20);
             this.CabinetConfigFilename.TabIndex = 17;
             // 
+            // ShowLoadedScripts
+            // 
+            this.ShowLoadedScripts.Location = new System.Drawing.Point(504, 387);
+            this.ShowLoadedScripts.Name = "ShowLoadedScripts";
+            this.ShowLoadedScripts.Size = new System.Drawing.Size(157, 23);
+            this.ShowLoadedScripts.TabIndex = 18;
+            this.ShowLoadedScripts.Text = "Show loaded scripts";
+            this.ShowLoadedScripts.UseVisualStyleBackColor = true;
+            this.ShowLoadedScripts.Click += new System.EventHandler(this.ShowLoadedScripts_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(667, 387);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(157, 23);
+            this.button1.TabIndex = 19;
+            this.button1.Text = "Show available toys";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // MainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(879, 390);
+            this.ClientSize = new System.Drawing.Size(879, 424);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.ShowLoadedScripts);
             this.Controls.Add(this.CabinetConfigFilename);
             this.Controls.Add(this.TableConfigFilename);
             this.Controls.Add(this.GlobalConfigFilename);
@@ -265,5 +289,7 @@
         private System.Windows.Forms.TextBox GlobalConfigFilename;
         private System.Windows.Forms.TextBox TableConfigFilename;
         private System.Windows.Forms.TextBox CabinetConfigFilename;
+        private System.Windows.Forms.Button ShowLoadedScripts;
+        private System.Windows.Forms.Button button1;
     }
 }

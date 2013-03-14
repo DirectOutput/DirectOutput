@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--Global configuration for the DirectOutput framework.-->
-<!--Saved by DirectOutput Version 0.5.4821.20296: 2013-03-14 11-21-44-->
 <Config>
   <LedControlIniFiles>
     <LedControlIniFile>
@@ -13,9 +12,7 @@
     </LedControlIniFile>
   </LedControlIniFiles>
   <CabinetConfigFilePattern>{GlobalConfigDir}\cabinet.xml</CabinetConfigFilePattern>
-  <CabinetScriptFilePatterns>
-    <FilePattern>{GlobalConfigDir}\*.cs</FilePattern>
-  </CabinetScriptFilePatterns>
+  <CabinetScriptFilePatterns />
   <TableScriptFilePatterns />
   <TableConfigFilePattern>{TableDir}\{TableName}.xml</TableConfigFilePattern>
   <UpdateTimerIntervall>20</UpdateTimerIntervall>

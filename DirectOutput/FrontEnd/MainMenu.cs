@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
+
 namespace DirectOutput.Frontend
 {
     public partial class MainMenu : Form
@@ -107,6 +108,34 @@ namespace DirectOutput.Frontend
                 }
             }
             GlobalConfigEditor CI = new GlobalConfigEditor(GlobalConfig.Config.GlobalConfigFilename);
+            CI.Show();
+        }
+
+        private void ShowLoadedScripts_Click(object sender, EventArgs e)
+        {
+            foreach (Form F in Application.OpenForms)
+            {
+                if (F.GetType() == typeof(ScriptInfo))
+                {
+                    F.Focus();
+                    return;
+                }
+            }
+            ScriptInfo CI = new ScriptInfo(Pinball);
+            CI.Show();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            foreach (Form F in Application.OpenForms)
+            {
+                if (F.GetType() == typeof(AvailableToysInfo))
+                {
+                    F.Focus();
+                    return;
+                }
+            }
+            AvailableToysInfo CI = new AvailableToysInfo();
             CI.Show();
         }
 

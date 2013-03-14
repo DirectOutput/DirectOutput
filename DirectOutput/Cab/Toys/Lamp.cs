@@ -11,7 +11,7 @@ namespace DirectOutput.Cab.Toys
     /// Lamp toy.<br/>
     /// Inherits from <see cref="GenericAnalogToy"/>, implements <see cref="IToy"/>.
     /// </summary>
-    public class Lamp : GenericAnalogToy, IToy
+    public class Lamp : GenericAnalogToy, IToy, DirectOutput.Cab.Toys.ILampToy
     {
 
         /// <summary>

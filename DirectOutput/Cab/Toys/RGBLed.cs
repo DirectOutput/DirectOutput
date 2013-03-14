@@ -14,7 +14,7 @@ namespace DirectOutput.Cab.Toys
     /// RGB led toy controlls a multicolor led.
     /// Implement IToy, inherits Toy.
     /// </summary>
-    public class RGBLed : ToyBase, IToy
+    public class RGBLed : ToyBase, IRGBToy
     {
         private Cabinet _Cabinet;
         #region Init
