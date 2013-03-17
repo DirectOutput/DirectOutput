@@ -10,29 +10,29 @@ using DirectOutput.Cab.Toys;
 using System.Xml.Serialization;
 using System.IO;
 using System.Reflection;
+using DirectOutput.FX;
 
 namespace DirectOutput.Frontend
 {
-    public partial class AvailableToysInfo : Form
+    public partial class AvailableEffectsInfo : Form
     {
         private void UpdateAvailableTypes()
         {
             DataTable DT = new DataTable();
-            DT.Columns.Add("Toy type", typeof(string));
+            DT.Columns.Add("Effect type", typeof(string));
             DT.Columns.Add("Source", typeof(string));
-            Assembly A = System.Reflection.Assembly.GetExecutingAssembly();
-
-            foreach (Type T in AppDomain.CurrentDomain.GetAssemblies().ToList().SelectMany(s => s.GetTypes()).Where(p => typeof(IToy).IsAssignableFrom(p) && !p.IsAbstract))
+            Assembly A=System.Reflection.Assembly.GetExecutingAssembly();
+            foreach (Type T in AppDomain.CurrentDomain.GetAssemblies().ToList().SelectMany(s => s.GetTypes()).Where(p => typeof(IEffect).IsAssignableFrom(p) && !p.IsAbstract))
             {
-                DT.Rows.Add(T.Name, (A == T.Assembly ? "Built in" : "Scripted"));
+                DT.Rows.Add(T.Name,(A==T.Assembly?"Built in":"Scripted"));
             }
 
-            AvailableToys.ClearSelection();
-            AvailableToys.Columns.Clear();
-            AvailableToys.AutoGenerateColumns = true;
-            AvailableToys.DataSource = DT;
-            AvailableToys.Refresh();
-            AvailableToys.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+            AvailableEffects.ClearSelection();
+            AvailableEffects.Columns.Clear();
+            AvailableEffects.AutoGenerateColumns = true;
+            AvailableEffects.DataSource = DT;
+            AvailableEffects.Refresh();
+            AvailableEffects.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
 
             UpdateTypeXml();
         }
@@ -41,10 +41,10 @@ namespace DirectOutput.Frontend
         private void UpdateTypeXml()
         {
             string S = "";
-            if (AvailableToys.SelectedRows.Count > 0)
+            if (AvailableEffects.SelectedRows.Count > 0)
             {
-                string N = AvailableToys.SelectedRows[0].Cells[0].Value.ToString();
-                General.TypeList Types = new General.TypeList(AppDomain.CurrentDomain.GetAssemblies().ToList().SelectMany(s => s.GetTypes()).Where(p => typeof(IToy).IsAssignableFrom(p) && !p.IsAbstract));
+                string N = AvailableEffects.SelectedRows[0].Cells[0].Value.ToString();
+                General.TypeList Types = new General.TypeList(AppDomain.CurrentDomain.GetAssemblies().ToList().SelectMany(s => s.GetTypes()).Where(p => typeof(IEffect).IsAssignableFrom(p) && !p.IsAbstract));
                 if (Types.Contains(N))
                 {
                     Type T = Types[N];
@@ -59,7 +59,7 @@ namespace DirectOutput.Frontend
                         {
                             if (PI.PropertyType == typeof(string) && PI.Name == "Name")
                             {
-                                PI.SetValue(O, "Toy name", null);
+                                PI.SetValue(O, "Effect name", null);
                             }
                             else if (PI.PropertyType.IsNumber())
                             {
@@ -72,6 +72,10 @@ namespace DirectOutput.Frontend
                             else if (PI.PropertyType == typeof(string) && PI.Name.ToLower().Contains("output"))
                             {
                                 PI.SetValue(O, "Name of a output", null);
+                            }
+                            else if (PI.PropertyType == typeof(string) && PI.Name.ToLower().Contains("toy"))
+                            {
+                                PI.SetValue(O, "Name of a toy", null);
                             }
                             else if (PI.PropertyType == typeof(string))
                             {
@@ -113,22 +117,19 @@ namespace DirectOutput.Frontend
                 }
                 else
                 {
-                    S = "Type not found";
+                    S = "Effect not found";
                 }
 
             }
             TypeXml.Text = S;
         }
-        public AvailableToysInfo()
+        public AvailableEffectsInfo()
         {
             InitializeComponent();
             UpdateAvailableTypes();
         }
 
-        private void AvailableToys_SelectionChanged(object sender, EventArgs e)
-        {
-            UpdateTypeXml();
-        }
+     
 
         private void CopyToClipboard_Click(object sender, EventArgs e)
         {
@@ -136,6 +137,11 @@ namespace DirectOutput.Frontend
             {
                 Clipboard.SetText(TypeXml.Text);
             }
+        }
+
+        private void AvailableEffects_SelectionChanged(object sender, EventArgs e)
+        {
+            UpdateTypeXml();
         }
 
     }

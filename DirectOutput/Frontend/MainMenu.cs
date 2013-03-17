@@ -139,6 +139,20 @@ namespace DirectOutput.Frontend
             CI.Show();
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            foreach (Form F in Application.OpenForms)
+            {
+                if (F.GetType() == typeof(AvailableEffectsInfo))
+                {
+                    F.Focus();
+                    return;
+                }
+            }
+            AvailableEffectsInfo CI = new AvailableEffectsInfo();
+            CI.Show();
+        }
+
  
 
     }
