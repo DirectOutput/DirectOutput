@@ -8,7 +8,7 @@ namespace DirectOutput.PinmameHandling
     /// <summary>
     /// Data received from Pinmame
     /// </summary>
-    public class PinmameData
+    public class TableElementData
     {
         /// <summary>
         /// Gets or sets the type of the table element.
@@ -34,17 +34,17 @@ namespace DirectOutput.PinmameHandling
 
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PinmameData"/> class.
+        /// Initializes a new instance of the <see cref="TableElementData"/> class.
         /// </summary>
-        public PinmameData() { }
+        public TableElementData() { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PinmameData"/> class.
+        /// Initializes a new instance of the <see cref="TableElementData"/> class.
         /// </summary>
         /// <param name="TableElementType">Type of the table element.</param>
         /// <param name="Number">The number of the table element.</param>
         /// <param name="Value">The value of the table element.</param>
-        public PinmameData(TableElementTypeEnum TableElementType, int Number, int Value)
+        public TableElementData(TableElementTypeEnum TableElementType, int Number, int Value)
         {
             this.TableElementType = TableElementType;
             this.Number = Number;
@@ -53,12 +53,12 @@ namespace DirectOutput.PinmameHandling
 
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PinmameData"/> class.
+        /// Initializes a new instance of the <see cref="TableElementData"/> class.
         /// </summary>
         /// <param name="TableElementTypeChar">Single character specifing the type of the table element. Valid values are L (Lamp), S (Solenoid), W (Switch), M (Mech), G (GI).</param>
         /// <param name="Number">The number of the table element.</param>
         /// <param name="Value">The value of the table element.</param>
-        public PinmameData(Char TableElementTypeChar, int Number, int Value)
+        public TableElementData(Char TableElementTypeChar, int Number, int Value)
         {
 
             if(!Enum.IsDefined(typeof(TableElementTypeEnum),(int)TableElementTypeChar)) {

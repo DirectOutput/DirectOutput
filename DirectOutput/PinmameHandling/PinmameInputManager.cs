@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using DirectOutput.Table;
 
 
 /// <summary>
@@ -20,7 +17,7 @@ namespace DirectOutput.PinmameHandling
         const int MaxDataProcessingTimeMs = 10;
 
         private object PinmameDataQueueLocker = new object();
-        private Queue<PinmameData> PinmameDataQueue = new Queue<PinmameData>();
+        private Queue<TableElementData> PinmameDataQueue = new Queue<TableElementData>();
 
 
         /// <summary>
@@ -31,7 +28,7 @@ namespace DirectOutput.PinmameHandling
         /// <param name="Value">The value of the TableElement.</param>
         public void EnqueuePinmameData(Char TableElementTypeChar, int Number, int Value)
         {
-            EnqueuePinmameData(new PinmameData(TableElementTypeChar, Number, Value));
+            EnqueuePinmameData(new TableElementData(TableElementTypeChar, Number, Value));
         }
 
 
@@ -39,7 +36,7 @@ namespace DirectOutput.PinmameHandling
         /// Enqueues PinmameData for processing by the worker thread.
         /// </summary>
         /// <param name="Data">PinmameData object to enqueue.</param>
-        public void EnqueuePinmameData(PinmameData Data)
+        public void EnqueuePinmameData(TableElementData Data)
         {
 
             lock (PinmameDataQueueLocker)
@@ -128,7 +125,7 @@ namespace DirectOutput.PinmameHandling
                 DateTime Start = DateTime.Now;
                 while (PinmameDataQueue.Count > 0 && (DateTime.Now - Start).Milliseconds <= MaxDataProcessingTimeMs && KeepWorkerThreadAlive)
                 {
-                    PinmameData D;
+                    TableElementData D;
                     lock (PinmameDataQueueLocker)
                     {
                         D = PinmameDataQueue.Dequeue();
@@ -191,7 +188,7 @@ namespace DirectOutput.PinmameHandling
         /// </summary>
         public event EventHandler<PinmameDataReceivedEventArgs> PinmameDataReceived;
 
-        private void OnPinmameDataReceived(PinmameData PinmameData)
+        private void OnPinmameDataReceived(TableElementData PinmameData)
         {
             if (PinmameDataReceived != null && PinmameData != null)
             {
@@ -205,13 +202,13 @@ namespace DirectOutput.PinmameHandling
         /// </summary>
         public class PinmameDataReceivedEventArgs : EventArgs
         {
-            public PinmameData PinmameData { get; set; }
+            public TableElementData PinmameData { get; set; }
             public TableElementTypeEnum TableElementType { get { return PinmameData.TableElementType; } }
             public int Number { get { return PinmameData.Number; } }
             public int State { get { return PinmameData.Value; } }
 
             public PinmameDataReceivedEventArgs() { }
-            public PinmameDataReceivedEventArgs(PinmameData PinmameData)
+            public PinmameDataReceivedEventArgs(TableElementData PinmameData)
             {
                 this.PinmameData = PinmameData;
             }
