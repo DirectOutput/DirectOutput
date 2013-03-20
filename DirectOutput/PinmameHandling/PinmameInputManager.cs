@@ -205,7 +205,7 @@ namespace DirectOutput.PinmameHandling
             public TableElementData PinmameData { get; set; }
             public TableElementTypeEnum TableElementType { get { return PinmameData.TableElementType; } }
             public int Number { get { return PinmameData.Number; } }
-            public int State { get { return PinmameData.Value; } }
+            public int Value { get { return PinmameData.Value; } }
 
             public PinmameDataReceivedEventArgs() { }
             public PinmameDataReceivedEventArgs(TableElementData PinmameData)
