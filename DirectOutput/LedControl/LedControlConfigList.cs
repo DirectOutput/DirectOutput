@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.IO;
 using DirectOutput.Cab;
 using DirectOutput.Cab.Toys;
-using DirectOutput.Table;
 using DirectOutput.FX.LedControlFX;
 using DirectOutput.GlobalConfig;
+using DirectOutput.Table;
 namespace DirectOutput.LedControl
 {
 

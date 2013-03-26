@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
 
 /// <summary>
 /// The DirectOutput.LedControl namespace contains the classes to read and understand the classical LedControl.ini files.<br/>

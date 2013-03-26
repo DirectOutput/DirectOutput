@@ -1,4 +1,0 @@
-﻿Table configuration {#tableconfig}
-===================
-
-
