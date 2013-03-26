@@ -244,17 +244,6 @@
     <Content Include="Config\Cabinet.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Docu\img\CabinetArchitecture.png" />
-    <Content Include="Docu\img\DirectOutput_Big.png" />
-    <Content Include="Docu\img\OutputControllerArchitecture.png" />
-    <Content Include="Docu\img\Plugin.png" />
-    <Content Include="Docu\img\swisslizard.png" />
-    <Content Include="Docu\img\TableArchitecture.png" />
-    <Content Include="Docu\img\EffectsArchitecture.png" />
-    <Content Include="Docu\img\GlobalArchitecture.png" />
-    <Content Include="Docu\img\Herweh.png" />
-    <Content Include="Docu\img\ToyArchitecture.png" />
-    <Content Include="Docu\Pinmame Interface.html" />
     <Content Include="Config\GlobalConfig.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -264,10 +253,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Docu\25_CabinetConfig.md" />
-    <None Include="Docu\27_TableConfig.md" />
-    <None Include="Docu\80_Contribute.md" />
-    <None Include="Docu\85_Downloads.md" />
     <None Include="Docu\Diagramms\CabinetArchitecture.cd" />
     <None Include="Docu\Diagramms\EffectsArchitecture.cd" />
     <None Include="Docu\Diagramms\OutputControllerArchitecture.cd" />
@@ -278,15 +263,8 @@
     <None Include="Config\ledcontrol2.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Docu\50_Architecture.md" />
-    <None Include="Docu\90_Credits.md" />
-    <None Include="Docu\99_MainpageAndAbout.md" />
-    <None Include="Docu\10_Installation and configuration.md" />
-    <None Include="Docu\30_LedControl Files.md" />
     <None Include="Docu\Diagramms\ToyArchitecture.cd" />
     <None Include="FX\FX.cd" />
-    <None Include="Docu\60_FX.md" />
-    <None Include="Docu\20_GlobalConfig.md" />
     <None Include="Config\ledcontrol.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
