@@ -20,10 +20,13 @@ namespace DirectOutput_Test
 
         private void button1_Click(object sender, EventArgs e)
         {
+
             DirectOutput.Cab.Cabinet C = new DirectOutput.Cab.Cabinet();
             C.AutoConfig();
             DirectOutput.Frontend.CabinetInfo CI = new DirectOutput.Frontend.CabinetInfo(C);
             CI.Show();
+
+
         }
 
         private void button2_Click(object sender, EventArgs e)
