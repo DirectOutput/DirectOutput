@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 
 namespace DirectOutput
@@ -74,7 +71,7 @@ namespace DirectOutput
         }
 
         /// <summary>
-        /// Writes a waring message to the log.
+        /// Writes a warning message to the log.
         /// </summary>
         /// <param name="Message">The message.</param>
         public static void Warning(string Message)
