@@ -6,7 +6,7 @@ using DirectOutput.GlobalConfig;
 /// <summary>
 /// DirectOutputPlugin is the namespace of the Dll implementing the actual plugin interface for the B2S Server.
 /// </summary> 
-namespace DirectOutputPlugin
+namespace B2SServerPlugin
 {
 
     /// <summary>
@@ -44,7 +44,7 @@ namespace DirectOutputPlugin
         {
             get
             {
-                return "DirectOutput (V: {0})".Build(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
+                return "DirectOutput (V: {0})".Build( System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
             }
         }
 

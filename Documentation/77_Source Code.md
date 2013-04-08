@@ -65,7 +65,7 @@ The DirectOutput project contains the actual Directoutput framework. The main ar
 
 \subsection sourcecode_wheredirectoutputdocu DirectOutput_Docu project
 
-The documentaion on the DirectOutput framework is generated from the comments in the source code using Doxygen. These comments contain a lot of information about the classes and their methods, but no other information (e.g. installtion instructions).
+The documentation on the DirectOutput framework is generated from the comments in the source code using Doxygen. These comments contain a lot of information about the classes and their methods, but no other information (e.g. installtion instructions).
 
 In the DirectOutput_Docu project you can find all the other pages of the documentation in the form of somewhat messy markdown files.
 
@@ -80,7 +80,7 @@ Nothing else should be put into this project to avoid depedency issues.
 
 Just a small test project which was sometimes used for component and unit testing. 
 
-Nothing is documented in it and all of its contents should be regarded as irrelevant as probably wrong. This project will probably be removed from the solution. 
+Nothing is documented in it and all of its contents should be regarded as irrelevant and probably wrong. This project will probably be removed from the solution. 
 
 
 

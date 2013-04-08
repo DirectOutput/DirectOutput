@@ -8,7 +8,7 @@
     <ProjectGuid>{FFD1C931-D563-4BB1-8656-F3C0952B287A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DirectOutputPlugin</RootNamespace>
+    <RootNamespace>DirectOutput_B2SPlugin</RootNamespace>
     <AssemblyName>DirectOutputPlugin</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

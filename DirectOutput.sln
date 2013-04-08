@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectOutput", "DirectOutput\DirectOutput.csproj", "{DA43ACDD-8241-4A28-8EB2-DAE80D91FAA8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectOutputPlugin", "DirectOutputPlugin\DirectOutputPlugin.csproj", "{FFD1C931-D563-4BB1-8656-F3C0952B287A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "B2SServerPlugin", "B2SServerPlugin\B2SServerPlugin.csproj", "{FFD1C931-D563-4BB1-8656-F3C0952B287A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectOutput_Test", "DirectOutput_Test\DirectOutput_Test.csproj", "{D7706CEA-BCB0-4FAE-8A68-16837CD7C22C}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DirectOutput_EM", "DirectOutput_EM\DirectOutput_EM.vbproj", "{A1F22E8C-E086-46ED-B612-2D54F44A8B0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectOutput_Docu", "DirectOutput_Docu\DirectOutput_Docu.csproj", "{900AD058-EB0D-4DBC-BF34-DE5824A8C1D8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Documentation", "Documentation\Documentation.csproj", "{900AD058-EB0D-4DBC-BF34-DE5824A8C1D8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F2AB1149-7592-415E-80ED-72E8FEEEC0F7}"
 	ProjectSection(SolutionItems) = preProject
