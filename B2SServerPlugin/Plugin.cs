@@ -14,10 +14,10 @@ namespace B2SServerPlugin
     /// Plugin is IDirectPlugin interface implementation required by the B2S Server.
     /// </summary>
     [Export(typeof(B2S.IDirectPlugin))]
-    public class Plugin:B2S.IDirectPlugin, B2S.IDirectPluginFrontend
+    public class Plugin : B2S.IDirectPlugin, B2S.IDirectPluginFrontend
     {
 
-        
+
         #region IDirectPluginFrontend Member
 
 
@@ -47,9 +47,8 @@ namespace B2SServerPlugin
             get
             {
                 Version V = typeof(Pinball).Assembly.GetName().Version;
-                DateTime BuildDate = new DateTime(2000, 1, 1).AddDays(V.Build)
-                    .AddSeconds(V.Revision * 2);
-                return "DirectOutput (V: {0} as of {1})".Build( typeof(Pinball).Assembly.GetName().Version.ToString(),BuildDate.ToString("yyyy.MM.dd hh:mm"));
+                DateTime BuildDate = new DateTime(2000, 1, 1).AddDays(V.Build).AddSeconds(V.Revision * 2);
+                return "DirectOutput (V: {0} as of {1})".Build(V.ToString(), BuildDate.ToString("yyyy.MM.dd hh:mm"));
             }
         }
 
@@ -59,7 +58,7 @@ namespace B2SServerPlugin
         /// The IDirectPlugin interface requires the implementation of this method.<br/>
         /// DirectOutput implements only a method stub for this method.
         /// </summary>
-        public void PinMameContinue() {}
+        public void PinMameContinue() { }
 
         /// <summary>
         /// This method is called, when new data from Pinmame becomes available.<br/>
@@ -118,9 +117,9 @@ namespace B2SServerPlugin
 
         #region Properties
 
-        
 
-        private Pinball _Pinball=new Pinball();
+
+        private Pinball _Pinball = new Pinball();
 
         /// <summary>
         /// Gets or sets the Pinball object for the plugin.
