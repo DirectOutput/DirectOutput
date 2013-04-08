@@ -52,6 +52,7 @@
     <None Include="63_Toys.md" />
     <None Include="65_Output Controllers.md" />
     <None Include="75_Scripting.md" />
+    <None Include="77_Source Code.md" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="img\CabinetArchitecture.png" />
@@ -61,6 +62,7 @@
     <Content Include="img\Herweh.png" />
     <Content Include="img\OutputControllerArchitecture.png" />
     <Content Include="img\Plugin.png" />
+    <Content Include="img\SquashBug.jpg" />
     <Content Include="img\swisslizard.png" />
     <Content Include="img\TableArchitecture.png" />
     <Content Include="img\ToyArchitecture.png" />
