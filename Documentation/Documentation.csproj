@@ -44,6 +44,7 @@
     <None Include="30_LedControl Files.md" />
     <None Include="50_Architecture.md" />
     <None Include="60_FX.md" />
+    <None Include="55_B2SServerPlugin.md" />
     <None Include="80_Contribute.md" />
     <None Include="85_Downloads.md" />
     <None Include="87_History Todo and Roadmap.md" />

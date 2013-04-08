@@ -60,11 +60,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Docu\img\Plugin.png" />
     <Content Include="Plugin.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Docu\70_Plugin.md" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
