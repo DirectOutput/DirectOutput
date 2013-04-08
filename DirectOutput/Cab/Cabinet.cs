@@ -25,24 +25,33 @@ namespace DirectOutput.Cab
         /// </summary>
         public void AutoConfig()
         {
-
+            Log.Write("Cabinet auto configuration started");
             if (!OutputControllers.Any(OC => OC is LedWiz))
             {
+                Log.Write("No predefined LedWiz controllers found in cabinet config. Will try to located LedWiz units.");
+        
                 List<int> Numbers = LedWiz.GetLedwizNumbers();
                 foreach (int N in Numbers)
                 {
                     LedWiz LW = new LedWiz(N);
                     LW.AddMissingOutputs();
                     OutputControllers.Add(LW);
+                    Log.Write("Added LedWiz Nr. {0}".Build(LW.Number));
+        
                 }
             }
             if (!Toys.Any(Toy => Toy is LEDWizEquivalent))
             {
+                Log.Write("No predefined LedWizequivalent toys found in cabinet config. Will add a LedWizEquivalent toy for every LedWiz unit connected to the system.");
+        
                 foreach (IOutputController OC in OutputControllers.Where(OC => OC is LedWiz))
                 {
                     Toys.Add(new LEDWizEquivalent((LedWiz)OC));
+                    Log.Write("Added LedWizEquivalent for LedWiz Nr. {0}".Build(((LedWiz)OC).Number));
+        
                 }
             }
+            Log.Write("Cabinet auto configuration finished");
         }
 
 
@@ -179,6 +188,7 @@ namespace DirectOutput.Cab
             }
             catch (Exception E)
             {
+                Log.Exception("Could not load cabinet config from {0}.".Build(FileName), E);
                 throw new Exception("Could not read cabinet config file {0}.".Build(FileName), E);
             }
 
@@ -211,8 +221,10 @@ namespace DirectOutput.Cab
                 }
                 catch (Exception E)
                 {
+                    
                     Exception Ex = new Exception("Could not deserialize the cabinet config from XML data.", E);
                     Ex.Data.Add("XML Data", ConfigXml);
+                    Log.Exception("Could not load cabinet config from XML data.", Ex);
                     throw Ex;
                 }
             }
@@ -225,9 +237,11 @@ namespace DirectOutput.Cab
         /// </summary>
         public void Init(Pinball Pinball)
         {
+            Log.Write("Initializing cabinet");
             OutputControllers.Init();
             Toys.Init(this);
             Effects.Init(Pinball);
+            Log.Write("Cabinet initialized");
         }
 
 
@@ -238,8 +252,10 @@ namespace DirectOutput.Cab
         /// </summary>
         public void Finish()
         {
+            Log.Write("Finishing cabinet");
             Toys.Finish();
             OutputControllers.Finish();
+            Log.Write("Cabinet finished");
         }
 
 

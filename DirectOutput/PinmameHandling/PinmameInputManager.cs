@@ -85,6 +85,7 @@ namespace DirectOutput.PinmameHandling
                 }
                 catch (Exception E)
                 {
+                    Log.Exception("PinmameInputManager Workerthread could not start.", E);
                     throw new Exception("PinmameInputManager Workerthread could not start.", E);
                 }
             }
@@ -109,7 +110,8 @@ namespace DirectOutput.PinmameHandling
                 }
                 catch (Exception E)
                 {
-                    throw new Exception("A error occurd during termination of PinmameInputManager Workerthread", E);
+                    Log.Exception("A error occured during termination of PinmameInputManager Workerthread", E);
+                    throw new Exception("A error occured during termination of PinmameInputManager Workerthread", E);
                 }
             }
         }
@@ -130,9 +132,19 @@ namespace DirectOutput.PinmameHandling
                     {
                         D = PinmameDataQueue.Dequeue();
                     }
-                    OnPinmameDataReceived(D);
+
+                    try
+                    {
+                        OnPinmameDataReceived(D);
+                    }
+                    catch (Exception E)
+                    {
+                        Log.Exception("A exception occured while processing input data for table element {0} {1} with value {2}".Build(D.TableElementType, D.Number, D.Value), E);
+                    }
                 }
+
                 OnPinmameDataProcessed();
+
 
 
                 if (KeepWorkerThreadAlive)

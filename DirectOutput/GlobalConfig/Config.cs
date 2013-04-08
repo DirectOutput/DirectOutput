@@ -366,30 +366,34 @@ namespace DirectOutput.GlobalConfig
         public static Config GetGlobalConfigFromConfigXmlFile(string GlobalConfigFileName="")
         {
             string GCFileName = (GlobalConfigFilename.IsNullOrWhiteSpace() ? Config.GlobalConfigFilename : GlobalConfigFilename);
-            //try
+            Log.Write("Loading global config file: {0}".Build(GCFileName));
+            try
             {
                 if (File.Exists(GCFileName))
                 {
-                    //try
+                    try
                     {
 
                         string Xml = General.FileReader.ReadFileToString(GCFileName);
 
                         return GetGlobalConfigFromGlobalConfigXml(Xml);
                     }
-                    //catch
+                    catch (Exception E)
                     {
-                      //  return null;
+                        Log.Exception("A exception occured when trying to load: {0}".Build(GCFileName),E);
+                        return null;
                     }
                 }
                 else
                 {
+                    Log.Warning("Global config file does not exist: {0}".Build(GCFileName));
                     return null;
                 }
             }
-            //catch
+            catch(Exception E)
             {
-              //  return null;
+                Log.Exception("A exception occured when trying to access: {0}".Build(GCFileName),E);
+                return null;
             }
         }
 

@@ -134,10 +134,8 @@ namespace DirectOutput.Scripting
             {
                 if (S.File.FullName == ScriptFile.FullName)
                 {
-                    if (ThrowExceptions)
-                    {
-                        throw new Exception("Cold not add file {0} to the list. It does already exist in this list.".Build(ScriptFile.FullName));
-                    }
+                    
+                    Log.Warning("Script file has already been loaded. Will skip: {0}".Build(ScriptFile.FullName));
 
                     return;
                 }

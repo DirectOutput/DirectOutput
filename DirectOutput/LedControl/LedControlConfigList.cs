@@ -143,6 +143,31 @@ namespace DirectOutput.LedControl
 
 
         /// <summary>
+        /// Determines whether a config for the spcified RomName exists in the configs.
+        /// </summary>
+        /// <param name="RomName">Name of the rom.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified config exists; otherwise, <c>false</c>.
+        /// </returns>
+        public bool ContainsConfig(string RomName)
+        {
+
+            foreach (LedControlConfig LCC in this)
+            {
+
+                foreach (TableConfig TC in LCC.TableConfigurations)
+                {
+                    if (RomName.StartsWith(TC.ShortRomName))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+
+        /// <summary>
         /// Loads a list of ledcontrol.ini files.
         /// </summary>
         /// <param name="LedControlFilenames">The list of ledcontrol.ini files</param>

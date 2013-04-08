@@ -59,17 +59,20 @@ namespace DirectOutput.Scripting
         public Script(FileInfo ScriptFile, bool ThrowExceptions = false)
         {
             this.File = ScriptFile;
-
-
+            
             Assembly A = null;
             try
             {
                 A = CSScript.Load(ScriptFile.FullName, null, true);
                 Assembly = A;
+                Log.Write("Script file loaded and compiled: {0}".Build(ScriptFile.FullName));
             }
             catch (Exception e)
             {
                 CompilationException = e;
+
+                Log.Exception("Could not load and compile script file: {0}".Build(ScriptFile.FullName), e);
+
                 if (ThrowExceptions)
                 {
                     throw new Exception("A error occured while loading or loading the script file {0}.".Build(ScriptFile.FullName),e);

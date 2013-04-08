@@ -78,6 +78,8 @@ namespace DirectOutput.Cab.Out.LW
         public override void Init()
         {
             LedWizUnits[Number].StartLedWizUpdaterThread();
+            Log.Write("LedWiz Nr. {0} initialized and updater thread started.".Build(Number));
+        
         }
 
         /// <summary>
@@ -88,6 +90,8 @@ namespace DirectOutput.Cab.Out.LW
         {
             LedWizUnits[Number].TerminateLedWizUpdaterThread();
             LedWizUnits[Number].ShutdownLighting();
+            Log.Write("LedWiz Nr. {0} finished and updater thread stopped.".Build(Number));
+        
         }
         #endregion
 
@@ -340,6 +344,7 @@ namespace DirectOutput.Cab.Out.LW
                         }
                         catch (Exception E)
                         {
+                            Log.Exception("A error occurd during termination of {0}.".Build(LedWizUpdater.Name), E);
                             throw new Exception("A error occurd during termination of {0}.".Build(LedWizUpdater.Name), E);
                         }
                         LedWizUpdater = null;
@@ -373,12 +378,14 @@ namespace DirectOutput.Cab.Out.LW
                         }
                         FailCnt = 0;
                     }
-                    catch (Exception)
+                    catch (Exception E)
                     {
+                        Log.Exception("A error occured when updating LedWiz Nr. {0}".Build(Number), E);
                         FailCnt++;
-                        //TODO: Report error
+
                         if (FailCnt > MaxUpdateFailCount)
                         {
+                            Log.Exception("More than {0} consecutive updates failed for LedWiz Nr. {1}. Updater thread will terminate.".Build(MaxUpdateFailCount,Number));
                             KeepLedWizUpdaterAlive = false;
                         }
                     }
@@ -585,6 +592,7 @@ namespace DirectOutput.Cab.Out.LW
                     }
                     catch (Exception ex)
                     {
+                        Log.Exception("Could not init LedWiz", ex);
                         throw new Exception("Could not init LedWiz", ex);
                     }
 

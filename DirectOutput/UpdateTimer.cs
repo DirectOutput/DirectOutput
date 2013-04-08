@@ -113,7 +113,10 @@ namespace DirectOutput
                         S.IntervalAlarmHandler();
                         AlarmTriggered = true;
                     }
-                    catch {}
+                    catch (Exception E) {
+                        Log.Exception("A exception occured for IntervalAlarmHandler {0}. Interval alarm will be disable for this handler.".Build(S.IntervalAlarmHandler.ToString()), E);
+                        S.IntervalMs = int.MaxValue;
+                    }
                     if (S.NextAlarm.AddMilliseconds(S.IntervalMs) <= AlarmTime)
                     {
                         S.NextAlarm = AlarmTime.AddMilliseconds(1);
@@ -188,7 +191,9 @@ namespace DirectOutput
                     {
                         S.AlarmHandler();
                     }
-                    catch { }
+                    catch (Exception E) {
+                        Log.Exception("A exception occured for AlarmHandler {0}.".Build(S.AlarmHandler.ToString()), E);
+                    }
                 });
                 return (L.Count > 0);
             }

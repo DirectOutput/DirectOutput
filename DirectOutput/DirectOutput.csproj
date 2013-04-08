@@ -135,6 +135,7 @@
     <Compile Include="Frontend\TableInfo.Designer.cs">
       <DependentUpon>TableInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Log.cs" />
     <Compile Include="GlobalConfig\FilePattern.cs" />
     <Compile Include="GlobalConfig\FilePatternList.cs" />
     <Compile Include="Frontend\GlobalConfigEditor.cs">
