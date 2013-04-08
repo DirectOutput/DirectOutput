@@ -73,30 +73,52 @@ namespace DirectOutput
             }
         }
 
+        /// <summary>
+        /// Writes a waring message to the log.
+        /// </summary>
+        /// <param name="Message">The message.</param>
         public static void Warning(string Message)
         {
             Write("Warning: {0}".Build(Message));
         }
 
+        /// <summary>
+        /// Writes a exception message to the log.
+        /// </summary>
+        /// <param name="Message">The message.</param>
+        /// <param name="E">The Exception to be logged.</param>
         public static void Exception(string Message = "", Exception E = null)
         {
-            if (!Message.IsNullOrWhiteSpace())
+            lock (Locker)
             {
-                Write("EXCEPTION: {0}".Build(Message));
-            }
-            if (E != null)
-            {
-                Write("EXCEPTION: {0}".Build(E.Message));
+                if (!Message.IsNullOrWhiteSpace())
+                {
+                    Write("EXCEPTION: {0}".Build(Message));
+                }
+                if (E != null)
+                {
+                    Write("EXCEPTION: {0}".Build(E.Message));
 
-                int Level = 1;
-                while (E.InnerException!=null) {
-                    E = E.InnerException;
-                    Write("EXCEPTION: InnerException {0}: {1}".Build(Level,E.Message));
-                    Level++;
+                    int Level = 1;
+                    while (E.InnerException != null)
+                    {
+                        E = E.InnerException;
+                        Write("EXCEPTION: InnerException {0}: {1}".Build(Level, E.Message));
+                        Level++;
+
+                        if (Level > 20)
+                        {
+                            break;
+                        }
+                    }
                 }
             }
         }
 
+        /// <summary>
+        /// Writes a exception to the log.
+        /// </summary>
+        /// <param name="E">The Exception to be logged.</param>
         public static void Exception(Exception E = null)
         {
             Exception("",E);
