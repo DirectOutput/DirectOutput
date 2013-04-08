@@ -72,9 +72,10 @@ namespace DirectOutput.LedControl
                     }
                     catch (Exception E)
                     {
+                        Log.Exception("Could not parse a table config setting {0} (likely due to a parse error).".Build(CC), E);
                         if (ThrowExceptions)
                         {
-                            throw new Exception("Could not a table config setting {0} (likely due to a parse error).".Build(CC), E);
+                            throw new Exception("Could not parse a table config setting {0} (likely due to a parse error).".Build(CC), E);
                         }
                     }
                 }

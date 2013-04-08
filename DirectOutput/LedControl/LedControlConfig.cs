@@ -82,14 +82,20 @@ namespace DirectOutput.LedControl
             }
             catch (Exception E)
             {
+                Log.Exception("Could not read file {0}.".Build(LedControlIniFile), E);
                 if (ThrowExceptions)
                 {
+                    
                     throw new Exception("Could not read file {0}.".Build(LedControlIniFile), E);
                 }
             }
             if (Data.IsNullOrWhiteSpace())
             {
-                throw new Exception("File {0} does not contain data.".Build(LedControlIniFile));
+                Log.Warning("File {0} does not contain data.".Build(LedControlIniFile));
+                if (ThrowExceptions)
+                {
+                    throw new Exception("File {0} does not contain data.".Build(LedControlIniFile));
+                }
             }
 
             //Find starting positions of both sections
@@ -98,6 +104,7 @@ namespace DirectOutput.LedControl
 
             if (ColorStart < 0)
             {
+                Log.Exception("Could not find {0} section in file {1}.".Build(ColorStartString, LedControlIniFile));
                 if (ThrowExceptions)
                 {
                     throw new Exception("Could not find {0} section in file {1}.".Build(ColorStartString, LedControlIniFile));
@@ -107,6 +114,7 @@ namespace DirectOutput.LedControl
 
             if (OutStart < 0)
             {
+                Log.Exception("Could not find {0} section in file {1}.".Build(OutStartString, LedControlIniFile));
                 if (ThrowExceptions)
                 {
                     throw new Exception("Could not find {0} section in file {1}.".Build(OutStartString, LedControlIniFile));
@@ -132,6 +140,7 @@ namespace DirectOutput.LedControl
 
             if (OutData.Length == 0)
             {
+                Log.Exception("File {1} does not contain data in the {0} section.".Build(OutStartString, LedControlIniFile));
                 if (ThrowExceptions)
                 {
                     throw new Exception("File {1} does not contain data in the {0} section.".Build(OutStartString, LedControlIniFile));
@@ -141,6 +150,7 @@ namespace DirectOutput.LedControl
 
             if (ColorData.Length == 0)
             {
+                Log.Exception("File {1} does not contain data in the {0} section.".Build(ColorStartString, LedControlIniFile));
                 if (ThrowExceptions)
                 {
                     throw new Exception("File {1} does not contain data in the {0} section.".Build(ColorStartString, LedControlIniFile));
@@ -153,6 +163,7 @@ namespace DirectOutput.LedControl
             {
                 if (OutLine.Split(new char[] { ',' }).Length != ColumnCount)
                 {
+                    Log.Exception("Section {0} of file {1} does not have the same number of columns in all lines.".Build(OutStartString, LedControlIniFile));
                     if (ThrowExceptions)
                     {
                         throw new Exception("Section {0} of file {1} does not have the same number of columns in all lines.".Build(OutStartString, LedControlIniFile));

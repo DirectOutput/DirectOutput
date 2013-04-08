@@ -21,6 +21,7 @@ namespace DirectOutput.LedControl
             string[] Cols = LedControlData.Split(new char[] { ',' });
             if (Cols.Length < 2)
             {
+                Log.Warning("No data to parse found in LedControlData: {0}".Build(LedControlData));
                 if (ThrowExceptions)
                 {
                     throw new Exception("No data to parse found in LedControlData: {0}".Build(LedControlData));

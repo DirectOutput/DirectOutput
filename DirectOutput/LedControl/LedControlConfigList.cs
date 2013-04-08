@@ -202,6 +202,8 @@ namespace DirectOutput.LedControl
         /// <param name="ThrowExceptions">if set to <c>true</c> throws exceptions on errors.</param>
         public void LoadLedControlFile(string LedControlFilename, int LedWizNumber, bool ThrowExceptions = false)
         {
+            Log.Write("Loading LedControl file {0}".Build(LedControlFilename));
+        
             LedControlConfig LCC = new LedControlConfig(LedControlFilename, LedWizNumber, ThrowExceptions);
             Add(LCC);
         }

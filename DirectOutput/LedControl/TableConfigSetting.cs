@@ -129,6 +129,7 @@ namespace DirectOutput.LedControl
             string[] Parts = SettingData.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             if (Parts.Length == 0)
             {
+                Log.Warning("No data to parse.");
                 if (ThrowExceptions)
                 {
                     throw new Exception("No data to parse.");
@@ -192,6 +193,7 @@ namespace DirectOutput.LedControl
             }
             if (!ParseOK)
             {
+                Log.Warning("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(Parts[0], SettingData));
                 if (ThrowExceptions)
                 {
                     throw new Exception("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(Parts[0], SettingData));
@@ -241,6 +243,7 @@ namespace DirectOutput.LedControl
                 }
                 else
                 {
+                    Log.Warning("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(Parts[2], SettingData));
                     if (ThrowExceptions)
                     {
                         throw new Exception("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(Parts[2], SettingData));

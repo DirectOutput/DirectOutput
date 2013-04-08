@@ -78,7 +78,7 @@ namespace DirectOutput.LedControl
             }
             catch (Exception E)
             {
-
+                Log.Exception("Could not parse color config data {0}.".Build(LedControlData),E);
                 if (ThrowExceptions)
                 {
                     throw new Exception("Could not parse color config data {0}.".Build(LedControlData),E);
@@ -86,13 +86,19 @@ namespace DirectOutput.LedControl
             } 
             if (CC != null)
             {
-                if (ThrowExceptions && Contains(CC.Name))
+                if (Contains(CC.Name))
                 {
-                    throw new Exception("Color {0} has already been defined.".Build(CC.Name));
+                    Log.Exception("Color {0} has already been defined.".Build(CC.Name));
+                    if (ThrowExceptions)
+                    {
+                        throw new Exception("Color {0} has already been defined.".Build(CC.Name));
+                    }
                 }
+                else
+                {
 
-                Add(CC);
-
+                    Add(CC);
+                }
             }
         }
 

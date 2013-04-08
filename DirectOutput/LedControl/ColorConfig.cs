@@ -68,9 +68,10 @@ namespace DirectOutput.LedControl
                     Red = Values[0].ToInteger();
                     Green = Values[1].ToInteger();
                     Blue = Values[2].ToInteger();
-
+                    return;
                 }
             }
+            Log.Warning("Line {0} has a unknown structure or contains wrong data.".Build(ColorConfigDataLine));
             if (ThrowExceptions)
             {
                 throw new Exception("Line {0} has a unknown structure or contains wrong data.".Build(ColorConfigDataLine));

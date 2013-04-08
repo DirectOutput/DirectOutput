@@ -41,6 +41,7 @@ namespace DirectOutput.LedControl
             List<string> DataColumns = new List<string>(LedControlData.Split(new char[] { ',' }, StringSplitOptions.None));
             if (DataColumns.Count < 1)
             {
+                Log.Warning("No usable data found in line {0}".Build(LedControlData));
                 if (ThrowExceptions)
                 {
                     throw new Exception("No usable data found in line {0}".Build(LedControlData));
@@ -50,7 +51,7 @@ namespace DirectOutput.LedControl
             //Check if first column contains data (Romname)
             if (DataColumns[0].IsNullOrWhiteSpace())
             {
-
+                Log.Warning("No short Rom name found in line {0}".Build(LedControlData));
                 if (ThrowExceptions)
                 {
                     throw new Exception("No short Rom name found in line {0}".Build(LedControlData));

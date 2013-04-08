@@ -37,6 +37,7 @@ namespace DirectOutput.LedControl
             }
             catch (Exception E)
             {
+                Log.Exception("Could not load table config from data line: {0}".Build(TableConfigDataLineFromLedControlIni), E);
                 if (ThrowExceptions)
                 {
                     throw new Exception("Could not load table config from data line: {0}".Build(TableConfigDataLineFromLedControlIni),E);
@@ -45,11 +46,17 @@ namespace DirectOutput.LedControl
             };
             if (TC != null)
             {
-                if (ThrowExceptions && Contains(TC.ShortRomName))
+                if (Contains(TC.ShortRomName))
                 {
-                    throw new Exception("Table with ShortRomName {0} has already been loaded.".Build(TC.ShortRomName));
+                    Log.Exception("Table with ShortRomName {0} has already been loaded.".Build(TC.ShortRomName));
+                    if (ThrowExceptions)
+                    {
+                        throw new Exception("Table with ShortRomName {0} has already been loaded.".Build(TC.ShortRomName));
+                    }
                 }
-                Add(TC);
+                {
+                    Add(TC);
+                }
             }
         }
 
