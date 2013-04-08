@@ -2,6 +2,7 @@
 using System.IO;
 using DirectOutput;
 using DirectOutput.GlobalConfig;
+using System;
 
 /// <summary>
 /// DirectOutputPlugin is the namespace of the Dll implementing the actual plugin interface for the B2S Server.
@@ -35,16 +36,20 @@ namespace B2SServerPlugin
         #region IDirectPlugin Members
 
         /// <summary>
-        /// Gets the name of this IDirectPlugin.
+        /// Gets the name of this IDirectPlugin.<br/>
+        /// This property returns the version of the DirectOutput.dll, NOT the version of the B2SServer plugin.
         /// </summary>
         /// <value>
-        /// The name of this IDirectPlugin (Name is DirectOutput (V: VersionNumber)).
+        /// The name of this IDirectPlugin (Name is DirectOutput (V: VersionNumber) af of TimeStamp).
         /// </value>
         public string Name
         {
             get
             {
-                return "DirectOutput (V: {0})".Build( System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
+                Version V = typeof(Pinball).Assembly.GetName().Version;
+                DateTime BuildDate = new DateTime(2000, 1, 1).AddDays(V.Build)
+                    .AddSeconds(V.Revision * 2);
+                return "DirectOutput (V: {0} as of {1})".Build( typeof(Pinball).Assembly.GetName().Version.ToString(),BuildDate.ToString("yyyy.MM.dd hh:mm"));
             }
         }
 
