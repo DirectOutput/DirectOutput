@@ -15,31 +15,35 @@ namespace DirectOutput
         static bool IsInitialized = false;
         static bool IsOk = false;
 
+        private static object Locker = new object();
 
         /// <summary>
-        /// Initialzes the log with the spcified filename.
+        /// Initializes the log with the spcified filename.
         /// </summary>
         /// <param name="Filename">The name of the logfile.</param>
         public static void Init(string Filename)
         {
-            if (!IsInitialized)
+            lock (Locker)
             {
-                try
+                if (!IsInitialized)
                 {
-                    Logger = File.AppendText(Filename);
+                    try
+                    {
+                        Logger = File.AppendText(Filename);
 
-                    Logger.WriteLine("{0}\t{1}", DateTime.Now.ToString("yyyy.MM.dd hh:mm:ss.fff"), "DirectOutput Logger initialized");
+                        Logger.WriteLine("{0}\t{1}", DateTime.Now.ToString("yyyy.MM.dd hh:mm:ss.fff"), "DirectOutput Logger initialized");
 
 
-                    IsOk = true;
+                        IsOk = true;
 
+                    }
+                    catch
+                    {
+                        IsOk = false;
+                    }
+
+                    IsInitialized = true;
                 }
-                catch
-                {
-                    IsOk = false;
-                }
-
-                IsInitialized = true;
             }
         }
 
@@ -50,17 +54,20 @@ namespace DirectOutput
         /// <param name="Message">The message.</param>
         public static void Write(string Message)
         {
-            if (IsOk)
+            lock (Locker)
             {
-                if (Message.IsNullOrWhiteSpace())
+                if (IsOk)
                 {
-                    Logger.WriteLine("{0}\t{1}", DateTime.Now.ToString("yyyy.MM.dd hh:mm:ss.fff"), "");
-                }
-                else
-                {
-                    foreach (string M in Message.Split(new[] { '\r', '\n' }))
+                    if (Message.IsNullOrWhiteSpace())
                     {
-                        Logger.WriteLine("{0}\t{1}", DateTime.Now.ToString("yyyy.MM.dd hh:mm:ss.fff"), M);
+                        Logger.WriteLine("{0}\t{1}", DateTime.Now.ToString("yyyy.MM.dd hh:mm:ss.fff"), "");
+                    }
+                    else
+                    {
+                        foreach (string M in Message.Split(new[] { '\r', '\n' }))
+                        {
+                            Logger.WriteLine("{0}\t{1}", DateTime.Now.ToString("yyyy.MM.dd hh:mm:ss.fff"), M);
+                        }
                     }
                 }
             }
@@ -90,6 +97,10 @@ namespace DirectOutput
             }
         }
 
+        public static void Exception(Exception E = null)
+        {
+            Exception("",E);
+        }
 
     }
 }

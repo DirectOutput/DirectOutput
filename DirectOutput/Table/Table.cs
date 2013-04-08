@@ -226,10 +226,20 @@ namespace DirectOutput.Table
         /// <returns>Table object</returns>
         public static Table GetTableFromConfigXmlFile(string FileName)
         {
-            //TODO: Error handling einbauen
+            string Xml;
 
-            string Xml = General.FileReader.ReadFileToString(FileName);
+            try
+            {
+                 Xml = General.FileReader.ReadFileToString(FileName);
 
+                
+
+            }
+            catch (Exception E)
+            {
+                Log.Exception("Could not read Table Config file {0}".Build(FileName), E);
+                throw new Exception("Could not read Table Config file {0}".Build(FileName), E);
+            }
             return GetTableFromConfigXml(Xml);
         }
 
@@ -250,13 +260,24 @@ namespace DirectOutput.Table
         /// <returns>Table object</returns>
         public static Table GetTableFromConfigXml(string ConfigXml)
         {
-            //TODO: Error handling einbauen
-            byte[] xmlBytes = Encoding.Default.GetBytes(ConfigXml);
-            using (MemoryStream ms = new MemoryStream(xmlBytes))
+
+            try
             {
-                Table T= (Table)new XmlSerializer(typeof(Table)).Deserialize(ms);
-                T.ConfigurationSource = TableConfigSourceEnum.TableConfigurationFile;
-                return T;
+                byte[] xmlBytes = Encoding.Default.GetBytes(ConfigXml);
+                using (MemoryStream ms = new MemoryStream(xmlBytes))
+                {
+                    Table T = (Table)new XmlSerializer(typeof(Table)).Deserialize(ms);
+                    T.ConfigurationSource = TableConfigSourceEnum.TableConfigurationFile;
+                    return T;
+                }
+            }
+            catch (Exception E)
+            {
+                
+               Exception Ex= new Exception("Could not deserialize Table config from XML Data",E);
+               Ex.Data.Add("XMLData", ConfigXml);
+               Log.Exception(Ex);
+               throw Ex;
             }
         }
         #endregion

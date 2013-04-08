@@ -122,9 +122,10 @@ namespace DirectOutput.FX
                 {
                     Effect.Trigger(TableElement);
                 }
-                catch 
+                catch (Exception E)
                 {
-                    //TODO: Maybe record the exception
+                    Log.Exception("A exception occured when triggering effect {0} for table element {1} {2} with value {3}. Effect assignement will be deactivated.".Build(new object[] {Effect.Name,TableElement.TableElementType,TableElement.Number,TableElement.Value}),E);
+             
                     Effect = null;
                 }
             }

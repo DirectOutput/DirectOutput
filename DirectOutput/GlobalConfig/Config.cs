@@ -429,8 +429,8 @@ namespace DirectOutput.GlobalConfig
                 File.Copy(GCFileName, Path.Combine(Path.GetDirectoryName(GCFileName), "{1} old (replaced {0}){2}".Build(DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss"), Path.GetFileNameWithoutExtension(GCFileName),Path.GetExtension(GCFileName))));
             };
             DirectoryInfo GCDirectory = new FileInfo(GCFileName).Directory;
-            //TODO: D8ir dreate recursiv machen
-            GCDirectory.Create();
+            
+            GCDirectory.CreateDirectoryPath();
             GetGlobalConfigXml().WriteToFile(GCFileName, false);
 
         }
