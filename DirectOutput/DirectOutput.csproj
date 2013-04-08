@@ -223,8 +223,8 @@
     <Compile Include="LedControl\TableConfigColumnList.cs" />
     <Compile Include="LedControl\TableConfigList.cs" />
     <Compile Include="LedControl\TableConfigSetting.cs" />
-    <Compile Include="PinmameHandling\TableElementData.cs" />
-    <Compile Include="PinmameHandling\PinmameInputManager.cs" />
+    <Compile Include="InputHandling\TableElementData.cs" />
+    <Compile Include="InputHandling\InputManager.cs" />
     <Compile Include="Cab\Toys\ReplayKnocker.cs" />
     <Compile Include="Cab\Toys\RGBLed.cs" />
     <Compile Include="Cab\Toys\Shaker.cs" />

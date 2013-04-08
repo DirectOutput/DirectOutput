@@ -20,8 +20,11 @@ namespace DirectOutput.Frontend
             InitializeComponent();
 
             this.Pinball = Pinball;
-            
-            Version.Text = "Version: {0}".Build(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
+
+            Version V = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            DateTime BuildDate = new DateTime(2000, 1, 1).AddDays(V.Build).AddSeconds(V.Revision * 2);
+
+            Version.Text = "Version {0} as of ".Build(V.ToString(), BuildDate.ToString("yyyy.MM.dd hh:mm"));
 
             TableName.Text = Pinball.Table.TableName;
             TableFilename.Text = Pinball.Table.TableFilename;

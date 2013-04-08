@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DirectOutput.PinmameHandling
+namespace DirectOutput.InputHandling
 {
     /// <summary>
     /// Data received from Pinmame

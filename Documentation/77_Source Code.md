@@ -59,20 +59,22 @@ The DirectOutput project contains the actual Directoutput framework. The main ar
 - <b>General</b> contains classes which are of general use (e.g. a filereader).
 - <b>GlobalConfig</b> contains all classes required for the global configuration of the system.
 - <b>LedControl</b> is home to everthing required to load the classical LedControl.ini files. I think the code is a bit messy, since it had to be created on some kind of trial and error basis.
-- <b>PinMameHandling</b> is the place where the data received from the outside world is processed and queued. PinmameHandling will likely be renamed to to InputHandling.
+- <b>InputHandling</b> is the place where the data received from the outside world is processed and queued. 
 - <b>Scripting</b> contaings the logic to load and compile external script files using CSScript.
 - <b>Table</b> contains classes related to the table which is currently played (e.g. status of the table elements).
 
-\subsection sourcecode_wheredirectoutputdocu DirectOutput_Docu project
+\subsection sourcecode_wheredocu Documentation project
 
 The documentation on the DirectOutput framework is generated from the comments in the source code using Doxygen. These comments contain a lot of information about the classes and their methods, but no other information (e.g. installtion instructions).
 
-In the DirectOutput_Docu project you can find all the other pages of the documentation in the form of somewhat messy markdown files.
+In the Documentation project you can find all the other pages of the documentation in the form of somewhat messy markdown files.
+
+This project was only added, to allow documentation editing within Visual Studio.
 
 
-\subsection sourcecode_wheredirectoutputb2splugin DirectOutput_B2Splugin project
+\subsection sourcecode_wheredplugin B2SServerPlugin project
 
-The DirectOutput_B2Splugin project contains the implementaion of the plugin for the B2SServer.
+The B2SServerPlugin project contains the implementaion of the plugin for the B2SServer.
 
 Nothing else should be put into this project to avoid depedency issues.
 
@@ -80,8 +82,7 @@ Nothing else should be put into this project to avoid depedency issues.
 
 Just a small test project which was sometimes used for component and unit testing. 
 
-Nothing is documented in it and all of its contents should be regarded as irrelevant and probably wrong. This project will probably be removed from the solution. 
-
+Nothing is documented in it and all of its contents should be regarded as irrelevant and likely wrong. This project will probably be removed from the solution. 
 
 
 \section sourcecode_extend Extending and changing the source code (guidelines)

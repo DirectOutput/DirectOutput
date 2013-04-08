@@ -15,7 +15,7 @@ namespace DirectOutput
     /// </summary>
     public class Pinball
     {
-        private DirectOutput.PinmameHandling.PinmameInputManager PinmameInputManager = new PinmameHandling.PinmameInputManager();
+        private DirectOutput.InputHandling.InputManager PinmameInputManager = new InputHandling.InputManager();
         #region Properties
 
         private ScriptList _Scripts = new ScriptList();
@@ -260,7 +260,7 @@ namespace DirectOutput
 
         public void ReceivePinmameData(char TableElementTypeChar, int Number, int Value)
         {
-            PinmameInputManager.EnqueuePinmameData(TableElementTypeChar, Number, Value);
+            PinmameInputManager.EnqueueInputData(TableElementTypeChar, Number, Value);
         }
 
 
@@ -281,10 +281,10 @@ namespace DirectOutput
 
         }
 
-        private void PinmameInputManager_PinmameDataReceived(object sender, DirectOutput.PinmameHandling.PinmameInputManager.PinmameDataReceivedEventArgs e)
+        private void PinmameInputManager_PinmameDataReceived(object sender, DirectOutput.InputHandling.InputManager.InputDataReceivedEventArgs e)
         {
 
-            Table.UpdateTableElement(e.PinmameData);
+            Table.UpdateTableElement(e.TableElementData);
         }
         
         #endregion
@@ -296,8 +296,8 @@ namespace DirectOutput
         public Pinball()
         {
 
-            PinmameInputManager.PinmameDataReceived += new EventHandler<DirectOutput.PinmameHandling.PinmameInputManager.PinmameDataReceivedEventArgs>(PinmameInputManager_PinmameDataReceived);
-            PinmameInputManager.PinmameDataProcessed += new EventHandler<EventArgs>(PinmameInputManager_AllPinmameDataProcessed);
+            PinmameInputManager.InputDataReceived += new EventHandler<DirectOutput.InputHandling.InputManager.InputDataReceivedEventArgs>(PinmameInputManager_PinmameDataReceived);
+            PinmameInputManager.InputDataProcessed += new EventHandler<EventArgs>(PinmameInputManager_AllPinmameDataProcessed);
 
             UpdateTimer.AlarmsTriggered += new EventHandler<EventArgs>(UpdateTimer_AlarmsTriggered);
 

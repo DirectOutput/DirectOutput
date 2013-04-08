@@ -6,42 +6,42 @@ using System.Threading;
 /// <summary>
 /// The PinmameHandling namespace contains a few classes used to handle the inputs from Pinmame. 
 /// </summary>
-namespace DirectOutput.PinmameHandling
+namespace DirectOutput.InputHandling
 {
 
     /// <summary>
     /// Manages the data received from PinMame and controls the worker thread which processes the data.
     /// </summary>
-    public class PinmameInputManager
+    public class InputManager
     {
         const int MaxDataProcessingTimeMs = 10;
 
-        private object PinmameDataQueueLocker = new object();
-        private Queue<TableElementData> PinmameDataQueue = new Queue<TableElementData>();
+        private object InputDataQueueLocker = new object();
+        private Queue<TableElementData> InputDataQueue = new Queue<TableElementData>();
 
 
         /// <summary>
-        /// Enqueues PinmameData for processing by the worker thread.
+        /// Enqueues input data for processing by the worker thread.
         /// </summary>
         /// <param name="TableElementTypeChar">Char specifing the TableElementType of the TableElement (see TableElementTypeEnum for valid values)</param>
         /// <param name="Number">The number of the TableElement.</param>
         /// <param name="Value">The value of the TableElement.</param>
-        public void EnqueuePinmameData(Char TableElementTypeChar, int Number, int Value)
+        public void EnqueueInputData(Char TableElementTypeChar, int Number, int Value)
         {
-            EnqueuePinmameData(new TableElementData(TableElementTypeChar, Number, Value));
+            EnqueueInputData(new TableElementData(TableElementTypeChar, Number, Value));
         }
 
 
         /// <summary>
-        /// Enqueues PinmameData for processing by the worker thread.
+        /// Enqueues input data for processing by the worker thread.
         /// </summary>
-        /// <param name="Data">PinmameData object to enqueue.</param>
-        public void EnqueuePinmameData(TableElementData Data)
+        /// <param name="Data">TableElementData object to enqueue.</param>
+        public void EnqueueInputData(TableElementData Data)
         {
 
-            lock (PinmameDataQueueLocker)
+            lock (InputDataQueueLocker)
             {
-                PinmameDataQueue.Enqueue(Data);
+                InputDataQueue.Enqueue(Data);
             }
             lock (WorkerThreadLocker)
             {
@@ -54,8 +54,8 @@ namespace DirectOutput.PinmameHandling
 
 
         /// <summary>
-        /// Initializes the PinmameInputManager
-        /// and starts the worker thread which is processing the received Pinmamedata.
+        /// Initializes the InputManager
+        /// and starts the worker thread which is processing the received input data.
         /// </summary>
         public void Init()
         {
@@ -64,7 +64,7 @@ namespace DirectOutput.PinmameHandling
 
 
         /// <summary>
-        /// Terminates the PinmameInputManger
+        /// Terminates the InputManger
         /// and stops the worker thread.
         /// </summary>
         public void Terminate()
@@ -80,13 +80,13 @@ namespace DirectOutput.PinmameHandling
                 try
                 {
                     WorkerThread = new Thread(WorkerThreadDoIt);
-                    WorkerThread.Name = "PinmameInputManager Input WorkerThread ";
+                    WorkerThread.Name = "InputManager WorkerThread ";
                     WorkerThread.Start();
                 }
                 catch (Exception E)
                 {
-                    Log.Exception("PinmameInputManager Workerthread could not start.", E);
-                    throw new Exception("PinmameInputManager Workerthread could not start.", E);
+                    Log.Exception("InputManager Workerthread could not start.", E);
+                    throw new Exception("InputManager Workerthread could not start.", E);
                 }
             }
         }
@@ -110,8 +110,8 @@ namespace DirectOutput.PinmameHandling
                 }
                 catch (Exception E)
                 {
-                    Log.Exception("A error occured during termination of PinmameInputManager Workerthread", E);
-                    throw new Exception("A error occured during termination of PinmameInputManager Workerthread", E);
+                    Log.Exception("A error occured during termination of InputManager Workerthread", E);
+                    throw new Exception("A error occured during termination of InputManager Workerthread", E);
                 }
             }
         }
@@ -125,17 +125,17 @@ namespace DirectOutput.PinmameHandling
             while (KeepWorkerThreadAlive)
             {
                 DateTime Start = DateTime.Now;
-                while (PinmameDataQueue.Count > 0 && (DateTime.Now - Start).Milliseconds <= MaxDataProcessingTimeMs && KeepWorkerThreadAlive)
+                while (InputDataQueue.Count > 0 && (DateTime.Now - Start).Milliseconds <= MaxDataProcessingTimeMs && KeepWorkerThreadAlive)
                 {
                     TableElementData D;
-                    lock (PinmameDataQueueLocker)
+                    lock (InputDataQueueLocker)
                     {
-                        D = PinmameDataQueue.Dequeue();
+                        D = InputDataQueue.Dequeue();
                     }
 
                     try
                     {
-                        OnPinmameDataReceived(D);
+                        OnInputDataReceived(D);
                     }
                     catch (Exception E)
                     {
@@ -143,7 +143,7 @@ namespace DirectOutput.PinmameHandling
                     }
                 }
 
-                OnPinmameDataProcessed();
+                OnInputDataProcessed();
 
 
 
@@ -151,7 +151,7 @@ namespace DirectOutput.PinmameHandling
                 {
                     lock (WorkerThreadLocker)
                     {
-                        while (PinmameDataQueue.Count == 0 && KeepWorkerThreadAlive)
+                        while (InputDataQueue.Count == 0 && KeepWorkerThreadAlive)
                         {
                             Monitor.Wait(WorkerThreadLocker, 50);  // Lock is released while we’re waiting
                         }
@@ -165,7 +165,7 @@ namespace DirectOutput.PinmameHandling
 
 
         /// <summary>
-        /// Indicates if the workerthread of the PinmameInputManger is active
+        /// Indicates if the workerthread of the InputManger is active
         /// </summary>
         public bool WorkerThreadIsActive
         {
@@ -182,47 +182,47 @@ namespace DirectOutput.PinmameHandling
             }
         }
 
-        public event EventHandler<EventArgs> PinmameDataProcessed;
+        public event EventHandler<EventArgs> InputDataProcessed;
         /// <summary>
-        /// Occurs when the class is AllPinmameDataProcessed
+        /// Occurs when all input data has been processed
         /// </summary>
-        protected void OnPinmameDataProcessed()
+        private void OnInputDataProcessed()
         {
-            if (PinmameDataProcessed != null)
+            if (InputDataProcessed != null)
             {
-                PinmameDataProcessed(this, new EventArgs());
+                InputDataProcessed(this, new EventArgs());
             }
         }
 
 
         /// <summary>
-        /// Event is fired if new pinmamedata has been received
+        /// Event is fired if new input data has been received
         /// </summary>
-        public event EventHandler<PinmameDataReceivedEventArgs> PinmameDataReceived;
+        public event EventHandler<InputDataReceivedEventArgs> InputDataReceived;
 
-        private void OnPinmameDataReceived(TableElementData PinmameData)
+        private void OnInputDataReceived(TableElementData PinmameData)
         {
-            if (PinmameDataReceived != null && PinmameData != null)
+            if (InputDataReceived != null && PinmameData != null)
             {
-                PinmameDataReceived(this, new PinmameDataReceivedEventArgs(PinmameData));
+                InputDataReceived(this, new InputDataReceivedEventArgs(PinmameData));
             }
         }
 
 
         /// <summary>
-        /// Eventargs for the PinmamedataReceived Event
+        /// Eventargs for the InputDataReceived Event
         /// </summary>
-        public class PinmameDataReceivedEventArgs : EventArgs
+        public class InputDataReceivedEventArgs : EventArgs
         {
-            public TableElementData PinmameData { get; set; }
-            public TableElementTypeEnum TableElementType { get { return PinmameData.TableElementType; } }
-            public int Number { get { return PinmameData.Number; } }
-            public int Value { get { return PinmameData.Value; } }
+            public TableElementData TableElementData { get; set; }
+            public TableElementTypeEnum TableElementType { get { return TableElementData.TableElementType; } }
+            public int Number { get { return TableElementData.Number; } }
+            public int Value { get { return TableElementData.Value; } }
 
-            public PinmameDataReceivedEventArgs() { }
-            public PinmameDataReceivedEventArgs(TableElementData PinmameData)
+            public InputDataReceivedEventArgs() { }
+            public InputDataReceivedEventArgs(TableElementData TableElementData)
             {
-                this.PinmameData = PinmameData;
+                this.TableElementData = TableElementData;
             }
         }
 
