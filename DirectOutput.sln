@@ -16,6 +16,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DoxygenConfig", "DoxygenConfig", "{EDE93E1C-BCFC-48E6-B665-14DD423C5CC1}"
+	ProjectSection(SolutionItems) = preProject
+		DoxygenConfig\DoxygenConfigFile = DoxygenConfig\DoxygenConfigFile
+		DoxygenConfig\footer.html = DoxygenConfig\footer.html
+		DoxygenConfig\header.html = DoxygenConfig\header.html
+		DoxygenConfig\style.css = DoxygenConfig\style.css
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -95,5 +103,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EDE93E1C-BCFC-48E6-B665-14DD423C5CC1} = {F2AB1149-7592-415E-80ED-72E8FEEEC0F7}
 	EndGlobalSection
 EndGlobal
