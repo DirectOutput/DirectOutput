@@ -6,7 +6,7 @@ namespace DirectOutput.Cab.Toys.LWEquivalent
     /// <summary>
     /// LEDWizEquivalentOutput is the output object for the LedWizEquivalent IToy.
     /// </summary>
-    public class LedWizEquivalentOutput
+    public class xLedWizEquivalentOutput
     {
         /// <summary>
         /// Gets or sets the name of the IOutput object beeing controlled by the LedWizEquivalenOutput.
