@@ -68,7 +68,6 @@
     <Content Include="img\swisslizard.png" />
     <Content Include="img\TableArchitecture.png" />
     <Content Include="img\ToyArchitecture.png" />
-    <Content Include="Pinmame Interface.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
