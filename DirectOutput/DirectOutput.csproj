@@ -176,9 +176,9 @@
     <Compile Include="Cab\Toys\IAnalogToy.cs" />
     <Compile Include="Cab\Toys\IDigitalToy.cs" />
     <Compile Include="Cab\Toys\IToy.cs" />
-    <Compile Include="Cab\Toys\LWEquivalent\xLedWizEquivalent.cs" />
-    <Compile Include="Cab\Toys\LWEquivalent\xLedWizEquivalentOutput.cs" />
-    <Compile Include="Cab\Toys\LWEquivalent\xLedWizEquivalentOutputList.cs" />
+    <Compile Include="Cab\Toys\LWEquivalent\LedWizEquivalent.cs" />
+    <Compile Include="Cab\Toys\LWEquivalent\LedWizEquivalentOutput.cs" />
+    <Compile Include="Cab\Toys\LWEquivalent\LedWizEquivalentOutputList.cs" />
     <Compile Include="Cab\Toys\ToyEventArgs.cs" />
     <Compile Include="Cab\Toys\Toys.cs" />
     <Compile Include="FX\BasicFX\BasicDigitalEffect.cs" />
