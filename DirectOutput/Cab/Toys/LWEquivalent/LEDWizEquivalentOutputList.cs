@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DirectOutput.Cab.Toys
+namespace DirectOutput.Cab.Toys.LWEquivalent
 {
     /// <summary>
     /// List of LedWizEquivalentOutput objects.

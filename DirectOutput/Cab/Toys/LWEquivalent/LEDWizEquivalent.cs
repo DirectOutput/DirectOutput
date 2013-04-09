@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DirectOutput.Cab.Toys
+namespace DirectOutput.Cab.Toys.LWEquivalent
 {
     /// <summary>
     /// The LEDWizEquivalent toy provides a Ledwiz like interface to 32 outputs.<br />
@@ -59,10 +59,10 @@ namespace DirectOutput.Cab.Toys
         /// <summary>
         /// Initializes the LedwizEquivalent toy.
         /// </summary>
-        /// <param name="Cabinet">Cabinet to which the LedWizEquivalent belongs.</param>
-        public override void Init(Cabinet Cabinet)
+        /// <param name="Pinball"><see cref="Pinball"/> object containing the <see cref="Cabinet"/> to which the <see cref="LEDWizEquivalent"/> belongs.</param>
+        public override void Init(Pinball Pinball)
         {
-            Outputs.Init(Cabinet); 
+            Outputs.Init(Pinball.Cabinet); 
         }
 
         /// <summary>

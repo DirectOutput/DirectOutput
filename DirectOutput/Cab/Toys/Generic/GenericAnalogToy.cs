@@ -5,7 +5,7 @@ using System.Text;
 using DirectOutput.Cab.Out;
 using System.Xml.Serialization;
 
-namespace DirectOutput.Cab.Toys
+namespace DirectOutput.Cab.Toys.Generic
 {
     /// <summary>
     /// Implementation of a generic analog toy.
@@ -17,10 +17,10 @@ namespace DirectOutput.Cab.Toys
         /// <summary>
         /// Initalizes the GenericAnalogToy.
         /// </summary>
-        /// <param name="Cabinet">Cabinet to which GenericAnalogToy the belongs.</param>
-        public override void Init(Cabinet Cabinet)
+         /// <param name="Pinball"><see cref="Pinball"/> object containing the <see cref="Cabinet"/> to which the <see cref="GenericAnalogToy"/> belongs.</param>
+        public override void Init(Pinball Pinball)
         {
-            InitOutput(Cabinet);
+            InitOutput(Pinball.Cabinet);
         }
 
         private void InitOutput(Cabinet Cabinet)
@@ -52,7 +52,7 @@ namespace DirectOutput.Cab.Toys
         public int Value
         {
             get { return _Value; }
-            set
+            protected set
             {
                 _Value = value.Limit(0, 255);
                 if (_Output != null)

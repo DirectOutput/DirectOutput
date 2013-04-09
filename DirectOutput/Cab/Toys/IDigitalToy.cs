@@ -17,8 +17,9 @@ namespace DirectOutput.Cab.Toys
         /// <summary>
         /// Must initialize the <see cref="IDigitalToy"/>.
         /// </summary>
-        /// <param name="Cabinet">Cabinet to which the <see cref="IDigitalToy"/> belongs.</param>
-        new void Init(DirectOutput.Cab.Cabinet Cabinet);
+        /// <param name="Pinball"><see cref="Pinball"/> object containing the <see cref="Cabinet"/> to which the <see cref="IDigitalToy"/> belongs.</param>
+        new void Init(Pinball Pinball);
+
         /// <summary>
         /// Gets or sets the name of the outputof the <see cref="IDigitalToy"/>.
         /// </summary>
@@ -36,11 +37,11 @@ namespace DirectOutput.Cab.Toys
         /// <param name="State">State of the <see cref="IDigitalToy"/>.</param>
         void SetState(bool State);
         /// <summary>
-        /// Gets or sets a value indicating the state of the <see cref="IDigitalToy"/> .
+        /// Gets a value indicating the state of the <see cref="IDigitalToy"/> .
         /// </summary>
         /// <value>
         ///   <c>true</c> or <c>false</c>.
         /// </value>
-        bool State { get; set; }
+        bool State { get; }
     }
 }

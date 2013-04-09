@@ -5,6 +5,7 @@ using DirectOutput.Cab.Toys;
 using DirectOutput.FX.LedControlFX;
 using DirectOutput.GlobalConfig;
 using DirectOutput.Table;
+using DirectOutput.Cab.Toys.LWEquivalent;
 namespace DirectOutput.LedControl
 {
 

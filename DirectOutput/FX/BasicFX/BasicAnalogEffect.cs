@@ -70,11 +70,11 @@ namespace DirectOutput.FX.BasicFX
             {
                 if (TableElement != null)
                 {
-                    AnalogToy.Value = (TableElement.Value == 0 ? ValueOff : ValueOn);
+                    AnalogToy.SetValue (TableElement.Value == 0 ? ValueOff : ValueOn);
                 }
                 else
                 {
-                    AnalogToy.Value = ValueOn;
+                    AnalogToy.SetValue(ValueOn);
                 }
             }
         }

@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using DirectOutput.Cab.Out;
+﻿
 using System.Xml.Serialization;
-using System.Xml.Schema;
-using System.Xml;
-namespace DirectOutput.Cab.Toys
+using DirectOutput.Cab.Out;
+
+namespace DirectOutput.Cab.Toys.Basic
 {
 
     /// <summary>
@@ -21,11 +16,11 @@ namespace DirectOutput.Cab.Toys
         /// <summary>
         /// Initializes the RGBLed toy.
         /// </summary>
-        /// <param name="Cabinet">Cabinet to which the RGBLed belongs.</param>
-        public override void Init(Cabinet Cabinet)
+        /// <param name="Pinball"><see cref="Pinball"/> object containing the <see cref="Cabinet"/> to which the <see cref="RGBLed"/> belongs.</param>
+        public override void Init(Pinball Pinball)
         {
-            _Cabinet = Cabinet;
-            InitOutputs(Cabinet);
+            _Cabinet = Pinball.Cabinet;
+            InitOutputs(Pinball.Cabinet);
         }
 
         private void InitOutputs(Cabinet Cabinet)
@@ -54,7 +49,7 @@ namespace DirectOutput.Cab.Toys
             {
                 _OutputBlue = null;
             }
-        } 
+        }
         #endregion
 
         #region Finish
@@ -70,7 +65,7 @@ namespace DirectOutput.Cab.Toys
             _OutputRed = null;
             _OutputGreen = null;
             _OutputBlue = null;
-        } 
+        }
         #endregion
 
 
@@ -89,7 +84,7 @@ namespace DirectOutput.Cab.Toys
         public string OutputNameGreen { get; set; }
 
         private IOutput _OutputBlue;
-        
+
         /// <summary>
         /// Name of the IOutput for blue.
         /// </summary>
@@ -105,7 +100,7 @@ namespace DirectOutput.Cab.Toys
         public int BrightnessRed
         {
             get { return _BrightnessRed; }
-            set
+            private set
             {
                 _BrightnessRed = value.Limit(0, 255);
                 if (_OutputRed != null)
@@ -123,7 +118,7 @@ namespace DirectOutput.Cab.Toys
         public int BrightnessGreen
         {
             get { return _BrightnessGreen; }
-            set
+            private set
             {
                 _BrightnessGreen = value.Limit(0, 255);
                 if (_OutputGreen != null)
@@ -141,7 +136,7 @@ namespace DirectOutput.Cab.Toys
         public int BrightnessBlue
         {
             get { return _BrightnessBlue; }
-            set
+            private set
             {
                 _BrightnessBlue = value.Limit(0, 255);
                 if (_OutputBlue != null)
@@ -163,7 +158,7 @@ namespace DirectOutput.Cab.Toys
             BrightnessRed = 0;
             BrightnessBlue = 0;
             BrightnessGreen = 0;
-          
+
         }
 
         /// <summary>
@@ -185,8 +180,9 @@ namespace DirectOutput.Cab.Toys
         /// Sets the color of the RGBLed toy.
         /// </summary>
         /// <param name="Color">Color object containg the brightness values for the color.</param>
-        public void SetColor(Color Color) {
-            SetColor(Color.BrightnessRed,BrightnessGreen,BrightnessBlue);
+        public void SetColor(Color Color)
+        {
+            SetColor(Color.BrightnessRed, BrightnessGreen, BrightnessBlue);
         }
 
 

@@ -85,6 +85,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cab\Out\LW\LW.cs" />
+    <Compile Include="Cab\Toys\Basic\Basic.cs" />
+    <Compile Include="Cab\Toys\Basic\GearMotor.cs" />
     <Compile Include="Cab\Toys\IRGBToy.cs" />
     <Content Include="Config\TimedDimmerLampEffect.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -169,14 +171,14 @@
     <Compile Include="Cab\Out\OutputControllerEventArgs.cs" />
     <Compile Include="Cab\Toys\Color.cs" />
     <Compile Include="Cab\Toys\ColorList.cs" />
-    <Compile Include="Cab\Toys\Contactor.cs" />
-    <Compile Include="Cab\Toys\Flasher.cs" />
+    <Compile Include="Cab\Toys\Basic\Contactor.cs" />
+    <Compile Include="Cab\Toys\Basic\Flasher.cs" />
     <Compile Include="Cab\Toys\IAnalogToy.cs" />
     <Compile Include="Cab\Toys\IDigitalToy.cs" />
     <Compile Include="Cab\Toys\IToy.cs" />
-    <Compile Include="Cab\Toys\LEDWizEquivalent.cs" />
-    <Compile Include="Cab\Toys\LEDWizEquivalentOutput.cs" />
-    <Compile Include="Cab\Toys\LEDWizEquivalentOutputList.cs" />
+    <Compile Include="Cab\Toys\LWEquivalent\LEDWizEquivalent.cs" />
+    <Compile Include="Cab\Toys\LWEquivalent\LEDWizEquivalentOutput.cs" />
+    <Compile Include="Cab\Toys\LWEquivalent\LEDWizEquivalentOutputList.cs" />
     <Compile Include="Cab\Toys\ToyEventArgs.cs" />
     <Compile Include="Cab\Toys\Toys.cs" />
     <Compile Include="FX\BasicFX\BasicDigitalEffect.cs" />
@@ -192,10 +194,10 @@
     <Compile Include="FX\FX.cs" />
     <Compile Include="Cab\Out\LW\LEDWizOutput.cs" />
     <Compile Include="Cab\Out\Output.cs" />
-    <Compile Include="Cab\Toys\GearMotor.cs" />
-    <Compile Include="Cab\Toys\GenericAnalogToy.cs" />
-    <Compile Include="Cab\Toys\GenericDigitalToy.cs" />
-    <Compile Include="Cab\Toys\Lamp.cs" />
+    <Compile Include="Cab\Toys\Basic\Motor.cs" />
+    <Compile Include="Cab\Toys\Generic\GenericAnalogToy.cs" />
+    <Compile Include="Cab\Toys\Generic\GenericDigitalToy.cs" />
+    <Compile Include="Cab\Toys\Basic\Lamp.cs" />
     <Compile Include="Cab\Out\OutputControllerList.cs" />
     <Compile Include="Cab\Out\OutputList.cs" />
     <Compile Include="FX\IEffect.cs" />
@@ -225,9 +227,9 @@
     <Compile Include="LedControl\TableConfigSetting.cs" />
     <Compile Include="InputHandling\TableElementData.cs" />
     <Compile Include="InputHandling\InputManager.cs" />
-    <Compile Include="Cab\Toys\ReplayKnocker.cs" />
-    <Compile Include="Cab\Toys\RGBLed.cs" />
-    <Compile Include="Cab\Toys\Shaker.cs" />
+    <Compile Include="Cab\Toys\Basic\ReplayKnocker.cs" />
+    <Compile Include="Cab\Toys\Basic\RGBLed.cs" />
+    <Compile Include="Cab\Toys\Basic\Shaker.cs" />
     <Compile Include="Scripting\Script.cs" />
     <Compile Include="Scripting\ScriptList.cs" />
     <Compile Include="FX\AssignedEffectList.cs" />

@@ -18,8 +18,8 @@ namespace DirectOutput.Cab.Toys
         /// <summary>
         /// Must initialize  the <see cref="IAnalogToy"/>.
         /// </summary>
-        /// <param name="Cabinet">Cabinet to which the <see cref="IAnalogToy"/> belongs.</param>
-        new void  Init(DirectOutput.Cab.Cabinet Cabinet);
+        /// <param name="Pinball"><see cref="Pinball"/> object containing the <see cref="Cabinet"/> to which the <see cref="IAnalogToy"/> belongs.</param>
+        new void  Init(Pinball Pinball);
         /// <summary>
         /// Gets or sets the name of the output of the <see cref="IAnalogToy"/>.
         /// </summary>
@@ -37,11 +37,11 @@ namespace DirectOutput.Cab.Toys
         /// <param name="Value">The value of the of the <see cref="IAnalogToy"/>.</param>
         void SetValue(int Value);
         /// <summary>
-        /// Gets or sets the value of the <see cref="IAnalogToy"/>.
+        /// Gets the value of the <see cref="IAnalogToy"/>.
         /// </summary>
         /// <value>
         /// The value of the <see cref="IAnalogToy"/>.
         /// </value>
-        int Value { get; set; }
+        int Value { get;  }
     }
 }

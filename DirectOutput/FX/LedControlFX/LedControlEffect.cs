@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using DirectOutput.LedControl;
 using DirectOutput.Cab.Toys;
+using DirectOutput.Cab.Toys.LWEquivalent;
 
 namespace DirectOutput.FX.LedControlFX
 {

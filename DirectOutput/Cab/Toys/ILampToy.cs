@@ -3,7 +3,7 @@ namespace DirectOutput.Cab.Toys
 {
     public interface ILampToy:IAnalogToy
     {
-        int Brightness { get; set; }
+        int Brightness { get;  }
         void SetBrightness(int Brightness);
     }
 }

@@ -21,8 +21,8 @@ namespace DirectOutput.Cab.Toys
         /// <summary>
         /// Must initialize the <see cref="IToy"/>.
         /// </summary>
-        /// <param name="Cabinet"> to which the <see cref="IToy"/> belongs.</param>
-        void Init(DirectOutput.Cab.Cabinet Cabinet);
+        /// <param name="Pinball"> Pinball object containging the Cabinet to which the <see cref="IToy"/> belongs.</param>
+        void Init(Pinball Pinball);
 
 
 

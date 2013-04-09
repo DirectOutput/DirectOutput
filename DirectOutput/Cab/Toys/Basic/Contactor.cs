@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DirectOutput.Cab.Toys.Generic;
 
-namespace DirectOutput.Cab.Toys
+namespace DirectOutput.Cab.Toys.Basic
 {
 
     /// <summary>

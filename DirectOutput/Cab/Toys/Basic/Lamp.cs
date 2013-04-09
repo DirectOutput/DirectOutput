@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
+using DirectOutput.Cab.Toys.Generic;
 
-namespace DirectOutput.Cab.Toys
+namespace DirectOutput.Cab.Toys.Basic
 {
 
     /// <summary>
@@ -24,9 +25,9 @@ namespace DirectOutput.Cab.Toys
             {
                 return Value;
             }
-            set
+           protected set
             {
-                this.Value = value;
+                SetValue( value);
             }
         }
 

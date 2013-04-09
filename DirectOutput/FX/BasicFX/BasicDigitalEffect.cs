@@ -68,11 +68,11 @@ namespace DirectOutput.FX.BasicFX
             {
                 if (TableElement != null)
                 {
-                    DigitalToy.State = (TableElement.Value == 0 ? false : true);
+                    DigitalToy.SetState(TableElement.Value == 0 ? false : true);
                 }
                 else
                 {
-                    DigitalToy.State = true;
+                    DigitalToy.SetState( true);
                 }
             }
         }

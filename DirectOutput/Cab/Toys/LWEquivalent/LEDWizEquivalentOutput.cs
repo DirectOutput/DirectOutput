@@ -1,7 +1,7 @@
 ﻿using System.Xml.Serialization;
 using DirectOutput.Cab.Out;
 
-namespace DirectOutput.Cab.Toys
+namespace DirectOutput.Cab.Toys.LWEquivalent
 {
     /// <summary>
     /// LEDWizEquivalentOutput is the output object for the LedWizEquivalent IToy.

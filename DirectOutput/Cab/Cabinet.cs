@@ -9,6 +9,7 @@ using DirectOutput.FX;
 using DirectOutput.Cab.Out.LW;
 using DirectOutput.Cab.Toys;
 using DirectOutput.Cab.Out;
+using DirectOutput.Cab.Toys.LWEquivalent;
 
 
 namespace DirectOutput.Cab
@@ -239,7 +240,7 @@ namespace DirectOutput.Cab
         {
             Log.Write("Initializing cabinet");
             OutputControllers.Init();
-            Toys.Init(this);
+            Toys.Init(Pinball);
             Effects.Init(Pinball);
             Log.Write("Cabinet initialized");
         }

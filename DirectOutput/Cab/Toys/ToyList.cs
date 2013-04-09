@@ -73,12 +73,12 @@ namespace DirectOutput.Cab.Toys
         /// <summary>
         /// Initializes all IToy objects in the list 
         /// </summary>
-        /// <param name="Cabinet">Cabinet to which the IToy objects in the list belong</param>
-        public void Init(Cabinet Cabinet)
+        /// <param name="Pinball">Pinball object containing the cabinet to which the IToy objects in the list belong</param>
+        public void Init(Pinball Pinball)
         {
             foreach (IToy T in this)
             {
-                T.Init(Cabinet);
+                T.Init(Pinball);
             }
 
         }

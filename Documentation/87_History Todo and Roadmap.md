@@ -16,6 +16,11 @@ This section contains a list of additions and ideas for the DirectOutput framewo
 
 \section roadmap Roadmap
 
+The following features are planned for future releases:
+
+- <b>DMX support</b><br/>
+DMX is the industry standard protocol used to control stage lighting and effects. There is a huge number of light effects supporting DMX available on the market. DMX support will allow for the use of any DMX device, no matter if it is small or large.<br/>
+Very likely the first DMX controller supported will be one of the smaller units from http://www.dmx4all.de/. Suggestions for other, lowcost controllers are welcome.
 
 
 \section history History
