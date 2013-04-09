@@ -27,7 +27,7 @@ namespace DirectOutput.LedControl
             T.ConfigurationSource = Table.TableConfigSourceEnum.LedControlIni;
             T.RomName = RomName;
 
-            List<IToy> LedWizEqivalentList = Cabinet.Toys.Where(Toy => Toy is LEDWizEquivalent).ToList();
+            List<IToy> LedWizEqivalentList = Cabinet.Toys.Where(Toy => Toy is LedWizEquivalent).ToList();
             Dictionary<int, TableConfig> TableConfigDict = GetTableConfigDictonary(RomName);
 
             foreach (KeyValuePair<int, TableConfig> KV in TableConfigDict)
@@ -35,7 +35,7 @@ namespace DirectOutput.LedControl
 
                 foreach (IToy Toy in LedWizEqivalentList)
                 {
-                    LEDWizEquivalent LWE = (LEDWizEquivalent)Toy;
+                    LedWizEquivalent LWE = (LedWizEquivalent)Toy;
                     if (LWE.LedWizNumber == KV.Key)
                     {
 

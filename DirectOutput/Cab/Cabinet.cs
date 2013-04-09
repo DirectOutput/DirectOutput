@@ -41,13 +41,13 @@ namespace DirectOutput.Cab
         
                 }
             }
-            if (!Toys.Any(Toy => Toy is LEDWizEquivalent))
+            if (!Toys.Any(Toy => Toy is LedWizEquivalent))
             {
                 Log.Write("No predefined LedWizequivalent toys found in cabinet config. Will add a LedWizEquivalent toy for every LedWiz unit connected to the system.");
         
                 foreach (IOutputController OC in OutputControllers.Where(OC => OC is LedWiz))
                 {
-                    Toys.Add(new LEDWizEquivalent((LedWiz)OC));
+                    Toys.Add(new LedWizEquivalent((LedWiz)OC));
                     Log.Write("Added LedWizEquivalent for LedWiz Nr. {0}".Build(((LedWiz)OC).Number));
         
                 }

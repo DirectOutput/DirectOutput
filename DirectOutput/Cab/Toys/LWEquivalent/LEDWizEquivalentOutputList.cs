@@ -8,7 +8,7 @@ namespace DirectOutput.Cab.Toys.LWEquivalent
     /// <summary>
     /// List of LedWizEquivalentOutput objects.
     /// </summary>
-    public class LEDWizEquivalentOutputList:List<LEDWizEquivalentOutput>
+    public class LedWizEquivalentOutputList:List<LedWizEquivalentOutput>
     {
 
         /// <summary>
@@ -17,7 +17,7 @@ namespace DirectOutput.Cab.Toys.LWEquivalent
         /// <param name="Cabinet">The cabinet to which the outputs belong.</param>
         public void Init(Cabinet Cabinet)
         {
-            foreach (LEDWizEquivalentOutput O in this)
+            foreach (LedWizEquivalentOutput O in this)
             {
                 O.Init(Cabinet);
             }
@@ -28,7 +28,7 @@ namespace DirectOutput.Cab.Toys.LWEquivalent
         /// </summary>
         public void Finish()
         {
-            foreach (LEDWizEquivalentOutput O in this)
+            foreach (LedWizEquivalentOutput O in this)
             {
                 O.Finish();
             }
@@ -39,7 +39,7 @@ namespace DirectOutput.Cab.Toys.LWEquivalent
         /// </summary>
         public void Reset()
         {
-            foreach (LEDWizEquivalentOutput O in this)
+            foreach (LedWizEquivalentOutput O in this)
             {
                 O.Reset();
             }

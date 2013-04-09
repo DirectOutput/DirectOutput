@@ -27,16 +27,16 @@ namespace DirectOutput.FX.LedControlFX
             set { _LedWizEquivalentName = value; }
         }
 
-        private LEDWizEquivalent LedWizEquivalent;
+        private LedWizEquivalent LedWizEquivalent;
 
         private void ResolveName(Pinball Pinball)
         {
             if (!LedWizEquivalentName.IsNullOrWhiteSpace() && Pinball.Cabinet.Toys.Contains(LedWizEquivalentName))
             {
                 IToy T = Pinball.Cabinet.Toys[LedWizEquivalentName];
-                if (T is LEDWizEquivalent)
+                if (T is LedWizEquivalent)
                 {
-                    LedWizEquivalent = (LEDWizEquivalent)T;
+                    LedWizEquivalent = (LedWizEquivalent)T;
                 }
             }
 

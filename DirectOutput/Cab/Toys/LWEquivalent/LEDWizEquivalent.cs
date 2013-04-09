@@ -10,9 +10,9 @@ namespace DirectOutput.Cab.Toys.LWEquivalent
     /// The outputs listes in the Outputs property can point to any IOutput in the Cabinet.<br />
     /// This toy is also used when legacy LedCOntrol.ini files are used to configure the framework.
     /// </summary>
-    public class LEDWizEquivalent:ToyBase,IToy
+    public class LedWizEquivalent:ToyBase,IToy
     {
-        private LEDWizEquivalentOutputList _Outputs=new LEDWizEquivalentOutputList();
+        private LedWizEquivalentOutputList _Outputs=new LedWizEquivalentOutputList();
 
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace DirectOutput.Cab.Toys.LWEquivalent
         /// <param name="Value">The value for the LedWizEquivalentOutput.</param>
         public void SetOutputValue(int OutputNumber, int Value)
         {
-            LEDWizEquivalentOutput LWO= Outputs.First(O => O.LedWizEquivalentOutputNumber == OutputNumber);
+            LedWizEquivalentOutput LWO= Outputs.First(O => O.LedWizEquivalentOutputNumber == OutputNumber);
             if (LWO != null)
             {
                 LWO.Value = Value;
@@ -35,7 +35,7 @@ namespace DirectOutput.Cab.Toys.LWEquivalent
         /// <value>
         /// The outputs of the LedWizEquivalent toy.
         /// </value>
-        public LEDWizEquivalentOutputList Outputs
+        public LedWizEquivalentOutputList Outputs
         {
             get { return _Outputs; }
             set { _Outputs = value; }
@@ -59,7 +59,7 @@ namespace DirectOutput.Cab.Toys.LWEquivalent
         /// <summary>
         /// Initializes the LedwizEquivalent toy.
         /// </summary>
-        /// <param name="Pinball"><see cref="Pinball"/> object containing the <see cref="Cabinet"/> to which the <see cref="LEDWizEquivalent"/> belongs.</param>
+        /// <param name="Pinball"><see cref="Pinball"/> object containing the <see cref="Cabinet"/> to which the <see cref="LedWizEquivalent"/> belongs.</param>
         public override void Init(Pinball Pinball)
         {
             Outputs.Init(Pinball.Cabinet); 
@@ -82,21 +82,21 @@ namespace DirectOutput.Cab.Toys.LWEquivalent
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LEDWizEquivalent"/> class.
+        /// Initializes a new instance of the <see cref="LedWizEquivalent"/> class.
         /// </summary>
-        public LEDWizEquivalent() { }
+        public LedWizEquivalent() { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LEDWizEquivalent"/> class.
+        /// Initializes a new instance of the <see cref="LedWizEquivalent"/> class.
         /// </summary>
         /// <param name="LedWiz">Reference to a LedWiz object used to configure the LedWizEquivalent.</param>
-        public LEDWizEquivalent(DirectOutput.Cab.Out.LW.LedWiz LedWiz)
+        public LedWizEquivalent(DirectOutput.Cab.Out.LW.LedWiz LedWiz)
         {
             this.LedWizNumber = LedWiz.Number;
             this.Name = "LedWizEquivalent {0}".Build(LedWiz.Number);
             foreach (DirectOutput.Cab.Out.IOutput O in LedWiz.Outputs)
             {
-                Outputs.Add(new LEDWizEquivalentOutput() {OutputName="{0}\\{1}".Build(LedWiz.Name,O.Name),LedWizEquivalentOutputNumber=((DirectOutput.Cab.Out.LW.LedWizOutput)O).LedWizOutputNumber});
+                Outputs.Add(new LedWizEquivalentOutput() {OutputName="{0}\\{1}".Build(LedWiz.Name,O.Name),LedWizEquivalentOutputNumber=((DirectOutput.Cab.Out.LW.LedWizOutput)O).LedWizOutputNumber});
 
             }
         }
