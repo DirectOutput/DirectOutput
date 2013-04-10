@@ -137,6 +137,7 @@
     <Compile Include="Frontend\TableInfo.Designer.cs">
       <DependentUpon>TableInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="FX\NullFX\NullEffect.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="GlobalConfig\FilePattern.cs" />
     <Compile Include="GlobalConfig\FilePatternList.cs" />
