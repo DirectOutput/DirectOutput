@@ -3,6 +3,7 @@ using System.IO;
 using DirectOutput;
 using DirectOutput.GlobalConfig;
 using System;
+using B2SServerPluginInterface;
 
 /// <summary>
 /// DirectOutputPlugin is the namespace of the Dll implementing the actual plugin interface for the B2S Server.
@@ -13,8 +14,8 @@ namespace B2SServerPlugin
     /// <summary>
     /// Plugin is IDirectPlugin interface implementation required by the B2S Server.
     /// </summary>
-    [Export(typeof(B2S.IDirectPlugin))]
-    public class Plugin : B2S.IDirectPlugin, B2S.IDirectPluginFrontend
+    [Export(typeof(IDirectPlugin))]
+    public class Plugin : IDirectPlugin, IDirectPluginFrontend
     {
 
 
