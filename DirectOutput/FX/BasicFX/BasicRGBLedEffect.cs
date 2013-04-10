@@ -81,14 +81,14 @@ namespace DirectOutput.FX.BasicFX
         /// If the Value property of the TableElement is 0 the RGBLed will be turned off resp. set to color #000000, if the value is not 0 the RGBLEd will be set to the color specified in the Color property.
         /// If TableElement is null, the RGBLed toy will be set to the value of Color.
         /// </summary>
-        /// <param name="TableElement">TableElement which has triggered the effect.</param>
-        public override void Trigger(TableElement TableElement)
+        /// <param name="TableElementData">TableElementData for the TableElement which has triggered the effect.</param>
+        public override void Trigger(TableElementData TableElementData)
         {
             if (RGBLed != null && !Color.IsNullOrWhiteSpace())
             {
-                if (TableElement != null)
+                if (TableElementData != null)
                 {
-                    if (TableElement.Value == 0)
+                    if (TableElementData.Value == 0)
                     {
                         RGBLed.SetColor("#000000");
                     }

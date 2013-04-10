@@ -13,13 +13,14 @@ namespace DirectOutput.FX
     public class AssignedEffectList : ExtList<AssignedEffect>
     {
         /// <summary>
-        /// Trigger all AssignedEffect objects in the AssignedStaticEffects.
+        /// Triggers all AssignedEffect objects in the list.
         /// </summary>
-        public void Trigger(TableElement TableElement)
+        /// <param name="TableElementData">The table element data.</param>
+        public void Trigger(TableElementData TableElementData)
         {
             foreach (AssignedEffect TEE in this)
             {
-                TEE.Trigger(TableElement);
+                TEE.Trigger(TableElementData);
             }
         }
 

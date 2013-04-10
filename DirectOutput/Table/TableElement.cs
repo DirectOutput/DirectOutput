@@ -130,7 +130,7 @@ namespace DirectOutput.Table
         void TableElement_ValueChanged(object sender, TableElementValueChangedEventArgs e)
         {
 
-            AssignedEffects.Trigger(e.TableElement);
+            AssignedEffects.Trigger(GetTableElementData());
         }
         #endregion
 
@@ -154,6 +154,14 @@ namespace DirectOutput.Table
             }
         }
 
+        /// <summary>
+        /// Gets a TableElementData object containing the current data for the TableElement.
+        /// </summary>
+        /// <returns>TableElementData object containing the current data of the TableElement.</returns>
+        public TableElementData GetTableElementData()
+        {
+            return new TableElementData(this);
+        }
 
 
         #region Constructor

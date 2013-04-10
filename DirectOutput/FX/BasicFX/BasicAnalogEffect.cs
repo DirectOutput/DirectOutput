@@ -64,13 +64,14 @@ namespace DirectOutput.FX.BasicFX
         /// If the value of the TableElement is 0 the value for the <see cref="IAnalogToy"/> will be set to the value of the property ValueOff, if the value of the TableElement is greater than 0 the value of the property ValueOn will be used.
         /// If TableElement is null, the value of the assigned toy will be set to ValueOn.
         /// </summary>
-        public override void Trigger(TableElement TableElement)
+        /// <param name="TableElementData">TableElementData for the TableElement which has triggered the effect.</param> 
+        public override void Trigger(TableElementData TableElementData)
         {
             if (AnalogToy != null)
             {
-                if (TableElement != null)
+                if (TableElementData != null)
                 {
-                    AnalogToy.SetValue (TableElement.Value == 0 ? ValueOff : ValueOn);
+                    AnalogToy.SetValue (TableElementData.Value == 0 ? ValueOff : ValueOn);
                 }
                 else
                 {

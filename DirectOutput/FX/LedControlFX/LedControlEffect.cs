@@ -257,10 +257,10 @@ namespace DirectOutput.FX.LedControlFX
         /// <summary>
         /// Triggers the effect for the given TableElement
         /// </summary>
-        /// <param name="TableElement">TableElement which has triggered the effect.</param>
-        public override void Trigger(Table.TableElement TableElement)
+        /// <param name="TableElementData">TableElementData for the TableElement which has triggered the effect.</param>
+        public override void Trigger(Table.TableElementData TableElementData)
         {
-            if (TableElement == null)
+            if (TableElementData == null)
             {
                 //Static effect init
 
@@ -275,7 +275,7 @@ namespace DirectOutput.FX.LedControlFX
             {
 
                 //Controlled effect call
-                if (TableElement.Value > 0)
+                if (TableElementData.Value > 0)
                 {
                     Set();
                     BlinkInit();

@@ -38,11 +38,10 @@ namespace DirectOutput.FX.ListFX
         /// <summary>
         /// Triggers all effects in the ListEffect.
         /// </summary>
-        /// <param name="TableElement">TableElement which has triggered the effect.</param>
-        public override void Trigger(Table.TableElement TableElement)
+        /// <param name="TableElementData">TableElementData for the TableElement which has triggered the effect.</param>
+        public override void Trigger(Table.TableElementData TableElementData)
         {
-
-            Effects.Trigger(TableElement);
+            Effects.Trigger(TableElementData);
         }
 
 

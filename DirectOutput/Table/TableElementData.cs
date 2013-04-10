@@ -3,7 +3,7 @@
 namespace DirectOutput.Table
 {
     /// <summary>
-    /// Data received from Pinmame
+    /// Data representing the state of a table emlement
     /// </summary>
     public class TableElementData
     {
@@ -38,7 +38,7 @@ namespace DirectOutput.Table
         /// <summary>
         /// Initializes a new instance of the <see cref="TableElementData"/> class.
         /// </summary>
-        /// <param name="TableElementType">Type of the table element.</param>
+        /// <param name="TableElementType">Type of the table element as defined in TableElementTypeEnum.</param>
         /// <param name="Number">The number of the table element.</param>
         /// <param name="Value">The value of the table element.</param>
         public TableElementData(TableElementTypeEnum TableElementType, int Number, int Value)
@@ -71,7 +71,16 @@ namespace DirectOutput.Table
             this.Value = Value;
         }
 
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TableElementData"/> class from the data in a TableElement.
+        /// </summary>
+        /// <param name="TableElement">The table element containg the data.</param>
+        public TableElementData(TableElement TableElement)
+        {
+            this.Number = TableElement.Number;
+            this.TableElementType = TableElementType;
+            this.Value = TableElement.Value;
+        }
 
     }
 }

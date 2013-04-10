@@ -15,8 +15,8 @@ namespace DirectOutput.FX
         /// <summary>
         /// Execute triggers the effect for the given TableElement.
         /// </summary>
-        /// <param name="TableElement">TableElement which has triggered the effect.</param>
-        void Trigger(TableElement TableElement);
+        /// <param name="TableElementData">TableElementData object for the TableElement which has triggered the effect.</param>
+        void Trigger(TableElementData TableElementData);
 
 
         /// <summary>
