@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DirectOutput.InputHandling
+namespace DirectOutput.Table
 {
     /// <summary>
     /// Data received from Pinmame
@@ -52,16 +52,21 @@ namespace DirectOutput.InputHandling
         /// <summary>
         /// Initializes a new instance of the <see cref="TableElementData"/> class.
         /// </summary>
-        /// <param name="TableElementTypeChar">Single character specifing the type of the table element. Valid values are L (Lamp), S (Solenoid), W (Switch), M (Mech), G (GI).</param>
+        /// <param name="TableElementTypeChar">Single character specifing the type of the table element. Valid values are the enum values in TableElementTypeEnum.</param>
         /// <param name="Number">The number of the table element.</param>
         /// <param name="Value">The value of the table element.</param>
         public TableElementData(Char TableElementTypeChar, int Number, int Value)
         {
 
-            if(!Enum.IsDefined(typeof(TableElementTypeEnum),(int)TableElementTypeChar)) {
-                throw new Exception("Undefined char \"{0}\" supplied for the TableElementTypeChar.".Build(TableElementTypeChar));
+            if (!Enum.IsDefined(typeof(TableElementTypeEnum), (int)TableElementTypeChar))
+            {
+                Log.Warning("Undefined char \"{0}\" supplied for the TableElementTypeChar.".Build(TableElementTypeChar));
+                this.TableElementType = TableElementTypeEnum.Unknown;
             }
-            this.TableElementType = (TableElementTypeEnum)TableElementTypeChar;
+            else
+            {
+                this.TableElementType = (TableElementTypeEnum)TableElementTypeChar;
+            }
             this.Number = Number;
             this.Value = Value;
         }

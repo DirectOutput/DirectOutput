@@ -5,7 +5,7 @@
 
 This section contains a list of additions and ideas for the DirectOutput framework:
 
-- Add DoxyConfig to project/git.
+
 - Modify LedControl and TableConfig loading to allow a mix of both. Add new property to table config to enable/disable this behaviour.
 - Add AssignedToy and AssignedToysList to be used for effects. This would probably facilitaty the implementation of a configuration editor.
 - Add conditions (expressions that evluate to true or false) for assigned effects. CSScript makes this easy, but unlopading of changed effects will not be possible without restarting the framework.

@@ -225,7 +225,7 @@
     <Compile Include="LedControl\TableConfigColumnList.cs" />
     <Compile Include="LedControl\TableConfigList.cs" />
     <Compile Include="LedControl\TableConfigSetting.cs" />
-    <Compile Include="InputHandling\TableElementData.cs" />
+    <Compile Include="Table\TableElementData.cs" />
     <Compile Include="InputHandling\InputManager.cs" />
     <Compile Include="Cab\Toys\Basic\ReplayKnocker.cs" />
     <Compile Include="Cab\Toys\Basic\RGBLed.cs" />

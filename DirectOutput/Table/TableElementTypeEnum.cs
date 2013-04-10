@@ -6,6 +6,7 @@ namespace DirectOutput
     /// </summary>
     public enum TableElementTypeEnum
     {
+        Unknown='?',
         Lamp='L',
         Switch='W',
         Solenoid='S',

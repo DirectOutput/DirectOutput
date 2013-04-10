@@ -35,9 +35,8 @@
     <ApplicationIcon>Plugin.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="B2SBackglassServer, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\Visual Pinball\Tables\B2SBackglassServer.dll</HintPath>
+    <Reference Include="B2SServerPluginInterface">
+      <HintPath>..\..\B2SServerPluginInterface\B2SServerPluginInterface\bin\Release\B2SServerPluginInterface.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
