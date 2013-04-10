@@ -107,11 +107,11 @@ namespace DirectOutput.LedControl
                                             T.TableElements.Add(S.TableElementType, S.TableElementNumber, -1);
                                         }
                                         TableElement TE = T.TableElements[S.TableElementType, S.TableElementNumber];
-                                        TE.AssignedEffects.Add(new FX.AssignedEffect(LCE.Name));
+                                        TE.AssignedEffects.Add(new FX.AssignedEffectOrder(LCE.Name));
                                     }
                                     else if (S.OutputControl == OutputControlEnum.FixedOn)
                                     {
-                                        T.AssignedStaticEffects.Add(new FX.AssignedEffect(LCE.Name));
+                                        T.AssignedStaticEffects.Add(new FX.AssignedEffectOrder(LCE.Name));
                                     }
                                 }
                             }

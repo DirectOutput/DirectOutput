@@ -10,15 +10,15 @@ namespace DirectOutput.FX
     /// <summary>
     /// List of effects which are assigned to some other object.
     /// </summary>
-    public class AssignedEffectList : ExtList<AssignedEffect>
+    public class AssignedEffectList : ExtList<AssignedEffectOrder>
     {
         /// <summary>
-        /// Triggers all AssignedEffect objects in the list.
+        /// Triggers all AssignedEffectOrder objects in the list.
         /// </summary>
         /// <param name="TableElementData">The table element data.</param>
         public void Trigger(TableElementData TableElementData)
         {
-            foreach (AssignedEffect TEE in this)
+            foreach (AssignedEffectOrder TEE in this)
             {
                 TEE.Trigger(TableElementData);
             }
@@ -26,11 +26,11 @@ namespace DirectOutput.FX
 
 
         /// <summary>
-        /// Initializes the AssignedEffect objects in the list.
+        /// Initializes the AssignedEffectOrder objects in the list.
         /// </summary>
         public void Init(Pinball Pinball)
         {
-            foreach (AssignedEffect TEE in this)
+            foreach (AssignedEffectOrder TEE in this)
             {
                 TEE.Init(Pinball);
             }
@@ -38,11 +38,11 @@ namespace DirectOutput.FX
 
 
         /// <summary>
-        /// Fnishes the AssignedEffect objects in the list.
+        /// Fnishes the AssignedEffectOrder objects in the list.
         /// </summary>
         public void Finish()
         {
-            foreach (AssignedEffect TEE in this)
+            foreach (AssignedEffectOrder TEE in this)
             {
                 TEE.Finish();
             }
@@ -50,7 +50,7 @@ namespace DirectOutput.FX
 
 
         /// <summary>
-        /// Sorts the list by Order and Name of the AssignedEffect objects in the list
+        /// Sorts the list by Order and Name of the AssignedEffectOrder objects in the list
         /// </summary>
         public new void Sort()
         {
@@ -70,37 +70,37 @@ namespace DirectOutput.FX
         }
 
 
-        private void SubscribeEvents(AssignedEffect TableElementEffect)
+        private void SubscribeEvents(AssignedEffectOrder AssignedEffectOrder)
         {
-            TableElementEffect.EffectNameChanged += new EventHandler<EventArgs>(TableElementEffect_EffectNameChanged);
-            TableElementEffect.OrderChanged += new EventHandler<EventArgs>(TableElementEffect_OrderChanged);
+            AssignedEffectOrder.EffectNameChanged += new EventHandler<EventArgs>(TableElementEffect_EffectNameChanged);
+            AssignedEffectOrder.OrderChanged += new EventHandler<EventArgs>(TableElementEffect_OrderChanged);
         }
 
-        private void UnsubscribeEvents(AssignedEffect TableElementEffect)
+        private void UnsubscribeEvents(AssignedEffectOrder AssignedEffectOrder)
         {
-            TableElementEffect.EffectNameChanged -= new EventHandler<EventArgs>(TableElementEffect_EffectNameChanged);
-            TableElementEffect.OrderChanged -= new EventHandler<EventArgs>(TableElementEffect_OrderChanged);
+            AssignedEffectOrder.EffectNameChanged -= new EventHandler<EventArgs>(TableElementEffect_EffectNameChanged);
+            AssignedEffectOrder.OrderChanged -= new EventHandler<EventArgs>(TableElementEffect_OrderChanged);
         }
 
         void TableElementEffectList_BeforeClear(object sender, EventArgs e)
         {
-            foreach (AssignedEffect TEE in this)
+            foreach (AssignedEffectOrder TEE in this)
             {
                 UnsubscribeEvents(TEE);
             }
         }
 
-        void TableElementEffectList_AfterRemove(object sender, RemoveEventArgs<AssignedEffect> e)
+        void TableElementEffectList_AfterRemove(object sender, RemoveEventArgs<AssignedEffectOrder> e)
         {
             UnsubscribeEvents(e.Item);
         }
 
-        void TableElementEffectList_AfterInsert(object sender, InsertEventArgs<AssignedEffect> e)
+        void TableElementEffectList_AfterInsert(object sender, InsertEventArgs<AssignedEffectOrder> e)
         {
             SubscribeEvents(e.Item);
         }
 
-        void TableElementEffectList_AfterSet(object sender, SetEventArgs<AssignedEffect> e)
+        void TableElementEffectList_AfterSet(object sender, SetEventArgs<AssignedEffectOrder> e)
         {
             UnsubscribeEvents(e.OldItem);
             SubscribeEvents(e.NewItem);
@@ -113,16 +113,16 @@ namespace DirectOutput.FX
         /// </summary>
         public AssignedEffectList()
         {
-            this.AfterSet += new EventHandler<SetEventArgs<AssignedEffect>>(TableElementEffectList_AfterSet);
-            this.AfterInsert += new EventHandler<InsertEventArgs<AssignedEffect>>(TableElementEffectList_AfterInsert);
-            this.AfterRemove += new EventHandler<RemoveEventArgs<AssignedEffect>>(TableElementEffectList_AfterRemove);
+            this.AfterSet += new EventHandler<SetEventArgs<AssignedEffectOrder>>(TableElementEffectList_AfterSet);
+            this.AfterInsert += new EventHandler<InsertEventArgs<AssignedEffectOrder>>(TableElementEffectList_AfterInsert);
+            this.AfterRemove += new EventHandler<RemoveEventArgs<AssignedEffectOrder>>(TableElementEffectList_AfterRemove);
             this.BeforeClear += new EventHandler<EventArgs>(TableElementEffectList_BeforeClear);
         }
 
 
         ~AssignedEffectList()
         {
-            foreach (AssignedEffect TEE in this)
+            foreach (AssignedEffectOrder TEE in this)
             {
                 UnsubscribeEvents(TEE);
             }

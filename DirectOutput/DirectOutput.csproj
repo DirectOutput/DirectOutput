@@ -137,6 +137,8 @@
     <Compile Include="Frontend\TableInfo.Designer.cs">
       <DependentUpon>TableInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="FX\AssignedEffectListEffect.cs" />
+    <Compile Include="FX\DelayFX\DelayEffect.cs" />
     <Compile Include="FX\NullFX\NullEffect.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="GlobalConfig\FilePattern.cs" />
