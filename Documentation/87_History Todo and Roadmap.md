@@ -11,7 +11,7 @@ This section contains a list of additions and ideas for the DirectOutput framewo
 - Add conditions (expressions that evluate to true or false) for assigned effects. CSScript makes this easy, but unlopading of changed effects will not be possible without restarting the framework.
 - Invent some common, proper interface for the AutoConfig of Output controllers.
 - EM support. Will need some extensions of the external interface.
-- Review LedControl code regarding exception handling/capturing.
+
 
 \section roadmap Roadmap
 
