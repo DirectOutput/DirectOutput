@@ -31,7 +31,7 @@ namespace DirectOutput.FX.DelayFX
         /// \remark If the assigned effect throws a exception the effect will be deactivated.
         /// </summary>
         /// <param name="TableElementData">The TableElementData object for the TableElement which has triggered the effect.</param>
-        public void Trigger(TableElementData TableElementData)
+        public new void Trigger(TableElementData TableElementData)
         {
             Pinball.UpdateTimer.UnregisterAlarm(TriggerAssignedEffect);
             this.TableElementData = TableElementData;

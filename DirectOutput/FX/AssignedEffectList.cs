@@ -12,6 +12,27 @@ namespace DirectOutput.FX
     /// </summary>
     public class AssignedEffectList : ExtList<AssignedEffectOrder>
     {
+
+        /// <summary>
+        /// Adds the specified effect to the list. 
+        /// </summary>
+        /// <param name="EffectName">Name of the effect.</param>
+        public void Add(string EffectName)
+        {
+            Add(new AssignedEffectOrder(EffectName));
+        }
+
+
+        /// <summary>
+        /// Adds the specified effect to the list.
+        /// </summary>
+        /// <param name="EffectName">Name of the effect.</param>
+        /// <param name="Order">The order of the effect.</param>
+        public void Add(string EffectName, int Order)
+        {
+            Add(new AssignedEffectOrder(EffectName,Order));
+        }
+
         /// <summary>
         /// Triggers all AssignedEffectOrder objects in the list.
         /// </summary>
