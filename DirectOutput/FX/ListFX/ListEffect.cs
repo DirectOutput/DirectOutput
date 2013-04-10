@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Collections;
-using DirectOutput.General.Generic;
-
+﻿
 
 /// <summary>
 /// The DirectOutput.FX.ListFX namepsace contains the classes for the ListEffect.

@@ -139,6 +139,7 @@
     </Compile>
     <Compile Include="FX\AssignedEffectOrder.cs" />
     <Compile Include="FX\DelayFX\DelayEffect.cs" />
+    <Compile Include="FX\DelayFX\DelayFX.cs" />
     <Compile Include="FX\NullFX\NullEffect.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="GlobalConfig\FilePattern.cs" />
