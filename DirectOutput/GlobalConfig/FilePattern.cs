@@ -14,12 +14,19 @@ namespace DirectOutput.GlobalConfig
 
 
         #region IXmlSerializable Member
-
+        /// <summary>
+        /// Method is required by the IXmlSerializable interface
+        /// </summary>
+        /// <returns>Returns always null</returns>
         public System.Xml.Schema.XmlSchema GetSchema()
         {
             return null;
         }
 
+        /// <summary>
+        /// Deserializes the FilePattern in the XmlReader.<br/>
+        /// ReadXml is part of the IXmlSerializable interface.
+        /// </summary>
         public void ReadXml(System.Xml.XmlReader reader)
         {
             Pattern = reader.ReadString();
@@ -33,7 +40,10 @@ namespace DirectOutput.GlobalConfig
             }
         }
 
-
+        /// <summary>
+        /// Serializes the FilePattern to Xml.<br/>
+        /// WriteXml is part if the IXmlSerializable interface.
+        /// </summary>
         public void WriteXml(System.Xml.XmlWriter writer)
         {
             writer.WriteString(Pattern);

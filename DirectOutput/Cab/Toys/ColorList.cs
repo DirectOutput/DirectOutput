@@ -30,7 +30,7 @@ namespace DirectOutput.Cab.Toys
 
 
         /// <summary>
-        /// Deserializes the IToy objects in the XmlReader.<br/>
+        /// Deserializes the Color objects in the XmlReader.<br/>
         /// ReadXml is part of the IXmlSerializable interface.
         /// </summary>
         public void ReadXml(XmlReader reader)
