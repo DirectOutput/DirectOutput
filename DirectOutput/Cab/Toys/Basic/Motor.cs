@@ -128,7 +128,7 @@ namespace DirectOutput.Cab.Toys.Basic
                 if (!KickstartActive)
                 {
 
-                    if (KickstartPower > 0 && KickstartDurationMs > 0)
+                    if (KickstartPower > 0 && Power<KickstartPower && KickstartDurationMs > 0)
                     {
                         KickstartActive = true;
                         SetValue(KickstartPower);
