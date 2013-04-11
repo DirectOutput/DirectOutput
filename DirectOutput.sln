@@ -18,9 +18,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DoxygenConfig", "DoxygenConfig", "{EDE93E1C-BCFC-48E6-B665-14DD423C5CC1}"
 	ProjectSection(SolutionItems) = preProject
-		DoxygenConfig\DoxygenConfigFile = DoxygenConfig\DoxygenConfigFile
+		DoxygenConfig\DoxygenConfigFile_Github = DoxygenConfig\DoxygenConfigFile_Github
+		DoxygenConfig\DoxygenConfigFile_Local = DoxygenConfig\DoxygenConfigFile_Local
 		DoxygenConfig\footer.html = DoxygenConfig\footer.html
-		DoxygenConfig\header.html = DoxygenConfig\header.html
+		DoxygenConfig\header_Github.html = DoxygenConfig\header_Github.html
+		DoxygenConfig\header_local.html = DoxygenConfig\header_local.html
 		DoxygenConfig\style.css = DoxygenConfig\style.css
 	EndProjectSection
 EndProject

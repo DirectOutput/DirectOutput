@@ -38,7 +38,7 @@ namespace B2SServerPlugin
 
         /// <summary>
         /// Gets the name of this IDirectPlugin.<br/>
-        /// This property returns the version of the DirectOutput.dll, NOT the version of the B2SServer plugin.
+        /// \remark This property returns the version of the DirectOutput.dll, NOT the version of the B2SServer plugin.
         /// </summary>
         /// <value>
         /// The name of this IDirectPlugin (Name is DirectOutput (V: VersionNumber) af of TimeStamp).
@@ -54,13 +54,7 @@ namespace B2SServerPlugin
         }
 
 
-        /// <summary>
-        /// This method is called, when the property Pause of Pinmame gets set to false.<br/>
-        /// The IDirectPlugin interface requires the implementation of this method.<br/>
-        /// DirectOutput implements only a method stub for this method.
-        /// </summary>
-        public void PinMameContinue() { }
-
+       
         /// <summary>
         /// This method is called, when new data from Pinmame becomes available.<br/>
         /// The IDirectPlugin interface requires the implementation of this method.
@@ -68,29 +62,12 @@ namespace B2SServerPlugin
         /// <param name="TableElementTypeChar">Char representing the table element type (S=Solenoid, W=Switch, L=Lamp, M=Mech, G=GI).</param>
         /// <param name="Number">The number of the table element.</param>
         /// <param name="Value">The value of the table element.</param>
-        public void PinMameDataReceive(char TableElementTypeChar, int Number, int Value)
+        public void DataReceive(char TableElementTypeChar, int Number, int Value)
         {
-            Pinball.ReceivePinmameData(TableElementTypeChar, Number, Value);
+            Pinball.ReceiveData(TableElementTypeChar, Number, Value);
         }
 
-        /// <summary>
-        /// This method is called, when the property Pause of Pinmame gets set to true.
-        /// The IDirectPlugin interface requires the implementation of this method.<br/>
-        /// DirectOutput implements only a method stub for this method.        /// </summary>
-        public void PinMamePause() { }
 
-        /// <summary>
-        /// This method is called, when the Run method of PinMame gets called.
-        /// The IDirectPlugin interface requires the implementation of this method.<br/>
-        /// DirectOutput implements only a method stub for this method.        /// </summary>
-        public void PinMameRun() { }
-
-        /// <summary>
-        /// This method is called, when the Stop method of Pinmame is called.
-        /// The IDirectPlugin interface requires the implementation of this method.<br/>
-        /// DirectOutput implements only a method stub for this method.
-        /// </summary>
-        public void PinMameStop() { }
 
 
         /// <summary>

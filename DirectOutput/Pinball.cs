@@ -258,7 +258,7 @@ namespace DirectOutput
         }
 
 
-        public void ReceivePinmameData(char TableElementTypeChar, int Number, int Value)
+        public void ReceiveData(char TableElementTypeChar, int Number, int Value)
         {
             PinmameInputManager.EnqueueInputData(TableElementTypeChar, Number, Value);
         }

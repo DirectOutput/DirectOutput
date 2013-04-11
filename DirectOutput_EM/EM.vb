@@ -103,7 +103,7 @@ Public Class EM
         If IsInitialized Then
 
             Try
-                Pinball.ReceivePinmameData(TableElementTypeChar, Number, Value)
+                Pinball.ReceiveData(TableElementTypeChar, Number, Value)
             Catch Ex As Exception
                 Throw New Exception("Could not set the value of table element {0} {1} to {2}.".Build(TableElementTypeChar, Number, Value), Ex)
             End Try
