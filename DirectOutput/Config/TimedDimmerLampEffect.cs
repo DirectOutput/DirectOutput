@@ -104,13 +104,13 @@ namespace DirectOutput.FX
         /// If the value of the TableElement is 0 the brightness for the <see cref="ILampToy"/> will be dimmed to the value of the property BrightsOff, if the value of the TableElement is greater than 0 the value of the property BrightnessOn will be used.
         /// If TableElement is null, the brightness of the <see cref="ILampToy"/> will be dimmed to BrightnessOn.
         /// </summary>
-        public override void Trigger(DirectOutput.Table.TableElement TableElement)
+        public override void Trigger(DirectOutput.Table.TableElementData TableElementData)
         {
             if (LampToy != null)
             {
-                if (TableElement != null)
+                if (TableElementData != null)
                 {
-                    StartDimmer((TableElement.Value!=0?BrightnessOn:BrightnessOff));
+                    StartDimmer((TableElementData.Value != 0 ? BrightnessOn : BrightnessOff));
                 }
                 else
                 {
