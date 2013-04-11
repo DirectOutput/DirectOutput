@@ -55,7 +55,11 @@ namespace DirectOutput.Cab.Toys
                 if (T != null)
                 {
                     XmlSerializer serializer = new XmlSerializer(T);
-                    Add((IToy)serializer.Deserialize(reader));
+                    IToy Toy = (IToy)serializer.Deserialize(reader);
+                    if (!Contains(Toy.Name))
+                    {
+                        Add(Toy);
+                    }
                 }
                 else
                 {

@@ -49,7 +49,11 @@ namespace DirectOutput.Cab.Toys
                 {
 
                     XmlSerializer serializer = new XmlSerializer(typeof(Color));
-                    Add((Color)serializer.Deserialize(reader));
+                    Color C = (Color)serializer.Deserialize(reader);
+                    if (!Contains(C.Name))
+                    {
+                        Add(C);
+                    }
                 }
                 else
                 {

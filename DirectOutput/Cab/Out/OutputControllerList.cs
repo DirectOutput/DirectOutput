@@ -55,7 +55,11 @@ namespace DirectOutput.Cab.Out
                 if (T != null)
                 {
                     XmlSerializer serializer = new XmlSerializer(T);
-                    Add((IOutputController)serializer.Deserialize(reader));
+                    IOutputController O = (IOutputController)serializer.Deserialize(reader);
+                    if (!Contains(O.Name))
+                    {
+                        Add(O);
+                    }
                 }
                 else
                 {

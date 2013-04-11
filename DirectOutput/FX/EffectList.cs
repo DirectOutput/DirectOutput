@@ -56,7 +56,11 @@ namespace DirectOutput.FX
                 if (T != null)
                 {
                     XmlSerializer serializer = new XmlSerializer(T);
-                    Add((IEffect)serializer.Deserialize(reader));
+                    IEffect E = (IEffect)serializer.Deserialize(reader);
+                    if (!Contains(E.Name))
+                    {
+                        Add(E);
+                    }
                 }
                 else
                 {
