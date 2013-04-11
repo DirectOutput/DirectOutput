@@ -150,12 +150,12 @@ namespace DirectOutput.FX
 
                 if (Fract >= 1)
                 {
-                    LampToy.Brightness = TargetBrightness;
+                    LampToy.SetBrightness(TargetBrightness);
                     TargetBrightness = -1;
                 }
                 else
                 {
-                    LampToy.Brightness=(StartBrightness+(int)((TargetBrightness-StartBrightness)*Fract)).Limit(0,255);
+                    LampToy.SetBrightness((StartBrightness+(int)((TargetBrightness-StartBrightness)*Fract)).Limit(0,255));
                 }
             }
         }

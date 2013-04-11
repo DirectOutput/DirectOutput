@@ -44,14 +44,17 @@ namespace DirectOutput.Frontend
                 {
                     Script S = Pinball.Scripts[N];
 
-                    foreach (Type T in S.Assembly.GetTypes().Where(t => typeof(IEffect).IsAssignableFrom(t) && !t.IsAbstract))
+                    if (S.Assembly != null)
                     {
-                        DT.Rows.Add(T.Name, "IEffect");
-                    }
+                        foreach (Type T in S.Assembly.GetTypes().Where(t => typeof(IEffect).IsAssignableFrom(t) && !t.IsAbstract))
+                        {
+                            DT.Rows.Add(T.Name, "IEffect");
+                        }
 
-                    foreach (Type T in S.Assembly.GetTypes().Where(t => typeof(IToy).IsAssignableFrom(t) && !t.IsAbstract))
-                    {
-                        DT.Rows.Add(T.Name, "IToy");
+                        foreach (Type T in S.Assembly.GetTypes().Where(t => typeof(IToy).IsAssignableFrom(t) && !t.IsAbstract))
+                        {
+                            DT.Rows.Add(T.Name, "IToy");
+                        }
                     }
                 }
             }
