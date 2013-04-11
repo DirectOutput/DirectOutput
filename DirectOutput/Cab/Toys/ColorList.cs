@@ -47,11 +47,18 @@ namespace DirectOutput.Cab.Toys
 
             reader.Read();
 
-            while (reader.LocalName == typeof(Color).Name)
+            while (reader.NodeType != System.Xml.XmlNodeType.EndElement)
             {
+                if (reader.LocalName == typeof(Color).Name)
+                {
 
-                XmlSerializer serializer = new XmlSerializer(typeof(Color));
-                Add((Color)serializer.Deserialize(reader));
+                    XmlSerializer serializer = new XmlSerializer(typeof(Color));
+                    Add((Color)serializer.Deserialize(reader));
+                }
+                else
+                {
+                    reader.Skip();
+                }
             }
             reader.ReadEndElement();
         }

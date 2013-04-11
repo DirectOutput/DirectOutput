@@ -236,140 +236,140 @@
       <Name>Shaker</Name>
       <OutputName>LedWizOutput 01.31</OutputName>
     </Shaker>
-    <LEDWizEquivalent>
+    <LedWizEquivalent>
       <Name>LedWizEquivalent 1</Name>
       <Outputs>
-        <LEDWizEquivalentOutput>
+        <LedWizEquivalentOutput>
           <OutputName>LedWiz 01\LedWizOutput 01.01</OutputName>
           <LedWizEquivalentOutputNumber>1</LedWizEquivalentOutputNumber>
-        </LEDWizEquivalentOutput>
-        <LEDWizEquivalentOutput>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
           <OutputName>LedWiz 01\LedWizOutput 01.02</OutputName>
           <LedWizEquivalentOutputNumber>2</LedWizEquivalentOutputNumber>
-        </LEDWizEquivalentOutput>
-        <LEDWizEquivalentOutput>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
           <OutputName>LedWiz 01\LedWizOutput 01.03</OutputName>
           <LedWizEquivalentOutputNumber>3</LedWizEquivalentOutputNumber>
-        </LEDWizEquivalentOutput>
-        <LEDWizEquivalentOutput>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
           <OutputName>LedWiz 01\LedWizOutput 01.04</OutputName>
           <LedWizEquivalentOutputNumber>4</LedWizEquivalentOutputNumber>
-        </LEDWizEquivalentOutput>
-        <LEDWizEquivalentOutput>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
           <OutputName>LedWiz 01\LedWizOutput 01.05</OutputName>
           <LedWizEquivalentOutputNumber>5</LedWizEquivalentOutputNumber>
-        </LEDWizEquivalentOutput>
-        <LEDWizEquivalentOutput>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
           <OutputName>LedWiz 01\LedWizOutput 01.06</OutputName>
           <LedWizEquivalentOutputNumber>6</LedWizEquivalentOutputNumber>
-        </LEDWizEquivalentOutput>
-        <LEDWizEquivalentOutput>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
           <OutputName>LedWiz 01\LedWizOutput 01.07</OutputName>
           <LedWizEquivalentOutputNumber>7</LedWizEquivalentOutputNumber>
-        </LEDWizEquivalentOutput>
-        <LEDWizEquivalentOutput>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
           <OutputName>LedWiz 01\LedWizOutput 01.08</OutputName>
           <LedWizEquivalentOutputNumber>8</LedWizEquivalentOutputNumber>
-        </LEDWizEquivalentOutput>
-        <LEDWizEquivalentOutput>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
           <OutputName>LedWiz 01\LedWizOutput 01.09</OutputName>
           <LedWizEquivalentOutputNumber>9</LedWizEquivalentOutputNumber>
-        </LEDWizEquivalentOutput>
-        <LEDWizEquivalentOutput>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
           <OutputName>LedWiz 01\LedWizOutput 01.10</OutputName>
           <LedWizEquivalentOutputNumber>10</LedWizEquivalentOutputNumber>
-        </LEDWizEquivalentOutput>
-        <LEDWizEquivalentOutput>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
           <OutputName>LedWiz 01\LedWizOutput 01.11</OutputName>
           <LedWizEquivalentOutputNumber>11</LedWizEquivalentOutputNumber>
-        </LEDWizEquivalentOutput>
-        <LEDWizEquivalentOutput>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
           <OutputName>LedWiz 01\LedWizOutput 01.12</OutputName>
           <LedWizEquivalentOutputNumber>12</LedWizEquivalentOutputNumber>
-        </LEDWizEquivalentOutput>
-        <LEDWizEquivalentOutput>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
           <OutputName>LedWiz 01\LedWizOutput 01.13</OutputName>
           <LedWizEquivalentOutputNumber>13</LedWizEquivalentOutputNumber>
-        </LEDWizEquivalentOutput>
-        <LEDWizEquivalentOutput>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
           <OutputName>LedWiz 01\LedWizOutput 01.14</OutputName>
           <LedWizEquivalentOutputNumber>14</LedWizEquivalentOutputNumber>
-        </LEDWizEquivalentOutput>
-        <LEDWizEquivalentOutput>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
           <OutputName>LedWiz 01\LedWizOutput 01.15</OutputName>
           <LedWizEquivalentOutputNumber>15</LedWizEquivalentOutputNumber>
-        </LEDWizEquivalentOutput>
-        <LEDWizEquivalentOutput>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
           <OutputName>LedWiz 01\LedWizOutput 01.16</OutputName>
           <LedWizEquivalentOutputNumber>16</LedWizEquivalentOutputNumber>
-        </LEDWizEquivalentOutput>
-        <LEDWizEquivalentOutput>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
           <OutputName>LedWiz 01\LedWizOutput 01.17</OutputName>
           <LedWizEquivalentOutputNumber>17</LedWizEquivalentOutputNumber>
-        </LEDWizEquivalentOutput>
-        <LEDWizEquivalentOutput>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
           <OutputName>LedWiz 01\LedWizOutput 01.18</OutputName>
           <LedWizEquivalentOutputNumber>18</LedWizEquivalentOutputNumber>
-        </LEDWizEquivalentOutput>
-        <LEDWizEquivalentOutput>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
           <OutputName>LedWiz 01\LedWizOutput 01.19</OutputName>
           <LedWizEquivalentOutputNumber>19</LedWizEquivalentOutputNumber>
-        </LEDWizEquivalentOutput>
-        <LEDWizEquivalentOutput>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
           <OutputName>LedWiz 01\LedWizOutput 01.20</OutputName>
           <LedWizEquivalentOutputNumber>20</LedWizEquivalentOutputNumber>
-        </LEDWizEquivalentOutput>
-        <LEDWizEquivalentOutput>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
           <OutputName>LedWiz 01\LedWizOutput 01.21</OutputName>
           <LedWizEquivalentOutputNumber>21</LedWizEquivalentOutputNumber>
-        </LEDWizEquivalentOutput>
-        <LEDWizEquivalentOutput>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
           <OutputName>LedWiz 01\LedWizOutput 01.22</OutputName>
           <LedWizEquivalentOutputNumber>22</LedWizEquivalentOutputNumber>
-        </LEDWizEquivalentOutput>
-        <LEDWizEquivalentOutput>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
           <OutputName>LedWiz 01\LedWizOutput 01.23</OutputName>
           <LedWizEquivalentOutputNumber>23</LedWizEquivalentOutputNumber>
-        </LEDWizEquivalentOutput>
-        <LEDWizEquivalentOutput>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
           <OutputName>LedWiz 01\LedWizOutput 01.24</OutputName>
           <LedWizEquivalentOutputNumber>24</LedWizEquivalentOutputNumber>
-        </LEDWizEquivalentOutput>
-        <LEDWizEquivalentOutput>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
           <OutputName>LedWiz 01\LedWizOutput 01.25</OutputName>
           <LedWizEquivalentOutputNumber>25</LedWizEquivalentOutputNumber>
-        </LEDWizEquivalentOutput>
-        <LEDWizEquivalentOutput>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
           <OutputName>LedWiz 01\LedWizOutput 01.26</OutputName>
           <LedWizEquivalentOutputNumber>26</LedWizEquivalentOutputNumber>
-        </LEDWizEquivalentOutput>
-        <LEDWizEquivalentOutput>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
           <OutputName>LedWiz 01\LedWizOutput 01.27</OutputName>
           <LedWizEquivalentOutputNumber>27</LedWizEquivalentOutputNumber>
-        </LEDWizEquivalentOutput>
-        <LEDWizEquivalentOutput>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
           <OutputName>LedWiz 01\LedWizOutput 01.28</OutputName>
           <LedWizEquivalentOutputNumber>28</LedWizEquivalentOutputNumber>
-        </LEDWizEquivalentOutput>
-        <LEDWizEquivalentOutput>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
           <OutputName>LedWiz 01\LedWizOutput 01.29</OutputName>
           <LedWizEquivalentOutputNumber>29</LedWizEquivalentOutputNumber>
-        </LEDWizEquivalentOutput>
-        <LEDWizEquivalentOutput>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
           <OutputName>LedWiz 01\LedWizOutput 01.30</OutputName>
           <LedWizEquivalentOutputNumber>30</LedWizEquivalentOutputNumber>
-        </LEDWizEquivalentOutput>
-        <LEDWizEquivalentOutput>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
           <OutputName>LedWiz 01\LedWizOutput 01.31</OutputName>
           <LedWizEquivalentOutputNumber>31</LedWizEquivalentOutputNumber>
-        </LEDWizEquivalentOutput>
-        <LEDWizEquivalentOutput>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
           <OutputName>LedWiz 01\LedWizOutput 01.32</OutputName>
           <LedWizEquivalentOutputNumber>32</LedWizEquivalentOutputNumber>
-        </LEDWizEquivalentOutput>
+        </LedWizEquivalentOutput>
       </Outputs>
       <LedWizNumber>1</LedWizNumber>
-    </LEDWizEquivalent>
+    </LedWizEquivalent>
   </Toys>
   <Effects />
   <Colors>

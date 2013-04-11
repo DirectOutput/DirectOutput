@@ -52,13 +52,17 @@ namespace DirectOutput.Cab.Out
 
             reader.Read();
 
-            while (Types.Contains(reader.LocalName))
+            while (reader.NodeType != System.Xml.XmlNodeType.EndElement)
             {
                 Type T = Types[reader.LocalName];
                 if (T != null)
                 {
                     XmlSerializer serializer = new XmlSerializer(T);
                     Add((IOutputController)serializer.Deserialize(reader));
+                }
+                else
+                {
+                    reader.Skip();
                 }
             }
 
