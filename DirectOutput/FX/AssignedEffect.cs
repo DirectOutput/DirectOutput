@@ -84,7 +84,7 @@ namespace DirectOutput.FX
 
         /// <summary>
         /// Triggers the assigned Effect.
-        /// \remark If the assigned effect throws a exception the effect will be deactivated.
+        /// <remarks> If the assigned effect throws a exception the effect will be deactivated.</remarks>
         /// </summary>
         /// <param name="TableElementData">The table element data.</param>
         public void Trigger(TableElementData TableElementData)

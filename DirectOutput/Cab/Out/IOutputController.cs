@@ -4,8 +4,8 @@ namespace DirectOutput.Cab.Out
 {
     //TODO: Invent some common, proper interface for the AutoConfig of Output controllers which support automatic detection and configuration.
     /// <summary>
-    /// Common interface for all outputcontrollers.
-    /// The abstract OutputController class implements this interface and can be inherited for other output controller classes.
+    /// Common interface for all outputcontrollers.<br/>
+    /// The abstract OutputController class implements this interface and can be inherited for other output controller classes.<br/>
     /// It is important to ensure that all classes inherting this interface are XML serializeable.  
     /// </summary>
     public interface IOutputController: INamedItem

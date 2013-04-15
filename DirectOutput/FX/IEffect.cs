@@ -7,7 +7,7 @@ namespace DirectOutput.FX
     /// <summary>
     /// Common interface for all effects.<br/>
     /// If a new effect is implemented it is best to inherit from the abstract class Effect which does also inherit IEffect.<br/>
-    /// All classes inheriting IEffect mist be XMLSerializeable.
+    /// All classes inheriting IEffect must be XMLSerializeable.
     /// </summary>
     public interface IEffect:INamedItem
     {
@@ -36,8 +36,10 @@ namespace DirectOutput.FX
 
         /// <summary>
         /// Name of the effect.<br/>
-        /// Be sure to fire the NameChanged event if the name of the object gets changed. The abstract Effect class does already implement this property and the required NameChanged event.
         /// </summary>
+        /// <note>
+        /// Be sure to fire the NameChanged event if the name of the object gets changed. The abstract Effect class does already implement this property and the required NameChanged event.
+        /// </note>
         new string Name { get; set; }
         
         /// <summary>
