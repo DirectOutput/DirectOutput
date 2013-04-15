@@ -267,6 +267,37 @@ public static class StringExtensions
 
     }
 
+
+
+    /// <summary>
+    /// Replaces all occurences of a string with another string.
+    /// </summary>
+    /// <param name="originalString">The original string.</param>
+    /// <param name="oldValue">The old value.</param>
+    /// <param name="newValue">The new value.</param>
+    /// <param name="comparisonType">Type of the comparison.</param>
+    /// <returns>String with replaced values.</returns>
+    static public string Replace(this string originalString, string oldValue, string newValue, StringComparison comparisonType)
+    {
+        StringBuilder sb = new StringBuilder();
+
+        int previousIndex = 0;
+        int index = originalString.IndexOf(oldValue, comparisonType);
+        while (index != -1)
+        {
+            sb.Append(originalString.Substring(previousIndex, index - previousIndex));
+            sb.Append(newValue);
+            index += oldValue.Length;
+
+            previousIndex = index;
+            index = originalString.IndexOf(oldValue, index, comparisonType);
+        }
+        sb.Append(originalString.Substring(previousIndex));
+
+        return sb.ToString();
+
+    }
+
 }
 
 
