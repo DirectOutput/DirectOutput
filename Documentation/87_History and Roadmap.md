@@ -1,17 +1,6 @@
-﻿History, ToDo and Roadmap {#HistoryTodoRoadmap}
+﻿History and Roadmap {#HistoryRoadmap}
 ====================
 
-\section todo ToDo
-
-This section contains a list of additions and ideas for the DirectOutput framework:
-
-
-- Modify LedControl and TableConfig loading to allow a mix of both. Add new property to table config to enable/disable this behaviour.
-- Add AssignedToy and AssignedToysList to be used for effects. This would probably facilitaty the implementation of a configuration editor.
-- Add conditions (expressions that evluate to true or false) for assigned effects. CSScript makes this easy, but unlopading of changed effects will not be possible without restarting the framework.
-- Invent some common, proper interface for the AutoConfig of Output controllers.
-- EM support. Will need some extensions of the external interface.
-- Move global config to app settings 
 
 \section roadmap Roadmap
 
