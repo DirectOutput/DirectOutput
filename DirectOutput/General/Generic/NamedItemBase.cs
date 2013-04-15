@@ -4,7 +4,7 @@ namespace DirectOutput.General.Generic
 {
     public abstract class NamedItemBase : INamedItem
     {
-        #region ShortRomName Name
+        #region Name
         private string _Name;
         /// <summary>
         /// Name of the Named item.<br/>

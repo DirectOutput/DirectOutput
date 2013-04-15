@@ -85,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cab\Out\LW\LW.cs" />
+    <Compile Include="Cab\Out\NullOutputController\NullOutputController.cs" />
     <Compile Include="Cab\Toys\Basic\Basic.cs" />
     <Compile Include="Cab\Toys\Basic\GearMotor.cs" />
     <Compile Include="Cab\Toys\IRGBToy.cs" />
