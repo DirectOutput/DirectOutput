@@ -19,7 +19,7 @@ namespace DirectOutput.GlobalConfig
         #region Led Control files
         private LedControlIniFileList _LedControlIniFiles = new LedControlIniFileList();
 
-        //TODO: Serialisierung anpassen, doku auch anpassen
+        /// TODO: Check serialization of the property.
         /// <summary>
         /// Gets or sets the list of LedControl.ini files.<br/>
         /// </summary>
@@ -37,7 +37,7 @@ namespace DirectOutput.GlobalConfig
         #region Cabinet
 
         #region Cabinet config file
-        private FilePattern _CabinetConfigFilePattern=new FilePattern();
+        private FilePattern _CabinetConfigFilePattern = new FilePattern();
 
         /// <summary>
         /// Gets or sets the cabinet config file pattern.
@@ -78,11 +78,11 @@ namespace DirectOutput.GlobalConfig
                 return CC.Directory;
             }
             return null;
-        } 
+        }
         #endregion
 
         #region Cabinet Scripts file patterns
-        private FilePatternList _CabinetScriptFilePatterns = new FilePatternList() ;
+        private FilePatternList _CabinetScriptFilePatterns = new FilePatternList();
 
         /// <summary>
         /// Gets or sets the search patterns for cabinet scripts files.
@@ -121,7 +121,7 @@ namespace DirectOutput.GlobalConfig
         ///// <summary>
         ///// List containing global effects. 
         ///// </summary>
-       
+
         //[XmlElementAttribute(Order = 5)]
         //public EffectList Effects
         //{
@@ -135,7 +135,7 @@ namespace DirectOutput.GlobalConfig
 
 
         #region Table script files
-        private FilePatternList _TableScriptFilePatterns=new FilePatternList();
+        private FilePatternList _TableScriptFilePatterns = new FilePatternList();
 
         /// <summary>
         /// Gets or sets the table script file patterns.
@@ -163,12 +163,12 @@ namespace DirectOutput.GlobalConfig
                 return TableScriptFilePatterns.GetMatchingFiles(GetReplaceValuesDictionary(FullTableFilename));
             }
             return new List<FileInfo>();
-        } 
+        }
         #endregion
 
 
         #region Table Config
-        private FilePattern _TableConfigFilePattern=new FilePattern();
+        private FilePattern _TableConfigFilePattern = new FilePattern();
 
         /// <summary>
         /// Gets or sets the table config file pattern.
@@ -200,7 +200,7 @@ namespace DirectOutput.GlobalConfig
             }
             return null;
         }
-        
+
         #endregion
 
 
@@ -219,11 +219,11 @@ namespace DirectOutput.GlobalConfig
         {
             get { return _UpdateTimerIntervall; }
             set { _UpdateTimerIntervall = value; }
-        } 
+        }
         #endregion
 
 
-        private Dictionary<string, string> GetReplaceValuesDictionary(string TableFileName=null)
+        private Dictionary<string, string> GetReplaceValuesDictionary(string TableFileName = null)
         {
             Dictionary<string, string> D = new Dictionary<string, string>();
             D.Add("GlobalConfigDirectory", GlobalConfigDirectory.FullName);
@@ -297,13 +297,13 @@ namespace DirectOutput.GlobalConfig
         }
 
 
+        //TODO: Check if this should be loaded from the registry.
         /// <summary>
         /// Filename of the global config file (readonly).
         /// </summary>
         /// <value>string containg the full path and filename of the global config file.</value>
         public static string GlobalConfigFilename
         {
-            //TODO: CHeck if this should be loaded from the registry.
             get { return Path.Combine(GlobalConfigDirectoryName, "GlobalConfig.xml"); }
         }
 
@@ -314,7 +314,7 @@ namespace DirectOutput.GlobalConfig
         /// <returns>FileInfo object for the global config file.</returns>
         public static FileInfo GetGlobalConfigFile()
         {
-             return new FileInfo(GlobalConfigFilename); 
+            return new FileInfo(GlobalConfigFilename);
         }
 
         #endregion
@@ -363,7 +363,7 @@ namespace DirectOutput.GlobalConfig
         /// </summary>
         /// <param name="GlobalConfigFileName">(Optional) Name of the global config XML file. If no value is supplied, the default global config filename is used.</param>
         /// <returns>GlobalConfig object or null.</returns>
-        public static Config GetGlobalConfigFromConfigXmlFile(string GlobalConfigFileName="")
+        public static Config GetGlobalConfigFromConfigXmlFile(string GlobalConfigFileName = "")
         {
             string GCFileName = (GlobalConfigFilename.IsNullOrWhiteSpace() ? Config.GlobalConfigFilename : GlobalConfigFilename);
             Log.Write("Loading global config file: {0}".Build(GCFileName));
@@ -380,7 +380,7 @@ namespace DirectOutput.GlobalConfig
                     }
                     catch (Exception E)
                     {
-                        Log.Exception("A exception occured when trying to load: {0}".Build(GCFileName),E);
+                        Log.Exception("A exception occured when trying to load: {0}".Build(GCFileName), E);
                         return null;
                     }
                 }
@@ -390,9 +390,9 @@ namespace DirectOutput.GlobalConfig
                     return null;
                 }
             }
-            catch(Exception E)
+            catch (Exception E)
             {
-                Log.Exception("A exception occured when trying to access: {0}".Build(GCFileName),E);
+                Log.Exception("A exception occured when trying to access: {0}".Build(GCFileName), E);
                 return null;
             }
         }
@@ -419,17 +419,17 @@ namespace DirectOutput.GlobalConfig
         /// Before saving the current global config file is backed up.
         /// </summary>
         /// <param name="GlobalConfigFilename">(Optional)Global config filename. If new value is supplied the default global config filename is used.</param>
-        public void SaveGlobalConfig(string GlobalConfigFilename="")
+        public void SaveGlobalConfig(string GlobalConfigFilename = "")
         {
-            string GCFileName=(GlobalConfigFilename.IsNullOrWhiteSpace()?Config.GlobalConfigFilename:GlobalConfigFilename);
+            string GCFileName = (GlobalConfigFilename.IsNullOrWhiteSpace() ? Config.GlobalConfigFilename : GlobalConfigFilename);
 
             if (File.Exists(GCFileName))
             {
                 //Create a backup of the current global config file
-                File.Copy(GCFileName, Path.Combine(Path.GetDirectoryName(GCFileName), "{1} old (replaced {0}){2}".Build(DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss"), Path.GetFileNameWithoutExtension(GCFileName),Path.GetExtension(GCFileName))));
+                File.Copy(GCFileName, Path.Combine(Path.GetDirectoryName(GCFileName), "{1} old (replaced {0}){2}".Build(DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss"), Path.GetFileNameWithoutExtension(GCFileName), Path.GetExtension(GCFileName))));
             };
             DirectoryInfo GCDirectory = new FileInfo(GCFileName).Directory;
-            
+
             GCDirectory.CreateDirectoryPath();
             GetGlobalConfigXml().WriteToFile(GCFileName, false);
 

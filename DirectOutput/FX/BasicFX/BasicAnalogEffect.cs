@@ -80,28 +80,28 @@ namespace DirectOutput.FX.BasicFX
             }
         }
 
+        private int _ValueOn = 255;
+
         /// <summary>
         /// Gets or sets the value which will be set for the IAnalogToy if the value of the TableElement supplied to the trigger method is >0.
         /// </summary>
         /// <value>
         /// The value which will be set for the IAnalogToy if the value of the TableElement supplied to the trigger method is >0.
         /// </value>
-        private int _ValueOn=255;
-
         public int ValueOn
         {
             get { return _ValueOn; }
             set { _ValueOn = value.Limit(0,255); }
         }
-        
+
+        private int _ValueOff = 0;
+
         /// <summary>
         /// Gets or sets the value which will be set for the IAnalogToy if the value of the TableElement supplied to the trigger method is 0.
         /// </summary>
         /// <value>
         /// The value which will be set for the IAnalogToy if the value of the TableElement supplied to the trigger method is 0.
         /// </value>
-        private int _ValueOff=0;
-
         public int ValueOff
         {
             get { return _ValueOff; }

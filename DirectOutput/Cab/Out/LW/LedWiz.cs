@@ -364,7 +364,6 @@ namespace DirectOutput.Cab.Out.LW
 
 
             //TODO: Check if thread should really terminate on failed updates
-
             private void LedWizUpdaterDoIt()
             {
                 int FailCnt = 0;

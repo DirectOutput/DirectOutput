@@ -8,6 +8,7 @@ using System.Xml.Serialization;
 
 namespace DirectOutput.FX
 {
+    //TODO: Add conditions (expressions that evluate to true or false) for assigned effects. CSScript makes this easy, but unlopading of changed effects will not be possible without restarting the framework.
     /// <summary>
     /// Handles the assignemt of a effect to a AssignedEffectList.
     /// </summary>

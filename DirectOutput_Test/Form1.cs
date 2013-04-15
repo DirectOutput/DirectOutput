@@ -7,7 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using DirectOutput;
-using DirectOutput.Table;
+using DirectOutput.GlobalConfig;
+using DirectOutput_Test.Properties;
+using System.Configuration;
+
 
 namespace DirectOutput_Test
 {
@@ -31,18 +34,14 @@ namespace DirectOutput_Test
 
         private void button2_Click(object sender, EventArgs e)
         {
- 
+
         }
 
         private void button2_Click_1(object sender, EventArgs e)
         {
-            Table T = new Table();
-            T.AssignedStaticEffects.Add(new DirectOutput.FX.AssignedEffectOrder("Test", 5));
-            T.TableElements.Add(new TableElement(TableElementTypeEnum.Solenoid, 1, 1));
-            T.TableElements[0].AssignedEffects.Add(new DirectOutput.FX.AssignedEffectOrder("TestEffect", 2));
-            T.Effects.Add(new DirectOutput.FX.BasicFX.BasicDigitalEffect() { Name = "TestEffect", DigitalToyName = "Blabla" });
-            string S = T.GetConfigXml();
-            Console.WriteLine(S);
+
+
+
         }
     }
 }

@@ -14,7 +14,7 @@ namespace DirectOutput.LedControl
     /// </summary>
     public class LedControlConfigList : List<LedControlConfig>
     {
-        //TODO: Umbauen um Ledconfig daten mit xml konfig verbinden zu können.
+        //TODO: Modify to allow mixing of LedControl data with xml config
         /// <summary>
         /// Gets a Table configuration for the spcified RomName from the loaded LedControl.ini files.
         /// </summary>

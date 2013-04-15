@@ -18,6 +18,9 @@ namespace DirectOutput.FX
 
         /// <summary>
         /// Triggers the effect for the given TableElementData
+        /// <warning>
+        /// Remember that the TableElementData parameter will contain null if a effect is called as a static effect. Make sure your implementation of this method does not fail when called with null.
+        /// </warning>
         /// </summary>
         /// <param name="TableElementData">TableElementData for the TableElement which has triggered the effect.</param>
         public abstract void Trigger(TableElementData TableElementData);

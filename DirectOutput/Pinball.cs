@@ -265,9 +265,9 @@ namespace DirectOutput
 
 
         #region Event handlers
+        //TODO: Implement update logic which takes both souces of update calls into account
         void UpdateTimer_AlarmsTriggered(object sender, EventArgs e)
         {
-            //TODO: Implement update logic which takes both souces of update calls into account
             Cabinet.OutputControllers.Update();
         }
 
