@@ -54,7 +54,7 @@ Public Class EM
             Try
                 Pinball.Init(New FileInfo(TableFileName), Romname)
             Catch ex As Exception
-                Throw New Exception("Could not initialize the DirectOutput framework for table {0} and rom name {1}.".Build(TableFileName, Romname), ex)
+                Throw New Exception(String.Format("Could not initialize the DirectOutput framework for table {0} and rom name {1}.", TableFileName, Romname), ex)
             End Try
             IsInitialized = True
             IsFinished = False
@@ -105,7 +105,7 @@ Public Class EM
             Try
                 Pinball.ReceiveData(TableElementTypeChar, Number, Value)
             Catch Ex As Exception
-                Throw New Exception("Could not set the value of table element {0} {1} to {2}.".Build(TableElementTypeChar, Number, Value), Ex)
+                Throw New Exception(String.Format("Could not set the value of table element {0} {1} to {2}.", TableElementTypeChar, Number, Value), Ex)
             End Try
 
         Else

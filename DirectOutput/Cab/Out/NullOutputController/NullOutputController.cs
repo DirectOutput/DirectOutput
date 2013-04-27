@@ -19,21 +19,23 @@ namespace DirectOutput.Cab.Out.NullOutputController
         /// Init initializes the ouput controller.<br/>
         /// This method is called after the objects haven been instanciated.
         /// </summary>
-        public  void Init() {
+        public override  void Init() {
         }
 
         /// <summary>
         /// Finishes the ouput controller.<br/>
         /// All necessary cleanup tasks have to be implemented here und all physical outputs have to be turned off.
         /// </summary>
-        public  void Finish() {
+        public override void Finish()
+        {
             
         }
 
         /// <summary>
         /// Update must update the physical outputs to the values defined in the Outputs list. 
         /// </summary>
-        public  void Update() {
+        public override void Update()
+        {
             
         }
 
