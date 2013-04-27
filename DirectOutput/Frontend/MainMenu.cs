@@ -98,13 +98,13 @@ namespace DirectOutput.Frontend
         {
             foreach (Form F in Application.OpenForms)
             {
-                if (F.GetType() == typeof(GlobalConfigEditor))
+                if (F.GetType() == typeof(GlobalConfigEditor_old))
                 {
                     F.Focus();
                     return;
                 }
             }
-            GlobalConfigEditor CI = new GlobalConfigEditor(GlobalConfig.Config.GlobalConfigFilename);
+            GlobalConfigEditor_old CI = new GlobalConfigEditor_old(GlobalConfig.Config.GlobalConfigFilename);
             CI.Show();
         }
 

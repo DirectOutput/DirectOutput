@@ -26,5 +26,26 @@ namespace DirectOutput.GlobalConfig
             }
             return L;
         }
+
+
+        /// <summary>
+        /// Gets the first matching file for the entries in the list.
+        /// </summary>
+        /// <param name="ReplaceValues">Dictionary containing key/value pairs used to replace placeholders in the form {PlaceHolder} in the patterns.</param>
+        /// <returns>FileInfo object for the first file matching a entry in the list or null if no match is found.</returns>
+        public FileInfo GetFirstMatchingFile(Dictionary<string, string> ReplaceValues = null)
+        {
+            foreach (FilePattern P in this)
+            {
+                FileInfo F = P.GetFirstMatchingFile(ReplaceValues);
+                if (F != null)
+                {
+                    return F;
+                }
+            }
+            return null;
+        }
+
+
     }
 }

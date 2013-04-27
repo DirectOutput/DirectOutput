@@ -12,7 +12,7 @@ using System.Reflection;
 
 namespace DirectOutput.Frontend
 {
-    public partial class GlobalConfigEditor : Form
+    public partial class GlobalConfigEditor_old : Form
     {
 
 
@@ -57,9 +57,9 @@ namespace DirectOutput.Frontend
 
 
             TableConfigFilePattern.DataBindings.Clear();
-            TableConfigFilePattern.DataBindings.Add(new Binding("Text", GlobalConfig.TableConfigFilePattern, "Pattern", true, DataSourceUpdateMode.OnPropertyChanged));
+            TableConfigFilePattern.DataBindings.Add(new Binding("Text", GlobalConfig.TableConfigFilePatterns, "Pattern", true, DataSourceUpdateMode.OnPropertyChanged));
             CabinetConfigFilePattern.DataBindings.Clear();
-            CabinetConfigFilePattern.DataBindings.Add(new Binding("Text", GlobalConfig.CabinetConfigFilePattern, "Pattern", true, DataSourceUpdateMode.OnPropertyChanged));
+            CabinetConfigFilePattern.DataBindings.Add(new Binding("Text", GlobalConfig.CabinetConfigFilePatterns, "Pattern", true, DataSourceUpdateMode.OnPropertyChanged));
 
             LedControlIniFilesBindingSource.DataSource = GlobalConfig;
             CabinetScriptFilePatternsBindingSource.DataSource = GlobalConfig;
@@ -495,23 +495,28 @@ namespace DirectOutput.Frontend
 
         }
 
-        public GlobalConfigEditor()
+        public GlobalConfigEditor_old()
             : this(new Config())
         { ; }
 
-        public GlobalConfigEditor(string GlobalConfigFilename)
+        public GlobalConfigEditor_old(string GlobalConfigFilename)
             : this(Config.GetGlobalConfigFromConfigXmlFile(GlobalConfigFilename))
         { this.GlobalConfigFilename = GlobalConfigFilename; }
 
-        public GlobalConfigEditor(bool LoadDefaultGlobalConfig)
+        public GlobalConfigEditor_old(bool LoadDefaultGlobalConfig)
             : this(Config.GetGlobalConfigFromConfigXmlFile())
         { }
 
-        public GlobalConfigEditor(Config GlobalConfig)
+        public GlobalConfigEditor_old(Config GlobalConfig)
         {
             InitializeComponent();
             this.GlobalConfig = GlobalConfig;
             this.GlobalConfigFilename = "";
+        }
+
+        private void LedControlIniFiles_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
 
 

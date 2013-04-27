@@ -66,7 +66,7 @@ namespace DirectOutput.GlobalConfig
             }
         }
 
-        public string FileStatus
+        public string Status
         {
             get
             {

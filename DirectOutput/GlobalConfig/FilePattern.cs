@@ -157,6 +157,7 @@ namespace DirectOutput.GlobalConfig
                 }
 
                 bool BracketOpen = false;
+                bool JustOpend = false;
                 foreach (char C in Pattern)
                 {
                     switch (C)
@@ -164,15 +165,22 @@ namespace DirectOutput.GlobalConfig
                         case '{':
                             if (BracketOpen) return false;
                             BracketOpen = true;
+                            JustOpend = true;
                             break;
                         case '}':
                             if (!BracketOpen) return false;
+                            if (JustOpend) return false;
                             BracketOpen = false;
+                            JustOpend = false;
                             break;
                         case '\\':
                         case '*':
                         case '?':
                             if (BracketOpen) return false;
+                            JustOpend = false;
+                            break;
+                        default:
+                            JustOpend = false;
                             break;
                     }
                 }

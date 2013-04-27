@@ -1,6 +1,6 @@
 ﻿namespace DirectOutput.Frontend
 {
-    partial class GlobalConfigEditor
+    partial class GlobalConfigEditor_old
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GlobalConfigEditor));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GlobalConfigEditor_old));
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.GlobalConfigEditorStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
@@ -309,6 +309,7 @@
             this.LedControlIniFiles.Size = new System.Drawing.Size(1247, 521);
             this.LedControlIniFiles.TabIndex = 1;
             this.LedControlIniFiles.VirtualMode = true;
+            this.LedControlIniFiles.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.LedControlIniFiles_CellContentClick);
             this.LedControlIniFiles.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.LedControlIniFiles_CellDoubleClick);
             this.LedControlIniFiles.DragDrop += new System.Windows.Forms.DragEventHandler(this.LedControlIniFiles_DragDrop);
             this.LedControlIniFiles.DragOver += new System.Windows.Forms.DragEventHandler(this.LedControlIniFiles_DragOver);
@@ -894,7 +895,7 @@
             this.OpenGlobalConfigDialog.Filter = "GlobalConfig|GlobalConfig.xml|*.xml|*.xml|All files|*.*";
             this.OpenGlobalConfigDialog.Title = "Load global config file";
             // 
-            // GlobalConfigEditor
+            // GlobalConfigEditor_old
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -904,7 +905,7 @@
             this.Controls.Add(this.GlobalConfigEditorMenu);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.GlobalConfigEditorMenu;
-            this.Name = "GlobalConfigEditor";
+            this.Name = "GlobalConfigEditor_old";
             this.Text = "Global Configuration Editor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GlobalConfigEditor_FormClosing);
             this.Load += new System.EventHandler(this.GlobalConfigEditor_Load);

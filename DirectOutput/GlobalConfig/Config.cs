@@ -37,7 +37,8 @@ namespace DirectOutput.GlobalConfig
         #region Cabinet
 
         #region Cabinet config file
-        private FilePattern _CabinetConfigFilePattern = new FilePattern();
+        private FilePatternList _CabinetConfigFilePatterns = new FilePatternList();
+
 
         /// <summary>
         /// Gets or sets the cabinet config file pattern.
@@ -45,10 +46,10 @@ namespace DirectOutput.GlobalConfig
         /// <value>
         /// The cabinet config file pattern.
         /// </value>
-        public FilePattern CabinetConfigFilePattern
+        public FilePatternList CabinetConfigFilePatterns
         {
-            get { return _CabinetConfigFilePattern; }
-            set { _CabinetConfigFilePattern = value; }
+            get { return _CabinetConfigFilePatterns; }
+            set { _CabinetConfigFilePatterns = value; }
         }
 
 
@@ -58,9 +59,9 @@ namespace DirectOutput.GlobalConfig
         /// <returns>FileInfo object for the file containing the configuration of the cabinet or null if no file has been specified.</returns>
         public FileInfo GetCabinetConfigFile()
         {
-            if (CabinetConfigFilePattern != null)
+            if (CabinetConfigFilePatterns != null)
             {
-                return CabinetConfigFilePattern.GetFirstMatchingFile(GetReplaceValuesDictionary());
+                return CabinetConfigFilePatterns.GetFirstMatchingFile(GetReplaceValuesDictionary());
             }
             return null;
         }
@@ -117,18 +118,6 @@ namespace DirectOutput.GlobalConfig
 
         #endregion
 
-        //private EffectList _Effects = new EffectList();
-        ///// <summary>
-        ///// List containing global effects. 
-        ///// </summary>
-
-        //[XmlElementAttribute(Order = 5)]
-        //public EffectList Effects
-        //{
-        //    get { return _Effects; }
-        //    set { _Effects = value; }
-        //}
-
 
         #region Table
 
@@ -168,37 +157,30 @@ namespace DirectOutput.GlobalConfig
 
 
         #region Table Config
-        private FilePattern _TableConfigFilePattern = new FilePattern();
+        private FilePatternList _TableConfigFilePatterns = new FilePatternList();
 
         /// <summary>
-        /// Gets or sets the table config file pattern.
+        /// Gets or sets the config file patterns used to looup the table configuration.
         /// </summary>
         /// <value>
-        /// The table config file pattern.
+        /// The table config file patterns.
         /// </value>
-        public FilePattern TableConfigFilePattern
+        public FilePatternList TableConfigFilePatterns
         {
-            get { return _TableConfigFilePattern; }
-            set { _TableConfigFilePattern = value; }
+            get { return _TableConfigFilePatterns; }
+            set { _TableConfigFilePatterns = value; }
         }
-
-
-
 
         /// <summary>
         /// Gets a FileInfo object for the table config file.<br/>
-        /// The file is lookued up using the value of the property TableConfigFilePattern.
-        /// If more than one file matches the search pattern, only the first file is returned.
+        /// The file is lookued up using the list of the property TableConfigFilePatterns.
+        /// If more than one file matches the search patterns, only the first file is returned.
         /// </summary>
         /// <param name="FullTableFilename">The table filename (The *.vpt file for the table, not the config file).</param>
         /// <returns>A FileInfo object for the table config file or null if no matching file was found.</returns>
         public FileInfo GetTableConfigFile(string FullTableFilename)
         {
-            if (TableConfigFilePattern != null)
-            {
-                return TableConfigFilePattern.GetFirstMatchingFile(GetReplaceValuesDictionary(FullTableFilename));
-            }
-            return null;
+            return TableConfigFilePatterns.GetFirstMatchingFile(GetReplaceValuesDictionary(FullTableFilename));
         }
 
         #endregion
@@ -221,6 +203,24 @@ namespace DirectOutput.GlobalConfig
             set { _UpdateTimerIntervall = value; }
         }
         #endregion
+
+        #region Logging
+        private bool _EnableLog = false;
+
+        //TODO: Extend log class to respect this setting
+        /// <summary>
+        /// Gets or sets a value indicating whether impotant events in the framework are logged to a file.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if logging is enabled, <c>false</c> if logging is disabled.
+        /// </value>
+        public bool EnableLog
+        {
+            get { return _EnableLog; }
+            set { _EnableLog = value; }
+        } 
+        #endregion
+        
 
 
         private Dictionary<string, string> GetReplaceValuesDictionary(string TableFileName = null)

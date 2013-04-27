@@ -120,6 +120,12 @@
     <Compile Include="Frontend\AvailableEffectsInfo.Designer.cs">
       <DependentUpon>AvailableEffectsInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Frontend\GlobalConfigEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frontend\GlobalConfigEdit.Designer.cs">
+      <DependentUpon>GlobalConfigEdit.cs</DependentUpon>
+    </Compile>
     <Compile Include="Frontend\MainMenu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -145,11 +151,11 @@
     <Compile Include="Log.cs" />
     <Compile Include="GlobalConfig\FilePattern.cs" />
     <Compile Include="GlobalConfig\FilePatternList.cs" />
-    <Compile Include="Frontend\GlobalConfigEditor.cs">
+    <Compile Include="Frontend\GlobalConfigEditor_old.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Frontend\GlobalConfigEditor.Designer.cs">
-      <DependentUpon>GlobalConfigEditor.cs</DependentUpon>
+    <Compile Include="Frontend\GlobalConfigEditor_old.Designer.cs">
+      <DependentUpon>GlobalConfigEditor_old.cs</DependentUpon>
     </Compile>
     <Compile Include="FX\LedControlFX\LedControlFX.cs" />
     <Compile Include="General\Generic\SortableBindingList.cs" />
@@ -295,6 +301,9 @@
     <EmbeddedResource Include="Frontend\AvailableEffectsInfo.resx">
       <DependentUpon>AvailableEffectsInfo.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Frontend\GlobalConfigEdit.resx">
+      <DependentUpon>GlobalConfigEdit.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Frontend\MainMenu.resx">
       <DependentUpon>MainMenu.cs</DependentUpon>
     </EmbeddedResource>
@@ -304,8 +313,8 @@
     <EmbeddedResource Include="Frontend\TableInfo.resx">
       <DependentUpon>TableInfo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Frontend\GlobalConfigEditor.resx">
-      <DependentUpon>GlobalConfigEditor.cs</DependentUpon>
+    <EmbeddedResource Include="Frontend\GlobalConfigEditor_old.resx">
+      <DependentUpon>GlobalConfigEditor_old.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
