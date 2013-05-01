@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using DirectOutput;
-using DirectOutput.GlobalConfig;
+using DirectOutput.GlobalConfiguration;
 using DirectOutput_Test.Properties;
 using System.Configuration;
 
@@ -29,7 +29,7 @@ namespace DirectOutput_Test
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            DirectOutput.GlobalConfig.Config C = DirectOutput.GlobalConfig.Config.GetGlobalConfigFromConfigXmlFile();
+            DirectOutput.GlobalConfiguration.GlobalConfig C = DirectOutput.GlobalConfiguration.GlobalConfig.GetGlobalConfigFromConfigXmlFile();
             DirectOutput.Frontend.GlobalConfigEdit F= new DirectOutput.Frontend.GlobalConfigEdit(C);
             F.Show();
         }

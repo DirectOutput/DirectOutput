@@ -7,13 +7,13 @@ using System.Xml;
 using System.Xml.Serialization;
 
 
-namespace DirectOutput.GlobalConfig
+namespace DirectOutput.GlobalConfiguration
 {
 
     /// <summary>
     /// Global configuration for the DirectOutput framework.<br/> 
     /// </summary>
-    public class Config
+    public class GlobalConfig
     {
 
         #region Led Control files
@@ -330,7 +330,7 @@ namespace DirectOutput.GlobalConfig
 
             XmlSerializerNamespaces Namespaces = new XmlSerializerNamespaces();
             Namespaces.Add(string.Empty, string.Empty);
-            XmlSerializer Serializer = new XmlSerializer(typeof(Config));
+            XmlSerializer Serializer = new XmlSerializer(typeof(GlobalConfig));
             MemoryStream Stream = new MemoryStream();
             XmlWriterSettings Settings = new XmlWriterSettings();
             Settings.Indent = true;
@@ -363,9 +363,9 @@ namespace DirectOutput.GlobalConfig
         /// </summary>
         /// <param name="GlobalConfigFileName">(Optional) Name of the global config XML file. If no value is supplied, the default global config filename is used.</param>
         /// <returns>GlobalConfig object or null.</returns>
-        public static Config GetGlobalConfigFromConfigXmlFile(string GlobalConfigFileName = "")
+        public static GlobalConfig GetGlobalConfigFromConfigXmlFile(string GlobalConfigFileName = "")
         {
-            string GCFileName = (GlobalConfigFilename.IsNullOrWhiteSpace() ? Config.GlobalConfigFilename : GlobalConfigFilename);
+            string GCFileName = (GlobalConfigFilename.IsNullOrWhiteSpace() ? GlobalConfig.GlobalConfigFilename : GlobalConfigFilename);
             Log.Write("Loading global config file: {0}".Build(GCFileName));
             try
             {
@@ -403,14 +403,14 @@ namespace DirectOutput.GlobalConfig
         /// </summary>
         /// <param name="ConfigXml">XML string</param>
         /// <returns>GlobalConfig object for the specified ConfigXML.</returns>
-        public static Config GetGlobalConfigFromGlobalConfigXml(string ConfigXml)
+        public static GlobalConfig GetGlobalConfigFromGlobalConfigXml(string ConfigXml)
         {
 
 
             byte[] xmlBytes = Encoding.Default.GetBytes(ConfigXml);
             using (MemoryStream ms = new MemoryStream(xmlBytes))
             {
-                return (Config)new XmlSerializer(typeof(Config)).Deserialize(ms);
+                return (GlobalConfig)new XmlSerializer(typeof(GlobalConfig)).Deserialize(ms);
             }
         }
 
@@ -421,7 +421,7 @@ namespace DirectOutput.GlobalConfig
         /// <param name="GlobalConfigFilename">(Optional)Global config filename. If new value is supplied the default global config filename is used.</param>
         public void SaveGlobalConfig(string GlobalConfigFilename = "")
         {
-            string GCFileName = (GlobalConfigFilename.IsNullOrWhiteSpace() ? Config.GlobalConfigFilename : GlobalConfigFilename);
+            string GCFileName = (GlobalConfigFilename.IsNullOrWhiteSpace() ? GlobalConfig.GlobalConfigFilename : GlobalConfigFilename);
 
             if (File.Exists(GCFileName))
             {
@@ -438,9 +438,9 @@ namespace DirectOutput.GlobalConfig
 
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Config"/> class.
+        /// Initializes a new instance of the <see cref="GlobalConfig"/> class.
         /// </summary>
-        public Config()
+        public GlobalConfig()
         {
 
             UpdateTimerIntervall = 20;

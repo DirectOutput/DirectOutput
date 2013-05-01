@@ -265,7 +265,7 @@ namespace DirectOutput.Frontend
             }
             else
             {
-                SaveCabinetConfiguration.InitialDirectory = GlobalConfig.Config.GlobalConfigDirectoryName;
+                SaveCabinetConfiguration.InitialDirectory = GlobalConfiguration.GlobalConfig.GlobalConfigDirectoryName;
             }
             if (SaveCabinetConfiguration.ShowDialog() == DialogResult.OK)
             {

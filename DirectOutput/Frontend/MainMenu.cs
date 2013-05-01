@@ -24,7 +24,7 @@ namespace DirectOutput.Frontend
             TableFilename.Text = Pinball.Table.TableFilename;
             TableRomname.Text = Pinball.Table.RomName;
 
-            GlobalConfigFilename.Text = (GlobalConfig.Config.GetGlobalConfigFile().Exists ? GlobalConfig.Config.GlobalConfigFilename : "<no global config file found>");
+            GlobalConfigFilename.Text = (GlobalConfiguration.GlobalConfig.GetGlobalConfigFile().Exists ? GlobalConfiguration.GlobalConfig.GlobalConfigFilename : "<no global config file found>");
 
             switch (Pinball.Table.ConfigurationSource)
             {
@@ -98,13 +98,13 @@ namespace DirectOutput.Frontend
         {
             foreach (Form F in Application.OpenForms)
             {
-                if (F.GetType() == typeof(GlobalConfigEditor_old))
+                if (F.GetType() == typeof(GlobalConfigEdit))
                 {
                     F.Focus();
                     return;
                 }
             }
-            GlobalConfigEditor_old CI = new GlobalConfigEditor_old(GlobalConfig.Config.GlobalConfigFilename);
+            GlobalConfigEdit CI = new GlobalConfigEdit();
             CI.Show();
         }
 

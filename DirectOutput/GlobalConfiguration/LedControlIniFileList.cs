@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel;
 
-namespace DirectOutput.GlobalConfig
+namespace DirectOutput.GlobalConfiguration
 {
     public class LedControlIniFileList : BindingList<LedControlIniFile>
     {
-        public void Add(string Filename)
+        public void Add(string Filename, int LedWizNumber)
         {
-            LedControlIniFile I = new LedControlIniFile(Filename);
+            LedControlIniFile I = new LedControlIniFile(Filename,LedWizNumber);
             Add(I);
         }
 

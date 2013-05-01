@@ -149,18 +149,12 @@
     <Compile Include="FX\DelayFX\DelayFX.cs" />
     <Compile Include="FX\NullFX\NullEffect.cs" />
     <Compile Include="Log.cs" />
-    <Compile Include="GlobalConfig\FilePattern.cs" />
-    <Compile Include="GlobalConfig\FilePatternList.cs" />
-    <Compile Include="Frontend\GlobalConfigEditor_old.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Frontend\GlobalConfigEditor_old.Designer.cs">
-      <DependentUpon>GlobalConfigEditor_old.cs</DependentUpon>
-    </Compile>
+    <Compile Include="GlobalConfiguration\FilePattern.cs" />
+    <Compile Include="GlobalConfiguration\FilePatternList.cs" />
     <Compile Include="FX\LedControlFX\LedControlFX.cs" />
     <Compile Include="General\Generic\SortableBindingList.cs" />
-    <Compile Include="GlobalConfig\LedControlIniFile.cs" />
-    <Compile Include="GlobalConfig\LedControlIniFileList.cs" />
+    <Compile Include="GlobalConfiguration\LedControlIniFile.cs" />
+    <Compile Include="GlobalConfiguration\LedControlIniFileList.cs" />
     <Compile Include="LedControl\LedControl.cs" />
     <Compile Include="Pinball.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -224,7 +218,7 @@
     <Compile Include="General\Generic\SetEventArgs.cs" />
     <Compile Include="General\Generic\ValidateItemEventArgs.cs" />
     <Compile Include="General\TypeList.cs" />
-    <Compile Include="GlobalConfig\Config.cs" />
+    <Compile Include="GlobalConfiguration\GlobalConfig.cs" />
     <Compile Include="LedControl\ColorConfig.cs" />
     <Compile Include="LedControl\ColorConfigList.cs" />
     <Compile Include="LedControl\LedControlConfig.cs" />
@@ -312,9 +306,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Frontend\TableInfo.resx">
       <DependentUpon>TableInfo.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Frontend\GlobalConfigEditor_old.resx">
-      <DependentUpon>GlobalConfigEditor_old.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

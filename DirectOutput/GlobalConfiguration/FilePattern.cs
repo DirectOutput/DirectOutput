@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 
-namespace DirectOutput.GlobalConfig
+namespace DirectOutput.GlobalConfiguration
 {
     /// <summary>
     /// A file pattern class used to lookup files matching a specified pattern.

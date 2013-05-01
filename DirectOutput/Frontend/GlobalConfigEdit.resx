@@ -119,14 +119,25 @@
   </resheader>
   <data name="label1.Text" xml:space="preserve">
     <value>LedControl.ini files are used by the DirectOutput framework as a fallback solution if no cable config can be found or if the table config contains errors.
-If no LedControl.ini files are specified in this table, the framework will try to lookup a file called ledcontrol.ini in the following locations:
+If no LedControl files are specified in the global configuration, the framework will try to lookup a file called ledcontrol.ini in the following locations:
 - Table directory
 - Global config directory 
 - Directory of the framework
-The LedControl.ini file(s) will be used to control LedWizEquivalent toys (basically a pass through to a Ledwiz output controller). The cabinet config can contain any number of LedwizEquivalent toys, each having a identifiaction number between 0-15 which is the equivalent to the number of a ledwiz. The first LedControl.ini file, will control LedwizEquivalent nr. 1, the second file will control nr. 2 and so on.
-If the cabinet config does not contain LedWizEquivalent toys and no LedWiz output controllers or if no cabinet config is available, the framework will try to locate all connected Ledwiz controllers and add the necessary objects (LedWiz output controllers and LedWizEquivalent toys) to the config.
+
+The LedControl.ini file(s) will be used to control LedWizEquivalent toys (basically a pass through to a Ledwiz output controller). The cabinet config can contain any number of LedwizEquivalent toys, each having a identifiaction number between 1-16 which is the equivalent to the number of a ledwiz.
+If the cabinet configuration does not contain LedWizEquivalent toys and no LedWiz output controllers or if no cabinet config is available, the framework will try to locate all connected Ledwiz controllers and add the necessary objects (LedWiz output controllers and LedWizEquivalent toys) to the config.
+
 Check  the Docu on the DirectOutput framework for more information.</value>
   </data>
+  <metadata name="LedwizNumber.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="Filename.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="Status.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
   <data name="label5.Text" xml:space="preserve">
     <value>The file patterns on this tab specify the locations where the framework is looking for the table configuration and table script files.
 You can specify a filename or enter a pattern with wildcards and placeholders to specify the location of the files. 
@@ -141,6 +152,21 @@ In addition to the wildcards the framework does also support the following place
 Please check the docu on the DirectOutput framework for more information.
 </value>
   </data>
+  <metadata name="CabinetConfigFilePattern.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="CabinetContextMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>178, 17</value>
+  </metadata>
+  <metadata name="CabinetConfigFilePatternStatus.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="CabinetScriptFilePattern.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="CabinetScriptFilePatternStatus.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
   <data name="label4.Text" xml:space="preserve">
     <value>The settings on this tab specify the location for the table configuration und the table script files. The settings support file patterns with wildcards and placeholders and also normal filenames.
 If more than one table configuration file is found for the specified file patterns, only the first found configuration file will be used. For script files all matching files will be loaded.
@@ -159,4 +185,22 @@ Please check the docu on the DirectOutput framework for more information.
 
 </value>
   </data>
+  <metadata name="TableConfigFilePattern.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="TableContextMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>345, 17</value>
+  </metadata>
+  <metadata name="TableConfigFilePatternStatus.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="TableScriptFilePattern.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="TableScriptFilePatternStatus.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="SelectLedcontrolFile.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
 </root>

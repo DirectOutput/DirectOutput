@@ -3,7 +3,7 @@ using System.IO;
 using System.Reflection;
 using DirectOutput.Cab;
 using DirectOutput.FX;
-using DirectOutput.GlobalConfig;
+using DirectOutput.GlobalConfiguration;
 using DirectOutput.LedControl;
 using DirectOutput.Scripting;
 
@@ -102,12 +102,12 @@ namespace DirectOutput
 
 
             //Load the global config
-            Config GlobalConfig = Config.GetGlobalConfigFromConfigXmlFile();
+            GlobalConfig GlobalConfig = GlobalConfig.GetGlobalConfigFromConfigXmlFile();
             if (GlobalConfig == null)
             {
                 Log.Write("No GlobalConfig file loaded. Using new inanciated GlobalConfig object instead.");
                 //set new global config object if it config could not be loaded from the file.
-                GlobalConfig = new Config();
+                GlobalConfig = new GlobalConfig();
             }
             else
             {
@@ -196,10 +196,10 @@ namespace DirectOutput
                         Log.Write("Will try to load table config from LedControl.ini file in the table directory {0}".Build(TableFile.Directory.FullName));
                         L.LoadLedControlFile(Path.Combine(TableFile.Directory.FullName, "ledcontrol.ini"), 1, false);
                     }
-                    else if (File.Exists(Path.Combine(Config.GlobalConfigDirectory.FullName, "ledcontrol.ini")))
+                    else if (File.Exists(Path.Combine(GlobalConfig.GlobalConfigDirectory.FullName, "ledcontrol.ini")))
                     {
-                        Log.Write("Will try to load table config from LedControl.ini file in the global config directory {0}".Build(Config.GlobalConfigDirectory.FullName));
-                        L.LoadLedControlFile(Path.Combine(Config.GlobalConfigDirectory.FullName, "ledcontrol.ini"), 1, false);
+                        Log.Write("Will try to load table config from LedControl.ini file in the global config directory {0}".Build(GlobalConfig.GlobalConfigDirectory.FullName));
+                        L.LoadLedControlFile(Path.Combine(GlobalConfig.GlobalConfigDirectory.FullName, "ledcontrol.ini"), 1, false);
                     }
                     else if (File.Exists(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "ledcontrol.ini")))
                     {

@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 
-namespace DirectOutput.GlobalConfig
+namespace DirectOutput.GlobalConfiguration
 {
     public class FilePatternList : List<FilePattern>
     {
