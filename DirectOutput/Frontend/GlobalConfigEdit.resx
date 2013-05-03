@@ -117,6 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="label12.Text" xml:space="preserve">
+    <value>The global script file patterns are defining the global script files which are being loaded by the DirectOutput framework. Global script files are always loaded no matter which table or cabinet configuration is loaded. These scripts are loaded first before the cabinet script files and the table script files, when the framework is initialized.
+A file pattern can contain a complete valid filename or a partial file name using wildcards and placeholders.
+
+Supported wildcards are:
+* - any number or characters
+? - 1 character
+Supported placeholders are:
+{DllDir}
+{GlobalConfigDir}</value>
+  </data>
+  <metadata name="GlobalScriptsFilePatternsFilePattern.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="GlobalScriptFilePatternsStatus.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="label13.Text" xml:space="preserve">
+    <value>The update timer acts as some kind of internal heartbeat, triggering actions on effects, toys and output controllers at regular intervals.
+Very low intervals can cause your system to slow down. High intervals are likely to result in less smooth behavier of the framework (e.g. for dim effects).
+</value>
+  </data>
   <data name="label1.Text" xml:space="preserve">
     <value>LedControl.ini files are used by the DirectOutput framework as a fallback solution if no cable config can be found or if the table config contains errors.
 If no LedControl files are specified in the global configuration, the framework will try to lookup a file called ledcontrol.ini in the following locations:
@@ -202,5 +224,8 @@ Please check the docu on the DirectOutput framework for more information.
   </metadata>
   <metadata name="SelectLedcontrolFile.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
+  </metadata>
+  <metadata name="SelectLogFile.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>500, 17</value>
   </metadata>
 </root>

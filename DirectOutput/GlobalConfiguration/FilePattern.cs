@@ -90,6 +90,25 @@ namespace DirectOutput.GlobalConfiguration
         }
 
         /// <summary>
+        /// Returns the pattern with replaced placeholders.
+        /// </summary>
+        /// <param name="ReplaceValues">The replace values.</param>
+        /// <returns>Pattern with replaced placeholders.</returns>
+        public string ReplacePlaceholders(Dictionary<string, string> ReplaceValues = null)
+        {
+            string P = Pattern;
+            if (ReplaceValues != null)
+            {
+                foreach (KeyValuePair<string, string> KV in ReplaceValues)
+                {
+                    P = P.Replace("{" + (KV.Key) + "}", KV.Value);
+                }
+            }
+            return P;
+        }
+
+
+        /// <summary>
         /// Gets the files matching the value of the property Pattern.
         /// </summary>
         /// <param name="ReplaceValues">Dictionary containing key/value pairs used to replace placeholders in the form {PlaceHolder} in the pattern.</param>
@@ -98,14 +117,8 @@ namespace DirectOutput.GlobalConfiguration
         {
             if (Pattern.IsNullOrWhiteSpace()) return new List<FileInfo>();
 
-            string P = Pattern;
-            if (ReplaceValues != null)
-            {
-                foreach (KeyValuePair<string, string> KV in ReplaceValues)
-                {
-                    P = P.Replace("{"+(KV.Key)+"}", KV.Value);
-                }
-            }
+            string P = ReplacePlaceholders(ReplaceValues);
+
             try
             {
                 

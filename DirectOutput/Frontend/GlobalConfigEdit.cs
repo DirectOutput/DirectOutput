@@ -12,15 +12,30 @@ namespace DirectOutput.Frontend
         protected bool Modified = false;
 
 
+        private GlobalConfig GlobalConfig;
+
         #region Validate config data
         public bool ValidateConfigData()
         {
             return ValidateLedcontrolFiles()
+                && ValidateFilePatterns(GlobalScriptFilePatterns)
                 && ValidateFilePatterns(CabinetConfigFilePatterns)
                 && ValidateFilePatterns(CabinetScriptFilePatterns)
                 && ValidateFilePatterns(TableScriptFilePatterns)
                 && ValidateFilePatterns(TableConfigFilePatterns)
-                ;
+                && ValidateLogFilePattern();
+        }
+
+        private bool ValidateLogFilePattern()
+        {
+            if (!LogFilePattern.Text.IsNullOrWhiteSpace())
+            {
+                if (!new FilePattern(LogFilePattern.Text).IsValid)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         private bool ValidateLedcontrolFiles()
@@ -43,12 +58,20 @@ namespace DirectOutput.Frontend
         #endregion
 
 
-        #region Save config data
-        public void SaveConfigData(GlobalConfig Config)
+        #region Update global config data
+        public void UpdateGlobalConfig()
+        {
+
+            UpdateGlobalConfigData(GlobalConfig);
+        }
+
+        public void UpdateGlobalConfigData(GlobalConfig Config)
         {
             if (ValidateConfigData())
             {
-                SaveLedcontrolFiles(Config);
+                UpdateLedcontrolFiles(Config);
+
+                SaveFilePatterns(Config.GlobalScriptFilePatterns, GlobalScriptFilePatterns);
 
                 SaveFilePatterns(Config.CabinetConfigFilePatterns, CabinetConfigFilePatterns);
                 SaveFilePatterns(Config.CabinetScriptFilePatterns, CabinetScriptFilePatterns);
@@ -57,11 +80,13 @@ namespace DirectOutput.Frontend
                 SaveFilePatterns(Config.TableScriptFilePatterns, TableScriptFilePatterns);
 
                 Config.UpdateTimerIntervall = (int)UpdateTimerIntervalMs.Value;
+
+                Config.EnableLogging = EnableLogging.Checked;
             } 
         }
 
 
-        private void SaveLedcontrolFiles(GlobalConfig Config)
+        private void UpdateLedcontrolFiles(GlobalConfig Config)
         {
             Config.LedControlIniFiles.Clear();
 
@@ -84,10 +109,18 @@ namespace DirectOutput.Frontend
         
         #endregion
 
+
+
+
+
         #region Config data loading
         private void LoadConfigData(GlobalConfig Config)
         {
+            GlobalConfig = Config;
+  
             LoadLedcontrolFiles(Config);
+
+            LoadFilePatterns(Config.GlobalScriptFilePatterns, GlobalScriptFilePatterns);
 
             LoadFilePatterns(Config.CabinetConfigFilePatterns, CabinetConfigFilePatterns);
             LoadFilePatterns(Config.CabinetScriptFilePatterns, CabinetScriptFilePatterns);
@@ -96,6 +129,9 @@ namespace DirectOutput.Frontend
             LoadFilePatterns(Config.TableScriptFilePatterns, TableScriptFilePatterns);
 
             UpdateTimerIntervalMs.Value = Config.UpdateTimerIntervall;
+            EnableLogging.Checked = Config.EnableLogging;
+            LogFilePattern.Text = Config.LogFilePattern.Pattern;
+            LogFilePatternStatus.Text = (Config.LogFilePattern.IsValid ? "OK" : "Invalid file pattern");
         }
 
         private void LoadFilePatterns(FilePatternList Patterns, DataGridView Destination)
@@ -356,6 +392,52 @@ namespace DirectOutput.Frontend
             }
             return AllEntriesValid;
         }
+
+        private void LogFilePattern_TextChanged(object sender, EventArgs e)
+        {
+            LogFilePatternStatus.Text=(new FilePattern(LogFilePattern.Text).IsValid?"OK":"Invalid file pattern");
+            Modified = true;
+        }
+
+        string LastLogDirectory = "";
+        private void ShowLogFileDialog_Click(object sender, EventArgs e)
+        {
+            if (LastLogDirectory.IsNullOrWhiteSpace())
+            {
+                SelectLogFile.InitialDirectory = Assembly.GetExecutingAssembly().Location;
+            }
+            else
+            {
+                SelectLogFile.InitialDirectory = LastLogDirectory;
+            }
+            if (SelectLogFile.ShowDialog(this) == DialogResult.OK)
+            {
+                LogFilePattern.Text = SelectLogFile.FileName;
+                LastLogDirectory = new FileInfo(SelectLogFile.FileName).Directory.FullName;
+                LogFilePatternStatus.Text = (new FilePattern(LogFilePattern.Text).IsValid ? "OK" : "Invalid file pattern");
+                Modified = true;
+            }
+        }
+
+        private void UpdateTimerIntervalMs_ValueChanged(object sender, EventArgs e)
+        {
+            Modified = true;
+        }
+
+        private void EnableLogging_CheckedChanged(object sender, EventArgs e)
+        {
+            Modified = true;
+        }
+
+        private void GlobalScriptFilePatterns_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            UpdateFilePatternStatus((DataGridView)sender, e.RowIndex);
+            Modified = true;
+        }
+
+
+
+
 
 
 

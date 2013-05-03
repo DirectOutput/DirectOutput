@@ -24,7 +24,7 @@ namespace DirectOutput.Frontend
             TableFilename.Text = Pinball.Table.TableFilename;
             TableRomname.Text = Pinball.Table.RomName;
 
-            GlobalConfigFilename.Text = (GlobalConfiguration.GlobalConfig.GetGlobalConfigFile().Exists ? GlobalConfiguration.GlobalConfig.GlobalConfigFilename : "<no global config file found>");
+            GlobalConfigFilename.Text = (Pinball.GlobalConfig.GetGlobalConfigFile().Exists ? Pinball.GlobalConfig.GlobalConfigFilename : "<no global config file found>");
 
             switch (Pinball.Table.ConfigurationSource)
             {

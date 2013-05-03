@@ -1,9 +1,9 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
 using System.IO;
-using DirectOutput;
-using DirectOutput.GlobalConfiguration;
-using System;
+using System.Reflection;
 using B2SServerPluginInterface;
+using DirectOutput;
 
 /// <summary>
 /// DirectOutputPlugin is the namespace of the Dll implementing the actual plugin interface for the B2S Server.
@@ -54,7 +54,7 @@ namespace B2SServerPlugin
         }
 
 
-       
+
         /// <summary>
         /// This method is called, when new data from Pinmame becomes available.<br/>
         /// The IDirectPlugin interface requires the implementation of this method.
@@ -88,7 +88,25 @@ namespace B2SServerPlugin
         /// <param name="RomName">Name of the rom.</param>
         public void PluginInit(string TableFilename, string RomName)
         {
-            Pinball.Init(new FileInfo(TableFilename), RomName);
+            //Check config dir for global config file
+            FileInfo F = new FileInfo(Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName, "config", "GlobalConfig_B2SServer.xml"));
+            if (!F.Exists)
+            {
+                //Check table dir for global config file
+                F = new FileInfo("GlobalConfig_B2SServer.xml");
+                if (!F.Exists)
+                {
+                    //Check dll dir for global config file
+                    F = new FileInfo(Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName, "GlobalConfig_B2SServer.xml"));
+                    if (!F.Exists)
+                    {
+                        //if global config file does not exist, set filename to config directory.
+                        F = new FileInfo(Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName, "config", "GlobalConfig_B2SServer.xml"));
+                    }
+                }
+            }
+
+            Pinball.Init(F, new FileInfo(TableFilename), RomName);
         }
 
         #endregion
