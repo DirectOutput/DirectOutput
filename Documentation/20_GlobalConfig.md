@@ -24,9 +24,9 @@ This setting supports wildcards (* represents any number of characters, ? repres
 A GlobalScriptsFilePatterns section could contain the following content:
 
 ~~~~~~~~~~~~~{.xml}
-<GlobalScriptsFilePatterns>
+<GlobalScriptFilePatterns>
   <Pattern>{GlobalConfigDir}\cabinet*.cs</Pattern>
-</GlobalScriptsFilePatterns>
+</GlobalScriptFilePatterns>
 ~~~~~~~~~~~~~
 
 
@@ -127,16 +127,71 @@ A typical expample for this setting is:
 
 \subsection globalconfig_logging Logging
 
+EnableLogging does whats its name says. It enables log output to the file specified in the LogFilePattern.
+
+The LogFilePattern can defines a filename for the log file and can include the following placeholders:
+
+* {DllDir} represents the directory of the DirectOutput.dll.
+* {GlobalConfigDir} represents the default global config directory.
+* {TableDir} represents the full path to the directory of the table.
+* {TableDirName} represents the name of the table directory (last part of {TableDir}).
+* {TableName} represents the name of the table without extensions.
+* {RomName} is the name of the game rom.
+* {DateTime} is a timestamp containing the current date and type in the following form: yyyymmdd_hhmmss.
+* {Date} is the current date in the following form: yyyymmdd.
+* {Time} is the current time in the following form: hhmmss
+
+Typical entries for the loggin configuration might look as follows:
+
+~~~~~~~~~~~~~{.xml}
+  <EnableLogging>true</EnableLogging>
+  <LogFilePattern>.\{TableName}_{DateTime}.log</LogFilePattern>
+~~~~~~~~~~~~~
+
 \section globalconfig_example Example
 
 
 ~~~~~~~~~~~~~{.xml}
 <?xml version="1.0" encoding="utf-8"?>
 <!--Global configuration for the DirectOutput framework-->
-<Config>
+<GlobalConfig>
+  
+  <LedControlIniFiles>
+    <LedControlIniFile>
+      <Filename>c:\Ledcontrol\LedControl.ini</Filename>
+      <LedWizNumber>1</LedWizNumber>
+    <LedControlIniFile>
+      <Filename>c:\Ledcontrol\LedControl2.ini</Filename>
+      <LedWizNumber>2</LedWizNumber>
+    </LedControlIniFile>
+  </LedControlIniFiles>
+  
+  <CabinetConfigFilePatterns>
+    <Pattern>{GlobalConfigDir}\cabinet.xml</Pattern>
+  </CabinetConfigFilePatterns>
+  
+  <CabinetScriptFilePatterns>
+    <Pattern>{GlobalConfigDir}\cabinet*.cs</Pattern>
+  </CabinetScriptFilePatterns>
+  
+  <TableScriptFilePatterns>
+    <Pattern>{GlobalConfigDir}\\{TableName}*.cs</Pattern>
+  </TableScriptFilePatterns>
+  
+  <TableScriptFilePatterns>
+    <Pattern>{GlobalConfigDir}\\{TableName}.xml</Pattern>
+  </TableScripsFilePatterns>
+  
+  <GlobalScriptFilePatterns>
+    <Pattern>{GlobalConfigDir}\cabinet*.cs</Pattern>
+  </GlobalScriptFilePatterns>
+  
+  <UpdateTimerIntervall>20</UpdateTimerIntervall>
+  
+  <EnableLogging>false</EnableLogging>
+  <LogFilePattern>.\DirectOutput.log</LogFilePattern>
 
+</GlobalConfig>
 
-
-</Config>
 ~~~~~~~~~~~~~
 

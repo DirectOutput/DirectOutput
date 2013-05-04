@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--Global configuration for the DirectOutput framework.-->
-<!--Saved by DirectOutput Version 0.5.4869.37139: 2013-05-01 21-46-59-->
+<!--Saved by DirectOutput Version 0.5.4871.43095: 2013-05-04 01-00-25-->
 <GlobalConfig>
   <LedControlIniFiles />
   <CabinetConfigFilePatterns />
@@ -8,5 +8,7 @@
   <TableScriptFilePatterns />
   <TableConfigFilePatterns />
   <UpdateTimerIntervall>20</UpdateTimerIntervall>
-  <EnableLog>false</EnableLog>
+  <EnableLogging>false</EnableLogging>
+  <LogFilePattern>.\DirectOutput.log</LogFilePattern>
+  <GlobalScriptFilePatterns />
 </GlobalConfig>
