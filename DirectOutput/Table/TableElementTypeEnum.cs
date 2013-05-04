@@ -11,7 +11,8 @@ namespace DirectOutput
         Switch='W',
         Solenoid='S',
         GIString='G',
-        Mech='M'
+        Mech='M',
+        EMTable='E'
 
     }
 }

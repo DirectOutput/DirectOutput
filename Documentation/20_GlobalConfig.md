@@ -5,11 +5,14 @@
 
 The global configuration of the DirectOutput framework defines which files the system loads for the \ref cabinetconfig "Cabinet" and \ref tableconfig "Table" configuration. In addition the global conguration specifies which C#-script files containing extensions for the framework to load and compile. The global configuration information is valid for the whole framework no matter what cabinet or table config is loaded.
 
-Depending on the interface used to communicate with the framework, different global configuration files are loaded. For the B2S.Server Plugin the configuration file "GlobalConfiguration_b2SServer.xml" is loaded. The framework is searching for this file in the following locations:
+Depending on the interface used to communicate with the framework, different global configuration files are loaded. 
+
+For the B2S.Server Plugin the configuration file "GlobalConfiguration_b2SServer.xml" is loaded. The framework is searching for this file in the following locations:
 
 - A directory named -config- withing the directory of the DirectOutput.dll.
-- Table directory
-- Directory of the DirectOutput.dll
+- A shortcut named -config- to a directory. 
+- Table directory.
+- Directory of the DirectOutput.dll.
 
 \section globalconfig_settings Global configuration file sections
 

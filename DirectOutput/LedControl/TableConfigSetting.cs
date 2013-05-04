@@ -177,6 +177,10 @@ namespace DirectOutput.LedControl
                                 //Switch
                                 TableElementType = TableElementTypeEnum.Switch;
                                 break;
+                            case "E":
+                                //EMTable
+                                TableElementType = TableElementTypeEnum.EMTable;
+                                break;
                             default:
                                 //Unknown
                                 ParseOK = false;

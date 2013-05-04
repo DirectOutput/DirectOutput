@@ -59,7 +59,7 @@ namespace B2SServerPlugin
         /// This method is called, when new data from Pinmame becomes available.<br/>
         /// The IDirectPlugin interface requires the implementation of this method.
         /// </summary>
-        /// <param name="TableElementTypeChar">Char representing the table element type (S=Solenoid, W=Switch, L=Lamp, M=Mech, G=GI).</param>
+        /// <param name="TableElementTypeChar">Char representing the table element type (S=Solenoid, W=Switch, L=Lamp, M=Mech, G=GI, E=EMTable).</param>
         /// <param name="Number">The number of the table element.</param>
         /// <param name="Value">The value of the table element.</param>
         public void DataReceive(char TableElementTypeChar, int Number, int Value)
