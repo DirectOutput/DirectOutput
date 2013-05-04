@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 
-namespace DirectOutput.GlobalConfig
+namespace DirectOutput.GlobalConfiguration
 {
     /// <summary>
     /// A file pattern class used to lookup files matching a specified pattern.
@@ -90,6 +90,25 @@ namespace DirectOutput.GlobalConfig
         }
 
         /// <summary>
+        /// Returns the pattern with replaced placeholders.
+        /// </summary>
+        /// <param name="ReplaceValues">The replace values.</param>
+        /// <returns>Pattern with replaced placeholders.</returns>
+        public string ReplacePlaceholders(Dictionary<string, string> ReplaceValues = null)
+        {
+            string P = Pattern;
+            if (ReplaceValues != null)
+            {
+                foreach (KeyValuePair<string, string> KV in ReplaceValues)
+                {
+                    P = P.Replace("{" + (KV.Key) + "}", KV.Value);
+                }
+            }
+            return P;
+        }
+
+
+        /// <summary>
         /// Gets the files matching the value of the property Pattern.
         /// </summary>
         /// <param name="ReplaceValues">Dictionary containing key/value pairs used to replace placeholders in the form {PlaceHolder} in the pattern.</param>
@@ -98,14 +117,8 @@ namespace DirectOutput.GlobalConfig
         {
             if (Pattern.IsNullOrWhiteSpace()) return new List<FileInfo>();
 
-            string P = Pattern;
-            if (ReplaceValues != null)
-            {
-                foreach (KeyValuePair<string, string> KV in ReplaceValues)
-                {
-                    P = P.Replace("{"+(KV.Key)+"}", KV.Value);
-                }
-            }
+            string P = ReplacePlaceholders(ReplaceValues);
+
             try
             {
                 
@@ -157,6 +170,7 @@ namespace DirectOutput.GlobalConfig
                 }
 
                 bool BracketOpen = false;
+                bool JustOpend = false;
                 foreach (char C in Pattern)
                 {
                     switch (C)
@@ -164,15 +178,22 @@ namespace DirectOutput.GlobalConfig
                         case '{':
                             if (BracketOpen) return false;
                             BracketOpen = true;
+                            JustOpend = true;
                             break;
                         case '}':
                             if (!BracketOpen) return false;
+                            if (JustOpend) return false;
                             BracketOpen = false;
+                            JustOpend = false;
                             break;
                         case '\\':
                         case '*':
                         case '?':
                             if (BracketOpen) return false;
+                            JustOpend = false;
+                            break;
+                        default:
+                            JustOpend = false;
                             break;
                     }
                 }

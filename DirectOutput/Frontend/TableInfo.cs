@@ -302,7 +302,7 @@ namespace DirectOutput.Frontend
             }
             else
             {
-                SaveTableConfigDialog.InitialDirectory = GlobalConfig.Config.GlobalConfigDirectoryName;
+                SaveTableConfigDialog.InitialDirectory = Pinball.GlobalConfig.GetGlobalConfigDirectory().FullName;
             }
             if (SaveTableConfigDialog.ShowDialog() == DialogResult.OK)
             {

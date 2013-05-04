@@ -76,6 +76,7 @@
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -89,6 +90,9 @@
     <Compile Include="Cab\Toys\Basic\Basic.cs" />
     <Compile Include="Cab\Toys\Basic\GearMotor.cs" />
     <Compile Include="Cab\Toys\IRGBToy.cs" />
+    <Content Include="Config\GlobalConfig_B2SServer.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Config\TimedDimmerLampEffect.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -120,6 +124,12 @@
     <Compile Include="Frontend\AvailableEffectsInfo.Designer.cs">
       <DependentUpon>AvailableEffectsInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Frontend\GlobalConfigEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frontend\GlobalConfigEdit.Designer.cs">
+      <DependentUpon>GlobalConfigEdit.cs</DependentUpon>
+    </Compile>
     <Compile Include="Frontend\MainMenu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -143,18 +153,12 @@
     <Compile Include="FX\DelayFX\DelayFX.cs" />
     <Compile Include="FX\NullFX\NullEffect.cs" />
     <Compile Include="Log.cs" />
-    <Compile Include="GlobalConfig\FilePattern.cs" />
-    <Compile Include="GlobalConfig\FilePatternList.cs" />
-    <Compile Include="Frontend\GlobalConfigEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Frontend\GlobalConfigEditor.Designer.cs">
-      <DependentUpon>GlobalConfigEditor.cs</DependentUpon>
-    </Compile>
+    <Compile Include="GlobalConfiguration\FilePattern.cs" />
+    <Compile Include="GlobalConfiguration\FilePatternList.cs" />
     <Compile Include="FX\LedControlFX\LedControlFX.cs" />
     <Compile Include="General\Generic\SortableBindingList.cs" />
-    <Compile Include="GlobalConfig\LedControlIniFile.cs" />
-    <Compile Include="GlobalConfig\LedControlIniFileList.cs" />
+    <Compile Include="GlobalConfiguration\LedControlIniFile.cs" />
+    <Compile Include="GlobalConfiguration\LedControlIniFileList.cs" />
     <Compile Include="LedControl\LedControl.cs" />
     <Compile Include="Pinball.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -218,7 +222,7 @@
     <Compile Include="General\Generic\SetEventArgs.cs" />
     <Compile Include="General\Generic\ValidateItemEventArgs.cs" />
     <Compile Include="General\TypeList.cs" />
-    <Compile Include="GlobalConfig\Config.cs" />
+    <Compile Include="GlobalConfiguration\GlobalConfig.cs" />
     <Compile Include="LedControl\ColorConfig.cs" />
     <Compile Include="LedControl\ColorConfigList.cs" />
     <Compile Include="LedControl\LedControlConfig.cs" />
@@ -250,10 +254,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Config\Cabinet.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Config\GlobalConfig.xml">
-      <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="ledwiz.dll">
@@ -295,6 +295,9 @@
     <EmbeddedResource Include="Frontend\AvailableEffectsInfo.resx">
       <DependentUpon>AvailableEffectsInfo.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Frontend\GlobalConfigEdit.resx">
+      <DependentUpon>GlobalConfigEdit.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Frontend\MainMenu.resx">
       <DependentUpon>MainMenu.cs</DependentUpon>
     </EmbeddedResource>
@@ -303,9 +306,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Frontend\TableInfo.resx">
       <DependentUpon>TableInfo.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Frontend\GlobalConfigEditor.resx">
-      <DependentUpon>GlobalConfigEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -2,7 +2,7 @@
 using System.IO;
 
 
-namespace DirectOutput.GlobalConfig
+namespace DirectOutput.GlobalConfiguration
 {
     public class LedControlIniFile : INotifyPropertyChanged
     {
@@ -66,7 +66,7 @@ namespace DirectOutput.GlobalConfig
             }
         }
 
-        public string FileStatus
+        public string Status
         {
             get
             {
@@ -94,7 +94,7 @@ namespace DirectOutput.GlobalConfig
             get { return _LedWizNumber; }
             set
             {
-                _LedWizNumber = value;
+                _LedWizNumber = value.Limit(1,16);
                 NotifyPropertyChanged("LedWizNumber");
             }
         }
@@ -105,10 +105,10 @@ namespace DirectOutput.GlobalConfig
             return "{0} (LedWiz:{1})".Build(Filename,LedWizNumber);
         }
 
-        public LedControlIniFile(string Filename)
+        public LedControlIniFile(string Filename, int LedWizNumber)
         {
             this.Filename = Filename;
-            this.LedWizNumber = int.MaxValue;
+            this.LedWizNumber = LedWizNumber;
         }
 
         public LedControlIniFile() { }

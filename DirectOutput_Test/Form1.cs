@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using DirectOutput;
-using DirectOutput.GlobalConfig;
+using DirectOutput.GlobalConfiguration;
 using DirectOutput_Test.Properties;
 using System.Configuration;
 
@@ -21,27 +21,18 @@ namespace DirectOutput_Test
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+
+
+
+
+        
+
+        private void Form1_Load(object sender, EventArgs e)
         {
-
-            DirectOutput.Cab.Cabinet C = new DirectOutput.Cab.Cabinet();
-            C.AutoConfig();
-            DirectOutput.Frontend.CabinetInfo CI = new DirectOutput.Frontend.CabinetInfo(C);
-            CI.Show();
-
-
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button2_Click_1(object sender, EventArgs e)
-        {
-
-
-
+            DirectOutput.GlobalConfiguration.GlobalConfig C = new GlobalConfig();//DirectOutput.GlobalConfiguration.GlobalConfig.GetGlobalConfigFromConfigXmlFile();
+            //DirectOutput.Frontend.GlobalConfigEdit F= new DirectOutput.Frontend.GlobalConfigEdit(C);
+            //F.Show();
+            C.SaveGlobalConfig("GlobalConfig_B2SServer.xml");
         }
     }
 }

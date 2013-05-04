@@ -3,7 +3,7 @@ using System.IO;
 using System.Reflection;
 using DirectOutput.Cab;
 using DirectOutput.FX;
-using DirectOutput.GlobalConfig;
+using DirectOutput.GlobalConfiguration;
 using DirectOutput.LedControl;
 using DirectOutput.Scripting;
 
@@ -36,7 +36,7 @@ namespace DirectOutput
         public CombinedEffectList Effects
         {
             get { return _Effects; }
-            set { _Effects = value; }
+            private set { _Effects = value; }
         }
         
 
@@ -84,7 +84,20 @@ namespace DirectOutput
             private set { _UpdateTimer = value; }
         }
 
+        private GlobalConfig _GlobalConfig=new GlobalConfig();
 
+        /// <summary>
+        /// Gets the global config for the Pinnball object.
+        /// </summary>
+        /// <value>
+        /// The global config for the Pinball object.
+        /// </value>
+        public GlobalConfig GlobalConfig
+        {
+            get { return _GlobalConfig; }
+            private set { _GlobalConfig = value; }
+        }
+               
 
 
         #endregion
@@ -92,27 +105,43 @@ namespace DirectOutput
         /// <summary>
         /// Initializes and configures the Pinball object
         /// </summary>
+        /// <param name="GlobalConfigFile">The global config file.</param>
         /// <param name="TableFile">The table file.</param>
         /// <param name="RomName">Name of the rom.</param>
-        public void Init(FileInfo TableFile, string RomName = "")
+        public void Init(FileInfo GlobalConfigFile, FileInfo TableFile, string RomName = "")
         {
-            Log.Init(Path.Combine(TableFile.Directory.FullName,TableFile.GetNameWithoutExtension(),"_{0}.log".Build(DateTime.Now.ToString("yyyy.MM.dd hh:mm:ss"))));
+            bool GlobalConfigLoaded = true;
+            //Load the global config
+            GlobalConfig = GlobalConfig.GetGlobalConfigFromConfigXmlFile(GlobalConfigFile.FullName);
+            if (GlobalConfig == null)
+            {
+                GlobalConfigLoaded = false;
+               
+                //set new global config object if it config could not be loaded from the file.
+                GlobalConfig = new GlobalConfig();
+            }
+            GlobalConfig.GlobalConfigFilename = GlobalConfigFile.FullName;
+      
+            Log.Filename = GlobalConfig.GetLogFilename(TableFile.FullName, RomName);
+
+            if (GlobalConfig.EnableLogging)
+            {
+                Log.Init();
+            }
+            if (GlobalConfigLoaded)
+            {
+                Log.Write("Global config loaded from: ".Build(GlobalConfigFile.FullName));
+            }
+            else
+            {
+                Log.Write("No GlobalConfig file loaded. Using new inanciated GlobalConfig object instead.");
+            }
+            
+
 
             Log.Write("Loading Pinball parts");
 
 
-            //Load the global config
-            Config GlobalConfig = Config.GetGlobalConfigFromConfigXmlFile();
-            if (GlobalConfig == null)
-            {
-                Log.Write("No GlobalConfig file loaded. Using new inanciated GlobalConfig object instead.");
-                //set new global config object if it config could not be loaded from the file.
-                GlobalConfig = new Config();
-            }
-            else
-            {
-                Log.Write("Global config loaded");
-            }
 
             //Load global script files
             Log.Write("Loading script files");
@@ -196,10 +225,10 @@ namespace DirectOutput
                         Log.Write("Will try to load table config from LedControl.ini file in the table directory {0}".Build(TableFile.Directory.FullName));
                         L.LoadLedControlFile(Path.Combine(TableFile.Directory.FullName, "ledcontrol.ini"), 1, false);
                     }
-                    else if (File.Exists(Path.Combine(Config.GlobalConfigDirectory.FullName, "ledcontrol.ini")))
+                    else if (File.Exists(Path.Combine(GlobalConfig.GetGlobalConfigDirectory().FullName, "ledcontrol.ini")))
                     {
-                        Log.Write("Will try to load table config from LedControl.ini file in the global config directory {0}".Build(Config.GlobalConfigDirectory.FullName));
-                        L.LoadLedControlFile(Path.Combine(Config.GlobalConfigDirectory.FullName, "ledcontrol.ini"), 1, false);
+                        Log.Write("Will try to load table config from LedControl.ini file in the global config directory {0}".Build(GlobalConfig.GetGlobalConfigDirectory().FullName));
+                        L.LoadLedControlFile(Path.Combine(GlobalConfig.GetGlobalConfigDirectory().FullName, "ledcontrol.ini"), 1, false);
                     }
                     else if (File.Exists(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "ledcontrol.ini")))
                     {
@@ -208,21 +237,21 @@ namespace DirectOutput
                     }
                     if (!L.ContainsConfig(RomName))
                     {
-                        Log.Warning("No config found in LedControl data for RomName {0}.".Build(RomName));
+                        Log.Write("No config found in LedControl data for RomName {0}.".Build(RomName));
                     }
                         Table = L.GetTable(RomName, Cabinet);
                 }
                 else
                 {
                     Table = new Table.Table();
-                    Log.Warning("Cant load config from LedControl file(s) since no RomName was supplied. Will use empty table definition (will result in no action from DirectOutput).");
+                    Log.Write("Cant load config from LedControl file(s) since no RomName was supplied. Will use empty table definition (will result in no action from DirectOutput).");
                 }
                 Table.TableName = Path.GetFileNameWithoutExtension(TableFile.FullName);
             }
             Table.TableFilename = TableFile.FullName;
             Table.RomName = RomName;
 
-            Log.Write("Table config loaded");
+            Log.Write("Table config loading finished");
 
             Effects = new CombinedEffectList(new EffectList[] { Table.Effects, Cabinet.Effects });
 
@@ -236,7 +265,7 @@ namespace DirectOutput
             Cabinet.OutputControllers.Update();
             PinmameInputManager.Init();
             Log.Write("Framework initialized.");
-            Log.Write("Have fun!");
+            Log.Write("Have fun! :)");
 
         }
 
@@ -309,10 +338,10 @@ namespace DirectOutput
         /// </summary>
         /// <param name="TableFile">The table file.</param>
         /// <param name="RomName">Name of the rom.</param>
-        public Pinball(FileInfo TableFile, string RomName = "")
+        public Pinball(FileInfo GlobalConfigFile, FileInfo TableFile, string RomName = "")
             : this()
         {
-            Init(TableFile, RomName);
+            Init(GlobalConfigFile,TableFile, RomName);
         } 
         #endregion
 

@@ -96,7 +96,7 @@ namespace DirectOutput.Frontend
             {
                 DT.Rows.Add("Name", OutputController.Name);
                 DT.Rows.Add("Output Count", OutputController.Outputs.Count);
-                
+
                 Type T = OutputController.GetType();
 
                 foreach (PropertyInfo PI in T.GetProperties(BindingFlags.Instance | BindingFlags.Public))
@@ -121,12 +121,13 @@ namespace DirectOutput.Frontend
         {
             DataTable DT = new DataTable();
             DT.Columns.Add("Name", typeof(string));
-            if(OutputController!=null) {
+            if (OutputController != null)
+            {
                 if (OutputController.Outputs.Count > 0)
                 {
                     Type T = OutputController.Outputs[0].GetType();
 
-                    foreach (PropertyInfo PI in T.GetProperties(BindingFlags.Instance|BindingFlags.Public))
+                    foreach (PropertyInfo PI in T.GetProperties(BindingFlags.Instance | BindingFlags.Public))
                     {
                         if (PI.Name != "Name")
                         {
@@ -136,7 +137,7 @@ namespace DirectOutput.Frontend
 
                     foreach (IOutput O in OutputController.Outputs)
                     {
-                        object[] values=new object[DT.Columns.Count];
+                        object[] values = new object[DT.Columns.Count];
                         values[0] = O.Name;
                         int Index = 1;
                         foreach (PropertyInfo PI in T.GetProperties(BindingFlags.Instance | BindingFlags.Public))
@@ -224,17 +225,17 @@ namespace DirectOutput.Frontend
         {
             if (CabinetOutputControllers.SelectedRows.Count > 0)
             {
-              string N=(string)CabinetOutputControllers.SelectedRows[0].Cells[0].Value;
-              if (Cabinet.OutputControllers.Contains(N))
-              {
-                  UpdateOutputs(Cabinet.OutputControllers[N]);
-                  UpdateOutputControllerProperties(Cabinet.OutputControllers[N]);
-              }
-              else
-              {
-                  UpdateOutputs(null);
-                  UpdateOutputControllerProperties(null);
-              }
+                string N = (string)CabinetOutputControllers.SelectedRows[0].Cells[0].Value;
+                if (Cabinet.OutputControllers.Contains(N))
+                {
+                    UpdateOutputs(Cabinet.OutputControllers[N]);
+                    UpdateOutputControllerProperties(Cabinet.OutputControllers[N]);
+                }
+                else
+                {
+                    UpdateOutputs(null);
+                    UpdateOutputControllerProperties(null);
+                }
             }
         }
 
@@ -265,7 +266,7 @@ namespace DirectOutput.Frontend
             }
             else
             {
-                SaveCabinetConfiguration.InitialDirectory = GlobalConfig.Config.GlobalConfigDirectoryName;
+                SaveCabinetConfiguration.InitialDirectory = new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName;
             }
             if (SaveCabinetConfiguration.ShowDialog() == DialogResult.OK)
             {

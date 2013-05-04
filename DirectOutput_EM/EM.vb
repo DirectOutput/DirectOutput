@@ -52,7 +52,7 @@ Public Class EM
     Public Sub Initialize(TableFileName As String, Optional Romname As String = "")
         If Not IsInitialized Then
             Try
-                Pinball.Init(New FileInfo(TableFileName), Romname)
+                'Pinball.Init(New FileInfo(TableFileName), Romname)
             Catch ex As Exception
                 Throw New Exception(String.Format("Could not initialize the DirectOutput framework for table {0} and rom name {1}.", TableFileName, Romname), ex)
             End Try

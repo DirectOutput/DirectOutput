@@ -7,13 +7,13 @@ using System.Xml;
 using System.Xml.Serialization;
 
 
-namespace DirectOutput.GlobalConfig
+namespace DirectOutput.GlobalConfiguration
 {
 
     /// <summary>
     /// Global configuration for the DirectOutput framework.<br/> 
     /// </summary>
-    public class Config
+    public class GlobalConfig
     {
 
         #region Led Control files
@@ -37,7 +37,8 @@ namespace DirectOutput.GlobalConfig
         #region Cabinet
 
         #region Cabinet config file
-        private FilePattern _CabinetConfigFilePattern = new FilePattern();
+        private FilePatternList _CabinetConfigFilePatterns = new FilePatternList();
+
 
         /// <summary>
         /// Gets or sets the cabinet config file pattern.
@@ -45,10 +46,10 @@ namespace DirectOutput.GlobalConfig
         /// <value>
         /// The cabinet config file pattern.
         /// </value>
-        public FilePattern CabinetConfigFilePattern
+        public FilePatternList CabinetConfigFilePatterns
         {
-            get { return _CabinetConfigFilePattern; }
-            set { _CabinetConfigFilePattern = value; }
+            get { return _CabinetConfigFilePatterns; }
+            set { _CabinetConfigFilePatterns = value; }
         }
 
 
@@ -58,9 +59,9 @@ namespace DirectOutput.GlobalConfig
         /// <returns>FileInfo object for the file containing the configuration of the cabinet or null if no file has been specified.</returns>
         public FileInfo GetCabinetConfigFile()
         {
-            if (CabinetConfigFilePattern != null)
+            if (CabinetConfigFilePatterns != null)
             {
-                return CabinetConfigFilePattern.GetFirstMatchingFile(GetReplaceValuesDictionary());
+                return CabinetConfigFilePatterns.GetFirstMatchingFile(GetReplaceValuesDictionary());
             }
             return null;
         }
@@ -117,18 +118,6 @@ namespace DirectOutput.GlobalConfig
 
         #endregion
 
-        //private EffectList _Effects = new EffectList();
-        ///// <summary>
-        ///// List containing global effects. 
-        ///// </summary>
-
-        //[XmlElementAttribute(Order = 5)]
-        //public EffectList Effects
-        //{
-        //    get { return _Effects; }
-        //    set { _Effects = value; }
-        //}
-
 
         #region Table
 
@@ -168,37 +157,30 @@ namespace DirectOutput.GlobalConfig
 
 
         #region Table Config
-        private FilePattern _TableConfigFilePattern = new FilePattern();
+        private FilePatternList _TableConfigFilePatterns = new FilePatternList();
 
         /// <summary>
-        /// Gets or sets the table config file pattern.
+        /// Gets or sets the config file patterns used to looup the table configuration.
         /// </summary>
         /// <value>
-        /// The table config file pattern.
+        /// The table config file patterns.
         /// </value>
-        public FilePattern TableConfigFilePattern
+        public FilePatternList TableConfigFilePatterns
         {
-            get { return _TableConfigFilePattern; }
-            set { _TableConfigFilePattern = value; }
+            get { return _TableConfigFilePatterns; }
+            set { _TableConfigFilePatterns = value; }
         }
-
-
-
 
         /// <summary>
         /// Gets a FileInfo object for the table config file.<br/>
-        /// The file is lookued up using the value of the property TableConfigFilePattern.
-        /// If more than one file matches the search pattern, only the first file is returned.
+        /// The file is lookued up using the list of the property TableConfigFilePatterns.
+        /// If more than one file matches the search patterns, only the first file is returned.
         /// </summary>
         /// <param name="FullTableFilename">The table filename (The *.vpt file for the table, not the config file).</param>
         /// <returns>A FileInfo object for the table config file or null if no matching file was found.</returns>
         public FileInfo GetTableConfigFile(string FullTableFilename)
         {
-            if (TableConfigFilePattern != null)
-            {
-                return TableConfigFilePattern.GetFirstMatchingFile(GetReplaceValuesDictionary(FullTableFilename));
-            }
-            return null;
+            return TableConfigFilePatterns.GetFirstMatchingFile(GetReplaceValuesDictionary(FullTableFilename));
         }
 
         #endregion
@@ -222,12 +204,76 @@ namespace DirectOutput.GlobalConfig
         }
         #endregion
 
+        #region Logging
+        private bool _EnableLog = false;
 
-        private Dictionary<string, string> GetReplaceValuesDictionary(string TableFileName = null)
+        //TODO: Extend log class to respect this setting
+        /// <summary>
+        /// Gets or sets a value indicating whether impotant events in the framework are logged to a file.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if logging is enabled, <c>false</c> if logging is disabled.
+        /// </value>
+        public bool EnableLogging
+        {
+            get { return _EnableLog; }
+            set { _EnableLog = value; }
+        }
+
+        private FilePattern _LogFilePattern = new FilePattern(".\\DirectOutput.log");
+
+
+        /// <summary>
+        /// Gets or sets the log file pattern.<br/>
+        /// The log file pattern supports the following placeholders:
+        /// 
+        /// - {GlobalConfigDir}
+        /// - {DllDir}
+        /// - {TableDir}
+        /// - {TableName}
+        /// - {RomName}
+        /// - {DateTime}
+        /// - {Date}
+        /// - {Time}
+        /// 
+        /// </summary>
+        /// <value>
+        /// The log file pattern.
+        /// </value>
+        public FilePattern LogFilePattern
+        {
+            get { return _LogFilePattern; }
+            set { _LogFilePattern = value; }
+        }
+
+        /// <summary>
+        /// Gets the log filename based on the LogFilePattern with replaced placeholders.
+        /// </summary>
+        /// <param name="TableFilename">The table filename.</param>
+        /// <param name="RomName">Name of the rom.</param>
+        /// <returns></returns>
+        public string GetLogFilename(string TableFilename = "", string RomName = "")
+        {
+            Dictionary<string, string> R = GetReplaceValuesDictionary(TableFilename, RomName);
+            R.Add("DateTime", DateTime.Now.ToString("yyyyMMdd_hhmmss"));
+            R.Add("Date", DateTime.Now.ToString("yyyyMMdd"));
+            R.Add("Time", DateTime.Now.ToString("hhmmss"));
+
+            return LogFilePattern.ReplacePlaceholders(R);
+        }
+
+        #endregion
+
+
+
+        private Dictionary<string, string> GetReplaceValuesDictionary(string TableFileName = null, string RomName = "")
         {
             Dictionary<string, string> D = new Dictionary<string, string>();
-            D.Add("GlobalConfigDirectory", GlobalConfigDirectory.FullName);
-            D.Add("GlobalConfigDir", GlobalConfigDirectory.FullName);
+            if (GetGlobalConfigFile() != null)
+            {
+                D.Add("GlobalConfigDirectory", GetGlobalConfigDirectory().FullName);
+                D.Add("GlobalConfigDir", GetGlobalConfigDirectory().FullName);
+            }
 
             FileInfo FI = new FileInfo(Assembly.GetExecutingAssembly().Location);
             D.Add("DllDirectory", FI.Directory.FullName);
@@ -243,6 +289,10 @@ namespace DirectOutput.GlobalConfig
                 D.Add("TableDirName", FI.Directory.Name);
                 D.Add("TableName", Path.GetFileNameWithoutExtension(FI.FullName));
             }
+            if (!RomName.IsNullOrWhiteSpace())
+            {
+                D.Add("RomName", RomName);
+            }
 
 
             return D;
@@ -250,73 +300,84 @@ namespace DirectOutput.GlobalConfig
         }
 
 
-        #region Static Properties
 
-
+        #region Global config properties
         /// <summary>
         /// Gets an list of FileInfo objects for the global script files.<br/>
-        /// If no script files are found or if a error occurs when looking for the script files a list array is returned.<br/>
-        /// The script files are looked up using the value of the property GlobalScriptsFilePattern.
+        /// If no script files are found or if a error occurs when looking for the script files a empty list is returned.<br/>
+        /// The script files are looked up using the value of the property GlobalScriptFilePatterns.
         /// </summary>
         /// <returns>List of FileInfo objects for the global script files.</returns>
         public List<FileInfo> GetGlobalScriptFiles()
         {
-            return GlobalScriptsFilePattern.GetMatchingFiles();
+            return GlobalScriptFilePatterns.GetMatchingFiles();
         }
 
 
+        private FilePatternList _GlobalScriptFilePatterns = new FilePatternList();
+
         /// <summary>
-        /// Search pattern for global script files (readonly).
+        /// Gets or sets the script file patterns used to lookup the global scripts.
         /// </summary>
-        public static FilePattern GlobalScriptsFilePattern
+        /// <value>
+        /// The global script file patterns.
+        /// </value>
+        public FilePatternList GlobalScriptFilePatterns
         {
-            get { return new FilePattern("*.cs"); }
+            get { return _GlobalScriptFilePatterns; }
+            set { _GlobalScriptFilePatterns = value; }
         }
 
         /// <summary>
         /// Path to the directory where the global config is stored (readonly).
         /// </summary>
-        /// <value>string containing to the global config directory.</value>
-        public static string GlobalConfigDirectoryName
+        /// <returns>string containing to the global config directory.</returns>
+        public string GlobalConfigDirectoryName()
         {
-            get
-            {
-                return Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Config");
-            }
+            if (GlobalConfigFilename.IsNullOrWhiteSpace()) { return null; }
+            return Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Config");
         }
 
         /// <summary>
         /// Gets a DirectoryInfo object for the global config directory.
         /// </summary>
-        /// <value>
-        /// The DirectoryInfo object for the global config directory.
-        /// </value>
-        public static DirectoryInfo GlobalConfigDirectory
+        /// <returns>
+        /// The DirectoryInfo object for the global config directory or null if no GlobalConfigFilename is defined.
+        /// </returns>
+        public DirectoryInfo GetGlobalConfigDirectory()
         {
-            get { return new DirectoryInfo(GlobalConfigDirectoryName); }
+
+            if (GlobalConfigFilename.IsNullOrWhiteSpace()) { return null; }
+            return GetGlobalConfigFile().Directory;
+
         }
 
 
-        //TODO: Check if this should be loaded from the registry.
+        private string _GlobalConfigFilename = "";
+
         /// <summary>
-        /// Filename of the global config file (readonly).
+        /// Gets or sets the global config filename.
         /// </summary>
-        /// <value>string containg the full path and filename of the global config file.</value>
-        public static string GlobalConfigFilename
+        /// <value>
+        /// The global config filename.
+        /// </value>
+        [XmlIgnore]
+        public string GlobalConfigFilename
         {
-            get { return Path.Combine(GlobalConfigDirectoryName, "GlobalConfig.xml"); }
+            get { return _GlobalConfigFilename; }
+            set { _GlobalConfigFilename = value; }
         }
 
 
         /// <summary>
         /// Gets a FileInfo object for the global config file.
         /// </summary>
-        /// <returns>FileInfo object for the global config file.</returns>
-        public static FileInfo GetGlobalConfigFile()
+        /// <returns>FileInfo object for the global config file or null if no filename has been set.</returns>
+        public FileInfo GetGlobalConfigFile()
         {
+            if (GlobalConfigFilename.IsNullOrWhiteSpace()) { return null; }
             return new FileInfo(GlobalConfigFilename);
         }
-
         #endregion
 
 
@@ -330,7 +391,7 @@ namespace DirectOutput.GlobalConfig
 
             XmlSerializerNamespaces Namespaces = new XmlSerializerNamespaces();
             Namespaces.Add(string.Empty, string.Empty);
-            XmlSerializer Serializer = new XmlSerializer(typeof(Config));
+            XmlSerializer Serializer = new XmlSerializer(typeof(GlobalConfig));
             MemoryStream Stream = new MemoryStream();
             XmlWriterSettings Settings = new XmlWriterSettings();
             Settings.Indent = true;
@@ -361,38 +422,36 @@ namespace DirectOutput.GlobalConfig
         /// Instanciates a GlobalConfig object from a global configuration in a XML file.<br/>
         /// If the global config file does not exist or can not be loaded, null will be returned.
         /// </summary>
-        /// <param name="GlobalConfigFileName">(Optional) Name of the global config XML file. If no value is supplied, the default global config filename is used.</param>
+        /// <param name="GlobalConfigFileName">Name of the global config XML file.</param>
         /// <returns>GlobalConfig object or null.</returns>
-        public static Config GetGlobalConfigFromConfigXmlFile(string GlobalConfigFileName = "")
+        public static GlobalConfig GetGlobalConfigFromConfigXmlFile(string GlobalConfigFileName)
         {
-            string GCFileName = (GlobalConfigFilename.IsNullOrWhiteSpace() ? Config.GlobalConfigFilename : GlobalConfigFilename);
-            Log.Write("Loading global config file: {0}".Build(GCFileName));
+
             try
             {
-                if (File.Exists(GCFileName))
+                if (File.Exists(GlobalConfigFileName))
                 {
-                    try
-                    {
 
-                        string Xml = General.FileReader.ReadFileToString(GCFileName);
 
-                        return GetGlobalConfigFromGlobalConfigXml(Xml);
-                    }
-                    catch (Exception E)
+                    string Xml = General.FileReader.ReadFileToString(GlobalConfigFileName);
+
+                    GlobalConfig GC = GetGlobalConfigFromGlobalConfigXml(Xml);
+                    if (GC != null)
                     {
-                        Log.Exception("A exception occured when trying to load: {0}".Build(GCFileName), E);
-                        return null;
+                        GC.GlobalConfigFilename = GlobalConfigFileName;
                     }
+                    return GC;
+
                 }
                 else
                 {
-                    Log.Warning("Global config file does not exist: {0}".Build(GCFileName));
+
                     return null;
                 }
             }
-            catch (Exception E)
+            catch
             {
-                Log.Exception("A exception occured when trying to access: {0}".Build(GCFileName), E);
+
                 return null;
             }
         }
@@ -402,27 +461,35 @@ namespace DirectOutput.GlobalConfig
         /// Instanciates a GlobalConfig object from a global configuration in a XML string.
         /// </summary>
         /// <param name="ConfigXml">XML string</param>
-        /// <returns>GlobalConfig object for the specified ConfigXML.</returns>
-        public static Config GetGlobalConfigFromGlobalConfigXml(string ConfigXml)
+        /// <returns>GlobalConfig object for the specified ConfigXML or null if the XML data can not be deserialized.</returns>
+        public static GlobalConfig GetGlobalConfigFromGlobalConfigXml(string ConfigXml)
         {
-
-
-            byte[] xmlBytes = Encoding.Default.GetBytes(ConfigXml);
-            using (MemoryStream ms = new MemoryStream(xmlBytes))
+            try
             {
-                return (Config)new XmlSerializer(typeof(Config)).Deserialize(ms);
+
+                byte[] xmlBytes = Encoding.Default.GetBytes(ConfigXml);
+                using (MemoryStream ms = new MemoryStream(xmlBytes))
+                {
+                    return (GlobalConfig)new XmlSerializer(typeof(GlobalConfig)).Deserialize(ms);
+                }
             }
+            catch { return null; }
+
         }
 
         /// <summary>
         /// Saves the GlobalConfig to the file specified in GlobalConfigFilename.<br />
         /// Before saving the current global config file is backed up.
         /// </summary>
-        /// <param name="GlobalConfigFilename">(Optional)Global config filename. If new value is supplied the default global config filename is used.</param>
+        /// <param name="GlobalConfigFilename">(Optional)Global config filename. If no value is supplied the value of the property GlobalConfigFilename will be used.</param>
         public void SaveGlobalConfig(string GlobalConfigFilename = "")
         {
-            string GCFileName = (GlobalConfigFilename.IsNullOrWhiteSpace() ? Config.GlobalConfigFilename : GlobalConfigFilename);
-
+            string GCFileName = (GlobalConfigFilename.IsNullOrWhiteSpace() ? this.GlobalConfigFilename : GlobalConfigFilename);
+            if (GCFileName.IsNullOrWhiteSpace())
+            {
+                ArgumentException Ex = new ArgumentException("No filename for GlobalConfig file has been supplied. Looking up the filename from the property GlobalConfigFilename failed as well");
+                throw Ex;
+            }
             if (File.Exists(GCFileName))
             {
                 //Create a backup of the current global config file
@@ -438,9 +505,9 @@ namespace DirectOutput.GlobalConfig
 
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Config"/> class.
+        /// Initializes a new instance of the <see cref="GlobalConfig"/> class.
         /// </summary>
-        public Config()
+        public GlobalConfig()
         {
 
             UpdateTimerIntervall = 20;

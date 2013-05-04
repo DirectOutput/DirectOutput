@@ -14,11 +14,25 @@ namespace DirectOutput
 
         private static object Locker = new object();
 
+        private static string _Filename=".\\DirectOutput.log";
+
         /// <summary>
-        /// Initializes the log with the spcified filename.
+        /// Gets or sets the filename for the log.
         /// </summary>
-        /// <param name="Filename">The name of the logfile.</param>
-        public static void Init(string Filename)
+        /// <value>
+        /// The filename.
+        /// </value>
+        public static string Filename
+        {
+            get { return _Filename; }
+            set { _Filename = value; }
+        }
+        
+
+        /// <summary>
+        /// Initializes the log using the file defnied in the Filename property.
+        /// </summary>
+        public static void Init()
         {
             lock (Locker)
             {
@@ -44,6 +58,22 @@ namespace DirectOutput
             }
         }
 
+        public void Finish()
+        {
+            lock (Locker)
+            {
+                if (Logger != null)
+                {
+                    Write("Logging stopped");
+                    Logger.Flush();
+                    Logger.Close();
+                    IsOk = false;
+                    IsInitialized = false;
+                    Logger = null;
+                }
+            }
+        }
+
 
         /// <summary>
         /// Writes the specified message to the logfile.
@@ -51,6 +81,7 @@ namespace DirectOutput
         /// <param name="Message">The message.</param>
         public static void Write(string Message)
         {
+            
             lock (Locker)
             {
                 if (IsOk)
