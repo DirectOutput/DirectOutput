@@ -39,6 +39,7 @@ namespace DirectOutput.Cab.Toys.Generic
         /// <summary>
         /// Name of the Output for the GenericAnalogToy.
         /// </summary>
+        [OutputName]
         public string OutputName { get; set; }
 
 

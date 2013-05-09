@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using DirectOutput.Cab.Out;
 using System.Xml.Serialization;
+using System.ComponentModel;
 
 namespace DirectOutput.Cab.Toys.Generic
 {
@@ -40,6 +41,8 @@ namespace DirectOutput.Cab.Toys.Generic
         /// <summary>
         /// Name of the Output for the GenericDigitalToy
         /// </summary>
+
+       [OutputName]
         public string OutputName { get; set; }
 
         private bool _State;

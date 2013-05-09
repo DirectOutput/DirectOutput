@@ -29,10 +29,8 @@ namespace DirectOutput_Test
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            DirectOutput.GlobalConfiguration.GlobalConfig C = new GlobalConfig();//DirectOutput.GlobalConfiguration.GlobalConfig.GetGlobalConfigFromConfigXmlFile();
-            //DirectOutput.Frontend.GlobalConfigEdit F= new DirectOutput.Frontend.GlobalConfigEdit(C);
-            //F.Show();
-            C.SaveGlobalConfig("GlobalConfig_B2SServer.xml");
+            new DirectOutput.Frontend.CabinetEditor( DirectOutput.Cab.Cabinet.GetCabinetFromConfigXmlFile(@"C:\Users\Tom\Documents\GitHub\DirectOutput\DirectOutput\bin\Debug\Config\cabinet.xml")).Show();
+        
         }
     }
 }

@@ -12,7 +12,7 @@ namespace DirectOutput.Cab.Toys.LWEquivalent
     /// </summary>
     public class LedWizEquivalent:ToyBase,IToy
     {
-        private xLedWizEquivalentOutputList _Outputs=new xLedWizEquivalentOutputList();
+        private LedWizEquivalentOutputList _Outputs=new LedWizEquivalentOutputList();
 
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace DirectOutput.Cab.Toys.LWEquivalent
         /// <param name="Value">The value for the LedWizEquivalentOutput.</param>
         public void SetOutputValue(int OutputNumber, int Value)
         {
-            xLedWizEquivalentOutput LWO= Outputs.First(O => O.LedWizEquivalentOutputNumber == OutputNumber);
+            LedWizEquivalentOutput LWO= Outputs.First(O => O.LedWizEquivalentOutputNumber == OutputNumber);
             if (LWO != null)
             {
                 LWO.Value = Value;
@@ -35,7 +35,7 @@ namespace DirectOutput.Cab.Toys.LWEquivalent
         /// <value>
         /// The outputs of the LedWizEquivalent toy.
         /// </value>
-        public xLedWizEquivalentOutputList Outputs
+        public LedWizEquivalentOutputList Outputs
         {
             get { return _Outputs; }
             set { _Outputs = value; }
@@ -96,7 +96,7 @@ namespace DirectOutput.Cab.Toys.LWEquivalent
             this.Name = "LedWizEquivalent {0}".Build(LedWiz.Number);
             foreach (DirectOutput.Cab.Out.IOutput O in LedWiz.Outputs)
             {
-                Outputs.Add(new xLedWizEquivalentOutput() {OutputName="{0}\\{1}".Build(LedWiz.Name,O.Name),LedWizEquivalentOutputNumber=((DirectOutput.Cab.Out.LW.LedWizOutput)O).LedWizOutputNumber});
+                Outputs.Add(new LedWizEquivalentOutput() {OutputName="{0}\\{1}".Build(LedWiz.Name,O.Name),LedWizEquivalentOutputNumber=((DirectOutput.Cab.Out.LW.LedWizOutput)O).LedWizOutputNumber});
 
             }
         }

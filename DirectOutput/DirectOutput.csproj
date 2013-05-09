@@ -85,8 +85,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\EffectNameAttribute.cs" />
+    <Compile Include="Cab\Out\OutputNameAttribute.cs" />
+    <Compile Include="Attributes\ToyNameAttribute.cs" />
     <Compile Include="Cab\Out\LW\LW.cs" />
     <Compile Include="Cab\Out\NullOutputController\NullOutputController.cs" />
+    <Compile Include="Cab\Out\OutputNameConverter.cs" />
     <Compile Include="Cab\Toys\Basic\Basic.cs" />
     <Compile Include="Cab\Toys\Basic\GearMotor.cs" />
     <Compile Include="Cab\Toys\IRGBToy.cs" />
@@ -111,6 +115,12 @@
     </Compile>
     <Compile Include="Frontend\AvailableToysInfo.Designer.cs">
       <DependentUpon>AvailableToysInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frontend\CabinetEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frontend\CabinetEditor.designer.cs">
+      <DependentUpon>CabinetEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Frontend\CabinetInfo.cs">
       <SubType>Form</SubType>
@@ -288,6 +298,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Frontend\AvailableToysInfo.resx">
       <DependentUpon>AvailableToysInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frontend\CabinetEditor.resx">
+      <DependentUpon>CabinetEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Frontend\CabinetInfo.resx">
       <DependentUpon>CabinetInfo.cs</DependentUpon>

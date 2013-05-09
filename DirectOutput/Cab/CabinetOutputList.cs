@@ -68,6 +68,7 @@ namespace DirectOutput.Cab
                 {
                     _Current = _CabinetOutputList[_Index];
                     _Index++;
+                    return true;
                 }
                 return false;
             }
