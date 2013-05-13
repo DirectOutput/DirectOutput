@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Comment CommentText="Depending on the version of the framework more builtin toys do maybe exist.&#xD;&#xA;Additional toys can be added through scripting.">
-    <Position X="3.906" Y="1.615" Height="0.885" Width="2.762" />
+    <Position X="10.968" Y="0.907" Height="0.885" Width="2.762" />
   </Comment>
   <Class Name="DirectOutput.Cab.Toys.ToyBase">
     <Position X="3.75" Y="4" Width="1.5" />
@@ -179,7 +179,9 @@
     <InheritanceLine Type="DirectOutput.Cab.Toys.ToyBase" FixedToPoint="true">
       <Path>
         <Point X="4.5" Y="4" />
-        <Point X="4.5" Y="3.062" />
+        <Point X="4.5" Y="3.625" />
+        <Point X="6.875" Y="3.625" />
+        <Point X="6.875" Y="3.062" />
         <Point X="7.25" Y="3.062" />
       </Path>
     </InheritanceLine>
@@ -190,7 +192,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Interface Name="DirectOutput.Cab.Toys.IToy">
-    <Position X="1" Y="3.5" Width="1.5" />
+    <Position X="1" Y="1" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAABAAAAAAAAAQAAAAAAAAAAAACAAAAAAg=</HashCode>
       <FileName>Cab\Toys\IToy.cs</FileName>
@@ -198,16 +200,38 @@
   </Interface>
   <Interface Name="DirectOutput.Cab.Toys.IAnalogToy">
     <Position X="1" Y="6.25" Width="1.5" />
+    <InheritanceLine Type="DirectOutput.Cab.Toys.IToy" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="2.5" Y="2.5" />
+        <Point X="2.875" Y="2.5" />
+        <Point X="2.875" Y="7.125" />
+        <Point X="2.5" Y="7.125" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAABgAAIAAAAAQAAAAAAAAAAAAiAAAAAAA=</HashCode>
       <FileName>Cab\Toys\IAnalogToy.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="DirectOutput.Cab.Toys.IDigitalToy">
-    <Position X="1" Y="0.5" Width="1.5" />
+    <Position X="1" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAABAAAAAAABAAAIAAAAAQAAAAAAAAAAAACBAAAAAA=</HashCode>
       <FileName>Cab\Toys\IDigitalToy.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="DirectOutput.Cab.Toys.ILampToy">
+    <Position X="1" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAIA=</HashCode>
+      <FileName>Cab\Toys\ILampToy.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="DirectOutput.Cab.Toys.IRGBToy">
+    <Position X="3.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAQI=</HashCode>
+      <FileName>Cab\Toys\IRGBToy.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Font Name="Segoe UI" Size="9" />
