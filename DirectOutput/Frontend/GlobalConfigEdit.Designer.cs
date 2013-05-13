@@ -99,9 +99,10 @@
             this.SelectLedcontrolFile = new System.Windows.Forms.OpenFileDialog();
             this.SelectLogFile = new System.Windows.Forms.SaveFileDialog();
             this.splitContainer12 = new System.Windows.Forms.SplitContainer();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.SaveExitButton = new System.Windows.Forms.Button();
+            this.ExitButton = new System.Windows.Forms.Button();
+            this.SaveButton = new System.Windows.Forms.Button();
+            this.SaveGlobalConfigDialog = new System.Windows.Forms.SaveFileDialog();
             this.tabControl1.SuspendLayout();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
@@ -451,8 +452,8 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.LedcontrolFiles);
             this.splitContainer1.Panel2MinSize = 50;
-            this.splitContainer1.Size = new System.Drawing.Size(1407, 774);
-            this.splitContainer1.SplitterDistance = 171;
+            this.splitContainer1.Size = new System.Drawing.Size(1233, 758);
+            this.splitContainer1.SplitterDistance = 167;
             this.splitContainer1.TabIndex = 0;
             // 
             // label1
@@ -461,7 +462,7 @@
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(1403, 167);
+            this.label1.Size = new System.Drawing.Size(1229, 163);
             this.label1.TabIndex = 8;
             this.label1.Text = resources.GetString("label1.Text");
             // 
@@ -476,7 +477,7 @@
             this.LedcontrolFiles.Location = new System.Drawing.Point(0, 0);
             this.LedcontrolFiles.MultiSelect = false;
             this.LedcontrolFiles.Name = "LedcontrolFiles";
-            this.LedcontrolFiles.Size = new System.Drawing.Size(1403, 595);
+            this.LedcontrolFiles.Size = new System.Drawing.Size(1229, 583);
             this.LedcontrolFiles.TabIndex = 0;
             this.LedcontrolFiles.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.LedcontrolFiles_CellDoubleClick);
             this.LedcontrolFiles.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.LedcontrolFiles_CellValueChanged);
@@ -561,8 +562,8 @@
             // splitContainer4.Panel2
             // 
             this.splitContainer4.Panel2.Controls.Add(this.splitContainer5);
-            this.splitContainer4.Size = new System.Drawing.Size(831, 633);
-            this.splitContainer4.SplitterDistance = 115;
+            this.splitContainer4.Size = new System.Drawing.Size(1233, 758);
+            this.splitContainer4.SplitterDistance = 137;
             this.splitContainer4.TabIndex = 0;
             // 
             // label5
@@ -570,7 +571,7 @@
             this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label5.Location = new System.Drawing.Point(0, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(831, 115);
+            this.label5.Size = new System.Drawing.Size(1233, 137);
             this.label5.TabIndex = 1;
             this.label5.Text = resources.GetString("label5.Text");
             // 
@@ -589,8 +590,8 @@
             // splitContainer5.Panel2
             // 
             this.splitContainer5.Panel2.Controls.Add(this.splitContainer7);
-            this.splitContainer5.Size = new System.Drawing.Size(831, 514);
-            this.splitContainer5.SplitterDistance = 146;
+            this.splitContainer5.Size = new System.Drawing.Size(1233, 617);
+            this.splitContainer5.SplitterDistance = 175;
             this.splitContainer5.TabIndex = 0;
             // 
             // splitContainer6
@@ -608,7 +609,7 @@
             // splitContainer6.Panel2
             // 
             this.splitContainer6.Panel2.Controls.Add(this.CabinetConfigFilePatterns);
-            this.splitContainer6.Size = new System.Drawing.Size(827, 142);
+            this.splitContainer6.Size = new System.Drawing.Size(1229, 171);
             this.splitContainer6.SplitterDistance = 170;
             this.splitContainer6.TabIndex = 0;
             // 
@@ -617,7 +618,7 @@
             this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label2.Location = new System.Drawing.Point(0, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(170, 142);
+            this.label2.Size = new System.Drawing.Size(170, 171);
             this.label2.TabIndex = 0;
             this.label2.Text = "Cabinet configuration file patterns:";
             // 
@@ -631,7 +632,7 @@
             this.CabinetConfigFilePatterns.Location = new System.Drawing.Point(0, 0);
             this.CabinetConfigFilePatterns.MultiSelect = false;
             this.CabinetConfigFilePatterns.Name = "CabinetConfigFilePatterns";
-            this.CabinetConfigFilePatterns.Size = new System.Drawing.Size(653, 142);
+            this.CabinetConfigFilePatterns.Size = new System.Drawing.Size(1055, 171);
             this.CabinetConfigFilePatterns.TabIndex = 1;
             this.CabinetConfigFilePatterns.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.CabinetConfigFilePatterns_CellValueChanged);
             // 
@@ -690,7 +691,7 @@
             // splitContainer7.Panel2
             // 
             this.splitContainer7.Panel2.Controls.Add(this.CabinetScriptFilePatterns);
-            this.splitContainer7.Size = new System.Drawing.Size(827, 360);
+            this.splitContainer7.Size = new System.Drawing.Size(1229, 434);
             this.splitContainer7.SplitterDistance = 170;
             this.splitContainer7.TabIndex = 0;
             // 
@@ -699,7 +700,7 @@
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label3.Location = new System.Drawing.Point(0, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(170, 360);
+            this.label3.Size = new System.Drawing.Size(170, 434);
             this.label3.TabIndex = 0;
             this.label3.Text = "Cabinet script file patterns:";
             // 
@@ -713,7 +714,7 @@
             this.CabinetScriptFilePatterns.Location = new System.Drawing.Point(0, 0);
             this.CabinetScriptFilePatterns.MultiSelect = false;
             this.CabinetScriptFilePatterns.Name = "CabinetScriptFilePatterns";
-            this.CabinetScriptFilePatterns.Size = new System.Drawing.Size(653, 360);
+            this.CabinetScriptFilePatterns.Size = new System.Drawing.Size(1055, 434);
             this.CabinetScriptFilePatterns.TabIndex = 0;
             this.CabinetScriptFilePatterns.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.CabinetScriptFilePatterns_CellValueChanged);
             // 
@@ -761,8 +762,8 @@
             // splitContainer8.Panel2
             // 
             this.splitContainer8.Panel2.Controls.Add(this.splitContainer9);
-            this.splitContainer8.Size = new System.Drawing.Size(1407, 774);
-            this.splitContainer8.SplitterDistance = 181;
+            this.splitContainer8.Size = new System.Drawing.Size(1233, 758);
+            this.splitContainer8.SplitterDistance = 177;
             this.splitContainer8.TabIndex = 1;
             // 
             // label4
@@ -770,7 +771,7 @@
             this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label4.Location = new System.Drawing.Point(0, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(1407, 181);
+            this.label4.Size = new System.Drawing.Size(1233, 177);
             this.label4.TabIndex = 1;
             this.label4.Text = resources.GetString("label4.Text");
             // 
@@ -789,8 +790,8 @@
             // splitContainer9.Panel2
             // 
             this.splitContainer9.Panel2.Controls.Add(this.splitContainer11);
-            this.splitContainer9.Size = new System.Drawing.Size(1407, 589);
-            this.splitContainer9.SplitterDistance = 230;
+            this.splitContainer9.Size = new System.Drawing.Size(1233, 577);
+            this.splitContainer9.SplitterDistance = 225;
             this.splitContainer9.TabIndex = 0;
             // 
             // splitContainer10
@@ -808,7 +809,7 @@
             // splitContainer10.Panel2
             // 
             this.splitContainer10.Panel2.Controls.Add(this.TableConfigFilePatterns);
-            this.splitContainer10.Size = new System.Drawing.Size(1403, 226);
+            this.splitContainer10.Size = new System.Drawing.Size(1229, 221);
             this.splitContainer10.SplitterDistance = 170;
             this.splitContainer10.TabIndex = 0;
             // 
@@ -817,7 +818,7 @@
             this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label6.Location = new System.Drawing.Point(0, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(170, 226);
+            this.label6.Size = new System.Drawing.Size(170, 221);
             this.label6.TabIndex = 0;
             this.label6.Text = "Table configuration file patterns:";
             // 
@@ -831,7 +832,7 @@
             this.TableConfigFilePatterns.Location = new System.Drawing.Point(0, 0);
             this.TableConfigFilePatterns.MultiSelect = false;
             this.TableConfigFilePatterns.Name = "TableConfigFilePatterns";
-            this.TableConfigFilePatterns.Size = new System.Drawing.Size(1229, 226);
+            this.TableConfigFilePatterns.Size = new System.Drawing.Size(1055, 221);
             this.TableConfigFilePatterns.TabIndex = 0;
             this.TableConfigFilePatterns.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.TableConfigFilePatterns_CellValueChanged);
             // 
@@ -914,7 +915,7 @@
             // splitContainer11.Panel2
             // 
             this.splitContainer11.Panel2.Controls.Add(this.TableScriptFilePatterns);
-            this.splitContainer11.Size = new System.Drawing.Size(1403, 351);
+            this.splitContainer11.Size = new System.Drawing.Size(1229, 344);
             this.splitContainer11.SplitterDistance = 170;
             this.splitContainer11.TabIndex = 0;
             // 
@@ -923,7 +924,7 @@
             this.label7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label7.Location = new System.Drawing.Point(0, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(170, 351);
+            this.label7.Size = new System.Drawing.Size(170, 344);
             this.label7.TabIndex = 0;
             this.label7.Text = "Table script file patterns:";
             // 
@@ -937,7 +938,7 @@
             this.TableScriptFilePatterns.Location = new System.Drawing.Point(0, 0);
             this.TableScriptFilePatterns.MultiSelect = false;
             this.TableScriptFilePatterns.Name = "TableScriptFilePatterns";
-            this.TableScriptFilePatterns.Size = new System.Drawing.Size(1229, 351);
+            this.TableScriptFilePatterns.Size = new System.Drawing.Size(1055, 344);
             this.TableScriptFilePatterns.TabIndex = 0;
             this.TableScriptFilePatterns.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.TableScriptFilePatterns_CellValueChanged);
             // 
@@ -989,42 +990,51 @@
             // 
             // splitContainer12.Panel2
             // 
-            this.splitContainer12.Panel2.Controls.Add(this.button3);
-            this.splitContainer12.Panel2.Controls.Add(this.button2);
-            this.splitContainer12.Panel2.Controls.Add(this.button1);
+            this.splitContainer12.Panel2.Controls.Add(this.SaveExitButton);
+            this.splitContainer12.Panel2.Controls.Add(this.ExitButton);
+            this.splitContainer12.Panel2.Controls.Add(this.SaveButton);
             this.splitContainer12.Size = new System.Drawing.Size(1247, 825);
             this.splitContainer12.SplitterDistance = 790;
             this.splitContainer12.TabIndex = 2;
             // 
-            // button3
+            // SaveExitButton
             // 
-            this.button3.Enabled = false;
-            this.button3.Location = new System.Drawing.Point(197, 3);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(188, 23);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "Save global configuration and exit";
-            this.button3.UseVisualStyleBackColor = true;
+            this.SaveExitButton.Enabled = false;
+            this.SaveExitButton.Location = new System.Drawing.Point(197, 3);
+            this.SaveExitButton.Name = "SaveExitButton";
+            this.SaveExitButton.Size = new System.Drawing.Size(188, 23);
+            this.SaveExitButton.TabIndex = 2;
+            this.SaveExitButton.Text = "Save global configuration and exit";
+            this.SaveExitButton.UseVisualStyleBackColor = true;
+            this.SaveExitButton.Click += new System.EventHandler(this.SaveExitButton_Click);
             // 
-            // button2
+            // ExitButton
             // 
-            this.button2.Enabled = false;
-            this.button2.Location = new System.Drawing.Point(411, 3);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(188, 23);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "Exit";
-            this.button2.UseVisualStyleBackColor = true;
+            this.ExitButton.Enabled = false;
+            this.ExitButton.Location = new System.Drawing.Point(411, 3);
+            this.ExitButton.Name = "ExitButton";
+            this.ExitButton.Size = new System.Drawing.Size(188, 23);
+            this.ExitButton.TabIndex = 1;
+            this.ExitButton.Text = "Exit";
+            this.ExitButton.UseVisualStyleBackColor = true;
+            this.ExitButton.Click += new System.EventHandler(this.ExitButton_Click);
             // 
-            // button1
+            // SaveButton
             // 
-            this.button1.Enabled = false;
-            this.button1.Location = new System.Drawing.Point(3, 3);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(188, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Save global configuration";
-            this.button1.UseVisualStyleBackColor = true;
+            this.SaveButton.Enabled = false;
+            this.SaveButton.Location = new System.Drawing.Point(3, 3);
+            this.SaveButton.Name = "SaveButton";
+            this.SaveButton.Size = new System.Drawing.Size(188, 23);
+            this.SaveButton.TabIndex = 0;
+            this.SaveButton.Text = "Save global configuration";
+            this.SaveButton.UseVisualStyleBackColor = true;
+            this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
+            // 
+            // SaveGlobalConfigDialog
+            // 
+            this.SaveGlobalConfigDialog.DefaultExt = "xml";
+            this.SaveGlobalConfigDialog.Filter = "XML-files (*.xml)|*.xml|All files (*.*)|*.*";
+            this.SaveGlobalConfigDialog.Title = "Save global configuration";
             // 
             // GlobalConfigEdit
             // 
@@ -1033,7 +1043,8 @@
             this.ClientSize = new System.Drawing.Size(1247, 825);
             this.Controls.Add(this.splitContainer12);
             this.Name = "GlobalConfigEdit";
-            this.Text = "Edit global configuration";
+            this.Text = "Global configuration editor";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GlobalConfigEdit_FormClosing);
             this.tabControl1.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
@@ -1174,8 +1185,9 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.SplitContainer splitContainer12;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button SaveExitButton;
+        private System.Windows.Forms.Button ExitButton;
+        private System.Windows.Forms.Button SaveButton;
+        private System.Windows.Forms.SaveFileDialog SaveGlobalConfigDialog;
     }
 }

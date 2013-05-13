@@ -9,10 +9,58 @@ namespace DirectOutput.Frontend
 {
     public partial class GlobalConfigEdit : Form
     {
-        protected bool Modified = false;
+        private bool _Modified = false;
+
+        protected bool Modified
+        {
+            get { return _Modified; }
+            set { _Modified = value;
+                this.Text="Global configuration editor {0}".Build(_Modified?" <contains unsaved changes>":"");
+            }
+        }
 
 
         private GlobalConfig GlobalConfig;
+
+
+        public bool SaveConfigData()
+        {
+            try
+            {
+
+                if (!ValidateConfigData())
+                {
+                    MessageBox.Show(this, "The data specified for the Global Configuration contains some invalid data.\nPlease correct the data before saving.", "Invalid global configuration data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+
+                if (GlobalConfig.GlobalConfigFilename.IsNullOrWhiteSpace())
+                {
+                    SaveGlobalConfigDialog.InitialDirectory = new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName;
+                    if (SaveGlobalConfigDialog.ShowDialog(this) != DialogResult.OK)
+                    {
+                        return false;
+                    }
+                    GlobalConfig.GlobalConfigFilename = SaveGlobalConfigDialog.FileName;
+                }
+
+
+                UpdateGlobalConfigData(GlobalConfig);
+
+                GlobalConfig.SaveGlobalConfig();
+
+                MessageBox.Show(this, "Global config saved to\n{0}.\n\nYou must restart the framework to activate the new global config settings.".Build(GlobalConfig.GlobalConfigFilename), "Global configuration saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Modified = false;
+                return true;
+            }
+            catch (Exception E)
+            {
+                MessageBox.Show(this, "Could not save global configuration.\nA exception occured:\n{0}".Build(E.Message), "Global config save error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Log.Exception("Could not save global configuration.\nA exception occured", E);
+                return false;
+            }
+        }
+
 
         #region Validate config data
         public bool ValidateConfigData()
@@ -54,16 +102,12 @@ namespace DirectOutput.Frontend
             }
             return true;
         }
-        
+
         #endregion
 
 
         #region Update global config data
-        public void UpdateGlobalConfig()
-        {
 
-            UpdateGlobalConfigData(GlobalConfig);
-        }
 
         public void UpdateGlobalConfigData(GlobalConfig Config)
         {
@@ -82,7 +126,7 @@ namespace DirectOutput.Frontend
                 Config.UpdateTimerIntervall = (int)UpdateTimerIntervalMs.Value;
 
                 Config.EnableLogging = EnableLogging.Checked;
-            } 
+            }
         }
 
 
@@ -106,7 +150,7 @@ namespace DirectOutput.Frontend
                 Patterns.Add(new FilePattern((string)Source[0, r].Value));
             }
         }
-        
+
         #endregion
 
 
@@ -117,7 +161,7 @@ namespace DirectOutput.Frontend
         private void LoadConfigData(GlobalConfig Config)
         {
             GlobalConfig = Config;
-  
+
             LoadLedcontrolFiles(Config);
 
             LoadFilePatterns(Config.GlobalScriptFilePatterns, GlobalScriptFilePatterns);
@@ -395,7 +439,7 @@ namespace DirectOutput.Frontend
 
         private void LogFilePattern_TextChanged(object sender, EventArgs e)
         {
-            LogFilePatternStatus.Text=(new FilePattern(LogFilePattern.Text).IsValid?"OK":"Invalid file pattern");
+            LogFilePatternStatus.Text = (new FilePattern(LogFilePattern.Text).IsValid ? "OK" : "Invalid file pattern");
             Modified = true;
         }
 
@@ -433,6 +477,53 @@ namespace DirectOutput.Frontend
         {
             UpdateFilePatternStatus((DataGridView)sender, e.RowIndex);
             Modified = true;
+        }
+
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+            SaveConfigData();
+        }
+
+        private void SaveExitButton_Click(object sender, EventArgs e)
+        {
+            if (SaveConfigData())
+            {
+                this.Close();
+            };
+        }
+
+        private void ExitButton_Click(object sender, EventArgs e)
+        {
+            this.Close();
+
+
+
+
+        }
+
+        private void GlobalConfigEdit_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (Modified)
+            {
+                switch (MessageBox.Show(this, "The global config editor contains unsaved changes.\nDo you want to save before closing the window?", "Close global config editor", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button3))
+                {
+                    case DialogResult.Cancel:
+                        e.Cancel = true;
+                        return;
+                    case DialogResult.No:
+                        break;
+                    case DialogResult.Yes:
+                        if (!SaveConfigData())
+                        {
+                            e.Cancel = true;
+                            return;
+                        }
+                        break;
+                    default:
+                        return;
+                }
+            }
+
         }
 
 
