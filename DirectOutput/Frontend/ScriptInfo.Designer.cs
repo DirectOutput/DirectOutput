@@ -281,6 +281,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1382, 786);
             this.Controls.Add(this.splitContainer1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ScriptInfo";
             this.Text = "Loaded script information";
             ((System.ComponentModel.ISupportInitialize)(this.LoadedScripts)).EndInit();

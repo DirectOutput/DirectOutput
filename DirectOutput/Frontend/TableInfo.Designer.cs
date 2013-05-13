@@ -53,8 +53,8 @@
             this.splitContainer6 = new System.Windows.Forms.SplitContainer();
             this.splitContainer7 = new System.Windows.Forms.SplitContainer();
             this.splitContainer8 = new System.Windows.Forms.SplitContainer();
-            this.ExportTableConfiguration = new System.Windows.Forms.Button();
             this.RefreshWindow = new System.Windows.Forms.Button();
+            this.ExportTableConfiguration = new System.Windows.Forms.Button();
             this.SaveTableConfigDialog = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.TableEffects)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TableEffectProperties)).BeginInit();
@@ -113,7 +113,7 @@
             this.TableEffects.Name = "TableEffects";
             this.TableEffects.ReadOnly = true;
             this.TableEffects.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.TableEffects.Size = new System.Drawing.Size(517, 628);
+            this.TableEffects.Size = new System.Drawing.Size(517, 618);
             this.TableEffects.TabIndex = 0;
             this.TableEffects.SelectionChanged += new System.EventHandler(this.TableEffects_SelectionChanged);
             // 
@@ -159,7 +159,7 @@
             this.TableElements.Name = "TableElements";
             this.TableElements.ReadOnly = true;
             this.TableElements.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.TableElements.Size = new System.Drawing.Size(1191, 303);
+            this.TableElements.Size = new System.Drawing.Size(1191, 292);
             this.TableElements.TabIndex = 3;
             this.TableElements.SelectionChanged += new System.EventHandler(this.TableElements_SelectionChanged);
             // 
@@ -182,7 +182,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.label1.Location = new System.Drawing.Point(0, 1);
+            this.label1.Location = new System.Drawing.Point(0, 12);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(82, 13);
             this.label1.TabIndex = 5;
@@ -192,7 +192,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.label2.Location = new System.Drawing.Point(0, 2);
+            this.label2.Location = new System.Drawing.Point(0, 12);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(157, 13);
             this.label2.TabIndex = 6;
@@ -212,7 +212,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.label4.Location = new System.Drawing.Point(0, 2);
+            this.label4.Location = new System.Drawing.Point(0, 12);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(96, 13);
             this.label4.TabIndex = 8;
@@ -222,7 +222,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.label5.Location = new System.Drawing.Point(0, 3);
+            this.label5.Location = new System.Drawing.Point(0, 12);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(87, 13);
             this.label5.TabIndex = 9;
@@ -313,7 +313,7 @@
             // 
             this.splitContainer2.Panel2.Controls.Add(this.TableElements);
             this.splitContainer2.Size = new System.Drawing.Size(1191, 321);
-            this.splitContainer2.SplitterDistance = 14;
+            this.splitContainer2.SplitterDistance = 25;
             this.splitContainer2.TabIndex = 6;
             // 
             // splitContainer3
@@ -333,7 +333,7 @@
             // 
             this.splitContainer3.Panel2.Controls.Add(this.TableElementAssignedEffects);
             this.splitContainer3.Size = new System.Drawing.Size(1191, 318);
-            this.splitContainer3.SplitterDistance = 15;
+            this.splitContainer3.SplitterDistance = 25;
             this.splitContainer3.TabIndex = 0;
             // 
             // tabPage2
@@ -413,7 +413,7 @@
             // 
             this.splitContainer6.Panel2.Controls.Add(this.TableEffects);
             this.splitContainer6.Size = new System.Drawing.Size(517, 647);
-            this.splitContainer6.SplitterDistance = 15;
+            this.splitContainer6.SplitterDistance = 25;
             this.splitContainer6.TabIndex = 0;
             // 
             // splitContainer7
@@ -433,7 +433,7 @@
             // 
             this.splitContainer7.Panel2.Controls.Add(this.TableEffectProperties);
             this.splitContainer7.Size = new System.Drawing.Size(666, 647);
-            this.splitContainer7.SplitterDistance = 16;
+            this.splitContainer7.SplitterDistance = 25;
             this.splitContainer7.TabIndex = 0;
             // 
             // splitContainer8
@@ -456,19 +456,6 @@
             this.splitContainer8.SplitterDistance = 683;
             this.splitContainer8.TabIndex = 1;
             // 
-            // ExportTableConfiguration
-            // 
-            this.ExportTableConfiguration.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ExportTableConfiguration.Image = ((System.Drawing.Image)(resources.GetObject("ExportTableConfiguration.Image")));
-            this.ExportTableConfiguration.Location = new System.Drawing.Point(891, 3);
-            this.ExportTableConfiguration.Name = "ExportTableConfiguration";
-            this.ExportTableConfiguration.Size = new System.Drawing.Size(173, 32);
-            this.ExportTableConfiguration.TabIndex = 0;
-            this.ExportTableConfiguration.Text = "Export table configuration";
-            this.ExportTableConfiguration.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.ExportTableConfiguration.UseVisualStyleBackColor = true;
-            this.ExportTableConfiguration.Click += new System.EventHandler(this.ExportTableConfiguration_Click);
-            // 
             // RefreshWindow
             // 
             this.RefreshWindow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -482,6 +469,19 @@
             this.RefreshWindow.UseVisualStyleBackColor = true;
             this.RefreshWindow.Click += new System.EventHandler(this.RefreshWindow_Click);
             // 
+            // ExportTableConfiguration
+            // 
+            this.ExportTableConfiguration.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ExportTableConfiguration.Image = ((System.Drawing.Image)(resources.GetObject("ExportTableConfiguration.Image")));
+            this.ExportTableConfiguration.Location = new System.Drawing.Point(891, 3);
+            this.ExportTableConfiguration.Name = "ExportTableConfiguration";
+            this.ExportTableConfiguration.Size = new System.Drawing.Size(173, 32);
+            this.ExportTableConfiguration.TabIndex = 0;
+            this.ExportTableConfiguration.Text = "Export table configuration";
+            this.ExportTableConfiguration.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.ExportTableConfiguration.UseVisualStyleBackColor = true;
+            this.ExportTableConfiguration.Click += new System.EventHandler(this.ExportTableConfiguration_Click);
+            // 
             // SaveTableConfigDialog
             // 
             this.SaveTableConfigDialog.DefaultExt = "xml";
@@ -494,6 +494,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1209, 728);
             this.Controls.Add(this.splitContainer8);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "TableInfo";
             this.Text = "TableInfo";
             ((System.ComponentModel.ISupportInitialize)(this.TableEffects)).EndInit();

@@ -1042,6 +1042,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1247, 825);
             this.Controls.Add(this.splitContainer12);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GlobalConfigEdit";
             this.Text = "Global configuration editor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GlobalConfigEdit_FormClosing);
