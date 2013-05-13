@@ -21,7 +21,7 @@ namespace DirectOutput.Frontend
             Version V = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             DateTime BuildDate = new DateTime(2000, 1, 1).AddDays(V.Build).AddSeconds(V.Revision * 2);
 
-            Version.Text = "Version {0} as of ".Build(V.ToString(), BuildDate.ToString("yyyy.MM.dd hh:mm"));
+            Version.Text = "Version {0} as of {1}".Build(V.ToString(), BuildDate.ToString("yyyy.MM.dd hh:mm"));
 
 
 
@@ -82,6 +82,7 @@ namespace DirectOutput.Frontend
             }
             else
             {
+                M.StartPosition = FormStartPosition.CenterParent;
                 M.Show(Owner);
             }
         }
@@ -92,12 +93,14 @@ namespace DirectOutput.Frontend
             {
                 if (F.GetType() == typeof(CabinetInfo))
                 {
+                    F.BringToFront();
                     F.Focus();
                     return;
                 }
             }
             CabinetInfo CI = new CabinetInfo(Pinball.Cabinet);
-            CI.Show();
+            CI.StartPosition = FormStartPosition.CenterParent;
+            CI.Show(this);
 
         }
 
@@ -107,12 +110,14 @@ namespace DirectOutput.Frontend
             {
                 if (F.GetType() == typeof(TableInfo))
                 {
+                    F.BringToFront();
                     F.Focus();
                     return;
                 }
             }
             TableInfo CI = new TableInfo(Pinball);
-            CI.Show();
+            CI.StartPosition = FormStartPosition.CenterParent;
+            CI.Show(this);
         }
 
         private void EditGlobalConfiguration_Click(object sender, EventArgs e)
@@ -121,12 +126,14 @@ namespace DirectOutput.Frontend
             {
                 if (F.GetType() == typeof(GlobalConfigEdit))
                 {
+                    F.BringToFront();
                     F.Focus();
                     return;
                 }
             }
             GlobalConfigEdit CI = new GlobalConfigEdit();
-            CI.Show();
+            CI.StartPosition = FormStartPosition.CenterParent;
+            CI.Show(this);
         }
 
         private void ShowLoadedScripts_Click(object sender, EventArgs e)
@@ -135,12 +142,14 @@ namespace DirectOutput.Frontend
             {
                 if (F.GetType() == typeof(ScriptInfo))
                 {
+                    F.BringToFront();
                     F.Focus();
                     return;
                 }
             }
             ScriptInfo CI = new ScriptInfo(Pinball);
-            CI.Show();
+            CI.StartPosition = FormStartPosition.CenterParent;
+            CI.Show(this);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -149,12 +158,14 @@ namespace DirectOutput.Frontend
             {
                 if (F.GetType() == typeof(AvailableToysInfo))
                 {
+                    F.BringToFront();
                     F.Focus();
                     return;
                 }
             }
             AvailableToysInfo CI = new AvailableToysInfo();
-            CI.Show();
+            CI.StartPosition = FormStartPosition.CenterParent;
+            CI.Show(this);
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -163,12 +174,14 @@ namespace DirectOutput.Frontend
             {
                 if (F.GetType() == typeof(AvailableEffectsInfo))
                 {
+                    F.BringToFront();
                     F.Focus();
                     return;
                 }
             }
             AvailableEffectsInfo CI = new AvailableEffectsInfo();
-            CI.Show();
+            CI.StartPosition = FormStartPosition.CenterParent;
+            CI.Show(this);
         }
 
 
