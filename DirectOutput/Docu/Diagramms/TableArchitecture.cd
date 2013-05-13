@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="DirectOutput.Table.Table">
-    <Position X="0.75" Y="0.5" Width="1.75" />
+    <Position X="0.75" Y="1.25" Width="2.25" />
     <Members>
       <Field Name="_AssignedStaticEffects" Hidden="true" />
+      <Field Name="_ConfigurationSource" Hidden="true" />
       <Field Name="_Effects" Hidden="true" />
       <Field Name="_RomName" Hidden="true" />
       <Field Name="_TableName" Hidden="true" />
@@ -14,26 +15,13 @@
       <Method Name="SaveConfigXmlFile" Hidden="true" />
       <Event Name="TableNameChanged" Hidden="true" />
     </Members>
-    <AssociationLine Name="Effects" Type="DirectOutput.FX.IEffect" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="2.5" Y="2.875" />
-        <Point X="2.875" Y="2.875" />
-        <Point X="2.875" Y="4.936" />
-        <Point X="4.25" Y="4.936" />
-      </Path>
-    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAEAAAACQAAAAAAQAIAAIQJBAAEBACAICAQAgAAk=</HashCode>
+      <HashCode>AAAAQEAQAACQAAAQAAQAIAAIQJhAAEBACAICAQAgAAk=</HashCode>
       <FileName>Table\Table.cs</FileName>
     </TypeIdentifier>
-    <ShowAsCollectionAssociation>
-      <Property Name="TableElements" />
-      <Property Name="Effects" />
-      <Property Name="AssignedStaticEffects" />
-    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="DirectOutput.Table.TableElement">
-    <Position X="4.25" Y="1.25" Width="1.75" />
+    <Position X="4.5" Y="1.25" Width="1.75" />
     <Members>
       <Field Name="_Name" Hidden="true" />
       <Field Name="_Number" Hidden="true" />
@@ -41,37 +29,40 @@
       <Field Name="_TableElementType" Hidden="true" />
       <Field Name="_Value" Hidden="true" />
       <Event Name="NameChanged" Hidden="true" />
+      <Method Name="NotifyPropertyChanged" Hidden="true" />
       <Method Name="TableElement" Hidden="true" />
       <Method Name="TableElement_ValueChanged" Hidden="true" />
       <Event Name="ValueChanged" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>AgABAAAAAAAAEJAQAEAMIAQAgEAAAAAAAAAgAAAIAAA=</HashCode>
+      <HashCode>AgABAAAAABAAEJAQAEAMIAQAgEAAAAAAAAAgAAAIAAA=</HashCode>
       <FileName>Table\TableElement.cs</FileName>
     </TypeIdentifier>
-    <ShowAsCollectionAssociation>
+    <ShowAsAssociation>
       <Property Name="AssignedEffects" />
-    </ShowAsCollectionAssociation>
+    </ShowAsAssociation>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="DirectOutput.FX.AssignedEffect">
-    <Position X="7.75" Y="1" Width="2.25" />
+  <Class Name="DirectOutput.FX.AssignedEffectList">
+    <Position X="7.75" Y="1.25" Width="4" />
     <Members>
-      <Field Name="_Effect" Hidden="true" />
-      <Field Name="_EffectName" Hidden="true" />
-      <Field Name="_Order" Hidden="true" />
-      <Method Name="AssignedEffect" Hidden="true" />
-      <Method Name="Finish" Hidden="true" />
-      <Method Name="ResolveEffectName" Hidden="true" />
+      <Method Name="~AssignedEffectList" Hidden="true" />
+      <Method Name="SubscribeEvents" Hidden="true" />
       <Method Name="TableElementEffect_EffectNameChanged" Hidden="true" />
+      <Method Name="TableElementEffect_OrderChanged" Hidden="true" />
+      <Method Name="TableElementEffectList_AfterInsert" Hidden="true" />
+      <Method Name="TableElementEffectList_AfterRemove" Hidden="true" />
+      <Method Name="TableElementEffectList_AfterSet" Hidden="true" />
+      <Method Name="TableElementEffectList_BeforeClear" Hidden="true" />
+      <Method Name="UnsubscribeEvents" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>IAEAAAIAAAggABAAAAgEAAACAAAAAAgAIAACAAAAAAg=</HashCode>
-      <FileName>FX\AssignedEffect.cs</FileName>
+      <HashCode>AAIAAAQAAAAAARQAAQAQAAEAAAAQAAAAIAACBAAAAAg=</HashCode>
+      <FileName>FX\AssignedEffectList.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Interface Name="DirectOutput.FX.IEffect">
-    <Position X="4.25" Y="4" Width="1.75" />
+    <Position X="4.5" Y="4.25" Width="1.75" />
     <Members>
       <Event Name="AfterNameChanged" Hidden="true" />
       <Event Name="BeforeNameChange" Hidden="true" />

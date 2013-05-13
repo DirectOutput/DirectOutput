@@ -13,7 +13,6 @@
       <Field Name="PinmameInputManager" Hidden="true" />
       <Method Name="PinmameInputManager_AllPinmameDataProcessed" Hidden="true" />
       <Method Name="PinmameInputManager_PinmameDataReceived" Hidden="true" />
-      <Method Name="ReceivePinmameData" Hidden="true" />
       <Method Name="UpdateTimer_AlarmsTriggered" Hidden="true" />
     </Members>
     <AssociationLine Name="Scripts" Type="DirectOutput.Scripting.Script" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
@@ -31,14 +30,24 @@
         <Point X="5.75" Y="3.127" />
       </Path>
     </AssociationLine>
+    <AssociationLine Name="GlobalConfig" Type="DirectOutput.GlobalConfiguration.GlobalConfig" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="2.562" Y="1.062" />
+        <Point X="2.562" Y="2.867" />
+        <Point X="2.573" Y="2.867" />
+        <Point X="2.573" Y="6.531" />
+        <Point X="5.75" Y="6.531" />
+      </Path>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAIEAAAAAAAQAAAAQAQAAASAAQAoQBBAACBAAEAAg=</HashCode>
+      <HashCode>AgAAIEAAgAAAAQAEAAQAQAAASAAQCoABBAACBAAEAAg=</HashCode>
       <FileName>Pinball.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Table" />
       <Property Name="Cabinet" />
       <Property Name="UpdateTimer" />
+      <Property Name="GlobalConfig" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="Scripts" />
@@ -63,29 +72,10 @@
       <Method Name="TriggerStaticEffects" Hidden="true" />
       <Method Name="UpdateTableElement" Hidden="true" />
     </Members>
-    <AssociationLine Name="Effects" Type="DirectOutput.FX.IEffect" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="6.375" Y="1.062" />
-        <Point X="6.375" Y="1.875" />
-        <Point X="11.25" Y="1.875" />
-      </Path>
-    </AssociationLine>
-    <AssociationLine Name="TableElements" Type="DirectOutput.Table.TableElement" ManuallyRouted="true">
-      <Path>
-        <Point X="7" Y="0.75" />
-        <Point X="7.214" Y="0.75" />
-        <Point X="7.214" Y="0.938" />
-        <Point X="8.5" Y="0.938" />
-      </Path>
-    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAEAAAACQAAAAAAQAIAAIQJBAAEBACAICAQAgAAk=</HashCode>
+      <HashCode>AAAAQEAQAACQAAAQAAQAIAAIQJhAAEBACAICAQAgAAk=</HashCode>
       <FileName>Table\Table.cs</FileName>
     </TypeIdentifier>
-    <ShowAsCollectionAssociation>
-      <Property Name="TableElements" />
-      <Property Name="Effects" />
-    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="DirectOutput.Cab.Cabinet" Collapsed="true">
     <Position X="5.75" Y="3" Width="1.5" />
@@ -151,34 +141,10 @@
       <Event Name="ValueChanged" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>AgABAAAAAAAAEBAQAEAMIAQAAEAAAAAAAAAgAAAIAAA=</HashCode>
+      <HashCode>AgABAAAAABAAEJAQAEAMIAQAgEAAAAAAAAAgAAAIAAA=</HashCode>
       <FileName>Table\TableElement.cs</FileName>
     </TypeIdentifier>
-    <ShowAsCollectionAssociation>
-      <Property Name="AssignedEffects" />
-    </ShowAsCollectionAssociation>
-  </Class>
-  <Class Name="DirectOutput.FX.AssignedEffect">
-    <Position X="11.25" Y="0.5" Width="1.5" />
-    <Members>
-      <Field Name="_Effect" Hidden="true" />
-      <Field Name="_EffectName" Hidden="true" />
-      <Field Name="_Order" Hidden="true" />
-      <Method Name="AssignedEffect" Hidden="true" />
-      <Property Name="Effect" Hidden="true" />
-      <Event Name="EffectNameChanged" Hidden="true" />
-      <Method Name="Finish" Hidden="true" />
-      <Method Name="Init" Hidden="true" />
-      <Property Name="Order" Hidden="true" />
-      <Event Name="OrderChanged" Hidden="true" />
-      <Method Name="ResolveEffectName" Hidden="true" />
-      <Method Name="TableElementEffect_EffectNameChanged" Hidden="true" />
-      <Method Name="Trigger" Hidden="true" />
-    </Members>
-    <TypeIdentifier>
-      <HashCode>IAEAAAIAAAggABAAAAgEAAACAAAAAAgAIAACAAAAAAg=</HashCode>
-      <FileName>FX\AssignedEffect.cs</FileName>
-    </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="DirectOutput.UpdateTimer" Collapsed="true">
     <Position X="5.75" Y="5.25" Width="1.5" />
@@ -195,6 +161,20 @@
     <TypeIdentifier>
       <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAAAAEAIAAAABAAAAAAAA=</HashCode>
       <FileName>Scripting\Script.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DirectOutput.FX.AssignedEffectOrder" Collapsed="true">
+    <Position X="11.25" Y="0.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>IAEAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FX\AssignedEffectOrder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DirectOutput.GlobalConfiguration.GlobalConfig" Collapsed="true">
+    <Position X="5.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ggAgCIAIMiAAAIAAQBUZAAAAAECAAggBIiAAVACAJAE=</HashCode>
+      <FileName>GlobalConfiguration\GlobalConfig.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Interface Name="DirectOutput.Cab.Out.IOutputController">

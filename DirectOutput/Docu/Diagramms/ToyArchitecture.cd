@@ -3,104 +3,169 @@
   <Comment CommentText="Depending on the version of the framework more builtin toys do maybe exist.&#xD;&#xA;Additional toys can be added through scripting.">
     <Position X="3.906" Y="1.615" Height="0.885" Width="2.762" />
   </Comment>
-  <Class Name="DirectOutput.Cab.Toys.Flasher">
-    <Position X="11.25" Y="1.25" Width="2" />
+  <Class Name="DirectOutput.Cab.Toys.ToyBase">
+    <Position X="3.75" Y="4" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Cab\Toys\Flasher.cs</FileName>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAACAAAAAAg=</HashCode>
+      <FileName>Cab\Toys\ToyBase.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="DirectOutput.Cab.Toys.GearMotor">
-    <Position X="11.25" Y="5.5" Width="2" />
-    <InheritanceLine Type="DirectOutput.Cab.Toys.GenericAnalogToy" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="9" Y="7" />
-        <Point X="9" Y="6.688" />
-        <Point X="11.25" Y="6.688" />
-      </Path>
-    </InheritanceLine>
+  <Class Name="DirectOutput.Cab.Toys.LWEquivalent.LedWizEquivalent">
+    <Position X="3.75" Y="6.25" Width="2.5" />
+    <Members>
+      <Field Name="_LedWizNumber" Hidden="true" />
+      <Field Name="_Outputs" Hidden="true" />
+    </Members>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEAAAAAABAAAAAAAAAAA=</HashCode>
-      <FileName>Cab\Toys\GearMotor.cs</FileName>
+      <HashCode>BAAAAAAAAAAAhAAAAAAAAAAAIAIEAAAAAAACAAAAAAg=</HashCode>
+      <FileName>Cab\Toys\LWEquivalent\LedWizEquivalent.cs</FileName>
     </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Outputs" />
+    </ShowAsCollectionAssociation>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="DirectOutput.Cab.Toys.GenericAnalogToy">
-    <Position X="7.75" Y="7" Width="1.5" />
+  <Class Name="DirectOutput.Cab.Toys.LWEquivalent.LedWizEquivalentOutput">
+    <Position X="3.75" Y="9.5" Width="2.5" />
+    <Members>
+      <Field Name="_Output" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAgAIAAAAAAAAAAAAAAAAAAiAAAAABg=</HashCode>
+      <FileName>Cab\Toys\LWEquivalent\LedWizEquivalentOutput.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DirectOutput.Cab.Toys.Generic.GenericAnalogToy">
+    <Position X="7.25" Y="4.5" Width="1.75" />
     <Members>
       <Field Name="_Output" Hidden="true" />
       <Field Name="_Value" Hidden="true" />
       <Method Name="InitOutput" Hidden="true" />
     </Members>
-    <InheritanceLine Type="DirectOutput.Cab.Toys.ToyBase" FixedFromPoint="true">
-      <Path>
-        <Point X="5.25" Y="5.188" />
-        <Point X="8.344" Y="5.188" />
-        <Point X="8.344" Y="7" />
-      </Path>
-    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>EAAAAAAAAAAABhAAIAAAAAAAAAAAAAAAAAAiAAAAABA=</HashCode>
-      <FileName>Cab\Toys\GenericAnalogToy.cs</FileName>
+      <FileName>Cab\Toys\Generic\GenericAnalogToy.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="DirectOutput.Cab.Toys.GenericDigitalToy">
-    <Position X="7.75" Y="1.75" Width="1.5" />
+  <Class Name="DirectOutput.Cab.Toys.Generic.GenericDigitalToy">
+    <Position X="7.25" Y="7.75" Width="1.5" />
     <Members>
       <Field Name="_Output" Hidden="true" />
       <Field Name="_State" Hidden="true" />
       <Method Name="InitOutput" Hidden="true" />
     </Members>
-    <InheritanceLine Type="DirectOutput.Cab.Toys.ToyBase" FixedFromPoint="true" FixedToPoint="true">
+    <InheritanceLine Type="DirectOutput.Cab.Toys.ToyBase" FixedToPoint="true">
       <Path>
-        <Point X="5.25" Y="4.5" />
-        <Point X="5.625" Y="4.5" />
-        <Point X="5.625" Y="3.75" />
-        <Point X="7.75" Y="3.75" />
+        <Point X="4.5" Y="5.617" />
+        <Point X="4.5" Y="5.875" />
+        <Point X="6.875" Y="5.875" />
+        <Point X="6.875" Y="8.375" />
+        <Point X="7.25" Y="8.375" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
       <HashCode>EAAABAAAAAAABAAAIAAAAAAAAAAAAAAAAAACBCAAABA=</HashCode>
-      <FileName>Cab\Toys\GenericDigitalToy.cs</FileName>
+      <FileName>Cab\Toys\Generic\GenericDigitalToy.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="DirectOutput.Cab.Toys.Contactor" Collapsed="true">
-    <Position X="11.25" Y="2.75" Width="2" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Cab\Toys\Contactor.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="DirectOutput.Cab.Toys.Lamp">
-    <Position X="11.25" Y="7.5" Width="2" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAIA=</HashCode>
-      <FileName>Cab\Toys\Lamp.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="DirectOutput.Cab.Toys.ReplayKnocker">
-    <Position X="11.25" Y="3.75" Width="2" />
-    <InheritanceLine Type="DirectOutput.Cab.Toys.GenericDigitalToy" FixedFromPoint="true" FixedToPoint="true">
+  <Class Name="DirectOutput.Cab.Toys.Basic.Contactor">
+    <Position X="11.25" Y="6.75" Width="2" />
+    <InheritanceLine Type="DirectOutput.Cab.Toys.Generic.GenericDigitalToy" FixedFromPoint="true">
       <Path>
-        <Point X="9.25" Y="3.562" />
-        <Point X="9.625" Y="3.562" />
-        <Point X="9.625" Y="4.25" />
-        <Point X="11.25" Y="4.25" />
+        <Point X="8.75" Y="8.5" />
+        <Point X="9.125" Y="8.5" />
+        <Point X="9.125" Y="7.249" />
+        <Point X="11.25" Y="7.249" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>ACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Cab\Toys\ReplayKnocker.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Cab\Toys\Basic\Contactor.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="DirectOutput.Cab.Toys.RGBLed">
-    <Position X="5.5" Y="7" Width="1.75" />
+  <Class Name="DirectOutput.Cab.Toys.Basic.Flasher">
+    <Position X="11.25" Y="8.25" Width="2" />
+    <Members>
+      <Field Name="_DefaultIntervallMs" Hidden="true" />
+      <Field Name="_FlashDurationMs" Hidden="true" />
+      <Method Name="FlasherOff" Hidden="true" />
+      <Method Name="FlasherOn" Hidden="true" />
+      <Field Name="FlashIntervallMs" Hidden="true" />
+      <Field Name="RemainingFlashes" Hidden="true" />
+      <Field Name="UpdateTimer" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAgBQCAAQAAAAAEAAAAAAAAECAAABAACQAAAAAg=</HashCode>
+      <FileName>Cab\Toys\Basic\Flasher.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DirectOutput.Cab.Toys.Basic.ReplayKnocker">
+    <Position X="11.25" Y="11" Width="2" />
+    <Members>
+      <Field Name="_DefaultIntervallMs" Hidden="true" />
+      <Field Name="_KnockDurationMs" Hidden="true" />
+      <Method Name="KnockerOff" Hidden="true" />
+      <Method Name="KnockerOn" Hidden="true" />
+      <Field Name="KnockIntervallMs" Hidden="true" />
+      <Field Name="RemainingKnocks" Hidden="true" />
+      <Field Name="UpdateTimer" Hidden="true" />
+    </Members>
+    <InheritanceLine Type="DirectOutput.Cab.Toys.Generic.GenericDigitalToy" FixedFromPoint="true">
+      <Path>
+        <Point X="8.75" Y="9.625" />
+        <Point X="8.99" Y="9.625" />
+        <Point X="8.99" Y="10.76" />
+        <Point X="12.25" Y="10.76" />
+        <Point X="12.25" Y="11" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>ADQAAAgAAQAAAAAAAAAAEAAAAAAACAAABAACAAAEAIg=</HashCode>
+      <FileName>Cab\Toys\Basic\ReplayKnocker.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DirectOutput.Cab.Toys.Basic.GearMotor">
+    <Position X="13.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Cab\Toys\Basic\GearMotor.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DirectOutput.Cab.Toys.Basic.Motor">
+    <Position X="11.25" Y="2.75" Width="2" />
+    <Members>
+      <Field Name="_KickstartDurationMs" Hidden="true" />
+      <Field Name="_KickstartPower" Hidden="true" />
+      <Field Name="_MaxPower" Hidden="true" />
+      <Field Name="_MaxRuntimeMs" Hidden="true" />
+      <Field Name="_MinPower" Hidden="true" />
+      <Field Name="KickstartActive" Hidden="true" />
+      <Field Name="MotorPower" Hidden="true" />
+      <Field Name="UpdateTimer" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AQAABAAQEACCggAAIAAAAAAAEAAAAAABFAACBAhABAg=</HashCode>
+      <FileName>Cab\Toys\Basic\Motor.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DirectOutput.Cab.Toys.Basic.Shaker">
+    <Position X="13.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Cab\Toys\Basic\Shaker.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DirectOutput.Cab.Toys.Basic.RGBLed">
+    <Position X="7.25" Y="0.5" Width="1.75" />
     <Members>
       <Field Name="_BrightnessBlue" Hidden="true" />
       <Field Name="_BrightnessGreen" Hidden="true" />
@@ -111,67 +176,18 @@
       <Field Name="_OutputRed" Hidden="true" />
       <Method Name="InitOutputs" Hidden="true" />
     </Members>
-    <InheritanceLine Type="DirectOutput.Cab.Toys.ToyBase" FixedFromPoint="true">
+    <InheritanceLine Type="DirectOutput.Cab.Toys.ToyBase" FixedToPoint="true">
       <Path>
-        <Point X="5.25" Y="5.438" />
-        <Point X="6.375" Y="5.438" />
-        <Point X="6.375" Y="7" />
+        <Point X="4.5" Y="4" />
+        <Point X="4.5" Y="3.062" />
+        <Point X="7.25" Y="3.062" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AAAIAAAAAAgABAAAAAAAAAAABIARAgAgQUgCAAAAAQo=</HashCode>
-      <FileName>Cab\Toys\RGBLed.cs</FileName>
+      <FileName>Cab\Toys\Basic\RGBLed.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="DirectOutput.Cab.Toys.Shaker">
-    <Position X="11.25" Y="9.5" Width="2" />
-    <InheritanceLine Type="DirectOutput.Cab.Toys.GenericAnalogToy" FixedToPoint="true">
-      <Path>
-        <Point X="8.5" Y="9.261" />
-        <Point X="8.5" Y="10.125" />
-        <Point X="11.25" Y="10.125" />
-      </Path>
-    </InheritanceLine>
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEAAAAAABAAAAAAAAAAA=</HashCode>
-      <FileName>Cab\Toys\Shaker.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="DirectOutput.Cab.Toys.ToyBase">
-    <Position X="3.75" Y="4" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAACAAAAAAg=</HashCode>
-      <FileName>Cab\Toys\ToyBase.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="DirectOutput.Cab.Toys.LEDWizEquivalent">
-    <Position X="3.25" Y="6.25" Width="1.5" />
-    <Members>
-      <Field Name="_LEDWizNumber" Hidden="true" />
-      <Field Name="_Outputs" Hidden="true" />
-      <Method Name="LEDWizEquivalent" Hidden="true" />
-    </Members>
-    <TypeIdentifier>
-      <HashCode>BAAAAAAAAAAABAAAAAAgAAAAAAIEgAAAAAACAAAAAAg=</HashCode>
-      <FileName>Cab\Toys\LEDWizEquivalent.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsCollectionAssociation>
-      <Property Name="Outputs" />
-    </ShowAsCollectionAssociation>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="DirectOutput.Cab.Toys.LEDWizEquivalentOutput">
-    <Position X="3.25" Y="9" Width="2" />
-    <Members>
-      <Field Name="_Output" Hidden="true" />
-    </Members>
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAACBAAAIAAAAAAAAAAAAAAAAAAiAAAAABg=</HashCode>
-      <FileName>Cab\Toys\LEDWizEquivalentOutput.cs</FileName>
-    </TypeIdentifier>
   </Class>
   <Interface Name="DirectOutput.Cab.Toys.IToy">
     <Position X="1" Y="3.5" Width="1.5" />
@@ -182,14 +198,6 @@
   </Interface>
   <Interface Name="DirectOutput.Cab.Toys.IAnalogToy">
     <Position X="1" Y="6.25" Width="1.5" />
-    <InheritanceLine Type="DirectOutput.Cab.Toys.IToy" FixedToPoint="true">
-      <Path>
-        <Point X="1.75" Y="5.569" />
-        <Point X="1.75" Y="5.875" />
-        <Point X="1.25" Y="5.875" />
-        <Point X="1.25" Y="6.25" />
-      </Path>
-    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAABgAAIAAAAAQAAAAAAAAAAAAiAAAAAAA=</HashCode>
       <FileName>Cab\Toys\IAnalogToy.cs</FileName>

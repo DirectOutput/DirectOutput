@@ -181,9 +181,9 @@ Typical entries for the loggin configuration might look as follows:
     <FilePattern>{GlobalConfigDir}\\{TableName}*.cs</FilePattern>
   </TableScriptFilePatterns>
   
-  <TableScriptFilePatterns>
+  <TableConfigFilePatterns>
     <FilePattern>{GlobalConfigDir}\\{TableName}.xml</FilePattern>
-  </TableScripsFilePatterns>
+  </TableConfigFilePatterns>
   
   <GlobalScriptFilePatterns>
     <FilePattern>{GlobalConfigDir}\cabinet*.cs</FilePattern>

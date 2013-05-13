@@ -10,7 +10,6 @@ To facilitate the use of the framework, the auto config function will automatica
 
 Please check the <a href="http://www.hyperspin-fe.com/forum/forumdisplay.php?34-HyperPin-Support">HyperSpin Forum</a> for more information on LedControl.ini files and details on the VBScript solution which uses the LedControl files normally.
 
-
 \section ledcontrol_autoconfig Auto Configuration
 
 \subsection ledcontrol_autoconfigtable Auto Table config
@@ -20,9 +19,10 @@ If no Table config file exists for the currently executed table, the framework t
 The loading of the LedControl files works as follows:
 
 1. The framework tries to locate entries for LedControl files in the GlobalConfig.
-If entries are found, these files are loaded and used to configure the LedWizEquivalent toy with the matching LedWiz number.
+If entries are found, these files are loaded and used to configure the LedWizEquivalent toy(s) with the matching LedWiz number(s).
 If a file does not exist, can not be read or parsed, the framework will silently ignore the file.
 2. If no entries for LedControl files exist in the GlobalConfig, the framework will try to load a single LedControl.ini file (named LedControl.ini) from one of the following directories:
+
 - Table directory
 - Global config directory
 - DirectOutput.dll directory
@@ -33,18 +33,18 @@ Based on the loaded data, the system will configure the effects controlling the 
 
 Since the LedControlEffect sends the output data to a IToy of type LedWizEquivalent (basically a toy behaving like a LedWiz), auto config does also configure the cabinet based on the following rules:
 
-1. If the cabinet does already contain LedWizEquivalent toy objects, the LedWizEquivalent toys with numbers matching the number of the LedControl files will be used for the outputs. If at least one preconfigured LedWizEquivalent toy exists in the cabinet, auto config will not add other LedWizEquivalent toys.
+1. If the cabinet configuration does already contain LedWizEquivalent toy objects, the LedWizEquivalent toys with numbers matching the number of the LedControl files will be used for the outputs. If at least one preconfigured LedWizEquivalent toy exists in the cabinet, auto config will not add other LedWizEquivalent toys.
 2. If no LedWizEquivalent toys exist in the cabinet config, the framework will try to detect all connected Ledwiz controllers and add LedWiz IOutputController as well as LedWizEquivalent IToy objects for every Ledwiz.
 
 \section ledcontrol_manualconfig Manual Configuration
-Instead of relying on the automatic cabinet config, you can also specifiy your own cabinet config for the use with LedControl.ini files.
+Instead of relying on the automatic cabinet config, you can also specifiy your own cabinet configuration for the use with LedControl.ini files.
 
-To be usable for the LedControl functions of the framework, the list of toys in the cabinet must contain one or several LedWizEquivalent IToy objects and the outputs for the LedWizEquivalents. Normaly the outputs of the LedWizEquivalent toys will point to the outputs of a single LedWiz IOutputController, but you are free to point to any other output of any IOutputController configured in your system (e.g. you could use outputs of 2 diffrent LedWiz controllers in one LedWizEquivalent toy.
+To be usable for the LedControl functions of the framework, the list of toys in the cabinet must contain one or several LedWizEquivalent IToy objects and the outputs for the LedWizEquivalents. Normaly the outputs of the LedWizEquivalent toys will point to the outputs of a single LedWiz IOutputController, but you are free to point to any other output of any IOutputController configured in your system (e.g. you could use outputs of 2 different LedWiz controllers in one LedWizEquivalent toy).
 
 When LedControl data is used for the Table configuration, the number of the LedWizEquivalent is used to match to the correct LedControl.ini file.
 
-
 \section ledcontrol_example Example LedControl.ini
+
 The following LedControl.ini is used in my cabinet to control 10 contactors,1 replay knocker, 5 lamps, 5 RGBLeds and 1 shaker.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~{.ini}

@@ -266,7 +266,6 @@
     <None Include="Docu\Diagramms\CabinetArchitecture.cd" />
     <None Include="Docu\Diagramms\EffectsArchitecture.cd" />
     <None Include="Docu\Diagramms\OutputControllerArchitecture.cd" />
-    <None Include="Docu\Diagramms\Plugin.cd" />
     <None Include="Docu\Diagramms\TableArchitecture.cd" />
     <None Include="Docu\Diagramms\GlobalArchitecture.cd" />
     <None Include="Cab\Cabinet.cd" />

@@ -60,7 +60,7 @@ namespace DirectOutput.Frontend
         }
 
 
-        public static void Open(Pinball Pinball)
+        public static void Open(Pinball Pinball, Form Owner=null)
         {
 
 
@@ -68,6 +68,7 @@ namespace DirectOutput.Frontend
             {
                 if (F.GetType() == typeof(MainMenu))
                 {
+                    F.BringToFront();
                     F.Focus();
                     return;
                 }
@@ -75,7 +76,14 @@ namespace DirectOutput.Frontend
 
             MainMenu M = new MainMenu(Pinball);
 
-            M.Show();
+            if (Owner == null)
+            {
+                M.Show();
+            }
+            else
+            {
+                M.Show(Owner);
+            }
         }
 
         private void ShowCabinetConfiguration_Click(object sender, EventArgs e)

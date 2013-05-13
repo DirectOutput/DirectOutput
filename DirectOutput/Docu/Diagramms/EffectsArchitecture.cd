@@ -23,9 +23,9 @@
       <HashCode>AAAAAAAAAAAAABAAAAQAAAAAQAAAAAAAAAACAAAAAAg=</HashCode>
       <FileName>FX\ListFX\ListEffect.cs</FileName>
     </TypeIdentifier>
-    <ShowAsCollectionAssociation>
+    <ShowAsAssociation>
       <Property Name="Effects" />
-    </ShowAsCollectionAssociation>
+    </ShowAsAssociation>
   </Class>
   <Class Name="DirectOutput.FX.LedControlFX.LedControlEffect">
     <Position X="10.25" Y="3.5" Width="1.5" />
@@ -97,16 +97,27 @@
       <Field Name="_RGBLedName" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>AAAAgAAABAAIABAABAAAAAAAAAAAAAAAAAACgAAAAAg=</HashCode>
+      <HashCode>AAAAgAAABAAIABAABCAAAAAAAAAAAAAAAAACgAAAAAg=</HashCode>
       <FileName>FX\BasicFX\BasicRGBLedEffect.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="DirectOutput.FX.AssignedEffect" Collapsed="true">
-    <Position X="2.25" Y="5.75" Width="1.5" />
+  <Class Name="DirectOutput.FX.AssignedEffectList" Collapsed="true">
+    <Position X="2.25" Y="6" Width="2" />
+    <Members>
+      <Method Name="~AssignedEffectList" Hidden="true" />
+      <Method Name="SubscribeEvents" Hidden="true" />
+      <Method Name="TableElementEffect_EffectNameChanged" Hidden="true" />
+      <Method Name="TableElementEffect_OrderChanged" Hidden="true" />
+      <Method Name="TableElementEffectList_AfterInsert" Hidden="true" />
+      <Method Name="TableElementEffectList_AfterRemove" Hidden="true" />
+      <Method Name="TableElementEffectList_AfterSet" Hidden="true" />
+      <Method Name="TableElementEffectList_BeforeClear" Hidden="true" />
+      <Method Name="UnsubscribeEvents" Hidden="true" />
+    </Members>
     <TypeIdentifier>
-      <HashCode>IAEAAAIAAAggABAAAAgEAAACAAAAAAgAIAACAAAAAAg=</HashCode>
-      <FileName>FX\AssignedEffect.cs</FileName>
+      <HashCode>AAIAAAQAAAAAARQAAQAQAAEAAAAQAAAAIAACBAAAAAg=</HashCode>
+      <FileName>FX\AssignedEffectList.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Interface Name="DirectOutput.FX.IEffect">

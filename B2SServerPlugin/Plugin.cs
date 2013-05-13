@@ -18,8 +18,6 @@ namespace B2SServerPlugin
     public class Plugin : IDirectPlugin, IDirectPluginFrontend
     {
 
-        DateTime Born = DateTime.Now;
-
         #region IDirectPluginFrontend Member
 
 
@@ -27,12 +25,12 @@ namespace B2SServerPlugin
         /// Shows the Frontend of the Plugin.<br/>
         /// The IDirectPluginFrontend interface requires the implementation of this method.
         /// </summary>
-        public void PluginShowFrontend()
+        public void PluginShowFrontend(System.Windows.Forms.Form Owner=null)
         {
 
             try
             {
-                DirectOutput.Frontend.MainMenu.Open(Pinball);
+                DirectOutput.Frontend.MainMenu.Open(Pinball, Owner);
 
             }
             catch (Exception E)
