@@ -11,20 +11,28 @@ namespace DirectOutput.Frontend
 
         private MainMenu(Pinball Pinball)
         {
-            InitializeComponent();
+
 
             this.Pinball = Pinball;
+            InitializeComponent();
+            
+
 
             Version V = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             DateTime BuildDate = new DateTime(2000, 1, 1).AddDays(V.Build).AddSeconds(V.Revision * 2);
 
             Version.Text = "Version {0} as of ".Build(V.ToString(), BuildDate.ToString("yyyy.MM.dd hh:mm"));
 
-            TableName.Text = Pinball.Table.TableName;
-            TableFilename.Text = Pinball.Table.TableFilename;
-            TableRomname.Text = Pinball.Table.RomName;
 
-            GlobalConfigFilename.Text = (Pinball.GlobalConfig.GetGlobalConfigFile().Exists ? Pinball.GlobalConfig.GlobalConfigFilename : "<no global config file found>");
+
+
+            TableName.Text = (Pinball.Table.TableName.IsNullOrWhiteSpace() ? "<No table name set>" : Pinball.Table.TableName);
+            TableFilename.Text = (Pinball.Table.TableFilename.IsNullOrWhiteSpace() ? "<No table file name set>" : Pinball.Table.TableFilename);
+            TableRomname.Text = (Pinball.Table.RomName.IsNullOrWhiteSpace() ? "<No rom name set>" : Pinball.Table.RomName);
+
+
+            GlobalConfigFilename.Text = (Pinball.GlobalConfig.GlobalConfigFilename.IsNullOrWhiteSpace() ? "<no global config file set>" : (Pinball.GlobalConfig.GetGlobalConfigFile().Exists ? Pinball.GlobalConfig.GlobalConfigFilename : "<no global config file found>"));
+
 
             switch (Pinball.Table.ConfigurationSource)
             {
@@ -39,6 +47,7 @@ namespace DirectOutput.Frontend
                     break;
             }
 
+
             if (Pinball.Cabinet.CabinetConfigurationFilename.IsNullOrWhiteSpace())
             {
                 CabinetConfigFilename.Text = "<no config file loaded>";
@@ -47,11 +56,14 @@ namespace DirectOutput.Frontend
             {
                 CabinetConfigFilename.Text = Pinball.Cabinet.CabinetConfigurationFilename;
             }
-             
+
         }
 
 
-        public static void Open(Pinball Pinball) {
+        public static void Open(Pinball Pinball)
+        {
+
+
             foreach (Form F in Application.OpenForms)
             {
                 if (F.GetType() == typeof(MainMenu))
@@ -62,6 +74,7 @@ namespace DirectOutput.Frontend
             }
 
             MainMenu M = new MainMenu(Pinball);
+
             M.Show();
         }
 
@@ -77,7 +90,7 @@ namespace DirectOutput.Frontend
             }
             CabinetInfo CI = new CabinetInfo(Pinball.Cabinet);
             CI.Show();
-            
+
         }
 
         private void ShowTableConfiguration_Click(object sender, EventArgs e)
@@ -90,7 +103,7 @@ namespace DirectOutput.Frontend
                     return;
                 }
             }
-            TableInfo CI = new TableInfo(Pinball) ;
+            TableInfo CI = new TableInfo(Pinball);
             CI.Show();
         }
 
@@ -150,7 +163,7 @@ namespace DirectOutput.Frontend
             CI.Show();
         }
 
- 
+
 
     }
 }

@@ -85,9 +85,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\EffectNameAttribute.cs" />
     <Compile Include="Cab\Out\OutputNameAttribute.cs" />
-    <Compile Include="Attributes\ToyNameAttribute.cs" />
     <Compile Include="Cab\Out\LW\LW.cs" />
     <Compile Include="Cab\Out\NullOutputController\NullOutputController.cs" />
     <Compile Include="Cab\Out\OutputNameConverter.cs" />
@@ -115,12 +113,6 @@
     </Compile>
     <Compile Include="Frontend\AvailableToysInfo.Designer.cs">
       <DependentUpon>AvailableToysInfo.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Frontend\CabinetEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Frontend\CabinetEditor.designer.cs">
-      <DependentUpon>CabinetEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Frontend\CabinetInfo.cs">
       <SubType>Form</SubType>
@@ -284,7 +276,7 @@
     <None Include="Docu\Diagramms\ToyArchitecture.cd" />
     <None Include="FX\FX.cd" />
     <None Include="Config\ledcontrol.ini">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="LedControl\LedControl.cd" />
     <None Include="Main.cd" />
@@ -298,9 +290,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Frontend\AvailableToysInfo.resx">
       <DependentUpon>AvailableToysInfo.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Frontend\CabinetEditor.resx">
-      <DependentUpon>CabinetEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Frontend\CabinetInfo.resx">
       <DependentUpon>CabinetInfo.cs</DependentUpon>

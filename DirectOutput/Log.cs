@@ -42,6 +42,7 @@ namespace DirectOutput
                     {
                         Logger = File.AppendText(Filename);
 
+                        Logger.WriteLine("---------------------------------------------------------------------------------");
                         Logger.WriteLine("{0}\t{1}", DateTime.Now.ToString("yyyy.MM.dd hh:mm:ss.fff"), "DirectOutput Logger initialized");
 
 
@@ -97,6 +98,7 @@ namespace DirectOutput
                             Logger.WriteLine("{0}\t{1}", DateTime.Now.ToString("yyyy.MM.dd hh:mm:ss.fff"), M);
                         }
                     }
+                    Logger.Flush();
                 }
             }
         }

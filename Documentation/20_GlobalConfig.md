@@ -28,7 +28,7 @@ A GlobalScriptsFilePatterns section could contain the following content:
 
 ~~~~~~~~~~~~~{.xml}
 <GlobalScriptFilePatterns>
-  <Pattern>{GlobalConfigDir}\cabinet*.cs</Pattern>
+  <FilePattern>{GlobalConfigDir}\cabinet*.cs</FilePattern>
 </GlobalScriptFilePatterns>
 ~~~~~~~~~~~~~
 
@@ -45,7 +45,7 @@ A typical CabinetConfigFilePattern sections might looks as follows:
 
 ~~~~~~~~~~~~~{.xml}
 <CabinetConfigFilePatterns>
-  <Pattern>{GlobalConfigDir}\cabinet.xml</Pattern>
+  <FilePattern>{GlobalConfigDir}\cabinet.xml</FilePattern>
 </CabinetConfigFilePatterns>
 ~~~~~~~~~~~~~
 
@@ -57,7 +57,7 @@ A CabinetScriptsFilePattern section could contain the following content:
 
 ~~~~~~~~~~~~~{.xml}
 <CabinetScriptFilePatterns>
-  <Pattern>{GlobalConfigDir}\cabinet*.cs</Pattern>
+  <FilePattern>{GlobalConfigDir}\cabinet*.cs</FilePattern>
 </CabinetScriptFilePatterns>
 ~~~~~~~~~~~~~
 
@@ -77,7 +77,7 @@ A typical TableConfigFilePattern section looks as follows:
 
 ~~~~~~~~~~~~~{.xml}
 <TableScriptFilePatterns>
-  <Pattern>{GlobalConfigDir}\\{TableName}.xml</Pattern>
+  <FilePattern>{GlobalConfigDir}\\{TableName}.xml</FilePattern>
 </TableScripsFilePatterns>
 ~~~~~~~~~~~~~
 
@@ -90,7 +90,7 @@ A typical TableScriptsFilePattern section might looks as follows:
 
 ~~~~~~~~~~~~~{.xml}
 <TableScriptFilePatterns>
-  <Pattern>{GlobalConfigDir}\\{TableName}*.cs</Pattern>
+  <FilePattern>{GlobalConfigDir}\\{TableName}*.cs</FilePattern>
 </TableScriptFilePatterns>
 ~~~~~~~~~~~~~
 
@@ -170,23 +170,23 @@ Typical entries for the loggin configuration might look as follows:
   </LedControlIniFiles>
   
   <CabinetConfigFilePatterns>
-    <Pattern>{GlobalConfigDir}\cabinet.xml</Pattern>
+    <FilePattern>{GlobalConfigDir}\cabinet.xml</FilePattern>
   </CabinetConfigFilePatterns>
   
   <CabinetScriptFilePatterns>
-    <Pattern>{GlobalConfigDir}\cabinet*.cs</Pattern>
+    <FilePattern>{GlobalConfigDir}\cabinet*.cs</FilePattern>
   </CabinetScriptFilePatterns>
   
   <TableScriptFilePatterns>
-    <Pattern>{GlobalConfigDir}\\{TableName}*.cs</Pattern>
+    <FilePattern>{GlobalConfigDir}\\{TableName}*.cs</FilePattern>
   </TableScriptFilePatterns>
   
   <TableScriptFilePatterns>
-    <Pattern>{GlobalConfigDir}\\{TableName}.xml</Pattern>
+    <FilePattern>{GlobalConfigDir}\\{TableName}.xml</FilePattern>
   </TableScripsFilePatterns>
   
   <GlobalScriptFilePatterns>
-    <Pattern>{GlobalConfigDir}\cabinet*.cs</Pattern>
+    <FilePattern>{GlobalConfigDir}\cabinet*.cs</FilePattern>
   </GlobalScriptFilePatterns>
   
   <UpdateTimerIntervall>20</UpdateTimerIntervall>

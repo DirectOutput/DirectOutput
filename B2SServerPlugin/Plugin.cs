@@ -18,6 +18,7 @@ namespace B2SServerPlugin
     public class Plugin : IDirectPlugin, IDirectPluginFrontend
     {
 
+        DateTime Born = DateTime.Now;
 
         #region IDirectPluginFrontend Member
 
@@ -28,7 +29,17 @@ namespace B2SServerPlugin
         /// </summary>
         public void PluginShowFrontend()
         {
-            DirectOutput.Frontend.MainMenu.Open(Pinball);
+
+            try
+            {
+                DirectOutput.Frontend.MainMenu.Open(Pinball);
+
+            }
+            catch (Exception E)
+            {
+
+                System.Windows.Forms.MessageBox.Show("Could not show DirectOutput frontend.\n The following exception occured:\n{0}".Build(E.Message), "DirectOutput");
+            }
         }
 
         #endregion
@@ -122,6 +133,11 @@ namespace B2SServerPlugin
             }
 
             Pinball.Init(F, new FileInfo(TableFilename), RomName);
+
+
+
+           
+
         }
 
 

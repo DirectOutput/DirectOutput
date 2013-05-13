@@ -149,15 +149,14 @@ namespace DirectOutput.Table
         /// </summary>
         /// <param name="TableElement">The table element to add.</param>
         /// <exception cref="System.Exception">
-        /// Cant add a TableElement with Number -1. Number -1 is a reserved element number for static effects.
+        /// Cant add null to the list of table elements
         /// or
-        /// The TableElement {Type} {Number} cant be added to the list. Another entry with the same type and number does already exist.
-        /// </exception>
+        /// The TableElement {Type} {Number} cant be added to the list. Another entry with the same type and number does already exist.</exception>
         public new void Add(TableElement TableElement)
         {
-            if (TableElement.Number == -1)
+            if (TableElement==null)
             {
-                throw new Exception("Cant add a TableElement with Number -1. Number -1 is a reserved element number for static effects.");
+                throw new Exception("Cant add null to the list of table elements.");
             }
             if (Contains(TableElement))
             {
@@ -175,7 +174,7 @@ namespace DirectOutput.Table
         /// <param name="Number">Number of entry to add.</param>
         /// <param name="State">State of entry to add.</param>
         /// <exception cref="System.Exception">
-        /// Cant add a TableElement with Number -1. Number -1 is a reserved element number for static effects.
+        /// Cant add null to the list of table elements
         /// or
         /// The TableElement {Type} {Number} cant be added to the list. Another entry with the same type and number does already exist.
         /// </exception>

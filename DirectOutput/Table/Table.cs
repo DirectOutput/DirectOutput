@@ -128,7 +128,7 @@ namespace DirectOutput.Table
         private AssignedEffectList _AssignedStaticEffects;
         /// <summary>
         /// Gets or sets the static effects list for the table.<br/>
-        /// AssignedEffects contained in AssignedStaticEffects are triggered when the Table is started. The Trigger method is called with a TableElement containing a Swith with number -1 and a Value of -1.<br/>
+        /// AssignedEffects contained in AssignedStaticEffects are triggered when the Table is started. The Trigger method is called with null as the TableElement parameter.<br/>
         /// </summary>
         /// <value>
         /// The static effects list.

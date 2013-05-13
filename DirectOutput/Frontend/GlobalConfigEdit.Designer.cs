@@ -29,9 +29,29 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GlobalConfigEdit));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.label12 = new System.Windows.Forms.Label();
+            this.GlobalScriptFilePatterns = new System.Windows.Forms.DataGridView();
+            this.GlobalScriptsFilePatternsFilePattern = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.GlobalScriptFilePatternsStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.EnableLogging = new System.Windows.Forms.CheckBox();
+            this.LogFilePatternStatus = new System.Windows.Forms.Label();
+            this.LogFilePattern = new System.Windows.Forms.TextBox();
+            this.ShowLogFileDialog = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.UpdateTimerIntervalMs = new System.Windows.Forms.NumericUpDown();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.label1 = new System.Windows.Forms.Label();
@@ -76,33 +96,26 @@
             this.TableScriptFilePatterns = new System.Windows.Forms.DataGridView();
             this.TableScriptFilePattern = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TableScriptFilePatternStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.LogFilePatternStatus = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.ShowLogFileDialog = new System.Windows.Forms.Button();
-            this.LogFilePattern = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.EnableLogging = new System.Windows.Forms.CheckBox();
-            this.UpdateTimerIntervalMs = new System.Windows.Forms.NumericUpDown();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
             this.SelectLedcontrolFile = new System.Windows.Forms.OpenFileDialog();
             this.SelectLogFile = new System.Windows.Forms.SaveFileDialog();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this.GlobalScriptFilePatterns = new System.Windows.Forms.DataGridView();
-            this.GlobalScriptsFilePatternsFilePattern = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.GlobalScriptFilePatternsStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label14 = new System.Windows.Forms.Label();
             this.splitContainer12 = new System.Windows.Forms.SplitContainer();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
+            this.tabPage4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
+            this.splitContainer2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
+            this.splitContainer3.Panel1.SuspendLayout();
+            this.splitContainer3.Panel2.SuspendLayout();
+            this.splitContainer3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.GlobalScriptFilePatterns)).BeginInit();
+            this.groupBox2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.UpdateTimerIntervalMs)).BeginInit();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -149,19 +162,6 @@
             this.splitContainer11.Panel2.SuspendLayout();
             this.splitContainer11.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TableScriptFilePatterns)).BeginInit();
-            this.tabPage4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.UpdateTimerIntervalMs)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
-            this.splitContainer2.Panel1.SuspendLayout();
-            this.splitContainer2.Panel2.SuspendLayout();
-            this.splitContainer2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
-            this.splitContainer3.Panel1.SuspendLayout();
-            this.splitContainer3.Panel2.SuspendLayout();
-            this.splitContainer3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.GlobalScriptFilePatterns)).BeginInit();
-            this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer12)).BeginInit();
             this.splitContainer12.Panel1.SuspendLayout();
             this.splitContainer12.Panel2.SuspendLayout();
@@ -182,13 +182,253 @@
             this.tabControl1.Size = new System.Drawing.Size(1247, 790);
             this.tabControl1.TabIndex = 0;
             // 
+            // tabPage4
+            // 
+            this.tabPage4.AutoScroll = true;
+            this.tabPage4.Controls.Add(this.splitContainer2);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(1239, 764);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Global";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // splitContainer2
+            // 
+            this.splitContainer2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.Location = new System.Drawing.Point(3, 3);
+            this.splitContainer2.Name = "splitContainer2";
+            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.splitContainer3);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.AutoScroll = true;
+            this.splitContainer2.Panel2.Controls.Add(this.groupBox2);
+            this.splitContainer2.Panel2.Controls.Add(this.groupBox1);
+            this.splitContainer2.Size = new System.Drawing.Size(1233, 758);
+            this.splitContainer2.SplitterDistance = 349;
+            this.splitContainer2.TabIndex = 10;
+            // 
+            // splitContainer3
+            // 
+            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer3.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer3.Name = "splitContainer3";
+            this.splitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer3.Panel1
+            // 
+            this.splitContainer3.Panel1.Controls.Add(this.label12);
+            // 
+            // splitContainer3.Panel2
+            // 
+            this.splitContainer3.Panel2.Controls.Add(this.GlobalScriptFilePatterns);
+            this.splitContainer3.Size = new System.Drawing.Size(1229, 345);
+            this.splitContainer3.SplitterDistance = 198;
+            this.splitContainer3.TabIndex = 0;
+            // 
+            // label12
+            // 
+            this.label12.AutoEllipsis = true;
+            this.label12.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label12.Location = new System.Drawing.Point(0, 0);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(1229, 198);
+            this.label12.TabIndex = 0;
+            this.label12.Text = resources.GetString("label12.Text");
+            // 
+            // GlobalScriptFilePatterns
+            // 
+            this.GlobalScriptFilePatterns.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.GlobalScriptFilePatterns.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.GlobalScriptsFilePatternsFilePattern,
+            this.GlobalScriptFilePatternsStatus});
+            this.GlobalScriptFilePatterns.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.GlobalScriptFilePatterns.Location = new System.Drawing.Point(0, 0);
+            this.GlobalScriptFilePatterns.Name = "GlobalScriptFilePatterns";
+            this.GlobalScriptFilePatterns.Size = new System.Drawing.Size(1229, 143);
+            this.GlobalScriptFilePatterns.TabIndex = 0;
+            this.GlobalScriptFilePatterns.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.GlobalScriptFilePatterns_CellValueChanged);
+            // 
+            // GlobalScriptsFilePatternsFilePattern
+            // 
+            this.GlobalScriptsFilePatternsFilePattern.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.GlobalScriptsFilePatternsFilePattern.FillWeight = 70F;
+            this.GlobalScriptsFilePatternsFilePattern.HeaderText = "Global script file pattern";
+            this.GlobalScriptsFilePatternsFilePattern.MinimumWidth = 200;
+            this.GlobalScriptsFilePatternsFilePattern.Name = "GlobalScriptsFilePatternsFilePattern";
+            // 
+            // GlobalScriptFilePatternsStatus
+            // 
+            this.GlobalScriptFilePatternsStatus.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.GlobalScriptFilePatternsStatus.FillWeight = 30F;
+            this.GlobalScriptFilePatternsStatus.HeaderText = "Status";
+            this.GlobalScriptFilePatternsStatus.MinimumWidth = 50;
+            this.GlobalScriptFilePatternsStatus.Name = "GlobalScriptFilePatternsStatus";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.label14);
+            this.groupBox2.Controls.Add(this.label11);
+            this.groupBox2.Controls.Add(this.label10);
+            this.groupBox2.Controls.Add(this.EnableLogging);
+            this.groupBox2.Controls.Add(this.LogFilePatternStatus);
+            this.groupBox2.Controls.Add(this.LogFilePattern);
+            this.groupBox2.Controls.Add(this.ShowLogFileDialog);
+            this.groupBox2.Location = new System.Drawing.Point(5, 98);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(1219, 226);
+            this.groupBox2.TabIndex = 12;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Logging";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(10, 24);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(538, 13);
+            this.label14.TabIndex = 10;
+            this.label14.Text = "The framework can log important events (e.g. loading of configurations) and inter" +
+    "nal handled exceptions to a file.,";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(10, 98);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(266, 117);
+            this.label11.TabIndex = 8;
+            this.label11.Text = "The log file pattern supports the following placeholders:\r\n{GlobalConfigDir}\r\n{Dl" +
+    "lDir}\r\n{TableDir}\r\n{TableName}\r\n{RomName}\r\n{DateTime}\r\n{Date}\r\n{Time}";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(10, 78);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(80, 13);
+            this.label10.TabIndex = 5;
+            this.label10.Text = "Log file pattern:";
+            // 
+            // EnableLogging
+            // 
+            this.EnableLogging.AutoSize = true;
+            this.EnableLogging.Location = new System.Drawing.Point(13, 46);
+            this.EnableLogging.Name = "EnableLogging";
+            this.EnableLogging.Size = new System.Drawing.Size(96, 17);
+            this.EnableLogging.TabIndex = 4;
+            this.EnableLogging.Text = "Enable logging";
+            this.EnableLogging.UseVisualStyleBackColor = true;
+            this.EnableLogging.CheckedChanged += new System.EventHandler(this.EnableLogging_CheckedChanged);
+            // 
+            // LogFilePatternStatus
+            // 
+            this.LogFilePatternStatus.AutoSize = true;
+            this.LogFilePatternStatus.Location = new System.Drawing.Point(503, 78);
+            this.LogFilePatternStatus.Name = "LogFilePatternStatus";
+            this.LogFilePatternStatus.Size = new System.Drawing.Size(41, 13);
+            this.LogFilePatternStatus.TabIndex = 9;
+            this.LogFilePatternStatus.Text = "label12";
+            // 
+            // LogFilePattern
+            // 
+            this.LogFilePattern.Location = new System.Drawing.Point(124, 75);
+            this.LogFilePattern.Name = "LogFilePattern";
+            this.LogFilePattern.Size = new System.Drawing.Size(350, 20);
+            this.LogFilePattern.TabIndex = 6;
+            this.LogFilePattern.TextChanged += new System.EventHandler(this.LogFilePattern_TextChanged);
+            // 
+            // ShowLogFileDialog
+            // 
+            this.ShowLogFileDialog.Location = new System.Drawing.Point(472, 74);
+            this.ShowLogFileDialog.Name = "ShowLogFileDialog";
+            this.ShowLogFileDialog.Size = new System.Drawing.Size(25, 21);
+            this.ShowLogFileDialog.TabIndex = 7;
+            this.ShowLogFileDialog.Text = "...";
+            this.ShowLogFileDialog.UseVisualStyleBackColor = true;
+            this.ShowLogFileDialog.Click += new System.EventHandler(this.ShowLogFileDialog_Click);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.label13);
+            this.groupBox1.Controls.Add(this.UpdateTimerIntervalMs);
+            this.groupBox1.Controls.Add(this.label9);
+            this.groupBox1.Controls.Add(this.label8);
+            this.groupBox1.Location = new System.Drawing.Point(5, 3);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(1219, 89);
+            this.groupBox1.TabIndex = 11;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Update timer";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(10, 25);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(713, 26);
+            this.label13.TabIndex = 10;
+            this.label13.Text = resources.GetString("label13.Text");
+            // 
+            // UpdateTimerIntervalMs
+            // 
+            this.UpdateTimerIntervalMs.Location = new System.Drawing.Point(126, 60);
+            this.UpdateTimerIntervalMs.Maximum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+            this.UpdateTimerIntervalMs.Minimum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.UpdateTimerIntervalMs.Name = "UpdateTimerIntervalMs";
+            this.UpdateTimerIntervalMs.Size = new System.Drawing.Size(45, 20);
+            this.UpdateTimerIntervalMs.TabIndex = 3;
+            this.UpdateTimerIntervalMs.Value = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            this.UpdateTimerIntervalMs.ValueChanged += new System.EventHandler(this.UpdateTimerIntervalMs_ValueChanged);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(177, 62);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(20, 13);
+            this.label9.TabIndex = 2;
+            this.label9.Text = "ms";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(10, 62);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(107, 13);
+            this.label8.TabIndex = 0;
+            this.label8.Text = "Update timer interval:";
+            // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.splitContainer1);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1413, 780);
+            this.tabPage1.Size = new System.Drawing.Size(1239, 764);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Ledcontrol Configuration";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -301,7 +541,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(837, 639);
+            this.tabPage2.Size = new System.Drawing.Size(1239, 764);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Cabinet Configuration";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -501,7 +741,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(1413, 780);
+            this.tabPage3.Size = new System.Drawing.Size(1239, 764);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Table Configuration";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -719,116 +959,6 @@
             this.TableScriptFilePatternStatus.Name = "TableScriptFilePatternStatus";
             this.TableScriptFilePatternStatus.ReadOnly = true;
             // 
-            // tabPage4
-            // 
-            this.tabPage4.AutoScroll = true;
-            this.tabPage4.Controls.Add(this.splitContainer2);
-            this.tabPage4.Location = new System.Drawing.Point(4, 22);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(1239, 764);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Global";
-            this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // LogFilePatternStatus
-            // 
-            this.LogFilePatternStatus.AutoSize = true;
-            this.LogFilePatternStatus.Location = new System.Drawing.Point(503, 78);
-            this.LogFilePatternStatus.Name = "LogFilePatternStatus";
-            this.LogFilePatternStatus.Size = new System.Drawing.Size(41, 13);
-            this.LogFilePatternStatus.TabIndex = 9;
-            this.LogFilePatternStatus.Text = "label12";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(10, 98);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(266, 117);
-            this.label11.TabIndex = 8;
-            this.label11.Text = "The log file pattern supports the following placeholders:\r\n{GlobalConfigDir}\r\n{Dl" +
-    "lDir}\r\n{TableDir}\r\n{TableName}\r\n{RomName}\r\n{DateTime}\r\n{Date}\r\n{Time}";
-            // 
-            // ShowLogFileDialog
-            // 
-            this.ShowLogFileDialog.Location = new System.Drawing.Point(472, 74);
-            this.ShowLogFileDialog.Name = "ShowLogFileDialog";
-            this.ShowLogFileDialog.Size = new System.Drawing.Size(25, 21);
-            this.ShowLogFileDialog.TabIndex = 7;
-            this.ShowLogFileDialog.Text = "...";
-            this.ShowLogFileDialog.UseVisualStyleBackColor = true;
-            this.ShowLogFileDialog.Click += new System.EventHandler(this.ShowLogFileDialog_Click);
-            // 
-            // LogFilePattern
-            // 
-            this.LogFilePattern.Location = new System.Drawing.Point(124, 75);
-            this.LogFilePattern.Name = "LogFilePattern";
-            this.LogFilePattern.Size = new System.Drawing.Size(350, 20);
-            this.LogFilePattern.TabIndex = 6;
-            this.LogFilePattern.TextChanged += new System.EventHandler(this.LogFilePattern_TextChanged);
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(10, 78);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(80, 13);
-            this.label10.TabIndex = 5;
-            this.label10.Text = "Log file pattern:";
-            // 
-            // EnableLogging
-            // 
-            this.EnableLogging.AutoSize = true;
-            this.EnableLogging.Location = new System.Drawing.Point(13, 46);
-            this.EnableLogging.Name = "EnableLogging";
-            this.EnableLogging.Size = new System.Drawing.Size(96, 17);
-            this.EnableLogging.TabIndex = 4;
-            this.EnableLogging.Text = "Enable logging";
-            this.EnableLogging.UseVisualStyleBackColor = true;
-            this.EnableLogging.CheckedChanged += new System.EventHandler(this.EnableLogging_CheckedChanged);
-            // 
-            // UpdateTimerIntervalMs
-            // 
-            this.UpdateTimerIntervalMs.Location = new System.Drawing.Point(126, 60);
-            this.UpdateTimerIntervalMs.Maximum = new decimal(new int[] {
-            500,
-            0,
-            0,
-            0});
-            this.UpdateTimerIntervalMs.Minimum = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.UpdateTimerIntervalMs.Name = "UpdateTimerIntervalMs";
-            this.UpdateTimerIntervalMs.Size = new System.Drawing.Size(45, 20);
-            this.UpdateTimerIntervalMs.TabIndex = 3;
-            this.UpdateTimerIntervalMs.Value = new decimal(new int[] {
-            20,
-            0,
-            0,
-            0});
-            this.UpdateTimerIntervalMs.ValueChanged += new System.EventHandler(this.UpdateTimerIntervalMs_ValueChanged);
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(177, 62);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(20, 13);
-            this.label9.TabIndex = 2;
-            this.label9.Text = "ms";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(10, 62);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(107, 13);
-            this.label8.TabIndex = 0;
-            this.label8.Text = "Update timer interval:";
-            // 
             // SelectLedcontrolFile
             // 
             this.SelectLedcontrolFile.CheckFileExists = false;
@@ -843,136 +973,6 @@
             this.SelectLogFile.Filter = "Log files (*.log)|*.log|All files (*.*)|*.*";
             this.SelectLogFile.OverwritePrompt = false;
             this.SelectLogFile.Title = "Select a log file";
-            // 
-            // splitContainer2
-            // 
-            this.splitContainer2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer2.Location = new System.Drawing.Point(3, 3);
-            this.splitContainer2.Name = "splitContainer2";
-            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer2.Panel1
-            // 
-            this.splitContainer2.Panel1.Controls.Add(this.splitContainer3);
-            // 
-            // splitContainer2.Panel2
-            // 
-            this.splitContainer2.Panel2.AutoScroll = true;
-            this.splitContainer2.Panel2.Controls.Add(this.groupBox2);
-            this.splitContainer2.Panel2.Controls.Add(this.groupBox1);
-            this.splitContainer2.Size = new System.Drawing.Size(1233, 758);
-            this.splitContainer2.SplitterDistance = 349;
-            this.splitContainer2.TabIndex = 10;
-            // 
-            // splitContainer3
-            // 
-            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer3.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer3.Name = "splitContainer3";
-            this.splitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer3.Panel1
-            // 
-            this.splitContainer3.Panel1.Controls.Add(this.label12);
-            // 
-            // splitContainer3.Panel2
-            // 
-            this.splitContainer3.Panel2.Controls.Add(this.GlobalScriptFilePatterns);
-            this.splitContainer3.Size = new System.Drawing.Size(1229, 345);
-            this.splitContainer3.SplitterDistance = 198;
-            this.splitContainer3.TabIndex = 0;
-            // 
-            // GlobalScriptFilePatterns
-            // 
-            this.GlobalScriptFilePatterns.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.GlobalScriptFilePatterns.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.GlobalScriptsFilePatternsFilePattern,
-            this.GlobalScriptFilePatternsStatus});
-            this.GlobalScriptFilePatterns.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.GlobalScriptFilePatterns.Location = new System.Drawing.Point(0, 0);
-            this.GlobalScriptFilePatterns.Name = "GlobalScriptFilePatterns";
-            this.GlobalScriptFilePatterns.Size = new System.Drawing.Size(1229, 143);
-            this.GlobalScriptFilePatterns.TabIndex = 0;
-            this.GlobalScriptFilePatterns.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.GlobalScriptFilePatterns_CellValueChanged);
-            // 
-            // GlobalScriptsFilePatternsFilePattern
-            // 
-            this.GlobalScriptsFilePatternsFilePattern.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.GlobalScriptsFilePatternsFilePattern.FillWeight = 70F;
-            this.GlobalScriptsFilePatternsFilePattern.HeaderText = "Global script file pattern";
-            this.GlobalScriptsFilePatternsFilePattern.MinimumWidth = 200;
-            this.GlobalScriptsFilePatternsFilePattern.Name = "GlobalScriptsFilePatternsFilePattern";
-            // 
-            // GlobalScriptFilePatternsStatus
-            // 
-            this.GlobalScriptFilePatternsStatus.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.GlobalScriptFilePatternsStatus.FillWeight = 30F;
-            this.GlobalScriptFilePatternsStatus.HeaderText = "Status";
-            this.GlobalScriptFilePatternsStatus.MinimumWidth = 50;
-            this.GlobalScriptFilePatternsStatus.Name = "GlobalScriptFilePatternsStatus";
-            // 
-            // label12
-            // 
-            this.label12.AutoEllipsis = true;
-            this.label12.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label12.Location = new System.Drawing.Point(0, 0);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(1229, 198);
-            this.label12.TabIndex = 0;
-            this.label12.Text = resources.GetString("label12.Text");
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(10, 25);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(713, 26);
-            this.label13.TabIndex = 10;
-            this.label13.Text = resources.GetString("label13.Text");
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.label13);
-            this.groupBox1.Controls.Add(this.UpdateTimerIntervalMs);
-            this.groupBox1.Controls.Add(this.label9);
-            this.groupBox1.Controls.Add(this.label8);
-            this.groupBox1.Location = new System.Drawing.Point(5, 3);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1219, 89);
-            this.groupBox1.TabIndex = 11;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Update timer";
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.label14);
-            this.groupBox2.Controls.Add(this.label11);
-            this.groupBox2.Controls.Add(this.label10);
-            this.groupBox2.Controls.Add(this.EnableLogging);
-            this.groupBox2.Controls.Add(this.LogFilePatternStatus);
-            this.groupBox2.Controls.Add(this.LogFilePattern);
-            this.groupBox2.Controls.Add(this.ShowLogFileDialog);
-            this.groupBox2.Location = new System.Drawing.Point(5, 98);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(1219, 226);
-            this.groupBox2.TabIndex = 12;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Logging";
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(10, 24);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(538, 13);
-            this.label14.TabIndex = 10;
-            this.label14.Text = "The framework can log important events (e.g. loading of configurations) and inter" +
-    "nal handled exceptions to a file.,";
             // 
             // splitContainer12
             // 
@@ -996,17 +996,19 @@
             this.splitContainer12.SplitterDistance = 790;
             this.splitContainer12.TabIndex = 2;
             // 
-            // button1
+            // button3
             // 
-            this.button1.Location = new System.Drawing.Point(3, 3);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(188, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Save global configuration";
-            this.button1.UseVisualStyleBackColor = true;
+            this.button3.Enabled = false;
+            this.button3.Location = new System.Drawing.Point(197, 3);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(188, 23);
+            this.button3.TabIndex = 2;
+            this.button3.Text = "Save global configuration and exit";
+            this.button3.UseVisualStyleBackColor = true;
             // 
             // button2
             // 
+            this.button2.Enabled = false;
             this.button2.Location = new System.Drawing.Point(411, 3);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(188, 23);
@@ -1014,14 +1016,15 @@
             this.button2.Text = "Exit";
             this.button2.UseVisualStyleBackColor = true;
             // 
-            // button3
+            // button1
             // 
-            this.button3.Location = new System.Drawing.Point(197, 3);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(188, 23);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "Save global configuration and exit";
-            this.button3.UseVisualStyleBackColor = true;
+            this.button1.Enabled = false;
+            this.button1.Location = new System.Drawing.Point(3, 3);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(188, 23);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "Save global configuration";
+            this.button1.UseVisualStyleBackColor = true;
             // 
             // GlobalConfigEdit
             // 
@@ -1032,6 +1035,21 @@
             this.Name = "GlobalConfigEdit";
             this.Text = "Edit global configuration";
             this.tabControl1.ResumeLayout(false);
+            this.tabPage4.ResumeLayout(false);
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
+            this.splitContainer2.ResumeLayout(false);
+            this.splitContainer3.Panel1.ResumeLayout(false);
+            this.splitContainer3.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
+            this.splitContainer3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.GlobalScriptFilePatterns)).EndInit();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.UpdateTimerIntervalMs)).EndInit();
             this.tabPage1.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -1078,21 +1096,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer11)).EndInit();
             this.splitContainer11.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.TableScriptFilePatterns)).EndInit();
-            this.tabPage4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.UpdateTimerIntervalMs)).EndInit();
-            this.splitContainer2.Panel1.ResumeLayout(false);
-            this.splitContainer2.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
-            this.splitContainer2.ResumeLayout(false);
-            this.splitContainer3.Panel1.ResumeLayout(false);
-            this.splitContainer3.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
-            this.splitContainer3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.GlobalScriptFilePatterns)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.splitContainer12.Panel1.ResumeLayout(false);
             this.splitContainer12.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer12)).EndInit();

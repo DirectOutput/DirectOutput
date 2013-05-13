@@ -38,7 +38,7 @@ namespace DirectOutput
             get { return _Effects; }
             private set { _Effects = value; }
         }
-        
+
 
 
         private Table.Table _Table = new Table.Table();
@@ -84,7 +84,7 @@ namespace DirectOutput
             private set { _UpdateTimer = value; }
         }
 
-        private GlobalConfig _GlobalConfig=new GlobalConfig();
+        private GlobalConfig _GlobalConfig = new GlobalConfig();
 
         /// <summary>
         /// Gets the global config for the Pinnball object.
@@ -97,7 +97,7 @@ namespace DirectOutput
             get { return _GlobalConfig; }
             private set { _GlobalConfig = value; }
         }
-               
+
 
 
         #endregion
@@ -116,12 +116,12 @@ namespace DirectOutput
             if (GlobalConfig == null)
             {
                 GlobalConfigLoaded = false;
-               
+
                 //set new global config object if it config could not be loaded from the file.
                 GlobalConfig = new GlobalConfig();
             }
             GlobalConfig.GlobalConfigFilename = GlobalConfigFile.FullName;
-      
+
             Log.Filename = GlobalConfig.GetLogFilename(TableFile.FullName, RomName);
 
             if (GlobalConfig.EnableLogging)
@@ -136,7 +136,7 @@ namespace DirectOutput
             {
                 Log.Write("No GlobalConfig file loaded. Using new inanciated GlobalConfig object instead.");
             }
-            
+
 
 
             Log.Write("Loading Pinball parts");
@@ -174,12 +174,12 @@ namespace DirectOutput
                 {
                     Log.Exception("A exception occured when load cabinet config file: {0}".Build(CCF.FullName), E);
 
-                    
+
                 }
             }
             if (Cabinet == null)
             {
-                Log.Warning("No cabinet config file loaded. Will use AutoConfig.");
+                Log.Write("No cabinet config file loaded. Will use AutoConfig.");
                 //default to a new cabinet object if the config cant be loaded
                 Cabinet = new Cabinet();
                 Cabinet.AutoConfig();
@@ -238,8 +238,13 @@ namespace DirectOutput
                     if (!L.ContainsConfig(RomName))
                     {
                         Log.Write("No config found in LedControl data for RomName {0}.".Build(RomName));
+                        Table = new Table.Table();
                     }
+                    else
+                    {
+                        Log.Write("Config for RomName {0} exists in LedControl data. Settting up table config.".Build(RomName));
                         Table = L.GetTable(RomName, Cabinet);
+                    }
                 }
                 else
                 {
@@ -315,8 +320,35 @@ namespace DirectOutput
 
             Table.UpdateTableElement(e.TableElementData);
         }
-        
+
         #endregion
+
+        public override string ToString()
+        {
+            string S = this.GetType().FullName + " {\n";
+            S += "  GlobalConfig {\n";
+            S += "   Global Config filename:" + GlobalConfig.GlobalConfigFilename + "\n";
+            S += "  }\n";
+            S += "  Table {\n";
+            S += "    Tablename: " + Table.TableName + "\n";
+            S += "    Tablefileename: " + Table.TableFilename + "\n";
+            S += "    RomName: " + Table.RomName + "\n";
+            S += "    Table config source: " + Table.ConfigurationSource + "\n";
+            S += "    Table config fileename: " + Table.TableConfigurationFilename + "\n"; 
+            S += "    Table Elements count: " + Table.TableElements.Count + "\n";
+            S += "    Table Effects count: " + Table.Effects.Count + "\n";
+            S += "  }\n";
+            S += "  Cabinet {\n";
+            S += "     Cabinet config filename: " + Cabinet.CabinetConfigurationFilename + "\n";
+            S += "     Outputcontrollers count: " + Cabinet.OutputControllers.Count + "\n";
+            S += "     Output toys count: " + Cabinet.Toys.Count + "\n";
+            S += "  }\n";
+
+            S += "}\n";
+            return S;
+           
+        }
+
 
         #region Constructor
         /// <summary>
@@ -341,8 +373,8 @@ namespace DirectOutput
         public Pinball(FileInfo GlobalConfigFile, FileInfo TableFile, string RomName = "")
             : this()
         {
-            Init(GlobalConfigFile,TableFile, RomName);
-        } 
+            Init(GlobalConfigFile, TableFile, RomName);
+        }
         #endregion
 
 
