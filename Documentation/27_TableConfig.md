@@ -135,10 +135,35 @@ If the effect is assigned as a static effect it will set the assigned toy to to 
 <BasicRGBEffect>
   <Name>Effect name</Name>
   <RGBToyName>RGBLedName value</RGBToyName>
-  <Color>Color value</Color>
+  <Color>Color value (e.g. #00ff00 for blue)</Color>
 </BasicRGBEffect>
 
 * __Name__ of the effect. 
 * __RGBToyName__ is the name of the assigned RGB toy. This toy must implement the IRGBToy interface.
 * __Color__  defines color which is set for the toy, if table element triggering the effect has a value which not equal 0. The color can be specified as a hexadecimal color definition (e.g. \#ff0000 for red), comma separated color (e.g. 0,255,0 for green) or color name as defined in the cabinet colors section.
+
+\subsubsection tableconfig_configfilestructureeffectslisteffect ListEffect
+
+The ListEffect is a effect which triggers a list of other effects assigned to the list effect. The data of the table element which has triggered the effect is passed on to the effects assigned to the list effect.
+Used as a static effect the ListEffect will trigger all assigned effect as well.
+
+
+<ListEffect>
+  <Name>Effect name</Name>
+  <AssignedEffects>
+    <AssignedEffectOrder>
+      <EffectName>Name of the first effect</EffectName>
+      <Order>1</Order>
+    </AssignedEffectOrder>
+    <AssignedEffectOrder>
+      <EffectName>Name of a second effect</EffectName>
+      <Order>2</Order>
+    </AssignedEffectOrder>
+  </AssignedEffects>
+</ListEffect>
+
+* __Name__ is the name of the effect. Hard to guess?
+* __AssignedEffects__ section contains any number of ordered effect assignments.
+* __EffectName__ contains the name of the assigned effect.
+* __Order__ is a number specifying the order in which the assigned effects are executed.
 

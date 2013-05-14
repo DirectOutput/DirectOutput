@@ -14,7 +14,7 @@ namespace DirectOutput.FX.ListFX
     {
        
 
-        private AssignedEffectList _Effects;
+        private AssignedEffectList _AssignedEffects;
 
         /// <summary>
         /// Gets or sets the list of effects assigned to the ListEffect.
@@ -22,20 +22,20 @@ namespace DirectOutput.FX.ListFX
         /// <value>
         /// The list of effects assigned to the ListEffect.
         /// </value>
-        public AssignedEffectList Effects
+        public AssignedEffectList AssignedEffects
         {
-            get { return _Effects; }
-            set { _Effects = value; }
+            get { return _AssignedEffects; }
+            set { _AssignedEffects = value; }
         }
         
 
         /// <summary>
-        /// Triggers all effects in the ListEffect.
+        /// Triggers all effects assigned to the ListEffect.
         /// </summary>
         /// <param name="TableElementData">TableElementData for the TableElement which has triggered the effect.</param>
         public override void Trigger(Table.TableElementData TableElementData)
         {
-            Effects.Trigger(TableElementData);
+            AssignedEffects.Trigger(TableElementData);
         }
 
 
@@ -44,7 +44,7 @@ namespace DirectOutput.FX.ListFX
         /// </summary>
         public override void Init(Pinball Pinball)
         {
-            Effects.Init(Pinball);
+            AssignedEffects.Init(Pinball);
         }
 
 
@@ -53,7 +53,7 @@ namespace DirectOutput.FX.ListFX
         /// </summary>
         public override void Finish()
         {
-            Effects.Finish();
+            AssignedEffects.Finish();
 
         }
 
