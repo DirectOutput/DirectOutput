@@ -190,7 +190,7 @@ namespace DirectOutput.Cab.Toys.Basic
 
 
         /// <summary>
-        /// Sets the color of the RGBLed toy. 
+        /// Sets the color of the RGB led toy. 
         /// </summary>
         /// <param name="Color">Hexadecimal color (e.g. \#ff0000 for red), comma separated color (e.g. 0,255,0 for green) or color name as defined in Cabinet.Colors.</param>
         public void SetColor(string Color)

@@ -193,7 +193,7 @@
     <Compile Include="Cab\Toys\Toys.cs" />
     <Compile Include="FX\BasicFX\BasicDigitalEffect.cs" />
     <Compile Include="FX\BasicFX\BasicFX.cs" />
-    <Compile Include="FX\BasicFX\BasicRGBLedEffect.cs" />
+    <Compile Include="FX\BasicFX\BasicRGBEffect.cs" />
     <Compile Include="FX\BasicFX\BasicAnalogEffect.cs" />
     <Compile Include="FX\CombinedEffectList.cs" />
     <Compile Include="FX\EffectEventArgs.cs" />
