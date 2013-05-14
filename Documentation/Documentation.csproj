@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="img\CabinetArchitecture.png" />
+    <Content Include="img\DirectOutputIcon_32.ico" />
     <Content Include="img\DirectOutput_Big.png" />
     <Content Include="img\DirectOutput_Small.png" />
     <Content Include="img\EffectsArchitecture.png" />
