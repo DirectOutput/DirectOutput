@@ -2,13 +2,14 @@
 using DirectOutput.General.Generic;
 namespace DirectOutput.Cab.Out
 {
-    //TODO: Invent some common, proper interface for the AutoConfig of Output controllers which support automatic detection and configuration.
     /// <summary>
     /// Common interface for all outputcontrollers.<br/>
     /// The abstract OutputController class implements this interface and can be inherited for other output controller classes.<br/>
     /// It is important to ensure that all classes inherting this interface are XML serializeable.  
     /// </summary>
-    public interface IOutputController: INamedItem
+    //TODO: Invent some common, proper interface for the AutoConfig of Output controllers which support automatic detection and configuration.
+    //TODO: Revisit IOutputController interface to determine wether it would be a good idea to use a more generric approch for the outputs collection.
+    public interface IOutputController : INamedItem
     {
 
         /// <summary>

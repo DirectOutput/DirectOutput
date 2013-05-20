@@ -2,7 +2,7 @@
 ==========
 \section outputcontrollers_introduction Introduction 
 
-Output controllers are devices like the Ledwiz or maybe your own Arduino invention controlling one or several physical outputs in a cabinet.  
+Output controllers are devices like the Ledwiz or maybe your own Arduino or Raspberry PI invention controlling one or several physical outputs in a cabinet.  
 
 \image html OutputControllerArchitecture.png
 
@@ -16,7 +16,7 @@ Currently support for the LedWiz is built in the DirectOutput framework.
 
 \section outputcontrollers_customeffects Custom output controllers 
 
-The DirectOutput framework allows for the implementaion of custom output controllers. This can be done trough scripting (see chapter on scripting) or the classes required for a custom outputcontroller can be integrated in the DirectOutput project. 
+The DirectOutput framework allows for the implementation of custom output controllers. This can be done trough scripting (see chapter on scripting) or the classes required for a custom outputcontroller can be integrated in the DirectOutput project. 
 
 \subsection outputcontrollers_interfaces Interfaces for output controllers
 

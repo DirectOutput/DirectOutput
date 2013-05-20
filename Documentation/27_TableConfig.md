@@ -7,9 +7,9 @@ The table configuration defines the table elements (e.g. solenoids or lamps), th
 
 In addition there is also a collection of static effects which are triggered when the framework is starting up. Use the static effects to control toys which dont have to change their state during game play (e.g. set illuminated flipper button to a specific color).
 
-\section tableconfig_configfilestructure Table config file structure
+\section tableconfig_configfilestructure Table config file 
 
-The basic structure of a table configuration file contains the following sections:
+Table configurations are stored as XML-files. The basic structure of a table configuration file contains the following sections:
 
 * __Effects__ configures all effects for a table. These effects can be assigned to table elements or to the static effects. 
 * __TableElements__ defines the table elements with their type (e.g. solenoid or lamp) and number and also the assignment of effects to the table elements. 
