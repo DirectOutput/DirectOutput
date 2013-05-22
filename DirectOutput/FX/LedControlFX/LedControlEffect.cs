@@ -9,7 +9,6 @@ namespace DirectOutput.FX.LedControlFX
     /// The LedControlEffect is used when LedControl.ini files are parsed for this framework.<br/>
     /// It is recommended not to use this effect, for other purposes. USe specific effects instead.
     /// </summary>
-    //TODO: FIx problem with n flashes for n milliseconds
     public class LedControlEffect : EffectBase, IEffect
     {
         private UpdateTimer UpdateTimer;
@@ -90,7 +89,7 @@ namespace DirectOutput.FX.LedControlFX
         /// Gets or sets a array of color parts (Red, Green, Blue).
         /// </summary>
         /// <value>
-        /// Thearray of color parts (Red, Green, Blue).
+        /// The array of color parts (Red, Green, Blue).
         /// </value>
         public int[] RGBColor
         {
@@ -123,7 +122,7 @@ namespace DirectOutput.FX.LedControlFX
         public int BlinkInterval
         {
             get { return _BlinkInterval; }
-            set { _BlinkInterval = value.Limit(10, int.MaxValue); }
+            set { _BlinkInterval = value.Limit(0, int.MaxValue); }
         }
 
         private int _Duration = -1;
@@ -257,9 +256,9 @@ namespace DirectOutput.FX.LedControlFX
         }
 
         /// <summary>
-        /// Triggers the effect for the given TableElement
+        /// Triggers the effect 
         /// </summary>
-        /// <param name="TableElementData">TableElementData for the TableElement which has triggered the effect.</param>
+        /// <param name="TableElementData">TableElementData for the TableElement which has triggered the effect. Null for static effect.</param>
         public override void Trigger(Table.TableElementData TableElementData)
         {
             if (TableElementData == null)
