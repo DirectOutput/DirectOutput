@@ -4,11 +4,12 @@ using DirectOutput.Cab.Toys.LWEquivalent;
 
 namespace DirectOutput.FX.LedControlFX
 {
-
+    
     /// <summary>
     /// The LedControlEffect is used when LedControl.ini files are parsed for this framework.<br/>
     /// It is recommended not to use this effect, for other purposes. USe specific effects instead.
     /// </summary>
+    //TODO: FIx problem with n flashes for n milliseconds
     public class LedControlEffect : EffectBase, IEffect
     {
         private UpdateTimer UpdateTimer;
@@ -79,7 +80,7 @@ namespace DirectOutput.FX.LedControlFX
 
                 if (!value.IsBetween(0, 48))
                 {
-                    throw new ArgumentOutOfRangeException("The supplied value {0} for Intensity is out of range (1-48).".Build(value));
+                    throw new ArgumentOutOfRangeException("The supplied value {0} for Intensity is out of range (0-48).".Build(value));
                 }
                 _Intensity = value; }
         }
@@ -113,7 +114,8 @@ namespace DirectOutput.FX.LedControlFX
 
         private int _BlinkInterval = 200;
         /// <summary>
-        /// Gets or sets the blink interval in milliseconds.
+        /// Gets or sets the blink interval in milliseconds.<br/>
+        /// Defaults to 200ms.
         /// </summary>
         /// <value>
         /// The blink interval in milliseconds.
@@ -121,13 +123,13 @@ namespace DirectOutput.FX.LedControlFX
         public int BlinkInterval
         {
             get { return _BlinkInterval; }
-            set { _BlinkInterval = value.Limit(50, 10000); }
+            set { _BlinkInterval = value.Limit(10, int.MaxValue); }
         }
 
         private int _Duration = -1;
         /// <summary>
         /// Gets or sets the duration of the effect.<br/>
-        /// If duration&lt;=0 the effect will last for a infinite duration, if duration>0 the effect will last the specified number of milliseconds. 
+        /// If duration&lt;=0 the effect will last for a infinite duration resp. until the triggering table element changes its value to 0, if duration>0 the effect will last the specified number of milliseconds. 
         /// </summary>
         /// <value>
         /// The duration of the effect.
@@ -286,7 +288,7 @@ namespace DirectOutput.FX.LedControlFX
                 }
                 else
                 {
-                    if (Duration <= 0)
+                    if (Duration <= 0 && Blink>0)
                     {
                         BlinkFinish();
                         Unset();

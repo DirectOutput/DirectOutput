@@ -12,6 +12,7 @@ namespace DirectOutput.LedControl
     /// <summary>
     /// List of LedControlConfig objects loaded from LedControl.ini files.
     /// </summary>
+
     public class LedControlConfigList : List<LedControlConfig>
     {
         //TODO: Modify to allow mixing of LedControl data with xml config
@@ -75,6 +76,11 @@ namespace DirectOutput.LedControl
                                     LCE.Blink = -1;
                                     FXName += "Blink, ";
                                 }
+                                if (S.Blink != 0 && S.BlinkIntervalMs > 0)
+                                {
+                                    LCE.BlinkInterval = S.BlinkIntervalMs;
+                                    FXName += "BlinkInterval {0},".Build(S.BlinkIntervalMs);
+                                }
                                 if (S.DurationMs > 0)
                                 {
                                     LCE.Duration = S.DurationMs;
@@ -128,13 +134,48 @@ namespace DirectOutput.LedControl
         {
             Dictionary<int, TableConfig> D = new Dictionary<int, TableConfig>();
 
-            foreach(LedControlConfig LCC in this) {
+            bool FoundMatch = false;
+            foreach (LedControlConfig LCC in this)
+            {
+
+                foreach (TableConfig TC in LCC.TableConfigurations)
+                {
+                    if (RomName.ToUpper()==TC.ShortRomName.ToUpper())
+                    {
+                        D.Add(LCC.LedWizNumber, TC);
+                        FoundMatch = true;
+                        break;
+                    }
+                }
+            }
+
+            if (FoundMatch) return D;
+
+            foreach (LedControlConfig LCC in this)
+            {
+
+                foreach (TableConfig TC in LCC.TableConfigurations)
+                {
+                    if (RomName.ToUpper().StartsWith("{0}_".Build(TC.ShortRomName.ToUpper())))
+                    {
+                        D.Add(LCC.LedWizNumber, TC);
+                        FoundMatch = true;
+                        break;
+                    }
+                }
+            }
+
+            if (FoundMatch) return D;
+
+            foreach (LedControlConfig LCC in this)
+            {
 
                 foreach (TableConfig TC in LCC.TableConfigurations)
                 {
                     if (RomName.StartsWith(TC.ShortRomName))
                     {
                         D.Add(LCC.LedWizNumber, TC);
+                        
                         break;
                     }
                 }
@@ -152,19 +193,8 @@ namespace DirectOutput.LedControl
         /// </returns>
         public bool ContainsConfig(string RomName)
         {
+            return GetTableConfigDictonary(RomName).Count > 0;
 
-            foreach (LedControlConfig LCC in this)
-            {
-
-                foreach (TableConfig TC in LCC.TableConfigurations)
-                {
-                    if (RomName.StartsWith(TC.ShortRomName))
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
         }
 
 
@@ -177,7 +207,7 @@ namespace DirectOutput.LedControl
         {
             for (int i = 0; i < LedControlFilenames.Count; i++)
             {
-                LoadLedControlFile(LedControlFilenames[i], i+1,ThrowExceptions);
+                LoadLedControlFile(LedControlFilenames[i], i + 1, ThrowExceptions);
             }
         }
 
@@ -204,7 +234,7 @@ namespace DirectOutput.LedControl
         public void LoadLedControlFile(string LedControlFilename, int LedWizNumber, bool ThrowExceptions = false)
         {
             Log.Write("Loading LedControl file {0}".Build(LedControlFilename));
-        
+
             LedControlConfig LCC = new LedControlConfig(LedControlFilename, LedWizNumber, ThrowExceptions);
             Add(LCC);
         }

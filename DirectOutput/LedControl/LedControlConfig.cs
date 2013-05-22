@@ -158,19 +158,7 @@ namespace DirectOutput.LedControl
                 return;
             }
 
-            int ColumnCount = OutData[0].Split(new char[] { ',' }).Length;
-            foreach (string OutLine in OutData)
-            {
-                if (OutLine.Split(new char[] { ',' }).Length != ColumnCount)
-                {
-                    Log.Exception("Section {0} of file {1} does not have the same number of columns in all lines.".Build(OutStartString, LedControlIniFile));
-                    if (ThrowExceptions)
-                    {
-                        throw new Exception("Section {0} of file {1} does not have the same number of columns in all lines.".Build(OutStartString, LedControlIniFile));
-                    }
-                    
-                }
-            }
+
 
             ColorConfigurations.ParseLedControlData(ColorData, ThrowExceptions);
 
@@ -233,33 +221,7 @@ namespace DirectOutput.LedControl
                 
             }
 
-            //Assign number of required outputs to columns
-            foreach (TableConfig TC in TableConfigurations)
-            {
-                foreach (TableConfigColumn C in TC.Columns)
-                {
-                    if (RequiredOutputs.ContainsKey(C.Number))
-                    {
-                        C.RequiredOutputCount = RequiredOutputs[C.Number];
-                    }
-                    else
-                    {
-                        C.RequiredOutputCount = 1;
-                    }
-                }
-            }
-
-            //Set LedWiz output numbers to columns
-            foreach (TableConfig TC in TableConfigurations)
-            {
-                
-                int FirstOutputNumber = 1;
-                foreach (TableConfigColumn C in TC.Columns)
-                {
-                    C.FirstOutputNumber = FirstOutputNumber;
-                    FirstOutputNumber += C.RequiredOutputCount;
-                }
-            }
+         
             //Dump();
         }
 

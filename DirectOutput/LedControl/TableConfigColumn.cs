@@ -33,18 +33,28 @@ namespace DirectOutput.LedControl
             set { _FirstOutputNumber = value; }
         }
 
-        private int _RequiredOutputCount;
+       
 
         /// <summary>
-        /// Gets or sets the number of required outputs for the column.
+        /// Gets the number of required outputs for the column.
         /// </summary>
         /// <value>
         /// The number of required outputs for the column.
         /// </value>
         public int RequiredOutputCount
         {
-            get { return _RequiredOutputCount; }
-            set { _RequiredOutputCount = value; }
+            get {
+                int RequiredOutputCount = 1;
+                foreach (TableConfigSetting S in this)
+                {
+                    if (S.OutputType == OutputTypeEnum.RGBOutput)
+                    {
+                        RequiredOutputCount = 3;
+                    }
+                }
+                
+                return RequiredOutputCount; }
+            
         }
         
 
@@ -57,8 +67,11 @@ namespace DirectOutput.LedControl
         /// </summary>
         /// <param name="ColumnData">The column data.</param>
         /// <param name="ThrowExceptions">If set to <c>true</c> exceptions are thrown on errors.</param>
-        public void ParseColumnData(string ColumnData, bool ThrowExceptions = false)
+        /// <returns>true if all settings have been parsed successfully, fals if a exception occured during parsing.</returns>
+        /// <exception cref="System.Exception">Could not parse setting {0} in column data {1}..Build(CC, ColumnData)</exception>
+        public bool ParseColumnData(string ColumnData, bool ThrowExceptions = false)
         {
+            bool ExceptionOccured = false;
             List<string> ColumnConfigs = new List<string>(ColumnData.Split(new char[] { '/' }, StringSplitOptions.None));
 
             foreach (string CC in ColumnConfigs)
@@ -67,19 +80,21 @@ namespace DirectOutput.LedControl
                 {
                     try
                     {
-                        TableConfigSetting TCS = new TableConfigSetting(CC, true);
+                        TableConfigSetting TCS = new TableConfigSetting(CC);
                         Add(TCS);
                     }
                     catch (Exception E)
                     {
-                        Log.Exception("Could not parse a table config setting {0} (likely due to a parse error).".Build(CC), E);
+                        ExceptionOccured = true;
+                        Log.Exception("Could not parse setting {0} in column data {1}.".Build(CC, ColumnData), E);
                         if (ThrowExceptions)
                         {
-                            throw new Exception("Could not parse a table config setting {0} (likely due to a parse error).".Build(CC), E);
+                            throw new Exception("Could not parse setting {0} in column data {1}.".Build(CC, ColumnData), E);
                         }
                     }
                 }
             }
+            return !ExceptionOccured;
         } 
         #endregion
 

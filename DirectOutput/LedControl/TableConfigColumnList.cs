@@ -15,7 +15,13 @@ namespace DirectOutput.LedControl
         /// </summary>
         /// <param name="LedControlData">LedControl data to parse.</param>
         /// <param name="ThrowExceptions">If set to <c>true</c> exceptions will be thrown on errors.</param>
-        /// <exception cref="System.Exception">No data to parse found in LedControlData: {0}</exception>
+        /// <exception cref="System.Exception">
+        /// No data to parse found in LedControlData: {0}
+        /// or
+        /// Exception(s) accorud when parsing {0}
+        /// or
+        /// To many outputs (>32) are configured in the following line {1}
+        /// </exception>
         public void ParseControlData(string LedControlData, bool ThrowExceptions = false)
         {
             string[] Cols = LedControlData.Split(new char[] { ',' });
@@ -28,12 +34,37 @@ namespace DirectOutput.LedControl
                 }
                 return;
             }
+            int FirstOutputNumber = 1;
             for (int i = 1; i < Cols.Length; i++)
             {
+                TableConfigColumn C = new TableConfigColumn();
+                C.Number = i;
+                C.FirstOutputNumber = FirstOutputNumber;
+                bool ParseOK=C.ParseColumnData(Cols[i], false);
+                if (!ParseOK)
+                {
+                    Log.Warning("Previous exceptions occured in the line {0} of the ledcontrol file".Build(LedControlData));
+                    if (ThrowExceptions)
+                    {
+                        throw new Exception("Exception(s) accorud when parsing {0}".Build(LedControlData));
+                    }
+                }
 
-                Add(new TableConfigColumn(i,Cols[i], ThrowExceptions));
+                if (FirstOutputNumber + C.RequiredOutputCount > 33)
+                {
+                    Log.Warning("To many outputs (>32) are configured in the following line {1}".Build(LedControlData));
+                    if (ThrowExceptions)
+                    {
+                        throw new Exception("To many outputs (>32) are configured in the following line {1}".Build(LedControlData));
+                    }
+                    return;
+                }
+
+                Add(C);
+
+                FirstOutputNumber += C.RequiredOutputCount;
+               
             }
-            Sort();
             
         }
 

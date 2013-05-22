@@ -36,7 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="B2SServerPluginInterface">
-      <HintPath>X:\Visual Pinball\Tables\B2SServerPluginInterface.dll</HintPath>
+      <HintPath>..\..\B2SServerPluginInterface.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />

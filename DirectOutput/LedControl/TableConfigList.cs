@@ -18,14 +18,14 @@ namespace DirectOutput.LedControl
 
 
         /// <summary>
-        /// Parses a line of LedControl data containg the config for a table.
+        /// Parses a line of LedControl data contaning the config for a table.
         /// </summary>
         /// <param name="TableConfigDataLineFromLedControlIni">The table config data line from led control ini.</param>
         /// <param name="ThrowExceptions">if set to <c>true</c> [throw exceptions].</param>
         /// <exception cref="System.Exception">
-        /// Could not load table config from data line: {0}.Build(TableConfigDataLineFromLedControlIni)
+        /// Could not load table config from data line: {0}
         /// or
-        /// Table with ShortRomName {0} has already been loaded..Build(TC.ShortRomName)
+        /// Table with ShortRomName {0} has already been loaded.
         /// </exception>
         public void ParseLedcontrolData(string TableConfigDataLineFromLedControlIni, bool ThrowExceptions = true)
         {

@@ -51,7 +51,7 @@ namespace DirectOutput.LedControl
         /// </value>
         public int TableElementNumber { get; set; }
 
-       
+
 
         /// <summary>
         /// Gets the type of the output.<br/>
@@ -70,7 +70,7 @@ namespace DirectOutput.LedControl
 
         /// <summary>
         /// Gets or sets the duration in milliseconds.
-               /// </summary>
+        /// </summary>
         /// <value>
         /// The duration in milliseconds.
         /// </value>
@@ -102,39 +102,45 @@ namespace DirectOutput.LedControl
         public int Blink { get; set; }
 
         /// <summary>
-        /// Parses the setting data. <br/>
-        /// Possible config settings:<br/>
-        /// S1<br/>
-        /// S4 1500       (Solenoid4: 1500ms)<br/>
-        /// S8 300 I32    (Solenoid8: 300ms Intensity32)<br/>
-        /// W15 300 2     (Switch15:   2Times 300ms Period)<br/>
-        /// ON Red (Red)<br/>
-        /// S5 Red 10 (Solenoid 5: Red Blink 10 times)<br/>
-        /// S7 White (Solenoid 7: White)<br/>
-        /// ON Orange I48 (On Orange, I48 is probably not relevant)<br/>
-        /// L88 Blink I44 (Lamp88:Blink with insensity 44)<br/>
-        /// W58 Blink 5 (Switch48: Blink 5 times.<br/>
-        /// First char(s):<br/>
+        /// Gets or sets the blink interval in milliseconds.
+        /// </summary>
+        /// <value>
+        /// The blink interval in  milliseconds.
+        /// </value>
+        public int BlinkIntervalMs { get; set; }
+
+        /// <summary>
+        /// Parses the setting data. <br />
+        /// Possible config settings:<br />
+        /// S1<br />
+        /// S4 1500       (Solenoid4: 1500ms)<br />
+        /// S8 300 I32    (Solenoid8: 300ms Intensity32)<br />
+        /// W15 300 2     (Switch15:   2Times within 300ms Period)<br />
+        /// ON Red (Red)<br />
+        /// S5 Red 10 (Solenoid 5: Red 10milliseconds)<br />
+        /// S7 White (Solenoid 7: White)<br />
+        /// ON Orange I48 (On Orange, I48 is probably not relevant)<br />
+        /// L88 Blink I44 (Lamp88:Blink with insensity 44)<br />
+        /// W58 Blink 5 (Switch48: Blink 5 times.<br />
+        /// s4 420 24 (flash 24 times within 420 milliseconds) <br />
+        /// First char(s):<br />
         /// L??=Lamp, S??=Solenoid, W??=Switch, B=Blink (very likely), 0=off, 1=on, on=on, off=off
         /// </summary>
         /// <param name="SettingData">The setting data.</param>
-        /// <param name="ThrowExceptions">If set to <c>true</c> exceptions are thrown on errors in the data.</param>
         /// <exception cref="System.Exception">
         /// No data to parse.
         /// or
-        /// Cant parse the part {0} of the ledcontrol table config setting {1}.
+        /// Cant parse the part {0} of the ledcontrol table config setting {1}..
         /// </exception>
-        public void ParseSettingData(string SettingData, bool ThrowExceptions=false)
+            public void ParseSettingData(string SettingData)
         {
             string[] Parts = SettingData.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             if (Parts.Length == 0)
             {
                 Log.Warning("No data to parse.");
-                if (ThrowExceptions)
-                {
-                    throw new Exception("No data to parse.");
-                }
-                return;
+
+                throw new Exception("No data to parse.");
+
             }
             //Get output state and table element (if applicable)
             bool ParseOK = true;
@@ -156,36 +162,17 @@ namespace DirectOutput.LedControl
 
                     if (Parts[0].Length > 1 && Parts[0].Substring(1).IsInteger())
                     {
-
                         OutputControl = OutputControlEnum.Controlled;
-                        switch (Parts[0].Substring(0, 1).ToUpper())
+                        Char C = Parts[0].ToUpper().ToCharArray()[0];
+                        if (Enum.IsDefined(typeof(TableElementTypeEnum), (int)C))
                         {
-                            case "B":
-                                //Blink. Just in case if someone combines b with a number.
-                                OutputControl = OutputControlEnum.FixedOn;
-                                Blink = -1;
-                                break;
-                            case "L":
-                                //Lamp
-                                TableElementType = TableElementTypeEnum.Lamp;
-                                break;
-                            case "S":
-                                //Solenoid
-                                TableElementType = TableElementTypeEnum.Solenoid;
-                                break;
-                            case "W":
-                                //Switch
-                                TableElementType = TableElementTypeEnum.Switch;
-                                break;
-                            case "E":
-                                //EMTable
-                                TableElementType = TableElementTypeEnum.EMTable;
-                                break;
-                            default:
-                                //Unknown
-                                ParseOK = false;
-                                break;
+                            TableElementType = (TableElementTypeEnum)C;
                         }
+                        else
+                        {
+                            ParseOK = false;
+                        }
+
                         TableElementNumber = Parts[0].Substring(1).ToInteger();
                     }
                     else
@@ -198,11 +185,9 @@ namespace DirectOutput.LedControl
             if (!ParseOK)
             {
                 Log.Warning("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(Parts[0], SettingData));
-                if (ThrowExceptions)
-                {
-                    throw new Exception("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(Parts[0], SettingData));
-                }
-                return;
+
+                throw new Exception("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(Parts[0], SettingData));
+
             }
 
             if (Parts.Length > 1)
@@ -236,30 +221,42 @@ namespace DirectOutput.LedControl
             {
                 if (Parts[2].IsInteger())
                 {
-                    //Indicates number of blinks
-                    Blink = Parts[2].ToInteger();
+                    
+                    //Indicates number of blinks or duration
+                    if (OutputType == OutputTypeEnum.RGBOutput)
+                    {
+                        DurationMs = Parts[2].ToInteger();
+                    }
+                    else 
+                    {
+                        Blink = Parts[2].ToInteger();
+                        if (DurationMs > 0)
+                        {
+                            BlinkIntervalMs = (DurationMs / Blink / 2).Limit(10, int.MaxValue);
+                            DurationMs = 0;
+                        }
+                    }
+
 
                 }
                 else if (Parts[2].ToUpper().Substring(0, 1) == "I" && Parts[2].Substring(1).IsInteger())
                 {
                     //Intensity setting
-                    Intensity = Parts[1].Substring(1).ToInteger();
+                    Intensity = Parts[1].Substring(1).ToInteger().Limit(0,48);
                 }
                 else
                 {
                     Log.Warning("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(Parts[2], SettingData));
-                    if (ThrowExceptions)
-                    {
-                        throw new Exception("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(Parts[2], SettingData));
-                    }
-                    return;
+
+                    throw new Exception("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(Parts[2], SettingData));
+
                 }
             }
         }
 
 
-       
- 
+
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TableConfigSetting"/> class.
         /// Parses the setting data. <br/>
@@ -278,25 +275,25 @@ namespace DirectOutput.LedControl
         /// L??=Lamp, S??=Solenoid, W??=Switch, B=Blink (very likely), 0=off, 1=on, on=on, off=off
         /// </summary>
         /// <param name="SettingData">The setting data.</param>
-        /// <param name="ThrowExceptions">If set to <c>true</c> exceptions are thrown on errors in the data.</param>
         /// <exception cref="System.Exception">
-        /// No data to parse.
-        /// or
-        /// Cant parse the part {0} of the ledcontrol table config setting {1}..Build(Parts[0], SettingData)
-        /// or
-        /// Cant parse the part {0} of the ledcontrol table config setting {1}..Build(Parts[2], SettingData)
-        /// </exception>
-        public TableConfigSetting(string SettingData, bool ThrowExceptions = false):this()
+        /// No data to parse.<br/>
+        /// or <br/>
+        /// Cant parse the part {0} of the ledcontrol table config setting {1}.
+         /// </exception>
+        public TableConfigSetting(string SettingData)
+            : this()
         {
-            ParseSettingData(SettingData, ThrowExceptions);
+            ParseSettingData(SettingData);
         }
 
 
 
-        public TableConfigSetting() {
+        public TableConfigSetting()
+        {
             this.Intensity = 48;
             this.Blink = 0;
             this.DurationMs = -1;
+           
         }
 
 
