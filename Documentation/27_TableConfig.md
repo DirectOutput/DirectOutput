@@ -167,3 +167,4 @@ Used as a static effect the ListEffect will trigger all assigned effect as well.
 * __EffectName__ contains the name of the assigned effect.
 * __Order__ is a number specifying the order in which the assigned effects are executed.
 
+

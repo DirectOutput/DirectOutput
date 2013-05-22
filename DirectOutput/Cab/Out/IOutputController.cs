@@ -3,8 +3,8 @@ using DirectOutput.General.Generic;
 namespace DirectOutput.Cab.Out
 {
     /// <summary>
-    /// Common interface for all outputcontrollers.<br/>
-    /// The abstract OutputController class implements this interface and can be inherited for other output controller classes.<br/>
+    /// Common interface for all outputcontrollers. Only classes implementing this interface can be used as output controllers in the framework.<br/>
+    /// The abstract OutputControllerBase class implements this interface and can be inherited for other output controller classes.<br/>
     /// It is important to ensure that all classes inherting this interface are XML serializeable.  
     /// </summary>
     //TODO: Invent some common, proper interface for the AutoConfig of Output controllers which support automatic detection and configuration.
@@ -27,7 +27,7 @@ namespace DirectOutput.Cab.Out
 
         /// <summary>
         /// Name of the IOutputController.
-        /// This property is fully implemented in the abstract OutputController class.
+        /// This property is fully implemented in the abstract OutputControllerBase class.
         /// </summary>
         new string Name { get; set; }
 
@@ -38,7 +38,7 @@ namespace DirectOutput.Cab.Out
 
 
         /// <summary>
-        /// Must update the physical outputs if the IOutputController. 
+        /// Must update the physical outputs of the IOutputController. 
         /// </summary>
         void Update();
     }

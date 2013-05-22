@@ -29,7 +29,7 @@ namespace DirectOutput.Cab
             Log.Write("Cabinet auto configuration started");
             if (!OutputControllers.Any(OC => OC is LedWiz))
             {
-                Log.Write("No predefined LedWiz controllers found in cabinet config. Will try to located LedWiz units.");
+                Log.Write("No predefined LedWiz controllers found in cabinet config. Will try to locate LedWiz units.");
         
                 List<int> Numbers = LedWiz.GetLedwizNumbers();
                 foreach (int N in Numbers)

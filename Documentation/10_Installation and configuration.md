@@ -16,11 +16,11 @@ You are also very welcome to fork/download and enhance the source code from GitH
 
 \section installation_installation Installation 
 
-Unzip the contents of the zip-file containing the framework to the following subpath of the B2S-Server: {B2S-Server directory}\Plugin\DirectOutput
+Unzip the contents of the zip-file containing the framework to the following subpath of the B2S-Server: {B2S-Server directory}\\plugin\\DirectOutput
 
 The B2S-Server will automatically detect the framework on startup and integrate it. Please check <a href="http://www.vpforums.org/index.php?showforum=86">VPForums</a> for more information on the B2S-Server.
 
-Alternatively the DirectOutput framework can also be put into any other directory on your system and a windows shortcut pointing to this directory can be added to the {B2S-Server directory}\Plugin directory. The B2S.Server will follow this shortcut to your plugin directory.
+Alternatively the DirectOutput framework can also be put into any other directory on your system and a windows shortcut pointing to this directory can be added to the {B2S-Server directory}\\plugin directory. The B2S.Server will follow this shortcut to your plugin directory.
 
 
 \section installation_configuration Configuration 
@@ -55,9 +55,9 @@ Otherwise you'll likely run into trouble since both solutions will run simultane
 
 The global configuration specifies some global settings for the framework, like the places where cabinet and table configurations are looked up. 
 
-If the framework is called through the B2S.Server Plugin it will search for a file named GlobalConfiguration_b2SServer.xml in the following places:
-- A directory named -config- withing the directory of the DirectOutput.dll.
-- A shortcut named -config- to a directory. 
+If the framework is called through the B2S.Server Plugin it will search for a file named _GlobalConfiguration_b2SServer.xml_ in the following places:
+- A directory named _config_ withing the directory of the DirectOutput.dll.
+- A shortcut named _config_ to a directory. 
 - Table directory.
 - Directory of the DirectOutput.dll.
 

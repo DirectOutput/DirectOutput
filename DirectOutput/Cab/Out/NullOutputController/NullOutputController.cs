@@ -8,8 +8,8 @@ namespace DirectOutput.Cab.Out.NullOutputController
 
     /// <summary>
     /// This is a dummy output controller not doing anthing with the data it receives.<br/>
-    /// It is mainly thought as a sample how to implement a output controller.<br/>
-    /// <remarks>Be sure to check the OutputControllerBase class and the IOutputController interface for a better understanding.</remarks>
+    /// It is mainly thought as a sample how to implement a simple output controller.<br/>
+    /// <remarks>Be sure to check the abstract OutputControllerBase class and the IOutputController interface for a better understanding.</remarks>
     /// </summary>
     public class NullOutputController: OutputControllerBase, IOutputController
     {
