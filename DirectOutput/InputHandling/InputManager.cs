@@ -122,6 +122,7 @@ namespace DirectOutput.InputHandling
         private bool KeepWorkerThreadAlive = true;
         private void WorkerThreadDoIt()
         {
+          // Log.Write("{0} runs on logical processor {1}".Build(Thread.CurrentThread.Name,General.ThreadTools.GetCurrentProcessorNumber()));
 
             while (KeepWorkerThreadAlive)
             {

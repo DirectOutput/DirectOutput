@@ -14,7 +14,7 @@ namespace DirectOutput.Cab.Out.LW
     /// </summary>
     public class LedWiz : OutputControllerBase, IOutputController, IDisposable
     {
-      #region Number
+        #region Number
 
 
         private object NumberUpdateLocker = new object();
@@ -79,7 +79,7 @@ namespace DirectOutput.Cab.Out.LW
         {
             LedWizUnits[Number].StartLedWizUpdaterThread();
             Log.Write("LedWiz Nr. {0} initialized and updater thread started.".Build(Number));
-        
+
         }
 
         /// <summary>
@@ -91,11 +91,11 @@ namespace DirectOutput.Cab.Out.LW
             LedWizUnits[Number].TerminateLedWizUpdaterThread();
             LedWizUnits[Number].ShutdownLighting();
             Log.Write("LedWiz Nr. {0} finished and updater thread stopped.".Build(Number));
-        
+
         }
         #endregion
 
-  
+
 
         #region Outputs
         private OutputList _Outputs = new OutputList();
@@ -133,7 +133,7 @@ namespace DirectOutput.Cab.Out.LW
             {
                 if (!Outputs.Any(x => ((LedWizOutput)x).LedWizOutputNumber == i))
                 {
-                    Outputs.Add(new LedWizOutput(i) { Name = "LedWizOutput {0:00}.{1:00}".Build(Number,i) });
+                    Outputs.Add(new LedWizOutput(i) { Name = "LedWizOutput {0:00}.{1:00}".Build(Number, i) });
                 }
             }
         }
@@ -213,7 +213,7 @@ namespace DirectOutput.Cab.Out.LW
                 byte V = ByteToLedWizValue[LedWizOutput.Value];
                 bool S = (V != 0);
 
-                int ZeroBasedOutputNumber=LedWizOutput.LedWizOutputNumber-1;
+                int ZeroBasedOutputNumber = LedWizOutput.LedWizOutputNumber - 1;
 
                 int ByteNr = ZeroBasedOutputNumber >> 3;
                 int BitNr = ZeroBasedOutputNumber & 7;
@@ -366,6 +366,8 @@ namespace DirectOutput.Cab.Out.LW
             //TODO: Check if thread should really terminate on failed updates
             private void LedWizUpdaterDoIt()
             {
+                //Log.Write("{0} runs on logical processor {1}".Build(Thread.CurrentThread.Name, General.ThreadTools.GetCurrentProcessorNumber()));
+
                 int FailCnt = 0;
                 while (KeepLedWizUpdaterAlive)
                 {
@@ -384,7 +386,7 @@ namespace DirectOutput.Cab.Out.LW
 
                         if (FailCnt > MaxUpdateFailCount)
                         {
-                            Log.Exception("More than {0} consecutive updates failed for LedWiz Nr. {1}. Updater thread will terminate.".Build(MaxUpdateFailCount,Number));
+                            Log.Exception("More than {0} consecutive updates failed for LedWiz Nr. {1}. Updater thread will terminate.".Build(MaxUpdateFailCount, Number));
                             KeepLedWizUpdaterAlive = false;
                         }
                     }

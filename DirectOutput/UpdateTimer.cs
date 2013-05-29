@@ -80,8 +80,8 @@ namespace DirectOutput
                 AlarmsTriggered(this, new EventArgs());
             }
         }
-        
 
+        
 
         #region IntervalAlarm
         private object IntervalAlarmLocker = new object();

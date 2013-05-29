@@ -214,6 +214,7 @@ namespace DirectOutput.FX.LedControlFX
         private int BlinkCount = 0;
         private void BlinkInit()
         {
+            BlinkState = true;
             BlinkCount = 0;
             if (Blink != 0)
             {
@@ -287,7 +288,7 @@ namespace DirectOutput.FX.LedControlFX
                 }
                 else
                 {
-                    if (Duration <= 0 && Blink>0)
+                    if (Duration <= 0 && Blink<=0)
                     {
                         BlinkFinish();
                         Unset();

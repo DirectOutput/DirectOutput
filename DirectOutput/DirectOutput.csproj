@@ -153,6 +153,7 @@
     <Compile Include="FX\DelayFX\DelayEffect.cs" />
     <Compile Include="FX\DelayFX\DelayFX.cs" />
     <Compile Include="FX\NullFX\NullEffect.cs" />
+    <Compile Include="General\ThreadTools.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="GlobalConfiguration\FilePattern.cs" />
     <Compile Include="GlobalConfiguration\FilePatternList.cs" />
