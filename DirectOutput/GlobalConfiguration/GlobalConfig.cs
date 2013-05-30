@@ -189,20 +189,6 @@ namespace DirectOutput.GlobalConfiguration
         #endregion
 
 
-        #region Update timer
-        private int _UpdateTimerIntervall;
-        /// <summary>
-        /// Intervall for the update timer in milliseconds.
-        /// </summary>
-        /// <value>
-        /// int representing the intervall in milliseconds for the update timer.
-        /// </value>
-        public int UpdateTimerIntervall
-        {
-            get { return _UpdateTimerIntervall; }
-            set { _UpdateTimerIntervall = value; }
-        }
-        #endregion
 
         #region Logging
         private bool _EnableLog = false;
@@ -510,7 +496,7 @@ namespace DirectOutput.GlobalConfiguration
         public GlobalConfig()
         {
 
-            UpdateTimerIntervall = 20;
+         
 
         }
 

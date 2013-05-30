@@ -134,11 +134,6 @@ Supported placeholders are:
   <metadata name="GlobalScriptFilePatternsStatus.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="label13.Text" xml:space="preserve">
-    <value>The update timer acts as some kind of internal heartbeat, triggering actions on effects, toys and output controllers at regular intervals.
-Very low intervals can cause your system to slow down. High intervals are likely to result in less smooth behavier of the framework (e.g. for dim effects).
-</value>
-  </data>
   <data name="label1.Text" xml:space="preserve">
     <value>LedControl.ini files are used by the DirectOutput framework as a fallback solution if no cable config can be found or if the table config contains errors.
 If no LedControl files are specified in the global configuration, the framework will try to lookup a file called ledcontrol.ini in the following locations:

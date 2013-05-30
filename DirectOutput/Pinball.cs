@@ -419,7 +419,7 @@ namespace DirectOutput
                     }
                     catch (Exception E)
                     {
-                        Log.Exception("A exception occured while processing data for table element {0} {1} with value {2}".Build(D.TableElementType, D.Number, D.Value), E);
+                        Log.Exception("A unhandled exception occured while processing data for table element {0} {1} with value {2}".Build(D.TableElementType, D.Number, D.Value), E);
                     }
                 }
 
@@ -433,10 +433,16 @@ namespace DirectOutput
                 //Call update on output controllers if necessary
                 if (UpdateRequired && KeepMainThreadAlive)
                 {
-                    Cabinet.OutputControllers.Update();
+                    try
+                    {
+                        Cabinet.OutputControllers.Update();
+                    }
+                    catch (Exception E)
+                    {
+                         Log.Exception("A unhandled exception occured while updating the output controllers", E);
+                        
+                    }
                 }
-
-
 
                 if (KeepMainThreadAlive)
                 {
