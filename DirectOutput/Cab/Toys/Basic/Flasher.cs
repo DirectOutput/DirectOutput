@@ -1,4 +1,5 @@
 ﻿using DirectOutput.Cab.Toys.Generic;
+using DirectOutput.PinballSupport;
 
 namespace DirectOutput.Cab.Toys.Basic
 {
@@ -75,7 +76,7 @@ namespace DirectOutput.Cab.Toys.Basic
             SetState(true);
             RemainingFlashes--;
 
-            UpdateTimer.RegisterAlarm(FlashDurationMs, FlasherOn);
+            AlarmHandler.RegisterAlarm(FlashDurationMs, FlasherOn);
 
         }
 
@@ -84,7 +85,7 @@ namespace DirectOutput.Cab.Toys.Basic
             SetState(false);
             if (RemainingFlashes > 0)
             {
-                UpdateTimer.RegisterAlarm(FlashIntervallMs, FlasherOff);
+                AlarmHandler.RegisterAlarm(FlashIntervallMs, FlasherOff);
             }
         }
 
@@ -94,13 +95,13 @@ namespace DirectOutput.Cab.Toys.Basic
             {
                 SetState(true);
                 RemainingFlashes--;
-                UpdateTimer.RegisterAlarm(FlashDurationMs, FlasherOn);
+                AlarmHandler.RegisterAlarm(FlashDurationMs, FlasherOn);
             }
         }
 
 
 
-        private UpdateTimer UpdateTimer;
+        private AlarmHandler AlarmHandler;
 
         /// <summary>
         /// Initalizes the Flasher.
@@ -108,8 +109,8 @@ namespace DirectOutput.Cab.Toys.Basic
         /// <param name="Pinball"><see cref="Pinball" /> object containing the <see cref="Cabinet" /> to which the <see cref="Flasher" /> belongs.</param>
         public override void Init(Pinball Pinball)
         {
-            UpdateTimer = Pinball.UpdateTimer;
-            if (FlashDurationMs < UpdateTimer.IntervalMs) { FlashDurationMs = UpdateTimer.IntervalMs; }
+            AlarmHandler = Pinball.Alarms;
+            if (FlashDurationMs < 2) { FlashDurationMs = 2; }
             base.Init(Pinball);
         }
 
@@ -119,7 +120,7 @@ namespace DirectOutput.Cab.Toys.Basic
         public override void Finish()
         {
             RemainingFlashes=0;
-            UpdateTimer=null;
+            AlarmHandler=null;
             base.Finish();
         }
 

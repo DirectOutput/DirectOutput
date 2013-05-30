@@ -1,85 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Timers;
 
-namespace DirectOutput
+namespace DirectOutput.PinballSupport
 {
-    public class UpdateTimer
+    /// <summary>
+    /// The AlarmHandler classed is used to execute scheduled events (e.g. regular updates on a effect) in the framework.<br/>
+    /// Two types of alarms/scheduled events exist:<br/>
+    /// - Alarm which on executes once
+    /// - IntervalAlarm which executes at specified intervals undtil the alarm is unregistered.
+    /// </summary>
+    public class AlarmHandler
     {
-        private Timer Timer = new Timer();
-        private DateTime TimerStart =DateTime.MaxValue;
-        /// <summary>
-        /// Gets the timestamp for the next update.
-        /// </summary>
-        /// <value>
-        /// The timestamp for next update.
-        /// </value>
-        public DateTime NextUpdate
-        {
-            get
-            {
-                if (TimerStart == DateTime.MaxValue)
-                {
-                    return DateTime.MaxValue;
-                }
-                else
-                {
-                    return TimerStart.AddMilliseconds(Timer.Interval);
-                }
-            }
-        }
 
-        private int _IntervalMs=20;
 
         /// <summary>
-        /// Gets or sets the update interval in milliseconds.
+        /// Gets the time when the next alarm (interval or single) is scheduled.
         /// </summary>
-        /// <value>
-        /// The update interval in milliseconds.
-        /// </value>
-        public int IntervalMs
+        /// <returns>DateTime for the next alarm. If no alarms are scheduled the MaxValue for DateTime is returned.</returns>
+        public DateTime GetNextAlarmTime()
         {
-            get { return _IntervalMs; }
-            set { _IntervalMs = value; }
-        }
+            DateTime IA = GetNextIntervalAlarm();
+            DateTime A = GetNextAlarm();
 
-        private bool TimerRestart = false;
-        void Timer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            bool AlarmTriggered = false;
-            DateTime TimerElapsedTime = DateTime.Now;
-            AlarmTriggered|= Alarm(TimerElapsedTime);
-            AlarmTriggered|=IntervalAlarm(TimerElapsedTime);
-            if (AlarmTriggered)
+            if (IA < A)
             {
-                OnAlarmsTriggered();
+                return IA;
             }
-
-            if (TimerRestart)
-            {
-                Timer.Interval = (IntervalMs - (DateTime.Now - TimerElapsedTime).Milliseconds).Limit(1, 10000);
-                TimerStart = DateTime.Now;
-                Timer.Start();
-            }
-            else
-            {
-                TimerStart = DateTime.MaxValue;
-            }
+            return A;
         }
 
         /// <summary>
-        /// Occurs when after alarms have been tiggered.
+        /// Executes all Alarmes which have expired until the specified AlarmTime..
         /// </summary>
-        public event EventHandler<EventArgs> AlarmsTriggered;
-
-        private void OnAlarmsTriggered()
+        /// <param name="AlarmTime">The alarm time.</param>
+        /// <returns>true if alarms have been executed, fals if no alarms have been executed.</returns>
+        public bool ExecuteAlarms(DateTime AlarmTime)
         {
-            if (AlarmsTriggered != null)
-            {
-                AlarmsTriggered(this, new EventArgs());
-            }
+            bool AlarmsExecuted = false;
+
+            AlarmsExecuted |= Alarm(AlarmTime);
+            AlarmsExecuted |= IntervalAlarm(AlarmTime);
+
+            return AlarmsExecuted;
         }
+
+
 
         
 
@@ -101,6 +67,15 @@ namespace DirectOutput
         }
 
 
+        private DateTime GetNextIntervalAlarm()
+        {
+            if (IntervalAlarmList.Count > 0)
+            {
+                return IntervalAlarmList.Min(x => x.NextAlarm);
+            }
+            return DateTime.MaxValue;
+        }
+
         private bool IntervalAlarm(DateTime AlarmTime)
         {
             lock (IntervalAlarmLocker)
@@ -114,7 +89,7 @@ namespace DirectOutput
                         AlarmTriggered = true;
                     }
                     catch (Exception E) {
-                        Log.Exception("A exception occured for IntervalAlarmHandler {0}. Interval alarm will be disable for this handler.".Build(S.IntervalAlarmHandler.ToString()), E);
+                        Log.Exception("A exception occured for IntervalAlarmHandler {0}. Interval alarm will be disabled for this handler.".Build(S.IntervalAlarmHandler.ToString()), E);
                         S.IntervalMs = int.MaxValue;
                     }
                     if (S.NextAlarm.AddMilliseconds(S.IntervalMs) <= AlarmTime)
@@ -161,10 +136,6 @@ namespace DirectOutput
 
 
 
-
-
-
-
         #region Alarm
         private object AlarmLocker = new object();
         private List<AlarmSetting> AlarmList = new List<AlarmSetting>();
@@ -178,6 +149,15 @@ namespace DirectOutput
                 this.AlarmTime = AlarmTime;
                 this.AlarmHandler = AlarmHandler;
             }
+        }
+
+        private DateTime GetNextAlarm()
+        {
+            if (AlarmList.Count > 0)
+            {
+                return AlarmList.Min(x => x.AlarmTime);
+            }
+            return DateTime.MaxValue;
         }
 
         private bool Alarm(DateTime AlarmTime)
@@ -239,24 +219,20 @@ namespace DirectOutput
 
 
         /// <summary>
-        /// Inits the update timer and starts the timer.
+        /// Inits the object.<br/>
+        /// Doesn't do anything and is only implemented for completeness.
         /// </summary>
         public void Init()
         {
-            TimerRestart = true;
-            TimerStart = DateTime.Now;
-            Timer.Interval = IntervalMs;
-            Timer.Start();
+
         }
 
         /// <summary>
-        /// Finishes the update timer.
+        /// Finishes the object. Clears all alarm lists.
         /// </summary>
         public void Finish()
         {
-            TimerRestart = false;
-            Timer.Stop();
-            TimerStart = DateTime.MaxValue;
+
             AlarmList.Clear();
             IntervalAlarmList.Clear();
         }
@@ -264,28 +240,15 @@ namespace DirectOutput
 
         #region Constructor
         /// <summary>
-        /// Initializes a new instance of the <see cref="UpdateTimer"/> class.
+        /// Initializes a new instance of the <see cref="AlarmHandler"/> class.
         /// </summary>
-        public UpdateTimer()
+        public AlarmHandler()
         {
-            Timer.Interval = IntervalMs;
-            Timer.AutoReset = false;
-            Timer.Elapsed += new ElapsedEventHandler(Timer_Elapsed);
+
 
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="UpdateTimer"/> class and sets the intervall to the specified IntervalMs.
-        /// </summary>
-        /// <param name="IntervalMs">The interval in milliseconds.</param>
-        public UpdateTimer(int IntervalMs)
-        {
-            this.IntervalMs = IntervalMs;
-            Timer.Interval = IntervalMs;
-            Timer.AutoReset = false;
-            Timer.Elapsed += new ElapsedEventHandler(Timer_Elapsed);
 
-        }
 
 
         #endregion

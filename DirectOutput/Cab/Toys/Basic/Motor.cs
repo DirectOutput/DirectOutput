@@ -1,5 +1,6 @@
 ﻿using System.Xml.Serialization;
 using DirectOutput.Cab.Toys.Generic;
+using DirectOutput.PinballSupport;
 
 namespace DirectOutput.Cab.Toys.Basic
 {
@@ -132,7 +133,7 @@ namespace DirectOutput.Cab.Toys.Basic
                     {
                         KickstartActive = true;
                         SetValue(KickstartPower);
-                        UpdateTimer.RegisterAlarm(KickstartDurationMs, StartMotor);
+                        AlarmHandler.RegisterAlarm(KickstartDurationMs, StartMotor);
                     }
                     else
                     {
@@ -156,8 +157,8 @@ namespace DirectOutput.Cab.Toys.Basic
                 SetMotorPower(MotorPower);
                 if (MaxRunTimeMs > 0)
                 {
-                    UpdateTimer.UnregisterAlarm(StartMotor);
-                    UpdateTimer.RegisterAlarm(MaxRunTimeMs, StopMotor);
+                    AlarmHandler.UnregisterAlarm(StartMotor);
+                    AlarmHandler.RegisterAlarm(MaxRunTimeMs, StopMotor);
                 }
             }
         }
@@ -172,13 +173,13 @@ namespace DirectOutput.Cab.Toys.Basic
         {
             KickstartActive = false;
             SetValue(0);
-            UpdateTimer.UnregisterAlarm(StartMotor);
-            UpdateTimer.UnregisterAlarm(StopMotor);
+            AlarmHandler.UnregisterAlarm(StartMotor);
+            AlarmHandler.UnregisterAlarm(StopMotor);
         }
 
 
 
-        private UpdateTimer UpdateTimer;
+        private AlarmHandler AlarmHandler;
 
         /// <summary>
         /// Initalizes the Motor toy.
@@ -186,7 +187,7 @@ namespace DirectOutput.Cab.Toys.Basic
         /// <param name="Pinball"><see cref="Pinball" /> object containing the <see cref="Cabinet" /> to which the <see cref="Motor" /> belongs.</param>
         public override void Init(Pinball Pinball)
         {
-            UpdateTimer = Pinball.UpdateTimer;
+            AlarmHandler = Pinball.Alarms;
 
             base.Init(Pinball);
         }
@@ -196,9 +197,9 @@ namespace DirectOutput.Cab.Toys.Basic
         /// </summary>
         public override void Finish()
         {
-            UpdateTimer.UnregisterAlarm(StartMotor);
-            UpdateTimer.UnregisterAlarm(StopMotor);
-            UpdateTimer = null;
+            AlarmHandler.UnregisterAlarm(StartMotor);
+            AlarmHandler.UnregisterAlarm(StopMotor);
+            AlarmHandler = null;
             base.Finish();
         }
 

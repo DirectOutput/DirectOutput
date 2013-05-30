@@ -1,4 +1,5 @@
 ﻿using DirectOutput.Cab.Toys.Generic;
+using DirectOutput.PinballSupport;
 
 namespace DirectOutput.Cab.Toys.Basic
 {
@@ -76,7 +77,7 @@ namespace DirectOutput.Cab.Toys.Basic
             SetState(true);
             RemainingKnocks--;
 
-            UpdateTimer.RegisterAlarm(KnockDurationMs, KnockerOn);
+            AlarmHandler.RegisterAlarm(KnockDurationMs, KnockerOn);
         }
 
         private void KnockerOn()
@@ -84,7 +85,7 @@ namespace DirectOutput.Cab.Toys.Basic
             SetState(false);
             if (RemainingKnocks > 0)
             {
-                UpdateTimer.RegisterAlarm(KnockIntervallMs, KnockerOff);
+                AlarmHandler.RegisterAlarm(KnockIntervallMs, KnockerOff);
             }
         }
 
@@ -94,13 +95,13 @@ namespace DirectOutput.Cab.Toys.Basic
             {
                 SetState(true);
                 RemainingKnocks--;
-                UpdateTimer.RegisterAlarm(KnockDurationMs, KnockerOn);
+                AlarmHandler.RegisterAlarm(KnockDurationMs, KnockerOn);
             }
         }
 
 
 
-        private UpdateTimer UpdateTimer;
+        private AlarmHandler AlarmHandler;
 
         /// <summary>
         /// Initalizes the ReplayKnocker toy.
@@ -108,8 +109,8 @@ namespace DirectOutput.Cab.Toys.Basic
         /// <param name="Pinball"><see cref="Pinball" /> object containing the <see cref="Cabinet" /> to which the <see cref="ReplayKnocker" /> belongs.</param>
         public override void Init(Pinball Pinball)
         {
-            UpdateTimer = Pinball.UpdateTimer;
-            if (DefaultIntervallMs < UpdateTimer.IntervalMs) { DefaultIntervallMs = UpdateTimer.IntervalMs; }
+            AlarmHandler = Pinball.Alarms;
+            if (DefaultIntervallMs < 2) { DefaultIntervallMs = 2; }
             base.Init(Pinball);
         }
 
@@ -119,7 +120,7 @@ namespace DirectOutput.Cab.Toys.Basic
         public override void Finish()
         {
             RemainingKnocks = 0;
-            UpdateTimer = null;
+            AlarmHandler = null;
             base.Finish();
         }
     }

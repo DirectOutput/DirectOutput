@@ -11,7 +11,7 @@ namespace DirectOutput.FX.LedControlFX
     /// </summary>
     public class LedControlEffect : EffectBase, IEffect
     {
-        private UpdateTimer UpdateTimer;
+        private DirectOutput.PinballSupport.AlarmHandler AlarmHandler;
         #region Properties
         private string _LedWizEquivalentName;
 
@@ -111,10 +111,10 @@ namespace DirectOutput.FX.LedControlFX
             set { _Blink = value; }
         }
 
-        private int _BlinkInterval = 200;
+        private int _BlinkInterval = 500;
         /// <summary>
         /// Gets or sets the blink interval in milliseconds.<br/>
-        /// Defaults to 200ms.
+        /// Defaults to 500ms.
         /// </summary>
         /// <value>
         /// The blink interval in milliseconds.
@@ -218,14 +218,14 @@ namespace DirectOutput.FX.LedControlFX
             BlinkCount = 0;
             if (Blink != 0)
             {
-                UpdateTimer.RegisterIntervalAlarm(BlinkInterval, BlinkAlarmHandler);
+                AlarmHandler.RegisterIntervalAlarm(BlinkInterval, BlinkAlarmHandler);
             }
         }
 
 
         private void BlinkFinish()
         {
-            UpdateTimer.UnregisterIntervalAlarm(BlinkAlarmHandler);
+            AlarmHandler.UnregisterIntervalAlarm(BlinkAlarmHandler);
         }
 
         private bool BlinkState = true;
@@ -237,7 +237,7 @@ namespace DirectOutput.FX.LedControlFX
                 BlinkCount++;
                 if (Blink > 0 && BlinkCount >= Blink)
                 {
-                    UpdateTimer.UnregisterIntervalAlarm(BlinkAlarmHandler);
+                    AlarmHandler.UnregisterIntervalAlarm(BlinkAlarmHandler);
                 }
                 BlinkState = false;
             }
@@ -270,7 +270,7 @@ namespace DirectOutput.FX.LedControlFX
                 BlinkInit();
                 if (Duration > 0)
                 {
-                    UpdateTimer.RegisterAlarm(Duration, DurationAlarmHandler);
+                    AlarmHandler.RegisterAlarm(Duration, DurationAlarmHandler);
                 }
             }
             else
@@ -283,7 +283,7 @@ namespace DirectOutput.FX.LedControlFX
                     BlinkInit();
                     if (Duration > 0)
                     {
-                        UpdateTimer.RegisterAlarm(Duration, DurationAlarmHandler);
+                        AlarmHandler.RegisterAlarm(Duration, DurationAlarmHandler);
                     }
                 }
                 else
@@ -304,7 +304,7 @@ namespace DirectOutput.FX.LedControlFX
         public override void Init(Pinball Pinball)
         {
             ResolveName(Pinball);
-            UpdateTimer = Pinball.UpdateTimer;
+            AlarmHandler = Pinball.Alarms;
 
         }
 
@@ -313,10 +313,10 @@ namespace DirectOutput.FX.LedControlFX
         /// </summary>
         public override void Finish()
         {
-            UpdateTimer.UnregisterAlarm(DurationAlarmHandler);
-            UpdateTimer.UnregisterIntervalAlarm(BlinkAlarmHandler);
+            AlarmHandler.UnregisterAlarm(DurationAlarmHandler);
+            AlarmHandler.UnregisterIntervalAlarm(BlinkAlarmHandler);
             Unset();
-            UpdateTimer = null;
+            AlarmHandler = null;
         }
 
 
