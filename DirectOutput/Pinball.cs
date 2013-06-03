@@ -191,9 +191,9 @@ namespace DirectOutput
             Log.Write("Cabinet loaded");
 
             Log.Write("Loading table config");
-            
+
             //Load table config
-            
+
             Table = new DirectOutput.Table.Table();
             Table.MixWithLedControlConfig = true;
 
@@ -233,20 +233,49 @@ namespace DirectOutput
                         Log.Write("Will try to load table config from LedControl  file(s) specified in global config.");
                         L.LoadLedControlFiles(GlobalConfig.LedControlIniFiles, false);
                     }
-                    else if (File.Exists(Path.Combine(TableFile.Directory.FullName, "ledcontrol.ini")))
+                    else
                     {
-                        Log.Write("Will try to load table config from LedControl.ini file in the table directory {0}".Build(TableFile.Directory.FullName));
-                        L.LoadLedControlFile(Path.Combine(TableFile.Directory.FullName, "ledcontrol.ini"), 1, false);
-                    }
-                    else if (File.Exists(Path.Combine(GlobalConfig.GetGlobalConfigDirectory().FullName, "ledcontrol.ini")))
-                    {
-                        Log.Write("Will try to load table config from LedControl.ini file in the global config directory {0}".Build(GlobalConfig.GetGlobalConfigDirectory().FullName));
-                        L.LoadLedControlFile(Path.Combine(GlobalConfig.GetGlobalConfigDirectory().FullName, "ledcontrol.ini"), 1, false);
-                    }
-                    else if (File.Exists(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "ledcontrol.ini")))
-                    {
-                        Log.Write("Will try to load table config from LedControl.ini file in the DirectOutput directory {0}".Build(Assembly.GetExecutingAssembly().Location));
-                        L.LoadLedControlFile(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "ledcontrol.ini"), 1, false);
+                        bool FoundIt = false;
+                        string[] LookupPaths = { TableFile.Directory.FullName, GlobalConfig.GetGlobalConfigDirectory().FullName, Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) };
+
+                        LedControlIniFileList LedControlIniFiles = new LedControlIniFileList();
+
+                        foreach (string P in LookupPaths)
+                        {
+                            if (File.Exists(Path.Combine(TableFile.Directory.FullName, "ledcontrol.ini")))
+                            {
+                                Log.Write("Found ledcontrol.ini in {0} Will try to load config data.".Build(P));
+
+                                
+
+                                LedControlIniFiles.Add(new LedControlIniFile(Path.Combine(TableFile.Directory.FullName, "ledcontrol.ini"), 1));
+
+                                for (int LedWizNr = 2; LedWizNr <= 16; LedWizNr++)
+                                {
+                                    if (File.Exists(Path.Combine(P, "ledcontrol{0}.ini").Build(LedWizNr)))
+                                    {
+                                        LedControlIniFiles.Add(new LedControlIniFile(Path.Combine(P, "ledcontrol{0}.ini").Build(LedWizNr), LedWizNr));
+                                    }
+                                    else if (File.Exists(Path.Combine(P, "ledcontrol{0:00}.ini").Build(LedWizNr)))
+                                    {
+                                        LedControlIniFiles.Add(new LedControlIniFile(Path.Combine(P, "ledcontrol{0:00}.ini").Build(LedWizNr), LedWizNr));
+                                    }
+                                   
+                                    FoundIt = true;
+                                }
+                                break;
+
+                            }
+                        }
+                        if (FoundIt)
+                        {
+                            L.LoadLedControlFiles(LedControlIniFiles, false);
+                            Log.Write("{0} ledcontrol files loaded.".Build(LedControlIniFiles.Count));
+                        }
+                        else
+                        {
+                            Log.Write("No ledcontrol files found. No ledcontrol configs will be loaded.");
+                        }
                     }
                     if (!L.ContainsConfig(RomName))
                     {
@@ -255,15 +284,15 @@ namespace DirectOutput
                     else
                     {
                         Log.Write("Config for RomName {0} exists in LedControl data. Updating table config.".Build(RomName));
-                        L.UpdateTableConfig(Table,RomName, Cabinet);
+                        L.UpdateTableConfig(Table, RomName, Cabinet);
                     }
                 }
                 else
                 {
-                    
+
                     Log.Write("Cant load config from LedControl file(s) since no RomName was supplied. No ledcontrol config will be loaded.");
                 }
-                
+
             }
             if (Table.TableFilename.IsNullOrWhiteSpace())
             {
@@ -437,9 +466,9 @@ namespace DirectOutput
 
                 if (KeepMainThreadAlive)
                 {
-                   //Executed all alarms which have been scheduled for the current time
-                    UpdateRequired|=Alarms.ExecuteAlarms(DateTime.Now.AddMilliseconds(1));
-                }           
+                    //Executed all alarms which have been scheduled for the current time
+                    UpdateRequired |= Alarms.ExecuteAlarms(DateTime.Now.AddMilliseconds(1));
+                }
 
 
                 //Call update on output controllers if necessary
@@ -451,8 +480,8 @@ namespace DirectOutput
                     }
                     catch (Exception E)
                     {
-                         Log.Exception("A unhandled exception occured while updating the output controllers", E);
-                        
+                        Log.Exception("A unhandled exception occured while updating the output controllers", E);
+
                     }
                 }
 
@@ -463,10 +492,10 @@ namespace DirectOutput
 
                     lock (MainThreadLocker)
                     {
-                        while (InputQueue.Count == 0 && NextAlarm>DateTime.Now && KeepMainThreadAlive)
+                        while (InputQueue.Count == 0 && NextAlarm > DateTime.Now && KeepMainThreadAlive)
                         {
-                            int TimeOut = ((int)(NextAlarm - DateTime.Now).TotalMilliseconds).Limit(1,50);
-                            
+                            int TimeOut = ((int)(NextAlarm - DateTime.Now).TotalMilliseconds).Limit(1, 50);
+
                             Monitor.Wait(MainThreadLocker, TimeOut);  // Lock is released while we’re waiting
                         }
                     }
