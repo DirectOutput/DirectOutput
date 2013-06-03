@@ -191,8 +191,12 @@ namespace DirectOutput
             Log.Write("Cabinet loaded");
 
             Log.Write("Loading table config");
+            
             //Load table config
-            Table = null;
+            
+            Table = new DirectOutput.Table.Table();
+            Table.MixWithLedControlConfig = true;
+
             FileInfo TCF = GlobalConfig.GetTableConfigFile(TableFile.FullName);
             if (TCF != null)
             {
@@ -207,16 +211,21 @@ namespace DirectOutput
                 {
                     Log.Exception("A exception occured when loading table config: {0}".Build(TCF.FullName), E);
                 }
+                if (Table.MixWithLedControlConfig)
+                {
+                    Log.Write("Table config allows mix with ledcontrol configs.");
+                }
             }
             else
             {
                 Log.Warning("No table config file found. Will try to load config from LedControl file(s).");
             }
-            if (Table == null)
+
+            if (Table.MixWithLedControlConfig)
             {
                 if (!RomName.IsNullOrWhiteSpace())
                 {
-                    Log.Write("Will try to load table config from LedControl file(s) for RomName {0}".Build(RomName));
+                    Log.Write("Will try to load configs from LedControl file(s) for RomName {0}".Build(RomName));
                     //Load ledcontrol
                     LedControlConfigList L = new LedControlConfigList();
                     if (GlobalConfig.LedControlIniFiles.Count > 0)
@@ -241,20 +250,23 @@ namespace DirectOutput
                     }
                     if (!L.ContainsConfig(RomName))
                     {
-                        Log.Write("No config found in LedControl data for RomName {0}.".Build(RomName));
-                        Table = new Table.Table();
+                        Log.Write("No config for table found in LedControl data for RomName {0}.".Build(RomName));
                     }
                     else
                     {
-                        Log.Write("Config for RomName {0} exists in LedControl data. Settting up table config.".Build(RomName));
-                        Table = L.GetTable(RomName, Cabinet);
+                        Log.Write("Config for RomName {0} exists in LedControl data. Updating table config.".Build(RomName));
+                        L.UpdateTableConfig(Table,RomName, Cabinet);
                     }
                 }
                 else
                 {
-                    Table = new Table.Table();
-                    Log.Write("Cant load config from LedControl file(s) since no RomName was supplied. Will use empty table definition (will result in no action from DirectOutput).");
+                    
+                    Log.Write("Cant load config from LedControl file(s) since no RomName was supplied. No ledcontrol config will be loaded.");
                 }
+                
+            }
+            if (Table.TableFilename.IsNullOrWhiteSpace())
+            {
                 Table.TableName = Path.GetFileNameWithoutExtension(TableFile.FullName);
             }
             Table.TableFilename = TableFile.FullName;

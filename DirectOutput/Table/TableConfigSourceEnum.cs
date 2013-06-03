@@ -8,6 +8,7 @@ namespace DirectOutput.Table
     {
         Unknown,
         TableConfigurationFile,
-        LedControlIni
+        LedControlIni,
+        TabbleConfigurationFileAndLedControl
     }
 }
