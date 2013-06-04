@@ -12,7 +12,8 @@ namespace DirectOutput
         Solenoid='S',
         GIString='G',
         Mech='M',
-        EMTable='E'
+        EMTable='E',
+        LED='D'
 
     }
 }
