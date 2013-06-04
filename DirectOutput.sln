@@ -27,6 +27,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DoxygenConfig", "DoxygenCon
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LedControlFileTester", "LedControlFileTester\LedControlFileTester.csproj", "{97F9D29A-6938-4667-A489-C4D3308EB086}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bat Files", "Bat Files", "{C03A8BBC-F8F7-4A6B-9F4C-86866CC854E1}"
+	ProjectSection(SolutionItems) = preProject
+		debugrelease.bat = debugrelease.bat
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -109,5 +114,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{EDE93E1C-BCFC-48E6-B665-14DD423C5CC1} = {F2AB1149-7592-415E-80ED-72E8FEEEC0F7}
+		{C03A8BBC-F8F7-4A6B-9F4C-86866CC854E1} = {F2AB1149-7592-415E-80ED-72E8FEEEC0F7}
 	EndGlobalSection
 EndGlobal
