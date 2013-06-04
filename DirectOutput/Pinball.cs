@@ -195,7 +195,7 @@ namespace DirectOutput
             //Load table config
 
             Table = new DirectOutput.Table.Table();
-            Table.MixWithLedControlConfig = true;
+            Table.AddLedControlConfig = true;
 
             FileInfo TCF = GlobalConfig.GetTableConfigFile(TableFile.FullName);
             if (TCF != null)
@@ -211,7 +211,7 @@ namespace DirectOutput
                 {
                     Log.Exception("A exception occured when loading table config: {0}".Build(TCF.FullName), E);
                 }
-                if (Table.MixWithLedControlConfig)
+                if (Table.AddLedControlConfig)
                 {
                     Log.Write("Table config allows mix with ledcontrol configs.");
                 }
@@ -221,7 +221,7 @@ namespace DirectOutput
                 Log.Warning("No table config file found. Will try to load config from LedControl file(s).");
             }
 
-            if (Table.MixWithLedControlConfig)
+            if (Table.AddLedControlConfig)
             {
                 if (!RomName.IsNullOrWhiteSpace())
                 {

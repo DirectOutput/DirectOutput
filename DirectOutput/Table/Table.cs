@@ -98,7 +98,7 @@ namespace DirectOutput.Table
         public string TableConfigurationFilename { get; set; }
 
 
-        private bool _MixWithLedControlConfig=false;
+        private bool _AddLedControlConfig=false;
 
         /// <summary>
         /// Gets or sets a value indicating whether configurations from ledcontrol files should be added to the table config from a xml table config file.
@@ -106,10 +106,10 @@ namespace DirectOutput.Table
         /// <value>
         /// <c>true</c> will add ledcontrol configs, <c>false</c> (default) will ingnore ledcontrol configs.
         /// </value>
-        public bool MixWithLedControlConfig
+        public bool AddLedControlConfig
         {
-            get { return _MixWithLedControlConfig; }
-            set { _MixWithLedControlConfig = value; }
+            get { return _AddLedControlConfig; }
+            set { _AddLedControlConfig = value; }
         }
         
 

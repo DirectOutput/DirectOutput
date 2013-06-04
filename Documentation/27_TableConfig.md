@@ -7,6 +7,8 @@ The table configuration defines the table elements (e.g. solenoids or lamps), th
 
 In addition there is also a collection of static effects which are triggered when the framework is starting up. Use the static effects to control toys which dont have to change their state during game play (e.g. set illuminated flipper button to a specific color).
 
+The framework does also allow to mix the configuration in a table config file with configurations loaded from ledcontrol files. This will allow you to use configurations from the <a href="http://vpuniverse.com/ledwiz/login.php">LedWiz Config Tool</a> for commonly used gadgets and to supplement this with your own config. 
+
 \section tableconfig_configfilestructure Table config file 
 
 Table configurations are stored as XML-files. The basic structure of a table configuration file contains the following sections:
@@ -31,6 +33,9 @@ The basic structure of a table configuration looks as follows:
   <AssignedStaticEffects>
        ... Static effects assignments ...
   </AssignedStaticEffects>
+
+  <AddLedControlConfig>true/false</AddLedControlConfig>
+
 </Table>
 ~~~~~~~~~~~~~
 
@@ -168,3 +173,10 @@ Used as a static effect the ListEffect will trigger all assigned effect as well.
 * __Order__ is a number specifying the order in which the assigned effects are executed.
 
 
+\subsection tableconfig_configfilestructureaddledcontrolconfig AddLedControlConfig section
+
+This section does only contrin true or false.
+
+True will tell the system to supplement the table config which has been loaded from the config xml with configurations from ledcontrol file(s) if available.
+
+False will not add configs from ledcontrol file(s).
