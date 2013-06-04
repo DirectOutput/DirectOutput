@@ -10,7 +10,6 @@
   <TableConfigFilePatterns>
     <FilePattern>{GlobalConfigDir}\{TableName}.xml</FilePattern>
   </TableConfigFilePatterns> 
-  <UpdateTimerIntervall>20</UpdateTimerIntervall>
   <EnableLogging>true</EnableLogging>
   <LogFilePattern>{DllDir}\DirectOutput.log</LogFilePattern>
   <GlobalScriptFilePatterns />

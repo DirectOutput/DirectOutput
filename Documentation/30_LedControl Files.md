@@ -14,20 +14,20 @@ Please check the <a href="http://www.hyperspin-fe.com/forum/forumdisplay.php?34-
 
 \subsection ledcontrol_autoconfigtable Auto Table config
 
-If no Table config file exists for the currently executed table, the framework tries to configure itself, based on classical LedControl.ini files.
+If no Table config file exists for the currently loaded table or if the table configuration file specifies that it can be mix with ledcontrol configurations, the framework tries to load classical LedControl.ini files.
 
 The loading of the LedControl files works as follows:
 
 1. The framework tries to locate entries for LedControl files in the GlobalConfig.
 If entries are found, these files are loaded and used to configure the LedWizEquivalent toy(s) with the matching LedWiz number(s).
 If a file does not exist, can not be read or parsed, the framework will silently ignore the file.
-2. If no entries for LedControl files exist in the GlobalConfig, the framework will try to load a single LedControl.ini file (named LedControl.ini) from one of the following directories:
+2. If no entries for LedControl files exist in the GlobalConfig, the framework will try to load LedControl.ini files name ledcontrol.ini, ledcontrol2.ini up to ledcontrol16.ini from one of the following directories:
 
 - Table directory
 - Global config directory
 - DirectOutput.dll directory
 
-Based on the loaded data, the system will configure the effects controlling the LedWizEquivalent toys. Auto config does always use the LedControl effect for its configuration process.
+Based on the loaded data, the system will configure the effects controlling the LedWizEquivalent toys.
 
 \subsection ledcontrol_autoconfigcabinet Auto Cabinet Config
 

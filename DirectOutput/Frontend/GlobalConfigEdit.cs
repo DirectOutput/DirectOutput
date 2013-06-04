@@ -123,7 +123,7 @@ namespace DirectOutput.Frontend
                 SaveFilePatterns(Config.TableConfigFilePatterns, TableConfigFilePatterns);
                 SaveFilePatterns(Config.TableScriptFilePatterns, TableScriptFilePatterns);
 
-                Config.UpdateTimerIntervall = (int)UpdateTimerIntervalMs.Value;
+
 
                 Config.EnableLogging = EnableLogging.Checked;
             }
@@ -172,7 +172,7 @@ namespace DirectOutput.Frontend
             LoadFilePatterns(Config.TableConfigFilePatterns, TableConfigFilePatterns);
             LoadFilePatterns(Config.TableScriptFilePatterns, TableScriptFilePatterns);
 
-            UpdateTimerIntervalMs.Value = Config.UpdateTimerIntervall;
+
             EnableLogging.Checked = Config.EnableLogging;
             LogFilePattern.Text = Config.LogFilePattern.Pattern;
             LogFilePatternStatus.Text = (Config.LogFilePattern.IsValid ? "OK" : "Invalid file pattern");

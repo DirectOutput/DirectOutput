@@ -34,9 +34,10 @@ All toys must implement the iToy interface to be usable in the framework. More t
 
 \section architecture_multithreading Multithreading
 
-This framework distributes its work over several threads to ensure that there are no (or at least very little) side effects and performance problems with the application calling the frame work functions.
+This framework distributes its work over several threads to ensure that there are no (or at least very little) side effects and performance problems with the application calling the framework functions.
 
-If the framework is called with new data from the outside (B2S.Server), all it will do is to put the received data in a queue and notifiy a worker thread. After that the independent worker thread will take care of the received data and take all necessary actions.
-In addition to the workerthread a timed update thread (implemented in UpdateTimer and accessible through Pinball.UpdateTimer) which is run at regular intervals takes care of timed effects.
+If the framework is called with new data from the outside (e.g. through B2S.Server), all it will do is to put the received data in a queue and notifiy the main loop thread. After that the independent mainloop thread will take care of the received data and take all necessary actions.
 
 The LedWiz object does also use a separate thread for each connected LedWiz, to overcome the response time problems of the LedWiz. 
+
+Depending on the config you are using other threads might be active as well.

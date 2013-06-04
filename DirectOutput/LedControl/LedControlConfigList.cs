@@ -12,112 +12,131 @@ namespace DirectOutput.LedControl
     /// <summary>
     /// List of LedControlConfig objects loaded from LedControl.ini files.
     /// </summary>
-
     public class LedControlConfigList : List<LedControlConfig>
     {
-        //TODO: Modify to allow mixing of LedControl data with xml config
+        
         /// <summary>
-        /// Gets a Table configuration for the spcified RomName from the loaded LedControl.ini files.
+        /// Updates the supplied table object with a configurations from ledcontrol files.
         /// </summary>
+        /// <param name="Table">The table object to be configured.</param>
         /// <param name="RomName">Name of the rom.</param>
         /// <param name="Cabinet">The cabinet which will receive the tables outputs.</param>
-        /// <returns>A Table object containg the config for the table with the speicifed RomName.</returns>
-        public DirectOutput.Table.Table GetTable(string RomName, Cabinet Cabinet)
+        public void UpdateTableConfig(DirectOutput.Table.Table Table, string RomName, Cabinet Cabinet)
         {
-            DirectOutput.Table.Table T = new DirectOutput.Table.Table();
-            T.ConfigurationSource = Table.TableConfigSourceEnum.LedControlIni;
-            T.RomName = RomName;
 
             List<IToy> LedWizEqivalentList = Cabinet.Toys.Where(Toy => Toy is LedWizEquivalent).ToList();
             Dictionary<int, TableConfig> TableConfigDict = GetTableConfigDictonary(RomName);
 
-            foreach (KeyValuePair<int, TableConfig> KV in TableConfigDict)
+            if (TableConfigDict.Count > 0)
             {
-
-                foreach (IToy Toy in LedWizEqivalentList)
+                //TODO: Set different values depending on pure lecontrol config and mix with xml xconfig
+                if (Table.ConfigurationSource == DirectOutput.Table.TableConfigSourceEnum.TableConfigurationFile)
                 {
-                    LedWizEquivalent LWE = (LedWizEquivalent)Toy;
-                    if (LWE.LedWizNumber == KV.Key)
+                    Table.ConfigurationSource = DirectOutput.Table.TableConfigSourceEnum.TabbleConfigurationFileAndLedControl;
+                }
+                else
+                {
+                    Table.ConfigurationSource = DirectOutput.Table.TableConfigSourceEnum.LedControlIni;
+                }
+                
+                foreach (KeyValuePair<int, TableConfig> KV in TableConfigDict)
+                {
+
+                    foreach (IToy Toy in LedWizEqivalentList)
                     {
-
-
-                        foreach (TableConfigColumn C in KV.Value.Columns)
+                        LedWizEquivalent LWE = (LedWizEquivalent)Toy;
+                        if (LWE.LedWizNumber == KV.Key)
                         {
-                            foreach (TableConfigSetting S in C)
+
+
+                            foreach (TableConfigColumn C in KV.Value.Columns)
                             {
-                                bool SetupProblem = false;
-                                LedControlEffect LCE = new LedControlEffect(LWE.Name, C.FirstOutputNumber);
+                                foreach (TableConfigSetting S in C)
+                                {
+                                    bool SetupProblem = false;
+                                    LedControlEffect LCE = new LedControlEffect(LWE.Name, C.FirstOutputNumber);
 
-                                string FXName = "LedControl {0}, Output {1}, {2}, ".Build(new object[] { LWE.LedWizNumber, C.FirstOutputNumber, (S.OutputControl == OutputControlEnum.Controlled ? "Controlled" : "Static") });
-                                if (S.OutputType == OutputTypeEnum.AnalogOutput)
-                                {
-                                    FXName += "Intensity {0}, ".Build(S.Intensity);
-                                    LCE.Intensity = S.Intensity;
-                                }
-                                else
-                                {
-                                    if (S.ColorConfig != null)
+                                    string FXName = "LedControl {0}, Output {1}, {2}, ".Build(new object[] { LWE.LedWizNumber, C.FirstOutputNumber, (S.OutputControl == OutputControlEnum.Controlled ? "Controlled" : "Static") });
+                                    if (S.OutputType == OutputTypeEnum.AnalogOutput)
                                     {
-                                        LCE.RGBColor = new int[3] { S.ColorConfig.Red, S.ColorConfig.Green, S.ColorConfig.Blue };
+                                        FXName += "Intensity {0}, ".Build(S.Intensity);
+                                        LCE.Intensity = S.Intensity;
                                     }
                                     else
                                     {
-                                        SetupProblem = true;
-                                    }
-                                    FXName += "Color {0}, ".Build(S.ColorName);
-                                }
-                                if (S.Blink > 0)
-                                {
-                                    LCE.Blink = S.Blink;
-                                    FXName += "Blink {0}, ".Build(S.Blink);
-                                }
-                                else if (S.Blink < 0)
-                                {
-                                    LCE.Blink = -1;
-                                    FXName += "Blink, ";
-                                }
-                                if (S.Blink != 0 && S.BlinkIntervalMs > 0)
-                                {
-                                    LCE.BlinkInterval = S.BlinkIntervalMs;
-                                    FXName += "BlinkInterval {0},".Build(S.BlinkIntervalMs);
-                                }
-                                if (S.DurationMs > 0)
-                                {
-                                    LCE.Duration = S.DurationMs;
-                                    FXName += "Duration {0}, ".Build(S.DurationMs);
-                                }
-                                if (FXName.Right(2) == ", ")
-                                {
-                                    FXName = FXName.Left(FXName.Length - 2);
-                                }
-                                LCE.Name = FXName;
-
-
-                                if (!SetupProblem)
-                                {
-
-
-                                    if (!T.Effects.Contains(LCE.Name))
-                                    {
-                                        T.Effects.Add(LCE);
-                                    }
-                                    else
-                                    {
-                                        LCE = (LedControlEffect)T.Effects[LCE.Name];
-                                    }
-                                    if (S.OutputControl == OutputControlEnum.Controlled)
-                                    {
-                                        //Add tableelement to table if necessary
-                                        if (!T.TableElements.Contains(S.TableElementType, S.TableElementNumber))
+                                        if (S.ColorConfig != null)
                                         {
-                                            T.TableElements.Add(S.TableElementType, S.TableElementNumber, -1);
+                                            LCE.RGBColor = new int[3] { S.ColorConfig.Red, S.ColorConfig.Green, S.ColorConfig.Blue };
                                         }
-                                        TableElement TE = T.TableElements[S.TableElementType, S.TableElementNumber];
-                                        TE.AssignedEffects.Add(new FX.AssignedEffectOrder(LCE.Name));
+                                        else
+                                        {
+                                            SetupProblem = true;
+                                        }
+                                        FXName += "Color {0}, ".Build(S.ColorName);
                                     }
-                                    else if (S.OutputControl == OutputControlEnum.FixedOn)
+                                    if (S.Blink > 0)
                                     {
-                                        T.AssignedStaticEffects.Add(new FX.AssignedEffectOrder(LCE.Name));
+                                        LCE.Blink = S.Blink;
+                                        FXName += "Blink {0}, ".Build(S.Blink);
+                                    }
+                                    else if (S.Blink < 0)
+                                    {
+                                        LCE.Blink = -1;
+                                        FXName += "Blink, ";
+                                    }
+                                    if (S.Blink != 0 && S.BlinkIntervalMs > 0)
+                                    {
+                                        LCE.BlinkInterval = S.BlinkIntervalMs;
+                                        FXName += "BlinkInterval {0},".Build(S.BlinkIntervalMs);
+                                    }
+                                    if (S.DurationMs > 0)
+                                    {
+                                        LCE.Duration = S.DurationMs;
+                                        FXName += "Duration {0}, ".Build(S.DurationMs);
+                                    }
+                                    if (FXName.Right(2) == ", ")
+                                    {
+                                        FXName = FXName.Left(FXName.Length - 2);
+                                    }
+                                    LCE.Name = FXName;
+
+
+                                    if (!SetupProblem)
+                                    {
+
+
+                                        if (!Table.Effects.Contains(LCE.Name))
+                                        {
+                                            Table.Effects.Add(LCE);
+                                        }
+                                        else
+                                        {
+                                            if (Table.Effects[LCE.Name] is LedControlEffect)
+                                            {
+                                                LCE = (LedControlEffect)Table.Effects[LCE.Name];
+                                            }
+                                            else
+                                            {
+                                                LCE = null;
+                                            }
+                                        }
+                                        if (LCE != null)
+                                        {
+                                            if (S.OutputControl == OutputControlEnum.Controlled)
+                                            {
+                                                //Add tableelement to table if necessary
+                                                if (!Table.TableElements.Contains(S.TableElementType, S.TableElementNumber))
+                                                {
+                                                    Table.TableElements.Add(S.TableElementType, S.TableElementNumber, -1);
+                                                }
+                                                TableElement TE = Table.TableElements[S.TableElementType, S.TableElementNumber];
+                                                TE.AssignedEffects.Add(new FX.AssignedEffectOrder(LCE.Name));
+                                            }
+                                            else if (S.OutputControl == OutputControlEnum.FixedOn)
+                                            {
+                                                Table.AssignedStaticEffects.Add(new FX.AssignedEffectOrder(LCE.Name));
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -126,7 +145,6 @@ namespace DirectOutput.LedControl
                 }
 
             }
-            return T;
         }
 
 
@@ -140,7 +158,7 @@ namespace DirectOutput.LedControl
 
                 foreach (TableConfig TC in LCC.TableConfigurations)
                 {
-                    if (RomName.ToUpper()==TC.ShortRomName.ToUpper())
+                    if (RomName.ToUpper() == TC.ShortRomName.ToUpper())
                     {
                         D.Add(LCC.LedWizNumber, TC);
                         FoundMatch = true;
@@ -175,7 +193,7 @@ namespace DirectOutput.LedControl
                     if (RomName.StartsWith(TC.ShortRomName))
                     {
                         D.Add(LCC.LedWizNumber, TC);
-                        
+
                         break;
                     }
                 }

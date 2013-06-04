@@ -47,11 +47,6 @@
             this.LogFilePatternStatus = new System.Windows.Forms.Label();
             this.LogFilePattern = new System.Windows.Forms.TextBox();
             this.ShowLogFileDialog = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.UpdateTimerIntervalMs = new System.Windows.Forms.NumericUpDown();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.label1 = new System.Windows.Forms.Label();
@@ -115,8 +110,6 @@
             this.splitContainer3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GlobalScriptFilePatterns)).BeginInit();
             this.groupBox2.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.UpdateTimerIntervalMs)).BeginInit();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -211,7 +204,6 @@
             // 
             this.splitContainer2.Panel2.AutoScroll = true;
             this.splitContainer2.Panel2.Controls.Add(this.groupBox2);
-            this.splitContainer2.Panel2.Controls.Add(this.groupBox1);
             this.splitContainer2.Size = new System.Drawing.Size(1233, 758);
             this.splitContainer2.SplitterDistance = 349;
             this.splitContainer2.TabIndex = 10;
@@ -284,7 +276,7 @@
             this.groupBox2.Controls.Add(this.LogFilePatternStatus);
             this.groupBox2.Controls.Add(this.LogFilePattern);
             this.groupBox2.Controls.Add(this.ShowLogFileDialog);
-            this.groupBox2.Location = new System.Drawing.Point(5, 98);
+            this.groupBox2.Location = new System.Drawing.Point(7, 3);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(1219, 226);
             this.groupBox2.TabIndex = 12;
@@ -357,71 +349,6 @@
             this.ShowLogFileDialog.Text = "...";
             this.ShowLogFileDialog.UseVisualStyleBackColor = true;
             this.ShowLogFileDialog.Click += new System.EventHandler(this.ShowLogFileDialog_Click);
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.label13);
-            this.groupBox1.Controls.Add(this.UpdateTimerIntervalMs);
-            this.groupBox1.Controls.Add(this.label9);
-            this.groupBox1.Controls.Add(this.label8);
-            this.groupBox1.Location = new System.Drawing.Point(5, 3);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1219, 89);
-            this.groupBox1.TabIndex = 11;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Update timer";
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(10, 25);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(713, 26);
-            this.label13.TabIndex = 10;
-            this.label13.Text = resources.GetString("label13.Text");
-            // 
-            // UpdateTimerIntervalMs
-            // 
-            this.UpdateTimerIntervalMs.Location = new System.Drawing.Point(126, 60);
-            this.UpdateTimerIntervalMs.Maximum = new decimal(new int[] {
-            500,
-            0,
-            0,
-            0});
-            this.UpdateTimerIntervalMs.Minimum = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.UpdateTimerIntervalMs.Name = "UpdateTimerIntervalMs";
-            this.UpdateTimerIntervalMs.Size = new System.Drawing.Size(45, 20);
-            this.UpdateTimerIntervalMs.TabIndex = 3;
-            this.UpdateTimerIntervalMs.Value = new decimal(new int[] {
-            20,
-            0,
-            0,
-            0});
-            this.UpdateTimerIntervalMs.ValueChanged += new System.EventHandler(this.UpdateTimerIntervalMs_ValueChanged);
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(177, 62);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(20, 13);
-            this.label9.TabIndex = 2;
-            this.label9.Text = "ms";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(10, 62);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(107, 13);
-            this.label8.TabIndex = 0;
-            this.label8.Text = "Update timer interval:";
             // 
             // tabPage1
             // 
@@ -1059,9 +986,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.GlobalScriptFilePatterns)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.UpdateTimerIntervalMs)).EndInit();
             this.tabPage1.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -1165,9 +1089,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn TableConfigFilePatternStatus;
         private System.Windows.Forms.DataGridViewTextBoxColumn TableScriptFilePattern;
         private System.Windows.Forms.DataGridViewTextBoxColumn TableScriptFilePatternStatus;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.NumericUpDown UpdateTimerIntervalMs;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.CheckBox EnableLogging;
         private System.Windows.Forms.TextBox LogFilePattern;
@@ -1183,8 +1104,6 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label label13;
         private System.Windows.Forms.SplitContainer splitContainer12;
         private System.Windows.Forms.Button SaveExitButton;
         private System.Windows.Forms.Button ExitButton;

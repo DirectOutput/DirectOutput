@@ -6,6 +6,9 @@ using DirectOutput.FX;
 using DirectOutput.GlobalConfiguration;
 using DirectOutput.LedControl;
 using DirectOutput.Scripting;
+using System.Threading;
+using DirectOutput.Table;
+using DirectOutput.PinballSupport;
 
 namespace DirectOutput
 {
@@ -15,7 +18,7 @@ namespace DirectOutput
     /// </summary>
     public class Pinball
     {
-        private DirectOutput.InputHandling.InputManager PinmameInputManager = new InputHandling.InputManager();
+
         #region Properties
 
         private ScriptList _Scripts = new ScriptList();
@@ -70,18 +73,18 @@ namespace DirectOutput
 
 
 
-        private UpdateTimer _UpdateTimer = new UpdateTimer();
+        private AlarmHandler _Alarms = new AlarmHandler();
 
         /// <summary>
-        /// Gets the UpdateTimer for the Pinball object.
+        /// Gets the AlarmHandler object for the Pinball object.
         /// </summary>
         /// <value>
-        /// The UpdateTimer for the pinball object.
+        /// The AlarmHandler object for the Pinball object.
         /// </value>
-        public UpdateTimer UpdateTimer
+        public AlarmHandler Alarms
         {
-            get { return _UpdateTimer; }
-            private set { _UpdateTimer = value; }
+            get { return _Alarms; }
+            private set { _Alarms = value; }
         }
 
         private GlobalConfig _GlobalConfig = new GlobalConfig();
@@ -102,8 +105,10 @@ namespace DirectOutput
 
         #endregion
 
+
+        #region Init & Finish
         /// <summary>
-        /// Initializes and configures the Pinball object
+        /// Configures and initializes/starts and configures the Pinball object
         /// </summary>
         /// <param name="GlobalConfigFile">The global config file.</param>
         /// <param name="TableFile">The table file.</param>
@@ -155,7 +160,6 @@ namespace DirectOutput
 
             Log.Write("Script files loaded");
 
-            UpdateTimer.IntervalMs = GlobalConfig.UpdateTimerIntervall;
 
             Log.Write("Loading cabinet");
             //Load cabinet config
@@ -187,8 +191,12 @@ namespace DirectOutput
             Log.Write("Cabinet loaded");
 
             Log.Write("Loading table config");
+
             //Load table config
-            Table = null;
+
+            Table = new DirectOutput.Table.Table();
+            Table.AddLedControlConfig = true;
+
             FileInfo TCF = GlobalConfig.GetTableConfigFile(TableFile.FullName);
             if (TCF != null)
             {
@@ -203,16 +211,21 @@ namespace DirectOutput
                 {
                     Log.Exception("A exception occured when loading table config: {0}".Build(TCF.FullName), E);
                 }
+                if (Table.AddLedControlConfig)
+                {
+                    Log.Write("Table config allows mix with ledcontrol configs.");
+                }
             }
             else
             {
                 Log.Warning("No table config file found. Will try to load config from LedControl file(s).");
             }
-            if (Table == null)
+
+            if (Table.AddLedControlConfig)
             {
                 if (!RomName.IsNullOrWhiteSpace())
                 {
-                    Log.Write("Will try to load table config from LedControl file(s) for RomName {0}".Build(RomName));
+                    Log.Write("Will try to load configs from LedControl file(s) for RomName {0}".Build(RomName));
                     //Load ledcontrol
                     LedControlConfigList L = new LedControlConfigList();
                     if (GlobalConfig.LedControlIniFiles.Count > 0)
@@ -220,37 +233,69 @@ namespace DirectOutput
                         Log.Write("Will try to load table config from LedControl  file(s) specified in global config.");
                         L.LoadLedControlFiles(GlobalConfig.LedControlIniFiles, false);
                     }
-                    else if (File.Exists(Path.Combine(TableFile.Directory.FullName, "ledcontrol.ini")))
+                    else
                     {
-                        Log.Write("Will try to load table config from LedControl.ini file in the table directory {0}".Build(TableFile.Directory.FullName));
-                        L.LoadLedControlFile(Path.Combine(TableFile.Directory.FullName, "ledcontrol.ini"), 1, false);
-                    }
-                    else if (File.Exists(Path.Combine(GlobalConfig.GetGlobalConfigDirectory().FullName, "ledcontrol.ini")))
-                    {
-                        Log.Write("Will try to load table config from LedControl.ini file in the global config directory {0}".Build(GlobalConfig.GetGlobalConfigDirectory().FullName));
-                        L.LoadLedControlFile(Path.Combine(GlobalConfig.GetGlobalConfigDirectory().FullName, "ledcontrol.ini"), 1, false);
-                    }
-                    else if (File.Exists(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "ledcontrol.ini")))
-                    {
-                        Log.Write("Will try to load table config from LedControl.ini file in the DirectOutput directory {0}".Build(Assembly.GetExecutingAssembly().Location));
-                        L.LoadLedControlFile(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "ledcontrol.ini"), 1, false);
+                        bool FoundIt = false;
+                        string[] LookupPaths = { TableFile.Directory.FullName, GlobalConfig.GetGlobalConfigDirectory().FullName, Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) };
+
+                        LedControlIniFileList LedControlIniFiles = new LedControlIniFileList();
+
+                        foreach (string P in LookupPaths)
+                        {
+                            if (File.Exists(Path.Combine(TableFile.Directory.FullName, "ledcontrol.ini")))
+                            {
+                                Log.Write("Found ledcontrol.ini in {0} Will try to load config data.".Build(P));
+
+                                
+
+                                LedControlIniFiles.Add(new LedControlIniFile(Path.Combine(TableFile.Directory.FullName, "ledcontrol.ini"), 1));
+
+                                for (int LedWizNr = 2; LedWizNr <= 16; LedWizNr++)
+                                {
+                                    if (File.Exists(Path.Combine(P, "ledcontrol{0}.ini").Build(LedWizNr)))
+                                    {
+                                        LedControlIniFiles.Add(new LedControlIniFile(Path.Combine(P, "ledcontrol{0}.ini").Build(LedWizNr), LedWizNr));
+                                    }
+                                    else if (File.Exists(Path.Combine(P, "ledcontrol{0:00}.ini").Build(LedWizNr)))
+                                    {
+                                        LedControlIniFiles.Add(new LedControlIniFile(Path.Combine(P, "ledcontrol{0:00}.ini").Build(LedWizNr), LedWizNr));
+                                    }
+                                   
+                                    FoundIt = true;
+                                }
+                                break;
+
+                            }
+                        }
+                        if (FoundIt)
+                        {
+                            L.LoadLedControlFiles(LedControlIniFiles, false);
+                            Log.Write("{0} ledcontrol files loaded.".Build(LedControlIniFiles.Count));
+                        }
+                        else
+                        {
+                            Log.Write("No ledcontrol files found. No ledcontrol configs will be loaded.");
+                        }
                     }
                     if (!L.ContainsConfig(RomName))
                     {
-                        Log.Write("No config found in LedControl data for RomName {0}.".Build(RomName));
-                        Table = new Table.Table();
+                        Log.Write("No config for table found in LedControl data for RomName {0}.".Build(RomName));
                     }
                     else
                     {
-                        Log.Write("Config for RomName {0} exists in LedControl data. Settting up table config.".Build(RomName));
-                        Table = L.GetTable(RomName, Cabinet);
+                        Log.Write("Config for RomName {0} exists in LedControl data. Updating table config.".Build(RomName));
+                        L.UpdateTableConfig(Table, RomName, Cabinet);
                     }
                 }
                 else
                 {
-                    Table = new Table.Table();
-                    Log.Write("Cant load config from LedControl file(s) since no RomName was supplied. Will use empty table definition (will result in no action from DirectOutput).");
+
+                    Log.Write("Cant load config from LedControl file(s) since no RomName was supplied. No ledcontrol config will be loaded.");
                 }
+
+            }
+            if (Table.TableFilename.IsNullOrWhiteSpace())
+            {
                 Table.TableName = Path.GetFileNameWithoutExtension(TableFile.FullName);
             }
             Table.TableFilename = TableFile.FullName;
@@ -265,15 +310,14 @@ namespace DirectOutput
             Log.Write("Initializing framework");
             Cabinet.Init(this);
             Table.Init(this);
-            UpdateTimer.Init();
+            Alarms.Init();
             Table.TriggerStaticEffects();
             Cabinet.OutputControllers.Update();
-            PinmameInputManager.Init();
+            InitMainThread();
             Log.Write("Framework initialized.");
             Log.Write("Have fun! :)");
 
         }
-
 
         /// <summary>
         /// Finishes the Pinball object.
@@ -281,8 +325,9 @@ namespace DirectOutput
         public void Finish()
         {
             Log.Write("Finishing framework");
-            PinmameInputManager.Terminate();
-            UpdateTimer.Finish();
+            FinishMainThread();
+
+            Alarms.Finish();
             Table.Effects.Finish();
             Cabinet.Effects.Finish();
             Cabinet.Toys.Finish();
@@ -291,38 +336,203 @@ namespace DirectOutput
             Log.Write("Bye and thanks for using!");
         }
 
-
-        public void ReceiveData(char TableElementTypeChar, int Number, int Value)
-        {
-            PinmameInputManager.EnqueueInputData(TableElementTypeChar, Number, Value);
-        }
-
-
-        #region Event handlers
-        //TODO: Implement update logic which takes both souces of update calls into account
-        void UpdateTimer_AlarmsTriggered(object sender, EventArgs e)
-        {
-            Cabinet.OutputControllers.Update();
-        }
-
-
-        private void PinmameInputManager_AllPinmameDataProcessed(object sender, EventArgs e)
-        {
-            if ((UpdateTimer.NextUpdate - DateTime.Now).TotalMilliseconds > 2)
-            {
-                Cabinet.OutputControllers.Update();
-            }
-
-        }
-
-        private void PinmameInputManager_PinmameDataReceived(object sender, DirectOutput.InputHandling.InputManager.InputDataReceivedEventArgs e)
-        {
-
-            Table.UpdateTableElement(e.TableElementData);
-        }
-
         #endregion
 
+
+
+        #region MainThread
+        /// <summary>
+        /// Inits the main thread.
+        /// </summary>
+        /// <exception cref="System.Exception">DirectOutput MainThread could not start.</exception>
+        private void InitMainThread()
+        {
+
+            if (!MainThreadIsActive)
+            {
+                KeepMainThreadAlive = true;
+                try
+                {
+                    MainThread = new Thread(MainThreadDoIt);
+                    MainThread.Name = "DirectOutput MainThread ";
+                    MainThread.Start();
+                }
+                catch (Exception E)
+                {
+                    Log.Exception("DirectOutput MainThread could not start.", E);
+                    throw new Exception("DirectOutput MainThread could not start.", E);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Finishes the main thread.
+        /// </summary>
+        /// <exception cref="System.Exception">A error occured during termination of DirectOutput MainThread</exception>
+        private void FinishMainThread()
+        {
+            if (MainThread != null)
+            {
+                try
+                {
+                    KeepMainThreadAlive = false;
+                    lock (MainThreadLocker)
+                    {
+                        Monitor.Pulse(MainThreadLocker);
+                    }
+                    if (!MainThread.Join(1000))
+                    {
+                        MainThread.Abort();
+                    }
+                    MainThread = null;
+                }
+                catch (Exception E)
+                {
+                    Log.Exception("A error occured during termination of DirectOutput MainThread", E);
+                    throw new Exception("A error occured during termination of DirectOutput MainThread", E);
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// Indicates if the MainThread of DirectOutput is active
+        /// </summary>
+        public bool MainThreadIsActive
+        {
+            get
+            {
+                if (MainThread != null)
+                {
+                    if (MainThread.IsAlive)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Signals the main thread to continue its work (if currently sleeping).
+        /// </summary>
+        private void MainThreadSignal()
+        {
+            lock (MainThreadLocker)
+            {
+                Monitor.Pulse(MainThreadLocker);
+            }
+        }
+
+
+        private Thread MainThread { get; set; }
+        private object MainThreadLocker = new object();
+        private bool KeepMainThreadAlive = true;
+
+        //TODO: Maybe this should be a config option
+        const int MaxInputDataProcessingTimeMs = 10;
+
+
+        /// <summary>
+        /// This method is constantly beeing executed by the main thread of the framework.<br/>
+        /// Dont call this method directly. Use the Init and FinishMainThread methods.
+        /// </summary>
+        //TODO: Think about implement something which does really check on value changes on tableelements or triggered effects before setting update required.
+        private void MainThreadDoIt()
+        {
+
+
+            while (KeepMainThreadAlive)
+            {
+                bool UpdateRequired = false;
+                DateTime Start = DateTime.Now;
+
+                //Consume the tableelement data delivered from the calling application
+                while (InputQueue.Count > 0 && (DateTime.Now - Start).Milliseconds <= MaxInputDataProcessingTimeMs && KeepMainThreadAlive)
+                {
+                    TableElementData D;
+
+                    D = InputQueue.Dequeue();
+                    try
+                    {
+                        Table.UpdateTableElement(D);
+                        UpdateRequired |= true;
+                    }
+                    catch (Exception E)
+                    {
+                        Log.Exception("A unhandled exception occured while processing data for table element {0} {1} with value {2}".Build(D.TableElementType, D.Number, D.Value), E);
+                    }
+                }
+
+                if (KeepMainThreadAlive)
+                {
+                    //Executed all alarms which have been scheduled for the current time
+                    UpdateRequired |= Alarms.ExecuteAlarms(DateTime.Now.AddMilliseconds(1));
+                }
+
+
+                //Call update on output controllers if necessary
+                if (UpdateRequired && KeepMainThreadAlive)
+                {
+                    try
+                    {
+                        Cabinet.OutputControllers.Update();
+                    }
+                    catch (Exception E)
+                    {
+                        Log.Exception("A unhandled exception occured while updating the output controllers", E);
+
+                    }
+                }
+
+                if (KeepMainThreadAlive)
+                {
+                    //Sleep until we get more input data and/or a timer expires.
+                    DateTime NextAlarm = Alarms.GetNextAlarmTime();
+
+                    lock (MainThreadLocker)
+                    {
+                        while (InputQueue.Count == 0 && NextAlarm > DateTime.Now && KeepMainThreadAlive)
+                        {
+                            int TimeOut = ((int)(NextAlarm - DateTime.Now).TotalMilliseconds).Limit(1, 50);
+
+                            Monitor.Wait(MainThreadLocker, TimeOut);  // Lock is released while we’re waiting
+                        }
+                    }
+                }
+
+
+            }
+
+
+        }
+        #endregion
+
+        private InputQueue InputQueue = new InputQueue();
+
+        /// <summary>
+        /// Receives the table element data from the calling app (e.g. B2S.Server providing data through the plugin interface).<br/>
+        /// The received data is put in a queue and the internal thread of the framework is notified about the availability of new data.
+        /// </summary>
+        /// <param name="TableElementTypeChar">The table element type char as specified in the TableElementTypeEnum.</param>
+        /// <param name="Number">The number of the TableElement.</param>
+        /// <param name="Value">The value of the TableElement.</param>
+        public void ReceiveData(char TableElementTypeChar, int Number, int Value)
+        {
+            InputQueue.Enqueue(TableElementTypeChar, Number, Value);
+            MainThreadSignal();
+        }
+
+
+
+
+        #region ToString
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
         public override string ToString()
         {
             string S = this.GetType().FullName + " {\n";
@@ -334,7 +544,7 @@ namespace DirectOutput
             S += "    Tablefileename: " + Table.TableFilename + "\n";
             S += "    RomName: " + Table.RomName + "\n";
             S += "    Table config source: " + Table.ConfigurationSource + "\n";
-            S += "    Table config fileename: " + Table.TableConfigurationFilename + "\n"; 
+            S += "    Table config fileename: " + Table.TableConfigurationFilename + "\n";
             S += "    Table Elements count: " + Table.TableElements.Count + "\n";
             S += "    Table Effects count: " + Table.Effects.Count + "\n";
             S += "  }\n";
@@ -346,8 +556,9 @@ namespace DirectOutput
 
             S += "}\n";
             return S;
-           
+
         }
+        #endregion
 
 
         #region Constructor
@@ -357,10 +568,8 @@ namespace DirectOutput
         public Pinball()
         {
 
-            PinmameInputManager.InputDataReceived += new EventHandler<DirectOutput.InputHandling.InputManager.InputDataReceivedEventArgs>(PinmameInputManager_PinmameDataReceived);
-            PinmameInputManager.InputDataProcessed += new EventHandler<EventArgs>(PinmameInputManager_AllPinmameDataProcessed);
 
-            UpdateTimer.AlarmsTriggered += new EventHandler<EventArgs>(UpdateTimer_AlarmsTriggered);
+
 
         }
 

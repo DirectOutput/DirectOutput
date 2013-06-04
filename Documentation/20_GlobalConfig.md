@@ -116,16 +116,6 @@ A typical LedControlIniFiles section looks as follows:
   </LedControlIniFiles>
 ~~~~~~~~~~~~~
 
-\subsection globalconfig_updatetimerintervall UpdateTimerIntervall
-
-UpdateTimerIntervall contains the minimal interval in milliseconds at which the update timer fires. Be carefull when changing this setting, since very low values might impact the performance of the framework.
-The value of this setting defaults to 20 milliseconds.
-
-A typical expample for this setting is:
-
-~~~~~~~~~~~~~{.xml}
-  <UpdateTimerIntervall>20</UpdateTimerIntervall>
-~~~~~~~~~~~~~
 
 
 \subsection globalconfig_logging Logging
@@ -188,8 +178,7 @@ Typical entries for the loggin configuration might look as follows:
   <GlobalScriptFilePatterns>
     <FilePattern>{GlobalConfigDir}\cabinet*.cs</FilePattern>
   </GlobalScriptFilePatterns>
-  
-  <UpdateTimerIntervall>20</UpdateTimerIntervall>
+
   
   <EnableLogging>false</EnableLogging>
   <LogFilePattern>.\DirectOutput.log</LogFilePattern>

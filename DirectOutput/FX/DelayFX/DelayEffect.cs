@@ -33,9 +33,9 @@ namespace DirectOutput.FX.DelayFX
         /// <param name="TableElementData">The TableElementData object for the TableElement which has triggered the effect.</param>
         public new void Trigger(TableElementData TableElementData)
         {
-            Pinball.UpdateTimer.UnregisterAlarm(TriggerAssignedEffect);
+            Pinball.Alarms.UnregisterAlarm(TriggerAssignedEffect);
             this.TableElementData = TableElementData;
-            Pinball.UpdateTimer.RegisterAlarm(DelayMs, TriggerAssignedEffect);
+            Pinball.Alarms.RegisterAlarm(DelayMs, TriggerAssignedEffect);
         }
 
         private TableElementData TableElementData;
@@ -60,7 +60,7 @@ namespace DirectOutput.FX.DelayFX
         /// </summary>
         public new void Finish()
         {
-            Pinball.UpdateTimer.UnregisterAlarm(TriggerAssignedEffect);
+            Pinball.Alarms.UnregisterAlarm(TriggerAssignedEffect);
             Pinball = null;
             base.Finish();
         }

@@ -154,6 +154,7 @@
     <Compile Include="FX\DelayFX\DelayFX.cs" />
     <Compile Include="FX\NullFX\NullEffect.cs" />
     <Compile Include="General\ThreadTools.cs" />
+    <Compile Include="PinballSupport\InputQueue.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="GlobalConfiguration\FilePattern.cs" />
     <Compile Include="GlobalConfiguration\FilePatternList.cs" />
@@ -163,13 +164,14 @@
     <Compile Include="GlobalConfiguration\LedControlIniFileList.cs" />
     <Compile Include="LedControl\LedControl.cs" />
     <Compile Include="Pinball.cs" />
+    <Compile Include="PinballSupport\PinballSupport.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Table\TableConfigSourceEnum.cs" />
-    <Compile Include="UpdateTimer.cs" />
+    <Compile Include="PinballSupport\AlarmHandler.cs" />
     <Compile Include="Cab\Cab.cs" />
     <Compile Include="Cab\Cabinet.cs" />
     <Compile Include="Cab\Out\IOutput.cs" />
@@ -237,7 +239,6 @@
     <Compile Include="LedControl\TableConfigList.cs" />
     <Compile Include="LedControl\TableConfigSetting.cs" />
     <Compile Include="Table\TableElementData.cs" />
-    <Compile Include="InputHandling\InputManager.cs" />
     <Compile Include="Cab\Toys\Basic\ReplayKnocker.cs" />
     <Compile Include="Cab\Toys\Basic\RGBLed.cs" />
     <Compile Include="Cab\Toys\Basic\Shaker.cs" />
