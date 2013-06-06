@@ -48,7 +48,7 @@ namespace DirectOutput.LedControl
             {
                 if (Contains(TC.ShortRomName))
                 {
-                    Log.Exception("Table with ShortRomName {0} has already been loaded.".Build(TC.ShortRomName));
+                    Log.Exception("Table with ShortRomName {0} has already been loaded (Exists more than once in ledcontrol file).".Build(TC.ShortRomName));
                     if (ThrowExceptions)
                     {
                         throw new Exception("Table with ShortRomName {0} has already been loaded.".Build(TC.ShortRomName));

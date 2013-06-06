@@ -242,13 +242,14 @@ namespace DirectOutput
 
                         foreach (string P in LookupPaths)
                         {
-                            if (File.Exists(Path.Combine(TableFile.Directory.FullName, "ledcontrol.ini")))
+                            
+                            if (File.Exists(Path.Combine(P, "ledcontrol.ini")))
                             {
                                 Log.Write("Found ledcontrol.ini in {0} Will try to load config data.".Build(P));
 
                                 
 
-                                LedControlIniFiles.Add(new LedControlIniFile(Path.Combine(TableFile.Directory.FullName, "ledcontrol.ini"), 1));
+                                LedControlIniFiles.Add(new LedControlIniFile(Path.Combine(P, "ledcontrol.ini"), 1));
 
                                 for (int LedWizNr = 2; LedWizNr <= 16; LedWizNr++)
                                 {

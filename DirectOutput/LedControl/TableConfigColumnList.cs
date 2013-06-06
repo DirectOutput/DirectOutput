@@ -35,7 +35,15 @@ namespace DirectOutput.LedControl
                 return;
             }
             int FirstOutputNumber = 1;
+            int LastColumnWithData = -1;
             for (int i = 1; i < Cols.Length; i++)
+            {
+                if (!Cols[i].IsNullOrWhiteSpace())
+                {
+                    LastColumnWithData = i;
+                }
+            }
+            for (int i = 1; i <= LastColumnWithData; i++)
             {
                 TableConfigColumn C = new TableConfigColumn();
                 C.Number = i;
@@ -52,10 +60,10 @@ namespace DirectOutput.LedControl
 
                 if (FirstOutputNumber + C.RequiredOutputCount > 33)
                 {
-                    Log.Warning("To many outputs (>32) are configured in the following line {1}".Build(LedControlData));
+                    Log.Warning("To many outputs (>32) are configured in the following line {0}".Build(LedControlData));
                     if (ThrowExceptions)
                     {
-                        throw new Exception("To many outputs (>32) are configured in the following line {1}".Build(LedControlData));
+                        throw new Exception("To many outputs (>32) are configured in the following line {0}".Build(LedControlData));
                     }
                     return;
                 }

@@ -159,7 +159,6 @@ namespace DirectOutput.LedControl
                     Blink = -1;
                     break;
                 default:
-
                     if (Parts[0].Length > 1 && Parts[0].Substring(1).IsInteger())
                     {
                         OutputControl = OutputControlEnum.Controlled;

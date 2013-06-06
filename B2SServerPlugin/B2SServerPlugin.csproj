@@ -36,7 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="B2SServerPluginInterface">
-      <HintPath>..\..\..\..\Dropbox\ledwiz\B2SServerPluginInterface.dll</HintPath>
+      <HintPath>D:\BackglassServer\B2SBackglassServer20130605\B2SServerPluginInterface.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
