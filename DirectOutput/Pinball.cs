@@ -111,8 +111,8 @@ namespace DirectOutput
         /// <summary>
         /// Configures and initializes/starts and configures the Pinball object
         /// </summary>
-        /// <param name="GlobalConfigFile">The global config file.</param>
-        /// <param name="TableFile">The table file.</param>
+        /// <param name="GlobalConfigFilename">The global config filename.</param>
+        /// <param name="TableFilename">The table filename.</param>
         /// <param name="RomName">Name of the rom.</param>
         public void Init(string GlobalConfigFilename = "", string TableFilname = "", string RomName = "")
         {

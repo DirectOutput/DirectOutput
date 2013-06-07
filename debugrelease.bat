@@ -4,7 +4,7 @@ rem if %1!==! goto exit
 
 
 set DllPath=C:\Users\Tom\Documents\GitHub\DirectOutput\B2SServerPlugin\bin\Debug\
-
+set LedControlTesterPath=C:\Users\Tom\Documents\GitHub\DirectOutput\LedControlFileTester\bin\Debug\
 
 
 
@@ -32,6 +32,6 @@ echo Will create %Path%%ZipName%
 del "%Path%%ZipName%"
 
 "C:\Program Files\7-Zip\7z.exe" a -tzip -x!B2SServerPluginInterface*.dll  "%Path%%ZipName%" "%DllPath%*.dll" 
-
+"C:\Program Files\7-Zip\7z.exe" a -tzip "%Path%%ZipName%" "%LedControlTesterPath%LedControlFileTester.exe" 
 
 :exit

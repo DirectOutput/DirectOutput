@@ -63,7 +63,7 @@ namespace DirectOutput
             }
         }
 
-        public void Finish()
+        public static void Finish()
         {
             lock (Locker)
             {

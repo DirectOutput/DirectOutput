@@ -1,21 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms;
 
+/// <summary>
+/// Namespace for the LedControlFileTester application.
+/// </summary>
 namespace LedControlFileTester
 {
     static class Program
     {
         /// <summary>
-        /// Der Haupteinstiegspunkt für die Anwendung.
+        /// Entry point of the LedControlFileTester application.
         /// </summary>
         [STAThread]
         static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new LedControlFileTestWizard());
         }
     }
 }
