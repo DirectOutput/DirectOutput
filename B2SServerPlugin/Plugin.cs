@@ -131,7 +131,7 @@ namespace B2SServerPlugin
                 }
             }
 
-            Pinball.Init(F, new FileInfo(TableFilename), RomName);
+            Pinball.Init(F.FullName, TableFilename, RomName);
 
 
 

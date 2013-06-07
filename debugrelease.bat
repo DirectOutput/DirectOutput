@@ -1,9 +1,9 @@
 @echo off
 
-if %1!==! goto exit
+rem if %1!==! goto exit
 
 
-set DllPath=%1
+set DllPath=C:\Users\Tom\Documents\GitHub\DirectOutput\B2SServerPlugin\bin\Debug\
 
 
 

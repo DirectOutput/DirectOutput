@@ -9,6 +9,7 @@ using DirectOutput.Scripting;
 using System.Threading;
 using DirectOutput.Table;
 using DirectOutput.PinballSupport;
+using System.Collections.Generic;
 
 namespace DirectOutput
 {
@@ -113,29 +114,42 @@ namespace DirectOutput
         /// <param name="GlobalConfigFile">The global config file.</param>
         /// <param name="TableFile">The table file.</param>
         /// <param name="RomName">Name of the rom.</param>
-        public void Init(FileInfo GlobalConfigFile, FileInfo TableFile, string RomName = "")
+        public void Init(string GlobalConfigFilename = "", string TableFilname = "", string RomName = "")
         {
             bool GlobalConfigLoaded = true;
             //Load the global config
-            GlobalConfig = GlobalConfig.GetGlobalConfigFromConfigXmlFile(GlobalConfigFile.FullName);
-            if (GlobalConfig == null)
+
+            if (!GlobalConfigFilename.IsNullOrWhiteSpace())
             {
-                GlobalConfigLoaded = false;
+                FileInfo GlobalConfigFile = new FileInfo(GlobalConfigFilename);
 
-                //set new global config object if it config could not be loaded from the file.
-                GlobalConfig = new GlobalConfig();
+
+                GlobalConfig = GlobalConfig.GetGlobalConfigFromConfigXmlFile(GlobalConfigFile.FullName);
+                if (GlobalConfig == null)
+                {
+                    GlobalConfigLoaded = false;
+
+                    //set new global config object if it config could not be loaded from the file.
+                    GlobalConfig = new GlobalConfig();
+                }
+                GlobalConfig.GlobalConfigFilename = GlobalConfigFile.FullName;
             }
-            GlobalConfig.GlobalConfigFilename = GlobalConfigFile.FullName;
+            else
+            {
+                GlobalConfig = new GlobalConfig();
+                GlobalConfig.GlobalConfigFilename = GlobalConfigFilename;
+            }
 
-            Log.Filename = GlobalConfig.GetLogFilename(TableFile.FullName, RomName);
 
             if (GlobalConfig.EnableLogging)
             {
+                Log.Filename = GlobalConfig.GetLogFilename((!TableFilname.IsNullOrWhiteSpace() ? new FileInfo(TableFilname).FullName : ""), RomName);
                 Log.Init();
             }
+
             if (GlobalConfigLoaded)
             {
-                Log.Write("Global config loaded from: ".Build(GlobalConfigFile.FullName));
+                Log.Write("Global config loaded from: ".Build(GlobalConfigFilename));
             }
             else
             {
@@ -155,9 +169,12 @@ namespace DirectOutput
             //Load cabinet script files
             Scripts.LoadAndAddScripts(GlobalConfig.GetCabinetScriptFiles());
 
-            //Load table script files
-            Scripts.LoadAndAddScripts(GlobalConfig.GetTableScriptFiles(TableFile.FullName));
 
+            //Load table script files
+            if (!TableFilname.IsNullOrWhiteSpace())
+            {
+                Scripts.LoadAndAddScripts(GlobalConfig.GetTableScriptFiles(new FileInfo(TableFilname).FullName));
+            }
             Log.Write("Script files loaded");
 
 
@@ -197,30 +214,37 @@ namespace DirectOutput
             Table = new DirectOutput.Table.Table();
             Table.AddLedControlConfig = true;
 
-            FileInfo TCF = GlobalConfig.GetTableConfigFile(TableFile.FullName);
-            if (TCF != null)
+            if (!TableFilname.IsNullOrWhiteSpace())
             {
-                Log.Write("Will load table config from {0}".Build(TCF.FullName));
-                try
+                FileInfo TableFile = new FileInfo(TableFilname);
+                FileInfo TCF = GlobalConfig.GetTableConfigFile(TableFile.FullName);
+                if (TCF != null)
                 {
-                    Table = DirectOutput.Table.Table.GetTableFromConfigXmlFile(GlobalConfig.GetTableConfigFile(TableFile.FullName));
-                    Table.TableConfigurationFilename = GlobalConfig.GetTableConfigFile(TableFile.FullName).FullName;
-                    Log.Write("Table config loaded successfully from {0}".Build(TCF.FullName));
+                    Log.Write("Will load table config from {0}".Build(TCF.FullName));
+                    try
+                    {
+                        Table = DirectOutput.Table.Table.GetTableFromConfigXmlFile(GlobalConfig.GetTableConfigFile(TableFile.FullName));
+                        Table.TableConfigurationFilename = GlobalConfig.GetTableConfigFile(TableFile.FullName).FullName;
+                        Log.Write("Table config loaded successfully from {0}".Build(TCF.FullName));
+                    }
+                    catch (Exception E)
+                    {
+                        Log.Exception("A exception occured when loading table config: {0}".Build(TCF.FullName), E);
+                    }
+                    if (Table.AddLedControlConfig)
+                    {
+                        Log.Write("Table config allows mix with ledcontrol configs.");
+                    }
                 }
-                catch (Exception E)
+                else
                 {
-                    Log.Exception("A exception occured when loading table config: {0}".Build(TCF.FullName), E);
-                }
-                if (Table.AddLedControlConfig)
-                {
-                    Log.Write("Table config allows mix with ledcontrol configs.");
+                    Log.Warning("No table config file found. Will try to load config from LedControl file(s).");
                 }
             }
             else
             {
-                Log.Warning("No table config file found. Will try to load config from LedControl file(s).");
+                Log.Write("No TableFilename specified, will use empty tableconfig");
             }
-
             if (Table.AddLedControlConfig)
             {
                 if (!RomName.IsNullOrWhiteSpace())
@@ -236,18 +260,23 @@ namespace DirectOutput
                     else
                     {
                         bool FoundIt = false;
-                        string[] LookupPaths = { TableFile.Directory.FullName, GlobalConfig.GetGlobalConfigDirectory().FullName, Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) };
+                        List<string> LookupPaths = new List<string>();
+                        if (!TableFilname.IsNullOrWhiteSpace())
+                        {
+                            LookupPaths.Add(new FileInfo(TableFilname).FullName);
+                        }
+                        LookupPaths.AddRange(new string[] { GlobalConfig.GetGlobalConfigDirectory().FullName, Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) });
 
                         LedControlIniFileList LedControlIniFiles = new LedControlIniFileList();
 
                         foreach (string P in LookupPaths)
                         {
-                            
+
                             if (File.Exists(Path.Combine(P, "ledcontrol.ini")))
                             {
                                 Log.Write("Found ledcontrol.ini in {0} Will try to load config data.".Build(P));
 
-                                
+
 
                                 LedControlIniFiles.Add(new LedControlIniFile(Path.Combine(P, "ledcontrol.ini"), 1));
 
@@ -261,7 +290,7 @@ namespace DirectOutput
                                     {
                                         LedControlIniFiles.Add(new LedControlIniFile(Path.Combine(P, "ledcontrol{0:00}.ini").Build(LedWizNr), LedWizNr));
                                     }
-                                   
+
                                     FoundIt = true;
                                 }
                                 break;
@@ -295,13 +324,25 @@ namespace DirectOutput
                 }
 
             }
-            if (Table.TableFilename.IsNullOrWhiteSpace())
+            if (Table.TableName.IsNullOrWhiteSpace())
             {
-                Table.TableName = Path.GetFileNameWithoutExtension(TableFile.FullName);
+                if (!TableFilname.IsNullOrWhiteSpace())
+                {
+                    Table.TableName = Path.GetFileNameWithoutExtension(new FileInfo(TableFilname).FullName);
+                }
+                else if (!RomName.IsNullOrWhiteSpace())
+                {
+                    Table.TableName = RomName;
+                }
             }
-            Table.TableFilename = TableFile.FullName;
-            Table.RomName = RomName;
-
+            if (!TableFilname.IsNullOrWhiteSpace())
+            {
+                Table.TableFilename = new FileInfo(TableFilname).FullName;
+            }
+            if (!RomName.IsNullOrWhiteSpace())
+            {
+                Table.RomName = RomName;
+            }
             Log.Write("Table config loading finished");
 
             Effects = new CombinedEffectList(new EffectList[] { Table.Effects, Cabinet.Effects });
@@ -576,14 +617,15 @@ namespace DirectOutput
 
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Pinball"/> class and calls the Init method with the specified parameters.
+        /// Initializes a new instance of the <see cref="Pinball" /> class and calls the Init method with the specified parameters.
         /// </summary>
-        /// <param name="TableFile">The table file.</param>
+        /// <param name="GlobalConfigFilename">The global config filename.</param>
+        /// <param name="TableFilename">The table filename.</param>
         /// <param name="RomName">Name of the rom.</param>
-        public Pinball(FileInfo GlobalConfigFile, FileInfo TableFile, string RomName = "")
+        public Pinball(string GlobalConfigFilename="", string TableFilename="", string RomName = "")
             : this()
         {
-            Init(GlobalConfigFile, TableFile, RomName);
+            Init(GlobalConfigFilename, TableFilename, RomName);
         }
         #endregion
 
