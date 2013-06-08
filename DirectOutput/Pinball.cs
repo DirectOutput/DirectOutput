@@ -10,6 +10,7 @@ using System.Threading;
 using DirectOutput.Table;
 using DirectOutput.PinballSupport;
 using System.Collections.Generic;
+using DirectOutput.General;
 
 namespace DirectOutput
 {
@@ -114,7 +115,7 @@ namespace DirectOutput
         /// <param name="GlobalConfigFilename">The global config filename.</param>
         /// <param name="TableFilename">The table filename.</param>
         /// <param name="RomName">Name of the rom.</param>
-        public void Init(string GlobalConfigFilename = "", string TableFilname = "", string RomName = "")
+        public void Init(string GlobalConfigFilename = "", string TableFilename = "", string RomName = "")
         {
             bool GlobalConfigLoaded = true;
             //Load the global config
@@ -143,7 +144,7 @@ namespace DirectOutput
 
             if (GlobalConfig.EnableLogging)
             {
-                Log.Filename = GlobalConfig.GetLogFilename((!TableFilname.IsNullOrWhiteSpace() ? new FileInfo(TableFilname).FullName : ""), RomName);
+                Log.Filename = GlobalConfig.GetLogFilename((!TableFilename.IsNullOrWhiteSpace() ? new FileInfo(TableFilename).FullName : ""), RomName);
                 Log.Init();
             }
 
@@ -171,9 +172,9 @@ namespace DirectOutput
 
 
             //Load table script files
-            if (!TableFilname.IsNullOrWhiteSpace())
+            if (!TableFilename.IsNullOrWhiteSpace())
             {
-                Scripts.LoadAndAddScripts(GlobalConfig.GetTableScriptFiles(new FileInfo(TableFilname).FullName));
+                Scripts.LoadAndAddScripts(GlobalConfig.GetTableScriptFiles(new FileInfo(TableFilename).FullName));
             }
             Log.Write("Script files loaded");
 
@@ -214,9 +215,9 @@ namespace DirectOutput
             Table = new DirectOutput.Table.Table();
             Table.AddLedControlConfig = true;
 
-            if (!TableFilname.IsNullOrWhiteSpace())
+            if (!TableFilename.IsNullOrWhiteSpace())
             {
-                FileInfo TableFile = new FileInfo(TableFilname);
+                FileInfo TableFile = new FileInfo(TableFilename);
                 FileInfo TCF = GlobalConfig.GetTableConfigFile(TableFile.FullName);
                 if (TCF != null)
                 {
@@ -261,9 +262,9 @@ namespace DirectOutput
                     {
                         bool FoundIt = false;
                         List<string> LookupPaths = new List<string>();
-                        if (!TableFilname.IsNullOrWhiteSpace())
+                        if (!TableFilename.IsNullOrWhiteSpace())
                         {
-                            LookupPaths.Add(new FileInfo(TableFilname).FullName);
+                            LookupPaths.Add(new FileInfo(TableFilename).Directory.FullName);
                         }
                         LookupPaths.AddRange(new string[] { GlobalConfig.GetGlobalConfigDirectory().FullName, Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) });
 
@@ -326,18 +327,18 @@ namespace DirectOutput
             }
             if (Table.TableName.IsNullOrWhiteSpace())
             {
-                if (!TableFilname.IsNullOrWhiteSpace())
+                if (!TableFilename.IsNullOrWhiteSpace())
                 {
-                    Table.TableName = Path.GetFileNameWithoutExtension(new FileInfo(TableFilname).FullName);
+                    Table.TableName = Path.GetFileNameWithoutExtension(new FileInfo(TableFilename).FullName);
                 }
                 else if (!RomName.IsNullOrWhiteSpace())
                 {
                     Table.TableName = RomName;
                 }
             }
-            if (!TableFilname.IsNullOrWhiteSpace())
+            if (!TableFilename.IsNullOrWhiteSpace())
             {
-                Table.TableFilename = new FileInfo(TableFilname).FullName;
+                Table.TableFilename = new FileInfo(TableFilename).FullName;
             }
             if (!RomName.IsNullOrWhiteSpace())
             {
@@ -349,7 +350,8 @@ namespace DirectOutput
 
             Log.Write("Pinball parts loaded");
 
-            Log.Write("Initializing framework");
+            Log.Write("Starting processes");
+            InitStatistics();
             Cabinet.Init(this);
             Table.Init(this);
             Alarms.Init();
@@ -374,6 +376,8 @@ namespace DirectOutput
             Cabinet.Effects.Finish();
             Cabinet.Toys.Finish();
             Cabinet.OutputControllers.Finish();
+
+            WriteStatisticsToLog();
             Log.Write("DirectOutput framework finished.");
             Log.Write("Bye and thanks for using!");
         }
@@ -497,8 +501,10 @@ namespace DirectOutput
                     D = InputQueue.Dequeue();
                     try
                     {
+                        DateTime StartTime = DateTime.Now;
                         Table.UpdateTableElement(D);
                         UpdateRequired |= true;
+                        UpdateTableElementStatistics(D, (StartTime - DateTime.Now));
                     }
                     catch (Exception E)
                     {
@@ -549,6 +555,38 @@ namespace DirectOutput
 
         }
         #endregion
+
+
+        Dictionary<TableElementTypeEnum, TimeSpanStatistics> TableElementCallStatistics = new Dictionary<TableElementTypeEnum, TimeSpanStatistics>();
+        public void InitStatistics()
+        {
+            TableElementCallStatistics = new Dictionary<TableElementTypeEnum, TimeSpanStatistics>();
+            foreach (TableElementTypeEnum T in Enum.GetValues(typeof(TableElementTypeEnum)))
+            {
+
+                TableElementCallStatistics.Add(T, new TimeSpanStatistics());
+            }
+           
+        }
+
+        public void UpdateTableElementStatistics(TableElementData D, TimeSpan Duration)
+        {
+            if (TableElementCallStatistics.ContainsKey(D.TableElementType))
+            {
+                TableElementCallStatistics[D.TableElementType].AddValue(Duration);
+            }
+        }
+
+
+        public void WriteStatisticsToLog()
+        {
+            Log.Write("Table element update statistics:");
+
+            foreach (KeyValuePair<TableElementTypeEnum, TimeSpanStatistics> KV in TableElementCallStatistics)
+            {
+                Log.Write("  {0}, {1}".Build(KV.Key.ToString(), KV.Value.ToString()));
+            }
+        }
 
         private InputQueue InputQueue = new InputQueue();
 
@@ -622,7 +660,7 @@ namespace DirectOutput
         /// <param name="GlobalConfigFilename">The global config filename.</param>
         /// <param name="TableFilename">The table filename.</param>
         /// <param name="RomName">Name of the rom.</param>
-        public Pinball(string GlobalConfigFilename="", string TableFilename="", string RomName = "")
+        public Pinball(string GlobalConfigFilename = "", string TableFilename = "", string RomName = "")
             : this()
         {
             Init(GlobalConfigFilename, TableFilename, RomName);

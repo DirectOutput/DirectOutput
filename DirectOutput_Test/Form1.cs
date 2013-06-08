@@ -12,6 +12,7 @@ using DirectOutput_Test.Properties;
 using System.Configuration;
 using System.IO;
 using DirectOutput.LedControl;
+using DirectOutput.Table;
 
 
 namespace DirectOutput_Test
@@ -35,10 +36,12 @@ namespace DirectOutput_Test
 
 
 
-            LedControlConfigList L = new LedControlConfigList();
+            Pinball P = new Pinball();
+            P.InitStatistics();
+            P.UpdateTableElementStatistics(new TableElementData('S',1,1), TimeSpan.FromTicks(279)) ;
+            P.UpdateTableElementStatistics(new TableElementData('S', 1, 1), TimeSpan.FromTicks(157)); ;
+            P.WriteStatisticsToLog();
 
-
-            L.LoadLedControlFile(@"X:\Visual Pinball\Tables\plugin\DirectOutput\Config\ledcontrol.ini",1,false);
    
 
         }

@@ -59,7 +59,7 @@ namespace B2SServerPlugin
             {
                 Version V = typeof(Pinball).Assembly.GetName().Version;
                 DateTime BuildDate = new DateTime(2000, 1, 1).AddDays(V.Build).AddSeconds(V.Revision * 2);
-                return "DirectOutput (V: {0} as of {1})".Build(V.ToString(), BuildDate.ToString("yyyy.MM.dd hh:mm"));
+                return "DirectOutput (V: {0} as of {1})".Build(V.ToString(), BuildDate.ToString("yyyy.MM.dd HH:mm"));
             }
         }
 
