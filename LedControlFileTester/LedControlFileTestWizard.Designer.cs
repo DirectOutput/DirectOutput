@@ -122,7 +122,7 @@
             this.pictureBox1.TabIndex = 5;
             this.pictureBox1.TabStop = false;
             // 
-            // LoadLedControlFile
+            // LedControlFileTestWizard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -133,7 +133,7 @@
             this.Controls.Add(this.LedControlFileName);
             this.Controls.Add(this.SelectLedControlFile);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "LoadLedControlFile";
+            this.Name = "LedControlFileTestWizard";
             this.Text = "LedControl Tester";
             ((System.ComponentModel.ISupportInitialize)(this.ParsingResults)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

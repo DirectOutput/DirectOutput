@@ -2,6 +2,7 @@
 using System.IO;
 using System.Windows.Forms;
 using DirectOutput.LedControl;
+using System.Threading;
 
 namespace LedControlFileTester
 {
@@ -19,50 +20,79 @@ namespace LedControlFileTester
             InitializeComponent();
         }
 
+
+        public LedControlFileTestWizard(string Filename):this()
+        {
+            if (CheckLedControlFile(Filename))
+            {
+                Thread.Sleep(1500);
+                this.Close();
+            }
+        }
+
+
+
         private void SelectLedControlFile_Click(object sender, EventArgs e)
         {
-            string Filename="";
+            string Filename = "";
             if (OpenLedControlFile.ShowDialog() == DialogResult.OK)
             {
-                try
-                {
-                     Filename = OpenLedControlFile.FileName;
-                    LedControlFileName.Text = Filename;
-
-                    ParsingResults.Rows.Clear();
-
-                    string TempLogFile = Path.GetTempFileName();
-                    DirectOutput.Log.Filename = TempLogFile;
-                    DirectOutput.Log.Init();
-
-                    LedControlConfig L = new LedControlConfig(Filename, 1);
-
-                    DirectOutput.Log.Finish();
-
-                    string LedControlLoadingLog = DirectOutput.General.FileReader.ReadFileToString(TempLogFile);
+                    Filename = OpenLedControlFile.FileName;
+                    CheckLedControlFile(Filename);
 
 
-                    File.Delete(TempLogFile);
-
-                    foreach (string LogLine in LedControlLoadingLog.Split(new[] { '\r', '\n' }))
-                    {
-                        if (LogLine.Split('\t').Length > 1)
-                        {
-                            int RowIndex = ParsingResults.Rows.Add();
-                            ParsingResults[0, RowIndex].Value = LogLine.Split('\t')[0];
-                            ParsingResults[1, RowIndex].Value = LogLine.Split('\t')[1];
-                        }
-                    }
-
-                }
-                catch (Exception E)
-                {
-                    ParsingResults.Rows.Clear();
-                    MessageBox.Show("A error has occured when trying to load and parse the ledcontrol file: \n{0}\n\nException:\n{1}".Build(Filename, E.Message));
-                }
-                
 
             }
         }
+
+        private bool CheckLedControlFile(string Filename)
+        {
+            try
+            {
+                bool OK = true;
+                LedControlFileName.Text = Filename;
+
+                ParsingResults.Rows.Clear();
+
+                string TempLogFile = Path.GetTempFileName();
+                DirectOutput.Log.Filename = TempLogFile;
+                DirectOutput.Log.Init();
+
+                LedControlConfig L = new LedControlConfig(Filename, 1);
+
+                DirectOutput.Log.Finish();
+
+                string LedControlLoadingLog = DirectOutput.General.FileReader.ReadFileToString(TempLogFile);
+
+
+                File.Delete(TempLogFile);
+
+                foreach (string LogLine in LedControlLoadingLog.Split(new[] { '\r', '\n' }))
+                {
+                    string[] Parts = LogLine.Split('\t');
+                    if (Parts.Length > 1)
+                    {
+                        if (Parts[1].ToLowerInvariant().Contains("exception") || Parts[1].ToLowerInvariant().Contains("warning") || Parts[1].ToLowerInvariant().Contains("error"))
+                        {
+                            OK = false;
+                        }
+
+                        int RowIndex = ParsingResults.Rows.Add();
+                        ParsingResults[0, RowIndex].Value = Parts[0];
+                        ParsingResults[1, RowIndex].Value = Parts[1];
+                    }
+                }
+                return OK;
+
+            }
+            catch (Exception E)
+            {
+                ParsingResults.Rows.Clear();
+                MessageBox.Show("A error has occured when trying to load and parse the ledcontrol file: \n{0}\n\nException:\n{1}".Build(Filename, E.Message));
+                return false;
+            }
+        }
+
+ 
     }
 }
