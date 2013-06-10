@@ -11,6 +11,8 @@ namespace DirectOutput.FX.LedControlFX
     /// </summary>
     public class LedControlEffect : EffectBase, IEffect
     {
+        const int MinimumEffectDurationMs=20;
+
         private DirectOutput.PinballSupport.AlarmHandler AlarmHandler;
         #region Properties
         private string _LedWizEquivalentName;
@@ -256,6 +258,9 @@ namespace DirectOutput.FX.LedControlFX
             Unset();
         }
 
+
+        private DateTime SetTime = DateTime.MinValue;
+
         /// <summary>
         /// Triggers the effect 
         /// </summary>
@@ -281,6 +286,10 @@ namespace DirectOutput.FX.LedControlFX
                 {
                     Set();
                     BlinkInit();
+                    if (SetTime == DateTime.MinValue)
+                    {
+                        SetTime = DateTime.Now;
+                    }
                     if (Duration > 0)
                     {
                         AlarmHandler.RegisterAlarm(Duration, DurationAlarmHandler);
@@ -290,11 +299,29 @@ namespace DirectOutput.FX.LedControlFX
                 {
                     if (Duration <= 0 && Blink<=0)
                     {
+                        if (SetTime != DateTime.MinValue)
+                        {
+                            int D = (int)(DateTime.Now - SetTime).TotalMilliseconds;
+                            if (D < MinimumEffectDurationMs)
+                            {
+                                AlarmHandler.RegisterAlarm((MinimumEffectDurationMs - D).Limit(1, 1000), DelayedUnsetAlarmHandler);
+                                return;
+                            }
+                        }
                         BlinkFinish();
                         Unset();
+                        SetTime = DateTime.MinValue;
                     }
                 }
             }
+        }
+
+
+        private void DelayedUnsetAlarmHandler()
+        {
+            BlinkFinish();
+            Unset();
+            SetTime = DateTime.MinValue;
         }
 
         /// <summary>
