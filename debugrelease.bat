@@ -1,4 +1,4 @@
-@echo off
+
 
 rem if %1!==! goto exit
 
@@ -8,11 +8,20 @@ set LedControlTesterPath=C:\Users\Tom\Documents\GitHub\DirectOutput\LedControlFi
 
 
 
+
 set TempDate=%date%
 
 set CurrDate=%TempDate:~6,4%-%TempDate:~3,2%-%TempDate:~0,2%
 
-copy file.txt file-%currdate%.txt
+rem copy file.txt file-%currdate%.txt
+
+tools\GetAssemblyVersion.exe tag "%DllPath%DirectOutput.dll" >temp.txt
+
+set /p VersionTag=<temp.txt
+
+"C:\Program Files (x86)\Git\bin\git.exe" tag -a %VersionTag% -m '%VersionTag%'
+
+del Temp.txt
 
 tools\GetAssemblyVersion.exe filename "%DllPath%DirectOutput.dll" >temp.txt
 
