@@ -7,11 +7,11 @@ namespace DirectOutput.FX.LedControlFX
     
     /// <summary>
     /// The LedControlEffect is used when LedControl.ini files are parsed for this framework.<br/>
-    /// It is recommended not to use this effect, for other purposes. USe specific effects instead.
+    /// It is recommended not to use this effect, for other purposes. Use specific effects instead.
     /// </summary>
     public class LedControlEffect : EffectBase, IEffect
     {
-        const int MinimumEffectDurationMs=20;
+        const int MinimumEffectDurationMs=15;
 
         private DirectOutput.PinballSupport.AlarmHandler AlarmHandler;
         #region Properties
