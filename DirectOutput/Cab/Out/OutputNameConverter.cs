@@ -6,6 +6,7 @@ using System.ComponentModel;
 
 namespace DirectOutput.Cab.Out
 {
+    //TODO: We can ldrop this class. It is not required.
     public class OutputNameConverter : StringConverter
     {
 
