@@ -93,7 +93,7 @@ namespace DirectOutput
                 {
                     if (Message.IsNullOrWhiteSpace())
                     {
-                        Logger.WriteLine("{0}\t{1}", DateTime.Now.ToString("yyyy.MM.dd hh:mm:ss.fff"), "");
+                        Logger.WriteLine("{0}\t{1}", DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss.fff"), "");
                     }
                     else
                     {
