@@ -16,19 +16,31 @@ You are also very welcome to fork/download and enhance the source code from GitH
 
 \section installation_installation Installation
 
-Unzip the contents of the zip-file containing the framework to the following subpath of the B2S-Server: {B2S-Server directory}\\plugin\\DirectOutput
+Unzip the contents of the zip-file containing the framework to the following subpath of the B2S-Server: {B2S-Server directory}\\plugins\\DirectOutput
 
 The B2S-Server will automatically detect the framework on startup and integrate it. Please check <a href="http://www.vpforums.org/index.php?showforum=86">VPForums</a> for more information on the B2S-Server.
 
-Typically the directory and file structure of your installtion should look like this (depending on the framework version, more files might exist in the installtion directory):
+Typically the directory and file structure of your installtion should look like this (depending on the framework version, more files might exist in the installation directory):
 
 \image html Installation_DirectoryStructure.png DirectOutput Installation
 
-Alternatively the DirectOutput framework can also be put into any other directory on your system and a windows shortcut pointing to this directory can be added to the {B2S-Server directory}\\plugin directory. The B2S.Server will follow this shortcut to your plugin directory.
+Alternatively the DirectOutput framework can also be put into any other directory on your system and a windows shortcut pointing to this directory can be added to the {B2S-Server directory}\\plugins directory. The B2S.Server will follow this shortcut to your plugin directory.
+
+\section installation_b2sserverconfig B2S.Server Configuration
+
+To enable the plugin support in the B2S.Server (DirectOutput is a B2S.Server plugin) you need to add the _ArePluginsOn_ option to your B2STableSettings.xml file (located in the same directory as the B2S.Server):
+
+~~~~~~~~~~~~~~~{.xml}
+<B2STableSettings>
+  ....
+  <ArePluginsOn>1</ArePluginsOn>
+  ...
+</B2STableSettings>
+~~~~~~~~~~~~~~~
 
 \section installation_visualpinballcorevbs Visual Pinball core.vbs Adjustment
 
-If you have used the <a href="http://www.hyperspin-fe.com/forum/showthread.php?10980-Tutorial-How-to-config-Ledwiz-PacDrive">VBScript solution</a> to control your LedWiz you will have to _remove_ the following line from your core.vbs:
+If you have used the <a href="http://www.hyperspin-fe.com/forum/showthread.php?10980-Tutorial-How-to-config-Ledwiz-PacDrive">VBScript solution</a> to control your LedWiz before you will have to _REMOVE_ the following line from your core.vbs:
 
 ~~~~~~~~~~~~~~~{.vbs}
 ExecuteGlobal GetTextFile("ledcontrol.vbs")
@@ -40,7 +52,7 @@ If you dont remove the mentioned statement you'll run into trouble since the fra
 
 Tables using the DirectOutput framework resp. the B2S-Server have to instanciate the B2S.Server instead of the Pinmame.Controller.
 
-Replace the following line in the table scripts of the tables you want to use the DirectOutput framework
+Replace the following line in the table scripts of the tables you want to use the B2S.Server and the DirectOutput framework
 
 ~~~~~~~~~~~~~~~{.vbs}
 Set Controller = CreateObject("VPinMAME.Controller")     

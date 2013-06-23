@@ -1,0 +1,7 @@
+﻿ledcontrol tester sauber testen
+min duration für ledcontrol testen und erweitern für rgb und andere
+dispose o.ä einbauen. Stefan fragen ob pluginfinish in eine finish methode des servers kann.
+Stefan fragen wegen b2s.server start ohne backglass.
+test mit mehreren ledwiz
+testen ob "B" (Singledigit) richtig übergeben wird
+bei log die zeitangabe auf 24h umstellen

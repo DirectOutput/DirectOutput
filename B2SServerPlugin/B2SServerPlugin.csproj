@@ -36,7 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="B2SServerPluginInterface">
-      <HintPath>D:\BackglassServer\B2SBackglassServer20130605\B2SServerPluginInterface.dll</HintPath>
+      <HintPath>..\..\..\..\Google Drive\DirectOutput\B2S.Server Development Versions\B2S Backglass Server v1.25 20130620\B2SServerPluginInterface.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />

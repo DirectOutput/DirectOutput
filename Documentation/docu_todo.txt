@@ -1,0 +1,7 @@
+﻿Fix plugin/plugins (incl pic) in install instruction
+
+Add b2s.server config line arepluginson
+
+Explain toolbox use
+
+Explain em table config

@@ -13,7 +13,10 @@ namespace DirectOutput
         GIString='G',
         Mech='M',
         EMTable='E',
-        LED='D'
+        LED='D',
+        Score='C',
+        ScoreDigit='B'
+
 
     }
 }

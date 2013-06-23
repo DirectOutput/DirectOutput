@@ -56,6 +56,7 @@
     <None Include="77_Source Code.md" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="docu_todo.txt" />
     <Content Include="img\CabinetArchitecture.png" />
     <Content Include="img\DirectOutputIcon_32.ico" />
     <Content Include="img\DirectOutput_Big.png" />
@@ -63,12 +64,14 @@
     <Content Include="img\EffectsArchitecture.png" />
     <Content Include="img\GlobalArchitecture.png" />
     <Content Include="img\Herweh.png" />
+    <Content Include="img\Installation_DirectoryStructure.png" />
     <Content Include="img\OutputControllerArchitecture.png" />
     <Content Include="img\Plugin.png" />
     <Content Include="img\SquashBug.jpg" />
     <Content Include="img\swisslizard.png" />
     <Content Include="img\TableArchitecture.png" />
     <Content Include="img\ToyArchitecture.png" />
+    <Content Include="ToDo.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

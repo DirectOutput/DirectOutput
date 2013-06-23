@@ -25,9 +25,7 @@ namespace B2SServerPlugin
         /// Shows the Frontend of the Plugin.<br/>
         /// The IDirectPluginFrontend interface requires the implementation of this method.
         /// </summary>
-        //TODO: activate owner window para 
-      // public void PluginShowFrontend(System.Windows.Forms.Form Owner=null)
-       public void PluginShowFrontend()
+        public void PluginShowFrontend(System.Windows.Forms.Form Owner = null)
         {
             try
             {
@@ -135,7 +133,7 @@ namespace B2SServerPlugin
 
 
 
-           
+
 
         }
 
