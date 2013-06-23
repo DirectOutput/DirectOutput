@@ -16,3 +16,9 @@ The code for the LedWiz class is based on the implementation in the LedWiz SDK.
 CSScript
 --------
 CScript is a open source library which allows to compile and execute the content of C# script files at runtime. See <a href="http://www.csscript.net">csscript.net</a> for details.
+
+Testing and support
+-------------------
+Many thanks go to some folks at <a href="http://vpuniverse.com/">VPUniverse.com</a>. Arngrim, Bent98 and Deegor have contributed a lot of help during testing and development.
+
+

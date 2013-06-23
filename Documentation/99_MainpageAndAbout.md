@@ -12,6 +12,8 @@ The DirectOutput framework was implemented by <a href="http://www.vpforums.org/i
 Welcome to the DirectOutput framework for virtual pinball cabinets
 ===================================================================
 
+\note Please take note that this documentation is not yet complete and that some parts of it might change in the future. 
+
 During my first experiments with Visual Pinbal on my laptop, I thought that it would be a cool idea to a some kind of force feedback to the system. It didn't take me long to find out that a solution for this idea, did already exist. 
 When I started to build my own cabinet the current vbscript implementation supporting only one LedWiz with 32 outputs became too limited pretty soon. On somes table there were also stuttering issues. So I started to think about another solution and began to implement the DirectOutput framework.
 
