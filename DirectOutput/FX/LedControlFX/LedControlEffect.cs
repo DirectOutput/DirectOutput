@@ -318,7 +318,7 @@ namespace DirectOutput.FX.LedControlFX
 
                             if (D < (IsRGBEffect ? MinimumRGBEffectDurationMs : MinimumEffectDurationMs))
                             {
-                                AlarmHandler.RegisterAlarm((MinimumEffectDurationMs - D).Limit(1, 1000), DelayedUnsetAlarmHandler);
+                                AlarmHandler.RegisterAlarm(((IsRGBEffect ? MinimumRGBEffectDurationMs : MinimumEffectDurationMs) - D).Limit(1, 10000), DelayedUnsetAlarmHandler);
                                 return;
                             }
                         }
