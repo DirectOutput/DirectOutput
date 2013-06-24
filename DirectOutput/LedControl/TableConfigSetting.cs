@@ -86,7 +86,7 @@ namespace DirectOutput.LedControl
         /// </value>
         public int Intensity
         {
-            //TODO: Check if -1 is a meaningfull return value.
+            
             get { return (ColorName.IsNullOrWhiteSpace() ? _Intensity : -1); }
             set { _Intensity = value; }
         }

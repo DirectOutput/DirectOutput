@@ -1,4 +1,4 @@
 ﻿ledcontrol tester sauber testen
-min duration für ledcontrol testen und erweitern für rgb und andere
+
 dispose o.ä einbauen. Stefan fragen ob pluginfinish in eine finish methode des servers kann.
 test mit mehreren ledwiz

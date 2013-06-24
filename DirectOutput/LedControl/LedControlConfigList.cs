@@ -29,7 +29,7 @@ namespace DirectOutput.LedControl
 
             if (TableConfigDict.Count > 0)
             {
-                //TODO: Set different values depending on pure lecontrol config and mix with xml xconfig
+                
                 if (Table.ConfigurationSource == DirectOutput.Table.TableConfigSourceEnum.TableConfigurationFile)
                 {
                     Table.ConfigurationSource = DirectOutput.Table.TableConfigSourceEnum.TabbleConfigurationFileAndLedControl;

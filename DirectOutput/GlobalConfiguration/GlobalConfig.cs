@@ -228,7 +228,7 @@ namespace DirectOutput.GlobalConfiguration
         #region Logging
         private bool _EnableLog = false;
 
-        //TODO: Extend log class to respect this setting
+
         /// <summary>
         /// Gets or sets a value indicating whether impotant events in the framework are logged to a file.
         /// </summary>
