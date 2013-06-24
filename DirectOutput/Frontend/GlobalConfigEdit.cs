@@ -124,7 +124,10 @@ namespace DirectOutput.Frontend
                 SaveFilePatterns(Config.TableScriptFilePatterns, TableScriptFilePatterns);
 
 
+                Config.LedControlMinimumEffectDurationMs = (int)MinLedControlEffectDuration.Value;
+                Config.LedControlMinimumRGBEffectDurationMs = (int)MinLedControlRGBLedEffectDuration.Value;
 
+                Config.LogFilePattern.Pattern = LogFilePattern.Text;
                 Config.EnableLogging = EnableLogging.Checked;
             }
         }
@@ -172,7 +175,9 @@ namespace DirectOutput.Frontend
             LoadFilePatterns(Config.TableConfigFilePatterns, TableConfigFilePatterns);
             LoadFilePatterns(Config.TableScriptFilePatterns, TableScriptFilePatterns);
 
-
+            MinLedControlEffectDuration.Value = Config.LedControlMinimumEffectDurationMs;
+            MinLedControlRGBLedEffectDuration.Value = Config.LedControlMinimumRGBEffectDurationMs;
+    
             EnableLogging.Checked = Config.EnableLogging;
             LogFilePattern.Text = Config.LogFilePattern.Pattern;
             LogFilePatternStatus.Text = (Config.LogFilePattern.IsValid ? "OK" : "Invalid file pattern");
