@@ -10,7 +10,7 @@ To facilitate the use of the framework, the auto config function will automatica
 
 Please check the <a href="http://www.hyperspin-fe.com/forum/forumdisplay.php?34-HyperPin-Support">HyperSpin Forum</a> for more information on LedControl.ini files and details on the VBScript solution which uses the LedControl files normally.
 
-If you dont have a ledcontrol file for your cabinet, it is best if you go to <a href="http://vpuniverse.com/ledwiz/login.php">LedWiz ConfigTool Website</a> and create a ledcontrol file matching your cabinet.
+If you dont have a ledcontrol file for your cabinet, it is best if you go to the <a href="http://vpuniverse.com/ledwiz/login.php">LedWiz ConfigTool Website</a> and create a ledcontrol file matching your cabinet.
 
 \section ledcontrol_autoconfig Auto Configuration
 
@@ -45,6 +45,56 @@ To be usable for the LedControl functions of the framework, the list of toys in 
 
 When LedControl data is used for the Table configuration, the number of the LedWizEquivalent is used to match to the correct LedControl.ini file.
 
+\section ledcontrol_settings Settings in LedControl files
+
+This is just a short overview on the settings in a ledcontrol.ini file.
+
+\subsection ledcontrol_settingscolors Colors Section
+
+The first section in a classical ledcontrol.ini file is the Colors section. It starts with the header [Colors_Ledwiz] and a empty line after that header. After the header one or several colors are specified by a name and the brighness of the 3 color components (red, green, blue). The brighness value have a range of 0 (off) to 48 (max brightness).
+
+A typical colors section might looks as follows:
+~~~~~~~~~~~~~~~~~~~~~~~~~{.ini}
+[Colors LedWiz]
+
+Black=5,5,5
+White=48,48,48
+Red=48,0,0
+.. more color definitions ....
+Brown=24,12,0
+
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+\subsection ledcontrol_settingsconfigouts Config Outs Section
+
+The [Config outs] section of a ledcontrol file contains the settings for the tables.
+
+Each line in the section contains the definition for a single table. The lines start with a short version of the romname of the table or a fake romname for em tables. After the romname, there can be up to 32 columns (separated by commas) containg the settings for every output of a ledwiz (Column 1 is output 1, column 2 is output 2 and so on).
+
+Every column can contain any number of definitions how the framework should control the output. If more than one definition exists for a column, these definitions have to be separated by forward dashes (/).
+
+The following definitions can be used to specifiy the output behaviour of the physical outputs. Definitions can consist of up to three parts each containing one setting separated by a space.
+
+Part 1:
+
+* __0__ or __OFF__ means that the output is constantly turned off. This setting is normaly used in columns which have no other settings, to ensure that the column does not remain empty.
+* __1__ or __ON__ means that the output should be turned on when the table starts. If no other effect changes the value of the output, it will remain turned on till the table has been exited.
+* __B__ defines that the output should blink until the player exits the table.
+* __Single letter plus Nnmber__ (e.g. W24 or S10) defines that the state of the output should be controlled by a table element. The _sing leLetter_ defines the type of the table element and the _number_ is just the number of the table element. At the time of writting the following letters are supported for table elements: <br/>Lamp='L', Switch='W', Solenoid='S', GIString='G', Mech='M', EMTableElement (throgh B2SSetData command)='E', LED='D', Score (through B2SServer Score commands)='C', ScoreDigit (through B2S.Server score digit commands)='B'.
+
+Part 2:
+* __Blink__ defines that the output should blink if it is turned on. This parameter can be combined with _1_, _ON_ or _SingleLetterPlusNumber_.
+* __A number__ definies for how many milliseconds the output should be turned on. 
+* __Letter I plus number__ defines the intensity value for the output. Valid values are between 0 and 48.
+* __Color name__ as specified in the colors section. This will tell the framework that the settings in this column do not only control 1, but 3 successive outputs which are connected to a RGBled. The RGBled will display the color specified in the setting.
+
+Part 3:
+* __A number__ defines how long the output should be turned on if it is conected to a RGBled. If the definition is for a single output (not RGBled) this numer specifies how many times the output should blink.
+* __Letter I plus number__ defines the intensity value for the output. Valid values are between 0 and 48.
+
+\warning Please be aware that not all settings can be combined with any other settings. Try to use common sense. 
+
+If you want to do your own definitions, it is likely best if you download some configs from the <a href="http://vpuniverse.com/ledwiz/login.php">LedWiz ConfigTool Website</a> and try to learn from the settings in the downloaded file. In addition it is recommanded that you use the LedControlFileTester.exe (explained in the next section) to check your ledcontrol files, if you create your own settings.
 
 \section ledcontrol_testingapp LedControl File Testing Application
 
@@ -52,8 +102,17 @@ The package of the DirectOutput framework does also contain a small tool named _
 
 The tool can by started directly as any other program, but it can also be used from the command line.
 
-For command line use you have to specify a single parameter with the name and path to you ledcontrol file. If the ledcontrol file is OK, the tool will output a small notification message in the command window. If there are problems in the ledcontrol file, the tool will open a window where you can see the messages returned by the ledcontrol file parser.
+For command line use you have to specify a single parameter with the name and path to you ledcontrol file:
 
+~~~~~~~~~~~~~~~{.bat}
+LedControlFileTester.exe LedControl.ini
+~~~~~~~~~~~~~~~
+
+If the ledcontrol file is OK, the tool will output a small notification message in the command window. If there are problems in the ledcontrol file, the tool will open a window where you can see the messages returned by the ledcontrol file parser.
+
+\image html LedControlFileTester.jpg Test results showing a problem in a LedControl file.
+
+\warning This tool does only check if the structure of the file is correct and wether all settings can be parsed. It does NOT check if settings make sense (e.g. if a settings exists for a non existing table element).
 
 
 \section ledcontrol_example Example LedControl.ini
