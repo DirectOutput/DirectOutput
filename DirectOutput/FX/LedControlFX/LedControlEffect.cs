@@ -4,14 +4,15 @@ using DirectOutput.Cab.Toys.LWEquivalent;
 
 namespace DirectOutput.FX.LedControlFX
 {
-    
+
     /// <summary>
     /// The LedControlEffect is used when LedControl.ini files are parsed for this framework.<br/>
     /// It is recommended not to use this effect, for other purposes. Use specific effects instead.
     /// </summary>
     public class LedControlEffect : EffectBase, IEffect
     {
-        const int MinimumEffectDurationMs=15;
+        private int MinimumEffectDurationMs = 60;
+        private int MinimumRGBEffectDurationMs = 120;
 
         private DirectOutput.PinballSupport.AlarmHandler AlarmHandler;
         #region Properties
@@ -77,13 +78,15 @@ namespace DirectOutput.FX.LedControlFX
         public int Intensity
         {
             get { return _Intensity; }
-            set {
+            set
+            {
 
                 if (!value.IsBetween(0, 48))
                 {
                     throw new ArgumentOutOfRangeException("The supplied value {0} for Intensity is out of range (0-48).".Build(value));
                 }
-                _Intensity = value; }
+                _Intensity = value;
+            }
         }
 
         private int[] _RGBColor = new int[3] { -1, -1, -1 };
@@ -97,6 +100,15 @@ namespace DirectOutput.FX.LedControlFX
         {
             get { return _RGBColor; }
             set { _RGBColor = value; }
+        }
+
+
+        private bool IsRGBEffect
+        {
+            get
+            {
+                return RGBColor[0] >= 0;
+            }
         }
 
         private int _Blink = 0;
@@ -146,7 +158,7 @@ namespace DirectOutput.FX.LedControlFX
         #region Set/Unset
         private void Set()
         {
-            if (RGBColor[0] >= 0)
+            if (IsRGBEffect)
             {
                 SetOutputColor();
             }
@@ -158,7 +170,7 @@ namespace DirectOutput.FX.LedControlFX
 
         private void Unset()
         {
-            if (RGBColor[0] >= 0)
+            if (IsRGBEffect)
             {
                 UnsetOutputColor();
             }
@@ -297,12 +309,14 @@ namespace DirectOutput.FX.LedControlFX
                 }
                 else
                 {
-                    if (Duration <= 0 && Blink<=0)
+                    if (Duration <= 0 && Blink <= 0)
                     {
                         if (SetTime != DateTime.MinValue)
                         {
+
                             int D = (int)(DateTime.Now - SetTime).TotalMilliseconds;
-                            if (D < MinimumEffectDurationMs)
+
+                            if (D < (IsRGBEffect ? MinimumRGBEffectDurationMs : MinimumEffectDurationMs))
                             {
                                 AlarmHandler.RegisterAlarm((MinimumEffectDurationMs - D).Limit(1, 1000), DelayedUnsetAlarmHandler);
                                 return;
@@ -332,7 +346,8 @@ namespace DirectOutput.FX.LedControlFX
         {
             ResolveName(Pinball);
             AlarmHandler = Pinball.Alarms;
-
+            MinimumEffectDurationMs = Pinball.GlobalConfig.LedControlMinimumEffectDurationMs;
+            MinimumRGBEffectDurationMs = Pinball.GlobalConfig.LedControlMinimumRGBEffectDurationMs;
         }
 
         /// <summary>

@@ -16,7 +16,42 @@ namespace DirectOutput.GlobalConfiguration
     public class GlobalConfig
     {
 
-        #region Led Control files
+        #region Led Control 
+
+
+        private int _LedControlMinimumEffectDurationMs = 60;
+
+        /// <summary>
+        /// Gets or sets the minimum duration in milliseconds for LedControl effects occupying one output (e.g. contactors).<br/>
+        /// This settings has no effect if a duration or blinking is defined for the LedControlEffect.<br/>
+        /// If this value is not specified in the globalconfig file, 60 miliseconds will be used by default.
+        /// </summary>
+        /// <value>
+        /// The minimum effect duration in milliseconds.
+        /// </value>
+        public int LedControlMinimumEffectDurationMs
+        {
+            get { return _LedControlMinimumEffectDurationMs; }
+            set { _LedControlMinimumEffectDurationMs = value; }
+        }
+
+        private int _LedControlMinimumRGBEffectDurationMs = 120;
+
+        /// <summary>
+        /// Gets or sets the minimum duration in milliseconds for LedControl effects controlling RGB leds.<br/>
+        /// This settings has no effect if a duration or blinking is defined for the LedControlEffect.
+        /// If this value is not specified in the globalconfig file, 120 miliseconds will be used by default.
+        /// </summary>
+        /// <value>
+        /// The minimum effect duration in milliseconds.
+        /// </value>
+        public int LedControlMinimumRGBEffectDurationMs
+        {
+            get { return _LedControlMinimumRGBEffectDurationMs; }
+            set { _LedControlMinimumRGBEffectDurationMs = value; }
+        }
+
+
         private LedControlIniFileList _LedControlIniFiles = new LedControlIniFileList();
 
         /// TODO: Check serialization of the property.
