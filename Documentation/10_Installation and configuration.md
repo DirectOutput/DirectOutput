@@ -64,6 +64,9 @@ with
 Set Controller = CreateObject("B2S.Server") 
 ~~~~~~~~~~~~~~~
 
+More information on table configuration can be found on the page name _Table configuration_.
+
+
 
 \section installation_configuration Configuration 
 

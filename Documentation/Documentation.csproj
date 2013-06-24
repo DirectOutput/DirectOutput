@@ -54,6 +54,7 @@
     <None Include="65_Output Controllers.md" />
     <None Include="75_Scripting.md" />
     <None Include="77_Source Code.md" />
+    <None Include="15_Table configuration.md" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="docu_todo.txt" />
