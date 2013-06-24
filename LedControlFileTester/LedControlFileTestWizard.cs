@@ -25,8 +25,15 @@ namespace LedControlFileTester
         {
             if (CheckLedControlFile(Filename))
             {
+                Console.WriteLine("LedControl file {0} seems to be ok.", Filename);
+                this.Refresh();
+                
                 Thread.Sleep(1500);
                 this.Close();
+            }
+            else
+            {
+                Console.WriteLine("WARNING: Found some issues in ledcontrol file: {0}", Filename);
             }
         }
 

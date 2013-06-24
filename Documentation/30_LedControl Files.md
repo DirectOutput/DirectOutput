@@ -10,6 +10,8 @@ To facilitate the use of the framework, the auto config function will automatica
 
 Please check the <a href="http://www.hyperspin-fe.com/forum/forumdisplay.php?34-HyperPin-Support">HyperSpin Forum</a> for more information on LedControl.ini files and details on the VBScript solution which uses the LedControl files normally.
 
+If you dont have a ledcontrol file for your cabinet, it is best if you go to <a href="http://vpuniverse.com/ledwiz/login.php">LedWiz ConfigTool Website</a> and create a ledcontrol file matching your cabinet.
+
 \section ledcontrol_autoconfig Auto Configuration
 
 \subsection ledcontrol_autoconfigtable Auto Table config
@@ -42,6 +44,17 @@ Instead of relying on the automatic cabinet config, you can also specifiy your o
 To be usable for the LedControl functions of the framework, the list of toys in the cabinet must contain one or several LedWizEquivalent IToy objects and the outputs for the LedWizEquivalents. Normaly the outputs of the LedWizEquivalent toys will point to the outputs of a single LedWiz IOutputController, but you are free to point to any other output of any IOutputController configured in your system (e.g. you could use outputs of 2 different LedWiz controllers in one LedWizEquivalent toy).
 
 When LedControl data is used for the Table configuration, the number of the LedWizEquivalent is used to match to the correct LedControl.ini file.
+
+
+\section ledcontrol_testingapp LedControl File Testing Application
+
+The package of the DirectOutput framework does also contain a small tool named _LedControlFileTester.exe_ which can be used to test wether the contens of a ledcontrol file can be read and understood be the DirectOutput framework.
+
+The tool can by started directly as any other program, but it can also be used from the command line.
+
+For command line use you have to specify a single parameter with the name and path to you ledcontrol file. If the ledcontrol file is OK, the tool will output a small notification message in the command window. If there are problems in the ledcontrol file, the tool will open a window where you can see the messages returned by the ledcontrol file parser.
+
+
 
 \section ledcontrol_example Example LedControl.ini
 

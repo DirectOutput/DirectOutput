@@ -93,7 +93,7 @@
             this.ParsingResults.Name = "ParsingResults";
             this.ParsingResults.ReadOnly = true;
             this.ParsingResults.RowHeadersVisible = false;
-            this.ParsingResults.Size = new System.Drawing.Size(1120, 585);
+            this.ParsingResults.Size = new System.Drawing.Size(809, 364);
             this.ParsingResults.TabIndex = 4;
             // 
             // ParsingResultsTimeStamp
@@ -114,8 +114,9 @@
             // 
             // pictureBox1
             // 
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(993, 3);
+            this.pictureBox1.Location = new System.Drawing.Point(682, 3);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(139, 45);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -126,7 +127,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1144, 651);
+            this.ClientSize = new System.Drawing.Size(833, 430);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.ParsingResults);
             this.Controls.Add(this.label1);
