@@ -71,6 +71,8 @@ End Sub
 
 Before copying the code fragement to the table script, please check if the Table Exit section does already exist in the table. If it does, insert only the _Controller.Stop_ statement.
 
+\warning If you dont add the _Controller.Stop_ statement to the table exit code, you might experience performance problems or instability of your cabinet! Dont forget to add it!
+ 
 \subsection tableconfig_VPEMscore Score commands
 
 The B2S.Server has a bunch of special commands to forward information on the scores to the B2S.Server and the backglass. The DirectOutput framework does also receive the values from these commands.
