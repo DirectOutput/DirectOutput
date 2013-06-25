@@ -9,16 +9,16 @@ Therefore you must first install and configure Herwehs B2S-Server before you can
 
 \section installation_installation Download 
 
-The DirectOutput framework can be downloaded from <a href="www.vpuniverse.com">vpuniverse.com</a>, but there are other sites hosting the binaries as well. 
+The DirectOutput framework can be downloaded from <a target="_blank" href="www.vpuniverse.com">vpuniverse.com</a>, but there are other sites might host the binaries as well. 
 
-You are also very welcome to fork/download and enhance the source code from GitHub.
+You are also very welcome to fork/download and enhance the source code from <a target="_blank" href="https://github.com/DirectOutput/DirectOutput">GitHub</a>.
 
 
 \section installation_installation Installation
 
 Unzip the contents of the zip-file containing the framework to the following subpath of the B2S-Server: {B2S-Server directory}\\plugins\\DirectOutput
 
-The B2S-Server will automatically detect the framework on startup and integrate it. Please check <a href="http://www.vpforums.org/index.php?showforum=86">VPForums</a> for more information on the B2S-Server.
+The B2S-Server will automatically detect the framework on startup and integrate it. Please check <a target="_blank" href="http://www.vpforums.org/index.php?showforum=86">VPForums</a> for more information on the B2S-Server.
 
 Typically the directory and file structure of your installtion should look like this (depending on the framework version, more files might exist in the installation directory):
 
@@ -40,7 +40,7 @@ To enable the plugin support in the B2S.Server (DirectOutput is a B2S.Server plu
 
 \section installation_visualpinballcorevbs Visual Pinball core.vbs Adjustment
 
-If you have used the <a href="http://www.hyperspin-fe.com/forum/showthread.php?10980-Tutorial-How-to-config-Ledwiz-PacDrive">VBScript solution</a> to control your LedWiz before you will have to _REMOVE_ the following line from your core.vbs:
+If you have used the <a target="_blank" href="http://www.hyperspin-fe.com/forum/showthread.php?10980-Tutorial-How-to-config-Ledwiz-PacDrive">VBScript solution</a> to control your LedWiz before you will have to _REMOVE_ the following line from your core.vbs:
 
 ~~~~~~~~~~~~~~~{.vbs}
 ExecuteGlobal GetTextFile("ledcontrol.vbs")
@@ -64,7 +64,7 @@ with
 Set Controller = CreateObject("B2S.Server") 
 ~~~~~~~~~~~~~~~
 
-More information on table configuration can be found on the page name _Table configuration_.
+Please read the page on \ref tableconfig for more information on this topic.
 
 
 
@@ -82,11 +82,11 @@ Auto configuration will automatically detect the LedWiz units connected to your 
 
 Up to 16 LedWiz units are supported, which can be controlled by numbered ledcontrol.ini files. For LedWiz nr. 1 the file ledcontrol.ini will be loaded, for LedWiz numbers 2-16 files ledcontrol{LedWizNumber}.ini (e.g. ledcontrol2.ini) will be loaded.
 
-The create your own lecontrol.ini files it is best to use the <a href="http://vpuniverse.com/ledwiz/login.php">LedWiz Config Tool</a>.
+The create your own lecontrol.ini files it is best to use the <a target="_blank" href="http://vpuniverse.com/ledwiz/login.php">LedWiz Config Tool</a>.
 
 At the moment only LedWiz units are automatically detected. If you are using other output controllers you will have to create a cabinet configuration file, specifying the output controllers and some matching LedWizEquivalent toys, to allow the use of ledcontrol files.
 
-\subsection installation_configfiles Using configuration files
+\section installation_configfiles Using configuration files
 
 The auto configuration function of the framework does only support some basic functionality of the framework. If you want to unleash the full power of DirectOutput, you can venture into the more detailed configuration options.
 
@@ -104,24 +104,24 @@ If no global configuration file can be found, the framework tries to configure i
 
 To create your own global configuration, you can either use the built in global configuration editor or write a XML-file with the necessary information yourself.
 
-Please read the page on Global Configuration for a detailed explanation of the settings.
+Please read the page on \ref global config for a detailed explanation of the settings.
 
 \subsection installation_cabinetconfig Cabinet Configuration
 
 The cabinet configuration specifies the output controllers (e.g. Ledwiz) and toys (e.g. contactors and RGB leds) in your cabinet. 
 
-Typicaly the cabinet configuration file will be named cabinet.xml and reside in the config directory of the DirectOutput framework. Be sure to configure a file pattern in the global configuration pointing on your own cabinet configuration file.
+Typically the cabinet configuration file will be named cabinet.xml and reside in the config directory of the DirectOutput framework. Be sure to configure a file pattern in the global configuration pointing on your own cabinet configuration file.
 
-Please read the page on Cabinet Configuration for more information.
+Please read the page on \ref cabinetconfig for more information.
 
 \subsection installation_tableconfig Table Configuration
 
 The table configuration specifies the elements on a pinball table (e.g. solenoids or lamps) and the effects assigned to the table elements. 
   
-Please read the page on Table Configuration for details.
+Please read the page on \ref tableconfig for details.
 
 \subsection installation_ledcontrolini LedControl.ini files
 
 The DirectOutput framework can use one or several classical LedControl.ini files to configure tables.
 
-Please refer to the page LedControl Files for details.
+Please check the page on \ref ledcontrolfiles for details.
