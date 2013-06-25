@@ -12,6 +12,9 @@ Please check the <a href="http://www.hyperspin-fe.com/forum/forumdisplay.php?34-
 
 If you dont have a ledcontrol file for your cabinet, it is best if you go to the <a href="http://vpuniverse.com/ledwiz/login.php">LedWiz ConfigTool Website</a> and create a ledcontrol file matching your cabinet.
 
+\image html LedWizConfigTool.jpg LedWiz ConfigTool 
+
+
 \section ledcontrol_autoconfig Auto Configuration
 
 \subsection ledcontrol_autoconfigtable Auto Table config

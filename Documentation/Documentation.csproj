@@ -67,6 +67,7 @@
     <Content Include="img\Herweh.png" />
     <Content Include="img\Installation_DirectoryStructure.png" />
     <Content Include="img\LedControlFileTester.jpg" />
+    <Content Include="img\LedWizConfigTool.jpg" />
     <Content Include="img\OutputControllerArchitecture.png" />
     <Content Include="img\Plugin.png" />
     <Content Include="img\SquashBug.jpg" />
