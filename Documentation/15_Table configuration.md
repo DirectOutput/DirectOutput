@@ -29,9 +29,9 @@ Set Controller = CreateObject("B2S.Server")
 
 \subsection tableconfig_VPSSextend Extend SS tables
 
-The config explained in the previous paragraph will usually be all you you to do to make a SS table work, but you have some more options.
+The config explained in the previous paragraph will usually be all you have to do to make a SS table work, but you have some more options.
 
-If you want to tell the B2S.Server and the framework about events on the table which are not reported to PinMame, you can easily add some of the EM table commands of the B2S.Server to the table to send additionaly information to the B2S.Server.
+If you want to tell the B2S.Server and the framework about events on the table which are not reported to PinMame, you can easily add some of the EM table commands of the B2S.Server to the table to send additional information to the B2S.Server.
 
 This mix will work without any problem as long as the table is run in a environement which has the B2S.Server installed.
 
@@ -79,7 +79,7 @@ The B2S.Server has a bunch of special commands to forward information on the sco
 
 For a list and explanation of commands to set the scores, please read the section on EM tables in the helpfile of the B2S Backglass Deginer.
 
-\subsection tableconfig_VPEMscore Table element status updates
+\subsection tableconfig_VPEMtableelements Table element status updates
 
 Apart from initializing the most important thing for the DirectOutput framework is to receive updates on table element changes.
 
@@ -111,4 +111,24 @@ End Sub
 It is important, that you also send data to the B2S.Server when the table element reverts back to it original state (e.g. in the UnHit event of a switch). If you only use a single _B2SSetData_ statement which always sends the same value for a element, the framework will not show any reaction, since the value does not change (DirectOutput reacts on value changes and NOT on the fact that data is sent).
 
 
+\section tableconfig_nobackglass Tables w/o B2S.Server Backglass
 
+There are still some tables around which dont have a backglass running with B2S.Server. If the B2S.Server is instanciated in such a table, it will normaly complain about the missing backglass file and therefore stop you from running the B2S.Server and the DirectOuput framework plugin.
+
+To overcome the problem you will have to add the following line to your B2STableSettings.xml file:
+
+~~~~~~~~~~~~~~~{.xml}
+<B2STableSettings>
+  ....
+  <ShowStartupError>0</ShowStartupError>
+  ...
+</B2STableSettings>
+~~~~~~~~~~~~~~~
+
+This will stop the B2S.Server from showing the error message if no backglass file is found.
+
+Using this option any table can use the B2S.Server no matter wether it has a backglass or not. Even tables with a classic Rosve style, no B2S.Server, legacy backglass can use the B2S.Server and its plugins using the mentioned option.
+
+\note For tables without a backglass you will not be able to call the settings window of the B2S.Server.
+
+Apart from setting the mentioned option in the B2STableSettings.xml file, configuring the table for DirectOutput and B2S.Server is exactly the same as explained in the sections above.

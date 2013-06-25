@@ -94,7 +94,9 @@ A typical TableScriptsFilePattern section might looks as follows:
 </TableScriptFilePatterns>
 ~~~~~~~~~~~~~
 
-\subsection globalconfig_ledcontrolinifiles LedControlIniFiles
+\subsubsection globalconfig_ledcontrol LedControl options
+
+\subsubsection globalconfig_ledcontrolinifiles LedControlIniFiles
 
 LedControlIniFiles holds the paths to LedControl.ini files as well as the LedWiz number assiociated with the ledcontrol.ini files. LedControl.ini files can be used as a fallback solution if no cabinet and/or cabinet config is loaded. The LedControlIniFiles section can contain up to 16 LedControlIniFile sections.
 
@@ -116,7 +118,21 @@ A typical LedControlIniFiles section looks as follows:
   </LedControlIniFiles>
 ~~~~~~~~~~~~~
 
+\subsubsection globalconfig_ledcontrolsettings LedControl settings
 
+In addition to the LedControl.ini files you can specify a few more options for LedControl use:
+
+* _LedControlMinimumEffectDurationMs_ specifies the minimum duration for LedControl effects which control only one output (e.g. contactors, start button light).  
+* _LedControlMinimumRGBEffectDurationMs_ specifies the minimum duration for LedControl effects control RGBleds. 
+
+Both settings have no effect if the effect setting in the LedControl file specifies a duration.
+
+Under normal circumstances these settings look like this:
+
+~~~~~~~~~~~~~{.xml}
+  <LedControlMinimumEffectDurationMs>60</LedControlMinimumEffectDurationMs>
+  <LedControlMinimumRGBEffectDurationMs>120</LedControlMinimumRGBEffectDurationMs>
+~~~~~~~~~~~~~
 
 \subsection globalconfig_logging Logging
 
@@ -148,7 +164,8 @@ Typical entries for the loggin configuration might look as follows:
 <?xml version="1.0" encoding="utf-8"?>
 <!--Global configuration for the DirectOutput framework-->
 <GlobalConfig>
-  
+  <LedControlMinimumEffectDurationMs>60</LedControlMinimumEffectDurationMs>
+  <LedControlMinimumRGBEffectDurationMs>120</LedControlMinimumRGBEffectDurationMs>
   <LedControlIniFiles>
     <LedControlIniFile>
       <Filename>c:\Ledcontrol\LedControl.ini</Filename>

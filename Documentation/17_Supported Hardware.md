@@ -55,7 +55,7 @@ Support for those two units is currently being implemented.
 
 To use Art-Net you will need a Art-Net node (unit that converts from ethernet to DMX protocol) and also some DMX controlled lighting effect. There are quite a few different Art-Net nodes available on the market and most of them should be compatible with the DirectOutput framework. For testing the Art-Net node sold on http://www.ulrichradig.de/home/index.php/avr/dmx-avr-artnetnode as a DIY kit was used. 
 
-The implementation for the support of Art-Net has already been startet.
+The implementation for the support of Art-Net has already been started.
 
 
 \section hardware_other Other Hardware

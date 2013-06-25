@@ -78,6 +78,7 @@
     <Content Include="img\SquashBug.jpg" />
     <Content Include="img\swisslizard.png" />
     <Content Include="img\TableArchitecture.png" />
+    <Content Include="img\TestAndDevTeam.jpg" />
     <Content Include="img\ToyArchitecture.png" />
     <Content Include="ToDo.txt" />
   </ItemGroup>

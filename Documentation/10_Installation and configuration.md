@@ -1,15 +1,15 @@
-﻿Installation and Configuration
-====================
+﻿Installation and Configuration {#installation}
+==============================
 
 \section installation_requirements Requirements 
 
 The Directoutput framework relies on the B2S-Server which has been developed by Herweh/Stefan. The B2S-Server implements a plugin interface which can load and execute plugins. This framework has been developed as such a plugin.
 
-Therefore you must first install and configure Herwehs B2S-Server before you can install the DirectOutput framework. You can download the B2S-Server from <a href="www.vpuniverse.com">vpuniverse.com</a> or <a href="www.vpforums.org">VPForums</a>.
+Therefore you must first install and configure Herwehs B2S-Server before you can install the DirectOutput framework. You can download the B2S-Server from <a href="http://vpuniverse.com/forums/files/file/2042-b2s-backglass-server/">vpuniverse.com</a> or <a href="http://www.vpforums.org/index.php?app=downloads&showfile=7426">VPForums</a>.
 
-\section installation_installation Download 
+\section installation_download Download 
 
-The DirectOutput framework can be downloaded from <a target="_blank" href="www.vpuniverse.com">vpuniverse.com</a>, but there are other sites might host the binaries as well. 
+The DirectOutput framework can be downloaded from <a target="_blank" href="http://www.vpuniverse.com">vpuniverse.com</a>, but other sites might host the binaries as well. 
 
 You are also very welcome to fork/download and enhance the source code from <a target="_blank" href="https://github.com/DirectOutput/DirectOutput">GitHub</a>.
 
@@ -22,13 +22,13 @@ The B2S-Server will automatically detect the framework on startup and integrate 
 
 Typically the directory and file structure of your installtion should look like this (depending on the framework version, more files might exist in the installation directory):
 
-\image html Installation_DirectoryStructure.png DirectOutput Installation
+\image html Installation_DirectoryStructure.png 
 
 Alternatively the DirectOutput framework can also be put into any other directory on your system and a windows shortcut pointing to this directory can be added to the {B2S-Server directory}\\plugins directory. The B2S.Server will follow this shortcut to your plugin directory.
 
 \section installation_b2sserverconfig B2S.Server Configuration
 
-To enable the plugin support in the B2S.Server (DirectOutput is a B2S.Server plugin) you need to add the _ArePluginsOn_ option to your B2STableSettings.xml file (located in the same directory as the B2S.Server):
+To enable the plugin support in the B2S.Server (DirectOutput is a B2S.Server plugin) you need to add the _ArePluginsOn_ option to your B2STableSettings.xml file:
 
 ~~~~~~~~~~~~~~~{.xml}
 <B2STableSettings>
@@ -48,10 +48,9 @@ ExecuteGlobal GetTextFile("ledcontrol.vbs")
 
 If you dont remove the mentioned statement you'll run into trouble since the framework and the ledcontrol.vbs solutions will run simultaneously!
 
-\section installation_visualpinballtableconfig Visual Pinball Table Configuration
+\section installation_tableconfig Table Configuration
 
 Tables using the DirectOutput framework resp. the B2S-Server have to instanciate the B2S.Server instead of the Pinmame.Controller.
-
 Replace the following line in the table scripts of the tables you want to use the B2S.Server and the DirectOutput framework
 
 ~~~~~~~~~~~~~~~{.vbs}
@@ -64,17 +63,23 @@ with
 Set Controller = CreateObject("B2S.Server") 
 ~~~~~~~~~~~~~~~
 
-Please read the page on \ref tableconfig for more information on this topic.
+ For EM tables it is also necessary to a some statements to send data about the table element statuses to DirectOutput and B2S.Server.
 
 
+Please read the page on \ref tableconfig for more detailed information on this topic.
 
 \section installation_configuration Configuration 
+
+The DirectOutput framework supports several configuration options:
+
+* __Auto configuration__ which tries to detect the connected hardware and the files containing the table definitions automatically. Auto configuration is using the legacy ledcontrol.ini file(s) for the table definitions if available.
+* __XML config files__ are the best way to configure the framework. They allow to configure every detail of the framework in detail.
 
 \subsection installation_autoconfiguration Using Auto configuration
 
 If correctly installed the DirectOutput framework can configure itself automatically. This means that you dont need to create any of the config files mentioned in the sections below to get started.
 
-Auto configuration will automatically detect the LedWiz units connected to your system and try to lookup the ledcontrol.ini file with table configurations in the following locations:
+Auto configuration will automatically detect the LedWiz units connected to your system and try to lookup the ledcontrol.ini file(s) with table configurations in the following locations:
 
 - Table directory
 - Config directory of DirectOutput
@@ -82,19 +87,23 @@ Auto configuration will automatically detect the LedWiz units connected to your 
 
 Up to 16 LedWiz units are supported, which can be controlled by numbered ledcontrol.ini files. For LedWiz nr. 1 the file ledcontrol.ini will be loaded, for LedWiz numbers 2-16 files ledcontrol{LedWizNumber}.ini (e.g. ledcontrol2.ini) will be loaded.
 
-The create your own lecontrol.ini files it is best to use the <a target="_blank" href="http://vpuniverse.com/ledwiz/login.php">LedWiz Config Tool</a>.
+To create your own lecontrol.ini files it is best to use the <a target="_blank" href="http://vpuniverse.com/ledwiz/login.php">LedWiz Config Tool</a>.
 
 At the moment only LedWiz units are automatically detected. If you are using other output controllers you will have to create a cabinet configuration file, specifying the output controllers and some matching LedWizEquivalent toys, to allow the use of ledcontrol files.
+
+\subsection installation_ledcontrolini Using LedControl.ini files
+
+The DirectOutput framework can use one or several classical LedControl.ini files to configure tables. If no other table config files are found, the framework will try to load the ledcontrol.ini file(s). By deafult the framework tries to find the ledcontrol files specified in the Global Config file. If global config does not specify ledcontrol file(s) the framework will search for ledcontrol file(s) in the following directories:
+
+- Table directory
+- Config directory of DirectOutput
+- Directory containing the DirectOutput.dll
+
+Please check the page on \ref ledcontrolfiles for details.
 
 \subsection installation_configfiles Using configuration files
 
 The auto configuration function of the framework does only support some basic functionality of the framework. If you want to unleash the full power of DirectOutput, you can venture into the more detailed configuration options.
-
-\subsection installation_ledcontrolini Using LedControl.ini files
-
-The DirectOutput framework can use one or several classical LedControl.ini files to configure tables. If no other config files are found, the framework will try to find the ledcontrol.ini files automatically.
-
-Please check the page on \ref ledcontrolfiles for details.
 
 \subsubsection installation_globalconfig Global Configuration
 

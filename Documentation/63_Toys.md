@@ -1,4 +1,4 @@
-﻿Toys
+﻿Toys {#toys}
 ==========
 \section toys_introduction Introduction 
 

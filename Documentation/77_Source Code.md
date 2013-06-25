@@ -27,7 +27,7 @@ The following tools and addons have been used to develop DirectOutput:
 - GhostDoc was used to help documenting the code. This addon for Visual Studio is available at <a target="_blank" href="http://submain.com/products/ghostdoc.aspx">http://submain.com/products/ghostdoc.aspx</a>.
 - DoxyGen is used to generate the documention on the framework. Doxygen open source and can be found at <a target="_blank" href="http://www.doxygen.org/">http://www.doxygen.org/</a>. The config file for doxygen is included in the project files on GitHub.
 - 7Zip is used to create the deployment packages of the framework. It is available at <a target="_blank" href="http://www.7-zip.org/">http://www.7-zip.org/</a>.
-- filever.exe from Microsoft is used to extract the assembly version of the framework and embed it in the docu (all done in post build).
+
 
 \section sourcecode_use Using the source code
 
@@ -72,11 +72,19 @@ In the Documentation project you can find all the other pages of the documentati
 This project was only added, to allow documentation editing within Visual Studio.
 
 
-\subsection sourcecode_wheredplugin B2SServerPlugin project
+\subsection sourcecode_whereplugin B2SServerPlugin project
 
 The B2SServerPlugin project contains the implementaion of the plugin for the B2SServer.
 
 Nothing else should be put into this project to avoid depedency issues.
+
+For more information about the plugin please read \ref b2sserverplugin
+
+\subsection sourcecode_wheredplugin LedControlFileTester project
+
+This project contains the source code for the LedControlFileTester.exe which as part of the DirectOutput package.
+
+Read \ref ledcontrol_testingapp for more information on this tool.
 
 \subsection sourcecode_wheredirectoutputest DirectOutput_Test project
 

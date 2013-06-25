@@ -1,6 +1,7 @@
 ﻿About
 =====
-The DirectOutput framework was implemented by <a href="http://www.vpforums.org/index.php?showuser=58068">SwissLizard</a>.
+The DirectOutput framework was implemented by <a href="http://vpuniverse.com/forums/user/668-swisslizard/">SwissLizard</a>.
+
 \image html swisslizard.png "Swisslizard"
 
 
@@ -25,3 +26,9 @@ The DirectOutput framework tries to overcome the limitations of the current solu
 * __Open for extensions__ means that the framework is able to load uncompiled C#-script files containing new effects, toys or other types of output controllers at runtime. After the scripts have been loaded they are copiled and integrated into the framework.
 
 To make the start with the DirectOutput framework easy and painless it is possible to reuse the LedControl.ini file used for the configuration of the VBScript solution.
+
+If you are new to the DirectOutput framework the page on \rel installation is a good starting point.
+
+Enjoy (virtual) pinball and keep pinball alive!
+
+
