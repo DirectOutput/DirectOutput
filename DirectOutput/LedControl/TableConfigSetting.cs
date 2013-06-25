@@ -205,7 +205,7 @@ namespace DirectOutput.LedControl
                 else if (Parts[1].ToUpper().Substring(0, 1) == "I" && Parts[1].Substring(1).IsInteger())
                 {
                     //Intensity setting
-                    Intensity = Parts[1].Substring(1).ToInteger();
+                    Intensity = Parts[1].Substring(1).ToInteger().Limit(0,48);
                 }
 
                 else
@@ -231,7 +231,7 @@ namespace DirectOutput.LedControl
                         Blink = Parts[2].ToInteger();
                         if (DurationMs > 0)
                         {
-                            BlinkIntervalMs = (DurationMs / Blink / 2).Limit(10, int.MaxValue);
+                            BlinkIntervalMs = (DurationMs / Blink / 2).Limit(1, int.MaxValue);
                             DurationMs = 0;
                         }
                     }
@@ -241,7 +241,7 @@ namespace DirectOutput.LedControl
                 else if (Parts[2].ToUpper().Substring(0, 1) == "I" && Parts[2].Substring(1).IsInteger())
                 {
                     //Intensity setting
-                    Intensity = Parts[1].Substring(1).ToInteger().Limit(0,48);
+                    Intensity = Parts[2].Substring(1).ToInteger().Limit(0,48);
                 }
                 else
                 {

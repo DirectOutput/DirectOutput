@@ -60,6 +60,7 @@ namespace DirectOutput.LedControl
             }
             //Assign Romname from first column
             ShortRomName = DataColumns[0];
+
             Columns = new TableConfigColumnList();
 
             Columns.ParseControlData(LedControlData, ThrowExceptions);
