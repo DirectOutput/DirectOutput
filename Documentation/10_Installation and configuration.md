@@ -86,11 +86,17 @@ The create your own lecontrol.ini files it is best to use the <a target="_blank"
 
 At the moment only LedWiz units are automatically detected. If you are using other output controllers you will have to create a cabinet configuration file, specifying the output controllers and some matching LedWizEquivalent toys, to allow the use of ledcontrol files.
 
-\section installation_configfiles Using configuration files
+\subsection installation_configfiles Using configuration files
 
 The auto configuration function of the framework does only support some basic functionality of the framework. If you want to unleash the full power of DirectOutput, you can venture into the more detailed configuration options.
 
-\subsection installation_globalconfig Global Configuration
+\subsection installation_ledcontrolini Using LedControl.ini files
+
+The DirectOutput framework can use one or several classical LedControl.ini files to configure tables. If no other config files are found, the framework will try to find the ledcontrol.ini files automatically.
+
+Please check the page on \ref ledcontrolfiles for details.
+
+\subsubsection installation_globalconfig Global Configuration
 
 The global configuration specifies some global settings for the framework, like the places where cabinet and table configurations are looked up. 
 
@@ -106,7 +112,7 @@ To create your own global configuration, you can either use the built in global 
 
 Please read the page on \ref global config for a detailed explanation of the settings.
 
-\subsection installation_cabinetconfig Cabinet Configuration
+\subsubsection installation_cabinetconfig Cabinet Configuration
 
 The cabinet configuration specifies the output controllers (e.g. Ledwiz) and toys (e.g. contactors and RGB leds) in your cabinet. 
 
@@ -114,14 +120,9 @@ Typically the cabinet configuration file will be named cabinet.xml and reside in
 
 Please read the page on \ref cabinetconfig for more information.
 
-\subsection installation_tableconfig Table Configuration
+\subsubsection installation_tableconfig Table Configuration
 
 The table configuration specifies the elements on a pinball table (e.g. solenoids or lamps) and the effects assigned to the table elements. 
   
 Please read the page on \ref tableconfig for details.
 
-\subsection installation_ledcontrolini LedControl.ini files
-
-The DirectOutput framework can use one or several classical LedControl.ini files to configure tables.
-
-Please check the page on \ref ledcontrolfiles for details.
