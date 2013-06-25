@@ -48,6 +48,7 @@ Both units are made and sold by <a target="_blank" href="http://www.ultimarc.com
 
 Support for those two units is currently being implemented.
  
+
 \subsection hardware_artnet Art-Net
 
 <a target="_blank" href="https://en.wikipedia.org/wiki/Art-Net">Art-Net</a> is a industry standard protocol used to control <a target="_blank" href="https://en.wikipedia.org/wiki/DMX512">DMX</a> lighting effects over othernet. Using Art-Net it will be possible to connect a very wide range of lighting effects like <a target="_blank" href="https://www.google.ch/search?q=dmx+strobe">strobes</a> or <a target="_blank" href="dmx dimmerpack">dimmer packs</a>. There are tons of DMX controlled effects available on the market (from very cheap and small to very expensive and big).
