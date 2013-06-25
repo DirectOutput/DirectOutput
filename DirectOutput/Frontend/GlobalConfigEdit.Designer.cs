@@ -50,10 +50,17 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.label1 = new System.Windows.Forms.Label();
+            this.splitContainer13 = new System.Windows.Forms.SplitContainer();
             this.LedcontrolFiles = new System.Windows.Forms.DataGridView();
             this.LedwizNumber = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.Filename = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.MinLedControlRGBLedEffectDuration = new System.Windows.Forms.NumericUpDown();
+            this.MinLedControlEffectDuration = new System.Windows.Forms.NumericUpDown();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.label5 = new System.Windows.Forms.Label();
@@ -98,13 +105,6 @@
             this.ExitButton = new System.Windows.Forms.Button();
             this.SaveButton = new System.Windows.Forms.Button();
             this.SaveGlobalConfigDialog = new System.Windows.Forms.SaveFileDialog();
-            this.splitContainer13 = new System.Windows.Forms.SplitContainer();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.MinLedControlEffectDuration = new System.Windows.Forms.NumericUpDown();
-            this.MinLedControlRGBLedEffectDuration = new System.Windows.Forms.NumericUpDown();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
@@ -122,7 +122,13 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer13)).BeginInit();
+            this.splitContainer13.Panel1.SuspendLayout();
+            this.splitContainer13.Panel2.SuspendLayout();
+            this.splitContainer13.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.LedcontrolFiles)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MinLedControlRGBLedEffectDuration)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MinLedControlEffectDuration)).BeginInit();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
@@ -167,12 +173,6 @@
             this.splitContainer12.Panel1.SuspendLayout();
             this.splitContainer12.Panel2.SuspendLayout();
             this.splitContainer12.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer13)).BeginInit();
-            this.splitContainer13.Panel1.SuspendLayout();
-            this.splitContainer13.Panel2.SuspendLayout();
-            this.splitContainer13.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.MinLedControlEffectDuration)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.MinLedControlRGBLedEffectDuration)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -406,6 +406,30 @@
             this.label1.TabIndex = 8;
             this.label1.Text = resources.GetString("label1.Text");
             // 
+            // splitContainer13
+            // 
+            this.splitContainer13.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.splitContainer13.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer13.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer13.Name = "splitContainer13";
+            this.splitContainer13.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer13.Panel1
+            // 
+            this.splitContainer13.Panel1.Controls.Add(this.LedcontrolFiles);
+            // 
+            // splitContainer13.Panel2
+            // 
+            this.splitContainer13.Panel2.Controls.Add(this.label15);
+            this.splitContainer13.Panel2.Controls.Add(this.label13);
+            this.splitContainer13.Panel2.Controls.Add(this.MinLedControlRGBLedEffectDuration);
+            this.splitContainer13.Panel2.Controls.Add(this.MinLedControlEffectDuration);
+            this.splitContainer13.Panel2.Controls.Add(this.label9);
+            this.splitContainer13.Panel2.Controls.Add(this.label8);
+            this.splitContainer13.Size = new System.Drawing.Size(1233, 560);
+            this.splitContainer13.SplitterDistance = 338;
+            this.splitContainer13.TabIndex = 1;
+            // 
             // LedcontrolFiles
             // 
             this.LedcontrolFiles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -475,6 +499,96 @@
             this.Status.MinimumWidth = 50;
             this.Status.Name = "Status";
             this.Status.ReadOnly = true;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(271, 38);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(20, 13);
+            this.label15.TabIndex = 5;
+            this.label15.Text = "ms";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(271, 12);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(20, 13);
+            this.label13.TabIndex = 4;
+            this.label13.Text = "ms";
+            // 
+            // MinLedControlRGBLedEffectDuration
+            // 
+            this.MinLedControlRGBLedEffectDuration.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.MinLedControlRGBLedEffectDuration.Location = new System.Drawing.Point(211, 36);
+            this.MinLedControlRGBLedEffectDuration.Maximum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+            this.MinLedControlRGBLedEffectDuration.Minimum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.MinLedControlRGBLedEffectDuration.Name = "MinLedControlRGBLedEffectDuration";
+            this.MinLedControlRGBLedEffectDuration.Size = new System.Drawing.Size(54, 20);
+            this.MinLedControlRGBLedEffectDuration.TabIndex = 3;
+            this.MinLedControlRGBLedEffectDuration.Value = new decimal(new int[] {
+            120,
+            0,
+            0,
+            0});
+            // 
+            // MinLedControlEffectDuration
+            // 
+            this.MinLedControlEffectDuration.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.MinLedControlEffectDuration.Location = new System.Drawing.Point(211, 10);
+            this.MinLedControlEffectDuration.Maximum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+            this.MinLedControlEffectDuration.Minimum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.MinLedControlEffectDuration.Name = "MinLedControlEffectDuration";
+            this.MinLedControlEffectDuration.Size = new System.Drawing.Size(54, 20);
+            this.MinLedControlEffectDuration.TabIndex = 2;
+            this.MinLedControlEffectDuration.Value = new decimal(new int[] {
+            60,
+            0,
+            0,
+            0});
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(12, 38);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(202, 13);
+            this.label9.TabIndex = 1;
+            this.label9.Text = "Min. LedControl RGBLed Effect Duration:";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(12, 12);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(158, 13);
+            this.label8.TabIndex = 0;
+            this.label8.Text = "Min. LedControl Effect Duration:";
             // 
             // tabPage2
             // 
@@ -939,7 +1053,6 @@
             // 
             // SaveExitButton
             // 
-            this.SaveExitButton.Enabled = false;
             this.SaveExitButton.Location = new System.Drawing.Point(197, 3);
             this.SaveExitButton.Name = "SaveExitButton";
             this.SaveExitButton.Size = new System.Drawing.Size(188, 23);
@@ -950,7 +1063,6 @@
             // 
             // ExitButton
             // 
-            this.ExitButton.Enabled = false;
             this.ExitButton.Location = new System.Drawing.Point(411, 3);
             this.ExitButton.Name = "ExitButton";
             this.ExitButton.Size = new System.Drawing.Size(188, 23);
@@ -961,7 +1073,6 @@
             // 
             // SaveButton
             // 
-            this.SaveButton.Enabled = false;
             this.SaveButton.Location = new System.Drawing.Point(3, 3);
             this.SaveButton.Name = "SaveButton";
             this.SaveButton.Size = new System.Drawing.Size(188, 23);
@@ -975,120 +1086,6 @@
             this.SaveGlobalConfigDialog.DefaultExt = "xml";
             this.SaveGlobalConfigDialog.Filter = "XML-files (*.xml)|*.xml|All files (*.*)|*.*";
             this.SaveGlobalConfigDialog.Title = "Save global configuration";
-            // 
-            // splitContainer13
-            // 
-            this.splitContainer13.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.splitContainer13.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer13.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer13.Name = "splitContainer13";
-            this.splitContainer13.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer13.Panel1
-            // 
-            this.splitContainer13.Panel1.Controls.Add(this.LedcontrolFiles);
-            // 
-            // splitContainer13.Panel2
-            // 
-            this.splitContainer13.Panel2.Controls.Add(this.label15);
-            this.splitContainer13.Panel2.Controls.Add(this.label13);
-            this.splitContainer13.Panel2.Controls.Add(this.MinLedControlRGBLedEffectDuration);
-            this.splitContainer13.Panel2.Controls.Add(this.MinLedControlEffectDuration);
-            this.splitContainer13.Panel2.Controls.Add(this.label9);
-            this.splitContainer13.Panel2.Controls.Add(this.label8);
-            this.splitContainer13.Size = new System.Drawing.Size(1233, 560);
-            this.splitContainer13.SplitterDistance = 338;
-            this.splitContainer13.TabIndex = 1;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(12, 12);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(158, 13);
-            this.label8.TabIndex = 0;
-            this.label8.Text = "Min. LedControl Effect Duration:";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(12, 38);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(202, 13);
-            this.label9.TabIndex = 1;
-            this.label9.Text = "Min. LedControl RGBLed Effect Duration:";
-            // 
-            // MinLedControlEffectDuration
-            // 
-            this.MinLedControlEffectDuration.Increment = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.MinLedControlEffectDuration.Location = new System.Drawing.Point(211, 10);
-            this.MinLedControlEffectDuration.Maximum = new decimal(new int[] {
-            500,
-            0,
-            0,
-            0});
-            this.MinLedControlEffectDuration.Minimum = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.MinLedControlEffectDuration.Name = "MinLedControlEffectDuration";
-            this.MinLedControlEffectDuration.Size = new System.Drawing.Size(54, 20);
-            this.MinLedControlEffectDuration.TabIndex = 2;
-            this.MinLedControlEffectDuration.Value = new decimal(new int[] {
-            60,
-            0,
-            0,
-            0});
-            // 
-            // MinLedControlRGBLedEffectDuration
-            // 
-            this.MinLedControlRGBLedEffectDuration.Increment = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.MinLedControlRGBLedEffectDuration.Location = new System.Drawing.Point(211, 36);
-            this.MinLedControlRGBLedEffectDuration.Maximum = new decimal(new int[] {
-            500,
-            0,
-            0,
-            0});
-            this.MinLedControlRGBLedEffectDuration.Minimum = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.MinLedControlRGBLedEffectDuration.Name = "MinLedControlRGBLedEffectDuration";
-            this.MinLedControlRGBLedEffectDuration.Size = new System.Drawing.Size(54, 20);
-            this.MinLedControlRGBLedEffectDuration.TabIndex = 3;
-            this.MinLedControlRGBLedEffectDuration.Value = new decimal(new int[] {
-            120,
-            0,
-            0,
-            0});
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(271, 12);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(20, 13);
-            this.label13.TabIndex = 4;
-            this.label13.Text = "ms";
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(271, 38);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(20, 13);
-            this.label15.TabIndex = 5;
-            this.label15.Text = "ms";
             // 
             // GlobalConfigEdit
             // 
@@ -1118,7 +1115,14 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.splitContainer13.Panel1.ResumeLayout(false);
+            this.splitContainer13.Panel2.ResumeLayout(false);
+            this.splitContainer13.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer13)).EndInit();
+            this.splitContainer13.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.LedcontrolFiles)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MinLedControlRGBLedEffectDuration)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MinLedControlEffectDuration)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.splitContainer4.Panel1.ResumeLayout(false);
             this.splitContainer4.Panel2.ResumeLayout(false);
@@ -1163,13 +1167,6 @@
             this.splitContainer12.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer12)).EndInit();
             this.splitContainer12.ResumeLayout(false);
-            this.splitContainer13.Panel1.ResumeLayout(false);
-            this.splitContainer13.Panel2.ResumeLayout(false);
-            this.splitContainer13.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer13)).EndInit();
-            this.splitContainer13.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.MinLedControlEffectDuration)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.MinLedControlRGBLedEffectDuration)).EndInit();
             this.ResumeLayout(false);
 
         }
