@@ -1,5 +1,6 @@
-﻿Output controllers
-==========
+﻿Output controllers {#outputcontrollers}
+==================
+
 \section outputcontrollers_introduction Introduction 
 
 Output controllers are devices like the Ledwiz or maybe your own Arduino or Raspberry PI invention controlling one or several physical outputs in a cabinet.  

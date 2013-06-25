@@ -55,6 +55,7 @@
     <None Include="75_Scripting.md" />
     <None Include="77_Source Code.md" />
     <None Include="15_Table configuration.md" />
+    <None Include="17_Supported Hardware.md" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="docu_todo.txt" />
@@ -67,8 +68,12 @@
     <Content Include="img\Herweh.png" />
     <Content Include="img\Installation_DirectoryStructure.png" />
     <Content Include="img\LedControlFileTester.jpg" />
+    <Content Include="img\LedWizBoard.jpg" />
     <Content Include="img\LedWizConfigTool.jpg" />
+    <Content Include="img\LedWizLogo.jpg" />
     <Content Include="img\OutputControllerArchitecture.png" />
+    <Content Include="img\pacdrivelogo.jpg" />
+    <Content Include="img\PacLed64logo.png" />
     <Content Include="img\Plugin.png" />
     <Content Include="img\SquashBug.jpg" />
     <Content Include="img\swisslizard.png" />

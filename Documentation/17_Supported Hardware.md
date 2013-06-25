@@ -1,0 +1,65 @@
+﻿Supported Hardware {#hardware}
+===================
+
+\section hardware_intro Introduction
+
+A key element when it comes to gadgets in a pinball cabinet are the installed output controllers which are controlling the physical outputs. 
+
+The DirectOutput framework supports the use of several output controllers in parralel to get more outputs and it is even possible to use a mix of different output controllers. 
+
+For the end user the output controllers and their drivers are hidden behind a abstraction layer which ensures, that all hardware can be accessed in a common way. For more information regarding the software side of of the output controller part of the framework, please read the page on \ref outputcontrollers
+
+Currently the framework supports only a small number of output controllers, but depending on requirements and hardware availability more controllers will be supported in the future.
+
+\section hardware_ready Fully supported hardware
+
+The following devices are fully supported by the framework.  
+
+\subsection hardware_ledwiz LedWiz (GroovyGameGear)
+
+The LedWiz is a outputcontroller with 32 outputs which all support 49 <a target="_blank" href="https://en.wikipedia.org/wiki/Pulse-width_modulation">pwm</a> levels. The LedWiz is able to drive Leds directly, but will require some kind of booster of power hunger gadgets like big contactors or motors are connected to it.
+
+\image html LedWizboard.jpg
+
+The DirectOutput framework does fully support the LedWiz and can control up to 16 LedWiz units. The framework can automatically detect connected LedWiz units and configure them for use with the framework.
+
+The LedWiz is made by <a href="http://groovygamegear.com/">GroovyGameGear</a> and can by ordered directly on GroovyGamegears website, but also from some other vendors.
+
+This unit was the first output controller which was widely used in the virtual pinball community and was the unit for which the legacy vbscript solution was developed. The DirectOutput framework replaces the vbscript solution, but can reuse the ini files which were used for the configuration of the tables. Please read \ref ledcontrolfiles for more information.
+
+\image html LedWizLogo.jpg
+
+
+\section hardware_development Hardware support in development
+
+Support for the following devices is currently in development.
+
+\subsection hardware_ultimarc PacLed64/PacDrive (Ultimarc)
+
+The PacLed64 is a output controller with 64 outputs all supporting 256 <a target="_blank" href="https://en.wikipedia.org/wiki/Pulse-width_modulation">pwm</a> levels. The unit is mainly designed to connect leds (cosuming 20ma each) directly to the outputs, but boosters might be used to driver higher loads (e.g. Cree leds).
+
+\image html PacLed64Logo.png
+
+The PacDrive is smaller output controller with 16 outputs. It is capable of driving Leds and other smaller gadgets directly, but will require a booster to driver power hungry loads (e.g. motors). Up to 4 PacDrive units can be connected to the system.
+
+\image html pacdrivelogo.jpg
+
+Both units are made and sold by <a target="_blank" href="http://www.ultimarc.com">Ultimarc</a>.
+
+Support for those two units is currently being implemented.
+ 
+\subsection hardware_artnet Art-Net
+
+<a target="_blank" href="https://en.wikipedia.org/wiki/Art-Net">Art-Net</a> is a industry standard protocol used to control <a target="_blank" href="https://en.wikipedia.org/wiki/DMX512">DMX</a> lighting effects over othernet. Using Art-Net it will be possible to connect a very wide range of lighting effects like <a target="_blank" href="https://www.google.ch/search?q=dmx+strobe">strobes</a> or <a target="_blank" href="dmx dimmerpack">dimmer packs</a>. There are tons of DMX controlled effects available on the market (from very cheap and small to very expensive and big).
+
+To use Art-Net you will need a Art-Net node (unit that converts from ethernet to DMX protocol) and also some DMX controlled lighting effect. There are quite a few different Art-Net nodes available on the market and most of them should be compatible with the DirectOutput framework. For testing the Art-Net node sold on http://www.ulrichradig.de/home/index.php/avr/dmx-avr-artnetnode as a DIY kit was used. 
+
+The implementation for the support of Art-Net has already been startet.
+
+
+\section hardware_other Other Hardware
+
+Other output controllers might be supported in the future.
+
+If you want to implement support for some outputput controller (e.g. some home grown Raspberry Pi solution), please read the page on \ref outputcontrollers for more information. Implementing drivers for new hardware should be rather simple.
+
