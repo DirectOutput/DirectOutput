@@ -43,4 +43,6 @@ del "%Path%%ZipName%"
 "C:\Program Files\7-Zip\7z.exe" a -tzip -x!B2SServerPluginInterface*.dll  "%Path%%ZipName%" "%DllPath%*.dll" 
 "C:\Program Files\7-Zip\7z.exe" a -tzip "%Path%%ZipName%" "%LedControlTesterPath%LedControlFileTester.exe" 
 
+copy "%Path%%ZipName%" "C:\Users\Tom\Dropbox\Herweh - Swisslizard\B2S Backglass Server\DirectOutput\Alpha\"
+
 :exit
