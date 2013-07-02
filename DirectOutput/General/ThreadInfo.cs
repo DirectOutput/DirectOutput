@@ -98,6 +98,20 @@ namespace DirectOutput.General
             SetProcessorNumber();
         }
 
+        private int _HeartBeatTimeOutMs=1000;
+
+        /// <summary>
+        /// Gets or sets the heartbeat timeout in milliseconds.<br/>
+        /// </summary>
+        /// <value>
+        /// The heartbeat timeout in milliseconds.
+        /// </value>
+        public int HeartBeatTimeOutMs
+        {
+            get { return _HeartBeatTimeOutMs; }
+            set { _HeartBeatTimeOutMs = value; }
+        }
+        
 
         /// <summary>
         /// Gets the number of the logical processor executing the thread.

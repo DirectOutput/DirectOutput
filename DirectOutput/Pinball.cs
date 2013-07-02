@@ -11,6 +11,7 @@ using DirectOutput.LedControl;
 using DirectOutput.PinballSupport;
 using DirectOutput.Scripting;
 using DirectOutput.Table;
+using DirectOutput.General.Statistics;
 
 namespace DirectOutput
 {
@@ -25,7 +26,7 @@ namespace DirectOutput
 
 
         public ThreadInfoList ThreadInfoList { get; private set; }
-
+        public TimeSpanStatisticsList TimeSpanStatistics { get; private set; }
 
 
         private ScriptList _Scripts = new ScriptList();
@@ -359,7 +360,7 @@ namespace DirectOutput
             InitStatistics();
             Cabinet.Init(this);
             Table.Init(this);
-            Alarms.Init();
+            Alarms.Init(this);
             Table.TriggerStaticEffects();
             Cabinet.OutputControllers.Update();
 
@@ -591,32 +592,54 @@ namespace DirectOutput
         #endregion
 
 
-        Dictionary<TableElementTypeEnum, TimeSpanStatistics> TableElementCallStatistics = new Dictionary<TableElementTypeEnum, TimeSpanStatistics>();
-        public void InitStatistics()
+        private Dictionary<TableElementTypeEnum, TimeSpanStatisticsItem> TableElementCallStatistics = new Dictionary<TableElementTypeEnum, TimeSpanStatisticsItem>();
+
+
+        private void InitStatistics()
         {
-            TableElementCallStatistics = new Dictionary<TableElementTypeEnum, TimeSpanStatistics>();
+            TimeSpanStatisticsItem TSI;
+
+            TableElementCallStatistics = new Dictionary<TableElementTypeEnum, TimeSpanStatisticsItem>();
             foreach (TableElementTypeEnum T in Enum.GetValues(typeof(TableElementTypeEnum)))
             {
-
-                TableElementCallStatistics.Add(T, new TimeSpanStatistics());
+                 TSI=new TimeSpanStatisticsItem() {Name="{0} calls".Build(T.ToString()),GroupName="Pinball - Table element update calls"};
+                TableElementCallStatistics.Add(T, TSI);
+                TimeSpanStatistics.Add(TSI);
             }
-           
+
+         
         }
 
         public void UpdateTableElementStatistics(TableElementData D, TimeSpan Duration)
         {
-            if (TableElementCallStatistics.ContainsKey(D.TableElementType))
+            try
             {
-                TableElementCallStatistics[D.TableElementType].AddValue(Duration);
+                TableElementCallStatistics[D.TableElementType].AddDuration(Duration);
+            }
+            catch (Exception E)
+            {
+                Log.Exception("Could not update TimeSpanStatistics for Pinball table element type {0} ({1})".Build(D.ToString(), D), E);
             }
         }
 
 
         public void WriteStatisticsToLog()
         {
-            Log.Write("Table element update statistics:");
+            Log.Write("Duration statistics:");
 
-            foreach (KeyValuePair<TableElementTypeEnum, TimeSpanStatistics> KV in TableElementCallStatistics)
+            TimeSpanStatistics.Sort();
+            string CurrentGroupName = "";
+            foreach (TimeSpanStatisticsItem TSI in TimeSpanStatistics)
+            {
+                if (CurrentGroupName != TSI.GroupName)
+                {
+                    Log.Write("  {0}".Build(TSI.GroupName));
+                }
+                Log.Write("    - {0}".Build(TSI.Name));
+            }
+
+
+            foreach (KeyValuePair<TableElementTypeEnum, TimeSpanStatisticsItem> KV in TableElementCallStatistics)
             {
                 Log.Write("  {0}, {1}".Build(KV.Key.ToString(), KV.Value.ToString()));
             }
@@ -684,7 +707,7 @@ namespace DirectOutput
         {
 
             ThreadInfoList = new ThreadInfoList();
-
+            TimeSpanStatistics = new TimeSpanStatisticsList();
 
         }
 

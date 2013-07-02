@@ -37,10 +37,7 @@ namespace DirectOutput_Test
 
 
             Pinball P = new Pinball();
-            P.InitStatistics();
-            P.UpdateTableElementStatistics(new TableElementData('S',1,1), TimeSpan.FromTicks(279)) ;
-            P.UpdateTableElementStatistics(new TableElementData('S', 1, 1), TimeSpan.FromTicks(157)); ;
-            P.WriteStatisticsToLog();
+    
 
    
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DirectOutput.General.Statistics;
 
 namespace DirectOutput.PinballSupport
 {
@@ -12,7 +13,8 @@ namespace DirectOutput.PinballSupport
     /// </summary>
     public class AlarmHandler
     {
-
+        private TimeSpanStatisticsItem AlarmStatistics;
+        private TimeSpanStatisticsItem IntervalAlarmStatistics;
 
         /// <summary>
         /// Gets the time when the next alarm (interval or single) is scheduled.
@@ -85,7 +87,9 @@ namespace DirectOutput.PinballSupport
                 {
                     try
                     {
+                        IntervalAlarmStatistics.MeasurementStart();
                         S.IntervalAlarmHandler();
+                        IntervalAlarmStatistics.MeasurementStop();
                         AlarmTriggered = true;
                     }
                     catch (Exception E) {
@@ -162,6 +166,7 @@ namespace DirectOutput.PinballSupport
 
         private bool Alarm(DateTime AlarmTime)
         {
+            
             lock (AlarmLocker)
             {
                 List<AlarmSetting> L = AlarmList.Where(x => x.AlarmTime <= AlarmTime).ToList();
@@ -169,7 +174,9 @@ namespace DirectOutput.PinballSupport
                 L.ForEach(delegate(AlarmSetting S) {
                     try
                     {
+                        AlarmStatistics.MeasurementStart();
                         S.AlarmHandler();
+                        AlarmStatistics.MeasurementStop();
                     }
                     catch (Exception E) {
                         Log.Exception("A exception occured for AlarmHandler {0}.".Build(S.AlarmHandler.ToString()), E);
@@ -220,11 +227,13 @@ namespace DirectOutput.PinballSupport
 
         /// <summary>
         /// Inits the object.<br/>
-        /// Doesn't do anything and is only implemented for completeness.
         /// </summary>
-        public void Init()
+        public void Init(Pinball Pinball)
         {
-
+            AlarmStatistics = new TimeSpanStatisticsItem() { Name = "Alarm calls", GroupName = "Pinball - Alarm calls" };
+            Pinball.TimeSpanStatistics.Add(AlarmStatistics);
+            IntervalAlarmStatistics = new TimeSpanStatisticsItem() { Name = "Interval Alarm calls", GroupName = "Pinball - Alarm calls" };
+            Pinball.TimeSpanStatistics.Add(IntervalAlarmStatistics);
         }
 
         /// <summary>
@@ -245,7 +254,7 @@ namespace DirectOutput.PinballSupport
         public AlarmHandler()
         {
 
-
+           
         }
 
 

@@ -16,6 +16,7 @@ namespace DirectOutput.General.Generic
         /// <returns>Index of the specified item.</returns>
         public int IndexOf(T Item)
         {
+            
             return _InternalList.IndexOf(Item);
         }
 
