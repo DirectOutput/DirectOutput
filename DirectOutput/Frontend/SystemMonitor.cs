@@ -86,6 +86,11 @@ namespace DirectOutput.Frontend
 
         }
 
+        private void RefreshButton_Click(object sender, EventArgs e)
+        {
+            RefreshData();
+        }
+
 
 
     }

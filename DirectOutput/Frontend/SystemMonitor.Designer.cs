@@ -47,7 +47,6 @@
             this.ThreadLastHeartBeat = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ThreadExceptions = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StatisticsTab = new System.Windows.Forms.TabPage();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.RefreshButton = new System.Windows.Forms.Button();
             this.DurationStatistics = new System.Windows.Forms.DataGridView();
@@ -73,7 +72,6 @@
             // 
             this.SystemMonitorTabs.Controls.Add(this.ThreadsTab);
             this.SystemMonitorTabs.Controls.Add(this.StatisticsTab);
-            this.SystemMonitorTabs.Controls.Add(this.tabPage3);
             this.SystemMonitorTabs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.SystemMonitorTabs.Location = new System.Drawing.Point(0, 0);
             this.SystemMonitorTabs.Name = "SystemMonitorTabs";
@@ -178,16 +176,6 @@
             this.StatisticsTab.Text = "Statistics";
             this.StatisticsTab.UseVisualStyleBackColor = true;
             // 
-            // tabPage3
-            // 
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(758, 459);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "tabPage3";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -217,6 +205,7 @@
             this.RefreshButton.TabIndex = 0;
             this.RefreshButton.Text = "Refresh";
             this.RefreshButton.UseVisualStyleBackColor = true;
+            this.RefreshButton.Click += new System.EventHandler(this.RefreshButton_Click);
             // 
             // DurationStatistics
             // 
@@ -341,7 +330,6 @@
         private System.Windows.Forms.TabControl SystemMonitorTabs;
         private System.Windows.Forms.TabPage ThreadsTab;
         private System.Windows.Forms.TabPage StatisticsTab;
-        private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.DataGridView ThreadDisplay;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Button RefreshButton;
