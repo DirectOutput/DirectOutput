@@ -13,13 +13,14 @@ namespace DirectOutput.Cab.Out.NullOutputController
     /// </summary>
     public class NullOutputController: OutputControllerBase, IOutputController
     {
-        
+
 
         /// <summary>
-        /// Init initializes the ouput controller.<br/>
+        /// Init initializes the ouput controller.<br />
         /// This method is called after the objects haven been instanciated.
         /// </summary>
-        public override  void Init() {
+        /// <param name="Pinball">The pinball object which is using the NullOutputController instance.</param>
+        public override  void Init(Pinball Pinball) {
         }
 
         /// <summary>

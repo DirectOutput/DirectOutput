@@ -5,6 +5,8 @@ using System.Text;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Xml.Serialization;
+using DirectOutput.General;
+
 namespace DirectOutput.Cab.Out.LW
 {
     /// <summary>
@@ -59,6 +61,8 @@ namespace DirectOutput.Cab.Out.LW
 
         #endregion
 
+
+
         #region IOutputcontroller implementation
         /// <summary>
         /// Updates all outputs of all connected LedWiz output controllers.<br/>
@@ -71,13 +75,14 @@ namespace DirectOutput.Cab.Out.LW
 
 
         /// <summary>
-        /// Initializes the LedWiz object.<br/>
-        /// This method does also start the workerthread which does the actual update work when Update() is called.<br/>
+        /// Initializes the LedWiz object.<br />
+        /// This method does also start the workerthread which does the actual update work when Update() is called.<br />
         /// This method should only be called once. Subsequent calls have no effect.
         /// </summary>
-        public override void Init()
+        /// <param name="Pinball">The pinball object which is using the LedWiz instance.</param>
+        public override void Init(Pinball Pinball)
         {
-            LedWizUnits[Number].StartLedWizUpdaterThread();
+            LedWizUnits[Number].Init(Pinball);
             Log.Write("LedWiz Nr. {0} initialized and updater thread started.".Build(Number));
 
         }
@@ -88,7 +93,7 @@ namespace DirectOutput.Cab.Out.LW
         /// </summary>
         public override void Finish()
         {
-            LedWizUnits[Number].TerminateLedWizUpdaterThread();
+            LedWizUnits[Number].Finish();
             LedWizUnits[Number].ShutdownLighting();
             Log.Write("LedWiz Nr. {0} finished and updater thread stopped.".Build(Number));
 
@@ -166,341 +171,6 @@ namespace DirectOutput.Cab.Out.LW
             LedWizUnit S = LedWizUnits[this.Number];
             S.UpdateValue(LWO);
         }
-        #endregion
-
-
-
-
-
-        #region Internal class for LedWiz output states and update methods
-
-        private static Dictionary<int, LedWizUnit> LedWizUnits = new Dictionary<int, LedWizUnit>();
-
-        private class LedWizUnit
-        {
-
-            //Used to convert the 0-255 range of output values to LedWiz values in the range of 0-48.
-            private static readonly byte[] ByteToLedWizValue = { 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 9, 10, 10, 10, 10, 10, 11, 11, 11, 11, 11, 12, 12, 12, 12, 12, 13, 13, 13, 13, 13, 14, 14, 14, 14, 14, 14, 15, 15, 15, 15, 15, 16, 16, 16, 16, 16, 17, 17, 17, 17, 17, 18, 18, 18, 18, 18, 19, 19, 19, 19, 19, 19, 20, 20, 20, 20, 20, 21, 21, 21, 21, 21, 22, 22, 22, 22, 22, 23, 23, 23, 23, 23, 24, 24, 24, 24, 24, 24, 25, 25, 25, 25, 25, 26, 26, 26, 26, 26, 27, 27, 27, 27, 27, 28, 28, 28, 28, 28, 29, 29, 29, 29, 29, 29, 30, 30, 30, 30, 30, 31, 31, 31, 31, 31, 32, 32, 32, 32, 32, 33, 33, 33, 33, 33, 34, 34, 34, 34, 34, 34, 35, 35, 35, 35, 35, 36, 36, 36, 36, 36, 37, 37, 37, 37, 37, 38, 38, 38, 38, 38, 39, 39, 39, 39, 39, 39, 40, 40, 40, 40, 40, 41, 41, 41, 41, 41, 42, 42, 42, 42, 42, 43, 43, 43, 43, 43, 44, 44, 44, 44, 44, 44, 45, 45, 45, 45, 45, 46, 46, 46, 46, 46, 47, 47, 47, 47, 47, 48, 48, 48, 48, 48 };
-            private const int MaxUpdateFailCount = 5;
-
-
-            public int Number { get; private set; }
-
-            public byte[] NewOutputValues = new byte[32] { 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48 };
-            public byte[] CurrentOuputValues = new byte[32];
-            public byte[] NewAfterValueSwitches = new byte[4];
-            public byte[] NewBeforeValueSwitches = new byte[4];
-            public byte[] CurrentAfterValueSwitches = new byte[4];
-            public byte[] CurrentBeforeValueSwitches = new byte[4];
-            public bool NewValueUpdateRequired = true;
-            public bool NewSwitchUpdateBeforeValueUpdateRequired = true;
-            public bool NewSwitchUpdateAfterValueUpdateRequired = true;
-
-            public bool CurrentValueUpdateRequired = true;
-            public bool CurrentSwitchUpdateBeforeValueUpdateRequired = true;
-            public bool CurrentSwitchUpdateAfterValueUpdateRequired = true;
-            public bool UpdateRequired = true;
-
-            public object LedWizUpdateLocker = new object();
-            public object ValueChangeLocker = new object();
-
-            public Thread LedWizUpdater;
-            public bool KeepLedWizUpdaterAlive = false;
-            public object LedWizUpdaterThreadLocker = new object();
-
-            public void UpdateValue(LedWizOutput LedWizOutput)
-            {
-                byte V = ByteToLedWizValue[LedWizOutput.Value];
-                bool S = (V != 0);
-
-                int ZeroBasedOutputNumber = LedWizOutput.LedWizOutputNumber - 1;
-
-                int ByteNr = ZeroBasedOutputNumber >> 3;
-                int BitNr = ZeroBasedOutputNumber & 7;
-
-                byte Mask = (byte)(1 << BitNr);
-
-                lock (ValueChangeLocker)
-                {
-                    if (S != ((NewAfterValueSwitches[ByteNr] & Mask) != 0))
-                    {
-                        //Neeed to adjust switches
-                        if (S == false)
-                        {
-                            //Output will be turned off
-                            Mask = (byte)~Mask;
-                            NewAfterValueSwitches[ByteNr] &= Mask;
-                            NewBeforeValueSwitches[ByteNr] &= Mask;
-                            NewSwitchUpdateBeforeValueUpdateRequired = true;
-                            UpdateRequired = true;
-                        }
-                        else
-                        {
-                            //Output will be turned on
-                            if (V != NewOutputValues[ZeroBasedOutputNumber])
-                            {
-                                //Need to change value before turing on
-                                NewOutputValues[ZeroBasedOutputNumber] = V;
-                                NewAfterValueSwitches[ByteNr] |= Mask;
-                                NewValueUpdateRequired = true;
-                                NewSwitchUpdateAfterValueUpdateRequired = true;
-                                UpdateRequired = true;
-                            }
-                            else
-                            {
-                                //Value is correct, only need to turn on switch
-                                NewAfterValueSwitches[ByteNr] |= Mask;
-                                NewBeforeValueSwitches[ByteNr] |= Mask;
-                                NewSwitchUpdateBeforeValueUpdateRequired = true;
-                                UpdateRequired = true;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (S == true && V != NewOutputValues[ZeroBasedOutputNumber])
-                        {
-                            //Only need to adjust value
-                            NewOutputValues[ZeroBasedOutputNumber] = V;
-                            NewValueUpdateRequired = true;
-                            UpdateRequired = true;
-                        }
-
-                    }
-                }
-            }
-            public void CopyNewToCurrent()
-            {
-                lock (ValueChangeLocker)
-                {
-
-                    CurrentValueUpdateRequired = NewValueUpdateRequired;
-                    CurrentSwitchUpdateBeforeValueUpdateRequired = NewSwitchUpdateBeforeValueUpdateRequired;
-                    CurrentSwitchUpdateAfterValueUpdateRequired = NewSwitchUpdateAfterValueUpdateRequired;
-
-
-                    if (NewValueUpdateRequired)
-                    {
-                        Array.Copy(NewOutputValues, CurrentOuputValues, NewOutputValues.Length);
-                        NewValueUpdateRequired = false;
-                    }
-                    if (NewSwitchUpdateAfterValueUpdateRequired || NewSwitchUpdateBeforeValueUpdateRequired)
-                    {
-                        Array.Copy(NewAfterValueSwitches, CurrentAfterValueSwitches, NewAfterValueSwitches.Length);
-                        Array.Copy(NewBeforeValueSwitches, CurrentBeforeValueSwitches, NewBeforeValueSwitches.Length);
-                        Array.Copy(CurrentAfterValueSwitches, NewBeforeValueSwitches, NewAfterValueSwitches.Length);
-                        NewSwitchUpdateAfterValueUpdateRequired = false;
-                        NewSwitchUpdateBeforeValueUpdateRequired = false;
-                    }
-
-
-
-                }
-            }
-
-            public bool IsUpdaterThreadAlive
-            {
-                get
-                {
-                    if (LedWizUpdater != null)
-                    {
-                        return LedWizUpdater.IsAlive;
-                    }
-                    return false;
-                }
-            }
-
-            public void StartLedWizUpdaterThread()
-            {
-                lock (LedWizUpdaterThreadLocker)
-                {
-                    if (!IsUpdaterThreadAlive)
-                    {
-                        KeepLedWizUpdaterAlive = true;
-                        LedWizUpdater = new Thread(LedWizUpdaterDoIt);
-                        LedWizUpdater.Name = "LedWiz {0:00} updater thread".Build(Number);
-                        LedWizUpdater.Start();
-                    }
-                }
-            }
-            public void TerminateLedWizUpdaterThread()
-            {
-                lock (LedWizUpdaterThreadLocker)
-                {
-                    if (LedWizUpdater != null)
-                    {
-                        try
-                        {
-                            KeepLedWizUpdaterAlive = false;
-                            lock (LedWizUpdater)
-                            {
-                                Monitor.Pulse(LedWizUpdater);
-                            }
-                            if (!LedWizUpdater.Join(1000))
-                            {
-                                LedWizUpdater.Abort();
-                            }
-
-                        }
-                        catch (Exception E)
-                        {
-                            Log.Exception("A error occurd during termination of {0}.".Build(LedWizUpdater.Name), E);
-                            throw new Exception("A error occurd during termination of {0}.".Build(LedWizUpdater.Name), E);
-                        }
-                        LedWizUpdater = null;
-                    }
-                }
-            }
-
-            bool TriggerUpdate = false;
-            public void TriggerLedWizUpdaterThread()
-            {
-                TriggerUpdate = true;
-                lock (LedWizUpdaterThreadLocker)
-                {
-                    Monitor.Pulse(LedWizUpdaterThreadLocker);
-                }
-            }
-
-
-            //TODO: Check if thread should really terminate on failed updates
-            private void LedWizUpdaterDoIt()
-            {
-                //Log.Write("{0} runs on logical processor {1}".Build(Thread.CurrentThread.Name, General.ThreadTools.GetCurrentProcessorNumber()));
-
-                int FailCnt = 0;
-                while (KeepLedWizUpdaterAlive)
-                {
-                    try
-                    {
-                        if (IsPresent)
-                        {
-                            SendLedWizUpdate();
-                        }
-                        FailCnt = 0;
-                    }
-                    catch (Exception E)
-                    {
-                        Log.Exception("A error occured when updating LedWiz Nr. {0}".Build(Number), E);
-                        FailCnt++;
-
-                        if (FailCnt > MaxUpdateFailCount)
-                        {
-                            Log.Exception("More than {0} consecutive updates failed for LedWiz Nr. {1}. Updater thread will terminate.".Build(MaxUpdateFailCount, Number));
-                            KeepLedWizUpdaterAlive = false;
-                        }
-                    }
-                    if (KeepLedWizUpdaterAlive)
-                    {
-                        lock (LedWizUpdaterThreadLocker)
-                        {
-                            while (!TriggerUpdate && KeepLedWizUpdaterAlive)
-                            {
-                                Monitor.Wait(LedWizUpdaterThreadLocker, 50);  // Lock is released while we’re waiting
-                            }
-
-                        }
-
-                    }
-                    TriggerUpdate = false;
-                }
-            }
-
-            private DateTime LastUpdate = DateTime.Now;
-            const int MinUpdateIntervalMilliseconds = 5;
-
-            //TODO: Remove update delay code
-            private void UpdateDelay()
-            {
-                //int Ms = (int)DateTime.Now.Subtract(LastUpdate).TotalMilliseconds;
-                //if (Ms < MinUpdateIntervalMilliseconds)
-                //{
-                //    Thread.Sleep(MinUpdateIntervalMilliseconds - Ms);
-                //}
-                //LastUpdate = DateTime.Now;
-            }
-
-            private void SendLedWizUpdate()
-            {
-                if (Number.IsBetween(1, 16))
-                {
-
-                    lock (LedWizUpdateLocker)
-                    {
-                        lock (ValueChangeLocker)
-                        {
-                            if (!UpdateRequired) return;
-
-                            CopyNewToCurrent();
-
-                            UpdateRequired = false;
-                        }
-
-
-                        if (CurrentValueUpdateRequired)
-                        {
-                            if (CurrentSwitchUpdateBeforeValueUpdateRequired)
-                            {
-                                UpdateDelay();
-                                SBA(CurrentBeforeValueSwitches[0], CurrentBeforeValueSwitches[1], CurrentBeforeValueSwitches[2], CurrentBeforeValueSwitches[3], 2);
-                            }
-                            UpdateDelay();
-                            PBA(CurrentOuputValues);
-                        }
-                        if (CurrentSwitchUpdateAfterValueUpdateRequired || (CurrentSwitchUpdateBeforeValueUpdateRequired && !NewValueUpdateRequired))
-                        {
-                            UpdateDelay();
-                            SBA(CurrentAfterValueSwitches[0], CurrentAfterValueSwitches[1], CurrentAfterValueSwitches[2], CurrentAfterValueSwitches[3], 2);
-                        }
-                    }
-                }
-            }
-
-
-            public void ShutdownLighting()
-            {
-                SBA(0, 0, 0, 0, 2);
-            }
-
-
-            private void SBA(uint bank1, uint bank2, uint bank3, uint bank4, uint globalPulseSpeed)
-            {
-                if (IsPresent)
-                {
-                    LWZ_SBA((uint)Number, bank1, bank2, bank3, bank4, globalPulseSpeed);
-                }
-            }
-
-            private void PBA(byte[] val)
-            {
-                if (IsPresent)
-                {
-                    IntPtr ptr = Marshal.AllocCoTaskMem(val.Length);
-                    Marshal.Copy(val, 0, ptr, val.Length);
-                    LWZ_PBA((uint)Number, (uint)ptr.ToInt32());
-                    Marshal.FreeCoTaskMem(ptr);
-                }
-            }
-
-            private bool IsPresent
-            {
-                get
-                {
-                    if (!Number.IsBetween(1, 16)) return false;
-                    return DeviceHandles.Any(x => x == Number);
-                }
-            }
-
-
-            public LedWizUnit(int Number)
-            {
-                this.Number = Number;
-            }
-
-        }
-
-
-
         #endregion
 
 
@@ -728,6 +398,366 @@ namespace DirectOutput.Cab.Out.LW
         }
 
         #endregion
+
+
+
+
+
+
+        #region Internal class for LedWiz output states and update methods
+
+        private static Dictionary<int, LedWizUnit> LedWizUnits = new Dictionary<int, LedWizUnit>();
+
+        private class LedWizUnit
+        {
+            private Pinball Pinball;
+
+            //Used to convert the 0-255 range of output values to LedWiz values in the range of 0-48.
+            private static readonly byte[] ByteToLedWizValue = { 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 9, 10, 10, 10, 10, 10, 11, 11, 11, 11, 11, 12, 12, 12, 12, 12, 13, 13, 13, 13, 13, 14, 14, 14, 14, 14, 14, 15, 15, 15, 15, 15, 16, 16, 16, 16, 16, 17, 17, 17, 17, 17, 18, 18, 18, 18, 18, 19, 19, 19, 19, 19, 19, 20, 20, 20, 20, 20, 21, 21, 21, 21, 21, 22, 22, 22, 22, 22, 23, 23, 23, 23, 23, 24, 24, 24, 24, 24, 24, 25, 25, 25, 25, 25, 26, 26, 26, 26, 26, 27, 27, 27, 27, 27, 28, 28, 28, 28, 28, 29, 29, 29, 29, 29, 29, 30, 30, 30, 30, 30, 31, 31, 31, 31, 31, 32, 32, 32, 32, 32, 33, 33, 33, 33, 33, 34, 34, 34, 34, 34, 34, 35, 35, 35, 35, 35, 36, 36, 36, 36, 36, 37, 37, 37, 37, 37, 38, 38, 38, 38, 38, 39, 39, 39, 39, 39, 39, 40, 40, 40, 40, 40, 41, 41, 41, 41, 41, 42, 42, 42, 42, 42, 43, 43, 43, 43, 43, 44, 44, 44, 44, 44, 44, 45, 45, 45, 45, 45, 46, 46, 46, 46, 46, 47, 47, 47, 47, 47, 48, 48, 48, 48, 48 };
+            private const int MaxUpdateFailCount = 5;
+
+
+            public int Number { get; private set; }
+
+            public byte[] NewOutputValues = new byte[32] { 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48 };
+            public byte[] CurrentOuputValues = new byte[32];
+            public byte[] NewAfterValueSwitches = new byte[4];
+            public byte[] NewBeforeValueSwitches = new byte[4];
+            public byte[] CurrentAfterValueSwitches = new byte[4];
+            public byte[] CurrentBeforeValueSwitches = new byte[4];
+            public bool NewValueUpdateRequired = true;
+            public bool NewSwitchUpdateBeforeValueUpdateRequired = true;
+            public bool NewSwitchUpdateAfterValueUpdateRequired = true;
+
+            public bool CurrentValueUpdateRequired = true;
+            public bool CurrentSwitchUpdateBeforeValueUpdateRequired = true;
+            public bool CurrentSwitchUpdateAfterValueUpdateRequired = true;
+            public bool UpdateRequired = true;
+
+            public object LedWizUpdateLocker = new object();
+            public object ValueChangeLocker = new object();
+
+            public Thread LedWizUpdater;
+            public bool KeepLedWizUpdaterAlive = false;
+            public object LedWizUpdaterThreadLocker = new object();
+
+
+            public void Init(Pinball Pinball)
+            {
+                this.Pinball = Pinball;
+                StartLedWizUpdaterThread();
+            }
+
+            public void Finish()
+            {
+
+                TerminateLedWizUpdaterThread();
+                ShutdownLighting();
+                this.Pinball = null;
+
+            }
+
+            public void UpdateValue(LedWizOutput LedWizOutput)
+            {
+                byte V = ByteToLedWizValue[LedWizOutput.Value];
+                bool S = (V != 0);
+
+                int ZeroBasedOutputNumber = LedWizOutput.LedWizOutputNumber - 1;
+
+                int ByteNr = ZeroBasedOutputNumber >> 3;
+                int BitNr = ZeroBasedOutputNumber & 7;
+
+                byte Mask = (byte)(1 << BitNr);
+
+                lock (ValueChangeLocker)
+                {
+                    if (S != ((NewAfterValueSwitches[ByteNr] & Mask) != 0))
+                    {
+                        //Neeed to adjust switches
+                        if (S == false)
+                        {
+                            //Output will be turned off
+                            Mask = (byte)~Mask;
+                            NewAfterValueSwitches[ByteNr] &= Mask;
+                            NewBeforeValueSwitches[ByteNr] &= Mask;
+                            NewSwitchUpdateBeforeValueUpdateRequired = true;
+                            UpdateRequired = true;
+                        }
+                        else
+                        {
+                            //Output will be turned on
+                            if (V != NewOutputValues[ZeroBasedOutputNumber])
+                            {
+                                //Need to change value before turing on
+                                NewOutputValues[ZeroBasedOutputNumber] = V;
+                                NewAfterValueSwitches[ByteNr] |= Mask;
+                                NewValueUpdateRequired = true;
+                                NewSwitchUpdateAfterValueUpdateRequired = true;
+                                UpdateRequired = true;
+                            }
+                            else
+                            {
+                                //Value is correct, only need to turn on switch
+                                NewAfterValueSwitches[ByteNr] |= Mask;
+                                NewBeforeValueSwitches[ByteNr] |= Mask;
+                                NewSwitchUpdateBeforeValueUpdateRequired = true;
+                                UpdateRequired = true;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (S == true && V != NewOutputValues[ZeroBasedOutputNumber])
+                        {
+                            //Only need to adjust value
+                            NewOutputValues[ZeroBasedOutputNumber] = V;
+                            NewValueUpdateRequired = true;
+                            UpdateRequired = true;
+                        }
+
+                    }
+                }
+            }
+            public void CopyNewToCurrent()
+            {
+                lock (ValueChangeLocker)
+                {
+
+                    CurrentValueUpdateRequired = NewValueUpdateRequired;
+                    CurrentSwitchUpdateBeforeValueUpdateRequired = NewSwitchUpdateBeforeValueUpdateRequired;
+                    CurrentSwitchUpdateAfterValueUpdateRequired = NewSwitchUpdateAfterValueUpdateRequired;
+
+
+                    if (NewValueUpdateRequired)
+                    {
+                        Array.Copy(NewOutputValues, CurrentOuputValues, NewOutputValues.Length);
+                        NewValueUpdateRequired = false;
+                    }
+                    if (NewSwitchUpdateAfterValueUpdateRequired || NewSwitchUpdateBeforeValueUpdateRequired)
+                    {
+                        Array.Copy(NewAfterValueSwitches, CurrentAfterValueSwitches, NewAfterValueSwitches.Length);
+                        Array.Copy(NewBeforeValueSwitches, CurrentBeforeValueSwitches, NewBeforeValueSwitches.Length);
+                        Array.Copy(CurrentAfterValueSwitches, NewBeforeValueSwitches, NewAfterValueSwitches.Length);
+                        NewSwitchUpdateAfterValueUpdateRequired = false;
+                        NewSwitchUpdateBeforeValueUpdateRequired = false;
+                    }
+
+
+
+                }
+            }
+
+            public bool IsUpdaterThreadAlive
+            {
+                get
+                {
+                    if (LedWizUpdater != null)
+                    {
+                        return LedWizUpdater.IsAlive;
+                    }
+                    return false;
+                }
+            }
+
+            public void StartLedWizUpdaterThread()
+            {
+                lock (LedWizUpdaterThreadLocker)
+                {
+                    if (!IsUpdaterThreadAlive)
+                    {
+                        KeepLedWizUpdaterAlive = true;
+                        LedWizUpdater = new Thread(LedWizUpdaterDoIt);
+                        LedWizUpdater.Name = "LedWiz {0:00} updater thread".Build(Number);
+                        LedWizUpdater.Start();
+                    }
+                }
+            }
+            public void TerminateLedWizUpdaterThread()
+            {
+                lock (LedWizUpdaterThreadLocker)
+                {
+                    if (LedWizUpdater != null)
+                    {
+                        try
+                        {
+                            KeepLedWizUpdaterAlive = false;
+                            lock (LedWizUpdater)
+                            {
+                                Monitor.Pulse(LedWizUpdater);
+                            }
+                            if (!LedWizUpdater.Join(1000))
+                            {
+                                LedWizUpdater.Abort();
+                            }
+
+                        }
+                        catch (Exception E)
+                        {
+                            Log.Exception("A error occurd during termination of {0}.".Build(LedWizUpdater.Name), E);
+                            throw new Exception("A error occurd during termination of {0}.".Build(LedWizUpdater.Name), E);
+                        }
+                        LedWizUpdater = null;
+                    }
+                }
+            }
+
+            bool TriggerUpdate = false;
+            public void TriggerLedWizUpdaterThread()
+            {
+                TriggerUpdate = true;
+                lock (LedWizUpdaterThreadLocker)
+                {
+                    Monitor.Pulse(LedWizUpdaterThreadLocker);
+                }
+            }
+
+
+            //TODO: Check if thread should really terminate on failed updates
+            private void LedWizUpdaterDoIt()
+            {
+                Pinball.ThreadInfoList.HeartBeat("LedWiz {0:00}".Build(Number));
+
+
+                int FailCnt = 0;
+                while (KeepLedWizUpdaterAlive)
+                {
+                    try
+                    {
+                        if (IsPresent)
+                        {
+                            SendLedWizUpdate();
+                        }
+                        FailCnt = 0;
+                    }
+                    catch (Exception E)
+                    {
+                        Log.Exception("A error occured when updating LedWiz Nr. {0}".Build(Number), E);
+                        Pinball.ThreadInfoList.RecordException(E);
+                        FailCnt++;
+
+                        if (FailCnt > MaxUpdateFailCount)
+                        {
+                            Log.Exception("More than {0} consecutive updates failed for LedWiz Nr. {1}. Updater thread will terminate.".Build(MaxUpdateFailCount, Number));
+                            KeepLedWizUpdaterAlive = false;
+                        }
+                    }
+                    Pinball.ThreadInfoList.HeartBeat();
+                    if (KeepLedWizUpdaterAlive)
+                    {
+                        lock (LedWizUpdaterThreadLocker)
+                        {
+                            while (!TriggerUpdate && KeepLedWizUpdaterAlive)
+                            {
+                                Monitor.Wait(LedWizUpdaterThreadLocker, 50);  // Lock is released while we’re waiting
+                                Pinball.ThreadInfoList.HeartBeat();
+                            }
+
+                        }
+
+                    }
+                    TriggerUpdate = false;
+                }
+               Pinball.ThreadInfoList.ThreadTerminates();
+            }
+
+
+            //TODO: Remove update delay code
+            private void UpdateDelay()
+            {
+                //int Ms = (int)DateTime.Now.Subtract(LastUpdate).TotalMilliseconds;
+                //if (Ms < MinUpdateIntervalMilliseconds)
+                //{
+                //    Thread.Sleep(MinUpdateIntervalMilliseconds - Ms);
+                //}
+                //LastUpdate = DateTime.Now;
+            }
+
+            private void SendLedWizUpdate()
+            {
+                if (Number.IsBetween(1, 16))
+                {
+
+                    lock (LedWizUpdateLocker)
+                    {
+                        lock (ValueChangeLocker)
+                        {
+                            if (!UpdateRequired) return;
+
+                            CopyNewToCurrent();
+
+                            UpdateRequired = false;
+                        }
+
+
+                        if (CurrentValueUpdateRequired)
+                        {
+                            if (CurrentSwitchUpdateBeforeValueUpdateRequired)
+                            {
+                                UpdateDelay();
+                                SBA(CurrentBeforeValueSwitches[0], CurrentBeforeValueSwitches[1], CurrentBeforeValueSwitches[2], CurrentBeforeValueSwitches[3], 2);
+                            }
+                            UpdateDelay();
+                            PBA(CurrentOuputValues);
+                        }
+                        if (CurrentSwitchUpdateAfterValueUpdateRequired || (CurrentSwitchUpdateBeforeValueUpdateRequired && !NewValueUpdateRequired))
+                        {
+                            UpdateDelay();
+                            SBA(CurrentAfterValueSwitches[0], CurrentAfterValueSwitches[1], CurrentAfterValueSwitches[2], CurrentAfterValueSwitches[3], 2);
+                        }
+                    }
+                }
+            }
+
+
+            public void ShutdownLighting()
+            {
+                SBA(0, 0, 0, 0, 2);
+            }
+
+
+            private void SBA(uint bank1, uint bank2, uint bank3, uint bank4, uint globalPulseSpeed)
+            {
+                if (IsPresent)
+                {
+                    LWZ_SBA((uint)Number, bank1, bank2, bank3, bank4, globalPulseSpeed);
+                }
+            }
+
+            private void PBA(byte[] val)
+            {
+                if (IsPresent)
+                {
+                    IntPtr ptr = Marshal.AllocCoTaskMem(val.Length);
+                    Marshal.Copy(val, 0, ptr, val.Length);
+                    LWZ_PBA((uint)Number, (uint)ptr.ToInt32());
+                    Marshal.FreeCoTaskMem(ptr);
+                }
+            }
+
+            private bool IsPresent
+            {
+                get
+                {
+                    if (!Number.IsBetween(1, 16)) return false;
+                    return DeviceHandles.Any(x => x == Number);
+                }
+            }
+
+
+            public LedWizUnit(int Number)
+            {
+                this.Number = Number;
+                
+            }
+
+        }
+
+
+
+        #endregion
+
+
+
 
     }
 }

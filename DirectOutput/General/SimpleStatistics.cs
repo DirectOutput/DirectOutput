@@ -5,11 +5,15 @@ using System.Text;
 
 namespace DirectOutput.General
 {
-    public class SimpleStatistics<T> where T : IComparable
+    public class SimpleStatistics<ValueType> where ValueType : IComparable
     {
-        List<T> _MaxValues = new List<T>();
+        public string Name { get; set; }
 
-        public T MaxValue
+        
+
+        List<ValueType> _MaxValues = new List<ValueType>();
+
+        public ValueType MaxValue
         {
             get
             {
@@ -17,16 +21,16 @@ namespace DirectOutput.General
             }
         }
 
-        public List<T> MaxValues
+        public List<ValueType> MaxValues
         {
             get { return _MaxValues; }
             private set { _MaxValues = value; }
         }
 
 
-        List<T> _MinValues = new List<T>();
+        List<ValueType> _MinValues = new List<ValueType>();
 
-        public T MinValue
+        public ValueType MinValue
         {
             get
             {
@@ -35,7 +39,7 @@ namespace DirectOutput.General
         }
 
 
-        public List<T> MinValues
+        public List<ValueType> MinValues
         {
             get { return _MinValues; }
             private set { _MinValues = value; }
@@ -49,10 +53,10 @@ namespace DirectOutput.General
         }
 
 
-        private T MaxBoundary;
-        private T MinBoundary;
+        private ValueType MaxBoundary;
+        private ValueType MinBoundary;
         private bool MinMaxBufferFull = false;
-        public void AddValue(T Value)
+        public void AddValue(ValueType Value)
         {
             _ValuesCount++;
             if (!MinMaxBufferFull)

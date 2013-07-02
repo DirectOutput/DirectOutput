@@ -239,7 +239,7 @@ namespace DirectOutput.Cab
         public void Init(Pinball Pinball)
         {
             Log.Write("Initializing cabinet");
-            OutputControllers.Init();
+            OutputControllers.Init(Pinball);
             Toys.Init(Pinball);
             Effects.Init(Pinball);
             Log.Write("Cabinet initialized");

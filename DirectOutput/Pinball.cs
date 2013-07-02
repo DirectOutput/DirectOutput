@@ -1,16 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Threading;
 using DirectOutput.Cab;
 using DirectOutput.FX;
+using DirectOutput.General;
 using DirectOutput.GlobalConfiguration;
 using DirectOutput.LedControl;
-using DirectOutput.Scripting;
-using System.Threading;
-using DirectOutput.Table;
 using DirectOutput.PinballSupport;
-using System.Collections.Generic;
-using DirectOutput.General;
+using DirectOutput.Scripting;
+using DirectOutput.Table;
 
 namespace DirectOutput
 {
@@ -22,6 +22,11 @@ namespace DirectOutput
     {
 
         #region Properties
+
+
+        public ThreadInfoList ThreadInfoList { get; private set; }
+
+
 
         private ScriptList _Scripts = new ScriptList();
         /// <summary>
@@ -357,6 +362,10 @@ namespace DirectOutput
             Alarms.Init();
             Table.TriggerStaticEffects();
             Cabinet.OutputControllers.Update();
+
+            //Add the thread initializing the framework to the threadinfo list
+            ThreadInfoList.HeartBeat("External caller");
+
             InitMainThread();
             Log.Write("Framework initialized.");
             Log.Write("Have fun! :)");
@@ -378,6 +387,9 @@ namespace DirectOutput
             Cabinet.OutputControllers.Finish();
 
             WriteStatisticsToLog();
+
+            ThreadInfoList.ThreadTerminates();
+
             Log.Write("DirectOutput framework finished.");
             Log.Write("Bye and thanks for using!");
         }
@@ -402,6 +414,8 @@ namespace DirectOutput
                     MainThread = new Thread(MainThreadDoIt);
                     MainThread.Name = "DirectOutput MainThread ";
                     MainThread.Start();
+
+                    
                 }
                 catch (Exception E)
                 {
@@ -487,72 +501,92 @@ namespace DirectOutput
         private void MainThreadDoIt()
         {
 
-
-            while (KeepMainThreadAlive)
+            ThreadInfoList.HeartBeat("DirectOutput");
+            try
             {
-                bool UpdateRequired = false;
-                DateTime Start = DateTime.Now;
-
-                //Consume the tableelement data delivered from the calling application
-                while (InputQueue.Count > 0 && (DateTime.Now - Start).Milliseconds <= MaxInputDataProcessingTimeMs && KeepMainThreadAlive)
+                while (KeepMainThreadAlive)
                 {
-                    TableElementData D;
+                    bool UpdateRequired = false;
+                    DateTime Start = DateTime.Now;
 
-                    D = InputQueue.Dequeue();
-                    try
+                    //Consume the tableelement data delivered from the calling application
+                    while (InputQueue.Count > 0 && (DateTime.Now - Start).Milliseconds <= MaxInputDataProcessingTimeMs && KeepMainThreadAlive)
                     {
-                        DateTime StartTime = DateTime.Now;
-                        Table.UpdateTableElement(D);
-                        UpdateRequired |= true;
-                        UpdateTableElementStatistics(D, (StartTime - DateTime.Now));
-                    }
-                    catch (Exception E)
-                    {
-                        Log.Exception("A unhandled exception occured while processing data for table element {0} {1} with value {2}".Build(D.TableElementType, D.Number, D.Value), E);
-                    }
-                }
+                        TableElementData D;
 
-                if (KeepMainThreadAlive)
-                {
-                    //Executed all alarms which have been scheduled for the current time
-                    UpdateRequired |= Alarms.ExecuteAlarms(DateTime.Now.AddMilliseconds(1));
-                }
-
-
-                //Call update on output controllers if necessary
-                if (UpdateRequired && KeepMainThreadAlive)
-                {
-                    try
-                    {
-                        Cabinet.OutputControllers.Update();
-                    }
-                    catch (Exception E)
-                    {
-                        Log.Exception("A unhandled exception occured while updating the output controllers", E);
-
-                    }
-                }
-
-                if (KeepMainThreadAlive)
-                {
-                    //Sleep until we get more input data and/or a timer expires.
-                    DateTime NextAlarm = Alarms.GetNextAlarmTime();
-
-                    lock (MainThreadLocker)
-                    {
-                        while (InputQueue.Count == 0 && NextAlarm > DateTime.Now && KeepMainThreadAlive)
+                        D = InputQueue.Dequeue();
+                        try
                         {
-                            int TimeOut = ((int)(NextAlarm - DateTime.Now).TotalMilliseconds).Limit(1, 50);
+                            DateTime StartTime = DateTime.Now;
+                            Table.UpdateTableElement(D);
+                            UpdateRequired |= true;
+                            UpdateTableElementStatistics(D, (StartTime - DateTime.Now));
+                        }
+                        catch (Exception E)
+                        {
+                            Log.Exception("A unhandled exception occured while processing data for table element {0} {1} with value {2}".Build(D.TableElementType, D.Number, D.Value), E);
+                            ThreadInfoList.RecordException(E);
 
-                            Monitor.Wait(MainThreadLocker, TimeOut);  // Lock is released while we’re waiting
                         }
                     }
+
+                    if (KeepMainThreadAlive)
+                    {
+                        try
+                        {
+                            //Executed all alarms which have been scheduled for the current time
+                            UpdateRequired |= Alarms.ExecuteAlarms(DateTime.Now.AddMilliseconds(1));
+                        }
+                        catch (Exception E)
+                        {
+                            Log.Exception("A unhandled exception occured while executing timer events.", E);
+                            ThreadInfoList.RecordException(E);
+                        }
+                    }
+
+
+                    //Call update on output controllers if necessary
+                    if (UpdateRequired && KeepMainThreadAlive)
+                    {
+                        try
+                        {
+                            Cabinet.OutputControllers.Update();
+                        }
+                        catch (Exception E)
+                        {
+                            Log.Exception("A unhandled exception occured while updating the output controllers", E);
+                            ThreadInfoList.RecordException(E);
+                        }
+                    }
+
+                    if (KeepMainThreadAlive)
+                    {
+                        ThreadInfoList.HeartBeat();
+                        //Sleep until we get more input data and/or a timer expires.
+                        DateTime NextAlarm = Alarms.GetNextAlarmTime();
+
+                        lock (MainThreadLocker)
+                        {
+                            while (InputQueue.Count == 0 && NextAlarm > DateTime.Now && KeepMainThreadAlive)
+                            {
+                                int TimeOut = ((int)(NextAlarm - DateTime.Now).TotalMilliseconds).Limit(1, 50);
+
+                                Monitor.Wait(MainThreadLocker, TimeOut);  // Lock is released while we’re waiting
+                                ThreadInfoList.HeartBeat();
+                            }
+                        }
+                    }
+
+
                 }
-
-
+            }
+            catch (Exception E)
+            {
+                Log.Exception("A unexpected exception occured in the DirectOutput MainThread", E);
+                ThreadInfoList.RecordException(E);
             }
 
-
+            ThreadInfoList.ThreadTerminates();
         }
         #endregion
 
@@ -601,6 +635,7 @@ namespace DirectOutput
         {
             InputQueue.Enqueue(TableElementTypeChar, Number, Value);
             MainThreadSignal();
+            ThreadInfoList.HeartBeat("Data delivery");
         }
 
 
@@ -648,7 +683,7 @@ namespace DirectOutput
         public Pinball()
         {
 
-
+            ThreadInfoList = new ThreadInfoList();
 
 
         }

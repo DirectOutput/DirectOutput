@@ -83,11 +83,12 @@ namespace DirectOutput.Cab.Out
         /// <summary>
         /// Initializes all IOutputController objects in the list
         /// </summary>
-        public void Init()
+        /// <param name="Pinball">The pinball object which is using the list of IOutputController objects.</param>
+        public void Init(Pinball Pinball)
         {
             foreach (IOutputController OC in this)
             {
-                OC.Init();
+                OC.Init(Pinball);
             }
         }
 

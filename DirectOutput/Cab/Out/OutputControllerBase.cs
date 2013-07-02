@@ -20,12 +20,14 @@ namespace DirectOutput.Cab.Out
         /// OutputList for the IOutputcontroller object.
         /// </summary>
         public virtual OutputList Outputs { get; set; }
-        
+
         /// <summary>
-        /// Init must be overwritten and must initialize the ouput controller.<br/>
+        /// Init must be overwritten and must initialize the ouput controller.<br />
         /// This method is called after the objects haven been instanciated.
         /// </summary>
-        public abstract void Init();
+        /// <param name="Pinball">The pinball object which is using the IOutputController instance.</param>
+        public abstract void Init(Pinball Pinball);
+
         /// <summary>
         /// Finish must be overwritten and must finish the ouput controller.<br/>
         /// All necessary cleanup tasks have to be implemented here und all physical outputs have to be turned off.

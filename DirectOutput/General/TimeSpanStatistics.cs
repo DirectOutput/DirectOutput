@@ -39,9 +39,9 @@ namespace DirectOutput.General
             string S = "Values count: {0}".Build(ValuesCount);
             if (ValuesCount > 0)
             {
-                S += ", Avg.: {0}, ".Build(AverageDuration.ToString("s\\.FFFFFF"));
-                S += "Min.: {0}, ".Build(MinValue.ToString("s\\.FFFFFF"));
-                S += "Max.: {0} ".Build(MaxValue.ToString("s\\.FFFFFF"));
+                S += ", Avg.: {0} s, ".Build(AverageDuration.ToString("s\\.FFFFFFF"));
+                S += "Min.: {0} s, ".Build(MinValue.ToString("s\\.FFFFFFF"));
+                S += "Max.: {0} s".Build(MaxValue.ToString("s\\.FFFFFFF"));
 
 
             }
