@@ -1,0 +1,465 @@
+﻿namespace DirectOutputConfigTester
+{
+    partial class OpenConfigDialog
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OpenConfigDialog));
+            this.OKButton = new System.Windows.Forms.Button();
+            this.CancelButton = new System.Windows.Forms.Button();
+            this.OpenGlobalConfigFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.label1 = new System.Windows.Forms.Label();
+            this.GlobalConfigFileSelectButton = new System.Windows.Forms.Button();
+            this.GlobalConfigFilenameLabel = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.TableFilenameLabel = new System.Windows.Forms.Label();
+            this.TableFileSelectButton = new System.Windows.Forms.Button();
+            this.RomNameComboBox = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.OpenTableFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.SuspendLayout();
+            // 
+            // OKButton
+            // 
+            this.OKButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.OKButton.Location = new System.Drawing.Point(110, 105);
+            this.OKButton.Name = "OKButton";
+            this.OKButton.Size = new System.Drawing.Size(159, 23);
+            this.OKButton.TabIndex = 0;
+            this.OKButton.Text = "OK";
+            this.OKButton.UseVisualStyleBackColor = true;
+            // 
+            // CancelButton
+            // 
+            this.CancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.CancelButton.Location = new System.Drawing.Point(360, 105);
+            this.CancelButton.Name = "CancelButton";
+            this.CancelButton.Size = new System.Drawing.Size(150, 23);
+            this.CancelButton.TabIndex = 1;
+            this.CancelButton.Text = "Cancel";
+            this.CancelButton.UseVisualStyleBackColor = true;
+            // 
+            // OpenGlobalConfigFileDialog
+            // 
+            this.OpenGlobalConfigFileDialog.DefaultExt = "xml";
+            this.OpenGlobalConfigFileDialog.Filter = "XML files (*.xml)|*.xml|All files|*.*";
+            this.OpenGlobalConfigFileDialog.Title = "Select a global config file";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(88, 13);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Global config file:";
+            // 
+            // GlobalConfigFileSelectButton
+            // 
+            this.GlobalConfigFileSelectButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.GlobalConfigFileSelectButton.Location = new System.Drawing.Point(519, 4);
+            this.GlobalConfigFileSelectButton.Name = "GlobalConfigFileSelectButton";
+            this.GlobalConfigFileSelectButton.Size = new System.Drawing.Size(45, 23);
+            this.GlobalConfigFileSelectButton.TabIndex = 4;
+            this.GlobalConfigFileSelectButton.Text = "Select";
+            this.GlobalConfigFileSelectButton.UseVisualStyleBackColor = true;
+            this.GlobalConfigFileSelectButton.Click += new System.EventHandler(this.GlobalConfigFileSelectButton_Click);
+            // 
+            // GlobalConfigFilenameLabel
+            // 
+            this.GlobalConfigFilenameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.GlobalConfigFilenameLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.GlobalConfigFilenameLabel.Location = new System.Drawing.Point(110, 8);
+            this.GlobalConfigFilenameLabel.Name = "GlobalConfigFilenameLabel";
+            this.GlobalConfigFilenameLabel.Size = new System.Drawing.Size(401, 18);
+            this.GlobalConfigFilenameLabel.TabIndex = 5;
+            this.GlobalConfigFilenameLabel.Click += new System.EventHandler(this.GlobalConfigFilename_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(12, 37);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(53, 13);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "Table file:";
+            // 
+            // TableFilenameLabel
+            // 
+            this.TableFilenameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.TableFilenameLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.TableFilenameLabel.Location = new System.Drawing.Point(110, 36);
+            this.TableFilenameLabel.Name = "TableFilenameLabel";
+            this.TableFilenameLabel.Size = new System.Drawing.Size(401, 21);
+            this.TableFilenameLabel.TabIndex = 7;
+            this.TableFilenameLabel.Click += new System.EventHandler(this.TableFilename_Click);
+            // 
+            // TableFileSelectButton
+            // 
+            this.TableFileSelectButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.TableFileSelectButton.Location = new System.Drawing.Point(519, 34);
+            this.TableFileSelectButton.Name = "TableFileSelectButton";
+            this.TableFileSelectButton.Size = new System.Drawing.Size(45, 23);
+            this.TableFileSelectButton.TabIndex = 8;
+            this.TableFileSelectButton.Text = "Select";
+            this.TableFileSelectButton.UseVisualStyleBackColor = true;
+            this.TableFileSelectButton.Click += new System.EventHandler(this.TableFileSelectButton_Click);
+            // 
+            // RomNameComboBox
+            // 
+            this.RomNameComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.RomNameComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
+            this.RomNameComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.RomNameComboBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.RomNameComboBox.FormattingEnabled = true;
+            this.RomNameComboBox.Items.AddRange(new object[] {
+            "",
+            "abv106",
+            "afm",
+            "ali",
+            "alienstr",
+            "alpok",
+            "amazonh",
+            "apollo13",
+            "arena",
+            "atlantis",
+            "austin",
+            "babypac",
+            "badgirls",
+            "barbwire",
+            "barra",
+            "batmanf",
+            "baywatch",
+            "bbb109",
+            "bcats",
+            "beatclck",
+            "bguns",
+            "biggame",
+            "bighouse",
+            "bighurt",
+            "bk",
+            "bk2k",
+            "blackblt",
+            "blackjck",
+            "blakpyra",
+            "blckhole",
+            "blkou",
+            "bnzai",
+            "bonebstr",
+            "bop",
+            "bowarrow",
+            "br",
+            "brvteam",
+            "bsv103",
+            "btmn",
+            "bttf",
+            "bullseye",
+            "canasta",
+            "cc",
+            "centaur",
+            "cftbl",
+            "charlies",
+            "ckpt",
+            "clas1812",
+            "closeenc",
+            "comet",
+            "congo",
+            "corv",
+            "csmic",
+            "cueball",
+            "cv",
+            "cybrnaut",
+            "cycln",
+            "cyclopes",
+            "dd",
+            "deadweap",
+            "dh",
+            "diamond",
+            "diner",
+            "disco",
+            "dm",
+            "dollyptb",
+            "drac",
+            "dracula",
+            "dragon",
+            "dvlrider",
+            "dw",
+            "eatpm",
+            "eballchp",
+            "eballdlx",
+            "eightbll",
+            "eldorado",
+            "elvis",
+            "embryon",
+            "esha",
+            "f14",
+            "faeton",
+            "fathom",
+            "fbclass",
+            "ffv104",
+            "fh",
+            "flash",
+            "flashgdn",
+            "flight2k",
+            "frankst",
+            "freddy",
+            "freefall",
+            "frontier",
+            "frpwr",
+            "fs",
+            "ft",
+            "futurspa",
+            "galaxy",
+            "genesis",
+            "genie",
+            "gi",
+            "gldneye",
+            "gnr",
+            "godzilla",
+            "goldcue",
+            "gprix",
+            "grand",
+            "grgar",
+            "gs",
+            "gw",
+            "hd",
+            "hglbtrtb",
+            "hh",
+            "hirolcas",
+            "hook",
+            "hothand",
+            "hs",
+            "hurr",
+            "i500",
+            "icefever",
+            "id4",
+            "ij",
+            "ind250cc",
+            "ironmaid",
+            "jamesb2",
+            "jb",
+            "jd",
+            "jm",
+            "jokrz",
+            "jolypark",
+            "jplstw22",
+            "jupk",
+            "jy",
+            "kissb",
+            "kosteel",
+            "kpv",
+            "lah",
+            "lectrono",
+            "lightnin",
+            "lostspc",
+            "lostwrld",
+            "lotr",
+            "lsrcu",
+            "lw3",
+            "m",
+            "matahari",
+            "mav",
+            "mb",
+            "medusa",
+            "mephisto",
+            "metalman",
+            "mm",
+            "monopoly",
+            "mousn",
+            "mysticb",
+            "nascar",
+            "nbaf",
+            "nf",
+            "ngg",
+            "ngndshkr",
+            "nineball",
+            "panthera",
+            "paragon",
+            "pb",
+            "pharo",
+            "pinchamp",
+            "pinpool",
+            "play",
+            "playboyb",
+            "playboys",
+            "pmv112",
+            "pnkpnthr",
+            "polic",
+            "pop",
+            "poto",
+            "princess",
+            "prtyanim",
+            "pwerplay",
+            "pz",
+            "qbquest",
+            "rab",
+            "radcl",
+            "raven",
+            "rctycn",
+            "rdkng",
+            "rescu911",
+            "rflshdlx",
+            "ripleys",
+            "roadrunr",
+            "robo",
+            "robot",
+            "robowars",
+            "rocky",
+            "rollr",
+            "rollstob",
+            "rs",
+            "rvrbt",
+            "seawitch",
+            "sfight2",
+            "simp",
+            "simpprty",
+            "slbmania",
+            "smb3",
+            "solaride",
+            "sopranos",
+            "sorcr",
+            "spaceinv",
+            "spcrider",
+            "spectru4",
+            "spidermn7",
+            "spirit",
+            "sprk",
+            "SS",
+            "sshooter",
+            "sshtl",
+            "sst",
+            "ssvc",
+            "stargat4",
+            "stargoda",
+            "stars",
+            "startrek",
+            "startrp",
+            "stk",
+            "strngsci",
+            "sttng",
+            "stwr",
+            "swrds",
+            "swtril43",
+            "t2",
+            "taf",
+            "taxi",
+            "teedoff3",
+            "term3",
+            "tftc",
+            "tmac",
+            "tmnt",
+            "tom",
+            "tomy",
+            "totan",
+            "trailer",
+            "trek",
+            "trident",
+            "trucksp3",
+            "ts",
+            "tstrk",
+            "twst",
+            "tz",
+            "vegas",
+            "viprsega",
+            "vortex",
+            "wcs",
+            "wd",
+            "whirl",
+            "wipeout",
+            "wrldtou2",
+            "ww",
+            "wwfr",
+            "Xenon",
+            "xfiles"});
+            this.RomNameComboBox.Location = new System.Drawing.Point(110, 67);
+            this.RomNameComboBox.Name = "RomNameComboBox";
+            this.RomNameComboBox.Size = new System.Drawing.Size(399, 21);
+            this.RomNameComboBox.TabIndex = 9;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(12, 70);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(60, 13);
+            this.label2.TabIndex = 10;
+            this.label2.Text = "RomName:";
+            // 
+            // OpenTableFileDialog
+            // 
+            this.OpenTableFileDialog.DefaultExt = "vpt";
+            this.OpenTableFileDialog.Filter = "VP Table file (*.vpt)|*.vpt|All files|*.*";
+            this.OpenTableFileDialog.Title = "Select a pinball table file";
+            // 
+            // OpenConfigDialog
+            // 
+            this.AcceptButton = this.OKButton;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.CancelButton;
+            this.ClientSize = new System.Drawing.Size(576, 147);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.RomNameComboBox);
+            this.Controls.Add(this.TableFileSelectButton);
+            this.Controls.Add(this.TableFilenameLabel);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.GlobalConfigFilenameLabel);
+            this.Controls.Add(this.GlobalConfigFileSelectButton);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.CancelButton);
+            this.Controls.Add(this.OKButton);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "OpenConfigDialog";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "Open Configuration";
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.Button OKButton;
+        private System.Windows.Forms.Button CancelButton;
+        private System.Windows.Forms.OpenFileDialog OpenGlobalConfigFileDialog;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button GlobalConfigFileSelectButton;
+        private System.Windows.Forms.Label GlobalConfigFilenameLabel;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label TableFilenameLabel;
+        private System.Windows.Forms.Button TableFileSelectButton;
+        private System.Windows.Forms.ComboBox RomNameComboBox;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.OpenFileDialog OpenTableFileDialog;
+    }
+}
