@@ -62,7 +62,7 @@ namespace DirectOutputConfigTester
         public int PulseDurationMs
         {
             get { return _PulseDurationMs; }
-            set { _PulseDurationMs = value; }
+            set { _PulseDurationMs = value.Limit(10,5000); }
         }
 
 

@@ -34,13 +34,14 @@
             this.OpenGlobalConfigFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.label1 = new System.Windows.Forms.Label();
             this.GlobalConfigFileSelectButton = new System.Windows.Forms.Button();
-            this.GlobalConfigFilenameLabel = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.TableFilenameLabel = new System.Windows.Forms.Label();
             this.TableFileSelectButton = new System.Windows.Forms.Button();
             this.RomNameComboBox = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.OpenTableFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.TableFileClearButton = new System.Windows.Forms.Button();
+            this.GlobalConfigFilenameComboBox = new System.Windows.Forms.ComboBox();
+            this.TableFilenameComboBox = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // OKButton
@@ -52,12 +53,13 @@
             this.OKButton.TabIndex = 0;
             this.OKButton.Text = "OK";
             this.OKButton.UseVisualStyleBackColor = true;
+            this.OKButton.Click += new System.EventHandler(this.OKButton_Click);
             // 
             // CancelButton
             // 
             this.CancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.CancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelButton.Location = new System.Drawing.Point(360, 105);
+            this.CancelButton.Location = new System.Drawing.Point(484, 105);
             this.CancelButton.Name = "CancelButton";
             this.CancelButton.Size = new System.Drawing.Size(150, 23);
             this.CancelButton.TabIndex = 1;
@@ -82,24 +84,13 @@
             // GlobalConfigFileSelectButton
             // 
             this.GlobalConfigFileSelectButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.GlobalConfigFileSelectButton.Location = new System.Drawing.Point(519, 4);
+            this.GlobalConfigFileSelectButton.Location = new System.Drawing.Point(640, 5);
             this.GlobalConfigFileSelectButton.Name = "GlobalConfigFileSelectButton";
             this.GlobalConfigFileSelectButton.Size = new System.Drawing.Size(45, 23);
             this.GlobalConfigFileSelectButton.TabIndex = 4;
             this.GlobalConfigFileSelectButton.Text = "Select";
             this.GlobalConfigFileSelectButton.UseVisualStyleBackColor = true;
             this.GlobalConfigFileSelectButton.Click += new System.EventHandler(this.GlobalConfigFileSelectButton_Click);
-            // 
-            // GlobalConfigFilenameLabel
-            // 
-            this.GlobalConfigFilenameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.GlobalConfigFilenameLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.GlobalConfigFilenameLabel.Location = new System.Drawing.Point(110, 8);
-            this.GlobalConfigFilenameLabel.Name = "GlobalConfigFilenameLabel";
-            this.GlobalConfigFilenameLabel.Size = new System.Drawing.Size(401, 18);
-            this.GlobalConfigFilenameLabel.TabIndex = 5;
-            this.GlobalConfigFilenameLabel.Click += new System.EventHandler(this.GlobalConfigFilename_Click);
             // 
             // label3
             // 
@@ -110,21 +101,10 @@
             this.label3.TabIndex = 6;
             this.label3.Text = "Table file:";
             // 
-            // TableFilenameLabel
-            // 
-            this.TableFilenameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.TableFilenameLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.TableFilenameLabel.Location = new System.Drawing.Point(110, 36);
-            this.TableFilenameLabel.Name = "TableFilenameLabel";
-            this.TableFilenameLabel.Size = new System.Drawing.Size(401, 21);
-            this.TableFilenameLabel.TabIndex = 7;
-            this.TableFilenameLabel.Click += new System.EventHandler(this.TableFilename_Click);
-            // 
             // TableFileSelectButton
             // 
             this.TableFileSelectButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.TableFileSelectButton.Location = new System.Drawing.Point(519, 34);
+            this.TableFileSelectButton.Location = new System.Drawing.Point(640, 36);
             this.TableFileSelectButton.Name = "TableFileSelectButton";
             this.TableFileSelectButton.Size = new System.Drawing.Size(45, 23);
             this.TableFileSelectButton.TabIndex = 8;
@@ -138,7 +118,6 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.RomNameComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
             this.RomNameComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.RomNameComboBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.RomNameComboBox.FormattingEnabled = true;
             this.RomNameComboBox.Items.AddRange(new object[] {
             "",
@@ -401,7 +380,7 @@
             "xfiles"});
             this.RomNameComboBox.Location = new System.Drawing.Point(110, 67);
             this.RomNameComboBox.Name = "RomNameComboBox";
-            this.RomNameComboBox.Size = new System.Drawing.Size(399, 21);
+            this.RomNameComboBox.Size = new System.Drawing.Size(524, 21);
             this.RomNameComboBox.TabIndex = 9;
             // 
             // label2
@@ -419,24 +398,54 @@
             this.OpenTableFileDialog.Filter = "VP Table file (*.vpt)|*.vpt|All files|*.*";
             this.OpenTableFileDialog.Title = "Select a pinball table file";
             // 
+            // TableFileClearButton
+            // 
+            this.TableFileClearButton.Location = new System.Drawing.Point(687, 36);
+            this.TableFileClearButton.Name = "TableFileClearButton";
+            this.TableFileClearButton.Size = new System.Drawing.Size(50, 23);
+            this.TableFileClearButton.TabIndex = 11;
+            this.TableFileClearButton.Text = "Clear";
+            this.TableFileClearButton.UseVisualStyleBackColor = true;
+            this.TableFileClearButton.Click += new System.EventHandler(this.TableFileClearButton_Click);
+            // 
+            // GlobalConfigFilenameComboBox
+            // 
+            this.GlobalConfigFilenameComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.GlobalConfigFilenameComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.GlobalConfigFilenameComboBox.FormattingEnabled = true;
+            this.GlobalConfigFilenameComboBox.Location = new System.Drawing.Point(110, 9);
+            this.GlobalConfigFilenameComboBox.MaxDropDownItems = 16;
+            this.GlobalConfigFilenameComboBox.Name = "GlobalConfigFilenameComboBox";
+            this.GlobalConfigFilenameComboBox.Size = new System.Drawing.Size(520, 21);
+            this.GlobalConfigFilenameComboBox.TabIndex = 12;
+            // 
+            // TableFilenameComboBox
+            // 
+            this.TableFilenameComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.TableFilenameComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.TableFilenameComboBox.FormattingEnabled = true;
+            this.TableFilenameComboBox.Location = new System.Drawing.Point(110, 37);
+            this.TableFilenameComboBox.Name = "TableFilenameComboBox";
+            this.TableFilenameComboBox.Size = new System.Drawing.Size(520, 21);
+            this.TableFilenameComboBox.TabIndex = 13;
+            // 
             // OpenConfigDialog
             // 
             this.AcceptButton = this.OKButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.CancelButton;
-            this.ClientSize = new System.Drawing.Size(576, 147);
+            this.ClientSize = new System.Drawing.Size(746, 141);
+            this.Controls.Add(this.TableFilenameComboBox);
+            this.Controls.Add(this.GlobalConfigFilenameComboBox);
+            this.Controls.Add(this.TableFileClearButton);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.RomNameComboBox);
             this.Controls.Add(this.TableFileSelectButton);
-            this.Controls.Add(this.TableFilenameLabel);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.GlobalConfigFilenameLabel);
             this.Controls.Add(this.GlobalConfigFileSelectButton);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.CancelButton);
             this.Controls.Add(this.OKButton);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "OpenConfigDialog";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
@@ -454,12 +463,13 @@
         private System.Windows.Forms.OpenFileDialog OpenGlobalConfigFileDialog;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button GlobalConfigFileSelectButton;
-        private System.Windows.Forms.Label GlobalConfigFilenameLabel;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label TableFilenameLabel;
         private System.Windows.Forms.Button TableFileSelectButton;
         private System.Windows.Forms.ComboBox RomNameComboBox;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.OpenFileDialog OpenTableFileDialog;
+        private System.Windows.Forms.Button TableFileClearButton;
+        private System.Windows.Forms.ComboBox GlobalConfigFilenameComboBox;
+        private System.Windows.Forms.ComboBox TableFilenameComboBox;
     }
 }

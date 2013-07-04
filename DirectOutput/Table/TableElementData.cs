@@ -78,7 +78,7 @@ namespace DirectOutput.Table
         public TableElementData(TableElement TableElement)
         {
             this.Number = TableElement.Number;
-            this.TableElementType = TableElementType;
+            this.TableElementType = TableElement.TableElementType;
             this.Value = TableElement.Value;
         }
 

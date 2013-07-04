@@ -661,6 +661,17 @@ namespace DirectOutput
             ThreadInfoList.HeartBeat("Data delivery");
         }
 
+        /// <summary>
+        /// Receives the table element data from the calling app.<br />
+        /// The received data is put in a queue and the internal thread of the framework is notified about the availability of new data.
+        /// </summary>
+        /// <param name="TableElementData">The table element data to be received.</param>
+        public void ReceiveData(TableElementData TableElementData)
+        {
+            InputQueue.Enqueue(TableElementData);
+            MainThreadSignal();
+            ThreadInfoList.HeartBeat("Data delivery");
+        }
 
 
 
