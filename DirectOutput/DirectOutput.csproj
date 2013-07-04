@@ -92,11 +92,9 @@
     <Compile Include="Cab\Toys\Basic\GearMotor.cs" />
     <Compile Include="Cab\Toys\IRGBToy.cs" />
     <Content Include="Config\GlobalConfig_B2SServer.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Config\TimedDimmerLampEffect.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Config\TimedDimmerLampEffect.cs" />
     <Compile Include="Cab\Toys\ILampToy.cs" />
     <Compile Include="DirectOutput.cs" />
     <Compile Include="Extensions\ArrayExtensions.cs" />
@@ -268,7 +266,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Config\Cabinet.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="DirectOutputIcon_32.ico" />
     <Content Include="ledwiz.dll">
@@ -276,20 +274,26 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Config\ledcontrol.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Config\ledcontrol.nofeedback.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Config\ledcontrol2.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Config\ledcontrol2.nofeedback.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Docu\Diagramms\CabinetArchitecture.cd" />
     <None Include="Docu\Diagramms\EffectsArchitecture.cd" />
     <None Include="Docu\Diagramms\OutputControllerArchitecture.cd" />
     <None Include="Docu\Diagramms\TableArchitecture.cd" />
     <None Include="Docu\Diagramms\GlobalArchitecture.cd" />
     <None Include="Cab\Cabinet.cd" />
-    <None Include="Config\ledcontrol2.ini">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="Docu\Diagramms\ToyArchitecture.cd" />
     <None Include="FX\FX.cd" />
-    <None Include="Config\ledcontrol.ini">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="LedControl\LedControl.cd" />
     <None Include="Main.cd" />
     <None Include="Properties\DataSources\DirectOutput.GlobalConfig.Config.datasource" />
