@@ -254,6 +254,8 @@ namespace DirectOutput.Cab
         public void Finish()
         {
             Log.Write("Finishing cabinet");
+   
+            Effects.Finish();
             Toys.Finish();
             OutputControllers.Finish();
             Log.Write("Cabinet finished");

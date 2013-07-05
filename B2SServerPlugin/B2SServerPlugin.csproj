@@ -70,42 +70,7 @@
 
 del "$(TargetDir)B2SServerPluginInterface.*"
 
-mkdir "C:\Users\Tom\Documents\Visual Studio 2010\Projects\B2SBackglassServer\B2SBackglassServer\bin\Release\plugins"
-rmdir /S /Q "C:\Users\Tom\Documents\Visual Studio 2010\Projects\B2SBackglassServer\B2SBackglassServer\bin\Release\plugins\DirectOutput"
-
-mkdir "C:\Users\Tom\Documents\Visual Studio 2010\Projects\B2SBackglassServer\B2SBackglassServer\bin\Release\plugins\DirectOutput"
-mkdir "C:\Users\Tom\Documents\Visual Studio 2010\Projects\B2SBackglassServer\B2SBackglassServer\bin\Release\plugins\DirectOutput\Config"
-copy "$(TargetDir)*.dll" "C:\Users\Tom\Documents\Visual Studio 2010\Projects\B2SBackglassServer\B2SBackglassServer\bin\Release\plugins\DirectOutput"
-
-xcopy "$(TargetDir)config\*" "C:\Users\Tom\Documents\Visual Studio 2010\Projects\B2SBackglassServer\B2SBackglassServer\bin\Release\plugins\DirectOutput\Config" /E /Y
-
-copy "$(TargetDir)*.dll" "X:\Visual Pinball\Tables\plugins\DirectOutput"
-
-
-for /F "tokens=4" %25%25F in ('filever.exe /B /A /D $(TargetPath)') do (
-  set VERSION=%25%25F
-)
-
-if $(ConfigurationName) == Release (
-
-echo Version: %25VERSION%25&gt;$(SolutionDir)DocuSupport\version.txt
-echo %25date%25 %25time%25 &gt;$(SolutionDir)DocuSupport\AsOf.txt
-
-mkdir $(SolutionDir)..\DirectOutput_Docu
-mkdir $(SolutionDir)..\DirectOutput_Docu\plugin
-
-copy "$(TargetDir)*.dll" "X:\Visual Pinball\Tables\plugins\DirectOutput\"
-del "X:\Visual Pinball\Tables\plugins\DirectOutput\B2S*.dll"
-
-del "$(SolutionDir)..\DirectOutput_Docu\plugin\DirectOutput_V*.zip"
-"c:\program files\7-zip\7z" a "$(SolutionDir)..\DirectOutput_Docu\plugin\DirectOutput_V%25VERSION%25.zip" "$(TargetDir)*.dll"
-$(SolutionDir)docusupport\echohtmllink plugin/DirectOutput_V%25VERSION%25.zip plugin/DirectOutput_V%25VERSION%25.zip&gt;$(SolutionDir)DocuSupport\latestzip.txt
-
-cd $(SolutionDir)DocuSupport
-doxygen DoxygenConfigFile
-
-
-)</PostBuildEvent>
+</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

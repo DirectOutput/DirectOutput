@@ -129,7 +129,7 @@
             this.TableEffectProperties.Name = "TableEffectProperties";
             this.TableEffectProperties.ReadOnly = true;
             this.TableEffectProperties.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.TableEffectProperties.Size = new System.Drawing.Size(666, 627);
+            this.TableEffectProperties.Size = new System.Drawing.Size(666, 618);
             this.TableEffectProperties.TabIndex = 1;
             // 
             // TableAssignedStaticEffects
@@ -175,7 +175,7 @@
             this.TableElementAssignedEffects.Name = "TableElementAssignedEffects";
             this.TableElementAssignedEffects.ReadOnly = true;
             this.TableElementAssignedEffects.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.TableElementAssignedEffects.Size = new System.Drawing.Size(1191, 299);
+            this.TableElementAssignedEffects.Size = new System.Drawing.Size(1191, 289);
             this.TableElementAssignedEffects.TabIndex = 4;
             // 
             // label1

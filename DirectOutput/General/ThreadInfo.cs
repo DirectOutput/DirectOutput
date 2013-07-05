@@ -146,7 +146,6 @@ namespace DirectOutput.General
 
         /// <summary>
         /// Gets a value indicating whether the thread represented by this instance is alive.<be/>
-        /// This value is true if the Isalive property of the thread is true and the timespan since the last heartbeat is less than 1 second.
         /// </summary>
         /// <value>
         ///   <c>true</c> if the thread is alive; otherwise, <c>false</c>.
@@ -155,11 +154,8 @@ namespace DirectOutput.General
         {
             get
             {
-                if (Thread.IsAlive)
-                {
-                    return (DateTime.Now - LastHeartBeat).TotalSeconds > 1;
-                }
-                return false;
+                
+                return Thread.IsAlive;
             }
         }
 

@@ -76,7 +76,7 @@ namespace DirectOutput.General.Statistics
         {
             get
             {
-                return MaxDurations.Min();
+                return MinDurations.Min();
             }
         }
 
@@ -133,13 +133,14 @@ namespace DirectOutput.General.Statistics
         public override string ToString()
         {
 
-            string S = "Values count: {0}".Build(ValuesCount);
+            string S = "{0}, ".Build(Name);
+            S+= "Values count: {0}".Build(ValuesCount);
             if (ValuesCount > 0)
             {
-                S += ", Total: {0} s, ".Build(TotalDuration.ToString("s\\.FFFFFFF"));
-                S += "Avg.: {0} s, ".Build(AverageDuration.ToString("s\\.FFFFFFF"));
-                S += "Min.: {0} s, ".Build(MinDuration.ToString("s\\.FFFFFFF"));
-                S += "Max.: {0} s".Build(MaxDuration.ToString("s\\.FFFFFFF"));
+                S += ", Total: {0}, ".Build(TotalDuration.Format());
+                S += "Avg.: {0}, ".Build(AverageDuration.Format());
+                S += "Min.: {0}, ".Build(MinDuration.Format());
+                S += "Max.: {0}".Build(MaxDuration.Format());
 
 
             }

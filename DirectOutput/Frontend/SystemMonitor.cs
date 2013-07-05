@@ -37,15 +37,16 @@ namespace DirectOutput.Frontend
             foreach (TimeSpanStatisticsItem Item in Pinball.TimeSpanStatistics)
             {
                 int RowIndex = DurationStatistics.Rows.Add();
+                DurationStatistics.Rows[RowIndex].Tag = Item;
                 DurationStatistics[StatGroup.Name, RowIndex].Value = (Item.GroupName.IsNullOrWhiteSpace()?"":Item.GroupName);
                 DurationStatistics[StatName.Name, RowIndex].Value = Item.Name;
                 DurationStatistics[StatCallsCount.Name, RowIndex].Value = "{0} calls".Build(Item.ValuesCount);
                 if (Item.ValuesCount > 0)
                 {
-                    DurationStatistics[StatTotalDuration.Name, RowIndex].Value = "{0} s, ".Build(Item.TotalDuration.ToString("s\\.FFFFFFF"));
-                    DurationStatistics[StatAvgDuration.Name, RowIndex].Value = "{0} s, ".Build(Item.AverageDuration.ToString("s\\.FFFFFFF"));
-                    DurationStatistics[StatMinDuration.Name, RowIndex].Value = "{0} s, ".Build(Item.MinDuration.ToString("s\\.FFFFFFF"));
-                    DurationStatistics[StatMaxDuration.Name, RowIndex].Value = "{0} s, ".Build(Item.MaxDuration.ToString("s\\.FFFFFFF"));
+                    DurationStatistics[StatTotalDuration.Name, RowIndex].Value = Item.TotalDuration.Format();
+                    DurationStatistics[StatAvgDuration.Name, RowIndex].Value = Item.AverageDuration.Format();
+                    DurationStatistics[StatMinDuration.Name, RowIndex].Value = Item.MinDuration.Format();
+                    DurationStatistics[StatMaxDuration.Name, RowIndex].Value = Item.MaxDuration.Format();
                 }
             }
         }
@@ -89,6 +90,14 @@ namespace DirectOutput.Frontend
         private void RefreshButton_Click(object sender, EventArgs e)
         {
             RefreshData();
+        }
+
+        private void DurationStatistics_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.RowIndex < DurationStatistics.Rows.Count)
+            {
+                new TimeSpanStatisticsDetails((TimeSpanStatisticsItem)DurationStatistics.Rows[e.RowIndex].Tag).ShowDialog(this);
+            }
         }
 
 

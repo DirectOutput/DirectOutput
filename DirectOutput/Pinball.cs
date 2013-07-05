@@ -365,7 +365,13 @@ namespace DirectOutput
             Cabinet.OutputControllers.Update();
 
             //Add the thread initializing the framework to the threadinfo list
-            ThreadInfoList.HeartBeat("External caller");
+            ThreadInfo TI = new ThreadInfo(Thread.CurrentThread);
+            TI.HeartBeatTimeOutMs = 10000;
+            TI.HostName = "External caller";
+            TI.HeartBeat();
+            ThreadInfoList.Add(TI);
+
+            
 
             InitMainThread();
             Log.Write("Framework initialized.");
@@ -382,10 +388,9 @@ namespace DirectOutput
             FinishMainThread();
 
             Alarms.Finish();
-            Table.Effects.Finish();
-            Cabinet.Effects.Finish();
-            Cabinet.Toys.Finish();
-            Cabinet.OutputControllers.Finish();
+            Table.Finish();
+            Cabinet.Finish();
+            
 
             WriteStatisticsToLog();
 
@@ -521,7 +526,7 @@ namespace DirectOutput
                             DateTime StartTime = DateTime.Now;
                             Table.UpdateTableElement(D);
                             UpdateRequired |= true;
-                            UpdateTableElementStatistics(D, (StartTime - DateTime.Now));
+                            UpdateTableElementStatistics(D, ( DateTime.Now-StartTime ));
                         }
                         catch (Exception E)
                         {
@@ -602,7 +607,7 @@ namespace DirectOutput
             TableElementCallStatistics = new Dictionary<TableElementTypeEnum, TimeSpanStatisticsItem>();
             foreach (TableElementTypeEnum T in Enum.GetValues(typeof(TableElementTypeEnum)))
             {
-                 TSI=new TimeSpanStatisticsItem() {Name="{0} calls".Build(T.ToString()),GroupName="Pinball - Table element update calls"};
+                 TSI=new TimeSpanStatisticsItem() {Name="{0}".Build(T.ToString()),GroupName="Pinball - Table element update calls"};
                 TableElementCallStatistics.Add(T, TSI);
                 TimeSpanStatistics.Add(TSI);
             }
@@ -628,21 +633,20 @@ namespace DirectOutput
             Log.Write("Duration statistics:");
 
             TimeSpanStatistics.Sort();
-            string CurrentGroupName = "";
+            string LastGroupName = "";
             foreach (TimeSpanStatisticsItem TSI in TimeSpanStatistics)
             {
-                if (CurrentGroupName != TSI.GroupName)
+                if (LastGroupName != TSI.GroupName)
                 {
                     Log.Write("  {0}".Build(TSI.GroupName));
+                    LastGroupName = TSI.GroupName;
                 }
-                Log.Write("    - {0}".Build(TSI.Name));
+                Log.Write("    - {0}".Build(TSI.ToString()));
+
             }
 
 
-            foreach (KeyValuePair<TableElementTypeEnum, TimeSpanStatisticsItem> KV in TableElementCallStatistics)
-            {
-                Log.Write("  {0}, {1}".Build(KV.Key.ToString(), KV.Value.ToString()));
-            }
+      
         }
 
         private InputQueue InputQueue = new InputQueue();

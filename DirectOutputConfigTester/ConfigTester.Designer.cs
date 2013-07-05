@@ -36,18 +36,19 @@
             this.OpenGlobalConfigDialog = new System.Windows.Forms.OpenFileDialog();
             this.OpenTableDialog = new System.Windows.Forms.OpenFileDialog();
             this.TableElements = new System.Windows.Forms.DataGridView();
-            this.ActivateAllButton = new System.Windows.Forms.Button();
-            this.DeactivateAllButton = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.PulseDurationInput = new System.Windows.Forms.NumericUpDown();
-            this.label2 = new System.Windows.Forms.Label();
-            this.LoadConfigButton = new System.Windows.Forms.Button();
             this.TEType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TEName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TENumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TEValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TEActivate = new System.Windows.Forms.DataGridViewButtonColumn();
             this.TEPulse = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.ActivateAllButton = new System.Windows.Forms.Button();
+            this.DeactivateAllButton = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.PulseDurationInput = new System.Windows.Forms.NumericUpDown();
+            this.label2 = new System.Windows.Forms.Label();
+            this.LoadConfigButton = new System.Windows.Forms.Button();
+            this.ShowFrontEndButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.TableElements)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PulseDurationInput)).BeginInit();
             this.SuspendLayout();
@@ -82,6 +83,49 @@
             this.TableElements.TabIndex = 0;
             this.TableElements.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.TableElements_CellClick);
             this.TableElements.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.TableElements_CellValueChanged);
+            // 
+            // TEType
+            // 
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.TEType.DefaultCellStyle = dataGridViewCellStyle1;
+            this.TEType.HeaderText = "Type";
+            this.TEType.Name = "TEType";
+            this.TEType.ReadOnly = true;
+            // 
+            // TEName
+            // 
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.TEName.DefaultCellStyle = dataGridViewCellStyle2;
+            this.TEName.HeaderText = "Name";
+            this.TEName.Name = "TEName";
+            this.TEName.ReadOnly = true;
+            // 
+            // TENumber
+            // 
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.TENumber.DefaultCellStyle = dataGridViewCellStyle3;
+            this.TENumber.HeaderText = "Number";
+            this.TENumber.Name = "TENumber";
+            this.TENumber.ReadOnly = true;
+            // 
+            // TEValue
+            // 
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.TEValue.DefaultCellStyle = dataGridViewCellStyle4;
+            this.TEValue.HeaderText = "Value";
+            this.TEValue.Name = "TEValue";
+            // 
+            // TEActivate
+            // 
+            this.TEActivate.HeaderText = "Activate";
+            this.TEActivate.Name = "TEActivate";
+            this.TEActivate.ReadOnly = true;
+            // 
+            // TEPulse
+            // 
+            this.TEPulse.HeaderText = "Pulse";
+            this.TEPulse.Name = "TEPulse";
+            this.TEPulse.ReadOnly = true;
             // 
             // ActivateAllButton
             // 
@@ -166,54 +210,22 @@
             this.LoadConfigButton.UseVisualStyleBackColor = true;
             this.LoadConfigButton.Click += new System.EventHandler(this.LoadConfigButton_Click);
             // 
-            // TEType
+            // ShowFrontEndButton
             // 
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.TEType.DefaultCellStyle = dataGridViewCellStyle1;
-            this.TEType.HeaderText = "Type";
-            this.TEType.Name = "TEType";
-            this.TEType.ReadOnly = true;
-            // 
-            // TEName
-            // 
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.TEName.DefaultCellStyle = dataGridViewCellStyle2;
-            this.TEName.HeaderText = "Name";
-            this.TEName.Name = "TEName";
-            this.TEName.ReadOnly = true;
-            // 
-            // TENumber
-            // 
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.TENumber.DefaultCellStyle = dataGridViewCellStyle3;
-            this.TENumber.HeaderText = "Number";
-            this.TENumber.Name = "TENumber";
-            this.TENumber.ReadOnly = true;
-            // 
-            // TEValue
-            // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.TEValue.DefaultCellStyle = dataGridViewCellStyle4;
-            this.TEValue.HeaderText = "Value";
-            this.TEValue.Name = "TEValue";
-            // 
-            // TEActivate
-            // 
-            this.TEActivate.HeaderText = "Activate";
-            this.TEActivate.Name = "TEActivate";
-            this.TEActivate.ReadOnly = true;
-            // 
-            // TEPulse
-            // 
-            this.TEPulse.HeaderText = "Pulse";
-            this.TEPulse.Name = "TEPulse";
-            this.TEPulse.ReadOnly = true;
+            this.ShowFrontEndButton.Location = new System.Drawing.Point(116, 403);
+            this.ShowFrontEndButton.Name = "ShowFrontEndButton";
+            this.ShowFrontEndButton.Size = new System.Drawing.Size(152, 23);
+            this.ShowFrontEndButton.TabIndex = 8;
+            this.ShowFrontEndButton.Text = "Show DirectOutput FrontEnd";
+            this.ShowFrontEndButton.UseVisualStyleBackColor = true;
+            this.ShowFrontEndButton.Click += new System.EventHandler(this.ShowFrontEndButton_Click);
             // 
             // ConfigTester
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(724, 438);
+            this.Controls.Add(this.ShowFrontEndButton);
             this.Controls.Add(this.LoadConfigButton);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.PulseDurationInput);
@@ -252,6 +264,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn TEValue;
         private System.Windows.Forms.DataGridViewButtonColumn TEActivate;
         private System.Windows.Forms.DataGridViewButtonColumn TEPulse;
+        private System.Windows.Forms.Button ShowFrontEndButton;
     }
 }
 

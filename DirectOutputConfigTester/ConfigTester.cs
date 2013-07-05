@@ -187,6 +187,11 @@ namespace DirectOutputConfigTester
             LoadConfig();
         }
 
+        private void ShowFrontEndButton_Click(object sender, EventArgs e)
+        {
+            DirectOutput.Frontend.MainMenu.Open(Pinball);
+        }
+
 
 
 
