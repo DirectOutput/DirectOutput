@@ -47,4 +47,7 @@ del "%Path%%ZipName%"
 mkdir "C:\Users\Tom\Dropbox\Herweh - Swisslizard\B2S Backglass Server\DirectOutput\Alpha\%CurrDate%"
 copy "%Path%%ZipName%" "C:\Users\Tom\Dropbox\Herweh - Swisslizard\B2S Backglass Server\DirectOutput\Alpha\%CurrDate%\"
 
+mkdir "C:\Users\Tom\Dropbox\Herweh - Swisslizard\B2S Backglass Server\DirectOutput\Alpha\%CurrDate%"
+copy "%Path%%ZipName%" "C:\Users\Tom\Dropbox\Herweh - Swisslizard\B2S Backglass Server\DirectOutput\Alpha\%CurrDate%\"
+
 :exit
