@@ -126,9 +126,13 @@ namespace DirectOutput.General
             private set;
         }
 
+        private bool GetCurrentProcessorNumberIsAvailable = false;
         private void SetProcessorNumber()
         {
-            ProcessorNumber = ThreadTools.GetCurrentProcessorNumber();
+            if (GetCurrentProcessorNumberIsAvailable)
+            {
+                ProcessorNumber = Kernel32Imports.GetCurrentProcessorNumber();
+            }
         }
 
 
@@ -166,6 +170,8 @@ namespace DirectOutput.General
         public ThreadInfo(Thread Thread)
         {
             this.Thread = Thread;
+            GetCurrentProcessorNumberIsAvailable = Kernel32Imports.GetCurrentProcessorNumberIsAvailable;
+ 
             HeartBeat();
 
         }

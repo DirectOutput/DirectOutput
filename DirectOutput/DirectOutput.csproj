@@ -168,7 +168,7 @@
     <Compile Include="General\Statistics\TimeSpanStatisticsList.cs" />
     <Compile Include="General\ThreadInfo.cs" />
     <Compile Include="General\ThreadInfoList.cs" />
-    <Compile Include="General\ThreadTools.cs" />
+    <Compile Include="General\Kernel32Imports.cs" />
     <Compile Include="General\Statistics\TimeSpanStatisticsItem.cs" />
     <Compile Include="PinballSupport\InputQueue.cs" />
     <Compile Include="Log.cs" />
