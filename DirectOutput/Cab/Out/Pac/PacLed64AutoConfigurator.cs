@@ -18,7 +18,7 @@ namespace DirectOutput.Cab.Out.Pac
         /// This method detects and configures PacLed64 controllers automatically
        /// </summary>
         /// <param name="Cabinet">The cabinet object to which the automatically detected IOutputController objects are added if necessary.</param>
-        public void AutoDetect(Cabinet Cabinet)
+        public void AutoConfig(Cabinet Cabinet)
         {
             foreach (int Id in PacDriveSingleton.Instance.PacLed64GetIdList())
             {

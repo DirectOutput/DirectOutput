@@ -15,7 +15,7 @@ namespace DirectOutput.Cab.Out
         /// \note: Make sure that implementations of the method do also work correctly if a IoutputController has allready been added through config files. If a IOutputController does already exist, the method should skip it and try to find other controllers.
         /// </summary>
         /// <param name="Cabinet">The cabinet object to which the automatically detected IOutputController objects are added if necessary.</param>
-        void AutoDetect(Cabinet Cabinet);
+        void AutoConfig(Cabinet Cabinet);
 
     }
 }

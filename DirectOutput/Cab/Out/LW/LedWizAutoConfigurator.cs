@@ -18,7 +18,7 @@ namespace DirectOutput.Cab.Out.LW
         /// This method detects and configures LedWiz output controllers automatically.
        /// </summary>
         /// <param name="Cabinet">The cabinet object to which the automatically detected IOutputController objects are added if necessary.</param>
-        public void AutoDetect(Cabinet Cabinet)
+        public void AutoConfig(Cabinet Cabinet)
         {
 
 

@@ -14,17 +14,15 @@ using DirectOutput.Cab.Toys.LWEquivalent;
 
 namespace DirectOutput.Cab
 {
-    // TODO: Add property to enable/disable autoconfig for cabinets. Should be enabled by default.
     /// <summary>
     /// Cabinet objects are describing the parts of a cabinet. 
     /// </summary>
     public class Cabinet
     {
         /// <summary>
-        /// If no IOutputController objects of type LedWiz and no IToy objects of type LedWizEquivalent are configured for the Cabinet,
-        /// this method will add a LedWiz and a LedWizEquivalent object for every Ledwiz connected to the system.<br/>
+        /// This method finds all classes implementing the IAutoConfigOutputController interface and uses the member of this interface to detect and configure IOutputController objects automatically.
         /// </summary>
-        public void AutoConfig(Cabinet Cabinet)
+        public void AutoConfig()
         {
             Log.Write("Cabinet auto configuration started");
 
@@ -32,7 +30,7 @@ namespace DirectOutput.Cab
             foreach (Type T in Types)
             {
                 IAutoConfigOutputController AutoConfig = (IAutoConfigOutputController)Activator.CreateInstance(T);
-                AutoConfig.AutoDetect(Cabinet);
+                AutoConfig.AutoConfig(this);
             }
 
 
@@ -98,6 +96,22 @@ namespace DirectOutput.Cab
             set { _Colors = value; }
         }
 
+
+        private bool _AutoConfigEnabled=true;
+        /// <summary>
+        /// Gets or sets a value indicating whether auto config is enabled.<br/>
+        /// If auto config is enabled, the framework tries to detect and configure IOutputController objects and related IToy objects automatically.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> enable auto config, <c>false</c> disables auto config.
+        /// </value>
+        [XmlElementAttribute(Order = 6)]
+        public bool AutoConfigEnabled
+        {
+            get { return _AutoConfigEnabled; }
+            set { _AutoConfigEnabled = value; }
+        }
+        
 
         private CabinetOutputList _Outputs;
         /// <summary>
