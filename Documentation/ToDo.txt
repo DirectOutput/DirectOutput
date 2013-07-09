@@ -1,4 +1,9 @@
-﻿ledcontrol tester sauber testen
+﻿pacdrive, pacled64 support
+ledstripe support
+dmx/artnet support
 
-dispose o.ä einbauen. Stefan fragen ob pluginfinish in eine finish methode des servers kann.
-test mit mehreren ledwiz
+multilayer toys
+
+conditions for effects
+
+delay effect
