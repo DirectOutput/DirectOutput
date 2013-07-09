@@ -66,8 +66,8 @@ namespace DirectOutput.Cab.Out.LW
 
         #region IOutputcontroller implementation
         /// <summary>
-        /// Updates all outputs of all connected LedWiz output controllers.<br/>
-        /// Signals the workerthread that all pending outputs for a specific ledwiz should be sent to the LedWiz.
+        /// Updates all outputs of the LedWiz output controller.<br/>
+        /// Signals the workerthread that all pending updates for the ledwiz should be sent to the physical LedWiz unit.
         /// </summary>
         public override void Update()
         {

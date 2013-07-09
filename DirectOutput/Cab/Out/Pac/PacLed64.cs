@@ -65,8 +65,7 @@ namespace DirectOutput.Cab.Out.Pac
 
         #region IOutputcontroller implementation
         /// <summary>
-        /// Updates all outputs of all connected PacLed64 output controllers.<br/>
-        /// Signals the workerthread that all pending outputs for a specific PacLed64 should be sent to the PacLed64.
+        /// Signals the workerthread that all pending updates for the PacLed64 should be sent to the PacLed64.
         /// </summary>
         public override void Update()
         {
@@ -90,7 +89,7 @@ namespace DirectOutput.Cab.Out.Pac
 
         /// <summary>
         /// Finishes the PacLed64 object.<br/>
-        /// Finish does also terminate the workthread for updates.
+        /// Finish does also terminate the workthread.
         /// </summary>
         public override void Finish()
         {
