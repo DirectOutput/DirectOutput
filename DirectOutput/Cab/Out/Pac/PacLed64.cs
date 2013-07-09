@@ -168,7 +168,7 @@ namespace DirectOutput.Cab.Out.Pac
             }
             OutputNumbered ON = (OutputNumbered)e.Output;
 
-            if (!ON.Number.IsBetween(1, 32))
+            if (!ON.Number.IsBetween(1, 64))
             {
                 throw new Exception("PacLed64 output numbers must be in the range of 1-64. The supplied output number {0} is out of range.".Build(ON.Number));
             }

@@ -97,8 +97,14 @@ namespace DirectOutput.FX
                 }
                 catch (Exception E)
                 {
-                    Log.Exception("A exception occured when triggering effect {0} for table element {1} {2} with value {3}. Effect assignement will be deactivated.".Build(new object[] {Effect.Name,TableElementData.TableElementType,TableElementData.Number,TableElementData.Value}),E);
-             
+                    if (TableElementData != null)
+                    {
+                        Log.Exception("A exception occured when triggering effect {0} for table element {1} {2} with value {3}. Effect assignement will be deactivated.".Build(new object[] { Effect.Name, TableElementData.TableElementType, TableElementData.Number, TableElementData.Value }), E);
+                    }
+                    else
+                    {
+                        Log.Exception("A exception occured when triggering effect {0} as a static effect.Effect assignement will be deactivated.".Build(new object[] { Effect.Name}), E);
+                    }
                     Effect = null;
                 }
             }

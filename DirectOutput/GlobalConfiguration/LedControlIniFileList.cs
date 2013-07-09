@@ -13,18 +13,19 @@ namespace DirectOutput.GlobalConfiguration
         new public void Add(LedControlIniFile LedControlIniFile)
         {
             base.Add(LedControlIniFile);
-            Renumber();
+            
         }
 
-        public void Renumber()
+        public bool Contains(int LedWizNumber)
         {
-            int Number=1;
-            foreach (LedControlIniFile I in this)
+            foreach (LedControlIniFile F in this)
             {
-                I.LedWizNumber = Number;
-                Number++;
+                if (F.LedWizNumber == LedWizNumber) return true;
             }
+            return false;
+
         }
+ 
 
 
 

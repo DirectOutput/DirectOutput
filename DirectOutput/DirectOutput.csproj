@@ -278,7 +278,9 @@
     <Compile Include="Table\TableElementValueChangedEventArgs.cs" />
     <Compile Include="Cab\Toys\ToyBase.cs" />
     <Compile Include="Cab\Toys\ToyList.cs" />
-    <Content Include="PacDrive.dll" />
+    <Content Include="PacDrive.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Config\Cabinet.xml">
