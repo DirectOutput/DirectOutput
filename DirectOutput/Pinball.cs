@@ -210,7 +210,7 @@ namespace DirectOutput
                 Log.Write("No cabinet config file loaded. Will use AutoConfig.");
                 //default to a new cabinet object if the config cant be loaded
                 Cabinet = new Cabinet();
-                Cabinet.AutoConfig();
+                Cabinet.AutoConfig(Cabinet);
             }
             Log.Write("Cabinet loaded");
 

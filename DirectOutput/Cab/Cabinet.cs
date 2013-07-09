@@ -14,7 +14,7 @@ using DirectOutput.Cab.Toys.LWEquivalent;
 
 namespace DirectOutput.Cab
 {
-
+    // TODO: Add property to enable/disable autoconfig for cabinets. Should be enabled by default.
     /// <summary>
     /// Cabinet objects are describing the parts of a cabinet. 
     /// </summary>
@@ -24,34 +24,19 @@ namespace DirectOutput.Cab
         /// If no IOutputController objects of type LedWiz and no IToy objects of type LedWizEquivalent are configured for the Cabinet,
         /// this method will add a LedWiz and a LedWizEquivalent object for every Ledwiz connected to the system.<br/>
         /// </summary>
-        public void AutoConfig()
+        public void AutoConfig(Cabinet Cabinet)
         {
             Log.Write("Cabinet auto configuration started");
-            if (!OutputControllers.Any(OC => OC is LedWiz))
+
+            General.TypeList Types = new General.TypeList(AppDomain.CurrentDomain.GetAssemblies().ToList().SelectMany(s => s.GetTypes()).Where(p => typeof(IAutoConfigOutputController).IsAssignableFrom(p) && !p.IsAbstract));
+            foreach (Type T in Types)
             {
-                Log.Write("No predefined LedWiz controllers found in cabinet config. Will try to locate LedWiz units.");
-        
-                List<int> Numbers = LedWiz.GetLedwizNumbers();
-                foreach (int N in Numbers)
-                {
-                    LedWiz LW = new LedWiz(N);
-                    LW.AddMissingOutputs();
-                    OutputControllers.Add(LW);
-                    Log.Write("Added LedWiz Nr. {0}".Build(LW.Number));
-        
-                }
+                IAutoConfigOutputController AutoConfig = (IAutoConfigOutputController)Activator.CreateInstance(T);
+                AutoConfig.AutoDetect(Cabinet);
             }
-            if (!Toys.Any(Toy => Toy is LedWizEquivalent))
-            {
-                Log.Write("No predefined LedWizequivalent toys found in cabinet config. Will add a LedWizEquivalent toy for every LedWiz unit connected to the system.");
-        
-                foreach (IOutputController OC in OutputControllers.Where(OC => OC is LedWiz))
-                {
-                    Toys.Add(new LedWizEquivalent((LedWiz)OC));
-                    Log.Write("Added LedWizEquivalent for LedWiz Nr. {0}".Build(((LedWiz)OC).Number));
-        
-                }
-            }
+
+
+
             Log.Write("Cabinet auto configuration finished");
         }
 

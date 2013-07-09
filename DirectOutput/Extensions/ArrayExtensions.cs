@@ -15,4 +15,14 @@ using System.Text;
             Array.Copy(y, 0, x, oldLen, y.Length);
             return x;
         }
+
+
+        public static void Fill<T>(this T[] x, T FillValue)
+        {
+            for (int i = 0; i < x.Length; i++)
+            {
+                x[i] = FillValue;
+            }
+
+        }
     }

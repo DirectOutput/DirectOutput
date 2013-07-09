@@ -84,12 +84,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cab\Out\IAutoConfigOutputController.cs" />
+    <Compile Include="Cab\Out\IOutputNumbered.cs" />
+    <Compile Include="Cab\Out\LW\LedWizAutoConfigurator.cs" />
     <Compile Include="Cab\Out\OutputNameAttribute.cs" />
     <Compile Include="Cab\Out\LW\LW.cs" />
     <Compile Include="Cab\Out\NullOutputController\NullOutputController.cs" />
     <Compile Include="Cab\Out\OutputNameConverter.cs" />
+    <Compile Include="Cab\Out\OutputNumbered.cs" />
+    <Compile Include="Cab\Out\Pac\PacDriveSingleton.cs" />
+    <Compile Include="Cab\Out\Pac\PacLed64.cs" />
     <Compile Include="Cab\Out\Pac\Pac.cs" />
-    <Compile Include="Cab\Out\Pac\PacDrive.cs" />
+    <Compile Include="Cab\Out\Pac\PacLed64AutoConfigurator.cs" />
     <Compile Include="Cab\Toys\Basic\Basic.cs" />
     <Compile Include="Cab\Toys\Basic\GearMotor.cs" />
     <Compile Include="Cab\Toys\IRGBToy.cs" />

@@ -130,10 +130,10 @@ namespace DirectOutput.Cab.Out.LW
         }
 
         /// <summary>
-        /// Adds the missing outputs for a LedWiz.<br/>
-        /// A LedWiz has 32 outputs numbered from 1 to 32. This method adds LedWizOutput objects for missing output numbers to the list.
+        /// Adds the outputs for a LedWiz.<br/>
+        /// A LedWiz has 32 outputs numbered from 1 to 32. This method adds LedWizOutput objects for all outputs to the list.
         /// </summary>
-        public void AddMissingOutputs()
+        public void AddOutputs()
         {
             for (int i = 1; i <= 32; i++)
             {
