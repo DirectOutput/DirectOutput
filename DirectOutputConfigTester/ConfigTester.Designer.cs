@@ -212,6 +212,7 @@
             // 
             // ShowFrontEndButton
             // 
+            this.ShowFrontEndButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.ShowFrontEndButton.Location = new System.Drawing.Point(116, 403);
             this.ShowFrontEndButton.Name = "ShowFrontEndButton";
             this.ShowFrontEndButton.Size = new System.Drawing.Size(152, 23);
