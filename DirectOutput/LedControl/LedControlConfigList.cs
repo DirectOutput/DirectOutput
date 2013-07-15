@@ -56,7 +56,7 @@ namespace DirectOutput.LedControl
                                     bool SetupProblem = false;
                                     LedControlEffect LCE = new LedControlEffect(LWE.Name, C.FirstOutputNumber);
 
-                                    string FXName = "LedControl {0}, Output {1}, {2}, ".Build(new object[] { LWE.LedWizNumber, C.FirstOutputNumber, (S.OutputControl == OutputControlEnum.Controlled ? "Controlled" : "Static") });
+                                    string FXName = "LedControl {0}, Output {1}, {2}, ".Build(new object[] { LWE.LedWizNumber, C.FirstOutputNumber, (S.OutputControl == OutputControlEnum.Controlled ? "Controlled {0}{1}".Build(S.TableElementType, S.TableElementNumber) : "Static") });
                                     if (S.OutputType == OutputTypeEnum.AnalogOutput)
                                     {
                                         FXName += "Intensity {0}, ".Build(S.Intensity);
