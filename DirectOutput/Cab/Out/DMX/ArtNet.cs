@@ -41,7 +41,7 @@ namespace DirectOutput.Cab.Out.DMX
         /// If no BroadcastAddress is set, the default address (255.255.255.255) will be used.
         /// </summary>
         /// <value>
-        /// The broadcast address.
+        /// String containing broadcast address.
         /// </value>
         public string BroadcastAddress
         {
@@ -252,7 +252,7 @@ namespace DirectOutput.Cab.Out.DMX
             if (Engine == null)
             {
                 Engine = new Engine(Name, BroadcastAddress);
-                Engine.Start();
+                
             }
 
             while (KeepUpdaterThreadAlive)
@@ -280,7 +280,7 @@ namespace DirectOutput.Cab.Out.DMX
             }
             if (Engine != null)
             {
-                Engine.Pause();
+               
                 Engine = null;
             }
 

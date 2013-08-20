@@ -89,7 +89,6 @@
     <Compile Include="Cab\Out\DMX\ArtnetEngine\DmxInPacket.cs" />
     <Compile Include="Cab\Out\DMX\ArtnetEngine\Engine.cs" />
     <Compile Include="Cab\Out\DMX\ArtnetEngine\OpCodesEnum.cs" />
-    <Compile Include="Cab\Out\DMX\ArtnetEngine\SupportedTypes.cs" />
     <Compile Include="Cab\Out\DMX\DMX.cs" />
     <Compile Include="Cab\Out\DMX\DMXOutput.cs" />
     <Compile Include="Cab\Out\OutputNameAttribute.cs" />
