@@ -94,7 +94,7 @@ namespace DirectOutput.GlobalConfiguration
             get { return _LedWizNumber; }
             set
             {
-                _LedWizNumber = value.Limit(1,16);
+                _LedWizNumber = value;
                 NotifyPropertyChanged("LedWizNumber");
             }
         }

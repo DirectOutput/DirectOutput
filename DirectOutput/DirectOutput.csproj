@@ -87,6 +87,9 @@
     <Compile Include="Cab\Out\DMX\ArtNet.cs" />
     <Compile Include="Cab\Out\DMX\ArtnetEngine\ArtnetEngine.cs" />
     <Compile Include="Cab\Out\DMX\ArtnetEngine\DmxInPacket.cs" />
+    <Compile Include="Cab\Out\IAutoConfigOutputController.cs" />
+    <Compile Include="Cab\Out\IOutputNumbered.cs" />
+    <Compile Include="Cab\Out\LW\LedWizAutoConfigurator.cs" />
     <Compile Include="Cab\Out\DMX\ArtnetEngine\Engine.cs" />
     <Compile Include="Cab\Out\DMX\ArtnetEngine\OpCodesEnum.cs" />
     <Compile Include="Cab\Out\DMX\DMX.cs" />
@@ -95,6 +98,11 @@
     <Compile Include="Cab\Out\LW\LW.cs" />
     <Compile Include="Cab\Out\NullOutputController\NullOutputController.cs" />
     <Compile Include="Cab\Out\OutputNameConverter.cs" />
+    <Compile Include="Cab\Out\OutputNumbered.cs" />
+    <Compile Include="Cab\Out\Pac\PacDriveSingleton.cs" />
+    <Compile Include="Cab\Out\Pac\PacLed64.cs" />
+    <Compile Include="Cab\Out\Pac\Pac.cs" />
+    <Compile Include="Cab\Out\Pac\PacLed64AutoConfigurator.cs" />
     <Compile Include="Cab\Toys\Basic\Basic.cs" />
     <Compile Include="Cab\Toys\Basic\GearMotor.cs" />
     <Compile Include="Cab\Toys\IRGBToy.cs" />
@@ -277,6 +285,9 @@
     <Compile Include="Table\TableElementValueChangedEventArgs.cs" />
     <Compile Include="Cab\Toys\ToyBase.cs" />
     <Compile Include="Cab\Toys\ToyList.cs" />
+    <Content Include="PacDrive.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Config\Cabinet.xml">
