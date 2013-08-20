@@ -86,10 +86,12 @@ namespace DirectOutput.Cab.Out
         /// <param name="Pinball">The pinball object which is using the list of IOutputController objects.</param>
         public void Init(Pinball Pinball)
         {
+            Log.Debug("Initializing output controllers");
             foreach (IOutputController OC in this)
             {
                 OC.Init(Pinball);
             }
+            Log.Debug("Output controllers initialized");
         }
 
         /// <summary>
@@ -97,10 +99,12 @@ namespace DirectOutput.Cab.Out
         /// </summary>
         public void Finish()
         {
+            Log.Debug("Finishing output controllers");
             foreach (IOutputController OC in this)
             {
                 OC.Finish();
             }
+            Log.Debug("Output controllers finished");
         }
 
         /// <summary>

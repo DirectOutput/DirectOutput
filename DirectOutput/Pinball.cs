@@ -602,8 +602,10 @@ namespace DirectOutput
 
         private void InitStatistics()
         {
+            Log.Debug("Initializing table element statistics");
             TimeSpanStatisticsItem TSI;
-
+            TimeSpanStatistics = new TimeSpanStatisticsList();
+            
             TableElementCallStatistics = new Dictionary<TableElementTypeEnum, TimeSpanStatisticsItem>();
             foreach (TableElementTypeEnum T in Enum.GetValues(typeof(TableElementTypeEnum)))
             {
@@ -612,6 +614,9 @@ namespace DirectOutput
                 TimeSpanStatistics.Add(TSI);
             }
 
+
+
+            Log.Debug("Table element statistics initialized");
          
         }
 

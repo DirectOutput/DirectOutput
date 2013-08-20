@@ -86,7 +86,7 @@ namespace DirectOutput.LedControl
         /// </value>
         public int Intensity
         {
-            
+
             get { return (ColorName.IsNullOrWhiteSpace() ? _Intensity : -1); }
             set { _Intensity = value; }
         }
@@ -132,7 +132,7 @@ namespace DirectOutput.LedControl
         /// or
         /// Cant parse the part {0} of the ledcontrol table config setting {1}..
         /// </exception>
-            public void ParseSettingData(string SettingData)
+        public void ParseSettingData(string SettingData)
         {
             string[] Parts = SettingData.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             if (Parts.Length == 0)
@@ -205,7 +205,7 @@ namespace DirectOutput.LedControl
                 else if (Parts[1].ToUpper().Substring(0, 1) == "I" && Parts[1].Substring(1).IsInteger())
                 {
                     //Intensity setting
-                    Intensity = Parts[1].Substring(1).ToInteger().Limit(0,48);
+                    Intensity = Parts[1].Substring(1).ToInteger().Limit(0, 48);
                 }
 
                 else
@@ -218,15 +218,20 @@ namespace DirectOutput.LedControl
 
             if (Parts.Length > 2)
             {
-                if (Parts[2].IsInteger())
+                if (Parts[1].ToUpper() == "BLINK")
                 {
-                    
+                    //Blink command
+                    Blink = -1;
+                }
+                else if (Parts[2].IsInteger())
+                {
+
                     //Indicates number of blinks or duration
                     if (OutputType == OutputTypeEnum.RGBOutput)
                     {
                         DurationMs = Parts[2].ToInteger();
                     }
-                    else 
+                    else
                     {
                         Blink = Parts[2].ToInteger();
                         if (DurationMs > 0)
@@ -241,7 +246,7 @@ namespace DirectOutput.LedControl
                 else if (Parts[2].ToUpper().Substring(0, 1) == "I" && Parts[2].Substring(1).IsInteger())
                 {
                     //Intensity setting
-                    Intensity = Parts[2].Substring(1).ToInteger().Limit(0,48);
+                    Intensity = Parts[2].Substring(1).ToInteger().Limit(0, 48);
                 }
                 else
                 {
@@ -278,7 +283,7 @@ namespace DirectOutput.LedControl
         /// No data to parse.<br/>
         /// or <br/>
         /// Cant parse the part {0} of the ledcontrol table config setting {1}.
-         /// </exception>
+        /// </exception>
         public TableConfigSetting(string SettingData)
             : this()
         {
@@ -292,7 +297,7 @@ namespace DirectOutput.LedControl
             this.Intensity = 48;
             this.Blink = 0;
             this.DurationMs = -1;
-           
+
         }
 
 

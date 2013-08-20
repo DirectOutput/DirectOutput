@@ -1,5 +1,5 @@
 ﻿// Use #define DebugLog or #undef DebugLog to turn debug log messages on or off.
-#define DebugLog
+#define DEBUGLOG
 
 using System;
 using System.IO;
@@ -52,9 +52,12 @@ namespace DirectOutput
                         Version V = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
                         DateTime BuildDate = new DateTime(2000, 1, 1).AddDays(V.Build).AddSeconds(V.Revision * 2);
                         Logger.WriteLine("{0}\t{1}", DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss.fff"), "DirectOutput Version {0} as of {1}".Build(V.ToString(), BuildDate.ToString("yyyy.MM.dd HH:mm")));
+                        
+                        IsOk = true;
+                        
                         Debug("Writting of debug log messages is enabled");
 
-                        IsOk = true;
+                       
 
                     }
                     catch
@@ -95,18 +98,26 @@ namespace DirectOutput
             {
                 if (IsOk)
                 {
-                    if (Message.IsNullOrWhiteSpace())
+                    try
                     {
-                        Logger.WriteLine("{0}\t{1}", DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss.fff"), "");
-                    }
-                    else
-                    {
-                        foreach (string M in Message.Split(new[] { '\r', '\n' }))
+
+                        if (Message.IsNullOrWhiteSpace())
                         {
-                            Logger.WriteLine("{0}\t{1}", DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss.fff"), M);
+                            Logger.WriteLine("{0}\t{1}", DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss.fff"), "");
                         }
+                        else
+                        {
+                            foreach (string M in Message.Split(new[] { '\r', '\n' }))
+                            {
+                                Logger.WriteLine("{0}\t{1}", DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss.fff"), M);
+                            }
+                        }
+                        Logger.Flush();
                     }
-                    Logger.Flush();
+                    catch 
+                    {
+                        
+                    }
                 }
             }
         }
@@ -168,7 +179,7 @@ namespace DirectOutput
         /// \note: The calls to this method are only executed, if the DebugLog symbol is defined. Generally this will only be active in special debug releases. The statement to define or undefine the DebugLog symbol can be found on the top of the code of this class.
         /// </summary>
         /// <param name="Message">The message to be written to the log file.</param>
-        [Conditional("DebugLog")]
+        [Conditional("DEBUGLOG")]
         public static void Debug(string Message = "")
         {
             Write("Debug: {0}".Build(Message));

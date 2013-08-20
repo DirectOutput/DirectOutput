@@ -83,8 +83,9 @@ namespace DirectOutput.Cab.Out.LW
         /// <param name="Pinball">The pinball object which is using the LedWiz instance.</param>
         public override void Init(Pinball Pinball)
         {
+            Log.Debug("Initializing LedWiz Nr. {0:00}".Build(Number));
             LedWizUnits[Number].Init(Pinball);
-            Log.Write("LedWiz Nr. {0} initialized and updater thread initialized.".Build(Number));
+            Log.Write("LedWiz Nr. {0:00} initialized and updater thread initialized.".Build(Number));
 
         }
 
@@ -94,9 +95,10 @@ namespace DirectOutput.Cab.Out.LW
         /// </summary>
         public override void Finish()
         {
+            Log.Debug("Finishing LedWiz Nr. {0:00}".Build(Number));
             LedWizUnits[Number].Finish();
             LedWizUnits[Number].ShutdownLighting();
-            Log.Write("LedWiz Nr. {0} finished and updater thread stopped.".Build(Number));
+            Log.Write("LedWiz Nr. {0:00} finished and updater thread stopped.".Build(Number));
 
         }
         #endregion
@@ -316,6 +318,7 @@ namespace DirectOutput.Cab.Out.LW
 
         ~LedWiz()
         {
+  
             Dispose(false);
         }
 
@@ -334,6 +337,13 @@ namespace DirectOutput.Cab.Out.LW
             // Check to see if Dispose has already been called.
             if (!this.disposed)
             {
+                try
+                {
+                    Log.Debug("Disposing LedWiz instance {0:00}.".Build(Number));
+                }
+                catch 
+                {
+                }
                 // If disposing equals true, dispose all managed
                 // and unmanaged resources.
                 if (disposing)
