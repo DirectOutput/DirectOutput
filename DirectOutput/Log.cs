@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Use #define DebugLog or #undef DebugLog to turn debug log messages on or off.
+#define DebugLog
+
+using System;
 using System.IO;
 using System.Diagnostics;
 
@@ -162,7 +165,7 @@ namespace DirectOutput
 
         /// <summary>
         /// Writes the specified debug message to the log file.
-        /// \note: The calls to this method are only executed, if the DebugLog symbol is defined. Generally this will only be active in special debug releases.
+        /// \note: The calls to this method are only executed, if the DebugLog symbol is defined. Generally this will only be active in special debug releases. The statement to define or undefine the DebugLog symbol can be found on the top of the code of this class.
         /// </summary>
         /// <param name="Message">The message to be written to the log file.</param>
         [Conditional("DebugLog")]
