@@ -86,7 +86,7 @@ The XML to configure a contactor toy looks as follows:
   <OutputName>Name of a output</OutputName>
 </GenericDigitalToy>
 ~~~~~~~~~~~~~
-\subsection toys_genericdigitaltoy GenericAnalogToy
+\subsection toys_genericanalogtoy GenericAnalogToy
 ~~~~~~~~~~~~~{.xml}
 <GenericAnalogToy>
   <Name>Toy name</Name>

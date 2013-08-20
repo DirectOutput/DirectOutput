@@ -12,6 +12,7 @@ namespace DirectOutput
         Solenoid='S',
         GIString='G',
         Mech='M',
+        GetMech='N',
         EMTable='E',
         LED='D',
         Score='C',

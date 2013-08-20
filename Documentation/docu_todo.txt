@@ -1,5 +1,4 @@
 ﻿
 
-Explain toolbox use
-
+Explain that Controller.Stop is required.
 

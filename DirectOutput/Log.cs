@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Diagnostics;
 
 namespace DirectOutput
 {
@@ -48,7 +49,7 @@ namespace DirectOutput
                         Version V = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
                         DateTime BuildDate = new DateTime(2000, 1, 1).AddDays(V.Build).AddSeconds(V.Revision * 2);
                         Logger.WriteLine("{0}\t{1}", DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss.fff"), "DirectOutput Version {0} as of {1}".Build(V.ToString(), BuildDate.ToString("yyyy.MM.dd HH:mm")));
-
+                        Debug("Writting of debug log messages is enabled");
 
                         IsOk = true;
 
@@ -157,6 +158,20 @@ namespace DirectOutput
         {
             Exception("",E);
         }
+
+
+        /// <summary>
+        /// Writes the specified debug message to the log file.
+        /// \note: The calls to this method are only executed, if the DebugLog symbol is defined. Generally this will only be active in special debug releases.
+        /// </summary>
+        /// <param name="Message">The message to be written to the log file.</param>
+        [Conditional("DebugLog")]
+        public static void Debug(string Message = "")
+        {
+            Write("Debug: {0}".Build(Message));
+
+        }
+
 
     }
 }

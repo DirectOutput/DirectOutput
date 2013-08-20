@@ -84,7 +84,7 @@ namespace DirectOutput.Cab.Out.LW
         public override void Init(Pinball Pinball)
         {
             LedWizUnits[Number].Init(Pinball);
-            Log.Write("LedWiz Nr. {0} initialized and updater thread started.".Build(Number));
+            Log.Write("LedWiz Nr. {0} initialized and updater thread initialized.".Build(Number));
 
         }
 
@@ -648,6 +648,7 @@ namespace DirectOutput.Cab.Out.LW
             //TODO: Check if thread should really terminate on failed updates
             private void LedWizUpdaterDoIt()
             {
+                Log.Write("Updater thread for LedWiz {0:00} started.".Build(Number));
                 Pinball.ThreadInfoList.HeartBeat("LedWiz {0:00}".Build(Number));
 
 
@@ -693,6 +694,7 @@ namespace DirectOutput.Cab.Out.LW
                     TriggerUpdate = false;
                 }
                Pinball.ThreadInfoList.ThreadTerminates();
+               Log.Write("Updater thread for LedWiz {0:00} terminated.".Build(Number));
             }
 
 
