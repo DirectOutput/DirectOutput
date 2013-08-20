@@ -27,36 +27,41 @@ The LedWiz is made by <a href="http://groovygamegear.com/">GroovyGameGear</a> an
 
 This unit was the first output controller which was widely used in the virtual pinball community and was the unit for which the legacy vbscript solution was developed. The DirectOutput framework replaces the vbscript solution, but can reuse the ini files which were used for the configuration of the tables. Please read \ref ledcontrolfiles for more information.
 
+The framework supports auto detection and configuration of the LedWiz.
+
 \image html LedWizLogo.jpg
 
+\subsection hardware_ultimarc_pacled64 PacLed64 (Ultimarc)
+
+The PacLed64 is a output controller with 64 outputs all supporting 256 <a target="_blank" href="https://en.wikipedia.org/wiki/Pulse-width_modulation">pwm</a> levels. The unit is mainly designed to connect leds (cosuming 20ma each) directly to the outputs, but boosters might be used to driver higher loads (e.g. Cree leds). Up to 4 PacLed64 controllers can be used with the DirectOutput framework.
+
+The framework supports auto detection and configuration of these units.
+
+This unit is made and sold by <a target="_blank" href="http://www.ultimarc.com">Ultimarc</a>.
+
+\image html PacLed64Logo.png
+
+\subsection hardware_artnet Art-Net / DMX
+
+<a target="_blank" href="https://en.wikipedia.org/wiki/Art-Net">Art-Net</a> is a industry standard protocol used to control <a target="_blank" href="https://en.wikipedia.org/wiki/DMX512">DMX</a> lighting effects over othernet. Using Art-Net it is possible to connect a very wide range of lighting effects like <a target="_blank" href="https://www.google.ch/search?q=dmx+strobe">strobes</a> or <a target="_blank" href="https://www.google.ch/search?q=dmx+dimmer">dimmer packs</a>. There are tons of DMX controlled effects available on the market (from very cheap and small to very expensive and big). It might sounds a bit crazy, but with Art-net and DMX you could controll a whole stage lighting system (this would likely make you feel like Tommy in the movie).
+
+\image html DMX.jpg
+
+To use Art-Net you will need a Art-Net node (unit that converts from ethernet to DMX protocol) and also some DMX controlled lighting effect. There are quite a few different Art-Net nodes available on the market and most of them should be compatible with the DirectOutput framework. For testing the Art-Net node sold on http://www.ulrichradig.de/home/index.php/avr/dmx-avr-artnetnode as a DIY kit was used. 
+
+Each Art-Net node/DMX universe supports 512 DMX channels and several Art-Net nodes controlling different DMX universes can be used in parallel.
 
 \section hardware_development Hardware support in development
 
 Support for the following devices is currently in development.
 
-\subsection hardware_ultimarc PacLed64/PacDrive (Ultimarc)
+\subsection hardware_ultimarc_pacdrive PacDrive (Ultimarc)
 
-The PacLed64 is a output controller with 64 outputs all supporting 256 <a target="_blank" href="https://en.wikipedia.org/wiki/Pulse-width_modulation">pwm</a> levels. The unit is mainly designed to connect leds (cosuming 20ma each) directly to the outputs, but boosters might be used to driver higher loads (e.g. Cree leds).
-
-\image html PacLed64Logo.png
-
-The PacDrive is smaller output controller with 16 outputs. It is capable of driving Leds and other smaller gadgets directly, but will require a booster to driver power hungry loads (e.g. motors). Up to 4 PacDrive units can be connected to the system.
+The PacDrive is smaller output controller with 16 outputs. It is capable of driving Leds and other smaller gadgets directly, but will require a booster to driver power hungry loads (e.g. motors). Only 1 PacDrive unit can be connected to the system.
 
 \image html pacdrivelogo.jpg
 
-Both units are made and sold by <a target="_blank" href="http://www.ultimarc.com">Ultimarc</a>.
-
-Support for those two units is currently being implemented.
- 
-
-\subsection hardware_artnet Art-Net
-
-<a target="_blank" href="https://en.wikipedia.org/wiki/Art-Net">Art-Net</a> is a industry standard protocol used to control <a target="_blank" href="https://en.wikipedia.org/wiki/DMX512">DMX</a> lighting effects over othernet. Using Art-Net it will be possible to connect a very wide range of lighting effects like <a target="_blank" href="https://www.google.ch/search?q=dmx+strobe">strobes</a> or <a target="_blank" href="dmx dimmerpack">dimmer packs</a>. There are tons of DMX controlled effects available on the market (from very cheap and small to very expensive and big).
-
-To use Art-Net you will need a Art-Net node (unit that converts from ethernet to DMX protocol) and also some DMX controlled lighting effect. There are quite a few different Art-Net nodes available on the market and most of them should be compatible with the DirectOutput framework. For testing the Art-Net node sold on http://www.ulrichradig.de/home/index.php/avr/dmx-avr-artnetnode as a DIY kit was used. 
-
-The implementation for the support of Art-Net has already been started.
-
+This unit is made and sold by <a target="_blank" href="http://www.ultimarc.com">Ultimarc</a>.
 
 \section hardware_other Other Hardware
 

@@ -255,6 +255,9 @@ namespace DirectOutput.Cab.Out.DMX
                 
             }
 
+            //Send all channels to ensure that there are defined values
+            Engine.SendDMX(Universe, DMXData, 512);
+
             while (KeepUpdaterThreadAlive)
             {
 
