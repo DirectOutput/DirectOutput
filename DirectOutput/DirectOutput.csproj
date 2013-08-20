@@ -84,6 +84,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cab\Out\DMX\ArtNet.cs" />
+    <Compile Include="Cab\Out\DMX\ArtnetEngine\ArtnetEngine.cs" />
+    <Compile Include="Cab\Out\DMX\ArtnetEngine\DmxInPacket.cs" />
+    <Compile Include="Cab\Out\DMX\ArtnetEngine\Engine.cs" />
+    <Compile Include="Cab\Out\DMX\ArtnetEngine\OpCodesEnum.cs" />
+    <Compile Include="Cab\Out\DMX\DMX.cs" />
+    <Compile Include="Cab\Out\DMX\DMXOutput.cs" />
     <Compile Include="Cab\Out\OutputNameAttribute.cs" />
     <Compile Include="Cab\Out\LW\LW.cs" />
     <Compile Include="Cab\Out\NullOutputController\NullOutputController.cs" />
