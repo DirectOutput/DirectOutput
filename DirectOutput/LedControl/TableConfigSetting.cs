@@ -218,7 +218,7 @@ namespace DirectOutput.LedControl
 
             if (Parts.Length > 2)
             {
-                if (Parts[1].ToUpper() == "BLINK")
+                if (Parts[2].ToUpper() == "BLINK")
                 {
                     //Blink command
                     Blink = -1;

@@ -174,6 +174,7 @@ namespace DirectOutput
         }
 
 
+        //TODO: Make conditional compilation work
         /// <summary>
         /// Writes the specified debug message to the log file.
         /// \note: The calls to this method are only executed, if the DebugLog symbol is defined. Generally this will only be active in special debug releases. The statement to define or undefine the DebugLog symbol can be found on the top of the code of this class.
