@@ -279,6 +279,8 @@ namespace DirectOutput.FX.LedControlFX
         /// <param name="TableElementData">TableElementData for the TableElement which has triggered the effect. Null for static effect.</param>
         public override void Trigger(Table.TableElementData TableElementData)
         {
+
+
             if (TableElementData == null)
             {
                 //Static effect init

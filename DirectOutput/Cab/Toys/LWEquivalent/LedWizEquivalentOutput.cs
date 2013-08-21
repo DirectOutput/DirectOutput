@@ -45,6 +45,7 @@ namespace DirectOutput.Cab.Toys.LWEquivalent
             }
             set
             {
+                
                 if (_Output != null)
                 {
                     _Output.Value = (byte)(value.Limit(0, 48) * 5.3125);

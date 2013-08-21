@@ -278,31 +278,38 @@ namespace DirectOutput
 
                         foreach (string P in LookupPaths)
                         {
-
-                            if (File.Exists(Path.Combine(P, "ledcontrol.ini")))
+                            DirectoryInfo DI = new DirectoryInfo(P);
+                            foreach (FileInfo FI in DI.EnumerateFiles("ledcontrol*.ini"))
                             {
-                                Log.Write("Found ledcontrol.ini in {0} Will try to load config data.".Build(P));
-
-
-
-                                LedControlIniFiles.Add(new LedControlIniFile(Path.Combine(P, "ledcontrol.ini"), 1));
-
-                                for (int LedWizNr = 2; LedWizNr <= 16; LedWizNr++)
+                                if (string.Equals(FI.Name, "ledcontrol.ini", StringComparison.OrdinalIgnoreCase))
                                 {
-                                    if (File.Exists(Path.Combine(P, "ledcontrol{0}.ini").Build(LedWizNr)))
-                                    {
-                                        LedControlIniFiles.Add(new LedControlIniFile(Path.Combine(P, "ledcontrol{0}.ini").Build(LedWizNr), LedWizNr));
-                                    }
-                                    else if (File.Exists(Path.Combine(P, "ledcontrol{0:00}.ini").Build(LedWizNr)))
-                                    {
-                                        LedControlIniFiles.Add(new LedControlIniFile(Path.Combine(P, "ledcontrol{0:00}.ini").Build(LedWizNr), LedWizNr));
-                                    }
-
+                                    LedControlIniFiles.Add(FI.FullName, 1);
                                     FoundIt = true;
                                 }
-                                break;
+                                else
+                                {
+                                    string F = FI.Name.Substring(10, FI.Name.Length - 10 - 4);
+                                    if (F.IsInteger())
+                                    {
+                                        int LedWizNr = -1;
+                                        if (int.TryParse(F, out LedWizNr))
+                                        {
+                                            if (!LedControlIniFiles.Contains(LedWizNr))
+                                            {
+                                                LedControlIniFiles.Add(FI.FullName, LedWizNr);
+                                                FoundIt = true;
+                                            }
+
+                                        }
+
+                                    }
+
+                                }
+
 
                             }
+
+                            if (FoundIt) break;
                         }
                         if (FoundIt)
                         {

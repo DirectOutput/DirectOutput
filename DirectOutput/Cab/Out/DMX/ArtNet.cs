@@ -95,9 +95,9 @@ namespace DirectOutput.Cab.Out.DMX
 
             lock (UpdateLocker)
             {
-                if (DMXData[O.DmxChannel] != O.Value)
+                if (DMXData[O.DmxChannel-1] != O.Value)
                 {
-                    DMXData[O.DmxChannel] = O.Value;
+                    DMXData[O.DmxChannel-1] = O.Value;
                     if (O.DmxChannel > LastDMXChannel)
                     {
                         LastDMXChannel = O.DmxChannel;
