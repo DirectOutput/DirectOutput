@@ -56,7 +56,7 @@ namespace DirectOutput.Cab.Out.DMX
         /// OutputList containing the DMXOutput objects for the Artnet node.
         /// </summary>
         [XmlIgnoreAttribute]
-        public override OutputList Outputs
+        public new OutputList Outputs
         {
             get { return _Outputs; }
             set
@@ -127,9 +127,9 @@ namespace DirectOutput.Cab.Out.DMX
         {
             if (Outputs.Count == 0)
             {
-                for (int i = 1; i <= 511; i++)
+                for (int i = 1; i <= 512; i++)
                 {
-                    Outputs.Add(new DMXOutput() { DmxChannel = i, Name="{0} {1:000}".Build(this.Name,i) });
+                    Outputs.Add(new DMXOutput() { DmxChannel = i, Name="{0}.{1:000}".Build(this.Name,i) });
                 }
             }
 
@@ -265,8 +265,10 @@ namespace DirectOutput.Cab.Out.DMX
                 {
                     lock (UpdateLocker)
                     {
+                        UpdateRequired = false;
                         Engine.SendDMX(Universe, DMXData, ((LastDMXChannel | 1) + 1).Limit(2, 512));
                     }
+
                 }
 
                 if (KeepUpdaterThreadAlive)

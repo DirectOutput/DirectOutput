@@ -3,7 +3,7 @@
 <GlobalConfig>
   <LedControlIniFiles />
   <CabinetConfigFilePatterns>
-    <FilePattern>{GlobalConfigDir}\xcabinet.xml</FilePattern>
+    <FilePattern>{GlobalConfigDir}\cabinet.xml</FilePattern>
   </CabinetConfigFilePatterns>
   <CabinetScriptFilePatterns></CabinetScriptFilePatterns> 
   <TableScriptFilePatterns></TableScriptFilePatterns> 

@@ -19,9 +19,9 @@ namespace DirectOutput.Cab.Out.DMX
             {
                 if (_DmxChannel != value)
                 {
-                    if (!value.IsBetween(1, 511))
+                    if (!value.IsBetween(1, 512))
                     {
-                        throw new Exception("Dmx channels numbers must be in the range of 1-511. The supplied number {0} is out of range.".Build(value));
+                        throw new Exception("Dmx channels numbers must be in the range of 1-512. The supplied number {0} is out of range.".Build(value));
                     }
                     if (Name.IsNullOrWhiteSpace() || Name == "DmxChannel {0:000}".Build(_DmxChannel))
                     {
