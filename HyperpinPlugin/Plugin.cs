@@ -96,7 +96,7 @@ namespace DirectOutputHyperpinPlugin
                
             }
 
-            Pinball.Init(F.FullName, Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName, "config", "Hyperpin.tmp", "Hyperpin");
+            Pinball.Init(F.FullName, Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName, "config", "Hyperpin.tmp", "Hyperpin"));
 
         }
 
