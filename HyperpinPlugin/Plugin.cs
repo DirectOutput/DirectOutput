@@ -21,6 +21,8 @@ namespace DirectOutputHyperpinPlugin
 
 
 
+
+
         #region IHyperpinPlugin Members
 
         /// <summary>
@@ -51,7 +53,9 @@ namespace DirectOutputHyperpinPlugin
         /// <param name="Value">The received value.</param>
         public void DataReceive(int Number, int Value)
         {
-            Pinball.ReceiveData('E', Number, Value);
+   
+                Pinball.ReceiveData('E', Number, Value);
+            
         }
 
 
@@ -64,8 +68,9 @@ namespace DirectOutputHyperpinPlugin
         /// </summary>
         public void PluginFinish()
         {
-
-            Pinball.Finish();
+         
+                Pinball.Finish();
+      
         }
 
         /// <summary>
@@ -96,7 +101,7 @@ namespace DirectOutputHyperpinPlugin
                
             }
 
-            Pinball.Init(F.FullName, Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName, "config", "Hyperpin.tmp", "Hyperpin"));
+            Pinball.Init(F.FullName, Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName, "config", "Hyperpin.tmp"), "Hyperpin");
 
         }
 
