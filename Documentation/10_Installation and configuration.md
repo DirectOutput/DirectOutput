@@ -28,7 +28,7 @@ Alternatively the DirectOutput framework can also be put into any other director
 
 \section installation_b2sserverconfig B2S.Server Configuration
 
-To enable the plugin support in the B2S.Server (DirectOutput is a B2S.Server plugin) you need to add the _ArePluginsOn_ option to your B2STableSettings.xml file:
+To enable the plugin support in the B2S.Server (DirectOutput is a B2S.Server plugin) you need to add the _ArePluginsOn_ option to your B2STableSettings.xml file. The result should resemble to following example:
 
 ~~~~~~~~~~~~~~~{.xml}
 <B2STableSettings>
@@ -38,12 +38,21 @@ To enable the plugin support in the B2S.Server (DirectOutput is a B2S.Server plu
 </B2STableSettings>
 ~~~~~~~~~~~~~~~
 
+\Warning: This block does not go to the end of the B2STableSettings.xml file. You really only have to put the line containing _ArePluginsOn_ into the file.
+
+
+
 \section installation_visualpinballcorevbs Visual Pinball core.vbs Adjustment
 
-If you have used the <a target="_blank" href="http://www.hyperspin-fe.com/forum/showthread.php?10980-Tutorial-How-to-config-Ledwiz-PacDrive">VBScript solution</a> to control your LedWiz before you will have to _REMOVE_ the following line from your core.vbs:
+If you have used the <a target="_blank" href="http://www.hyperspin-fe.com/forum/showthread.php?10980-Tutorial-How-to-config-Ledwiz-PacDrive">VBScript solution</a> to control your LedWiz before you will have to _REMOVE_ the line loading ledcontrol.vbs from your core.vbs.
 
+Depending on your version of core.vbs this line might looks like one of the following two:
 ~~~~~~~~~~~~~~~{.vbs}
 ExecuteGlobal GetTextFile("ledcontrol.vbs")
+~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~{.vbs}
+LoadScript("ledcontrol.vbs"):Err.Clear    
 ~~~~~~~~~~~~~~~
 
 If you dont remove the mentioned statement you'll run into trouble since the framework and the ledcontrol.vbs solutions will run simultaneously!
