@@ -37,6 +37,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectOutputConfigTester", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HyperpinPlugin", "HyperpinPlugin\HyperpinPlugin.csproj", "{F7F77AC3-48A3-4527-BDE9-6CDB11E72387}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectPlugin", "DirectPlugin\DirectPlugin.csproj", "{A6DC5ADD-DFCA-40ED-B281-3ADF83AEDA8D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -137,6 +139,18 @@ Global
 		{F7F77AC3-48A3-4527-BDE9-6CDB11E72387}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{F7F77AC3-48A3-4527-BDE9-6CDB11E72387}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{F7F77AC3-48A3-4527-BDE9-6CDB11E72387}.Release|x86.ActiveCfg = Release|Any CPU
+		{A6DC5ADD-DFCA-40ED-B281-3ADF83AEDA8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6DC5ADD-DFCA-40ED-B281-3ADF83AEDA8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6DC5ADD-DFCA-40ED-B281-3ADF83AEDA8D}.Debug|Itanium.ActiveCfg = Debug|Any CPU
+		{A6DC5ADD-DFCA-40ED-B281-3ADF83AEDA8D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A6DC5ADD-DFCA-40ED-B281-3ADF83AEDA8D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A6DC5ADD-DFCA-40ED-B281-3ADF83AEDA8D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A6DC5ADD-DFCA-40ED-B281-3ADF83AEDA8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6DC5ADD-DFCA-40ED-B281-3ADF83AEDA8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6DC5ADD-DFCA-40ED-B281-3ADF83AEDA8D}.Release|Itanium.ActiveCfg = Release|Any CPU
+		{A6DC5ADD-DFCA-40ED-B281-3ADF83AEDA8D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A6DC5ADD-DFCA-40ED-B281-3ADF83AEDA8D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A6DC5ADD-DFCA-40ED-B281-3ADF83AEDA8D}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
