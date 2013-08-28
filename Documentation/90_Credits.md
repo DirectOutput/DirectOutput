@@ -7,7 +7,18 @@ B2S Direct BackglassServer
 --------------------------
 Many thanks to Stefan/<a href="http://www.vpforums.org/index.php?showuser=57523">Herweh</a> for his Direct B2S-Server. Without his idea and his work I would probably never have come up with the plan to build this framework.
 
+Thanks a lot for allowing me to use the B2S.Server as a host for DirectOutput and for enduring me endless requests for features and changes!
+
 \image html Herweh.png
+
+Testing and support
+-------------------
+Many thanks go to some folks at <a href="http://vpuniverse.com/">VPUniverse.com</a>. Arngrim, Bent98, Deegor, Bill55, Slydog43 and SirCheddar have contributed a lot of help during testing and development. Without their support, I would probably no have finished the framework and without their testing it would for sure no where as stable is at does now. 
+
+Thanks for all the help. It has been my pleasure to work with you!
+
+\image html testanddevteam.jpg
+
 
 GroovyGameGear/LedWiz
 ------
@@ -26,8 +37,4 @@ CSScript
 --------
 CScript is a open source library which allows to compile and execute the content of C# script files at runtime. See <a href="http://www.csscript.net">csscript.net</a> for details.
 
-Testing and support
--------------------
-Many thanks go to some folks at <a href="http://vpuniverse.com/">VPUniverse.com</a>. Arngrim, Bent98, Deegor, Bill55, Slydog43 and SirCheddar have contributed a lot of help during testing and development. Without their support, I would probably no have finished the framework and without their testing it would for sure no where as stable is at does now! It has been my pleasure to work with you!
 
-\image html testanddevteam.jpg
