@@ -196,6 +196,7 @@
     <Compile Include="LedControl\LedControl.cs" />
     <Compile Include="Pinball.cs" />
     <Compile Include="PinballSupport\PinballSupport.cs" />
+    <Compile Include="Plugin.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

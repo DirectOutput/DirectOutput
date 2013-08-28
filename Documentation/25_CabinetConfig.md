@@ -62,7 +62,7 @@ Output controllers might require additional tags to configure their behaviour. F
 </LedWiz>
 ~~~~~~~~~~~~~
 
-The __Outputs__ section of the output controller configuration defines any number of outputs for the output controller. The required tags and structure depend on the type of output used by the output controller. The minimal structure for a output configuration looks as follows:
+The __Outputs__ section of the output controller configuration defines the outputs for the output controller. The required tags and structure depend on the type of output used by the output controller. The minimal structure for a output configuration looks as follows:
 
 ~~~~~~~~~~~~~{.xml}
 <TypeOfOutput>

@@ -1,6 +1,6 @@
-﻿pacdrive, pacled64 support
+﻿pacdrive support
 ledstripe support
-dmx/artnet support
+
 
 multilayer toys
 
