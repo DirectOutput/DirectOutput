@@ -34,8 +34,8 @@
     <ApplicationIcon>DirectOutputIcon_32.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PluginInterface">
-      <HintPath>..\..\PluginInterface\PluginInterface\bin\Release\PluginInterface.dll</HintPath>
+    <Reference Include="DirectPluginInterface">
+      <HintPath>..\..\DirectPluginInterface\DirectPluginInterface\bin\Release\DirectPluginInterface.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />

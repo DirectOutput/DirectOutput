@@ -2,7 +2,7 @@
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Reflection;
-using PluginInterface;
+using DirectPluginInterface;
 using DirectOutput;
 
 /// <summary>
@@ -14,8 +14,8 @@ namespace DirectPlugin
     /// <summary>
     /// DirectOutputPlugin is the IPlugin interface implementation required by generic the PluginInterface.dll.
     /// </summary>
-    [Export(typeof(IPlugin))]
-    public class DirectOutputPlugin : IPlugin
+    [Export(typeof(IDirectPlugin))]
+    public class DirectOutputPlugin : IDirectPlugin
     {
         
         #region IPlugin Members
