@@ -264,7 +264,11 @@ namespace DirectOutput.LedControl
 
                     //Indicates number of blinks or duration
                     Blink = Parts[3].ToInteger();
-
+                    if (DurationMs > 0)
+                    {
+                        BlinkIntervalMs = (DurationMs / Blink / 2).Limit(1, int.MaxValue);
+                        DurationMs = 0;
+                    }
 
                 }
 
