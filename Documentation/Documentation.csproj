@@ -68,6 +68,8 @@
     <Content Include="img\GlobalArchitecture.png" />
     <Content Include="img\Herweh.png" />
     <Content Include="img\Installation_DirectoryStructure.png" />
+    <Content Include="img\Installation_OwnDirectory1.png" />
+    <Content Include="img\Installation_OwnDirectory2.png" />
     <Content Include="img\LedControlFileTester.jpg" />
     <Content Include="img\LedWizBoard.jpg" />
     <Content Include="img\LedWizConfigTool.jpg" />
@@ -78,6 +80,7 @@
     <Content Include="img\Plugin.png" />
     <Content Include="img\SquashBug.jpg" />
     <Content Include="img\swisslizard.png" />
+    <Content Include="img\Table.png" />
     <Content Include="img\TableArchitecture.png" />
     <Content Include="img\TestAndDevTeam.jpg" />
     <Content Include="img\ToyArchitecture.png" />

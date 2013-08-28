@@ -16,15 +16,63 @@ You are also very welcome to fork/download and enhance the source code from <a t
 
 \section installation_installation Installation
 
-Unzip the contents of the zip-file containing the framework to the following subpath of the B2S-Server: {B2S-Server directory}\\plugins\\DirectOutput
+Hosting applications which can use the DirectOutput framework, implement plugin interfaces which will automatically detect, load and use the library if it is correctly installed. 
 
-The B2S-Server will automatically detect the framework on startup and integrate it. Please check <a target="_blank" href="http://www.vpforums.org/index.php?showforum=86">VPForums</a> for more information on the B2S-Server.
+The DirectOutput framework can be installed in two ways:
 
-Typically the directory and file structure of your installtion should look like this (depending on the framework version, more files might exist in the installation directory):
+* Directly within the directory structure of the hosting application (e.g. B2S.Server). This will require only minimal effort when installing, but it might lead to duplicate installations if DOF is used in more than one hosting application.
+* In any other directory of your system. This will require a little more work during installation, because shortcuts from the hosting applications plugin directory to the directoy containg DOF have to be added. This installation pattern will all all applications which support DOF to use the same installation, so no duplicate installtions are required. This is the recommanded installtion pattern.
+
+\subsection installation_installation_hostappdir Installation within hosting application directory structure 
+
+To install DOF withing the directory structure of the application using the framework (e.g. B2S.Server), please do the following:
+
+* In the installation directory of the hosting application, create a directoy called _plugins_.
+* Inside the newly created _plugins_ directory, create a subdirectory called _DirectOutput_ (any other name will be ok as well).
+* Unzip the contents of the zip-file containg the framework to the newly created _DirectOutput_ directory.
+* If using platforms like Vista or Win7, the installed files might be blocked by UAC. To unblock the files please read: \ref installation_unblockauc 
+
+If this has been done correctly, the hosting application will automatically detect, load and use the framework.
+
+__Example:__
+A typical installation of the framework for the B2S.Server (provided that B2S.Server is installed in the VP tables directory) will have to following directory and file structure:
 
 \image html Installation_DirectoryStructure.png 
+Note: Depending on the DirectOutput framework version, more files might exist in the installation.
 
-Alternatively the DirectOutput framework can also be put into any other directory on your system and a windows shortcut pointing to this directory can be added to the {B2S-Server directory}\\plugins directory. The B2S.Server will follow this shortcut to your plugin directory.
+\subsection installation_installation_owndir Installation in own directory (Recommended)
+
+To avoid duplicate installations of the DirectOutput framework, the applications using the framework as a plugin can follow windows shortcuts to the directory containging DOF.
+
+To install DirectOutput like this, please do the following:
+* Create a directory for you DirectOutput installtion (e.g. C:\\DirectOutput). The name and the path to this directory can be anything you like, but it might be a clever idea to have DirectOutput in the directory name.
+* Unzip the contents of the zip-file containg the framework to the newly created directory.
+* If using platforms like Vista or Win7, the installed files might be blocked by UAC. To unblock the files please read: \ref installation_unblockauc 
+ 
+To allow the hosting application (e.g. B2S.Server) to detect the DirectOutput framework, do the following:
+* Go to the directory containing the files of the hosting application (For B2S.Server this is typically the VP tables folder).
+* In this directory create a subdirectory named _plugins_.
+* In the newly created _plugins_ directory, create a windows shortcut pointing to the directory containg the DirectOutput framework. This can be done by right clicking in the _plugins_ directory and selecting New -> Shortcut in the context menu.
+
+__Example:__
+A typical installation of the framework in its own directory might resemble the following file and directory structure:
+\image html Installation_OwnDirectory1.png
+Note: Depending on the DirectOutput framework version, more files might exist in the installation.
+
+If the framework is used with a B2S.Server installtion (which normaly reside in the VP table folder), you should have the following directory structure and shortcut (pointing to the directory containg the DirectOutput framework):
+\image html Installation_OwnDirectory1.png
+
+
+\section installation_unblockauc Unblock the DLLs
+
+On platforms like Win7 or Vista you might need to unblock the files of the DirectOutput framework, before it can be recognized by hosting applications (e.g. B2S.Server).
+
+Please exceute the following procedure for all dll and exe files of the DirectOutput installtion:
+* Right click the DLL file and select _Properties_ in the context menu.
+* Select the _General_ tab in the properties window.
+* If you find the text _"This file came from another computer and might be blocked to help protect this computer" or somthing similar on this tab, click the _Unblock_ button. This should fix the issue.
+
+If the text about the file coming from another computer does not exist, everthing should be fine.
 
 \section installation_b2sserverconfig B2S.Server Configuration
 
