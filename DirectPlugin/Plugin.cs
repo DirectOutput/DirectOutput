@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using DirectPluginInterface;
 using DirectOutput;
+using System.Windows.Forms;
 
 /// <summary>
 /// DirectPlugin is the namespace of the Dll implementing the actual plugin interface.
@@ -15,7 +16,7 @@ namespace DirectPlugin
     /// DirectOutputPlugin is the IPlugin interface implementation required by generic the PluginInterface.dll.
     /// </summary>
     [Export(typeof(IDirectPlugin))]
-    public class DirectOutputPlugin : IDirectPlugin
+    public class DirectOutputPlugin : IDirectPlugin, IDirectPluginFrontend
     {
         
         #region IPlugin Members
@@ -105,6 +106,7 @@ namespace DirectPlugin
                
             }
 
+            Pinball = new Pinball();
             Pinball.Init(F.FullName,TableFilename,GameName );
 
         }
@@ -151,6 +153,24 @@ namespace DirectPlugin
 
         #endregion
 
+        #region IDirectPluginFrontend Member
+
+        public void PluginShowFrontend(Form Owner = null)
+        {
+            try
+            {
+                DirectOutput.Frontend.MainMenu.Open(Pinball);
+
+            }
+            catch (Exception E)
+            {
+
+                System.Windows.Forms.MessageBox.Show("Could not show DirectOutput frontend.\n The following exception occured:\n{0}".Build(E.Message), "DirectOutput");
+            }
+        }
+
+        #endregion
+
         #region Properties
 
 
@@ -183,6 +203,8 @@ namespace DirectPlugin
 
 
         }
+
+
 
 
 
