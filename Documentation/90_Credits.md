@@ -18,7 +18,7 @@ The code for the LedWiz class is based on the implementation in the LedWiz SDK.
 
 Ultimarc/PacDrive/PacLed64
 --------
-The drivers for the PacDrive and the PacLed64 as well as testing hardware has be provided by Andy from Ultimarc.
+The drivers for the PacDrive and the PacLed64 as well as testing hardware has be provided by Andy from <a href="http://www.ultimarc.com/">Ultimarc</a>.
 
 \image html PacLed64logo.png
 
@@ -28,6 +28,6 @@ CScript is a open source library which allows to compile and execute the content
 
 Testing and support
 -------------------
-Many thanks go to some folks at <a href="http://vpuniverse.com/">VPUniverse.com</a>. Arngrim, Bent98 and Deegor have contributed a lot of help during testing and development.
+Many thanks go to some folks at <a href="http://vpuniverse.com/">VPUniverse.com</a>. Arngrim, Bent98, Deegor, Bill55, Slydog43 and SirCheddar have contributed a lot of help during testing and development. Without their support, I would probably no have finished the framework and without their testing it would for sure no where as stable is at does now! It has been my pleasure to work with you!
 
 \image html testanddevteam.jpg
