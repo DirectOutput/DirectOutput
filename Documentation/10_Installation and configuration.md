@@ -77,8 +77,7 @@ If the text about the file coming from another computer does not exist, everthin
 
 \section installation_b2sserverconfig B2S.Server Configuration
 
-To enable the plugin support in the B2S.Server (DirectOutput is a B2S.Server plugin) you need to add the _ArePluginsOn_ option to your B2STableSettings.xml file. The result should resemble to following example:
-
+To enable the plugin support in the B2S.Server (DirectOutput is a B2S.Server plugin) you need to add the ArePluginsOn option to your B2STableSettings.xml file (In the Table directory). The result should resemble to following example:
 ~~~~~~~~~~~~~~~{.xml}
 <B2STableSettings>
   ....
