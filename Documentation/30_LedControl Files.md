@@ -6,7 +6,7 @@
 The DirectOutput framework supports the use of the classical LedControl.ini files used in the <a href="http://www.hyperspin-fe.com/forum/showthread.php?10980-Tutorial-How-to-config-Ledwiz-PacDrive">VBScript solution</a> to control the cabinet outputs.
 Since this framework supports the use of more than one output controller/LedWiz, the use of more than one LedControl.ini file is supported as well.
 
-To facilitate the use of the framework, the auto config function will automatically load LedControl.ini file(s) and select a table config from the data based on the RomName, if no DirectOutput table config can be found.
+To facilitate the use of the framework, the auto config function will automatically load LedControl.ini file(s) and select a table config from the data based on the RomName, if no table config can be found, but even if a table config file is available is is possible to use the ledcontrol configs together with the table configs by setting the right option in the table config.
 
 Please check the <a href="http://www.hyperspin-fe.com/forum/forumdisplay.php?34-HyperPin-Support">HyperSpin Forum</a> for more information on LedControl.ini files and details on the VBScript solution which uses the LedControl files normally.
 
@@ -34,19 +34,33 @@ If a file does not exist, can not be read or parsed, the framework will silently
 
 Based on the loaded data, the system will configure the effects controlling the LedWizEquivalent toys.
 
+
 \subsection ledcontrol_autoconfigcabinet Auto Cabinet Config
 
 Since the LedControlEffect sends the output data to a IToy of type LedWizEquivalent (basically a toy behaving like a LedWiz), auto config does also configure the cabinet based on the following rules:
 
 1. If the cabinet configuration does already contain LedWizEquivalent toy objects, the LedWizEquivalent toys with numbers matching the number of the LedControl files will be used for the outputs. If at least one preconfigured LedWizEquivalent toy exists in the cabinet, auto config will not add other LedWizEquivalent toys.
-2. If no LedWizEquivalent toys exist in the cabinet config, the framework will try to detect all connected Ledwiz controllers and add LedWiz IOutputController as well as LedWizEquivalent IToy objects for every Ledwiz.
+2. If no LedWizEquivalent toys exist in the cabinet config, the framework will try to detect all connected controllers which support auto configuration and add the neccessary output controller objects as well as LedWizEquivalent IToy objects for every output controller.
+
+\subsection ledcontrol_autoconfignumbering LedControl file numbering
+
+If auto configuration is used and no definitions for ledcontrol files exist in global config, the framework requires the ledcontrol files to be numbered. (ledcontrol.ini, ledcontrol2.ini, ledcontrol3.ini and so on).
+
+DOF uses these numbers to determine which LedWizEquivalent toy should be configured by the ledcontrol file, by match the number of the ledcontrol file against the number of the LedWizEquivalent toy. If the ledcontrol files are defined in the global config the ledwiznr of the definition will be used instead of the number in the filename.
+
+Auto cabinet config does, if active, number the detected output controllers resp. their related LedWizEquivalent toys as follows:
+
+* For LedWiz unit 1-16, the framework creates one LedWizEquivalent per unit having the same number as the LedWiz (LedWiz nr. = LedWizEquivalent nr. = ledcontrol file number).
+* For PacLed64 units (max 4 supported), the framework creates 2 LedWizEquivalentToys per unit covering the whole 64 outputs. The numbering for those LedWizEquivalent start at 20, so PacLed64 id 1 can be accessed through LedWizEquivalents number 20 & 21, PacLed id 2 uses 22 & 23 and so on.
+
 
 \section ledcontrol_manualconfig Manual Configuration
+
 Instead of relying on the automatic cabinet config, you can also specifiy your own cabinet configuration for the use with LedControl.ini files.
 
 To be usable for the LedControl functions of the framework, the list of toys in the cabinet must contain one or several LedWizEquivalent IToy objects and the outputs for the LedWizEquivalents. Normaly the outputs of the LedWizEquivalent toys will point to the outputs of a single LedWiz IOutputController, but you are free to point to any other output of any IOutputController configured in your system (e.g. you could use outputs of 2 different LedWiz controllers in one LedWizEquivalent toy).
 
-When LedControl data is used for the Table configuration, the number of the LedWizEquivalent is used to match to the correct LedControl.ini file.
+When LedControl data is used for the Table configuration, the number of the LedWizEquivalent is used to match to the correct LedControl.ini file (e.g. LedControl3 will configure LedWizEquivalent nr. 3). 
 
 \section ledcontrol_settings Settings in LedControl files
 
