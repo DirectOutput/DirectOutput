@@ -199,7 +199,7 @@ namespace DirectOutput.LedControl
                 else if (Parts[1].IsInteger())
                 {
                     //Its a duration
-                    DurationMs = Parts[1].ToInteger();
+                    DurationMs = Parts[1].ToInteger().Limit(1,int.MaxValue);
 
                 }
                 else if (Parts[1].ToUpper().Substring(0, 1) == "I" && Parts[1].Substring(1).IsInteger())
@@ -229,11 +229,11 @@ namespace DirectOutput.LedControl
                     //Indicates number of blinks or duration
                     if (OutputType == OutputTypeEnum.RGBOutput)
                     {
-                        DurationMs = Parts[2].ToInteger();
+                        DurationMs = Parts[2].ToInteger().Limit(1,int.MaxValue);
                     }
                     else
                     {
-                        Blink = Parts[2].ToInteger();
+                        Blink = Parts[2].ToInteger().Limit(1,int.MaxValue);
                         if (DurationMs > 0)
                         {
                             BlinkIntervalMs = (DurationMs / Blink / 2).Limit(1, int.MaxValue);
@@ -261,15 +261,20 @@ namespace DirectOutput.LedControl
             {
                 if (Parts[3].IsInteger() && OutputType == OutputTypeEnum.RGBOutput)
                 {
-
-                    //Indicates number of blinks or duration
-                    Blink = Parts[3].ToInteger();
-                    if (DurationMs > 0)
+                    if (Blink == -1)
                     {
-                        BlinkIntervalMs = (DurationMs / Blink / 2).Limit(1, int.MaxValue);
-                        DurationMs = 0;
+                        BlinkIntervalMs = Parts[3].ToInteger().Limit(1,int.MaxValue);
                     }
-
+                    else
+                    {
+              
+                        Blink = Parts[3].ToInteger().Limit(1,int.MaxValue);
+                        if (DurationMs > 0)
+                        {
+                            BlinkIntervalMs = (DurationMs / Blink / 2).Limit(1, int.MaxValue);
+                            DurationMs = 0;
+                        }
+                    }
                 }
 
                 else
