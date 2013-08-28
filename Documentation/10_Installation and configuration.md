@@ -37,7 +37,7 @@ If this has been done correctly, the hosting application will automatically dete
 __Example:__
 A typical installation of the framework for the B2S.Server (provided that B2S.Server is installed in the VP tables directory) will have to following directory and file structure:
 
-\image html Installation_DirectoryStructure.png 
+\image html Installation_DirectoryStructure.png Installation in hosting application directory structure
 Note: Depending on the DirectOutput framework version, more files might exist in the installation.
 
 \subsection installation_installation_owndir Installation in own directory (Recommended)
@@ -56,11 +56,11 @@ To allow the hosting application (e.g. B2S.Server) to detect the DirectOutput fr
 
 __Example:__
 A typical installation of the framework in its own directory might resemble the following file and directory structure:
-\image html Installation_OwnDirectory1.png
+\image html Installation_OwnDirectory1.png DirectOutput installtion in own directory
 Note: Depending on the DirectOutput framework version, more files might exist in the installation.
 
 If the framework is used with a B2S.Server installtion (which normaly reside in the VP table folder), you should have the following directory structure and shortcut (pointing to the directory containg the DirectOutput framework):
-\image html Installation_OwnDirectory1.png
+\image html Installation_OwnDirectory2.png Shortcut pinting to the DirectOutput installation directory
 
 
 \section installation_unblockauc Unblock the DLLs
