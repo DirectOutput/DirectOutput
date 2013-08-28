@@ -256,6 +256,27 @@ namespace DirectOutput.LedControl
 
                 }
             }
+
+            if (Parts.Length > 3)
+            {
+                if (Parts[3].IsInteger() && OutputType == OutputTypeEnum.RGBOutput)
+                {
+
+                    //Indicates number of blinks or duration
+                    Blink = Parts[3].ToInteger();
+
+
+                }
+
+                else
+                {
+                    Log.Warning("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(Parts[3], SettingData));
+
+                    throw new Exception("Cant parse the part {0} of the ledcontrol table config setting {3}.".Build(Parts[2], SettingData));
+
+                }
+            }
+
         }
 
 
