@@ -13,7 +13,7 @@ Thanks a lot for allowing me to use the B2S.Server as a host for DirectOutput an
 
 Testing and support
 -------------------
-Many thanks go to some folks at <a href="http://vpuniverse.com/">VPUniverse.com</a>. Arngrim, Bent98, Deegor, Bill55, Slydog43 and SirCheddar have contributed a lot of help during testing and development. Without their support, I would probably no have finished the framework and without their testing it would for sure no where as stable is at does now. 
+Many thanks go to some folks at <a href="http://vpuniverse.com/">VPUniverse.com</a>. Arngrim, Bent98, Deegor, Bill55, Slydog43 and SirCheddar have contributed a lot of help during testing and development. Without their support, I would probably not have finished the project and without their testing it would for sure be no where as stable as it is now. 
 
 Thanks for all the help. It has been my pleasure to work with you!
 

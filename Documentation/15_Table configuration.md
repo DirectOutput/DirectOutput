@@ -1,4 +1,4 @@
-﻿Table configuration {#tableconfig}
+﻿VP Table configuration {#tableconfig}
 ===================
 
 \section tableconfig_intro Introduction
