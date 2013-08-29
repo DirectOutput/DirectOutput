@@ -330,7 +330,7 @@ namespace DirectOutput.FX.LedControlFX
 
         private double DimStep = 0;
         private double DimTarget = 0;
-        private int DimOutputNumber = 0;
+        
 
         private void DimAnalogOutput(bool OutputState)
         {
