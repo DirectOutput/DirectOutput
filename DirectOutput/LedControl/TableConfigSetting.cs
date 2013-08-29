@@ -91,18 +91,18 @@ namespace DirectOutput.LedControl
             set { _Intensity = value; }
         }
 
-        private int _DimmingDuration=0;
+        private int _DimmingDurationMs=0;
 
         /// <summary>
-        /// Gets or sets the duration of the dimming.
+        /// Gets or sets the duration of the dimming in milliseconds.
         /// </summary>
         /// <value>
         /// The duration of the dimming.
         /// </value>
-        public int DimmingDuration
+        public int DimmingDurationMs
         {
-            get { return _DimmingDuration; }
-            set { _DimmingDuration = value; }
+            get { return _DimmingDurationMs; }
+            set { _DimmingDurationMs = value; }
         }
         
 
@@ -217,7 +217,7 @@ namespace DirectOutput.LedControl
                 else if (Parts[PartNr].ToUpper().Substring(0, 1) == "D" && Parts[PartNr].Substring(1).IsInteger())
                 {
                     //Dimming duration
-                    DimmingDuration = Parts[PartNr].Substring(1).ToInteger().Limit(0, 48);
+                    DimmingDurationMs = Parts[PartNr].Substring(1).ToInteger().Limit(0, 48);
                 }
                 else if (Parts[PartNr].IsInteger())
                 {
@@ -238,7 +238,7 @@ namespace DirectOutput.LedControl
                 PartNr++;
             }
 
-            
+
 
             if (Parts.Length > PartNr)
             {
@@ -255,78 +255,43 @@ namespace DirectOutput.LedControl
                     throw new Exception("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(Parts[PartNr], SettingData));
 
                 }
+                PartNr++;
 
-            };
 
-            if (Parts.Length > 2)
-            {
-                if (Parts[2].ToUpper() == "BLINK")
+                if (Parts.Length > PartNr)
                 {
-                    //Blink command
-                    Blink = -1;
-                }
-                else if (Parts[2].IsInteger())
-                {
-
-                    //Indicates number of blinks or duration
-                    if (OutputType == OutputTypeEnum.RGBOutput)
+                    if (Parts[PartNr].IsInteger())
                     {
-                        DurationMs = Parts[2].ToInteger().Limit(1,int.MaxValue);
+
+                        //Indicates number of blinks or duration
+                        if (OutputType == OutputTypeEnum.RGBOutput)
+                        {
+                            DurationMs = Parts[PartNr].ToInteger().Limit(1, int.MaxValue);
+                        }
+                        else
+                        {
+                            Blink = Parts[PartNr].ToInteger().Limit(1, int.MaxValue);
+                            if (DurationMs > 0)
+                            {
+                                BlinkIntervalMs = (DurationMs / Blink / 2).Limit(1, int.MaxValue);
+                                DurationMs = 0;
+                            }
+                        }
+
+
                     }
                     else
                     {
-                        Blink = Parts[2].ToInteger().Limit(1,int.MaxValue);
-                        if (DurationMs > 0)
-                        {
-                            BlinkIntervalMs = (DurationMs / Blink / 2).Limit(1, int.MaxValue);
-                            DurationMs = 0;
-                        }
+                        Log.Warning("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(Parts[PartNr], SettingData));
+
+                        throw new Exception("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(Parts[PartNr], SettingData));
+
                     }
-
-
+                    PartNr++;
                 }
-                else if (Parts[2].ToUpper().Substring(0, 1) == "I" && Parts[2].Substring(1).IsInteger())
-                {
-                    //Intensity setting
-                    Intensity = Parts[2].Substring(1).ToInteger().Limit(0, 48);
-                }
-                else
-                {
-                    Log.Warning("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(Parts[2], SettingData));
 
-                    throw new Exception("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(Parts[2], SettingData));
-
-                }
             }
-
-            if (Parts.Length > 3)
-            {
-                if (Parts[3].IsInteger() && OutputType == OutputTypeEnum.RGBOutput)
-                {
-                    if (Blink == -1)
-                    {
-                        BlinkIntervalMs = Parts[3].ToInteger().Limit(1,int.MaxValue);
-                    }
-                    else
-                    {
-              
-                        Blink = Parts[3].ToInteger().Limit(1,int.MaxValue);
-                        if (DurationMs > 0)
-                        {
-                            BlinkIntervalMs = (DurationMs / Blink / 2).Limit(1, int.MaxValue);
-                            DurationMs = 0;
-                        }
-                    }
-                }
-
-                else
-                {
-                    Log.Warning("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(Parts[3], SettingData));
-
-                    throw new Exception("Cant parse the part {0} of the ledcontrol table config setting {3}.".Build(Parts[2], SettingData));
-
-                }
-            }
+            
 
         }
 
