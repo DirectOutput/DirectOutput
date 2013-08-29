@@ -91,7 +91,7 @@ namespace DirectOutput.LedControl
             set { _Intensity = value; }
         }
 
-        private int _DimmingDurationMs=0;
+        private int _DimmingDurationMs = 0;
 
         /// <summary>
         /// Gets or sets the duration of the dimming in milliseconds.
@@ -104,7 +104,7 @@ namespace DirectOutput.LedControl
             get { return _DimmingDurationMs; }
             set { _DimmingDurationMs = value; }
         }
-        
+
 
         /// <summary>
         /// Gets or sets the number blinks.
@@ -202,10 +202,11 @@ namespace DirectOutput.LedControl
 
             }
 
+            int IntegerCnt = 0;
             int PartNr = 1;
-            while (Parts.Length<=PartNr)
+            while (Parts.Length > PartNr)
             {
-                if (PartNr==1 && Parts[PartNr].ToUpper() == "BLINK")
+                if (Parts[PartNr].ToUpper() == "BLINK")
                 {
                     Blink = -1;
                 }
@@ -217,81 +218,48 @@ namespace DirectOutput.LedControl
                 else if (Parts[PartNr].ToUpper().Substring(0, 1) == "D" && Parts[PartNr].Substring(1).IsInteger())
                 {
                     //Dimming duration
-                    DimmingDurationMs = Parts[PartNr].Substring(1).ToInteger().Limit(0, 48);
+                    DimmingDurationMs = Parts[PartNr].Substring(1).ToInteger().Limit(0, int.MaxValue);
                 }
                 else if (Parts[PartNr].IsInteger())
                 {
-                    // We have reached the area of undefined integer paras
-                    break;
-                }
-                else if (PartNr == 1)
-                {
-                    //This should be a color
-                    ColorName = Parts[1];
-                }
-                else
-                {
-                    Log.Warning("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(Parts[PartNr], SettingData));
-
-                    throw new Exception("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(Parts[PartNr], SettingData));
-                }
-                PartNr++;
-            }
-
-
-
-            if (Parts.Length > PartNr)
-            {
-                if (Parts[PartNr].IsInteger())
-                {
-                    //Its a duration
-                    DurationMs = Parts[PartNr].ToInteger().Limit(1, int.MaxValue);
-
-                }
-                else
-                {
-                    Log.Warning("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(Parts[PartNr], SettingData));
-
-                    throw new Exception("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(Parts[PartNr], SettingData));
-
-                }
-                PartNr++;
-
-
-                if (Parts.Length > PartNr)
-                {
-                    if (Parts[PartNr].IsInteger())
+                    switch (IntegerCnt)
                     {
-
-                        //Indicates number of blinks or duration
-                        if (OutputType == OutputTypeEnum.RGBOutput)
-                        {
+                        case 0:
+                            //Its a duration
                             DurationMs = Parts[PartNr].ToInteger().Limit(1, int.MaxValue);
-                        }
-                        else
-                        {
+                            break;
+                        case 1:
                             Blink = Parts[PartNr].ToInteger().Limit(1, int.MaxValue);
                             if (DurationMs > 0)
                             {
                                 BlinkIntervalMs = (DurationMs / Blink / 2).Limit(1, int.MaxValue);
                                 DurationMs = 0;
+                                
                             }
-                        }
-
-
+                            break;
+                        default:
+                            Log.Warning("The ledcontrol table config setting {0} contains more than 2 numeric values without a type definition.".Build(SettingData));
+                            throw new Exception("The ledcontrol table config setting {0} contains more than 2 numeric values without a type definition.".Build(SettingData));
+                            
                     }
-                    else
-                    {
-                        Log.Warning("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(Parts[PartNr], SettingData));
-
-                        throw new Exception("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(Parts[PartNr], SettingData));
-
-                    }
-                    PartNr++;
+                    IntegerCnt++;
                 }
+                else if (PartNr == 1)
+                {
+                    //This should be a color
+                    ColorName = Parts[PartNr];
+                }
+                else
+                {
+                    Log.Warning("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(Parts[PartNr], SettingData));
 
+                    throw new Exception("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(Parts[PartNr], SettingData));
+                }
+                PartNr++;
             }
-            
+
+
+
 
         }
 
