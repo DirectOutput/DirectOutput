@@ -91,7 +91,20 @@ namespace DirectOutput.LedControl
             set { _Intensity = value; }
         }
 
+        private int _DimmingDuration=0;
 
+        /// <summary>
+        /// Gets or sets the duration of the dimming.
+        /// </summary>
+        /// <value>
+        /// The duration of the dimming.
+        /// </value>
+        public int DimmingDuration
+        {
+            get { return _DimmingDuration; }
+            set { _DimmingDuration = value; }
+        }
+        
 
         /// <summary>
         /// Gets or sets the number blinks.
@@ -189,29 +202,58 @@ namespace DirectOutput.LedControl
 
             }
 
-            if (Parts.Length > 1)
+            int PartNr = 1;
+            while (Parts.Length<=PartNr)
             {
-                if (Parts[1].ToUpper() == "BLINK")
+                if (PartNr==1 && Parts[PartNr].ToUpper() == "BLINK")
                 {
-                    //Blink command
                     Blink = -1;
                 }
-                else if (Parts[1].IsInteger())
-                {
-                    //Its a duration
-                    DurationMs = Parts[1].ToInteger().Limit(1,int.MaxValue);
-
-                }
-                else if (Parts[1].ToUpper().Substring(0, 1) == "I" && Parts[1].Substring(1).IsInteger())
+                else if (Parts[PartNr].ToUpper().Substring(0, 1) == "I" && Parts[PartNr].Substring(1).IsInteger())
                 {
                     //Intensity setting
-                    Intensity = Parts[1].Substring(1).ToInteger().Limit(0, 48);
+                    Intensity = Parts[PartNr].Substring(1).ToInteger().Limit(0, 48);
                 }
-
+                else if (Parts[PartNr].ToUpper().Substring(0, 1) == "D" && Parts[PartNr].Substring(1).IsInteger())
+                {
+                    //Dimming duration
+                    DimmingDuration = Parts[PartNr].Substring(1).ToInteger().Limit(0, 48);
+                }
+                else if (Parts[PartNr].IsInteger())
+                {
+                    // We have reached the area of undefined integer paras
+                    break;
+                }
+                else if (PartNr == 1)
+                {
+                    //This should be a color
+                    ColorName = Parts[1];
+                }
                 else
                 {
-                    //It should be a color
-                    ColorName = Parts[1];
+                    Log.Warning("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(Parts[PartNr], SettingData));
+
+                    throw new Exception("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(Parts[PartNr], SettingData));
+                }
+                PartNr++;
+            }
+
+            
+
+            if (Parts.Length > PartNr)
+            {
+                if (Parts[PartNr].IsInteger())
+                {
+                    //Its a duration
+                    DurationMs = Parts[PartNr].ToInteger().Limit(1, int.MaxValue);
+
+                }
+                else
+                {
+                    Log.Warning("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(Parts[PartNr], SettingData));
+
+                    throw new Exception("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(Parts[PartNr], SettingData));
+
                 }
 
             };

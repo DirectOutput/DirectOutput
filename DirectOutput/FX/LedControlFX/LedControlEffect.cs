@@ -152,6 +152,22 @@ namespace DirectOutput.FX.LedControlFX
             get { return _Duration; }
             set { _Duration = value; }
         }
+
+        private int _DimDurationMs = 0;
+
+        /// <summary>
+        /// Gets or sets the dim duration in milliseconds.
+        /// </summary>
+        /// <value>
+        /// The dim duration in miliseconds.
+        /// </value>
+        public int DimDurationMs
+        {
+            get { return _DimDurationMs; }
+            set { _DimDurationMs = value.Limit(0,int.MaxValue); }
+        }
+
+
         #endregion
 
 
@@ -183,25 +199,114 @@ namespace DirectOutput.FX.LedControlFX
 
         private void SetOutputColor()
         {
+
             if (RGBColor[0] >= 0)
             {
-                SetOutputValue(FirstOutputNumber, RGBColor[0]);
-                SetOutputValue(FirstOutputNumber + 1, RGBColor[1]);
-                SetOutputValue(FirstOutputNumber + 2, RGBColor[2]);
+                if (DimDurationMs > 0)
+                {
+                    DimColor(true);
+                }
+                else
+                {
+                    SetOutputValue(FirstOutputNumber, RGBColor[0]);
+                    SetOutputValue(FirstOutputNumber + 1, RGBColor[1]);
+                    SetOutputValue(FirstOutputNumber + 2, RGBColor[2]);
+                }
             }
         }
         private void UnsetOutputColor()
         {
-            SetOutputValue(FirstOutputNumber, 0);
-            SetOutputValue(FirstOutputNumber + 1, 0);
-            SetOutputValue(FirstOutputNumber + 2, 0);
+            if (DimDurationMs > 0)
+            {
+                DimColor(false);
+            }
+            else
+            {
+                SetOutputValue(FirstOutputNumber, 0);
+                SetOutputValue(FirstOutputNumber + 1, 0);
+                SetOutputValue(FirstOutputNumber + 2, 0);
+            }
+        }
+
+        private double[] ColorDimStep=new double[3] {0,0,0};
+        private double[] ColorCurrent = new double[3] { 0,0, 0 };
+        private double[] ColorTarget = new double[3] { 0, 0, 0 };
+        private void DimColor(bool LedState)
+        {
+            
+            if (DimDurationMs > 0)
+            {
+                bool ColorMatch = true;
+                for (int i = 0; i < 3; i++)
+                {
+                    ColorCurrent[i] = LedWizEquivalent.GetOutputValue((FirstOutputNumber + i).Limit(1, 32));
+                    ColorTarget[i] = (LedState ? RGBColor[i] : 0);
+                    ColorMatch &= (ColorCurrent[i] == ColorTarget[i]);
+                    ColorDimStep[i] = (ColorTarget[i] - ColorCurrent[i]) / (DimDurationMs / 30);
+                    
+                }
+                if (!ColorMatch)
+                {
+                    AlarmHandler.RegisterAlarm(30, DimColorAlarmHandler);
+                }
+
+            }
+        }
+
+        private void DimColorAlarmHandler()
+        {
+            bool ContinueDimming = false;
+            
+            for (int i = 0; i < 3; i++)
+            {
+                ColorCurrent[i] += ColorDimStep[i];
+                
+                if (ColorDimStep[i] > 0)
+                {
+                    if (ColorCurrent[i] >= ColorTarget[i] || ColorCurrent[i] >= 48)
+                    {
+                        ColorDimStep[i] = 0;
+                        ColorCurrent[i] = ColorTarget[i];
+                    }
+                    else
+                    {
+                        ContinueDimming = true;
+                    }
+                }
+                else if (ColorDimStep[i] < 0)
+                {
+                    if (ColorCurrent[i] <= ColorTarget[i] || ColorCurrent[i] <= 0)
+                    {
+                        ColorDimStep[i] = 0;
+                        ColorCurrent[i] = ColorTarget[i];
+                    }
+                    else
+                    {
+                        ContinueDimming = true;
+                    }
+
+                }
+                SetOutputValue(FirstOutputNumber+i,((int)ColorCurrent[i]).Limit(0,48));
+            }
+
+            if (ContinueDimming)
+            {
+                AlarmHandler.RegisterAlarm(30, DimColorAlarmHandler);
+            }
         }
 
         private void SetAnalogOutput()
         {
             if (RGBColor[0] < 0)
             {
-                SetOutputValue(FirstOutputNumber, Intensity);
+                if (DimDurationMs > 0)
+                {
+                    DimAnalogOutput(true);
+                }
+                else
+                {
+                    SetOutputValue(FirstOutputNumber, Intensity);
+                }
             }
         }
 
@@ -209,18 +314,89 @@ namespace DirectOutput.FX.LedControlFX
         {
             if (RGBColor[0] < 0)
             {
-                SetOutputValue(FirstOutputNumber, 0);
+                if (DimDurationMs > 0)
+                {
+                    DimAnalogOutput(false);
+                }
+                else
+                {
+                    SetOutputValue(FirstOutputNumber, 0);
+                }
             }
         }
 
+  
+        private double DimCurrent = 0;
+
+        private double DimStep = 0;
+        private double DimTarget = 0;
+        private int DimOutputNumber = 0;
+
+        private void DimAnalogOutput(bool OutputState)
+        {
+            DimCurrent = LedWizEquivalent.GetOutputValue(FirstOutputNumber);
+            DimTarget=(OutputState?Intensity:0);
+
+            if (DimCurrent == DimTarget || DimDurationMs==0)
+            {
+                LedWizEquivalent.SetOutputValue(FirstOutputNumber, Intensity);
+            }
+            else
+            {
+                
+                DimStep = (DimTarget - DimCurrent) / (DimDurationMs / 30);
+                
+                
+                if (DimStep != 0)
+                {
+                    DimAnalogOutputAlarmHandler();
+                }
+            }
+        }
+
+
+        private void DimAnalogOutputAlarmHandler()
+        {
+            DimCurrent += DimStep;
+            if (DimStep > 0)
+            {
+                if (DimCurrent < DimTarget && DimCurrent < 48)
+                {
+                    AlarmHandler.RegisterAlarm(20, DimAnalogOutputAlarmHandler);
+                } else {
+                    DimCurrent=DimTarget;
+                }
+            }
+            else if (DimStep < 0)
+            {
+                if (DimCurrent > DimTarget && DimCurrent > 0)
+                {
+                    AlarmHandler.RegisterAlarm(20, DimAnalogOutputAlarmHandler);
+                } else {
+                    DimCurrent=DimTarget;
+                }
+            }
+
+            if (DimStep == 0 || DimCurrent >= 48 || DimCurrent <= 0)
+            {
+                AlarmHandler.UnregisterAlarm(DimAnalogOutputAlarmHandler);
+            }
+            
+
+            LedWizEquivalent.SetOutputValue(FirstOutputNumber, ((int)DimCurrent).Limit(0,48));
+        }
 
         private void SetOutputValue(int OutputNumber, int Value)
         {
             if (LedWizEquivalent != null && OutputNumber.IsBetween(1, 32))
             {
+
                 LedWizEquivalent.SetOutputValue(OutputNumber, Value);
             }
         }
+
+
+
         #endregion
 
 
@@ -359,6 +535,7 @@ namespace DirectOutput.FX.LedControlFX
         {
             AlarmHandler.UnregisterAlarm(DurationAlarmHandler);
             AlarmHandler.UnregisterIntervalAlarm(BlinkAlarmHandler);
+            AlarmHandler.UnregisterAlarm(DimAnalogOutputAlarmHandler);
             Unset();
             AlarmHandler = null;
         }
