@@ -74,10 +74,15 @@ namespace DirectOutput.LedControl
                                         }
                                         FXName += "Color {0}, ".Build(S.ColorName);
                                     }
-                                    if (S.DimmingDurationMs > 0)
+                                    if (S.DimmingUpDurationMs > 0)
                                     {
-                                        LCE.DimDurationMs = S.DimmingDurationMs;
-                                        FXName += "DimDuration {0}, ".Build(S.DimmingDurationMs);
+                                        LCE.DimUpDurationMs = S.DimmingUpDurationMs;
+                                        FXName += "DimUpDuration {0}, ".Build(S.DimmingUpDurationMs);
+                                    }
+                                    if (S.DimmingDownDurationMs > 0)
+                                    {
+                                        LCE.DimDownDurationMs = S.DimmingDownDurationMs;
+                                        FXName += "DimDownDuration {0}, ".Build(S.DimmingDownDurationMs);
                                     }
                                     if (S.Blink > 0)
                                     {

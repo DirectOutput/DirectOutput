@@ -153,20 +153,33 @@ namespace DirectOutput.FX.LedControlFX
             set { _Duration = value; }
         }
 
-        private int _DimDurationMs = 0;
+        private int _DimUpDurationMs = 0;
 
         /// <summary>
-        /// Gets or sets the dim duration in milliseconds.
+        /// Gets or sets the dim up duration in milliseconds.
         /// </summary>
         /// <value>
-        /// The dim duration in miliseconds.
+        /// The dim duration up in miliseconds.
         /// </value>
-        public int DimDurationMs
+        public int DimUpDurationMs
         {
-            get { return _DimDurationMs; }
-            set { _DimDurationMs = value.Limit(0,int.MaxValue); }
+            get { return _DimUpDurationMs; }
+            set { _DimUpDurationMs = value.Limit(0,int.MaxValue); }
         }
 
+        private int _DimDownDurationMs = 0;
+
+        /// <summary>
+        /// Gets or sets the dim down duration in milliseconds.
+        /// </summary>
+        /// <value>
+        /// The dim duration down in miliseconds.
+        /// </value>
+        public int DimDownDurationMs
+        {
+            get { return _DimDownDurationMs; }
+            set { _DimDownDurationMs = value.Limit(0, int.MaxValue); }
+        }
 
         #endregion
 
@@ -202,7 +215,7 @@ namespace DirectOutput.FX.LedControlFX
 
             if (RGBColor[0] >= 0)
             {
-                if (DimDurationMs > 0)
+                if (DimUpDurationMs > 0)
                 {
                     DimColor(true);
                 }
@@ -216,7 +229,7 @@ namespace DirectOutput.FX.LedControlFX
         }
         private void UnsetOutputColor()
         {
-            if (DimDurationMs > 0)
+            if (DimUpDurationMs > 0)
             {
                 DimColor(false);
             }
@@ -234,7 +247,7 @@ namespace DirectOutput.FX.LedControlFX
         private void DimColor(bool LedState)
         {
             
-            if (DimDurationMs > 0)
+            if (DimUpDurationMs > 0)
             {
                 bool ColorMatch = true;
                 for (int i = 0; i < 3; i++)
@@ -242,7 +255,8 @@ namespace DirectOutput.FX.LedControlFX
                     ColorCurrent[i] = LedWizEquivalent.GetOutputValue((FirstOutputNumber + i).Limit(1, 32));
                     ColorTarget[i] = (LedState ? RGBColor[i] : 0);
                     ColorMatch &= (ColorCurrent[i] == ColorTarget[i]);
-                    ColorDimStep[i] = (ColorTarget[i] - ColorCurrent[i]) / (DimDurationMs / 30);
+                    int Duration = (ColorCurrent[i] < ColorTarget[i] ? DimUpDurationMs : DimDownDurationMs);
+                    ColorDimStep[i] = (ColorTarget[i] - ColorCurrent[i]) / (Duration / 30);
                     
                 }
                 if (!ColorMatch)
@@ -299,7 +313,7 @@ namespace DirectOutput.FX.LedControlFX
         {
             if (RGBColor[0] < 0)
             {
-                if (DimDurationMs > 0)
+                if (DimUpDurationMs > 0)
                 {
                     DimAnalogOutput(true);
                 }
@@ -314,7 +328,7 @@ namespace DirectOutput.FX.LedControlFX
         {
             if (RGBColor[0] < 0)
             {
-                if (DimDurationMs > 0)
+                if (DimUpDurationMs > 0)
                 {
                     DimAnalogOutput(false);
                 }
@@ -336,15 +350,15 @@ namespace DirectOutput.FX.LedControlFX
         {
             DimCurrent = LedWizEquivalent.GetOutputValue(FirstOutputNumber);
             DimTarget=(OutputState?Intensity:0);
-
-            if (DimCurrent == DimTarget || DimDurationMs==0)
+            int Duration = (DimCurrent < DimTarget ? DimUpDurationMs : DimDownDurationMs);
+            if (DimCurrent == DimTarget || Duration == 0)
             {
                 LedWizEquivalent.SetOutputValue(FirstOutputNumber, Intensity);
             }
             else
             {
-                
-                DimStep = (DimTarget - DimCurrent) / (DimDurationMs / 30);
+
+                DimStep = (DimTarget - DimCurrent) / (Duration / 30);
                 
                 
                 if (DimStep != 0)

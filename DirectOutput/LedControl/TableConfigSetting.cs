@@ -91,20 +91,33 @@ namespace DirectOutput.LedControl
             set { _Intensity = value; }
         }
 
-        private int _DimmingDurationMs = 0;
+        private int _DimmingDurationUpMs = 0;
 
         /// <summary>
-        /// Gets or sets the duration of the dimming in milliseconds.
+        /// Gets or sets the duration for dimming up in milliseconds.
         /// </summary>
         /// <value>
         /// The duration of the dimming.
         /// </value>
-        public int DimmingDurationMs
+        public int DimmingUpDurationMs
         {
-            get { return _DimmingDurationMs; }
-            set { _DimmingDurationMs = value; }
+            get { return _DimmingDurationUpMs; }
+            set { _DimmingDurationUpMs = value; }
         }
 
+        private int _DimmingDurationDownMs = 0;
+
+        /// <summary>
+        /// Gets or sets the duration for dimming down in milliseconds.
+        /// </summary>
+        /// <value>
+        /// The duration of the dimming.
+        /// </value>
+        public int DimmingDownDurationMs
+        {
+            get { return _DimmingDurationDownMs; }
+            set { _DimmingDurationDownMs = value; }
+        }
 
         /// <summary>
         /// Gets or sets the number blinks.
@@ -217,8 +230,23 @@ namespace DirectOutput.LedControl
                 }
                 else if (Parts[PartNr].ToUpper().Substring(0, 1) == "D" && Parts[PartNr].Substring(1).IsInteger())
                 {
-                    //Dimming duration
-                    DimmingDurationMs = Parts[PartNr].Substring(1).ToInteger().Limit(0, int.MaxValue);
+
+                    //Dimming duration for up and down
+                    DimmingUpDurationMs = Parts[PartNr].Substring(1).ToInteger().Limit(0, int.MaxValue);
+                    DimmingDownDurationMs = DimmingUpDurationMs;
+                }
+                else if (Parts[PartNr].ToUpper().Substring(0, 2) == "DU" && Parts[PartNr].Substring(2).IsInteger())
+                {
+                    
+                    //Dimming up duration
+                    DimmingUpDurationMs = Parts[PartNr].Substring(1).ToInteger().Limit(0, int.MaxValue);
+                    
+                }
+                else if (Parts[PartNr].ToUpper().Substring(0, 2) == "DD" && Parts[PartNr].Substring(2).IsInteger())
+                {
+
+                    //Dimming down duration
+                    DimmingDownDurationMs = Parts[PartNr].Substring(1).ToInteger().Limit(0, int.MaxValue);
                 }
                 else if (Parts[PartNr].IsInteger())
                 {
