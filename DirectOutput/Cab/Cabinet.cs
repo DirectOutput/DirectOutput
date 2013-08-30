@@ -15,7 +15,7 @@ using DirectOutput.Cab.Toys.LWEquivalent;
 namespace DirectOutput.Cab
 {
     /// <summary>
-    /// Cabinet objects are describing the parts of a cabinet. 
+    /// The Cabinet object describes the parts of a pinball cabinet (toys, outputcontrollers, outputs and more). 
     /// </summary>
     public class Cabinet
     {
@@ -74,7 +74,9 @@ namespace DirectOutput.Cab
 
         /// <summary>
         /// List of cabinet specific effects.
+        /// 
         /// </summary>
+        //TODO: This property is likely not necessary. Check if it can be dropped.
         [XmlElementAttribute(Order = 4)]
         public EffectList Effects
         {
@@ -103,7 +105,7 @@ namespace DirectOutput.Cab
         /// If auto config is enabled, the framework tries to detect and configure IOutputController objects and related IToy objects automatically.
         /// </summary>
         /// <value>
-        ///   <c>true</c> enable auto config, <c>false</c> disables auto config.
+        ///   <c>true</c> enables auto config, <c>false</c> disables auto config.
         /// </value>
         [XmlElementAttribute(Order = 6)]
         public bool AutoConfigEnabled

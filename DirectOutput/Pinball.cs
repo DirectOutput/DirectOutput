@@ -196,6 +196,11 @@ namespace DirectOutput
                 {
                     Cabinet = Cabinet.GetCabinetFromConfigXmlFile(CCF);
                     Cabinet.CabinetConfigurationFilename = CCF.FullName;
+                    if (Cabinet.AutoConfigEnabled)
+                    {
+                        Log.Write("Cabinet config file has AutoConfig feature enable. Calling AutoConfig.");
+                        Cabinet.AutoConfig();
+                    }
                     Log.Write("Cabinet config loaded successfully from {0}".Build(CCF.FullName));
                 }
                 catch (Exception E)
@@ -212,6 +217,7 @@ namespace DirectOutput
                 Cabinet = new Cabinet();
                 Cabinet.AutoConfig();
             }
+
             Log.Write("Cabinet loaded");
 
             Log.Write("Loading table config");
