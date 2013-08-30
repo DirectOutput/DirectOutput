@@ -25,8 +25,8 @@ namespace DirectOutput.Cab.Out
         /// Init must be overwritten and must initialize the ouput controller.<br />
         /// This method is called after the objects haven been instanciated.
         /// </summary>
-        /// <param name="Pinball">The pinball object which is using the IOutputController instance.</param>
-        public abstract void Init(Pinball Pinball);
+        /// <param name="Cabinet">The Cabinet object which is using the IOutputController instance.</param>
+        public abstract void Init(Cabinet Cabinet);
 
         /// <summary>
         /// Finish must be overwritten and must finish the ouput controller.<br/>

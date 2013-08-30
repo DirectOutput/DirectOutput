@@ -14,7 +14,7 @@ namespace DirectOutput.Cab.Toys.LWEquivalent
         /// <value>
         /// The name of the IOutput object beeing controlled by the LedWizEquivalenOutput.
         /// </value>
-        [OutputName]
+        
         public string OutputName { get; set; }
 
         /// <summary>

@@ -41,8 +41,6 @@ namespace DirectOutput.Cab.Toys.Generic
         /// <summary>
         /// Name of the Output for the GenericDigitalToy
         /// </summary>
-
-       [OutputName]
         public string OutputName { get; set; }
 
         private bool _State;

@@ -42,6 +42,15 @@ namespace DirectOutput.Cab
 
         #region Properties
         /// <summary>
+        /// Gets the Pinball object to which the Cabinet pobject belongs.
+        /// </summary>
+        /// <value>
+        /// The pinball object.
+        /// </value>
+        [XmlIgnore]
+        public Pinball Pinball { get; private set; }
+
+        /// <summary>
         /// Name of the Cabinet.
         /// </summary>
         [XmlElementAttribute(Order = 1)]
@@ -237,10 +246,12 @@ namespace DirectOutput.Cab
         /// <summary>
         /// Initializes the cabinet.
         /// </summary>
+        /// <param name="Pinball">The Pinball object using the Cabinet instance.</param>
         public void Init(Pinball Pinball)
         {
             Log.Write("Initializing cabinet");
-            OutputControllers.Init(Pinball);
+            this.Pinball = Pinball;
+            OutputControllers.Init(this);
             Toys.Init(Pinball);
             Effects.Init(Pinball);
             Log.Write("Cabinet initialized");
@@ -265,6 +276,9 @@ namespace DirectOutput.Cab
 
 
         #region Constructor
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Cabinet"/> class.
+        /// </summary>
         public Cabinet()
         {
             _OutputControllers = new Out.OutputControllerList();

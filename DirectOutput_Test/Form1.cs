@@ -53,7 +53,7 @@ namespace DirectOutput_Test
             N.Universe = 0;
             N.BroadcastAddress = "255.255.255.255";
 
-            N.Init(P);
+            N.Init(C);
 
             N.Finish();
 

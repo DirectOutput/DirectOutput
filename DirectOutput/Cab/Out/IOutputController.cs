@@ -14,8 +14,8 @@ namespace DirectOutput.Cab.Out
         /// Must initialize the IOutputController.
         /// Is called after the objects have been instanciated.
         /// </summary>
-        /// <param name="Pinball">The pinball object which is using the IOutputController instance.</param>
-        void Init(Pinball Pinball);
+        /// <param name="Cabinet">The cabinet object which is using the IOutputController instance.</param>
+        void Init(Cabinet Cabinet);
 
         /// <summary>
         /// Must finish the IOutputController and do all necessary cleanup task.

@@ -78,11 +78,11 @@ namespace DirectOutput.Cab.Out.Pac
         /// This method does also start the workerthread which does the actual update work when Update() is called.<br />
         /// This method should only be called once. Subsequent calls have no effect.
         /// </summary>
-        /// <param name="Pinball">The pinball object which is using the PacLed64 instance.</param>
-        public override void Init(Pinball Pinball)
+        /// <param name="Cabinet">The Cabinet object which is using the PacLed64 instance.</param>
+        public override void Init(Cabinet Cabinet)
         {
             
-            PacLed64Units[Id].Init(Pinball);
+            PacLed64Units[Id].Init(Cabinet);
             Log.Write("PacLed64 Id:{0} initialized and updater thread started.".Build(Id));
 
         }
@@ -313,9 +313,9 @@ namespace DirectOutput.Cab.Out.Pac
             public object PacLed64UpdaterThreadLocker = new object();
 
 
-            public void Init(Pinball Pinball)
+            public void Init(Cabinet Cabinet)
             {
-                this.Pinball = Pinball;
+                this.Pinball = Cabinet.Pinball;
                 if (!Pinball.TimeSpanStatistics.Contains("PacLed64 {0:0} update calls".Build(Id)))
                 {
                     UpdateTimeStatistics = new TimeSpanStatisticsItem() { Name = "PacLed64 {0:0} update calls".Build(Id), GroupName = "OutputControllers - PacLed64" };

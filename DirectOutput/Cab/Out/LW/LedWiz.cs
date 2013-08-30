@@ -80,11 +80,11 @@ namespace DirectOutput.Cab.Out.LW
         /// This method does also start the workerthread which does the actual update work when Update() is called.<br />
         /// This method should only be called once. Subsequent calls have no effect.
         /// </summary>
-        /// <param name="Pinball">The pinball object which is using the LedWiz instance.</param>
-        public override void Init(Pinball Pinball)
+        /// <param name="Cabinet">The Cabinet object which is using the LedWiz instance.</param>
+        public override void Init(Cabinet Cabinet)
         {
             Log.Debug("Initializing LedWiz Nr. {0:00}".Build(Number));
-            LedWizUnits[Number].Init(Pinball);
+            LedWizUnits[Number].Init(Cabinet);
             Log.Write("LedWiz Nr. {0:00} initialized and updater thread initialized.".Build(Number));
 
         }
@@ -457,9 +457,9 @@ namespace DirectOutput.Cab.Out.LW
             public object LedWizUpdaterThreadLocker = new object();
 
 
-            public void Init(Pinball Pinball)
+            public void Init(Cabinet Cabinet)
             {
-                this.Pinball = Pinball;
+                this.Pinball = Cabinet.Pinball;
                 if (!Pinball.TimeSpanStatistics.Contains("LedWiz {0:00} update calls".Build(Number)))
                 {
                     UpdateTimeStatistics = new TimeSpanStatisticsItem() { Name = "LedWiz {0:00} update calls".Build(Number), GroupName = "OutputControllers - LedWiz" };

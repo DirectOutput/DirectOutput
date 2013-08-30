@@ -120,10 +120,11 @@ namespace DirectOutput.Cab.Out.DMX
         }
 
         /// <summary>
-        /// Initializes the Artnet object.<br/>
+        /// Initializes the Artnet object.<br />
         /// Adds the output objects to the outputcollection of the ArtNet instance and starts the updater thread.
         /// </summary>
-        public override void Init(Pinball Pinball)
+        /// <param name="Cabinet">The cabinet object which is using the ArtNet instance.</param>
+        public override void Init(Cabinet  Cabinet)
         {
             if (Outputs.Count == 0)
             {
