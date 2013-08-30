@@ -15,9 +15,9 @@ namespace DirectOutput.Cab.Out
 
         #region IXmlSerializable implementation
         /// <summary>
-        /// Serializes the IOutputController objects in this list to Xml.
-        /// IOutputController objects are serialized as the contained objects. The enclosing tags represent the object type
-        /// WriteXml is part if the IXmlSerializable interface.
+        /// Serializes the IOutputController objects in this list to Xml.<br/>
+        /// IOutputController objects are serialized as the contained objects. The enclosing tags represent the object type.<br/>
+        /// WriteXml is part of the IXmlSerializable interface.
         /// </summary>
         public void WriteXml(XmlWriter writer)
         {
@@ -33,9 +33,9 @@ namespace DirectOutput.Cab.Out
 
 
         /// <summary>
-        /// Deserializes the IOutputController objects in the XmlReader
-        /// The IOutputController objects are deserialized using the object name in the enclosing tags.
-        /// ReadXml is part if the IXmlSerializable interface.
+        /// Deserializes the IOutputController objects in the XmlReader.<br/>
+        /// The IOutputController objects are deserialized using the object name in the enclosing tags.<br/>
+        /// ReadXml is part of the IXmlSerializable interface.
         /// </summary>
         public void ReadXml(XmlReader reader)
         {
@@ -72,7 +72,7 @@ namespace DirectOutput.Cab.Out
 
 
         /// <summary>
-        /// Method is required by the IXmlSerializable interface
+        /// Method is required by the IXmlSerializable interface.
         /// </summary>
         /// <returns>Returns always null</returns>
         public System.Xml.Schema.XmlSchema GetSchema() { return (null); }
@@ -81,7 +81,7 @@ namespace DirectOutput.Cab.Out
 
 
         /// <summary>
-        /// Initializes all IOutputController objects in the list
+        /// Initializes all IOutputController objects in the list.
         /// </summary>
         /// <param name="Pinball">The pinball object which is using the list of IOutputController objects.</param>
         public void Init(Pinball Pinball)
@@ -95,7 +95,7 @@ namespace DirectOutput.Cab.Out
         }
 
         /// <summary>
-        /// Finishes all IOutputController objects in the list
+        /// Finishes all IOutputController objects in the list.
         /// </summary>
         public void Finish()
         {
@@ -108,7 +108,7 @@ namespace DirectOutput.Cab.Out
         }
 
         /// <summary>
-        /// Updates all IOutputController objects in the list
+        /// Updates all IOutputController objects in the list.
         /// </summary>
         public void Update()
         {

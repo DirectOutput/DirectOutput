@@ -17,7 +17,7 @@ namespace DirectOutput.Cab.Toys
         /// <summary>
         /// Serializes the IToy objects in this list to Xml.
         /// IEffect objects are serialized as the contained objects. The enclosing tags represent the object type
-        /// WriteXml is part if the IXmlSerializable interface.
+        /// WriteXml is part of the IXmlSerializable interface.
         /// </summary>
         public void WriteXml(XmlWriter writer)
         {
@@ -35,7 +35,7 @@ namespace DirectOutput.Cab.Toys
         /// <summary>
         /// Deserializes the IToy objects in the XmlReader
         /// The IToy objects are deserialized using the object name in the enclosing tags.
-        /// ReadXml is part if the IXmlSerializable interface.
+        /// ReadXml is part of the IXmlSerializable interface.
         /// </summary>
         public void ReadXml(XmlReader reader)
         {

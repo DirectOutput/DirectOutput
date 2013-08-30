@@ -94,10 +94,8 @@
     <Compile Include="Cab\Out\DMX\ArtnetEngine\OpCodesEnum.cs" />
     <Compile Include="Cab\Out\DMX\DMX.cs" />
     <Compile Include="Cab\Out\DMX\DMXOutput.cs" />
-    <Compile Include="Cab\Out\OutputNameAttribute.cs" />
     <Compile Include="Cab\Out\LW\LW.cs" />
     <Compile Include="Cab\Out\NullOutputController\NullOutputController.cs" />
-    <Compile Include="Cab\Out\OutputNameConverter.cs" />
     <Compile Include="Cab\Out\OutputNumbered.cs" />
     <Compile Include="Cab\Out\Pac\PacDriveSingleton.cs" />
     <Compile Include="Cab\Out\Pac\PacLed64.cs" />
@@ -212,7 +210,6 @@
     <Compile Include="Cab\Out\OutputEventArgs.cs" />
     <Compile Include="Cab\Out\OutputControllerBase.cs" />
     <Compile Include="Cab\CabinetOutputList.cs" />
-    <Compile Include="Cab\Out\OutputControllerEventArgs.cs" />
     <Compile Include="Cab\Toys\Color.cs" />
     <Compile Include="Cab\Toys\ColorList.cs" />
     <Compile Include="Cab\Toys\Basic\Contactor.cs" />

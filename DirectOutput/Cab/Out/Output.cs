@@ -18,7 +18,8 @@ namespace DirectOutput.Cab.Out
         private byte _Value = 0;
 
         /// <summary>
-        /// Value of the Output 
+        /// Value of the Output.<br/>
+        /// Valid value range is 0-255.
         /// </summary>
         [XmlIgnoreAttribute]
         public byte Value
@@ -47,7 +48,7 @@ namespace DirectOutput.Cab.Out
         }
 
         /// <summary>
-        /// Event fires if the Value property of the Event is changed 
+        /// Event fires if the Value property of the Ouput is changed 
         /// </summary>
         public event ValueChangedEventHandler ValueChanged;
 

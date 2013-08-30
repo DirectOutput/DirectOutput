@@ -86,7 +86,7 @@ To enable the plugin support in the B2S.Server (DirectOutput is a B2S.Server plu
 </B2STableSettings>
 ~~~~~~~~~~~~~~~
 
-\Warning: This block does not go to the end of the B2STableSettings.xml file. You really only have to put the line containing _ArePluginsOn_ into the file.
+\warning This block does not go to the end of the B2STableSettings.xml file. You really only have to put the line containing _ArePluginsOn_ into the file.
 
 
 

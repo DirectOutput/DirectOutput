@@ -14,7 +14,7 @@ namespace DirectOutput.Cab.Toys
         #region IXmlSerializable implementation
         /// <summary>
         /// Serializes the Color objects in this list to Xml.<br/>
-        /// WriteXml is part if the IXmlSerializable interface.
+        /// WriteXml is part of the IXmlSerializable interface.
         /// </summary>
         public void WriteXml(XmlWriter writer)
         {

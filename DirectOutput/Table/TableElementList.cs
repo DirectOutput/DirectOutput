@@ -48,7 +48,7 @@ namespace DirectOutput.Table
 
         /// <summary>
         /// Returns a list of the TableElement objects with the specified type.<br/>
-        /// \note: This method does internaly create a new list of the specified table elements on every call. This is not very fast.
+        /// \note This method does internaly create a new list of the specified table elements on every call. This is not very fast.
         /// </summary>
         public List<TableElement> GetTableElementListForType(TableElementTypeEnum Type)
         {

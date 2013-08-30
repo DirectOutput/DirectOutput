@@ -9,10 +9,10 @@ namespace DirectOutput.Cab.Out
 {
 
     /// <summary>
-    /// Abstract OutputController base class.<br/>
+    /// Abstract OutputController base class to be used for IOutputController implementations.<br/>
     /// Implements IOutputController.
     /// </summary>
-    /// <remarks>Remember that IOutputController doeas inherit INamedItem, so the members of that interface have to be implemented as well. The easiest way to achiev this is to inherit the NamedItemBase class.</remarks>
+    /// <remarks>Remember that IOutputController does inherit INamedItem, so the members of that interface have to be implemented as well. The easiest way to achiev this is to inherit the NamedItemBase class.</remarks>
     public abstract class OutputControllerBase : NamedItemBase, IOutputController
     {
         
@@ -36,6 +36,7 @@ namespace DirectOutput.Cab.Out
 
         /// <summary>
         /// Update must update the physical outputs to the values defined in the Outputs list. 
+        /// \remark Since communication with external components can be slow, it is a good practice to send the actual updates from a separate thread and to use this method only to notify the updater thread that data has to be sent.
         /// </summary>
         public abstract void Update();
 

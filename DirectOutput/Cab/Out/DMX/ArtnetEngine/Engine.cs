@@ -18,7 +18,7 @@ namespace DirectOutput.Cab.Out.DMX.ArtnetEngine
 
        /// <summary>
        /// Initializes a new instance of the <see cref="Engine"/> class.<br/>
-       /// \note: The BroadcastAddress is a optional parameter. It is however highly recommended to specifiy the IP address of your Art-Net node. This avoids unnecessary traffic on your network.
+       /// \note The BroadcastAddress is a optional parameter. It is however highly recommended to specifiy the IP address of your Art-Net node. This avoids unnecessary traffic on your network.
        /// </summary>
        /// <param name="Name">The name for the Art-Net engine (optional).</param>
        /// <param name="BroadcastAddress">The broadcast address of the ArtNet node to be addressed (optional).</param>

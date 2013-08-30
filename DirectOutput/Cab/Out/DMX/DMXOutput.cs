@@ -5,10 +5,21 @@ using System.Text;
 
 namespace DirectOutput.Cab.Out.DMX
 {
+    /// <summary>
+    /// IOutput implementation for DMX.<br/>
+    /// Inherits from Output and adds the \ref DmxChannel property.
+    /// </summary>
     public class DMXOutput: Output, IOutput
     {
         private int _DmxChannel;
 
+        /// <summary>
+        /// Gets or sets the DMX channel.
+        /// </summary>
+        /// <value>
+        /// The DMX channel.
+        /// </value>
+        /// <exception cref="System.Exception">Dmx channels numbers must be in the range of 1-512. The supplied number {0} is out of range..Build(value)</exception>
         public int DmxChannel
         {
             get

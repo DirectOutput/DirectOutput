@@ -15,9 +15,9 @@ namespace DirectOutput.Cab.Out
 
         #region IXmlSerializable implementation
         /// <summary>
-        /// Serializes the IOutput objects in this list to Xml.
-        /// IOutput objects are serialized as the contained objects. The enclosing tags represent the object type
-        /// WriteXml is part if the IXmlSerializable interface.
+        /// Serializes the IOutput objects in this list to Xml.<br/>
+        /// IOutput objects are serialized as the contained objects. The enclosing tags represent the object type.<br/>
+        /// WriteXml is part of the IXmlSerializable interface.
         /// </summary>
         public void WriteXml(XmlWriter writer)
         {
@@ -33,9 +33,9 @@ namespace DirectOutput.Cab.Out
 
 
         /// <summary>
-        /// Deserializes the IOutput objects in the XmlReader
-        /// The IOutput objects are deserialized using the object name in the enclosing tags.
-        /// ReadXml is part if the IXmlSerializable interface.
+        /// Deserializes the IOutput objects in the XmlReader.<br/>
+        /// The IOutput objects are deserialized using the object name in the enclosing tags.<br/>
+        /// ReadXml is part of the IXmlSerializable interface.
         /// </summary>
         public void ReadXml(XmlReader reader)
         {
@@ -71,8 +71,11 @@ namespace DirectOutput.Cab.Out
 
 
         /// <summary>
-        /// Method is required by the IXmlSerializable interface
+        /// Method is required by the IXmlSerializable interface.
         /// </summary>
+        /// <returns>
+        /// Does allway return null.
+        /// </returns>
         public System.Xml.Schema.XmlSchema GetSchema() { return (null); }
         #endregion
 
@@ -115,6 +118,10 @@ namespace DirectOutput.Cab.Out
         #region ValueChanged Event
 
 
+        /// <summary>
+        /// Triggers the OutputValueChanged event when called.
+        /// </summary>
+        /// <param name="Output">The output which triggers the event.</param>
         protected void OnOutputValueChanged(IOutput Output)
         {
             if (OutputValueChanged != null)
@@ -128,6 +135,11 @@ namespace DirectOutput.Cab.Out
         /// </summary>
         public event OutputValueChangedEventHandler OutputValueChanged;
 
+        /// <summary>
+        /// Handler for the OutputValueChangedEvent.
+        /// </summary>
+        /// <param name="sender">The sender of the event.</param>
+        /// <param name="e">The <see cref="OutputEventArgs"/> instance containing the event data.</param>
         public delegate void OutputValueChangedEventHandler(object sender, OutputEventArgs e);
 
 
@@ -135,6 +147,9 @@ namespace DirectOutput.Cab.Out
         #endregion
         #endregion
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OutputList"/> class.
+        /// </summary>
         public OutputList()
         {
             this.AfterInsert += new EventHandler<InsertEventArgs<IOutput>>(OutputList_AfterInsert);

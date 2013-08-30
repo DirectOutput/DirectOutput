@@ -7,8 +7,6 @@ namespace DirectOutput.Cab.Out
     /// The abstract OutputControllerBase class implements this interface and can be inherited for other output controller classes.<br/>
     /// It is important to ensure that all classes inherting this interface are XML serializeable.  
     /// </summary>
-    //TODO: Invent some common, proper interface for the AutoConfig of Output controllers which support automatic detection and configuration.
-    //TODO: Revisit IOutputController interface to determine wether it would be a good idea to use a more generric approch for the outputs collection.
     public interface IOutputController : INamedItem
     {
 
@@ -39,7 +37,8 @@ namespace DirectOutput.Cab.Out
 
 
         /// <summary>
-        /// Must update the physical outputs of the IOutputController. 
+        /// Must update resp. thrigger the update of the physical outputs of the IOutputController. <br/>
+        /// \remark Since communication with external components can be slow, it is a good practice to send the actual updates from a separate thread and to use this method only to notify the updater thread that data has to be sent.
         /// </summary>
         void Update();
     }

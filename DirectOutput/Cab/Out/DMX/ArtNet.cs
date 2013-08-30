@@ -121,7 +121,7 @@ namespace DirectOutput.Cab.Out.DMX
 
         /// <summary>
         /// Initializes the Artnet object.<br/>
-        /// Adds the output objects to the outputcollection of the ArtNet instance and start the updater thread.
+        /// Adds the output objects to the outputcollection of the ArtNet instance and starts the updater thread.
         /// </summary>
         public override void Init(Pinball Pinball)
         {

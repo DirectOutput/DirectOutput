@@ -115,7 +115,7 @@ namespace DirectOutput.General
 
         /// <summary>
         /// Gets the number of the logical processor executing the thread.
-        /// \note: The processor number returned by this property represents the logical processor number of the thread which has been calling the HaertBeat method last.
+        /// \note The processor number returned by this property represents the logical processor number of the thread which has been calling the HaertBeat method last.
         /// </summary>
         /// <value>
         /// The logical number of the processor executing the thread.

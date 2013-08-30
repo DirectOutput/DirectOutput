@@ -18,8 +18,8 @@ namespace DirectOutput.General
         /// <summary>
         /// Calls the HeartBeat method of the ThreadInfo object for the specified thread.<br />
         /// If the specified thread does not have a ThreadInfo object in the list, a new ThreadInfo object will be instanciated and added to the list.
-        /// \note: This method has to be called by the thread to be monitored.
-        /// \warning: If you are using this method in you code, please dont forget to call ThreadTerminates before the thread exits. This will allow the system to free up the resources used by the thread.
+        /// \note This method has to be called by the thread to be monitored.
+        /// \warning If you are using this method in you code, please dont forget to call ThreadTerminates before the thread exits. This will allow the system to free up the resources used by the thread.
         /// </summary>
         /// <param name="HostObject">The object hosting the thread to be monitored.</param>       
         public void HeartBeat(object HostObject=null)
@@ -55,8 +55,8 @@ namespace DirectOutput.General
         /// <summary>
         /// Calls the HeartBeat method of the ThreadInfo object for the specified thread.<br />
         /// If the specified thread does not have a ThreadInfo object in the list, a new ThreadInfo object will be instanciated and added to the list.
-        /// \note: This method has to be called by the thread to be monitored.
-        /// \warning: If you are using this method in you code, please dont forget to call ThreadTerminates before the thread exits. This will allow the system to free up the resources used by the thread.
+        /// \note This method has to be called by the thread to be monitored.
+        /// \warning If you are using this method in you code, please dont forget to call ThreadTerminates before the thread exits. This will allow the system to free up the resources used by the thread.
         /// </summary>
         /// <param name="HostObjectName">The name of the object hosting the thread.</param>       
         public void HeartBeat(string HostObjectName)
@@ -84,7 +84,7 @@ namespace DirectOutput.General
 
         /// <summary>
         /// This method records a exception which has been captured.
-        /// \note: This method has to be called by the thread to be monitored.
+        /// \note This method has to be called by the thread to be monitored.
         /// </summary>
         /// <param name="Exception">The exception to record.</param>
         public void RecordException(Exception Exception, object HostObject=null) {
@@ -95,8 +95,8 @@ namespace DirectOutput.General
         /// <summary>
         /// Has to be called by the thread before it terminates.<br/>
         /// This command removes the thread from the List, so the system can clean up the resources used by the thread.
-        /// \note: This method has to be called by the thread to be monitored.
-        /// \warning: Dont forget to call this method if you are using this class to monitor a threads activity.
+        /// \note This method has to be called by the thread to be monitored.
+        /// \warning Dont forget to call this method if you are using this class to monitor a threads activity.
         /// </summary>
         public void ThreadTerminates()
         {

@@ -12,7 +12,7 @@ namespace B2SServerPlugin
 {
 
     /// <summary>
-    /// Plugin is IDirectPlugin interface implementation required by the B2S Server.
+    /// Plugin is the IDirectPlugin interface implementation required by the B2S Server.
     /// </summary>
     [Export(typeof(IDirectPlugin))]
     public class Plugin : IDirectPlugin, IDirectPluginFrontend
@@ -22,7 +22,7 @@ namespace B2SServerPlugin
 
 
         /// <summary>
-        /// Shows the Frontend of the Plugin.<br/>
+        /// Shows the frontend of the the DirectOutput framework.<br/>
         /// The IDirectPluginFrontend interface requires the implementation of this method.
         /// </summary>
         public void PluginShowFrontend(System.Windows.Forms.Form Owner = null)
@@ -45,11 +45,11 @@ namespace B2SServerPlugin
         #region IDirectPlugin Members
 
         /// <summary>
-        /// Gets the name of this IDirectPlugin.<br/>
+        /// Gets the name of the IDirectPlugin.<br/>
         /// \remark This property returns the version of the DirectOutput.dll, NOT the version of the B2SServer plugin.
         /// </summary>
         /// <value>
-        /// The name of this IDirectPlugin (Name is DirectOutput (V: VersionNumber) af of TimeStamp).
+        /// The name of this IDirectPlugin (Name is DirectOutput (V: VersionNumber) as of TimeStamp).
         /// </value>
         public string Name
         {
@@ -67,7 +67,7 @@ namespace B2SServerPlugin
         /// This method is called, when new data from Pinmame becomes available.<br/>
         /// The IDirectPlugin interface requires the implementation of this method.
         /// </summary>
-        /// <param name="TableElementTypeChar">Char representing the table element type (S=Solenoid, W=Switch, L=Lamp, M=Mech, G=GI, E=EMTable).</param>
+        /// <param name="TableElementTypeChar">Char representing the table element type. Check the \ref DirectOutput.TableElementTypeEnum for valid values.</param>
         /// <param name="Number">The number of the table element.</param>
         /// <param name="Value">The value of the table element.</param>
         public void DataReceive(char TableElementTypeChar, int Number, int Value)
@@ -80,7 +80,7 @@ namespace B2SServerPlugin
 
         /// <summary>
         /// Finishes the plugin.<br />
-        /// This is the last method called, before a plugin is discared. This method is also called, after a undhandled exception has occured in a plugin.
+        /// This is the last method called, before the plugin is discarded. This method is also called, after a undhandled exception has occured in the plugin.
         /// </summary>
         public void PluginFinish()
         {
@@ -186,10 +186,10 @@ namespace B2SServerPlugin
         private Pinball _Pinball = new Pinball();
 
         /// <summary>
-        /// Gets or sets the Pinball object for the plugin.
+        /// Gets or sets the \ref DirectOutput.Pinball object for the plugin.
         /// </summary>
         /// <value>
-        /// The Pinball object for the plugin.
+        /// The \ref DirectOutput.Pinball object for the plugin.
         /// </value>
         public Pinball Pinball
         {

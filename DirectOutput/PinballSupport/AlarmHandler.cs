@@ -8,8 +8,8 @@ namespace DirectOutput.PinballSupport
     /// <summary>
     /// The AlarmHandler classed is used to execute scheduled events (e.g. regular updates on a effect) in the framework.<br/>
     /// Two types of alarms/scheduled events exist:<br/>
-    /// - Alarm which on executes once
-    /// - IntervalAlarm which executes at specified intervals undtil the alarm is unregistered.
+    /// - Alarm which only executes once
+    /// - IntervalAlarm which executes at specified intervals until the alarm is unregistered.
     /// </summary>
     public class AlarmHandler
     {
@@ -36,7 +36,7 @@ namespace DirectOutput.PinballSupport
         /// Executes all Alarmes which have expired until the specified AlarmTime..
         /// </summary>
         /// <param name="AlarmTime">The alarm time.</param>
-        /// <returns>true if alarms have been executed, fals if no alarms have been executed.</returns>
+        /// <returns>true if alarms have been executed, false if no alarms have been executed.</returns>
         public bool ExecuteAlarms(DateTime AlarmTime)
         {
             bool AlarmsExecuted = false;
@@ -111,7 +111,7 @@ namespace DirectOutput.PinballSupport
 
         /// <summary>
         /// Registers the method specified in IntervalAlarmHandler for interval alarms.<br/>
-        /// Interval alarms are fired repeatedly at the specifed interval. Please note that the interval is probably no absoletely precise.
+        /// Interval alarms are fired repeatedly at the specifed interval. Please note that the interval is likely not absoletely precise.
         /// </summary>
         /// <param name="IntervalMs">The alarm interval in milliseconds.</param>
         /// <param name="IntervalAlarmHandler">The handler for the alarm (delegate of parameterless method).</param>
@@ -126,7 +126,7 @@ namespace DirectOutput.PinballSupport
 
 
         /// <summary>
-        /// Unregisters the specified ItervalAlarmHandler.
+        /// Unregisters the specified IntervalAlarmHandler.
         /// </summary>
         /// <param name="IntervalAlarmHandler">The interval alarm handler.</param>
         public void UnregisterIntervalAlarm(Action IntervalAlarmHandler)

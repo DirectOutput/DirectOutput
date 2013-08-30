@@ -89,7 +89,7 @@ namespace DirectOutput.Cab.Out.Pac
 
         /// <summary>
         /// Finishes the PacLed64 object.<br/>
-        /// Finish does also terminate the workthread.
+        /// Finish does also terminate the workerthread.
         /// </summary>
         public override void Finish()
         {

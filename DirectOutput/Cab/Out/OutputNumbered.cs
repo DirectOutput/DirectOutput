@@ -6,7 +6,7 @@ using System.Text;
 namespace DirectOutput.Cab.Out
 {
     /// <summary>
-    /// Basic IOutputNumbered implementation
+    /// Basic IOutputNumbered implementation.
     /// </summary>
     public class OutputNumbered: Output, IOutputNumbered
     {

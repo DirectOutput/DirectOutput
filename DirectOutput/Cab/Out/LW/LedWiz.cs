@@ -91,7 +91,7 @@ namespace DirectOutput.Cab.Out.LW
 
         /// <summary>
         /// Finishes the LedWiz object.<br/>
-        /// Finish does also terminate the workthread for updates.
+        /// Finish does also terminate the workerthread for updates.
         /// </summary>
         public override void Finish()
         {

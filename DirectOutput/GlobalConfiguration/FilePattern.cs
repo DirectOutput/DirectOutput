@@ -42,7 +42,7 @@ namespace DirectOutput.GlobalConfiguration
 
         /// <summary>
         /// Serializes the FilePattern to Xml.<br/>
-        /// WriteXml is part if the IXmlSerializable interface.
+        /// WriteXml is part of the IXmlSerializable interface.
         /// </summary>
         public void WriteXml(System.Xml.XmlWriter writer)
         {
