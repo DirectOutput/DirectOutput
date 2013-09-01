@@ -51,6 +51,12 @@ To use Art-Net you will need a Art-Net node (unit that converts from ethernet to
 
 Each Art-Net node/DMX universe supports 512 DMX channels and several Art-Net nodes controlling different DMX universes can be used in parallel.
 
+Here is a small demo video showing DMX/Artnet support in action:
+
+\htmlonly
+<iframe width="560" height="315" src="http://www.youtube.com/embed/F4FI1NQ5nrc" frameborder="0" allowfullscreen></iframe>
+\endhtmlonly
+
 \section hardware_development Hardware support in development
 
 Support for the following devices is currently in development.
@@ -62,6 +68,17 @@ The PacDrive is smaller output controller with 16 outputs. It is capable of driv
 \image html pacdrivelogo.jpg
 
 This unit is made and sold by <a target="_blank" href="http://www.ultimarc.com">Ultimarc</a>.
+
+\section hardware_WS2811 WS2811 based led stripes
+
+I have already installed some of those stripes in my cabinet and I want to be able to control them through DirectOutput. So this is a must!<br/>
+Some working controller hardware has already been designed and tested.<br/>
+
+Check the following video to get a idea what those stripes can do:</br>
+
+\htmlonly
+<iframe width="560" height="315" src="http://www.youtube.com/embed/Y_qV8rwzaxs" frameborder="0" allowfullscreen></iframe>
+\endhtmlonly
 
 \section hardware_other Other Hardware
 
