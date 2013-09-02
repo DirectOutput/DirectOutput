@@ -7,7 +7,7 @@ The global configuration of the DirectOutput framework defines which files the s
 
 Depending on the interface used to communicate with the framework, different global configuration files are loaded. 
 
-For the B2S.Server Plugin the configuration file "GlobalConfiguration_b2SServer.xml" is loaded. The framework is searching for this file in the following locations:
+For the B2S.Server Plugin the configuration file "GlobalConfig_B2SServer.xml" is loaded. The framework is searching for this file in the following locations:
 
 - A directory named -config- withing the directory of the DirectOutput.dll.
 - A shortcut named -config- to a directory. 
