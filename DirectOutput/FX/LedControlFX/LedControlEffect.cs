@@ -376,7 +376,7 @@ namespace DirectOutput.FX.LedControlFX
             {
                 if (DimCurrent < DimTarget && DimCurrent < 48)
                 {
-                    AlarmHandler.RegisterAlarm(20, DimAnalogOutputAlarmHandler);
+                    AlarmHandler.RegisterAlarm(30, DimAnalogOutputAlarmHandler);
                 } else {
                     DimCurrent=DimTarget;
                 }
@@ -385,7 +385,7 @@ namespace DirectOutput.FX.LedControlFX
             {
                 if (DimCurrent > DimTarget && DimCurrent > 0)
                 {
-                    AlarmHandler.RegisterAlarm(20, DimAnalogOutputAlarmHandler);
+                    AlarmHandler.RegisterAlarm(30, DimAnalogOutputAlarmHandler);
                 } else {
                     DimCurrent=DimTarget;
                 }

@@ -256,7 +256,8 @@ namespace DirectOutput.LedControl
                             if (Blink == -1)
                             {
                                 //Its a blink interval
-                                BlinkIntervalMs = Parts[PartNr].ToInteger().Limit(1, int.MaxValue);
+                                BlinkIntervalMs = (Parts[PartNr].ToInteger()/2).Limit(1, int.MaxValue);
+                                DurationMs = 0;
                             }
                             else
                             {
