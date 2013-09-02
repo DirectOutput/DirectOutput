@@ -215,7 +215,7 @@ namespace DirectOutput.FX.LedControlFX
 
             if (RGBColor[0] >= 0)
             {
-                if (DimUpDurationMs > 0)
+                if (DimUpDurationMs > 0 ||  DimDownDurationMs>0)
                 {
                     DimColor(true);
                 }
@@ -229,7 +229,7 @@ namespace DirectOutput.FX.LedControlFX
         }
         private void UnsetOutputColor()
         {
-            if (DimUpDurationMs > 0)
+            if (DimUpDurationMs > 0 || DimDownDurationMs > 0)
             {
                 DimColor(false);
             }
@@ -313,7 +313,7 @@ namespace DirectOutput.FX.LedControlFX
         {
             if (RGBColor[0] < 0)
             {
-                if (DimUpDurationMs > 0)
+                if (DimUpDurationMs > 0 || DimDownDurationMs>0)
                 {
                     DimAnalogOutput(true);
                 }
@@ -328,7 +328,7 @@ namespace DirectOutput.FX.LedControlFX
         {
             if (RGBColor[0] < 0)
             {
-                if (DimUpDurationMs > 0)
+                if (DimUpDurationMs > 0 ||  DimDownDurationMs>0)
                 {
                     DimAnalogOutput(false);
                 }
