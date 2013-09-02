@@ -239,31 +239,43 @@ namespace DirectOutput.LedControl
                 {
                     
                     //Dimming up duration
-                    DimmingUpDurationMs = Parts[PartNr].Substring(1).ToInteger().Limit(0, int.MaxValue);
+                    DimmingUpDurationMs = Parts[PartNr].Substring(2).ToInteger().Limit(0, int.MaxValue);
                     
                 }
                 else if (Parts[PartNr].ToUpper().Substring(0, 2) == "DD" && Parts[PartNr].Substring(2).IsInteger())
                 {
 
                     //Dimming down duration
-                    DimmingDownDurationMs = Parts[PartNr].Substring(1).ToInteger().Limit(0, int.MaxValue);
+                    DimmingDownDurationMs = Parts[PartNr].Substring(2).ToInteger().Limit(0, int.MaxValue);
                 }
                 else if (Parts[PartNr].IsInteger())
                 {
                     switch (IntegerCnt)
                     {
                         case 0:
-                            //Its a duration
-                            DurationMs = Parts[PartNr].ToInteger().Limit(1, int.MaxValue);
-                            break;
-                        case 1:
-                            Blink = Parts[PartNr].ToInteger().Limit(1, int.MaxValue);
-                            if (DurationMs > 0)
+                            if (Blink == -1)
                             {
-                                BlinkIntervalMs = (DurationMs / Blink / 2).Limit(1, int.MaxValue);
-                                DurationMs = 0;
-                                
+                                //Its a blink interval
+                                BlinkIntervalMs = Parts[PartNr].ToInteger().Limit(1, int.MaxValue);
                             }
+                            else
+                            {
+                                //Its a duration
+
+                                DurationMs = Parts[PartNr].ToInteger().Limit(1, int.MaxValue);
+                            }
+                                break;
+                        case 1:
+                                if (Blink != -1)
+                                {
+                                    Blink = Parts[PartNr].ToInteger().Limit(1, int.MaxValue);
+                                    if (DurationMs > 0 & Blink >= 1)
+                                    {
+                                        BlinkIntervalMs = (DurationMs / Blink / 2).Limit(1, int.MaxValue);
+                                        DurationMs = 0;
+
+                                    }
+                                }
                             break;
                         default:
                             Log.Warning("The ledcontrol table config setting {0} contains more than 2 numeric values without a type definition.".Build(SettingData));
