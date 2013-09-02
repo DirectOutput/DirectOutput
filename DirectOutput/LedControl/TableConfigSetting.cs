@@ -223,26 +223,26 @@ namespace DirectOutput.LedControl
                 {
                     Blink = -1;
                 }
-                else if (Parts[PartNr].ToUpper().Substring(0, 1) == "I" && Parts[PartNr].Substring(1).IsInteger())
+                else if (Parts[PartNr].Length > 1 && Parts[PartNr].ToUpper().Substring(0, 1) == "I" && Parts[PartNr].Substring(1).IsInteger())
                 {
                     //Intensity setting
                     Intensity = Parts[PartNr].Substring(1).ToInteger().Limit(0, 48);
                 }
-                else if (Parts[PartNr].ToUpper().Substring(0, 1) == "D" && Parts[PartNr].Substring(1).IsInteger())
+                else if (Parts[PartNr].Length > 1 && Parts[PartNr].ToUpper().Substring(0, 1) == "D" && Parts[PartNr].Substring(1).IsInteger())
                 {
 
                     //Dimming duration for up and down
                     DimmingUpDurationMs = Parts[PartNr].Substring(1).ToInteger().Limit(0, int.MaxValue);
                     DimmingDownDurationMs = DimmingUpDurationMs;
                 }
-                else if (Parts[PartNr].ToUpper().Substring(0, 2) == "DU" && Parts[PartNr].Substring(2).IsInteger())
+                else if (Parts[PartNr].Length>2 && Parts[PartNr].ToUpper().Substring(0, 2) == "DU" && Parts[PartNr].Substring(2).IsInteger())
                 {
                     
                     //Dimming up duration
                     DimmingUpDurationMs = Parts[PartNr].Substring(2).ToInteger().Limit(0, int.MaxValue);
                     
                 }
-                else if (Parts[PartNr].ToUpper().Substring(0, 2) == "DD" && Parts[PartNr].Substring(2).IsInteger())
+                else if (Parts[PartNr].Length > 2 && Parts[PartNr].ToUpper().Substring(0, 2) == "DD" && Parts[PartNr].Substring(2).IsInteger())
                 {
 
                     //Dimming down duration
