@@ -49,6 +49,12 @@ Public Class ComObject
     End Function
 
 
+    Function GetDllPath() As String
+        Return New FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName
+
+    End Function
+
+
     ''' <summary>
     ''' Finishes the DirectOutput framework.
     ''' </summary>
@@ -110,7 +116,6 @@ Public Class ComObject
                 HostAppFilename = HostAppFilename.Replace("" + C, "")
             Next
             HostAppFilename = "GlobalConfig_{0}".Build(HostAppFilename)
-
             Dim F As FileInfo
 
             F = New FileInfo(Path.Combine(New FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName, "config", HostAppFilename + ".xml"))
@@ -125,6 +130,9 @@ Public Class ComObject
                     End If
                 End If
             End If
+
+
+
 
             Pinball = New DirectOutput.Pinball()
 
