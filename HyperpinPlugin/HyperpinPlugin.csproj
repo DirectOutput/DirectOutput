@@ -33,6 +33,7 @@
   <ItemGroup>
     <Reference Include="HyperpinPluginInterface">
       <HintPath>..\..\HyperpinPluginInterface\HyperpinPluginInterface\bin\Release\HyperpinPluginInterface.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />

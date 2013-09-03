@@ -36,6 +36,7 @@
   <ItemGroup>
     <Reference Include="DirectPluginInterface">
       <HintPath>..\..\DirectPluginInterface\DirectPluginInterface\bin\Release\DirectPluginInterface.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
