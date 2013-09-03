@@ -6,10 +6,19 @@ using System.Reflection;
 using System.IO;
 using System.Windows.Forms;
 
+/// <summary>
+/// Namespace for the DirectOutputComObjectRegister application.
+/// </summary>
 namespace DirectOutputComObjectRegister
 {
+    /// <summary>
+    /// Main class of the DirectOutputComObjectRegister application.
+    /// </summary>
     class Program
     {
+        /// <summary>
+        /// This method does the actual registration work for the DirectOutputComObject.
+        /// </summary>
         static void Main(string[] args)
         {
             string Result = "";
