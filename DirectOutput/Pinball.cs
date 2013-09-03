@@ -156,11 +156,18 @@ namespace DirectOutput
 
             if (GlobalConfigLoaded)
             {
-                Log.Write("Global config loaded from: ".Build(GlobalConfigFilename));
+                Log.Write("Global config loaded from: {0}".Build(GlobalConfigFilename));
             }
             else
             {
-                Log.Write("No GlobalConfig file loaded. Using new inanciated GlobalConfig object instead.");
+                if (!GlobalConfigFilename.IsNullOrWhiteSpace())
+                {
+                    Log.Write("Could not find or load theGlobalConfig file {0}".Build(GlobalConfigFilename));
+                }
+                else
+                {
+                    Log.Write("No GlobalConfig file loaded. Using newly instanciated GlobalConfig object instead.");
+                }
             }
 
 
