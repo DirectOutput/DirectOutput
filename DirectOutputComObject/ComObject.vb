@@ -72,7 +72,7 @@ Public Class ComObject
     ''' or
     ''' You must call Init before sending data.
     ''' </exception>
-    Public Sub DataRecive(TableElementTypeChar As String, Number As Integer, Value As Integer)
+    Public Sub DataReceive(TableElementTypeChar As String, Number As Integer, Value As Integer)
         Dim C As Char
         Try
             C = TableElementTypeChar.Substring(0, 1)
