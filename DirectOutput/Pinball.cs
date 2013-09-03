@@ -276,7 +276,10 @@ namespace DirectOutput
                         List<string> LookupPaths = new List<string>();
                         if (!TableFilename.IsNullOrWhiteSpace())
                         {
-                            LookupPaths.Add(new FileInfo(TableFilename).Directory.FullName);
+                            if (new FileInfo(TableFilename).Directory.Exists)
+                            {
+                                LookupPaths.Add(new FileInfo(TableFilename).Directory.FullName);
+                            }
                         }
                         LookupPaths.AddRange(new string[] { GlobalConfig.GetGlobalConfigDirectory().FullName, Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) });
 

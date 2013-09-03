@@ -121,9 +121,16 @@ namespace DirectOutput.GlobalConfiguration
 
             try
             {
-                
-                DirectoryInfo FilesDirectory = new DirectoryInfo((Path.GetDirectoryName(P).IsNullOrWhiteSpace()?".":Path.GetDirectoryName(P)));
-                return FilesDirectory.GetFiles(Path.GetFileName(P)).ToList<FileInfo>();
+
+                DirectoryInfo FilesDirectory = new DirectoryInfo((Path.GetDirectoryName(P).IsNullOrWhiteSpace() ? "." : Path.GetDirectoryName(P)));
+                if (FilesDirectory.Exists)
+                {
+                    return FilesDirectory.GetFiles(Path.GetFileName(P)).ToList<FileInfo>();
+                }
+                else
+                {
+                    return new List<FileInfo>();
+                }
             }
             catch
             {
@@ -165,7 +172,9 @@ namespace DirectOutput.GlobalConfiguration
                 try
                 {
                     FileInfo DummyFileInfo = new FileInfo(Pattern.Replace("*", "test").Replace("?", "X"));
-                } catch {
+                }
+                catch
+                {
                     return false;
                 }
 
@@ -231,8 +240,9 @@ namespace DirectOutput.GlobalConfiguration
         /// <summary>
         /// Initializes a new instance of the <see cref="FilePattern"/> class.
         /// </summary>
-        public FilePattern() { 
-        
+        public FilePattern()
+        {
+
         }
 
 

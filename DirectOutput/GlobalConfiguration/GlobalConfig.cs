@@ -304,11 +304,15 @@ namespace DirectOutput.GlobalConfiguration
             if (!TableFileName.IsNullOrWhiteSpace())
             {
                 FI = new FileInfo(TableFileName);
-                D.Add("TableDirectory", FI.Directory.FullName);
-                D.Add("TableDir", FI.Directory.FullName);
-                D.Add("TableDirectoryName", FI.Directory.Name);
-                D.Add("TableDirName", FI.Directory.Name);
-                D.Add("TableName", Path.GetFileNameWithoutExtension(FI.FullName));
+                if (FI.Directory.Exists)
+                {
+                    D.Add("TableDirectory", FI.Directory.FullName);
+                    D.Add("TableDir", FI.Directory.FullName);
+                    D.Add("TableDirectoryName", FI.Directory.Name);
+                    D.Add("TableDirName", FI.Directory.Name);
+                }
+
+                    D.Add("TableName", Path.GetFileNameWithoutExtension(FI.FullName));
             }
             if (!RomName.IsNullOrWhiteSpace())
             {
