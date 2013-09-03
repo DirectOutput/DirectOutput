@@ -127,6 +127,19 @@ To overcome the problem you will have to add the following line to your B2STable
 
 This will stop the B2S.Server from showing the error message if no backglass file is found.
 
+Dont forget that you will have to replace the line
+
+~~~~~~~~~~~~~~~{.vbs}
+Set Controller = CreateObject("VPinMAME.Controller")     
+~~~~~~~~~~~~~~~
+
+with this modifed version
+
+~~~~~~~~~~~~~~~{.vbs}
+Set Controller = CreateObject("B2S.Server") 
+~~~~~~~~~~~~~~~
+
+
 Using this option any table can use the B2S.Server no matter wether it has a backglass or not. Even tables with a classic Rosve style, no B2S.Server, legacy backglass can use the B2S.Server and its plugins using the mentioned option.
 
 \note For tables without a backglass you will not be able to call the settings window of the B2S.Server.
