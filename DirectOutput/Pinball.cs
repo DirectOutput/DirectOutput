@@ -751,11 +751,11 @@ namespace DirectOutput
         /// <param name="GlobalConfigFilename">The global config filename.</param>
         /// <param name="TableFilename">The table filename.</param>
         /// <param name="RomName">Name of the rom.</param>
-        public Pinball(string GlobalConfigFilename = "", string TableFilename = "", string RomName = "")
-            : this()
-        {
-            Init(GlobalConfigFilename, TableFilename, RomName);
-        }
+        //public Pinball(string GlobalConfigFilename = "", string TableFilename = "", string RomName = "")
+        //    : this()
+        //{
+        //    Init(GlobalConfigFilename, TableFilename, RomName);
+        //}
         #endregion
 
 
