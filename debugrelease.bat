@@ -7,7 +7,7 @@ set DllPath=%BasePath%\B2SServerPlugin\bin\Debug
 set LedControlTesterPath=%BasePath%\LedControlFileTester\bin\Debug
 set DirectOutputConfigTesterPath=%BasePath%\DirectOutputConfigTester\bin\Debug
 set ComObjectPath=%BasePath%\DirectOutputComObject\bin\Debug
-
+set ComObjectRegisterPath=%BasePath%\DirectOutputComObjectRegister\bin\Debug
 
 
 set TempDate=%date%
@@ -45,7 +45,7 @@ del "%Path%%ZipName%"
 "C:\Program Files\7-Zip\7z.exe" a -tzip "%Path%\%ZipName%" "%LedControlTesterPath%\LedControlFileTester.exe" 
 "C:\Program Files\7-Zip\7z.exe" a -tzip "%Path%\%ZipName%" "%DirectOutputConfigTesterPath%\DirectOutputConfigTester.exe" 
 "C:\Program Files\7-Zip\7z.exe" a -tzip "%Path%\%ZipName%" "%ComObjectPath%\DirectOutputComObject.dll" 
-
+"C:\Program Files\7-Zip\7z.exe" a -tzip "%Path%\%ZipName%" "%ComObjectRegisterPath%\RegisterDirectOutputComObject.exe" 
 
 
 :exit
