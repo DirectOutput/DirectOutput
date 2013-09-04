@@ -105,6 +105,18 @@ namespace DirectOutput.Cab.Toys
         }
 
 
-
+        /// <summary>
+        /// Updates the outputs of all toys implementing the IToyUpdatable interface.
+        /// </summary>
+        public void UpdateOutputs()
+        {
+            foreach (IToy T in this)
+            {
+                if (T is IToyUpdatable)
+                {
+                   ((IToyUpdatable)T).UpdateOutputs();
+                }
+            }
+        }
     }
 }

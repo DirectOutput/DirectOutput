@@ -258,6 +258,15 @@ namespace DirectOutput.Cab
         }
 
 
+        /// <summary>
+        /// Calls the update method for toys and output controllers in the cabinet
+        /// </summary>
+        public void Update()
+        {
+            Toys.UpdateOutputs();
+            OutputControllers.Update();
+        }
+
 
 
         /// <summary>

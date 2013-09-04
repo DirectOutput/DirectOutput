@@ -385,7 +385,7 @@ namespace DirectOutput
             Table.Init(this);
             Alarms.Init(this);
             Table.TriggerStaticEffects();
-            Cabinet.OutputControllers.Update();
+            Cabinet.Update();
 
             //Add the thread initializing the framework to the threadinfo list
             ThreadInfo TI = new ThreadInfo(Thread.CurrentThread);
@@ -579,7 +579,7 @@ namespace DirectOutput
                     {
                         try
                         {
-                            Cabinet.OutputControllers.Update();
+                            Cabinet.Update();
                         }
                         catch (Exception E)
                         {

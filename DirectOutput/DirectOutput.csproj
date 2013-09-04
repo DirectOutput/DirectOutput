@@ -109,6 +109,7 @@
     </Content>
     <Content Include="Config\TimedDimmerLampEffect.cs" />
     <Compile Include="Cab\Toys\ILampToy.cs" />
+    <Compile Include="Cab\Toys\IToyUpdatable.cs" />
     <Compile Include="DirectOutput.cs" />
     <Compile Include="Extensions\ArrayExtensions.cs" />
     <Compile Include="Extensions\ByteExtensions.cs" />
