@@ -16,10 +16,57 @@ namespace DirectOutput.Cab.Out
     public abstract class OutputControllerBase : NamedItemBase, IOutputController
     {
         
+
+
+
+
+        private OutputList _Outputs=null;
         /// <summary>
-        /// OutputList for the IOutputcontroller object.
+        /// Contains the OutputList object for the outputs of the output controller.<br/>
+        /// \remark This property is marked with the XMLIgnore attributte so its content does not get serialized, which means that output controller implementations inherting from this class have to create the output objects in the list.<br/>The XMLIgnore attribute is inherted to classes inheriting from this base class. This means that inherited classes do not serialize this property unless a specific serialization implementation is used in that class.
         /// </summary>
-        public virtual OutputList Outputs { get; set; }
+        [XmlIgnore]
+        public virtual OutputList Outputs
+        {
+            get { return _Outputs; }
+            set
+            {
+                if (_Outputs != null)
+                {
+                    _Outputs.OutputValueChanged -= new OutputList.OutputValueChangedEventHandler(Outputs_OutputValueChanged);
+                }
+
+                _Outputs = value;
+
+                if (_Outputs != null)
+                {
+                    _Outputs.OutputValueChanged += new OutputList.OutputValueChangedEventHandler(Outputs_OutputValueChanged);
+
+                }
+
+            }
+        }
+
+        private void Outputs_OutputValueChanged(object sender, OutputEventArgs e)
+        {
+            OnOutputValueChanged(e.Output);
+        }
+
+        /// <summary>
+        /// This method is called whenever the value of a output in the Outputs property changes its value.<br/>
+        /// It doesn't do anything in this base class, but it can be overwritten (user override) in classes inherting the base class.
+        /// </summary>
+        /// <param name="Output">The output.</param>
+        public virtual void OnOutputValueChanged(IOutput Output)
+        {
+
+        }
+
+
+
+
+
+        
 
         /// <summary>
         /// Init must be overwritten and must initialize the ouput controller.<br />

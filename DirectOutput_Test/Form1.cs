@@ -59,6 +59,9 @@ namespace DirectOutput_Test
 
             C.OutputControllers.Add(N);
 
+            string xml = C.GetConfigXml();
+
+
            Console.WriteLine(   C.GetConfigXml());
 
 

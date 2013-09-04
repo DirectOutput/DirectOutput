@@ -48,7 +48,7 @@ namespace DirectOutput.Cab.Out.NullOutputController
         /// </summary>
         public NullOutputController()
         {
-
+            Outputs = new OutputList();
         }
 
     }

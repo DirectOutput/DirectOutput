@@ -2,7 +2,7 @@
 using System.Threading;
 using DirectOutput.Cab.Out.DMX.ArtnetEngine;
 using System.Xml.Serialization;
-
+using System.Linq;
 
 namespace DirectOutput.Cab.Out.DMX
 {
@@ -51,40 +51,32 @@ namespace DirectOutput.Cab.Out.DMX
 
 
 
-        private OutputList _Outputs = new OutputList();
-        /// <summary>
-        /// OutputList containing the DMXOutput objects for the Artnet node.
-        /// </summary>
-        [XmlIgnoreAttribute]
-        public  override OutputList Outputs
+        private void AddOutputs()
         {
-            get { return _Outputs; }
-            set
+            for (int i = 1; i <= 512; i++)
             {
-                if (_Outputs != null)
+                if (!Outputs.Any(x => ((DMXOutput)x).DmxChannel == i))
                 {
-                    _Outputs.OutputValueChanged -= new OutputList.OutputValueChangedEventHandler(Outputs_OutputValueChanged);
+                    Outputs.Add(new DMXOutput() { Name = "{0}.{1:000}".Build(Name, i), DmxChannel=i });
                 }
-
-                _Outputs = value;
-
-                if (_Outputs != null)
-                {
-                    _Outputs.OutputValueChanged += new OutputList.OutputValueChangedEventHandler(Outputs_OutputValueChanged);
-
-                }
-
             }
         }
 
-        private void Outputs_OutputValueChanged(object sender, OutputEventArgs e)
+        /// <summary>
+        /// This method is called whenever the value of a output in the Outputs property changes its value.<br />
+        /// It updates the internal arry holding the values for the DMX channels of the universe specified.
+        /// </summary>
+        /// <param name="Output">The output.</param>
+        /// <exception cref="System.Exception">The OutputValueChanged event handler for ArtNet node {0} (controlling Dmx universe {1}) has been called by a sender which is not a DmxOutput..Build(Name, Universe)</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException">ArtNet node {0} has received a update for a illegal dmx channel number ({1})..Build(Name, O.DmxChannel)</exception>
+        public override void OnOutputValueChanged(IOutput Output)
         {
-            if (!(e.Output is DMXOutput))
+            if (!(Output is DMXOutput))
             {
-                throw new Exception("The OutputValueChanged event handler for ArtNet node {0} (controlling Dmx universe {1}) has been called by a sender which is not a DmxOutput.".Build(Name,Universe));
+                throw new Exception("The OutputValueChanged event handler for ArtNet node {0} (controlling Dmx universe {1}) has been called by a sender which is not a DmxOutput.".Build(Name, Universe));
             }
 
-            DMXOutput O = (DMXOutput)e.Output;
+            DMXOutput O = (DMXOutput)Output;
 
             if (!O.DmxChannel.IsBetween(1, 512))
             {
@@ -95,9 +87,9 @@ namespace DirectOutput.Cab.Out.DMX
 
             lock (UpdateLocker)
             {
-                if (DMXData[O.DmxChannel-1] != O.Value)
+                if (DMXData[O.DmxChannel - 1] != O.Value)
                 {
-                    DMXData[O.DmxChannel-1] = O.Value;
+                    DMXData[O.DmxChannel - 1] = O.Value;
                     if (O.DmxChannel > LastDMXChannel)
                     {
                         LastDMXChannel = O.DmxChannel;
@@ -106,6 +98,8 @@ namespace DirectOutput.Cab.Out.DMX
                 }
             }
         }
+
+      
 
         /// <summary>
         /// Update triggers sending of the DMX data to the physical ArtNet node.<br/>
@@ -126,13 +120,7 @@ namespace DirectOutput.Cab.Out.DMX
         /// <param name="Cabinet">The cabinet object which is using the ArtNet instance.</param>
         public override void Init(Cabinet  Cabinet)
         {
-            if (Outputs.Count == 0)
-            {
-                for (int i = 1; i <= 512; i++)
-                {
-                    Outputs.Add(new DMXOutput() { DmxChannel = i, Name="{0}.{1:000}".Build(this.Name,i) });
-                }
-            }
+            AddOutputs();
 
    
             InitUpdaterThread();
@@ -298,7 +286,8 @@ namespace DirectOutput.Cab.Out.DMX
         /// Initializes a new instance of the <see cref="ArtNet"/> class.
         /// </summary>
         public ArtNet() {
-            Outputs.OutputValueChanged += new OutputList.OutputValueChangedEventHandler(Outputs_OutputValueChanged);
+            Outputs = new OutputList();
+
         }
 
 

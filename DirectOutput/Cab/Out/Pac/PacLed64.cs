@@ -81,7 +81,7 @@ namespace DirectOutput.Cab.Out.Pac
         /// <param name="Cabinet">The Cabinet object which is using the PacLed64 instance.</param>
         public override void Init(Cabinet Cabinet)
         {
-            
+            AddOutputs();   
             PacLed64Units[Id].Init(Cabinet);
             Log.Write("PacLed64 Id:{0} initialized and updater thread started.".Build(Id));
 
@@ -103,42 +103,19 @@ namespace DirectOutput.Cab.Out.Pac
 
 
         #region Outputs
-        private OutputList _Outputs = new OutputList();
-        /// <summary>
-        /// OutputList containing the OutputNumbered objects for a PacLed64.
-        /// </summary>
-        public override OutputList Outputs
-        {
-            get { return _Outputs; }
-            set
-            {
-                if (_Outputs != null)
-                {
-                    _Outputs.OutputValueChanged -= new OutputList.OutputValueChangedEventHandler(Outputs_OutputValueChanged);
-                }
 
-                _Outputs = value;
-
-                if (_Outputs != null)
-                {
-                    _Outputs.OutputValueChanged += new OutputList.OutputValueChangedEventHandler(Outputs_OutputValueChanged);
-
-                }
-
-            }
-        }
 
         /// <summary>
         /// Adds the outputs for a PacLed64.<br/>
         /// A PacLed64 has 64 outputs numbered from 1 to 64. This method adds OutputNumbered objects for all outputs to the list.
         /// </summary>
-        public void AddOutputs()
+        private void AddOutputs()
         {
             for (int i = 1; i <= 64; i++)
             {
                 if (!Outputs.Any(x => ((OutputNumbered)x).Number == i))
                 {
-                    Outputs.Add(new OutputNumbered() { Name = "PacLed64Output {0:0}.{1:00}".Build(Id, i), Number = i });
+                    Outputs.Add(new OutputNumbered() { Name = "{0}.{1:00}".Build(Name, i), Number = i });
                 }
             }
         }
@@ -146,26 +123,24 @@ namespace DirectOutput.Cab.Out.Pac
 
 
 
-
         /// <summary>
-        /// Handles the OutputValueChanged event of the Outputs property.<br />
-        /// Updates the internal arrays holding the states of the PacLed64 outputs.
+        /// This method is called whenever the value of a output in the Outputs property changes its value.<br />
+        /// It updates the internal array holding the states of the PacLed64 outputs.
         /// </summary>
-        /// <param name="sender">The source of the event (must be a OutputNumbered).</param>
-        /// <param name="e">The <see cref="OutputEventArgs" /> instance containing the event data.</param>
+        /// <param name="Output">The output.</param>
         /// <exception cref="System.Exception">
         /// The OutputValueChanged event handler for PacLed64 unit {0} (Id: {2:0}) has been called by a sender which is not a OutputNumbered.<br/>
         /// or<br/>
         /// PacLed64 output numbers must be in the range of 1-64. The supplied output number {0} is out of range.
         /// </exception>
-        void Outputs_OutputValueChanged(object sender, OutputEventArgs e)
+        public override void OnOutputValueChanged(IOutput Output)
         {
 
-            if (!(e.Output is OutputNumbered))
+            if (!(Output is OutputNumbered))
             {
                 throw new Exception("The OutputValueChanged event handler for PacLed64 unit {0} (Id: {2:0}) has been called by a sender which is not a OutputNumbered.".Build(Name, Id));
             }
-            OutputNumbered ON = (OutputNumbered)e.Output;
+            OutputNumbered ON = (OutputNumbered)Output;
 
             if (!ON.Number.IsBetween(1, 64))
             {
@@ -175,6 +150,9 @@ namespace DirectOutput.Cab.Out.Pac
             PacLed64Unit S = PacLed64Units[this.Id];
             S.UpdateValue(ON);
         }
+
+
+
         #endregion
 
 

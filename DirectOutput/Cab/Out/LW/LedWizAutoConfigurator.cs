@@ -31,7 +31,7 @@ namespace DirectOutput.Cab.Out.LW
                     LedWiz LW = new LedWiz(N);
                     if (!Cabinet.OutputControllers.Contains(LW.Name))
                     {
-                        LW.AddOutputs();
+                        
                         Cabinet.OutputControllers.Add(LW);
                         Log.Write("Detected and added LedWiz Nr. {0} with name {1}".Build(LW.Number, LW.Name));
 

@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Runtime.InteropServices;
 using System.Threading;
-using System.Xml.Serialization;
-using DirectOutput.General;
 using DirectOutput.General.Statistics;
 
 namespace DirectOutput.Cab.Out.LW
@@ -84,6 +81,7 @@ namespace DirectOutput.Cab.Out.LW
         public override void Init(Cabinet Cabinet)
         {
             Log.Debug("Initializing LedWiz Nr. {0:00}".Build(Number));
+            AddOutputs();
             LedWizUnits[Number].Init(Cabinet);
             Log.Write("LedWiz Nr. {0:00} initialized and updater thread initialized.".Build(Number));
 
@@ -106,65 +104,42 @@ namespace DirectOutput.Cab.Out.LW
 
 
         #region Outputs
-        private OutputList _Outputs = new OutputList();
-        /// <summary>
-        /// OutputList containing the LedWizOutput objects for a LedWiz.
-        /// </summary>
-        public override OutputList Outputs
-        {
-            get { return _Outputs; }
-            set
-            {
-                if (_Outputs != null)
-                {
-                    _Outputs.OutputValueChanged -= new OutputList.OutputValueChangedEventHandler(Outputs_OutputValueChanged);
-                }
 
-                _Outputs = value;
-
-                if (_Outputs != null)
-                {
-                    _Outputs.OutputValueChanged += new OutputList.OutputValueChangedEventHandler(Outputs_OutputValueChanged);
-
-                }
-
-            }
-        }
+        
 
         /// <summary>
         /// Adds the outputs for a LedWiz.<br/>
         /// A LedWiz has 32 outputs numbered from 1 to 32. This method adds LedWizOutput objects for all outputs to the list.
         /// </summary>
-        public void AddOutputs()
+        private void AddOutputs()
         {
             for (int i = 1; i <= 32; i++)
             {
                 if (!Outputs.Any(x => ((LedWizOutput)x).LedWizOutputNumber == i))
                 {
-                    Outputs.Add(new LedWizOutput(i) { Name = "LedWizOutput {0:00}.{1:00}".Build(Number, i) });
+                    Outputs.Add(new LedWizOutput(i) { Name = "{0}.{1:00}".Build(Name, i) });
                 }
             }
         }
 
 
-
-
-
         /// <summary>
-        /// Handles the OutputValueChanged event of the Outputs property.<br/>
-        /// Updates the internal arrays holding the states of the LedWiz outputs. 
+        /// This method is called whenever the value of a output in the Outputs property changes its value.<br />
+        /// Updates the internal arrays holding the states of the LedWiz outputs.
         /// </summary>
-        /// <param name="sender">The source of the event (must be a LedWizOutput).</param>
-        /// <param name="e">The <see cref="OutputEventArgs" /> instance containing the event data.</param>
-        /// <exception cref="System.Exception">The OutputValueChanged event handler for LedWiz {0:00} has been called by a sender which is not a LedWizOutput. or LedWiz output numbers must be in the range of 1-32. The supplied output number {0} is out of range.</exception>
-        void Outputs_OutputValueChanged(object sender, OutputEventArgs e)
+        /// <param name="Output">The output which has changed.</param>
+        /// <exception cref="System.Exception">
+        /// The OutputValueChanged event handler for LedWiz {0:00} has been called by a sender which is not a LedWizOutput.<br/>
+        /// or<br/>
+        /// LedWiz output numbers must be in the range of 1-32. The supplied output number {0} is out of range.
+        /// </exception>
+        public override void OnOutputValueChanged(IOutput Output)
         {
-
-            if (!(e.Output is LedWizOutput))
+            if (!(Output is LedWizOutput))
             {
                 throw new Exception("The OutputValueChanged event handler for LedWiz {0:00} has been called by a sender which is not a LedWizOutput.".Build(Number));
             }
-            LedWizOutput LWO = (LedWizOutput)e.Output;
+            LedWizOutput LWO = (LedWizOutput)Output;
 
             if (!LWO.LedWizOutputNumber.IsBetween(1, 32))
             {
@@ -174,6 +149,33 @@ namespace DirectOutput.Cab.Out.LW
             LedWizUnit S = LedWizUnits[this.Number];
             S.UpdateValue(LWO);
         }
+
+
+
+        ///// <summary>
+        ///// Handles the OutputValueChanged event of the base class.<br/>
+        ///// Updates the internal arrays holding the states of the LedWiz outputs. 
+        ///// </summary>
+        ///// <param name="sender">The source of the event (must be a LedWizOutput).</param>
+        ///// <param name="e">The <see cref="OutputEventArgs" /> instance containing the event data.</param>
+        ///// <exception cref="System.Exception">The OutputValueChanged event handler for LedWiz {0:00} has been called by a sender which is not a LedWizOutput. or LedWiz output numbers must be in the range of 1-32. The supplied output number {0} is out of range.</exception>
+        //private void OutputValueChanged(object sender, OutputEventArgs e)
+        //{
+
+        //    if (!(e.Output is LedWizOutput))
+        //    {
+        //        throw new Exception("The OutputValueChanged event handler for LedWiz {0:00} has been called by a sender which is not a LedWizOutput.".Build(Number));
+        //    }
+        //    LedWizOutput LWO = (LedWizOutput)e.Output;
+
+        //    if (!LWO.LedWizOutputNumber.IsBetween(1, 32))
+        //    {
+        //        throw new Exception("LedWiz output numbers must be in the range of 1-32. The supplied output number {0} is out of range.".Build(LWO.LedWizOutputNumber));
+        //    }
+
+        //    LedWizUnit S = LedWizUnits[this.Number];
+        //    S.UpdateValue(LWO);
+        //}
         #endregion
 
 
@@ -392,7 +394,9 @@ namespace DirectOutput.Cab.Out.LW
         public LedWiz()
         {
             StartupLedWiz();
+
             Outputs = new OutputList();
+
 
         }
 

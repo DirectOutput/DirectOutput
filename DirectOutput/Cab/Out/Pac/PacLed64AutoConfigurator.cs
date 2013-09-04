@@ -26,7 +26,7 @@ namespace DirectOutput.Cab.Out.Pac
                 {
                     PacLed64 PL = new PacLed64();
                     PL.Id = Id;
-                    PL.AddOutputs();
+                   
                     if (!Cabinet.OutputControllers.Contains(PL.Name))
                     {
                         Cabinet.OutputControllers.Add(PL);
