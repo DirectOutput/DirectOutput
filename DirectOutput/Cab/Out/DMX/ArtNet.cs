@@ -56,7 +56,7 @@ namespace DirectOutput.Cab.Out.DMX
         /// OutputList containing the DMXOutput objects for the Artnet node.
         /// </summary>
         [XmlIgnoreAttribute]
-        public new OutputList Outputs
+        public  override OutputList Outputs
         {
             get { return _Outputs; }
             set
