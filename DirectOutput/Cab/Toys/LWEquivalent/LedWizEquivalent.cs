@@ -29,6 +29,22 @@ namespace DirectOutput.Cab.Toys.LWEquivalent
             }
         }
 
+
+        /// <summary>
+        /// Gets the value of a LedWizEquivalentOutput.
+        /// </summary>
+        /// <param name="OutputNumber">The number of the the LedWizEquivalentOutput.</param>
+        /// <returns>Current value of the LedWiz output</returns>
+        public int GetOutputValue(int OutputNumber)
+        {
+            LedWizEquivalentOutput LWO = Outputs.First(O => O.LedWizEquivalentOutputNumber == OutputNumber);
+            if (LWO != null)
+            {
+                return LWO.Value;
+            }
+            return 0;
+        }
+
         /// <summary>
         /// Gets or sets the outputs of the LedWizEquivalent toy.
         /// </summary>
