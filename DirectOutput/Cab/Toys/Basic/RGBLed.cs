@@ -195,7 +195,13 @@ namespace DirectOutput.Cab.Toys.Basic
         /// <param name="Color">Hexadecimal color (e.g. \#ff0000 for red), comma separated color (e.g. 0,255,0 for green) or color name as defined in Cabinet.Colors.</param>
         public void SetColor(string Color)
         {
-            SetColor(_Cabinet.Colors[Color]);
+            if (_Cabinet.Colors.Contains(Color))
+            {
+                SetColor(_Cabinet.Colors[Color]);
+            }
+            else
+            {
+                SetColor(new RGBColor(Color));
         }
     }
 }

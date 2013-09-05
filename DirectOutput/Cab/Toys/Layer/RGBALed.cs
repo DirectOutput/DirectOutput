@@ -6,30 +6,100 @@ using DirectOutput.Cab.Out;
 
 namespace DirectOutput.Cab.Toys.Layer
 {
-    public class RGBALed : ToyBaseUpdatable
+    public class RGBALed : ToyBaseUpdatable, IRGBToy
     {
+
+
+        #region IRGBToy Member
+
+        public int Blue
+        {
+            get
+            {
+                if (_OutputBlue != null)
+                {
+                    return _OutputBlue.Value;
+                }
+                return 0;
+            }
+        }
+
+        public int Green
+        {
+            get
+            {
+                if (_OutputGreen != null)
+                {
+                    return _OutputGreen.Value;
+                }
+                return 0;
+            }
+        }
+
+        public int Red
+        {
+            get
+            {
+                if (_OutputRed != null)
+                {
+                    return _OutputRed.Value;
+                }
+                return 0;
+            }
+        }
+
+        public void SetColor(RGBColor Color)
+        {
+            SetLayer(int.MaxValue, Color);
+        }
+
+        public void SetColor(int Red, int Green, int Blue)
+        {
+            SetLayer(int.MaxValue, Red, Green, Blue);
+        }
+
+        public void SetColor(string Color)
+        {
+            if (_Cabinet.Colors.Contains(Color))
+            {
+                SetLayer(int.MaxValue, _Cabinet.Colors[Color]);
+            }
+            else
+            {
+                SetLayer(int.MaxValue, new RGBAColor(Color));
+            }
+        }
+
+        #endregion
+
+
+
+        #region Layers
         public RGBALayerDictionary Layers { get; private set; }
 
-        public RGBALayer SetColor(int Layer, int Red, int Green, int Blue)
+        public RGBALayer SetLayer(int Layer, int Red, int Green, int Blue)
         {
-            return Layers.SetColor(Layer,Red,Green,Blue);
+            return Layers.SetLayer(Layer, Red, Green, Blue);
         }
 
-        public RGBALayer SetColor(int Layer, int Red, int Green, int Blue, int Alpha)
+        public RGBALayer SetLayer(int Layer, int Red, int Green, int Blue, int Alpha)
         {
-            return Layers.SetColor(Layer, Red, Green, Blue, Alpha);
+            return Layers.SetLayer(Layer, Red, Green, Blue, Alpha);
         }
 
-        public RGBALayer SetColor(int Layer, RGBAColor RGBA)
+        public RGBALayer SetLayer(int Layer, RGBAColor RGBA)
         {
-            return Layers.SetColor(Layer, RGBA);
+            return Layers.SetLayer(Layer, RGBA);
         }
 
 
-        public RGBALayer SetColor(int Layer, RGBColor RGB)
+        public RGBALayer SetLayer(int Layer, RGBColor RGB)
         {
-            return Layers.SetColor(Layer, RGB);
+            return Layers.SetLayer(Layer, RGB);
         }
+
+        #endregion
+
 
 
         #region Outputs
@@ -56,11 +126,11 @@ namespace DirectOutput.Cab.Toys.Layer
 
         #endregion
 
-        
+
         private Cabinet _Cabinet;
         #region Init
         /// <summary>
-        /// Initializes the RGBLed toy.
+        /// Initializes the RGBALed toy.
         /// </summary>
         /// <param name="Cabinet"><see cref="Cabinet"/> object to which the <see cref="RGBALed"/> belongs.</param>
         public override void Init(Cabinet Cabinet)
@@ -148,6 +218,8 @@ namespace DirectOutput.Cab.Toys.Layer
         {
             Layers = new RGBALayerDictionary();
         }
+
+
 
 
 

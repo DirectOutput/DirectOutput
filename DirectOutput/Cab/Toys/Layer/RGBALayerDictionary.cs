@@ -8,12 +8,12 @@ namespace DirectOutput.Cab.Toys.Layer
     public class RGBALayerDictionary : SortedDictionary<int, RGBALayer>
     {
 
-        public RGBALayer SetColor(int Layer, int Red, int Green, int Blue)
+        public RGBALayer SetLayer(int Layer, int Red, int Green, int Blue)
         {
             RGBALayer L = null;
             if (ContainsKey(Layer))
             {
-                this[Layer].SetColor(Red, Green, Blue);
+                this[Layer].SetLayer(Red, Green, Blue);
             }
             else
             {
@@ -23,12 +23,12 @@ namespace DirectOutput.Cab.Toys.Layer
             return L;
         }
 
-        public RGBALayer SetColor(int Layer, int Red, int Green, int Blue, int Alpha)
+        public RGBALayer SetLayer(int Layer, int Red, int Green, int Blue, int Alpha)
         {
             RGBALayer L = null;
             if (ContainsKey(Layer))
             {
-                this[Layer].SetColor(Red, Green, Blue, Alpha);
+                this[Layer].SetLayer(Red, Green, Blue, Alpha);
             }
             else
             {
@@ -38,12 +38,12 @@ namespace DirectOutput.Cab.Toys.Layer
             return L;
         }
 
-        public RGBALayer SetColor(int Layer, RGBAColor RGBA)
+        public RGBALayer SetLayer(int Layer, RGBAColor RGBA)
         {
             RGBALayer L = null;
             if (ContainsKey(Layer))
             {
-                this[Layer].SetColor(RGBA);
+                this[Layer].SetLayer(RGBA);
             }
             else
             {
@@ -54,12 +54,12 @@ namespace DirectOutput.Cab.Toys.Layer
         }
 
 
-        public RGBALayer SetColor(int Layer, RGBColor RGB)
+        public RGBALayer SetLayer(int Layer, RGBColor RGB)
         {
             RGBALayer L = null;
             if (ContainsKey(Layer))
             {
-                this[Layer].SetColor(RGB);
+                this[Layer].SetLayer(RGB);
             }
             else
             {

@@ -12,7 +12,7 @@ namespace DirectOutput.Cab.Toys.Layer
         public int Blue;
         public int Alpha;
 
-        public void SetColor(int Red, int Green, int Blue)
+        public void SetLayer(int Red, int Green, int Blue)
         {
             
             this.Red = Red;
@@ -21,7 +21,7 @@ namespace DirectOutput.Cab.Toys.Layer
             this.Alpha = (Red + Green + Blue > 0 ? 255 : 0);
         }
 
-        public void SetColor(int Red, int Green, int Blue, int Alpha)
+        public void SetLayer(int Red, int Green, int Blue, int Alpha)
         {
             this.Red = Red;
             this.Green = Green;
@@ -29,36 +29,36 @@ namespace DirectOutput.Cab.Toys.Layer
             this.Alpha = Alpha;
         }
 
-        public void SetColor(RGBAColor RGBA)
+        public void SetLayer(RGBAColor RGBA)
         {
-            SetColor(RGBA.Red, RGBA.Green, RGBA.Blue, RGBA.Alpha);
+            SetLayer(RGBA.Red, RGBA.Green, RGBA.Blue, RGBA.Alpha);
         }
 
-        public void SetColor(RGBColor RGB)
+        public void SetLayer(RGBColor RGB)
         {
-            SetColor(RGB.Red, RGB.Green, RGB.Blue);
+            SetLayer(RGB.Red, RGB.Green, RGB.Blue);
         }
 
         public RGBALayer() { }
 
         public RGBALayer(int Red, int Green, int Blue)
         {
-            SetColor(Red, Green, Blue);
+            SetLayer(Red, Green, Blue);
         }
 
         public RGBALayer(int Red, int Green, int Blue, int Alpha)
         {
-            SetColor(Red, Green, Blue, Alpha);
+            SetLayer(Red, Green, Blue, Alpha);
         }
 
         public RGBALayer(RGBAColor RGBA)
         {
-            SetColor(RGBA.Red, RGBA.Green, RGBA.Blue, RGBA.Alpha);
+            SetLayer(RGBA.Red, RGBA.Green, RGBA.Blue, RGBA.Alpha);
         }
 
         public  RGBALayer(RGBColor RGB)
         {
-            SetColor(RGB.Red, RGB.Green, RGB.Blue);
+            SetLayer(RGB.Red, RGB.Green, RGB.Blue);
         }
     }
 }
