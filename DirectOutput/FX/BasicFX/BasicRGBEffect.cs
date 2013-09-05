@@ -9,11 +9,11 @@ namespace DirectOutput.FX.BasicFX
 {
     /// <summary>
     /// The BasicRGBToyEffect is used to turn on (/set a color) and off RGB toys based on the value of a TableElement.<br/>
+    /// If the value of the table element is >0, the assigned IRGBToy will be set to the value specified in the Color property, for 0 the IRGBToy is set to black. <br/>
+    /// If this effect is used as a static effect, the value of Color will be set on table start.
     /// </summary>
     public class BasicRGBEffect : EffectBase, IEffect
     {
-
-
         private string _RGBToyName;
 
 
@@ -35,7 +35,6 @@ namespace DirectOutput.FX.BasicFX
                 }
             }
         }
-
 
         /// <summary>
         /// Color for the RGB toy.
