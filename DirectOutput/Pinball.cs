@@ -269,7 +269,7 @@ namespace DirectOutput
             {
                 if (!RomName.IsNullOrWhiteSpace())
                 {
-                    Log.Write("Will try to load configs from LedControl file(s) for RomName {0}".Build(RomName));
+                    Log.Write("Will try to load configs from DirectOutput.ini or LedControl.ini file(s) for RomName {0}".Build(RomName));
                     //Load ledcontrol
                     LedControlConfigList L = new LedControlConfigList();
                     if (GlobalConfig.LedControlIniFiles.Count > 0)
@@ -295,6 +295,37 @@ namespace DirectOutput
                         foreach (string P in LookupPaths)
                         {
                             DirectoryInfo DI = new DirectoryInfo(P);
+
+                            foreach (FileInfo FI in DI.EnumerateFiles("directoutput*.ini"))
+                            {
+                                if (string.Equals(FI.Name, "directoutput.ini", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    LedControlIniFiles.Add(FI.FullName, 1);
+                                    FoundIt = true;
+                                }
+                                else
+                                {
+                                    string F = FI.Name.Substring(10, FI.Name.Length - 10 - 4);
+                                    if (F.IsInteger())
+                                    {
+                                        int LedWizNr = -1;
+                                        if (int.TryParse(F, out LedWizNr))
+                                        {
+                                            if (!LedControlIniFiles.Contains(LedWizNr))
+                                            {
+                                                LedControlIniFiles.Add(FI.FullName, LedWizNr);
+                                                FoundIt = true;
+                                            }
+
+                                        }
+
+                                    }
+
+                                }
+                            }
+
+                            if (FoundIt) break;
+
                             foreach (FileInfo FI in DI.EnumerateFiles("ledcontrol*.ini"))
                             {
                                 if (string.Equals(FI.Name, "ledcontrol.ini", StringComparison.OrdinalIgnoreCase))
@@ -321,20 +352,24 @@ namespace DirectOutput
                                     }
 
                                 }
-
-
                             }
 
                             if (FoundIt) break;
                         }
+
+
+
+
+
+
                         if (FoundIt)
                         {
                             L.LoadLedControlFiles(LedControlIniFiles, false);
-                            Log.Write("{0} ledcontrol files loaded.".Build(LedControlIniFiles.Count));
+                            Log.Write("{0} directoutput.ini or ledcontrol.ini files loaded.".Build(LedControlIniFiles.Count));
                         }
                         else
                         {
-                            Log.Write("No ledcontrol files found. No ledcontrol configs will be loaded.");
+                            Log.Write("No directoutput.ini or ledcontrol.ini files found. No directoutput.ini or ledcontrol.ini configs will be loaded.");
                         }
                     }
                     if (!L.ContainsConfig(RomName))
@@ -350,7 +385,7 @@ namespace DirectOutput
                 else
                 {
 
-                    Log.Write("Cant load config from LedControl file(s) since no RomName was supplied. No ledcontrol config will be loaded.");
+                    Log.Write("Cant load config from directoutput.ini or ledcontrol.ini file(s) since no RomName was supplied. No ledcontrol config will be loaded.");
                 }
 
             }
