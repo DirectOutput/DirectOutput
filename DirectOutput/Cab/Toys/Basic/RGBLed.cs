@@ -74,7 +74,7 @@ namespace DirectOutput.Cab.Toys.Basic
         /// <summary>
         /// Name of the IOutput for red.
         /// </summary>
-       
+
         public string OutputNameRed { get; set; }
 
         private IOutput _OutputGreen;
@@ -82,7 +82,7 @@ namespace DirectOutput.Cab.Toys.Basic
         /// <summary>
         /// Name of the IOutput for green.
         /// </summary>
-        
+
         public string OutputNameGreen { get; set; }
 
         private IOutput _OutputBlue;
@@ -90,7 +90,7 @@ namespace DirectOutput.Cab.Toys.Basic
         /// <summary>
         /// Name of the IOutput for blue.
         /// </summary>
-        
+
         public string OutputNameBlue { get; set; }
 
 
@@ -202,6 +202,7 @@ namespace DirectOutput.Cab.Toys.Basic
             else
             {
                 SetColor(new RGBColor(Color));
+            }
         }
     }
 }
