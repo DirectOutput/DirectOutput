@@ -12,27 +12,27 @@ namespace DirectOutput.Cab.Toys
         /// <value>
         /// The brightness of the blue color component.
         /// </value>
-        int BrightnessBlue { get;  }
+        int Blue { get;  }
         /// <summary>
         /// Gets the brightness of the green color component.
         /// </summary>
         /// <value>
         /// The brightness of the green color component.
         /// </value>
-        int BrightnessGreen { get;  }
+        int Green { get;  }
         /// <summary>
         /// Gets the brightness of the red color component.
         /// </summary>
         /// <value>
         /// The brightness of the red color component.
         /// </value>
-        int BrightnessRed { get;  }
+        int Red { get;  }
 
         /// <summary>
         /// Sets the color if the rgb toy.
         /// </summary>
         /// <param name="Color">The color for the rgb toy.</param>
-        void SetColor(Color Color);
+        void SetColor(RGBColor Color);
         /// <summary>
         /// Sets the color for the rgb toy by specifying the red, green and blue color components.
         /// </summary>

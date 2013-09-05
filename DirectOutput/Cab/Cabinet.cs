@@ -85,7 +85,7 @@ namespace DirectOutput.Cab
         /// List of cabinet specific effects.
         /// 
         /// </summary>
-        //TODO: This property is likely not necessary. Check if it can be dropped.
+        //TODO: Get rid of effects in cabinet.
         [XmlElementAttribute(Order = 4)]
         public EffectList Effects
         {
@@ -252,7 +252,7 @@ namespace DirectOutput.Cab
             Log.Write("Initializing cabinet");
             this.Pinball = Pinball;
             OutputControllers.Init(this);
-            Toys.Init(Pinball);
+            Toys.Init(this);
             Effects.Init(Pinball);
             Log.Write("Cabinet initialized");
         }

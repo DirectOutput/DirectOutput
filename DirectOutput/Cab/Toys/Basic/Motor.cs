@@ -184,12 +184,12 @@ namespace DirectOutput.Cab.Toys.Basic
         /// <summary>
         /// Initalizes the Motor toy.
         /// </summary>
-        /// <param name="Pinball"><see cref="Pinball" /> object containing the <see cref="Cabinet" /> to which the <see cref="Motor" /> belongs.</param>
-        public override void Init(Pinball Pinball)
+        /// <param name="Cabinet"><see cref="Cabinet" /> object to which the <see cref="Motor" /> belongs.</param>
+        public override void Init(Cabinet Cabinet)
         {
-            AlarmHandler = Pinball.Alarms;
+            AlarmHandler = Cabinet.Pinball.Alarms;
 
-            base.Init(Pinball);
+            base.Init(Cabinet);
         }
 
         /// <summary>

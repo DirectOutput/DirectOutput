@@ -11,7 +11,7 @@ namespace DirectOutput.Cab.Toys
     /// <summary>
     /// This class stores information on colors used for toys (e.g. RGBLed).
     /// </summary>
-    public class Color:NamedItemBase,INamedItem
+    public class RGBColor:NamedItemBase,INamedItem
     {
         
 
@@ -22,7 +22,7 @@ namespace DirectOutput.Cab.Toys
         /// </summary>
         /// <value>Brightness between 0 and 255.</value>
         [XmlIgnoreAttribute]
-        public int BrightnessRed
+        public int Red
         {
             get { return _BrightnessRed; }
             set { _BrightnessRed = value.Limit(0,255); }
@@ -35,7 +35,7 @@ namespace DirectOutput.Cab.Toys
         /// </summary>
         /// <value>Brightness between 0 and 255.</value>
         [XmlIgnoreAttribute]
-        public int BrightnessGreen
+        public int Green
         {
             get { return _BrightnessGreen; }
             set { _BrightnessGreen = value.Limit(0, 255); }
@@ -47,7 +47,7 @@ namespace DirectOutput.Cab.Toys
         /// </summary>
         /// <value>Brightness between 0 and 255.</value>
         [XmlIgnoreAttribute]
-        public int BrightnessBlue
+        public int Blue
         {
             get { return _BrightnessBlue; }
             set { _BrightnessBlue = value.Limit(0, 255); }
@@ -62,7 +62,7 @@ namespace DirectOutput.Cab.Toys
         {
             get
             {
-                return "#{0:X2}{1:X2}{2:X2}".Build(BrightnessRed, BrightnessBlue, BrightnessGreen);
+                return "#{0:X2}{1:X2}{2:X2}".Build(Red, Blue, Green);
             }
             set {
                 SetColor(value);
@@ -78,9 +78,9 @@ namespace DirectOutput.Cab.Toys
         /// <returns>true</returns>
         public bool SetColor(int Red, int Green, int Blue)
         {
-            BrightnessRed = Red;
-            BrightnessBlue = Blue;
-            BrightnessGreen = Green;
+            this.Red = Red;
+            this.Blue = Blue;
+            this.Green = Green;
             return true;
         }
 
@@ -128,21 +128,21 @@ namespace DirectOutput.Cab.Toys
         }
 
         #region Contructor
-        public Color() { }
-        public Color(string Name, int BrightnessRed, int BrightnessGreen, int BrightnessBlue)
+        public RGBColor() { }
+        public RGBColor(string Name, int BrightnessRed, int BrightnessGreen, int BrightnessBlue)
             : this()
         {
             this.Name = Name;
             SetColor(BrightnessRed, BrightnessGreen, BrightnessBlue);
         }
-        public Color(int BrightnessRed, int BrightnessGreen, int BrightnessBlue)
+        public RGBColor(int BrightnessRed, int BrightnessGreen, int BrightnessBlue)
             : this("", BrightnessRed, BrightnessGreen, BrightnessBlue)
         { }
-        public Color(string Color):this()
+        public RGBColor(string Color):this()
         {
             SetColor(Color);
         }
-        public Color(string Name, string Color):this(Color)
+        public RGBColor(string Name, string Color):this(Color)
         {
             this.Name = Name;
         }

@@ -9,28 +9,13 @@ namespace DirectOutput.Cab.Toys
     {
 
         /// <summary>
-        /// Gets or sets the name of the see <cref="IAnalogToy"/>.
-        /// </summary>
-        /// <value>
-        /// The name if the <see cref="IAnalogToy"/>.
-        /// </value>
-        new string Name { get; set; }
-        /// <summary>
-        /// Must initialize  the <see cref="IAnalogToy"/>.
-        /// </summary>
-        /// <param name="Pinball"><see cref="Pinball"/> object containing the <see cref="Cabinet"/> to which the <see cref="IAnalogToy"/> belongs.</param>
-        new void  Init(Pinball Pinball);
-        /// <summary>
         /// Gets or sets the name of the output of the <see cref="IAnalogToy"/>.
         /// </summary>
         /// <value>
         /// The name of the output of the <see cref="IAnalogToy"/>.
         /// </value>
         string OutputName { get; set; }
-        /// <summary>
-        /// Must reset the state of the <see cref="IAnalogToy"/> to its default state (off).
-        /// </summary>
-        new void Reset();
+
         /// <summary>
         /// Sets the value of the <see cref="IAnalogToy"/>.
         /// </summary>

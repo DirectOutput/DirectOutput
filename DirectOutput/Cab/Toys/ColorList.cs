@@ -8,7 +8,7 @@ namespace DirectOutput.Cab.Toys
     /// <summary>
     /// List for Color objects 
     /// </summary>
-    public class ColorList : NamedItemList<Color>, IXmlSerializable
+    public class ColorList : NamedItemList<RGBColor>, IXmlSerializable
     {
 
         #region IXmlSerializable implementation
@@ -21,9 +21,9 @@ namespace DirectOutput.Cab.Toys
 
             XmlSerializerNamespaces Namespaces = new XmlSerializerNamespaces();
             Namespaces.Add(string.Empty, string.Empty);
-            foreach (Color C in this)
+            foreach (RGBColor C in this)
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(Color));
+                XmlSerializer serializer = new XmlSerializer(typeof(RGBColor));
                 serializer.Serialize(writer, C, Namespaces);
             }
         }
@@ -45,11 +45,11 @@ namespace DirectOutput.Cab.Toys
 
             while (reader.NodeType != System.Xml.XmlNodeType.EndElement)
             {
-                if (reader.LocalName == typeof(Color).Name)
+                if (reader.LocalName == typeof(RGBColor).Name)
                 {
 
-                    XmlSerializer serializer = new XmlSerializer(typeof(Color));
-                    Color C = (Color)serializer.Deserialize(reader);
+                    XmlSerializer serializer = new XmlSerializer(typeof(RGBColor));
+                    RGBColor C = (RGBColor)serializer.Deserialize(reader);
                     if (!Contains(C.Name))
                     {
                         Add(C);

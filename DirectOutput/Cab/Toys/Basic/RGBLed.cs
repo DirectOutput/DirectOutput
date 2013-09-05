@@ -16,11 +16,11 @@ namespace DirectOutput.Cab.Toys.Basic
         /// <summary>
         /// Initializes the RGBLed toy.
         /// </summary>
-        /// <param name="Pinball"><see cref="Pinball"/> object containing the <see cref="Cabinet"/> to which the <see cref="RGBLed"/> belongs.</param>
-        public override void Init(Pinball Pinball)
+        /// <param name="Cabinet"><see cref="Cabinet"/> object to which the <see cref="RGBLed"/> belongs.</param>
+        public override void Init(Cabinet Cabinet)
         {
-            _Cabinet = Pinball.Cabinet;
-            InitOutputs(Pinball.Cabinet);
+            _Cabinet = Cabinet;
+            InitOutputs(Cabinet);
         }
 
         private void InitOutputs(Cabinet Cabinet)
@@ -100,7 +100,7 @@ namespace DirectOutput.Cab.Toys.Basic
         /// Red brightness.
         /// </summary>
         [XmlIgnoreAttribute]
-        public int BrightnessRed
+        public int Red
         {
             get { return _BrightnessRed; }
             private set
@@ -118,7 +118,7 @@ namespace DirectOutput.Cab.Toys.Basic
         /// Green brightness
         /// </summary>
         [XmlIgnoreAttribute]
-        public int BrightnessGreen
+        public int Green
         {
             get { return _BrightnessGreen; }
             private set
@@ -136,7 +136,7 @@ namespace DirectOutput.Cab.Toys.Basic
         /// Blue brightness
         /// </summary>
         [XmlIgnoreAttribute]
-        public int BrightnessBlue
+        public int Blue
         {
             get { return _BrightnessBlue; }
             private set
@@ -158,9 +158,9 @@ namespace DirectOutput.Cab.Toys.Basic
         /// </summary>
         public override void Reset()
         {
-            BrightnessRed = 0;
-            BrightnessBlue = 0;
-            BrightnessGreen = 0;
+            Red = 0;
+            Blue = 0;
+            Green = 0;
 
         }
 
@@ -172,9 +172,9 @@ namespace DirectOutput.Cab.Toys.Basic
         /// <param name="Blue">Blue brightness</param>
         public void SetColor(int Red, int Green, int Blue)
         {
-            BrightnessRed = Red;
-            BrightnessBlue = Blue;
-            BrightnessGreen = Green;
+            this.Red = Red;
+            this.Blue = Blue;
+            this.Green = Green;
 
         }
 
@@ -183,9 +183,9 @@ namespace DirectOutput.Cab.Toys.Basic
         /// Sets the color of the RGBLed toy.
         /// </summary>
         /// <param name="Color">Color object containg the brightness values for the color.</param>
-        public void SetColor(Color Color)
+        public void SetColor(RGBColor Color)
         {
-            SetColor(Color.BrightnessRed, BrightnessGreen, BrightnessBlue);
+            SetColor(Color.Red, Green, Blue);
         }
 
 

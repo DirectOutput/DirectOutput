@@ -18,10 +18,10 @@ namespace DirectOutput.Cab.Toys.Generic
         /// <summary>
         /// Initalizes the GenericDigitalToy.
         /// </summary>
-        /// <param name="Pinball"><see cref="Pinball"/> object containing the <see cref="Cabinet"/> to which the <see cref="GenericDigitalToy"/> belongs.</param>
-        public override void Init(Pinball Pinball)
+        /// <param name="Cabinet"><see cref="Cabinet"/> object to which the <see cref="GenericDigitalToy"/> belongs.</param>
+        public override void Init(Cabinet Cabinet)
         {
-            InitOutput(Pinball.Cabinet);
+            InitOutput(Cabinet);
         }
 
         private void InitOutput(Cabinet Cabinet)

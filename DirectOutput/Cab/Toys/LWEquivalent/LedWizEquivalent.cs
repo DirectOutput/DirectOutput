@@ -75,11 +75,11 @@ namespace DirectOutput.Cab.Toys.LWEquivalent
         /// <summary>
         /// Initializes the LedwizEquivalent toy.
         /// </summary>
-        /// <param name="Pinball"><see cref="Pinball"/> object containing the <see cref="Cabinet"/> to which the <see cref="LedWizEquivalent"/> belongs.</param>
-        public override void Init(Pinball Pinball)
+        /// <param name="Cabinet"><see cref="Cabinet" /> object to which the <see cref="LedWizEquivalent"/> belongs.</param>
+        public override void Init(Cabinet Cabinet)
         {
 
-            Outputs.Init(Pinball.Cabinet); 
+            Outputs.Init(Cabinet); 
         }
 
         /// <summary>

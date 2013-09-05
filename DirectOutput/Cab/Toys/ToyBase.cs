@@ -17,8 +17,8 @@ namespace DirectOutput.Cab.Toys
         /// Must initialize the IToy.
         /// Method must be overwritten.
         /// </summary>
-        /// <param name="Pinball"><see cref="Pinball"/> object containing the <see cref="Cabinet"/> to which the <see cref="IToy"/> belongs.</param>
-        public abstract void Init(Pinball Pinball);
+        /// <param name="Cabinet"><see cref="Cabinet"/> object  to which the <see cref="IToy"/> belongs.</param>
+        public abstract void Init(Cabinet Cabinet);
 
 
         /// <summary>

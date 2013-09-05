@@ -12,9 +12,9 @@ namespace DirectOutput.LedControl
         /// Gets a cabinet color object(Cab.Toys.Color) representing the values in the ColorConfig object-.
         /// </summary>
         /// <returns>Color object for the content of the ColorConfig.</returns>
-        public DirectOutput.Cab.Toys.Color GetCabinetColor()
+        public DirectOutput.Cab.Toys.RGBColor GetCabinetColor()
         {
-            return new Cab.Toys.Color(Name, (int)(Red * 5.3125), (int)(Green * 5.3125), (int)(Blue * 5.3125));
+            return new Cab.Toys.RGBColor(Name, (int)(Red * 5.3125), (int)(Green * 5.3125), (int)(Blue * 5.3125));
         }
 
         /// <summary>
