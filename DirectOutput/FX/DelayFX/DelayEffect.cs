@@ -11,9 +11,7 @@ namespace DirectOutput.FX.DelayFX
     /// </summary>
     public class DelayEffect:AssignedEffect
     {
-
-
-
+        
         private int _DelayMs=0;
 
         /// <summary>
@@ -36,16 +34,13 @@ namespace DirectOutput.FX.DelayFX
         /// <param name="TableElementData">The TableElementData object for the TableElement which has triggered the effect.</param>
         public new void Trigger(TableElementData TableElementData)
         {
-
-            Pinball.Alarms.UnregisterAlarm(TriggerAssignedEffect);
-            this.TableElementData = TableElementData;
-            Pinball.Alarms.RegisterAlarm(DelayMs, TriggerAssignedEffect);
+            Pinball.Alarms.RegisterAlarm(DelayMs, TriggerAssignedEffect, TableElementData, true);
         }
 
         private TableElementData TableElementData;
-        private void TriggerAssignedEffect()
+        private void TriggerAssignedEffect(object AlarmParameter)
         {
-            base.Trigger(TableElementData);
+            base.Trigger((TableElementData)AlarmParameter);
         }
 
         private Pinball Pinball;
