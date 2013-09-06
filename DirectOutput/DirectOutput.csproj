@@ -180,7 +180,6 @@
     <Compile Include="Frontend\TimeSpanStatisticsDetails.Designer.cs">
       <DependentUpon>TimeSpanStatisticsDetails.cs</DependentUpon>
     </Compile>
-    <Compile Include="FX\AssignedEffectOrder.cs" />
     <Compile Include="FX\DelayFX\DelayEffect.cs" />
     <Compile Include="FX\DelayFX\DelayFX.cs" />
     <Compile Include="FX\NullFX\NullEffect.cs" />

@@ -140,11 +140,11 @@ namespace DirectOutput.LedControl
                                                     Table.TableElements.Add(S.TableElementType, S.TableElementNumber, -1);
                                                 }
                                                 TableElement TE = Table.TableElements[S.TableElementType, S.TableElementNumber];
-                                                TE.AssignedEffects.Add(new FX.AssignedEffectOrder(LCE.Name));
+                                                TE.AssignedEffects.Add(new FX.AssignedEffect(LCE.Name));
                                             }
                                             else if (S.OutputControl == OutputControlEnum.FixedOn)
                                             {
-                                                Table.AssignedStaticEffects.Add(new FX.AssignedEffectOrder(LCE.Name));
+                                                Table.AssignedStaticEffects.Add(new FX.AssignedEffect(LCE.Name));
                                             }
                                         }
                                     }
