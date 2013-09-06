@@ -184,6 +184,7 @@
     <Compile Include="FX\DelayFX\DelayEffect.cs" />
     <Compile Include="FX\DelayFX\DelayFX.cs" />
     <Compile Include="FX\NullFX\NullEffect.cs" />
+    <Compile Include="FX\RGBAFX\RGBAFX.cs" />
     <Compile Include="General\Statistics\SimpleStatistics.cs" />
     <Compile Include="General\Statistics\TimeSpanStatisticsList.cs" />
     <Compile Include="General\ThreadInfo.cs" />
