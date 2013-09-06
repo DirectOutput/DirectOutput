@@ -358,14 +358,14 @@ namespace DirectOutput.FX.LedControlFX
 
         private void FadeAnalogOutput(bool OutputState)
         {
-            AlarmHandler.UnregisterAlarm(FaseAnalogOutputAlarmHandler);
+            AlarmHandler.UnregisterAlarm(FadeAnalogOutputAlarmHandler);
 
             FadeCurrent = LedWizEquivalent.GetOutputValue(FirstOutputNumber);
             FadeTarget = (OutputState ? Intensity : 0);
             int Duration = (FadeCurrent < FadeTarget ? FadeUpDurationMs : FadeDownDurationMs);
             if (FadeCurrent == FadeTarget || Duration == 0)
             {
-                LedWizEquivalent.SetOutputValue(FirstOutputNumber, Intensity);
+                LedWizEquivalent.SetOutputValue(FirstOutputNumber, (OutputState?Intensity:0));
             }
             else
             {
@@ -375,20 +375,20 @@ namespace DirectOutput.FX.LedControlFX
 
                 if (FadeStep != 0)
                 {
-                    FaseAnalogOutputAlarmHandler();
+                    FadeAnalogOutputAlarmHandler();
                 }
             }
         }
 
 
-        private void FaseAnalogOutputAlarmHandler()
+        private void FadeAnalogOutputAlarmHandler()
         {
             FadeCurrent += FadeStep;
             if (FadeStep > 0)
             {
                 if (FadeCurrent < FadeTarget && FadeCurrent < 48)
                 {
-                    AlarmHandler.RegisterAlarm(30, FaseAnalogOutputAlarmHandler);
+                    AlarmHandler.RegisterAlarm(30, FadeAnalogOutputAlarmHandler);
                 }
                 else
                 {
@@ -399,7 +399,7 @@ namespace DirectOutput.FX.LedControlFX
             {
                 if (FadeCurrent > FadeTarget && FadeCurrent > 0)
                 {
-                    AlarmHandler.RegisterAlarm(30, FaseAnalogOutputAlarmHandler);
+                    AlarmHandler.RegisterAlarm(30, FadeAnalogOutputAlarmHandler);
                 }
                 else
                 {
@@ -409,7 +409,7 @@ namespace DirectOutput.FX.LedControlFX
 
             if (FadeStep == 0 || FadeCurrent >= 48 || FadeCurrent <= 0)
             {
-                AlarmHandler.UnregisterAlarm(FaseAnalogOutputAlarmHandler);
+                AlarmHandler.UnregisterAlarm(FadeAnalogOutputAlarmHandler);
             }
 
 
@@ -565,7 +565,7 @@ namespace DirectOutput.FX.LedControlFX
         {
             AlarmHandler.UnregisterAlarm(DurationAlarmHandler);
             AlarmHandler.UnregisterIntervalAlarm(BlinkAlarmHandler);
-            AlarmHandler.UnregisterAlarm(FaseAnalogOutputAlarmHandler);
+            AlarmHandler.UnregisterAlarm(FadeAnalogOutputAlarmHandler);
             Unset();
             AlarmHandler = null;
             LedWizEquivalent = null;

@@ -222,6 +222,7 @@ namespace DirectOutput.LedControl
                 if (Parts[PartNr].ToUpper() == "BLINK")
                 {
                     Blink = -1;
+                    BlinkIntervalMs = 500;
                 }
                 else if (Parts[PartNr].Length > 1 && Parts[PartNr].ToUpper().Substring(0, 1) == "I" && Parts[PartNr].Substring(1).IsInteger())
                 {
