@@ -7,9 +7,9 @@ using DirectOutput.Table;
 namespace DirectOutput.FX.DelayFX
 {
     /// <summary>
-    /// The effect fires a assigned effect after a specified delay.
+    /// The effect fires a assigned target effect after a specified delay.
     /// </summary>
-    public class DelayEffect:AssignedEffect
+    public class DelayEffect:EffectEffectBase
     {
         
         private int _DelayMs=0;
@@ -28,19 +28,33 @@ namespace DirectOutput.FX.DelayFX
 
 
         /// <summary>
-        /// Triggers the assigned Effect.
-        /// \remark If the assigned effect throws a exception the effect will be deactivated.
+        /// Triggers the effect.<br/>
+        /// If the TargetEffect throws a exception, it will be deactivated.
         /// </summary>
         /// <param name="TableElementData">The TableElementData object for the TableElement which has triggered the effect.</param>
-        public new void Trigger(TableElementData TableElementData)
+        public override void Trigger(TableElementData TableElementData)
         {
-            Pinball.Alarms.RegisterAlarm(DelayMs, TriggerAssignedEffect, TableElementData, true);
+            if (TargetEffect != null)
+            {
+                Pinball.Alarms.RegisterAlarm(DelayMs, TriggerTargetEffect, TableElementData, true);
+            }
         }
 
 
-        private void TriggerAssignedEffect(object AlarmParameter)
+        private void TriggerTargetEffect(object AlarmParameter)
         {
-            base.Trigger((TableElementData)AlarmParameter);
+            if (TargetEffect != null)
+            {
+                try
+                {
+                    TargetEffect.Trigger((TableElementData)AlarmParameter);
+                }
+                catch (Exception E)
+                {
+                    Log.Exception("The target effect {0} of the DelayEffect {1} has trown a exception.".Build(TargetEffectName, Name), E);
+                    TargetEffect = null;
+                }
+            }
         }
 
         private Pinball Pinball;
@@ -59,7 +73,7 @@ namespace DirectOutput.FX.DelayFX
         /// </summary>
         public new void Finish()
         {
-            Pinball.Alarms.UnregisterAlarm(TriggerAssignedEffect);
+            Pinball.Alarms.UnregisterAlarm(TriggerTargetEffect);
             Pinball = null;
             base.Finish();
         }
