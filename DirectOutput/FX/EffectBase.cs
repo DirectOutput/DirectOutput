@@ -18,23 +18,21 @@ namespace DirectOutput.FX
 
         /// <summary>
         /// Triggers the effect for the given TableElementData
-        /// <warning>
-        /// Remember that the TableElementData parameter will contain null if a effect is called as a static effect. Make sure your implementation of this method does not fail when called with null.
-        /// </warning>
+        /// \warning Remember that the TableElementData parameter will contain null if a effect is called as a static effect. Make sure your implementation of this method does not fail when called with null.
         /// </summary>
         /// <param name="TableElementData">TableElementData for the TableElement which has triggered the effect.</param>
         public abstract void Trigger(TableElementData TableElementData);
 
 
         /// <summary>
-        /// Init must do all necessary initialization work after the IEffect object has been instanciated
+        /// Init does all necessary initialization work after the effect object has been instanciated
         /// </summary>
-        /// <param name="Pinball">Pinball object</param>
-        public abstract void Init(Pinball Pinball);
+        /// <param name="Table">Table object containing the effect.</param>
+        public abstract void Init(Table.Table Table);
 
 
         /// <summary>
-        /// Finish must do all necessary cleanupwork before a IEffect object is discarded
+        /// Finish does all necessary cleanupwork before the object is discarded
         /// </summary>
         public virtual void Finish() {}
 

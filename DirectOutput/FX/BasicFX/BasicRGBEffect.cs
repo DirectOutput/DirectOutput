@@ -60,14 +60,14 @@ namespace DirectOutput.FX.BasicFX
             }
         }
 
-        private void ResolveName(Pinball Pinball)
+        private void ResolveName(Table.Table Table)
         {
 
-            if (!RGBToyName.IsNullOrWhiteSpace() && Pinball.Cabinet.Toys.Contains(RGBToyName))
+            if (!RGBToyName.IsNullOrWhiteSpace() && Table.Pinball.Cabinet.Toys.Contains(RGBToyName))
             {
-                if (Pinball.Cabinet.Toys[RGBToyName] is IRGBToy)
+                if (Table.Pinball.Cabinet.Toys[RGBToyName] is IRGBToy)
                 {
-                    _RGBToy = (IRGBToy)Pinball.Cabinet.Toys[RGBToyName];
+                    _RGBToy = (IRGBToy)Table.Pinball.Cabinet.Toys[RGBToyName];
                 }
 
             }
@@ -105,11 +105,12 @@ namespace DirectOutput.FX.BasicFX
         /// <summary>
         /// Initializes the BasicRGBEffect.
         /// </summary>
-        public override void Init(Pinball Pinball)
+        /// <param name="Table">Table object containing the effect.</param>
+        public override void Init(Table.Table Table)
         {
 
-            ResolveName(Pinball);
-            if (RGBToy != null) RGBToy.Reset();
+            ResolveName(Table);
+           
         }
         /// <summary>
         /// Finishes the BasicRGBEffect.

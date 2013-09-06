@@ -93,11 +93,11 @@ namespace DirectOutput.FX
         /// <summary>
         /// Calls Init on all IEffect objects in the list.
         /// </summary>
-        public void Init(Pinball Pinball)
+        public void Init(Table.Table Table)
         {
             foreach (IEffect Effect in this)
             {
-                Effect.Init(Pinball);
+                Effect.Init(Table);
             }
         }
 

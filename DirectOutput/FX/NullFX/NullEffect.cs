@@ -22,8 +22,8 @@ namespace DirectOutput.FX.NullFX
         /// <summary>
         /// Init must do all necessary initialization work after the NullEffect object has been instanciated
         /// </summary>
-        /// <param name="Pinball">Pinball object</param>
-        public override void Init(Pinball Pinball)
+        /// <param name="Table">Table object containing the effect.</param>
+        public override void Init(Table.Table Table)
         {
             //Nothing is happening here
         }

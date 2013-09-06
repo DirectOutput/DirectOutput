@@ -32,11 +32,11 @@ namespace DirectOutput.FX.LedControlFX
 
         private LedWizEquivalent LedWizEquivalent;
 
-        private void ResolveName(Pinball Pinball)
+        private void ResolveName(Table.Table Table)
         {
-            if (!LedWizEquivalentName.IsNullOrWhiteSpace() && Pinball.Cabinet.Toys.Contains(LedWizEquivalentName))
+            if (!LedWizEquivalentName.IsNullOrWhiteSpace() && Table.Pinball.Cabinet.Toys.Contains(LedWizEquivalentName))
             {
-                IToy T = Pinball.Cabinet.Toys[LedWizEquivalentName];
+                IToy T = Table.Pinball.Cabinet.Toys[LedWizEquivalentName];
                 if (T is LedWizEquivalent)
                 {
                     LedWizEquivalent = (LedWizEquivalent)T;
@@ -550,12 +550,12 @@ namespace DirectOutput.FX.LedControlFX
         /// Initializes the LedControlEffect.
         /// </summary>
         /// <param name="Pinball">Pinball object containing the effect.</param>
-        public override void Init(Pinball Pinball)
+        public override void Init(Table.Table Table)
         {
-            ResolveName(Pinball);
-            AlarmHandler = Pinball.Alarms;
-            MinimumEffectDurationMs = Pinball.GlobalConfig.LedControlMinimumEffectDurationMs;
-            MinimumRGBEffectDurationMs = Pinball.GlobalConfig.LedControlMinimumRGBEffectDurationMs;
+            ResolveName(Table);
+            AlarmHandler = Table.Pinball.Alarms;
+            MinimumEffectDurationMs = Table.Pinball.GlobalConfig.LedControlMinimumEffectDurationMs;
+            MinimumRGBEffectDurationMs = Table.Pinball.GlobalConfig.LedControlMinimumRGBEffectDurationMs;
         }
 
         /// <summary>
@@ -568,6 +568,7 @@ namespace DirectOutput.FX.LedControlFX
             AlarmHandler.UnregisterAlarm(FaseAnalogOutputAlarmHandler);
             Unset();
             AlarmHandler = null;
+            LedWizEquivalent = null;
         }
 
 

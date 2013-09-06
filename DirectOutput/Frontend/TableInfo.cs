@@ -85,11 +85,7 @@ namespace DirectOutput.Frontend
                         T = Pinball.Table.Effects[AE.EffectName].GetType();
                         Configured = "Table";
                     }
-                    else if (Pinball.Cabinet.Effects.Contains(AE.EffectName))
-                    {
-                        T = Pinball.Cabinet.Effects[AE.EffectName].GetType();
-                        Configured = "Cabinet";
-                    }
+
                     DT.Rows.Add(AE.EffectName, T.Name, Configured);
                 }
             }
@@ -183,10 +179,7 @@ namespace DirectOutput.Frontend
                     if(Pinball.Table.Effects.Contains(AE.EffectName)) {
                      T= Pinball.Table.Effects[AE.EffectName].GetType();
                      Configured = "Table";
-                    } else if (Pinball.Cabinet.Effects.Contains(AE.EffectName)) {
-                        T = Pinball.Cabinet.Effects[AE.EffectName].GetType();
-                        Configured = "Cabinet";
-                    }
+                    } 
                     DT.Rows.Add(AE.EffectName,T.Name,Configured);
                 }
             }

@@ -79,19 +79,7 @@ namespace DirectOutput.Cab
         }
 
 
-        private EffectList _Effects = new EffectList();
 
-        /// <summary>
-        /// List of cabinet specific effects.
-        /// 
-        /// </summary>
-        //TODO: Get rid of effects in cabinet.
-        [XmlElementAttribute(Order = 4)]
-        public EffectList Effects
-        {
-            get { return _Effects; }
-            set { _Effects = value; }
-        }
 
 
 
@@ -100,7 +88,7 @@ namespace DirectOutput.Cab
         /// <summary>
         /// List of Color objects used to set colors for toys. 
         /// </summary>
-        [XmlElementAttribute(Order = 5)]
+        [XmlElementAttribute(Order = 4)]
         public Toys.ColorList Colors
         {
             get { return _Colors; }
@@ -116,7 +104,7 @@ namespace DirectOutput.Cab
         /// <value>
         ///   <c>true</c> enables auto config, <c>false</c> disables auto config.
         /// </value>
-        [XmlElementAttribute(Order = 6)]
+        [XmlElementAttribute(Order = 5)]
         public bool AutoConfigEnabled
         {
             get { return _AutoConfigEnabled; }
@@ -253,7 +241,7 @@ namespace DirectOutput.Cab
             this.Pinball = Pinball;
             OutputControllers.Init(this);
             Toys.Init(this);
-            Effects.Init(Pinball);
+    
             Log.Write("Cabinet initialized");
         }
 
@@ -275,8 +263,7 @@ namespace DirectOutput.Cab
         public void Finish()
         {
             Log.Write("Finishing cabinet");
-   
-            Effects.Finish();
+
             Toys.Finish();
             OutputControllers.Finish();
             Log.Write("Cabinet finished");
@@ -293,7 +280,6 @@ namespace DirectOutput.Cab
             _OutputControllers = new Out.OutputControllerList();
             _Outputs = new CabinetOutputList(this);
             _Toys = new Toys.ToyList();
-            _Effects = new EffectList();
             _Colors = new Toys.ColorList();
         }
         #endregion

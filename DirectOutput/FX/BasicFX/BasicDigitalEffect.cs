@@ -31,13 +31,13 @@ namespace DirectOutput.FX.BasicFX
             }
         }
 
-        private void ResolveName(Pinball Pinball)
+        private void ResolveName(Table.Table Table)
         {
-            if (!DigitalToyName.IsNullOrWhiteSpace() && Pinball.Cabinet.Toys.Contains(DigitalToyName))
+            if (!DigitalToyName.IsNullOrWhiteSpace() && Table.Pinball.Cabinet.Toys.Contains(DigitalToyName))
             {
-                if (Pinball.Cabinet.Toys[DigitalToyName] is IDigitalToy)
+                if (Table.Pinball.Cabinet.Toys[DigitalToyName] is IDigitalToy)
                 {
-                    _DigitalToy = (IDigitalToy)Pinball.Cabinet.Toys[DigitalToyName];
+                    _DigitalToy = (IDigitalToy)Table.Pinball.Cabinet.Toys[DigitalToyName];
                 }
             }
         }
@@ -79,13 +79,14 @@ namespace DirectOutput.FX.BasicFX
         }
 
         /// <summary>
-        /// Initializes the <see cref="IDigitalToy"/>.
+        /// Initializes the <see cref="IDigitalToy" />.
         /// </summary>
-        public override void Init(Pinball Pinball)
+        /// <param name="Table">Table object containing the effect.</param>
+        public override void Init(Table.Table Table)
         {
 
-            ResolveName(Pinball);
-            if (DigitalToy != null) DigitalToy.Reset();
+            ResolveName(Table);
+            
         }
         /// <summary>
         /// Finishes the <see cref="IDigitalToy"/>.

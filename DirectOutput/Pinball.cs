@@ -42,14 +42,6 @@ namespace DirectOutput
             private set { _Scripts = value; }
         }
 
-        private CombinedEffectList _Effects = new CombinedEffectList();
-
-        public CombinedEffectList Effects
-        {
-            get { return _Effects; }
-            private set { _Effects = value; }
-        }
-
 
 
         private Table.Table _Table = new Table.Table();
@@ -410,7 +402,7 @@ namespace DirectOutput
             }
             Log.Write("Table config loading finished");
 
-            Effects = new CombinedEffectList(new EffectList[] { Table.Effects, Cabinet.Effects });
+
 
             Log.Write("Pinball parts loaded");
 

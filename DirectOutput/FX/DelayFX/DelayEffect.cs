@@ -47,11 +47,11 @@ namespace DirectOutput.FX.DelayFX
         /// <summary>
         /// Initializes the DelayEffect.
         /// </summary>
-        /// <param name="Pinball">The Pinball object to which the effect belongs.</param>
-        public new void Init(Pinball Pinball)
+        /// <param name="Table">The table which contains the DelayEffect.</param>
+        public new void Init(Table.Table Table)
         {
-            this.Pinball = Pinball;
-            base.Init(Pinball);
+            this.Pinball = Table.Pinball;
+            base.Init(Table);
         }
 
         /// <summary>

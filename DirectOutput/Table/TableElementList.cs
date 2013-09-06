@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using DirectOutput.General.Generic;
 
+
 namespace DirectOutput.Table
 {
     /// <summary>
@@ -16,11 +17,11 @@ namespace DirectOutput.Table
         /// <summary>
         /// Initializes the AssignedEffects for all TableElements in this list.
         /// </summary>
-        public void InitAssignedEffects(Pinball Pinball)
+        public void InitAssignedEffects(Table Table)
         {
             foreach (TableElement TE in this)
             {
-                TE.AssignedEffects.Init(Pinball);
+                TE.AssignedEffects.Init(Table);
             }
         }
 

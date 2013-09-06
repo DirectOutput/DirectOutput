@@ -23,6 +23,15 @@ namespace DirectOutput.Table
         /// </summary>
         public TableElementList TableElements { get; set; }
 
+        /// <summary>
+        /// Gets the pinball object to which the Table object belongs.
+        /// </summary>
+        /// <value>
+        /// The pinball object to which the Table object belongs.
+        /// </value>
+        public Pinball Pinball { get; private set; }
+        
+
 
         #region TableName
         private string _TableName;
@@ -180,13 +189,14 @@ namespace DirectOutput.Table
         /// <summary>
         /// Initializes the table and the contained objects(Effects, TableElements).
         /// </summary>
-        /// <param name="Pinball">Pinball object which runs the table</param>
+        /// <param name="Pinball">The Pinball object containing the Table.</param>
         public void Init(Pinball Pinball)
         {
-            Effects.Init(Pinball);
+            this.Pinball = Pinball;
+            Effects.Init(this);
 
-            TableElements.InitAssignedEffects(Pinball);
-            AssignedStaticEffects.Init(Pinball);
+            TableElements.InitAssignedEffects(this);
+            AssignedStaticEffects.Init(this);
         }
 
         /// <summary>
@@ -197,6 +207,7 @@ namespace DirectOutput.Table
             AssignedStaticEffects.Finish();
             TableElements.FinishAssignedEffects();
             Effects.Finish();
+            Pinball = null;
         }
 
 

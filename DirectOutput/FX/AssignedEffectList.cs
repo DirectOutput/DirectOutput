@@ -49,11 +49,12 @@ namespace DirectOutput.FX
         /// <summary>
         /// Initializes the AssignedEffectOrder objects in the list.
         /// </summary>
-        public void Init(Pinball Pinball)
+        /// <param name="Table">The table contining the AssignedEffectList.</param>
+        public void Init(Table.Table Table)
         {
             foreach (AssignedEffectOrder TEE in this)
             {
-                TEE.Init(Pinball);
+                TEE.Init(Table);
             }
         }
 
