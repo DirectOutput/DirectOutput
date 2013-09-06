@@ -37,7 +37,7 @@ namespace DirectOutput.FX.DelayFX
             Pinball.Alarms.RegisterAlarm(DelayMs, TriggerAssignedEffect, TableElementData, true);
         }
 
-        private TableElementData TableElementData;
+
         private void TriggerAssignedEffect(object AlarmParameter)
         {
             base.Trigger((TableElementData)AlarmParameter);
