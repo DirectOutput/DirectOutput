@@ -35,9 +35,9 @@
     <ApplicationIcon>DirectOutputIcon_32.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="B2SServerPluginInterface">
+    <Reference Include="B2SServerPluginInterface, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>.\B2SServerPluginInterface.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -54,24 +54,21 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DirectOutput\DirectOutput.csproj">
-      <Project>{DA43ACDD-8241-4A28-8EB2-DAE80D91FAA8}</Project>
-      <Name>DirectOutput</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Plugin.cd" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="DirectOutputIcon_32.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DirectOutput\DirectOutput.csproj">
+      <Project>{DA43ACDD-8241-4A28-8EB2-DAE80D91FAA8}</Project>
+      <Name>DirectOutput</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
-
-del "$(TargetDir)B2SServerPluginInterface.*"
-
-</PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
