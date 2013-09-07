@@ -179,7 +179,9 @@
     <Compile Include="Frontend\TimeSpanStatisticsDetails.Designer.cs">
       <DependentUpon>TimeSpanStatisticsDetails.cs</DependentUpon>
     </Compile>
+    <Compile Include="FX\RetriggerBehaviourEnum.cs" />
     <Compile Include="FX\TimmedFX\DelayEffect.cs" />
+    <Compile Include="FX\TimmedFX\DurationEffect.cs" />
     <Compile Include="FX\TimmedFX\TimmedFX.cs" />
     <Compile Include="FX\EffectEffectBase.cs" />
     <Compile Include="FX\RGBAFX\RGBAEffectBase.cs" />

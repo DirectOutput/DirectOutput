@@ -29,6 +29,10 @@ namespace DirectOutput.Table
         /// </value>
         public int Value { get; set; }
 
+        public TableElementData Clone()
+        {
+            return new TableElementData(TableElementType, Number, Value);
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TableElementData"/> class.

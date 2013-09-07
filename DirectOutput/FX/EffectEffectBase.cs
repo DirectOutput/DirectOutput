@@ -37,10 +37,11 @@ namespace DirectOutput.FX
         #endregion
 
 
+
         #region Effect
         private IEffect _TargetEffect;
         /// <summary>
-        /// TargetEffect for the Effect (ReadOnly).<br/>
+        /// TargetEffect for the effect (ReadOnly).<br/>
         /// The property is resolved from the TargetEffectName. If TargetEffectName is empty or unknown this property will return null.
         /// </summary>
         [XmlIgnoreAttribute]
@@ -67,14 +68,18 @@ namespace DirectOutput.FX
 
         #endregion
 
+        protected Table.Table Table;
 
         public override void Init(Table.Table Table)
         {
+            this.Table = Table;
             ResolveEffectName(Table);
         }
 
         public override void Finish()
         {
+            TargetEffect = null;
+            Table = null;
             base.Finish();
         }
     
