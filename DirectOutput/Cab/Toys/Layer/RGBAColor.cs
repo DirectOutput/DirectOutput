@@ -220,9 +220,22 @@ namespace DirectOutput.Cab.Toys.Layer
             this.Name = Name;
             SetColor(BrightnessRed, BrightnessGreen, BrightnessBlue);
         }
+        public RGBAColor(string Name, int BrightnessRed, int BrightnessGreen, int BrightnessBlue,int Alpha)
+            : this()
+        {
+            this.Name = Name;
+            SetColor(BrightnessRed, BrightnessGreen, BrightnessBlue,Alpha);
+        }
+        
         public RGBAColor(int BrightnessRed, int BrightnessGreen, int BrightnessBlue)
             : this("", BrightnessRed, BrightnessGreen, BrightnessBlue)
         { }
+
+        public RGBAColor(int BrightnessRed, int BrightnessGreen, int BrightnessBlue,int Alpha)
+            : this("", BrightnessRed, BrightnessGreen, BrightnessBlue,Alpha)
+        { }
+
+        
         public RGBAColor(string Color):this()
         {
             SetColor(Color);

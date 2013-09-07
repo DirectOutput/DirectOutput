@@ -6,7 +6,7 @@ using DirectOutput.Cab.Out;
 
 namespace DirectOutput.Cab.Toys.Layer
 {
-    public class RGBALed : ToyBaseUpdatable, IRGBToy
+    public class RGBAToy : ToyBaseUpdatable, IRGBToy
     {
 
 
@@ -132,7 +132,7 @@ namespace DirectOutput.Cab.Toys.Layer
         /// <summary>
         /// Initializes the RGBALed toy.
         /// </summary>
-        /// <param name="Cabinet"><see cref="Cabinet"/> object to which the <see cref="RGBALed"/> belongs.</param>
+        /// <param name="Cabinet"><see cref="Cabinet"/> object to which the <see cref="RGBAToy"/> belongs.</param>
         public override void Init(Cabinet Cabinet)
         {
             _Cabinet = Cabinet;
@@ -214,7 +214,7 @@ namespace DirectOutput.Cab.Toys.Layer
         }
 
 
-        public RGBALed()
+        public RGBAToy()
         {
             Layers = new RGBALayerDictionary();
         }

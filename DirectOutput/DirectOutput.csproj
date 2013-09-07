@@ -107,7 +107,6 @@
     <Content Include="Config\GlobalConfig_B2SServer.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Config\TimedDimmerLampEffect.cs" />
     <Compile Include="Cab\Toys\ILampToy.cs" />
     <Compile Include="Cab\Toys\IToyUpdatable.cs" />
     <Compile Include="Cab\Toys\Layer\AlphaMappingTable.cs" />
@@ -115,7 +114,7 @@
     <Compile Include="Cab\Toys\Layer\RGBALayer.cs" />
     <Compile Include="Cab\Toys\Layer\RGBALayerDictionary.cs" />
     <Compile Include="Cab\Toys\ToyBaseUpdatable.cs" />
-    <Compile Include="Cab\Toys\Layer\RGBALed.cs" />
+    <Compile Include="Cab\Toys\Layer\RGBAToy.cs" />
     <Compile Include="DirectOutput.cs" />
     <Compile Include="Extensions\ArrayExtensions.cs" />
     <Compile Include="Extensions\ByteExtensions.cs" />
@@ -183,6 +182,8 @@
     <Compile Include="FX\DelayFX\DelayEffect.cs" />
     <Compile Include="FX\DelayFX\DelayFX.cs" />
     <Compile Include="FX\EffectEffectBase.cs" />
+    <Compile Include="FX\RGBAFX\RGBAEffectBase.cs" />
+    <Compile Include="FX\RGBAFX\RGBAOnOffEffect.cs" />
     <Compile Include="FX\NullFX\NullEffect.cs" />
     <Compile Include="FX\RGBAFX\RGBAFX.cs" />
     <Compile Include="General\Statistics\SimpleStatistics.cs" />
