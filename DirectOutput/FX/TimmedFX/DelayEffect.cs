@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using DirectOutput.Table;
 
-namespace DirectOutput.FX.DelayFX
+namespace DirectOutput.FX.TimmedFX
 {
     /// <summary>
     /// The effect fires a assigned target effect after a specified delay.

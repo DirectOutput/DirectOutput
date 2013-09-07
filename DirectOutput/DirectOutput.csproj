@@ -179,8 +179,8 @@
     <Compile Include="Frontend\TimeSpanStatisticsDetails.Designer.cs">
       <DependentUpon>TimeSpanStatisticsDetails.cs</DependentUpon>
     </Compile>
-    <Compile Include="FX\DelayFX\DelayEffect.cs" />
-    <Compile Include="FX\DelayFX\DelayFX.cs" />
+    <Compile Include="FX\TimmedFX\DelayEffect.cs" />
+    <Compile Include="FX\TimmedFX\TimmedFX.cs" />
     <Compile Include="FX\EffectEffectBase.cs" />
     <Compile Include="FX\RGBAFX\RGBAEffectBase.cs" />
     <Compile Include="FX\RGBAFX\RGBAFadeOnOffEffect.cs" />
