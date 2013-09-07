@@ -84,6 +84,16 @@ namespace DirectOutput.Cab.Toys.Layer
         }
 
         /// <summary>
+        /// Clones the instance of the RGBAColor
+        /// </summary>
+        /// <returns></returns>
+        public RGBAColor Clone()
+        {
+            return new RGBAColor(Red, Green, Blue, Alpha);
+        }
+
+
+        /// <summary>
         /// Sets the RGBA components of the Color.
         /// </summary>
         /// <param name="Red">Red brightness</param>

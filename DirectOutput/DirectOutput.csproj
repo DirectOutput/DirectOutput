@@ -183,6 +183,7 @@
     <Compile Include="FX\DelayFX\DelayFX.cs" />
     <Compile Include="FX\EffectEffectBase.cs" />
     <Compile Include="FX\RGBAFX\RGBAEffectBase.cs" />
+    <Compile Include="FX\RGBAFX\RGBAFadeOnOffEffect.cs" />
     <Compile Include="FX\RGBAFX\RGBAOnOffEffect.cs" />
     <Compile Include="FX\NullFX\NullEffect.cs" />
     <Compile Include="FX\RGBAFX\RGBAFX.cs" />

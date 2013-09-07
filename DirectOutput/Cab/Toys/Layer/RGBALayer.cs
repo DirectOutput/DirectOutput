@@ -29,6 +29,12 @@ namespace DirectOutput.Cab.Toys.Layer
             this.Alpha = Alpha;
         }
 
+
+        public RGBAColor GetRGBAColor()
+        {
+            return new RGBAColor(Red, Green, Blue, Alpha);
+        }
+
         public void SetLayer(RGBAColor RGBA)
         {
             SetLayer(RGBA.Red, RGBA.Green, RGBA.Blue, RGBA.Alpha);
