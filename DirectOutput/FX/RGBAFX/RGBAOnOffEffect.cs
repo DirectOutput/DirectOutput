@@ -46,7 +46,7 @@ namespace DirectOutput.FX.RGBAFX
         /// <summary>
         /// Triggers the effect with the given TableElementData.<br/>
         /// If the TableElementData is null, the effect acts as a static effect and will set the ActiveColor when it is triggered.<br/>
-        /// If TableElementData is not null, the effect will set the specified layer to the ActiveColor of the TableElementData value is not 0. For 0 the layer will be set to the InActiveColor.
+        /// If TableElementData is not null, the effect will set the specified layer to the ActiveColor if the TableElementData value is not 0. For 0 the layer will be set to the InActiveColor.
         /// </summary>
         /// <param name="TableElementData">TableElementData for the TableElement which has triggered the effect or null.</param>
         public override void Trigger(Table.TableElementData TableElementData)

@@ -6,37 +6,105 @@ using DirectOutput.Cab.Toys.Layer;
 
 namespace DirectOutput.FX.RGBAFX
 {
+    /// <summary>
+    /// This RGBA effect fades the color of a RGBA toys towards a defined target color based on the state (not 0, 0 or null) of the triggering table element (see Trigger method for details).
+    /// </summary>
     public class RGBAFadeOnOffEffect : RGBAEffectBase
     {
-        private const int FadingRefreshIntervalMs=30;
+        private const int FadingRefreshIntervalMs = 30;
 
-        public enum FadeModeEnum
+
+        /// <summary>
+        /// This enum describes the different retrigger behaviours for the effects.<br/>
+        /// Retriggering means that a effect is getting another Trigger call with the same table element value as the last call, while it is still active.
+        /// </summary>
+        public enum RetriggerBehaviourEnum
         {
-            CurrentToDefinedColors,
-            DefinedColors
+            /// <summary>
+            /// The effect gets restarted in a retrigger situation.
+            /// </summary>
+            RestartEffect,
+
+            /// <summary>
+            /// Retrigger calls are ignored. The effect is not being restarted.
+            /// </summary>
+            IgnoreRetrigger
         }
 
-        private FadeModeEnum _FadeMode=FadeModeEnum.DefinedColors;
 
+        private RetriggerBehaviourEnum _RetriggerBehaviour;
+
+        /// <summary>
+        /// Gets or sets the retrigger behaviour.<br/>
+        /// The setting defines the behaviour of the effect if it is retriggered while it is still active (e.g. already fading towards the ActiveColor and getting another trigger call with a active table element value).<br/>
+        /// This settings is only relevant, if the effect can be called from more than one table element.
+        /// </summary>
+        /// <value>
+        /// Valid values are RestartEffect or IgnoreRetrigger.
+        /// </value>
+        public RetriggerBehaviourEnum RetriggerBehaviour
+        {
+            get { return _RetriggerBehaviour; }
+            set { _RetriggerBehaviour = value; }
+        }
+
+
+
+        /// <summary>
+        /// This enum describes the possible fading modes.
+        /// </summary>
+        public enum FadeModeEnum
+        {
+            /// <summary>
+            /// Fading starts with the current color and fades towards a specified target color (depending on the tigger value either ActiveColor or InactiveColor).
+            /// </summary>
+            CurrentToDefinedColor,
+            /// <summary>
+            /// Fadding starts with a defined color (depending on the tigger value either ActiveColor or InactiveColor) and fades towards a specified target color (the other of the 2 defined colors).
+            /// </summary>
+            DefinedColor
+        }
+
+        private FadeModeEnum _FadeMode = FadeModeEnum.DefinedColor;
+
+        /// <summary>
+        /// Gets or sets the fading mode.<br/>
+        /// This determines if one of the colors specified in the effect settings or the current color of the layer are used for the start of the fading.
+        /// </summary>
+        /// <value>
+        /// CurrentToDefinedColor or DefinedColor
+        /// </value>
         public FadeModeEnum FadeMode
         {
             get { return _FadeMode; }
             set { _FadeMode = value; }
         }
-        
 
+        //TODO: Maybe split fademode into fademodeactive and fademode inactive
 
-        private int _FadeInactiveDurationMs=500;
+        private int _FadeInactiveDurationMs = 500;
 
+         /// <summary>
+        /// Gets or sets the duration for the fading when the effect is inactive resp triggered with a table element value =0.
+        /// </summary>
+        /// <value>
+        /// The fading duration in milliseconds.
+        /// </value>
         public int FadeInactiveDurationMs
         {
             get { return _FadeInactiveDurationMs; }
             set { _FadeInactiveDurationMs = value; }
         }
-        
 
-        private int _FadeActiveDurationMs=500;
 
+        private int _FadeActiveDurationMs = 500;
+
+        /// <summary>
+        /// Gets or sets the duration for the fading when the effect is active resp triggered with a table element value !=0.
+        /// </summary>
+        /// <value>
+        /// The fading duration in milliseconds.
+        /// </value>
         public int FadeActiveDurationMs
         {
             get { return _FadeActiveDurationMs; }
@@ -44,22 +112,26 @@ namespace DirectOutput.FX.RGBAFX
         }
 
 
+        
+        float[] Current = new float[4];
+        float[] Step = new float[4];
+        float[] Target = new float[4];
+          bool IsFading = false;
 
-        public float[] Current = new float[4];
-        public float[] Step = new float[4];
-        public float[] Target = new float[4];
-
-        public void StartFading(Table.TableElementData TableElementData)
+        private void StartFading(bool Active)
         {
+            Table.Pinball.Alarms.UnregisterAlarm(FadingStep);
+            IsFading = true;
+
             RGBAColor CurrentColor;
             switch (FadeMode)
             {
-                case FadeModeEnum.CurrentToDefinedColors:
+                case FadeModeEnum.CurrentToDefinedColor:
                     CurrentColor = RGBAToy.Layers[Layer].GetRGBAColor();
                     break;
-                case FadeModeEnum.DefinedColors:
+                case FadeModeEnum.DefinedColor:
                 default:
-                    CurrentColor=(TableElementData.Value==0?ActiveColor.Clone():InactiveColor.Clone());
+                    CurrentColor = (!Active ? ActiveColor.Clone() : InactiveColor.Clone());
                     break;
             }
 
@@ -68,19 +140,21 @@ namespace DirectOutput.FX.RGBAFX
             Current[2] = CurrentColor.Blue;
             Current[3] = CurrentColor.Alpha;
 
-            RGBAColor TargetColor = (TableElementData.Value != 0 ? ActiveColor.Clone() : InactiveColor.Clone());
+            RGBAColor TargetColor = (Active ? ActiveColor.Clone() : InactiveColor.Clone());
             Target[0] = TargetColor.Red;
             Target[1] = TargetColor.Green;
             Target[2] = TargetColor.Blue;
             Target[3] = TargetColor.Alpha;
 
-            int Duration=(TableElementData.Value!=0?FadeActiveDurationMs:FadeInactiveDurationMs);
-            int Steps=Duration/FadingRefreshIntervalMs;
+            int Duration = (Active ? FadeActiveDurationMs : FadeInactiveDurationMs);
+            int Steps = Duration / FadingRefreshIntervalMs;
 
             for (int i = 0; i < 4; i++)
             {
                 Step[i] = (Target[i] - Current[i]) / Steps;
             }
+
+            FadingStep();
         }
 
         private void FadingStep()
@@ -104,7 +178,7 @@ namespace DirectOutput.FX.RGBAFX
                 else if (Step[i] < 0)
                 {
                     Current[i] += Step[i];
-                    if (Current[i] > Target[i] && Current[i] >0)
+                    if (Current[i] > Target[i] && Current[i] > 0)
                     {
                         ContinueFading = true;
                     }
@@ -120,7 +194,12 @@ namespace DirectOutput.FX.RGBAFX
 
             if (ContinueFading)
             {
-                Table.Pinball.Alarms.RegisterAlarm(FadingRefreshIntervalMs,FadingStep);
+                Table.Pinball.Alarms.RegisterAlarm(FadingRefreshIntervalMs, FadingStep);
+                IsFading = true;
+            }
+            else
+            {
+                IsFading = false;
             }
         }
 
@@ -158,28 +237,34 @@ namespace DirectOutput.FX.RGBAFX
 
 
 
+        bool LastTriggerState = false;
         /// <summary>
         /// Triggers the effect with the given TableElementData.<br/>
-        /// If the TableElementData is null, the effect acts as a static effect and will set the ActiveColor when it is triggered.<br/>
-        /// If TableElementData is not null, the effect will set the specified layer to the ActiveColor of the TableElementData value is not 0. For 0 the layer will be set to the InActiveColor.
+        /// If the TableElementData is null, the effect acts as a static effect and will fade towards the ActiveColor when it is triggered.<br/>
+        /// If TableElementData is not null, the effect will fade the specified layer towards the ActiveColor if the TableElementData value is not 0. For 0 the layer will fade to the InactiveColor.
         /// </summary>
         /// <param name="TableElementData">TableElementData for the TableElement which has triggered the effect or null.</param>
         public override void Trigger(Table.TableElementData TableElementData)
         {
             if (RGBAToy != null)
             {
-                if (TableElementData == null || TableElementData.Value != 0)
+                bool TriggerState = (TableElementData==null || TableElementData.Value != 0);
+
+                if (TriggerState != LastTriggerState || IsFading == false || RetriggerBehaviour == RetriggerBehaviourEnum.RestartEffect)
                 {
-                    RGBAToy.SetLayer(Layer, ActiveColor);
+                    StartFading(TriggerState);
                 }
-                else
-                {
-                    RGBAToy.SetLayer(Layer, InactiveColor);
-                }
+
+                LastTriggerState = TriggerState;
             }
         }
+
+        /// <summary>
+        /// Finishes the effect (stops fading, removes the layer, releases references).
+        /// </summary>
         public override void Finish()
         {
+            Table.Pinball.Alarms.UnregisterAlarm(FadingStep);
             RGBAToy.Layers.Remove(Layer);
             base.Finish();
         }

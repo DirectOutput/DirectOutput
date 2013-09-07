@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
 ///<summary>
-///This namespace contains effects which deal with IRGBAToy instances
+///This namespace contains effects which deal with RGBA toys.
 ///</summary>
 namespace DirectOutput.FX.RGBAFX
 {
