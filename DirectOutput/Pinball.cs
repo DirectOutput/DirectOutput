@@ -7,7 +7,7 @@ using DirectOutput.Cab;
 using DirectOutput.FX;
 using DirectOutput.General;
 using DirectOutput.GlobalConfiguration;
-using DirectOutput.LedControl;
+using DirectOutput.LedControl.Loader;
 using DirectOutput.PinballSupport;
 using DirectOutput.Scripting;
 using DirectOutput.Table;

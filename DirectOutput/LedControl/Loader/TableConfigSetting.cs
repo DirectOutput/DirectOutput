@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DirectOutput.LedControl
+namespace DirectOutput.LedControl.Loader
 {
     /// <summary>
     /// A single setting from a LedControl.ini file.

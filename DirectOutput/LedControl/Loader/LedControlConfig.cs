@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace DirectOutput.LedControl
+namespace DirectOutput.LedControl.Loader
 {
     /// <summary>
     /// Ledcontrol configuration read from a ledcontrol.ini file.

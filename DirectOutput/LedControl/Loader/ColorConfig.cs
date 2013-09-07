@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DirectOutput.LedControl
+namespace DirectOutput.LedControl.Loader
 {
 
     /// <summary>

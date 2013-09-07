@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using DirectOutput.Cab.Toys;
 
-namespace DirectOutput.LedControl
+namespace DirectOutput.LedControl.Loader
 {
     /// <summary>
     /// List of color configurations from a ledcontrol.ini file.

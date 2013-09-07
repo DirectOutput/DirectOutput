@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DirectOutput.LedControl
+namespace DirectOutput.LedControl.Loader
 {
     /// <summary>
     /// List of columns of a LedCOntrol.ini file.<br/>

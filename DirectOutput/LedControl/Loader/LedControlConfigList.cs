@@ -6,7 +6,7 @@ using DirectOutput.FX.LedControlFX;
 using DirectOutput.GlobalConfiguration;
 using DirectOutput.Table;
 using DirectOutput.Cab.Toys.LWEquivalent;
-namespace DirectOutput.LedControl
+namespace DirectOutput.LedControl.Loader
 {
 
     /// <summary>

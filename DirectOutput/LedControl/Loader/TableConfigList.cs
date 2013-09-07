@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DirectOutput.LedControl
+namespace DirectOutput.LedControl.Loader
 {
     public class TableConfigList:List<TableConfig>
     {

@@ -1,5 +1,5 @@
 ﻿
-namespace DirectOutput.LedControl
+namespace DirectOutput.LedControl.Loader
 {
     public enum OutputControlEnum
     {
