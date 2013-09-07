@@ -33,26 +33,17 @@ namespace DirectOutput.Cab.Out.Pac
 
                         Log.Write("Detected and added PacLed64 Id {0} with name {1}".Build(PL.Id, PL.Name));
 
-                        bool NumberOccupied = false;
-                        foreach (IToy Toy in Cabinet.Toys.Where(T => T is LedWizEquivalent))
-                        {
-                            LedWizEquivalent LWE = (LedWizEquivalent)Toy;
-                            if (LWE.LedWizNumber == ((PL.Id - 1) * 2) + 20 || LWE.LedWizNumber == ((PL.Id - 1) * 2) + 20 + 1)
-                            {
-                                NumberOccupied = true;
-                                break;
-                            }
-                        }
-                        if (!NumberOccupied)
+
+                        if (!!Cabinet.Toys.Any(T => T is LedWizEquivalent && (((LedWizEquivalent)T).LedWizNumber == ((PL.Id - 1) * 2) + 20 || ((LedWizEquivalent)T).LedWizNumber == ((PL.Id - 1) * 2) + 20+1)))
                         {
                             LedWizEquivalent LWE = new LedWizEquivalent();
                             LWE.LedWizNumber = (PL.Id - 1) * 2 + 20;
                             LWE.Name = "{0} Equivalent 1".Build(PL.Name);
                             for (int i = 1; i <= 32; i++)
                             {
-                                IOutputNumbered ON = (IOutputNumbered)PL.Outputs.First(O => ((IOutputNumbered)O).Number == i);
+                                
 
-                                LedWizEquivalentOutput LWEO = new LedWizEquivalentOutput() { OutputName = "{0}\\{1}".Build(PL.Name, ON.Name), LedWizEquivalentOutputNumber = ON.Number };
+                                LedWizEquivalentOutput LWEO = new LedWizEquivalentOutput() { OutputName = "{0}\\{0}.{1:00}".Build(PL.Name,i), LedWizEquivalentOutputNumber = i };
                                 LWE.Outputs.Add(LWEO);
 
                             }
@@ -66,10 +57,11 @@ namespace DirectOutput.Cab.Out.Pac
                             LWE.Name = "{0} Equivalent 2".Build(PL.Name);
                             for (int i = 1; i <= 32; i++)
                             {
-                                IOutputNumbered ON = (IOutputNumbered)PL.Outputs.First(O => ((IOutputNumbered)O).Number == i + 32);
+                                
 
-                                LedWizEquivalentOutput LWEO = new LedWizEquivalentOutput() { OutputName = "{0}\\{1}".Build(PL.Name, ON.Name), LedWizEquivalentOutputNumber = ON.Number - 32 };
+                                LedWizEquivalentOutput LWEO = new LedWizEquivalentOutput() { OutputName = "{0}\\{0}.{1:00}".Build(PL.Name, i+32), LedWizEquivalentOutputNumber = i };
                                 LWE.Outputs.Add(LWEO);
+
 
                             }
                             if (!Cabinet.Toys.Contains(LWE.Name))
