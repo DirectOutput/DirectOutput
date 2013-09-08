@@ -110,6 +110,9 @@
     <Compile Include="Cab\Toys\ILampToy.cs" />
     <Compile Include="Cab\Toys\IToyUpdatable.cs" />
     <Compile Include="Cab\Toys\Layer\AlphaMappingTable.cs" />
+    <Compile Include="Cab\Toys\Layer\AnalogLayer.cs" />
+    <Compile Include="Cab\Toys\Layer\AnalogLayerDictionary.cs" />
+    <Compile Include="Cab\Toys\Layer\AnalogToy.cs" />
     <Compile Include="Cab\Toys\Layer\RGBAColor.cs" />
     <Compile Include="Cab\Toys\Layer\RGBALayer.cs" />
     <Compile Include="Cab\Toys\Layer\RGBALayerDictionary.cs" />
@@ -121,7 +124,9 @@
     <Compile Include="Extensions\DirectoryInfoExtensions.cs" />
     <Compile Include="Extensions\DoubleExtensions.cs" />
     <Compile Include="Extensions\FileInfoExtensions.cs" />
+    <Compile Include="Extensions\IComparableExtensions.cs" />
     <Compile Include="Extensions\IntExtensions.cs" />
+    <Compile Include="Extensions\FloatExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TimeSpanExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
