@@ -7,7 +7,7 @@ using DirectOutput.Cab.Out;
 namespace DirectOutput.Cab.Toys.Layer
 {
     /// <summary>
-    /// This toy handles analog values (0-255) in a layer structure including alpha channel and outputs the belended result of the layers on a single output.
+    /// This toy handles analog values (0-255) in a layer structure including alpha value (0=completely transparent, 255=fully opaque) and outputs the belended result of the layers on a single output.
     /// </summary>
     public class AnalogToy : ToyBaseUpdatable
     {
