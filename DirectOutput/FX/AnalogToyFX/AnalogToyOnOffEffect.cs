@@ -20,8 +20,8 @@ namespace DirectOutput.FX.AnalogToyFX
         /// </value>
         public int ActiveValue
         {
-            get { return _InactiveValue; }
-            set { _InactiveValue = value.Limit(0,255); }
+            get { return _ActiveValue; }
+            set { _ActiveValue = value.Limit(0,255); }
         }
 
         private int _InactiveValue=0;
