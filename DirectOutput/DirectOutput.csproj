@@ -180,6 +180,7 @@
       <DependentUpon>TimeSpanStatisticsDetails.cs</DependentUpon>
     </Compile>
     <Compile Include="FX\RetriggerBehaviourEnum.cs" />
+    <Compile Include="FX\TimmedFX\BlinkEffect.cs" />
     <Compile Include="FX\TimmedFX\DelayEffect.cs" />
     <Compile Include="FX\TimmedFX\DurationEffect.cs" />
     <Compile Include="FX\TimmedFX\TimmedFX.cs" />
