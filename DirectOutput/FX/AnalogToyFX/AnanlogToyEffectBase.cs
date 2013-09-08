@@ -33,7 +33,7 @@ namespace DirectOutput.FX.AnalogToyFX
                 if (_ToyName != value)
                 {
                     _ToyName = value;
-                    _Toy = null;
+                    Toy = null;
                 }
             }
         }
@@ -55,19 +55,12 @@ namespace DirectOutput.FX.AnalogToyFX
 
 
 
-        private AnalogToy _Toy;
 
         /// <summary>
         /// Refrence to the AnalogToyy specified in the ToyName property.<br/>
         /// If the ToyName property is empty or contains a unknown name or the name of a toy which is not a AnalogToy this property will return null.
         /// </summary>
-        public AnalogToy RGBAToy
-        {
-            get
-            {
-                return _Toy;
-            }
-        }
+        public AnalogToy Toy{get;protected set;}
 
         private void ResolveName(Table.Table Table)
         {
@@ -76,14 +69,14 @@ namespace DirectOutput.FX.AnalogToyFX
             {
                 if (Table.Pinball.Cabinet.Toys[ToyName] is AnalogToy)
                 {
-                    _Toy = (AnalogToy)Table.Pinball.Cabinet.Toys[ToyName];
+                    Toy = (AnalogToy)Table.Pinball.Cabinet.Toys[ToyName];
                 }
 
             }
         }
 
         /// <summary>
-        /// Initializes the effect-
+        /// Initializes the effect.
         /// </summary>
         /// <param name="Table">Table object containing the effect.</param>
         public override void Init(Table.Table Table)
@@ -98,6 +91,7 @@ namespace DirectOutput.FX.AnalogToyFX
         public override void Finish()
         {
             base.Finish();
+            Toy = null;
             this.Table = null;
         }
     
