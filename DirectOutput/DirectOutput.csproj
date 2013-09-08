@@ -184,6 +184,8 @@
     <Compile Include="Frontend\TimeSpanStatisticsDetails.Designer.cs">
       <DependentUpon>TimeSpanStatisticsDetails.cs</DependentUpon>
     </Compile>
+    <Compile Include="FX\AnalogToyFX\AnalogToyFX.cs" />
+    <Compile Include="FX\AnalogToyFX\AnanlogToyEffectBase.cs" />
     <Compile Include="FX\RetriggerBehaviourEnum.cs" />
     <Compile Include="FX\TimmedFX\BlinkEffect.cs" />
     <Compile Include="FX\TimmedFX\DelayEffect.cs" />
