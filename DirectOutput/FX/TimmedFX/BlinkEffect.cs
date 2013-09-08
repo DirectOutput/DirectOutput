@@ -5,6 +5,9 @@ using System.Text;
 
 namespace DirectOutput.FX.TimmedFX
 {
+    /// <summary>
+    /// Blink effect which triggers a TargetEffect at specified intervalls with active (org value of TableElementData used in Trigger method is used to trigger the TargetEffect) and inactive (uses 0 as the Value of the TableElementData to trigger the TargetEffect) values.
+    /// </summary>
     public class BlinkEffect : EffectEffectBase
     {
 
@@ -90,6 +93,11 @@ namespace DirectOutput.FX.TimmedFX
 
 
 
+        /// <summary>
+        /// Triggers the BlinkEffect with the given TableElementData.<br>
+        /// If the Value property of the TableElementData is >0 or TableElementData is null (static effect), the blinking gets started. If the TableElementData Value property is 0, the blinking is stopped.
+        /// </summary>
+        /// <param name="TableElementData">TableElementData for the TableElement which has triggered the effect.</param>
         public override void Trigger(Table.TableElementData TableElementData)
         {
             if (TargetEffect != null)
@@ -112,6 +120,9 @@ namespace DirectOutput.FX.TimmedFX
 
 
 
+        /// <summary>
+        /// Finishes the BlinkEffect.
+        /// </summary>
         public override void Finish()
         {
             Table.Pinball.Alarms.UnregisterAlarm(DoBlink);
