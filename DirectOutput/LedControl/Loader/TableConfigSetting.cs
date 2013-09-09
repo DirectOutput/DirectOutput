@@ -135,6 +135,14 @@ namespace DirectOutput.LedControl.Loader
         /// </value>
         public int BlinkIntervalMs { get; set; }
 
+        /// <summary>
+        /// Gets or sets the wait duration before the effect is triggered.
+        /// </summary>
+        /// <value>
+        /// The wait duration in milliseconds
+        /// </value>
+        public int WaitDurationMs { get; set; }
+
 
         /// <summary>
         /// Gets or sets the layer for the settings.
@@ -237,6 +245,16 @@ namespace DirectOutput.LedControl.Loader
                 {
                     //Intensity setting
                     Intensity = Parts[PartNr].Substring(1).ToInteger().Limit(0, 48);
+                }
+                else if (Parts[PartNr].Length > 1 && Parts[PartNr].ToUpper().Substring(0, 1) == "L" && Parts[PartNr].Substring(1).IsInteger())
+                {
+                    //Layer setting
+                    Layer = Parts[PartNr].Substring(1).ToInteger();
+                }
+                else if (Parts[PartNr].Length > 1 && Parts[PartNr].ToUpper().Substring(0, 1) == "W" && Parts[PartNr].Substring(1).IsInteger())
+                {
+                    //WaitDuration setting
+                    Layer = Parts[PartNr].Substring(1).ToInteger().Limit(0, int.MaxValue);
                 }
                 else if (Parts[PartNr].Length > 1 && Parts[PartNr].ToUpper().Substring(0, 1) == "F" && Parts[PartNr].Substring(1).IsInteger())
                 {

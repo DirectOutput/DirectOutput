@@ -122,6 +122,13 @@ namespace DirectOutput.LedControl.Setup
                                             Table.Effects.Add(Effect);
                                         }
 
+                                        if (TCS.WaitDurationMs != 0)
+                                        {
+                                            Effect = new DelayEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} DelayEffect".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name, DelayMs = TCS.WaitDurationMs };
+                                            MakeEffectNameUnique(Effect, Table);
+                                            Table.Effects.Add(Effect);
+                                        }
+
                                         switch (TCS.OutputControl)
                                         {
                                             case OutputControlEnum.FixedOn:
