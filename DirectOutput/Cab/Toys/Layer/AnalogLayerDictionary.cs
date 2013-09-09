@@ -7,6 +7,29 @@ namespace DirectOutput.Cab.Toys.Layer
 {
     public class AnalogLayerDictionary : SortedDictionary<int, AnalogLayer>
     {
+
+        public new AnalogLayer this[int key]
+        {
+            get
+            {
+                try
+                {
+                    return base[key];
+                }
+                catch
+                {
+                    AnalogLayer L = new AnalogLayer();
+                    Add(key, L);
+                    return L;
+                }
+            }
+            set
+            {
+                base[key] = value;
+            }
+        }
+
+
         public AnalogLayer SetLayer(int Layer, int Value)
         {
             AnalogLayer L;

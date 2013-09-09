@@ -48,6 +48,8 @@ namespace DirectOutput.LedControl.Setup
                                 SettingNumber++;
                                 IEffect Effect = null;
 
+                                int Layer = (TCS.Layer.HasValue ? TCS.Layer.Value : SettingNumber);
+
                                 if (Toy is RGBAToy || Toy is AnalogToy)
                                 {
                                     if (Toy is RGBAToy)
@@ -70,13 +72,13 @@ namespace DirectOutput.LedControl.Setup
                                             if (TCS.FadingDownDurationMs > 0 || TCS.FadingUpDurationMs > 0)
                                             {
                                                 //Must fade, use fadeeffect
-                                                Effect = new RGBAFadeOnOffEffect() { FadeActiveDurationMs = TCS.FadingUpDurationMs, FadeInactiveDurationMs = TCS.FadingUpDurationMs, RetriggerBehaviour = RetriggerBehaviourEnum.IgnoreRetrigger, FadeMode = FadeModeEnum.CurrentToDefined, ActiveColor = ActiveColor, InactiveColor = new RGBAColor(0, 0, 0, 0) };
+                                                Effect = new RGBAFadeOnOffEffect() {ToyName=Toy.Name, Layer=Layer, FadeActiveDurationMs = TCS.FadingUpDurationMs, FadeInactiveDurationMs = TCS.FadingUpDurationMs, RetriggerBehaviour = RetriggerBehaviourEnum.IgnoreRetrigger, FadeMode = FadeModeEnum.CurrentToDefined, ActiveColor = ActiveColor, InactiveColor = new RGBAColor(0, 0, 0, 0) };
 
                                             }
                                             else
                                             {
                                                 //No fadinging, set color directly
-                                                Effect = new RGBAOnOffEffect() { ActiveColor = ActiveColor, InactiveColor = new RGBAColor(0, 0, 0, 0) };
+                                                Effect = new RGBAOnOffEffect() { ToyName = Toy.Name, Layer = Layer, ActiveColor = ActiveColor, InactiveColor = new RGBAColor(0, 0, 0, 0) };
                                             }
 
 
@@ -84,14 +86,14 @@ namespace DirectOutput.LedControl.Setup
                                     }
                                     else if (Toy is AnalogToy)
                                     {
-                                        AnalogAlphaValue AAV = new AnalogAlphaValue(TCS.Intensity);
+                                        AnalogAlphaValue AAV = new AnalogAlphaValue((int)((double)TCS.Intensity * 5.3125));
                                         if (TCS.FadingDownDurationMs > 0 || TCS.FadingUpDurationMs > 0)
                                         {
-                                            Effect = new AnalogToyFadeOnOffEffect() { FadeActiveDurationMs = TCS.FadingUpDurationMs, FadeInactiveDurationMs = TCS.FadingUpDurationMs, RetriggerBehaviour = RetriggerBehaviourEnum.IgnoreRetrigger, FadeMode = FadeModeEnum.CurrentToDefined, ActiveValue = AAV, InactiveValue = new AnalogAlphaValue(0, 0) };
+                                            Effect = new AnalogToyFadeOnOffEffect() { ToyName = Toy.Name, Layer = Layer, FadeActiveDurationMs = TCS.FadingUpDurationMs, FadeInactiveDurationMs = TCS.FadingUpDurationMs, RetriggerBehaviour = RetriggerBehaviourEnum.IgnoreRetrigger, FadeMode = FadeModeEnum.CurrentToDefined, ActiveValue = AAV, InactiveValue = new AnalogAlphaValue(0, 0) };
                                         }
                                         else
                                         {
-                                            Effect = new AnalogToyOnOffEffect() { ActiveValue = AAV, InactiveValue = new AnalogAlphaValue(0, 0) };
+                                            Effect = new AnalogToyOnOffEffect() { ToyName = Toy.Name, Layer = Layer, ActiveValue = AAV, InactiveValue = new AnalogAlphaValue(0, 0) };
                                         }
 
                                     }
@@ -123,6 +125,10 @@ namespace DirectOutput.LedControl.Setup
                                                 Table.AssignedStaticEffects.Add(new AssignedEffect(Effect.Name));
                                                 break;
                                             case OutputControlEnum.Controlled:
+                                                if (!Table.TableElements.Contains(TCS.TableElementType, TCS.TableElementNumber))
+                                                {
+                                                    Table.TableElements.UpdateState(TCS.TableElementType, TCS.TableElementNumber, 0);
+                                                }
                                                 Table.TableElements[TCS.TableElementType, TCS.TableElementNumber].AssignedEffects.Add(new AssignedEffect(Effect.Name));
                                                 break;
                                             case OutputControlEnum.FixedOff:
@@ -208,7 +214,7 @@ namespace DirectOutput.LedControl.Setup
                                             }
                                             ToyName = "{0} {1}".Build(ToyName, Cnt);
                                         }
-                                        TargetToy = (IToy)new RGBAToy() { Name = ToyName, OutputNameRed = LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName, OutputNameGreen = LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 1).OutputName, OutputNameBlue = LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 1).OutputName };
+                                        TargetToy = (IToy)new RGBAToy() { Name = ToyName, OutputNameRed = LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName, OutputNameGreen = LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 1).OutputName, OutputNameBlue = LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 2).OutputName };
                                         Cabinet.Toys.Add(TargetToy);
                                     }
 
@@ -241,6 +247,7 @@ namespace DirectOutput.LedControl.Setup
                                             ToyName = "{0} {1}".Build(ToyName, Cnt);
                                         }
                                         TargetToy = (IToy)new AnalogToy() { Name = ToyName, OutputName = LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName };
+                                        Cabinet.Toys.Add(TargetToy);
                                     }
                                     ToyAssignments[LedWizNr].Add(TCC.Number, TargetToy);
                                 }

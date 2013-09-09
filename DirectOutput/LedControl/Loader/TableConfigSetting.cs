@@ -135,6 +135,15 @@ namespace DirectOutput.LedControl.Loader
         /// </value>
         public int BlinkIntervalMs { get; set; }
 
+
+        /// <summary>
+        /// Gets or sets the layer for the settings.
+        /// </summary>
+        /// <value>
+        /// The layer for the settings.
+        /// </value>
+        public int? Layer{get;set;}
+
         /// <summary>
         /// Parses the setting data. <br />
         /// Possible config settings:<br />

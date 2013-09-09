@@ -206,7 +206,7 @@ namespace DirectOutput.FX.AnalogToyFX
             }
         }
 
-
+        bool LastTriggerState = false;
         /// <summary>
         /// Triggers the effect with the given TableElementData.<br>
         /// If the Value property of the TableElementData parameter is not 0 or if the TableElementData parameter is null, the value of the specified layer of the referenced AnalogToy fades towards the value specified in the ActiveValue property.<br/>
@@ -217,16 +217,18 @@ namespace DirectOutput.FX.AnalogToyFX
         {
             if (Toy != null)
             {
-                if (TableElementData == null || TableElementData.Value != 0)
+               
+                bool TriggerState = (TableElementData == null || TableElementData.Value != 0);
+
+                if (TriggerState != LastTriggerState || IsFading == false || RetriggerBehaviour == RetriggerBehaviourEnum.RestartEffect)
                 {
-                    Toy.SetLayer(Layer, ActiveValue);
+                    StartFading(TriggerState);
                 }
-                else
-                {
-                    Toy.SetLayer(Layer, InactiveValue);
-                }
+
+                LastTriggerState = TriggerState;
             }
         }
+        
 
         /// <summary>
         /// Initializes the effect.
@@ -242,6 +244,7 @@ namespace DirectOutput.FX.AnalogToyFX
         /// </summary>
         public override void Finish()
         {
+            Table.Pinball.Alarms.UnregisterAlarm(FadingStep);
             if (Toy != null)
             {
                 Toy.Layers.Remove(Layer);

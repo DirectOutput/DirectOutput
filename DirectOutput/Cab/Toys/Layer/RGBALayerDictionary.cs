@@ -7,6 +7,27 @@ namespace DirectOutput.Cab.Toys.Layer
 {
     public class RGBALayerDictionary : SortedDictionary<int, RGBALayer>
     {
+        public new RGBALayer this[int key]
+        {
+            get
+            {
+                try
+                {
+                    return base[key];
+                }
+                catch
+                {
+                    RGBALayer L = new RGBALayer();
+                    Add(key, L);
+                    return L;
+                }
+            }
+            set
+            {
+                base[key] = value;
+            }
+        }
+
 
         public RGBALayer SetLayer(int Layer, int Red, int Green, int Blue)
         {
@@ -34,12 +55,12 @@ namespace DirectOutput.Cab.Toys.Layer
             {
                 L = this[Layer];
             }
-            catch 
+            catch
             {
                 L = new RGBALayer();
-                Add(Layer,L);
+                Add(Layer, L);
             }
-            
+
             L.SetLayer(Red, Green, Blue, Alpha);
 
             return L;

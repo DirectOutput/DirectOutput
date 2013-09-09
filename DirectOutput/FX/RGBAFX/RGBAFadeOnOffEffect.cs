@@ -238,7 +238,10 @@ namespace DirectOutput.FX.RGBAFX
         public override void Finish()
         {
             Table.Pinball.Alarms.UnregisterAlarm(FadingStep);
-            RGBAToy.Layers.Remove(Layer);
+            if (RGBAToy != null)
+            {
+                RGBAToy.Layers.Remove(Layer);
+            }
             base.Finish();
         }
 
