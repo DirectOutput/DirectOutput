@@ -75,7 +75,7 @@ namespace DirectOutput.LedControl.Setup
                                             if (TCS.FadingDownDurationMs > 0 || TCS.FadingUpDurationMs > 0)
                                             {
                                                 //Must fade, use fadeeffect
-                                                Effect = new RGBAFadeOnOffEffect() {ToyName=Toy.Name, Layer=Layer, FadeActiveDurationMs = TCS.FadingUpDurationMs, FadeInactiveDurationMs = TCS.FadingUpDurationMs, RetriggerBehaviour = RetriggerBehaviourEnum.IgnoreRetrigger, FadeMode = FadeModeEnum.CurrentToDefined, ActiveColor = ActiveColor, InactiveColor = new RGBAColor(0, 0, 0, 0) };
+                                                Effect = new RGBAFadeOnOffEffect() {ToyName=Toy.Name, Layer=Layer, FadeActiveDurationMs = TCS.FadingUpDurationMs, FadeInactiveDurationMs = TCS.FadingDownDurationMs, RetriggerBehaviour = RetriggerBehaviourEnum.IgnoreRetrigger, FadeMode = FadeModeEnum.CurrentToDefined, ActiveColor = ActiveColor, InactiveColor = new RGBAColor(0, 0, 0, 0) };
 
                                             }
                                             else
