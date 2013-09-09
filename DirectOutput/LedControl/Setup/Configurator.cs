@@ -57,14 +57,17 @@ namespace DirectOutput.LedControl.Setup
                                         RGBAColor ActiveColor = null;
                                         if (TCS.ColorConfig != null)
                                         {
-                                            ActiveColor = new RGBAColor(TCS.ColorConfig.GetCabinetColor());
+                                            ActiveColor = TCS.ColorConfig.GetCabinetColor().Clone();
                                         }
                                         else
                                         {
                                             ActiveColor = new RGBAColor();
-                                            if (!ActiveColor.SetColor(TCS.ColorName))
+                                            if (TCS.ColorName.StartsWith("#"))
                                             {
-                                                ActiveColor = null;
+                                                if (!ActiveColor.SetColor(TCS.ColorName))
+                                                {
+                                                    ActiveColor = null;
+                                                }
                                             }
                                         }
                                         if (ActiveColor != null)

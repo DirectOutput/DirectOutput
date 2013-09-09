@@ -1,4 +1,5 @@
 ﻿using System;
+using DirectOutput.Cab.Toys.Layer;
 
 namespace DirectOutput.LedControl.Loader
 {
@@ -9,12 +10,12 @@ namespace DirectOutput.LedControl.Loader
     public class ColorConfig
     {
         /// <summary>
-        /// Gets a cabinet color object(Cab.Toys.Color) representing the values in the ColorConfig object-.
+        /// Gets a cabinet RGBAColor object representing the values in the ColorConfig object-.
         /// </summary>
-        /// <returns>Color object for the content of the ColorConfig.</returns>
-        public DirectOutput.Cab.Toys.RGBColor GetCabinetColor()
+        /// <returns>RGBAColor object for the content of the ColorConfig.</returns>
+        public RGBAColor GetCabinetColor()
         {
-            return new Cab.Toys.RGBColor(Name, (int)(Red * 5.3125), (int)(Green * 5.3125), (int)(Blue * 5.3125));
+            return new RGBAColor(Name, (int)(Red * 5.3125), (int)(Green * 5.3125), (int)(Blue * 5.3125), (int)(Alpha * 5.3125));
         }
 
         /// <summary>
@@ -47,6 +48,22 @@ namespace DirectOutput.LedControl.Loader
         /// </value>
         public int Blue { get; set; }
 
+
+
+        private int _Alpha;
+
+        /// <summary>
+        /// Gets or sets the alpha part of the color.
+        /// </summary>
+        /// <value>
+        /// The alpha part of the color.
+        /// </value>
+        public int Alpha
+        {
+            get { return _Alpha; }
+            set { _Alpha = value; }
+        }
+        
         /// <summary>
         /// Parses the ledcontrol data for a color definition.
         /// </summary>
@@ -68,7 +85,18 @@ namespace DirectOutput.LedControl.Loader
                     Red = Values[0].ToInteger();
                     Green = Values[1].ToInteger();
                     Blue = Values[2].ToInteger();
+                    Alpha = (Red + Green + Blue == 0 ? 0 : 48);
                     return;
+                }
+                else if (Values.Length == 4 && Values[0].IsInteger() && Values[1].IsInteger() && Values[2].IsInteger() && Values[3].IsInteger())
+                {
+                    Name = NameValues[0];
+                    Red = Values[0].ToInteger();
+                    Green = Values[1].ToInteger();
+                    Blue = Values[2].ToInteger();
+                    Alpha = Values[2].ToInteger();
+                    return;
+
                 }
             }
             Log.Warning("Line {0} has a unknown structure or contains wrong data.".Build(ColorConfigDataLine));
