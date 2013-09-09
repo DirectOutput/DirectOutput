@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DirectOutput.Cab.Toys.Layer;
 
 namespace DirectOutput.FX.AnalogToyFX
 {
     /// <summary>
-    /// A basic effect controlling AnalogToy object based on value property (0, not 0 or null) of the TableElementData parameter of the Trigger method.
+    /// A basic effect setting the output of a AnalogToy object to a active or inactive value, based on value property (0, not 0 or null) of the TableElementData parameter of the Trigger method.
     /// </summary>
     public class AnalogToyOnOffEffect: AnanlogToyEffectBase
     {
-        private int _ActiveValue=255;
+        private AnalogAlphaValue _ActiveValue = new AnalogAlphaValue(255,255);
 
         /// <summary>
         /// Gets or sets the value which is set on the specified layer of the referenced AnalogToy object if this effect is triggered with a TableElementData instance having a Value which is not zero of if the Effect is triggered with a null value for the TableElementData paramter.
@@ -18,13 +19,13 @@ namespace DirectOutput.FX.AnalogToyFX
         /// <value>
         /// The active value between 0 and 255.
         /// </value>
-        public int ActiveValue
+        public AnalogAlphaValue ActiveValue
         {
             get { return _ActiveValue; }
-            set { _ActiveValue = value.Limit(0,255); }
+            set { _ActiveValue = value; }
         }
 
-        private int _InactiveValue=0;
+        private AnalogAlphaValue _InactiveValue = new AnalogAlphaValue(0, 0);
 
         /// <summary>
         /// Gets or sets the value which is set on the specified layer of the referenced AnalogToy object if this effect is triggered with a TableElementData instance having a Value which is zero.
@@ -32,10 +33,10 @@ namespace DirectOutput.FX.AnalogToyFX
         /// <value>
         /// The inactive value between 0 and 255.
         /// </value>
-        public int InactiveValue
+        public AnalogAlphaValue InactiveValue
         {
             get { return _InactiveValue; }
-            set { _InactiveValue = value.Limit(0, 255); }
+            set { _InactiveValue = value; }
         }
 
         /// <summary>

@@ -7,16 +7,62 @@ namespace DirectOutput.Cab.Toys.Layer
 {
     public class AnalogLayerDictionary : SortedDictionary<int, AnalogLayer>
     {
-        public void SetLayer(int Layer, int Value)
+        public AnalogLayer SetLayer(int Layer, int Value)
         {
-            this[Layer].SetLayer(Value);
+            AnalogLayer L;
+
+            try
+            {
+                L = this[Layer];
+            }
+            catch
+            {
+                L = new AnalogLayer();
+                Add(Layer, L);
+            }
+            L.SetLayer(Value);
+
+            return L;
         }
 
-        public void SetLayer(int Layer, int Value, int Alpha)
+
+
+
+        public AnalogLayer SetLayer(int Layer, int Value, int Alpha)
         {
-            this[Layer].SetLayer(Value,Alpha);
+            AnalogLayer L;
+
+            try
+            {
+                L = this[Layer];
+            }
+            catch
+            {
+                L = new AnalogLayer();
+                Add(Layer, L);
+            }
+            L.SetLayer(Value, Alpha);
+
+            return L;
         }
 
+        public AnalogLayer SetLayer(int Layer, AnalogAlphaValue AnalogAlphaValue)
+        {
+            AnalogLayer L;
+
+            try
+            {
+                L = this[Layer];
+            }
+            catch
+            {
+                L = new AnalogLayer();
+                Add(Layer, L);
+            }
+            L.SetLayer(AnalogAlphaValue);
+
+            return L;
+        }
 
 
         public int GetResultingValue()
@@ -27,7 +73,7 @@ namespace DirectOutput.Cab.Toys.Layer
 
                 foreach (KeyValuePair<int, AnalogLayer> KV in this)
                 {
-                    int Alpha = KV.Value.Alpha;
+                    int Alpha = KV.Value.Value ;
                     if (Alpha != 0)
                     {
                         Value = AlphaMappingTable.AlphaMapping[255 - Alpha, (int)Value] + AlphaMappingTable.AlphaMapping[Alpha, KV.Value.Value];

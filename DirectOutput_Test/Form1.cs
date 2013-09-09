@@ -15,6 +15,7 @@ using DirectOutput.LedControl;
 using DirectOutput.Table;
 using DirectOutput.Cab;
 using DirectOutput.Cab.Out.DMX;
+using DirectOutput.Cab.Toys.Layer;
 
 
 namespace DirectOutput_Test
@@ -30,39 +31,82 @@ namespace DirectOutput_Test
 
 
 
-        
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
 
-    
 
-   
+
+
 
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
 
-            Pinball P = new Pinball();
-
-            Cabinet C = new Cabinet();
-
-            ArtNet N = new ArtNet();
-            N.Name = "Artnet Node 1";
-            N.Universe = 0;
-            N.BroadcastAddress = "255.255.255.255";
-
-            N.Init(C);
-
-            N.Finish();
-
-            C.OutputControllers.Add(N);
-
-            string xml = C.GetConfigXml();
+            AnalogLayerDictionary D = new AnalogLayerDictionary();
 
 
-           Console.WriteLine(   C.GetConfigXml());
+            Random Rnd = new Random();
+
+
+
+            for (int i = 0; i <5; i++)
+            {
+                D.SetLayer(i, 0, 0);
+            }
+            DateTime Start = DateTime.Now;
+            for (int t = 0; t < 2000000; t++)
+            {
+                int L = Rnd.Next(0, 4);
+                D.SetLayer(L, 255, 255);
+                D.SetLayer(L, 0, 0);
+                D.SetLayer(L, 255, 255);
+                D.SetLayer(L, 0, 0);
+                D.SetLayer(L, 255, 255);
+                D.SetLayer(L, 0, 0);
+                D.SetLayer(L, 255, 255);
+                D.SetLayer(L, 0, 0);
+                D.SetLayer(L, 255, 255);
+                D.SetLayer(L, 0, 0);
+            }
+
+            DateTime End = DateTime.Now;
+
+            TimeSpan Duration = (End - Start);
+
+            Console.WriteLine("Duration:  {0}", Duration);
+
+            Console.WriteLine("SetLayer Calls per second:  {0}", 20000000 / Duration.TotalSeconds);
+
+
+             Start = DateTime.Now;
+            for (int t = 0; t < 2000000; t++)
+            {
+                int V = D.GetResultingValue();
+                V = D.GetResultingValue();
+                V = D.GetResultingValue();
+                V = D.GetResultingValue();
+                V = D.GetResultingValue();
+
+                V = D.GetResultingValue();
+                V = D.GetResultingValue();
+                V = D.GetResultingValue();
+                V = D.GetResultingValue();
+                V = D.GetResultingValue();
+            }
+
+             End = DateTime.Now;
+
+             Duration = (End - Start);
+
+            Console.WriteLine("Duration:  {0}", Duration);
+
+            Console.WriteLine("GetResultingValue Calls per second:  {0}", 20000000 / Duration.TotalSeconds);
+
+
+
 
 
         }

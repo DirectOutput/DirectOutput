@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using DirectOutput.Cab.Toys.Layer;
 
-namespace DirectOutput.FX.RGBAFX
+namespace DirectOutput.FX.AnalogToyFX
 {
     /// <summary>
-    /// This RGBA effect fades the color of a RGBA toys towards a defined target color based on the state (not 0, 0 or null) of the triggering table element (see Trigger method for details).
+    /// A effect fading the output value of a AnalogToy object to a active or inactive value. The fading is controlled by the value property (0, not 0 or null) of the TableElementData parameter of the Trigger method.
     /// </summary>
-    public class RGBAFadeOnOffEffect : RGBAEffectBase
+    public class AnalogToyFadeOnOffEffect : AnanlogToyEffectBase
     {
         private const int FadingRefreshIntervalMs = 30;
 
@@ -17,7 +17,7 @@ namespace DirectOutput.FX.RGBAFX
 
         /// <summary>
         /// Gets or sets the retrigger behaviour.<br/>
-        /// The setting defines the behaviour of the effect if it is retriggered while it is still active (e.g. already fading towards the ActiveColor and getting another trigger call with a active table element value).<br/>
+        /// The setting defines the behaviour of the effect if it is retriggered while it is still active (e.g. already fading towards the ActiveValue and getting another trigger call with a active table element value).<br/>
         /// This settings is only relevant, if the effect can be called from more than one table element.
         /// </summary>
         /// <value>
@@ -33,7 +33,7 @@ namespace DirectOutput.FX.RGBAFX
 
         /// <summary>
         /// Gets or sets the fading mode.<br/>
-        /// This determines if one of the colors specified in the effect settings or the current color of the layer are used for the start of the fading.
+        /// This determines if one of the values specified in the effect settings or the current value of the layer are used for the start of the fading.
         /// </summary>
         /// <value>
         /// CurrentToDefinedColor or DefinedColor
@@ -77,63 +77,93 @@ namespace DirectOutput.FX.RGBAFX
 
 
 
-        float[] Current = new float[4];
-        float[] Step = new float[4];
-        float[] Target = new float[4];
+
+        private AnalogAlphaValue _ActiveValue = new AnalogAlphaValue(255, 255);
+
+        /// <summary>
+        /// Gets or sets the value which is set on the specified layer of the referenced AnalogToy object if this effect is triggered with a TableElementData instance having a Value which is not zero of if the Effect is triggered with a null value for the TableElementData paramter.
+        /// </summary>
+        /// <value>
+        /// The active value between 0 and 255.
+        /// </value>
+        public AnalogAlphaValue ActiveValue
+        {
+            get { return _ActiveValue; }
+            set { _ActiveValue = value; }
+        }
+
+        private AnalogAlphaValue _InactiveValue = new AnalogAlphaValue(0, 0);
+
+        /// <summary>
+        /// Gets or sets the value which is set on the specified layer of the referenced AnalogToy object if this effect is triggered with a TableElementData instance having a Value which is zero.
+        /// </summary>
+        /// <value>
+        /// The inactive value between 0 and 255.
+        /// </value>
+        public AnalogAlphaValue InactiveValue
+        {
+            get { return _InactiveValue; }
+            set { _InactiveValue = value; }
+        }
+
+
+
+
+        float[] Current = new float[2];
+        float[] Step = new float[2];
+        float[] Target = new float[2];
         bool IsFading = false;
 
         private void StartFading(bool Active)
         {
             Table.Pinball.Alarms.UnregisterAlarm(FadingStep);
 
-            RGBAColor TargetColor = (Active ? ActiveColor : InactiveColor);
+            AnalogAlphaValue TargetValue = (Active ? ActiveValue : InactiveValue);
 
             int Duration = (Active ? FadeActiveDurationMs : FadeInactiveDurationMs);
             int Steps = Duration / FadingRefreshIntervalMs;
 
             if (Steps > 0)
             {
+
                 IsFading = true;
 
-                RGBAColor CurrentColor;
+                AnalogAlphaValue CurrentAnalogAlphaValue;
                 switch (FadeMode)
                 {
                     case FadeModeEnum.CurrentToDefined:
-                        CurrentColor = RGBAToy.Layers[Layer].GetRGBAColor();
+                        CurrentAnalogAlphaValue = Toy.Layers[Layer].GetAnalogAlphaValue();
                         break;
                     case FadeModeEnum.DefinedToDefined:
                     default:
-                        CurrentColor = (!Active ? ActiveColor.Clone() : InactiveColor.Clone());
+                        CurrentAnalogAlphaValue = (!Active ? ActiveValue : InactiveValue);
                         break;
                 }
 
-                Current[0] = CurrentColor.Red;
-                Current[1] = CurrentColor.Green;
-                Current[2] = CurrentColor.Blue;
-                Current[3] = CurrentColor.Alpha;
+                Current[0] = CurrentAnalogAlphaValue.Value;
+                Current[1] = CurrentAnalogAlphaValue.Alpha;
 
-                Target[0] = TargetColor.Red;
-                Target[1] = TargetColor.Green;
-                Target[2] = TargetColor.Blue;
-                Target[3] = TargetColor.Alpha;
+                Target[0] = TargetValue.Value;
+                Target[1] = TargetValue.Alpha;
 
-                for (int i = 0; i < 4; i++)
+
+                for (int i = 0; i < 1; i++)
                 {
                     Step[i] = (Target[i] - Current[i]) / Steps;
                 }
-
                 FadingStep();
             }
             else
             {
-                RGBAToy.SetLayer(Layer, TargetColor);
+                Toy.SetLayer(Layer, TargetValue);
             }
+
         }
 
         private void FadingStep()
         {
             bool ContinueFading = false;
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 2; i++)
             {
                 if (Step[i] > 0)
                 {
@@ -163,7 +193,7 @@ namespace DirectOutput.FX.RGBAFX
                 }
             }
 
-            RGBAToy.SetLayer(Layer, (int)Current[0], (int)Current[1], (int)Current[2], (int)Current[3]);
+            Toy.SetLayer(Layer, (int)Current[0], (int)Current[1]);
 
             if (ContinueFading)
             {
@@ -177,70 +207,46 @@ namespace DirectOutput.FX.RGBAFX
         }
 
 
-
-
-        private RGBAColor _ActiveColor = new RGBAColor(0, 0, 0, 0);
-
         /// <summary>
-        /// Gets or sets the RGBA color which is the target for the fading when the effect is triggered with a table element value which is not equal 0 or if the effect is triggered as a static effect (table element data = 0).
+        /// Triggers the effect with the given TableElementData.<br>
+        /// If the Value property of the TableElementData parameter is not 0 or if the TableElementData parameter is null, the value of the specified layer of the referenced AnalogToy fades towards the value specified in the ActiveValue property.<br/>
+        /// If the Value property of the TableElementData parameter equals 0, the value of the specified layer of the referenced AnalogToy fades towards the value specified in the InactiveValue property.
         /// </summary>
-        /// <value>
-        /// The RGBA color to be used when the effect is active.
-        /// </value>
-        public RGBAColor ActiveColor
-        {
-            get { return _ActiveColor; }
-            set { _ActiveColor = value; }
-        }
-
-
-        private RGBAColor _InactiveColor = new RGBAColor(0, 0, 0, 0);
-
-        /// <summary>
-        /// Gets or sets the RGBA color which is the target for the fading when the effect is triggered with a table element value which is 0.
-        /// </summary>
-        /// <value>
-        /// The RGBA color to be used when the effect is inactive.
-        /// </value>
-        public RGBAColor InactiveColor
-        {
-            get { return _InactiveColor; }
-            set { _InactiveColor = value; }
-        }
-
-
-
-        bool LastTriggerState = false;
-        /// <summary>
-        /// Triggers the effect with the given TableElementData.<br/>
-        /// If the TableElementData is null, the effect acts as a static effect and will fade towards the ActiveColor when it is triggered.<br/>
-        /// If TableElementData is not null, the effect will fade the specified layer towards the ActiveColor if the TableElementData value is not 0. For 0 the layer will fade to the InactiveColor.
-        /// </summary>
-        /// <param name="TableElementData">TableElementData for the TableElement which has triggered the effect or null.</param>
+        /// <param name="TableElementData">TableElementData for the TableElement which has triggered the effect.</param>
         public override void Trigger(Table.TableElementData TableElementData)
         {
-            if (RGBAToy != null)
+            if (Toy != null)
             {
-                bool TriggerState = (TableElementData == null || TableElementData.Value != 0);
-
-                if (TriggerState != LastTriggerState || IsFading == false || RetriggerBehaviour == RetriggerBehaviourEnum.RestartEffect)
+                if (TableElementData == null || TableElementData.Value != 0)
                 {
-                    StartFading(TriggerState);
+                    Toy.SetLayer(Layer, ActiveValue);
                 }
-
-                LastTriggerState = TriggerState;
+                else
+                {
+                    Toy.SetLayer(Layer, InactiveValue);
+                }
             }
         }
 
         /// <summary>
-        /// Finishes the effect (stops fading, removes the layer, releases references).
+        /// Initializes the effect.
+        /// </summary>
+        /// <param name="Table">Table object containing the effect.</param>
+        public override void Init(Table.Table Table)
+        {
+            base.Init(Table);
+        }
+
+        /// <summary>
+        /// Finish does all necessary cleanupwork before the effect is discarded.
         /// </summary>
         public override void Finish()
         {
-            Table.Pinball.Alarms.UnregisterAlarm(FadingStep);
-            RGBAToy.Layers.Remove(Layer);
+            if (Toy != null)
+            {
+                Toy.Layers.Remove(Layer);
+            }
             base.Finish();
         }
-
     }
 }

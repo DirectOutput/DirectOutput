@@ -11,45 +11,55 @@ namespace DirectOutput.Cab.Toys.Layer
         public RGBALayer SetLayer(int Layer, int Red, int Green, int Blue)
         {
             RGBALayer L = null;
-            if (ContainsKey(Layer))
+            try
             {
-                this[Layer].SetLayer(Red, Green, Blue);
+                L = this[Layer];
             }
-            else
+            catch
             {
-                L = new RGBALayer(Red, Green, Blue);
+                L = new RGBALayer();
                 Add(Layer, L);
             }
+
+            L.SetLayer(Red, Green, Blue);
+
             return L;
         }
 
         public RGBALayer SetLayer(int Layer, int Red, int Green, int Blue, int Alpha)
         {
+
             RGBALayer L = null;
-            if (ContainsKey(Layer))
+            try
             {
-                this[Layer].SetLayer(Red, Green, Blue, Alpha);
+                L = this[Layer];
             }
-            else
+            catch 
             {
-                L = new RGBALayer(Red, Green, Blue, Alpha);
-                Add(Layer, L);
+                L = new RGBALayer();
+                Add(Layer,L);
             }
+            
+            L.SetLayer(Red, Green, Blue, Alpha);
+
             return L;
         }
 
         public RGBALayer SetLayer(int Layer, RGBAColor RGBA)
         {
             RGBALayer L = null;
-            if (ContainsKey(Layer))
+            try
             {
-                this[Layer].SetLayer(RGBA);
+                L = this[Layer];
             }
-            else
+            catch
             {
-                L = new RGBALayer(RGBA);
+                L = new RGBALayer();
                 Add(Layer, L);
             }
+
+            L.SetLayer(RGBA);
+
             return L;
         }
 
@@ -57,15 +67,18 @@ namespace DirectOutput.Cab.Toys.Layer
         public RGBALayer SetLayer(int Layer, RGBColor RGB)
         {
             RGBALayer L = null;
-            if (ContainsKey(Layer))
+            try
             {
-                this[Layer].SetLayer(RGB);
+                L = this[Layer];
             }
-            else
+            catch
             {
-                L = new RGBALayer(RGB);
+                L = new RGBALayer();
                 Add(Layer, L);
             }
+
+            L.SetLayer(RGB);
+
             return L;
         }
 

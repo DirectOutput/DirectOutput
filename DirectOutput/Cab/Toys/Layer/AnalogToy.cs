@@ -44,6 +44,17 @@ namespace DirectOutput.Cab.Toys.Layer
             Layers.SetLayer(Layer, Value, Alpha);
         }
 
+        /// <summary>
+        /// Sets the the value and the alpha value for the specified layer.
+        /// </summary>
+        /// <param name="Layer">The number of the layer.</param>
+        /// <param name="AnalogAlphaValue">AnalogAlphaValue object containg the values for the layer.</param>
+        public void SetLayer(int Layer, AnalogAlphaValue AnalogAlphaValue)
+        {
+            Layers.SetLayer(Layer, AnalogAlphaValue);
+        }
+
+
 
         #region Outputs
         /// <summary>
