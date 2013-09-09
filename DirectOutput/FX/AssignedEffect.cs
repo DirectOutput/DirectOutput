@@ -76,11 +76,7 @@ namespace DirectOutput.FX
             {
                 Effect = Table.Effects[EffectName];
             };
-            //TODO: Drop the following code segment after testing
-            if (Effect == null)
-            {
-                Console.WriteLine("Stop");
-            }
+
         }
 
         #endregion

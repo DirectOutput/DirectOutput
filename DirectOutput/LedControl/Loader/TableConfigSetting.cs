@@ -254,7 +254,7 @@ namespace DirectOutput.LedControl.Loader
                 else if (Parts[PartNr].Length > 1 && Parts[PartNr].ToUpper().Substring(0, 1) == "W" && Parts[PartNr].Substring(1).IsInteger())
                 {
                     //WaitDuration setting
-                    Layer = Parts[PartNr].Substring(1).ToInteger().Limit(0, int.MaxValue);
+                    WaitDurationMs = Parts[PartNr].Substring(1).ToInteger().Limit(0, int.MaxValue);
                 }
                 else if (Parts[PartNr].Length > 1 && Parts[PartNr].ToUpper().Substring(0, 1) == "F" && Parts[PartNr].Substring(1).IsInteger())
                 {

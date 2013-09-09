@@ -36,7 +36,7 @@ namespace DirectOutput.FX.TimmedFX
         {
             if (TargetEffect != null)
             {
-                Pinball.Alarms.RegisterAlarm(DelayMs, TriggerTargetEffect, TableElementData, true);
+                Table.Pinball.Alarms.RegisterAlarm(DelayMs, TriggerTargetEffect, TableElementData, true);
             }
         }
 
@@ -57,14 +57,14 @@ namespace DirectOutput.FX.TimmedFX
             }
         }
 
-        private Pinball Pinball;
+      
         /// <summary>
         /// Initializes the DelayEffect.
         /// </summary>
         /// <param name="Table">The table which contains the DelayEffect.</param>
-        public new void Init(Table.Table Table)
+        public override void Init(Table.Table Table)
         {
-            this.Pinball = Table.Pinball;
+
             base.Init(Table);
         }
 
@@ -73,8 +73,8 @@ namespace DirectOutput.FX.TimmedFX
         /// </summary>
         public new void Finish()
         {
-            Pinball.Alarms.UnregisterAlarm(TriggerTargetEffect);
-            Pinball = null;
+            Table.Pinball.Alarms.UnregisterAlarm(TriggerTargetEffect);
+         
             base.Finish();
         }
 
