@@ -33,7 +33,31 @@ namespace DirectOutput.LedControl.Loader
             set { _FirstOutputNumber = value; }
         }
 
-       
+
+        /// <summary>
+        /// Gets a value indicating whether the settings for this column require a analog output.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if analog output is required; otherwise, <c>false</c>.
+        /// </value>
+        public bool AnalogOutputRequired
+        {
+            get
+            {
+                foreach (TableConfigSetting TCS in this)
+                {
+                    if (TCS.Intensity != 0 && TCS.Intensity != 48 && TCS.OutputType != OutputTypeEnum.RGBOutput)
+                    {
+                        return true;
+
+                    }
+
+                };
+                return false;
+            }
+        }
+
+
 
         /// <summary>
         /// Gets the number of required outputs for the column.

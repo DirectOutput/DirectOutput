@@ -207,6 +207,7 @@
     <Compile Include="General\ThreadInfoList.cs" />
     <Compile Include="General\Kernel32Imports.cs" />
     <Compile Include="General\Statistics\TimeSpanStatisticsItem.cs" />
+    <Compile Include="LedControl\Setup\Configurator.cs" />
     <Compile Include="PinballSupport\InputQueue.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="GlobalConfiguration\FilePattern.cs" />

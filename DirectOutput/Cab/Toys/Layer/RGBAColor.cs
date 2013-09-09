@@ -255,6 +255,16 @@ namespace DirectOutput.Cab.Toys.Layer
             this.Name = Name;
         }
 
+        public RGBAColor(string Name, RGBColor RGBColor)
+            : this(RGBColor)
+        {
+            this.Name = Name;
+        }
+
+        public RGBAColor(RGBColor RGBColor) {
+            SetColor(RGBColor);
+        }
+
         #endregion
     }
 }

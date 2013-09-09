@@ -158,7 +158,7 @@ namespace DirectOutput.LedControl.Loader
         }
 
 
-        private Dictionary<int, TableConfig> GetTableConfigDictonary(string RomName)
+        public Dictionary<int, TableConfig> GetTableConfigDictonary(string RomName)
         {
             Dictionary<int, TableConfig> D = new Dictionary<int, TableConfig>();
 
