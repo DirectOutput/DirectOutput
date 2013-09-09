@@ -370,9 +370,14 @@ namespace DirectOutput
                     }
                     else
                     {
-                        Log.Write("Config for RomName {0} exists in LedControl data. Updating table config.".Build(RomName));
-                        L.UpdateTableConfig(Table, RomName, Cabinet);
+                        Log.Write("Config for RomName {0} exists in LedControl data. Updating cabinet and config.".Build(RomName));
+
+                        DirectOutput.LedControl.Setup.Configurator C = new DirectOutput.LedControl.Setup.Configurator();
+                        C.Setup(L, Table, Cabinet, RomName);
+                        C = null;
+//                        L.UpdateTableConfig(Table, RomName, Cabinet);
                     }
+                    L = null;
                 }
                 else
                 {
