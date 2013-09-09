@@ -96,7 +96,7 @@ namespace DirectOutput.Cab.Toys.Layer
 
                 foreach (KeyValuePair<int, AnalogLayer> KV in this)
                 {
-                    int Alpha = KV.Value.Value ;
+                    int Alpha = KV.Value.Alpha ;
                     if (Alpha != 0)
                     {
                         Value = AlphaMappingTable.AlphaMapping[255 - Alpha, (int)Value] + AlphaMappingTable.AlphaMapping[Alpha, KV.Value.Value];

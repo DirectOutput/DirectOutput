@@ -116,7 +116,7 @@ namespace DirectOutput.LedControl.Setup
 
                                         if (TCS.DurationMs > 0 || TCS.Blink > 0)
                                         {
-                                            int Duration = (TCS.DurationMs > 0 ? TCS.DurationMs : TCS.Blink * TCS.BlinkIntervalMs * 2);
+                                            int Duration = (TCS.DurationMs > 0 ? TCS.DurationMs : (TCS.Blink*2-1) * TCS.BlinkIntervalMs +1);
                                             Effect = new DurationEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} DurationEffect".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name, DurationMs = Duration, RetriggerBehaviour = RetriggerBehaviourEnum.RestartEffect };
                                             MakeEffectNameUnique(Effect, Table);
                                             Table.Effects.Add(Effect);

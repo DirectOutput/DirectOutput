@@ -47,6 +47,11 @@ namespace DirectOutput.FX.AnalogToyFX
         /// <param name="TableElementData">TableElementData for the TableElement which has triggered the effect.</param>
         public override void Trigger(Table.TableElementData TableElementData)
         {
+            if (ActiveValue.Value == 170)
+            {
+                Console.Write("170");
+            }
+
             if (Toy != null)
             {
                 if (TableElementData == null || TableElementData.Value != 0)

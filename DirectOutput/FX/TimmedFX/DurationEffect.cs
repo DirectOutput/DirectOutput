@@ -61,11 +61,6 @@ namespace DirectOutput.FX.TimmedFX
             {
                 if (!Active || RetriggerBehaviour == RetriggerBehaviourEnum.RestartEffect)
                 {
-                    if (Active)
-                    {
-                        Table.Pinball.Alarms.UnregisterAlarm(DurationEnd);
-                    }
-                    Active = true;
                     if (TableElementData == null)
                     {
                         TargetEffect.Trigger(new Table.TableElementData(TableElementTypeEnum.Unknown, 0, 1));
@@ -74,8 +69,9 @@ namespace DirectOutput.FX.TimmedFX
                     else if (TableElementData.Value != 0)
                     {
                         TargetEffect.Trigger(TableElementData);
-                        Table.Pinball.Alarms.RegisterAlarm(DurationMs, DurationEnd, TableElementData.Clone());
+                        Table.Pinball.Alarms.RegisterAlarm(DurationMs, DurationEnd, TableElementData.Clone() );
                     }
+                    Active = true;
                 }
             }
         }
@@ -83,7 +79,10 @@ namespace DirectOutput.FX.TimmedFX
 
         private void DurationEnd(object TableElementData)
         {
-            TargetEffect.Trigger((Table.TableElementData)TableElementData);
+            
+            Table.TableElementData TED = (Table.TableElementData)TableElementData;
+            TED.Value = 0;
+            TargetEffect.Trigger(TED);
             Active = false;
         }
 
