@@ -194,6 +194,27 @@ namespace DirectOutput.Cab
             return GetCabinetFromConfigXml(Xml);
         }
 
+
+        /// <summary>
+        /// Tests a cabinet config in a XML file.
+        /// </summary>
+        /// <param name="FileName">Name of the file.</param>
+        /// <returns>true is the file contains a valid config, otherwise false.</returns>
+        public static bool TestCabinetConfigXmlFile(string FileName)
+        {
+            Cabinet C = null;
+            try
+            {
+                C = GetCabinetFromConfigXmlFile(FileName);
+            }
+            catch
+            {
+                return false;
+            }
+            return C != null;
+
+        }
+
         /// <summary>
         /// Instanciates a Cabinet object from a cabinet configuration in a XML file.
         /// </summary>
