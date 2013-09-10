@@ -147,7 +147,7 @@ namespace DirectOutput.FX.AnalogToyFX
                 Target[1] = TargetValue.Alpha;
 
 
-                for (int i = 0; i < 1; i++)
+                for (int i = 0; i < 2; i++)
                 {
                     Step[i] = (Target[i] - Current[i]) / Steps;
                 }
