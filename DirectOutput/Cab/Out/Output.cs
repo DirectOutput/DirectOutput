@@ -30,7 +30,7 @@ namespace DirectOutput.Cab.Out
                 byte OldValue;
                 lock (ValueChangeLocker)
                 {
-                    OldValue = value;
+                    OldValue = _Value;
                     _Value = value;
                 }
                 if (OldValue!=value) OnValueChanged();

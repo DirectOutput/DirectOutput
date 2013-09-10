@@ -115,323 +115,353 @@ namespace DirectOutput
         /// <param name="RomName">Name of the rom.</param>
         public void Init(string GlobalConfigFilename = "", string TableFilename = "", string RomName = "")
         {
+
             bool GlobalConfigLoaded = true;
             //Load the global config
 
-            if (!GlobalConfigFilename.IsNullOrWhiteSpace())
-            {
-                FileInfo GlobalConfigFile = new FileInfo(GlobalConfigFilename);
 
-
-                GlobalConfig = GlobalConfig.GetGlobalConfigFromConfigXmlFile(GlobalConfigFile.FullName);
-                if (GlobalConfig == null)
-                {
-                    GlobalConfigLoaded = false;
-
-                    //set new global config object if it config could not be loaded from the file.
-                    GlobalConfig = new GlobalConfig();
-                }
-                GlobalConfig.GlobalConfigFilename = GlobalConfigFile.FullName;
-            }
-            else
-            {
-                GlobalConfig = new GlobalConfig();
-                GlobalConfig.GlobalConfigFilename = GlobalConfigFilename;
-            }
-
-
-            if (GlobalConfig.EnableLogging)
-            {
-                Log.Filename = GlobalConfig.GetLogFilename((!TableFilename.IsNullOrWhiteSpace() ? new FileInfo(TableFilename).FullName : ""), RomName);
-                Log.Init();
-            }
-
-            if (GlobalConfigLoaded)
-            {
-                Log.Write("Global config loaded from: {0}".Build(GlobalConfigFilename));
-            }
-            else
+            try
             {
                 if (!GlobalConfigFilename.IsNullOrWhiteSpace())
                 {
-                    Log.Write("Could not find or load theGlobalConfig file {0}".Build(GlobalConfigFilename));
+                    FileInfo GlobalConfigFile = new FileInfo(GlobalConfigFilename);
+
+
+                    GlobalConfig = GlobalConfig.GetGlobalConfigFromConfigXmlFile(GlobalConfigFile.FullName);
+                    if (GlobalConfig == null)
+                    {
+                        GlobalConfigLoaded = false;
+
+                        //set new global config object if it config could not be loaded from the file.
+                        GlobalConfig = new GlobalConfig();
+                    }
+                    GlobalConfig.GlobalConfigFilename = GlobalConfigFile.FullName;
                 }
                 else
                 {
-                    Log.Write("No GlobalConfig file loaded. Using newly instanciated GlobalConfig object instead.");
+                    GlobalConfig = new GlobalConfig();
+                    GlobalConfig.GlobalConfigFilename = GlobalConfigFilename;
                 }
+
+            }
+            catch (Exception E)
+            {
+
+                throw new Exception("DirectOutput framework could initialize global config.\n Inner exception: {0}".Build(E.Message), E);
             }
 
-
-
-            Log.Write("Loading Pinball parts");
-
-
-
-            //Load global script files
-            Log.Write("Loading script files");
-            Scripts.LoadAndAddScripts(GlobalConfig.GetGlobalScriptFiles());
-
-            //Load cabinet script files
-            Scripts.LoadAndAddScripts(GlobalConfig.GetCabinetScriptFiles());
-
-
-            //Load table script files
-            if (!TableFilename.IsNullOrWhiteSpace())
+            if (GlobalConfig.EnableLogging)
             {
-                Scripts.LoadAndAddScripts(GlobalConfig.GetTableScriptFiles(new FileInfo(TableFilename).FullName));
-            }
-            Log.Write("Script files loaded");
-
-
-            Log.Write("Loading cabinet");
-            //Load cabinet config
-            Cabinet = null;
-            FileInfo CCF = GlobalConfig.GetCabinetConfigFile();
-            if (CCF != null)
-            {
-                Log.Write("Will load cabinet config file: {0}".Build(CCF.FullName));
                 try
                 {
-                    Cabinet = Cabinet.GetCabinetFromConfigXmlFile(CCF);
-                    Cabinet.CabinetConfigurationFilename = CCF.FullName;
-                    if (Cabinet.AutoConfigEnabled)
-                    {
-                        Log.Write("Cabinet config file has AutoConfig feature enable. Calling AutoConfig.");
-                        Cabinet.AutoConfig();
-                    }
-                    Log.Write("Cabinet config loaded successfully from {0}".Build(CCF.FullName));
+
+                    Log.Filename = GlobalConfig.GetLogFilename((!TableFilename.IsNullOrWhiteSpace() ? new FileInfo(TableFilename).FullName : ""), RomName);
+                    Log.Init();
+
                 }
                 catch (Exception E)
                 {
-                    Log.Exception("A exception occured when load cabinet config file: {0}".Build(CCF.FullName), E);
 
-
+                    throw new Exception("DirectOutput framework could initialize the log file.\n Inner exception: {0}".Build(E.Message), E);
                 }
             }
-            if (Cabinet == null)
+
+
+            try
             {
-                Log.Write("No cabinet config file loaded. Will use AutoConfig.");
-                //default to a new cabinet object if the config cant be loaded
-                Cabinet = new Cabinet();
-                Cabinet.AutoConfig();
-            }
-
-            Log.Write("Cabinet loaded");
-
-            Log.Write("Loading table config");
-
-            //Load table config
-
-            Table = new DirectOutput.Table.Table();
-            Table.AddLedControlConfig = true;
-
-            if (!TableFilename.IsNullOrWhiteSpace())
-            {
-                FileInfo TableFile = new FileInfo(TableFilename);
-                FileInfo TCF = GlobalConfig.GetTableConfigFile(TableFile.FullName);
-                if (TCF != null)
+                if (GlobalConfigLoaded)
                 {
-                    Log.Write("Will load table config from {0}".Build(TCF.FullName));
+                    Log.Write("Global config loaded from: {0}".Build(GlobalConfigFilename));
+                }
+                else
+                {
+                    if (!GlobalConfigFilename.IsNullOrWhiteSpace())
+                    {
+                        Log.Write("Could not find or load theGlobalConfig file {0}".Build(GlobalConfigFilename));
+                    }
+                    else
+                    {
+                        Log.Write("No GlobalConfig file loaded. Using newly instanciated GlobalConfig object instead.");
+                    }
+                }
+
+
+
+                Log.Write("Loading Pinball parts");
+
+
+
+                //Load global script files
+                Log.Write("Loading script files");
+                Scripts.LoadAndAddScripts(GlobalConfig.GetGlobalScriptFiles());
+
+                //Load cabinet script files
+                Scripts.LoadAndAddScripts(GlobalConfig.GetCabinetScriptFiles());
+
+
+                //Load table script files
+                if (!TableFilename.IsNullOrWhiteSpace())
+                {
+                    Scripts.LoadAndAddScripts(GlobalConfig.GetTableScriptFiles(new FileInfo(TableFilename).FullName));
+                }
+                Log.Write("Script files loaded");
+
+
+                Log.Write("Loading cabinet");
+                //Load cabinet config
+                Cabinet = null;
+                FileInfo CCF = GlobalConfig.GetCabinetConfigFile();
+                if (CCF != null)
+                {
+                    Log.Write("Will load cabinet config file: {0}".Build(CCF.FullName));
                     try
                     {
-                        Table = DirectOutput.Table.Table.GetTableFromConfigXmlFile(GlobalConfig.GetTableConfigFile(TableFile.FullName));
-                        Table.TableConfigurationFilename = GlobalConfig.GetTableConfigFile(TableFile.FullName).FullName;
-                        Log.Write("Table config loaded successfully from {0}".Build(TCF.FullName));
+                        Cabinet = Cabinet.GetCabinetFromConfigXmlFile(CCF);
+                        Cabinet.CabinetConfigurationFilename = CCF.FullName;
+                        if (Cabinet.AutoConfigEnabled)
+                        {
+                            Log.Write("Cabinet config file has AutoConfig feature enable. Calling AutoConfig.");
+                            Cabinet.AutoConfig();
+                        }
+                        Log.Write("Cabinet config loaded successfully from {0}".Build(CCF.FullName));
                     }
                     catch (Exception E)
                     {
-                        Log.Exception("A exception occured when loading table config: {0}".Build(TCF.FullName), E);
+                        Log.Exception("A exception occured when load cabinet config file: {0}".Build(CCF.FullName), E);
+
+
                     }
-                    if (Table.AddLedControlConfig)
+                }
+                if (Cabinet == null)
+                {
+                    Log.Write("No cabinet config file loaded. Will use AutoConfig.");
+                    //default to a new cabinet object if the config cant be loaded
+                    Cabinet = new Cabinet();
+                    Cabinet.AutoConfig();
+                }
+
+                Log.Write("Cabinet loaded");
+
+                Log.Write("Loading table config");
+
+                //Load table config
+
+                Table = new DirectOutput.Table.Table();
+                Table.AddLedControlConfig = true;
+
+                if (!TableFilename.IsNullOrWhiteSpace())
+                {
+                    FileInfo TableFile = new FileInfo(TableFilename);
+                    FileInfo TCF = GlobalConfig.GetTableConfigFile(TableFile.FullName);
+                    if (TCF != null)
                     {
-                        Log.Write("Table config allows mix with ledcontrol configs.");
+                        Log.Write("Will load table config from {0}".Build(TCF.FullName));
+                        try
+                        {
+                            Table = DirectOutput.Table.Table.GetTableFromConfigXmlFile(GlobalConfig.GetTableConfigFile(TableFile.FullName));
+                            Table.TableConfigurationFilename = GlobalConfig.GetTableConfigFile(TableFile.FullName).FullName;
+                            Log.Write("Table config loaded successfully from {0}".Build(TCF.FullName));
+                        }
+                        catch (Exception E)
+                        {
+                            Log.Exception("A exception occured when loading table config: {0}".Build(TCF.FullName), E);
+                        }
+                        if (Table.AddLedControlConfig)
+                        {
+                            Log.Write("Table config allows mix with ledcontrol configs.");
+                        }
+                    }
+                    else
+                    {
+                        Log.Warning("No table config file found. Will try to load config from LedControl file(s).");
                     }
                 }
                 else
                 {
-                    Log.Warning("No table config file found. Will try to load config from LedControl file(s).");
+                    Log.Write("No TableFilename specified, will use empty tableconfig");
                 }
-            }
-            else
-            {
-                Log.Write("No TableFilename specified, will use empty tableconfig");
-            }
-            if (Table.AddLedControlConfig)
-            {
-                if (!RomName.IsNullOrWhiteSpace())
+                if (Table.AddLedControlConfig)
                 {
-                    Log.Write("Will try to load configs from DirectOutput.ini or LedControl.ini file(s) for RomName {0}".Build(RomName));
-                    //Load ledcontrol
-                    LedControlConfigList L = new LedControlConfigList();
-                    if (GlobalConfig.LedControlIniFiles.Count > 0)
+                    if (!RomName.IsNullOrWhiteSpace())
                     {
-                        Log.Write("Will try to load table config from LedControl  file(s) specified in global config.");
-                        L.LoadLedControlFiles(GlobalConfig.LedControlIniFiles, false);
-                    }
-                    else
-                    {
-                        bool FoundIt = false;
-                        List<string> LookupPaths = new List<string>();
-                        if (!TableFilename.IsNullOrWhiteSpace())
+                        Log.Write("Will try to load configs from DirectOutput.ini or LedControl.ini file(s) for RomName {0}".Build(RomName));
+                        //Load ledcontrol
+                        LedControlConfigList L = new LedControlConfigList();
+                        if (GlobalConfig.LedControlIniFiles.Count > 0)
                         {
-                            if (new FileInfo(TableFilename).Directory.Exists)
-                            {
-                                LookupPaths.Add(new FileInfo(TableFilename).Directory.FullName);
-                            }
-                        }
-                        LookupPaths.AddRange(new string[] { GlobalConfig.GetGlobalConfigDirectory().FullName, Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) });
-
-                        LedControlIniFileList LedControlIniFiles = new LedControlIniFileList();
-
-                        foreach (string P in LookupPaths)
-                        {
-                            DirectoryInfo DI = new DirectoryInfo(P);
-
-                            foreach (FileInfo FI in DI.EnumerateFiles("directoutput*.ini"))
-                            {
-                                if (string.Equals(FI.Name, "directoutput.ini", StringComparison.OrdinalIgnoreCase))
-                                {
-                                    LedControlIniFiles.Add(FI.FullName, 1);
-                                    FoundIt = true;
-                                }
-                                else
-                                {
-                                    string F = FI.Name.Substring(10, FI.Name.Length - 10 - 4);
-                                    if (F.IsInteger())
-                                    {
-                                        int LedWizNr = -1;
-                                        if (int.TryParse(F, out LedWizNr))
-                                        {
-                                            if (!LedControlIniFiles.Contains(LedWizNr))
-                                            {
-                                                LedControlIniFiles.Add(FI.FullName, LedWizNr);
-                                                FoundIt = true;
-                                            }
-
-                                        }
-
-                                    }
-
-                                }
-                            }
-
-                            if (FoundIt) break;
-
-                            foreach (FileInfo FI in DI.EnumerateFiles("ledcontrol*.ini"))
-                            {
-                                if (string.Equals(FI.Name, "ledcontrol.ini", StringComparison.OrdinalIgnoreCase))
-                                {
-                                    LedControlIniFiles.Add(FI.FullName, 1);
-                                    FoundIt = true;
-                                }
-                                else
-                                {
-                                    string F = FI.Name.Substring(10, FI.Name.Length - 10 - 4);
-                                    if (F.IsInteger())
-                                    {
-                                        int LedWizNr = -1;
-                                        if (int.TryParse(F, out LedWizNr))
-                                        {
-                                            if (!LedControlIniFiles.Contains(LedWizNr))
-                                            {
-                                                LedControlIniFiles.Add(FI.FullName, LedWizNr);
-                                                FoundIt = true;
-                                            }
-
-                                        }
-
-                                    }
-
-                                }
-                            }
-
-                            if (FoundIt) break;
-                        }
-
-
-
-
-
-
-                        if (FoundIt)
-                        {
-                            L.LoadLedControlFiles(LedControlIniFiles, false);
-                            Log.Write("{0} directoutput.ini or ledcontrol.ini files loaded.".Build(LedControlIniFiles.Count));
+                            Log.Write("Will try to load table config from LedControl  file(s) specified in global config.");
+                            L.LoadLedControlFiles(GlobalConfig.LedControlIniFiles, false);
                         }
                         else
                         {
-                            Log.Write("No directoutput.ini or ledcontrol.ini files found. No directoutput.ini or ledcontrol.ini configs will be loaded.");
+                            bool FoundIt = false;
+                            List<string> LookupPaths = new List<string>();
+                            if (!TableFilename.IsNullOrWhiteSpace())
+                            {
+                                if (new FileInfo(TableFilename).Directory.Exists)
+                                {
+                                    LookupPaths.Add(new FileInfo(TableFilename).Directory.FullName);
+                                }
+                            }
+                            LookupPaths.AddRange(new string[] { GlobalConfig.GetGlobalConfigDirectory().FullName, Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) });
+
+                            LedControlIniFileList LedControlIniFiles = new LedControlIniFileList();
+
+                            foreach (string P in LookupPaths)
+                            {
+                                DirectoryInfo DI = new DirectoryInfo(P);
+
+                                foreach (FileInfo FI in DI.EnumerateFiles("directoutput*.ini"))
+                                {
+                                    if (string.Equals(FI.Name, "directoutput.ini", StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        LedControlIniFiles.Add(FI.FullName, 1);
+                                        FoundIt = true;
+                                    }
+                                    else
+                                    {
+                                        string F = FI.Name.Substring(10, FI.Name.Length - 10 - 4);
+                                        if (F.IsInteger())
+                                        {
+                                            int LedWizNr = -1;
+                                            if (int.TryParse(F, out LedWizNr))
+                                            {
+                                                if (!LedControlIniFiles.Contains(LedWizNr))
+                                                {
+                                                    LedControlIniFiles.Add(FI.FullName, LedWizNr);
+                                                    FoundIt = true;
+                                                }
+
+                                            }
+
+                                        }
+
+                                    }
+                                }
+
+                                if (FoundIt) break;
+
+                                foreach (FileInfo FI in DI.EnumerateFiles("ledcontrol*.ini"))
+                                {
+                                    if (string.Equals(FI.Name, "ledcontrol.ini", StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        LedControlIniFiles.Add(FI.FullName, 1);
+                                        FoundIt = true;
+                                    }
+                                    else
+                                    {
+                                        string F = FI.Name.Substring(10, FI.Name.Length - 10 - 4);
+                                        if (F.IsInteger())
+                                        {
+                                            int LedWizNr = -1;
+                                            if (int.TryParse(F, out LedWizNr))
+                                            {
+                                                if (!LedControlIniFiles.Contains(LedWizNr))
+                                                {
+                                                    LedControlIniFiles.Add(FI.FullName, LedWizNr);
+                                                    FoundIt = true;
+                                                }
+
+                                            }
+
+                                        }
+
+                                    }
+                                }
+
+                                if (FoundIt) break;
+                            }
+
+
+
+
+
+
+                            if (FoundIt)
+                            {
+                                L.LoadLedControlFiles(LedControlIniFiles, false);
+                                Log.Write("{0} directoutput.ini or ledcontrol.ini files loaded.".Build(LedControlIniFiles.Count));
+                            }
+                            else
+                            {
+                                Log.Write("No directoutput.ini or ledcontrol.ini files found. No directoutput.ini or ledcontrol.ini configs will be loaded.");
+                            }
                         }
-                    }
-                    if (!L.ContainsConfig(RomName))
-                    {
-                        Log.Write("No config for table found in LedControl data for RomName {0}.".Build(RomName));
+                        if (!L.ContainsConfig(RomName))
+                        {
+                            Log.Write("No config for table found in LedControl data for RomName {0}.".Build(RomName));
+                        }
+                        else
+                        {
+                            Log.Write("Config for RomName {0} exists in LedControl data. Updating cabinet and config.".Build(RomName));
+
+                            DirectOutput.LedControl.Setup.Configurator C = new DirectOutput.LedControl.Setup.Configurator();
+                            C.Setup(L, Table, Cabinet, RomName);
+                            C = null;
+                            //                        L.UpdateTableConfig(Table, RomName, Cabinet);
+                        }
+                        L = null;
                     }
                     else
                     {
-                        Log.Write("Config for RomName {0} exists in LedControl data. Updating cabinet and config.".Build(RomName));
 
-                        DirectOutput.LedControl.Setup.Configurator C = new DirectOutput.LedControl.Setup.Configurator();
-                        C.Setup(L, Table, Cabinet, RomName);
-                        C = null;
-//                        L.UpdateTableConfig(Table, RomName, Cabinet);
+                        Log.Write("Cant load config from directoutput.ini or ledcontrol.ini file(s) since no RomName was supplied. No ledcontrol config will be loaded.");
                     }
-                    L = null;
+
                 }
-                else
+                if (Table.TableName.IsNullOrWhiteSpace())
                 {
-
-                    Log.Write("Cant load config from directoutput.ini or ledcontrol.ini file(s) since no RomName was supplied. No ledcontrol config will be loaded.");
+                    if (!TableFilename.IsNullOrWhiteSpace())
+                    {
+                        Table.TableName = Path.GetFileNameWithoutExtension(new FileInfo(TableFilename).FullName);
+                    }
+                    else if (!RomName.IsNullOrWhiteSpace())
+                    {
+                        Table.TableName = RomName;
+                    }
                 }
-
-            }
-            if (Table.TableName.IsNullOrWhiteSpace())
-            {
                 if (!TableFilename.IsNullOrWhiteSpace())
                 {
-                    Table.TableName = Path.GetFileNameWithoutExtension(new FileInfo(TableFilename).FullName);
+                    Table.TableFilename = new FileInfo(TableFilename).FullName;
                 }
-                else if (!RomName.IsNullOrWhiteSpace())
+                if (!RomName.IsNullOrWhiteSpace())
                 {
-                    Table.TableName = RomName;
+                    Table.RomName = RomName;
                 }
+                Log.Write("Table config loading finished");
+
+
+
+                Log.Write("Pinball parts loaded");
+
+                Log.Write("Starting processes");
+                InitStatistics();
+                Cabinet.Init(this);
+                Table.Init(this);
+                Alarms.Init(this);
+                Table.TriggerStaticEffects();
+                Cabinet.Update();
+
+                //Add the thread initializing the framework to the threadinfo list
+                ThreadInfo TI = new ThreadInfo(Thread.CurrentThread);
+                TI.HeartBeatTimeOutMs = 10000;
+                TI.HostName = "External caller";
+                TI.HeartBeat();
+                ThreadInfoList.Add(TI);
+
+
+
+                InitMainThread();
+                Log.Write("Framework initialized.");
+                Log.Write("Have fun! :)");
+
+
             }
-            if (!TableFilename.IsNullOrWhiteSpace())
+            catch (Exception E)
             {
-                Table.TableFilename = new FileInfo(TableFilename).FullName;
+                Log.Equals("A eception occured during initialization", E);
+                throw new Exception("DirectOutput framework has encountered a exception during initialization.\n Inner exception: {0}".Build(E.Message), E);
             }
-            if (!RomName.IsNullOrWhiteSpace())
-            {
-                Table.RomName = RomName;
-            }
-            Log.Write("Table config loading finished");
-
-
-
-            Log.Write("Pinball parts loaded");
-
-            Log.Write("Starting processes");
-            InitStatistics();
-            Cabinet.Init(this);
-            Table.Init(this);
-            Alarms.Init(this);
-            Table.TriggerStaticEffects();
-            Cabinet.Update();
-
-            //Add the thread initializing the framework to the threadinfo list
-            ThreadInfo TI = new ThreadInfo(Thread.CurrentThread);
-            TI.HeartBeatTimeOutMs = 10000;
-            TI.HostName = "External caller";
-            TI.HeartBeat();
-            ThreadInfoList.Add(TI);
-
-            
-
-            InitMainThread();
-            Log.Write("Framework initialized.");
-            Log.Write("Have fun! :)");
-
         }
 
         /// <summary>
@@ -439,20 +469,29 @@ namespace DirectOutput
         /// </summary>
         public void Finish()
         {
-            Log.Write("Finishing framework");
-            FinishMainThread();
+            try
+            {
+                Log.Write("Finishing framework");
+                FinishMainThread();
 
-            Alarms.Finish();
-            Table.Finish();
-            Cabinet.Finish();
-            
+                Alarms.Finish();
+                Table.Finish();
+                Cabinet.Finish();
 
-            WriteStatisticsToLog();
 
-            ThreadInfoList.ThreadTerminates();
+                WriteStatisticsToLog();
 
-            Log.Write("DirectOutput framework finished.");
-            Log.Write("Bye and thanks for using!");
+                ThreadInfoList.ThreadTerminates();
+
+                Log.Write("DirectOutput framework finished.");
+                Log.Write("Bye and thanks for using!");
+
+            }
+            catch (Exception E)
+            {
+                Log.Exception("A exception occured while finishing the DirectOupt framework.", E);
+                throw new Exception("DirectOutput framework has encountered while finishing.\n Inner exception: {0}".Build(E.Message), E);
+            }
         }
 
         #endregion
@@ -476,7 +515,7 @@ namespace DirectOutput
                     MainThread.Name = "DirectOutput MainThread ";
                     MainThread.Start();
 
-                    
+
                 }
                 catch (Exception E)
                 {
@@ -581,7 +620,7 @@ namespace DirectOutput
                             DateTime StartTime = DateTime.Now;
                             Table.UpdateTableElement(D);
                             UpdateRequired |= true;
-                            UpdateTableElementStatistics(D, ( DateTime.Now-StartTime ));
+                            UpdateTableElementStatistics(D, (DateTime.Now - StartTime));
                         }
                         catch (Exception E)
                         {
@@ -660,11 +699,11 @@ namespace DirectOutput
             Log.Debug("Initializing table element statistics");
             TimeSpanStatisticsItem TSI;
             TimeSpanStatistics = new TimeSpanStatisticsList();
-            
+
             TableElementCallStatistics = new Dictionary<TableElementTypeEnum, TimeSpanStatisticsItem>();
             foreach (TableElementTypeEnum T in Enum.GetValues(typeof(TableElementTypeEnum)))
             {
-                 TSI=new TimeSpanStatisticsItem() {Name="{0}".Build(T.ToString()),GroupName="Pinball - Table element update calls"};
+                TSI = new TimeSpanStatisticsItem() { Name = "{0}".Build(T.ToString()), GroupName = "Pinball - Table element update calls" };
                 TableElementCallStatistics.Add(T, TSI);
                 TimeSpanStatistics.Add(TSI);
             }
@@ -672,7 +711,7 @@ namespace DirectOutput
 
 
             Log.Debug("Table element statistics initialized");
-         
+
         }
 
         public void UpdateTableElementStatistics(TableElementData D, TimeSpan Duration)
@@ -706,7 +745,7 @@ namespace DirectOutput
             }
 
 
-      
+
         }
 
         private InputQueue InputQueue = new InputQueue();
