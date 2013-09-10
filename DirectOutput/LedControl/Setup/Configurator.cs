@@ -121,7 +121,14 @@ namespace DirectOutput.LedControl.Setup
                                             MakeEffectNameUnique(Effect, Table);
                                             Table.Effects.Add(Effect);
                                         }
+                                        if (TCS.MinDurationMs > 0)
+                                        {
+                                            Effect = new MinDurationEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} MinDurationEffect".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name, MinDurationMs = TCS.MinDurationMs };
+                                            MakeEffectNameUnique(Effect, Table);
+                                            Table.Effects.Add(Effect);
+                                        }
 
+                                        
                                         if (TCS.WaitDurationMs > 0)
                                         {
                                             Effect = new DelayEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} DelayEffect".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name, DelayMs = TCS.WaitDurationMs };

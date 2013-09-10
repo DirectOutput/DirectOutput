@@ -76,6 +76,15 @@ namespace DirectOutput.LedControl.Loader
         /// </value>
         public int DurationMs { get; set; }
 
+
+        /// <summary>
+        /// Gets or sets the minimum duration in milliseconds.
+        /// </summary>
+        /// <value>
+        /// The minimum duration in milliseconds.
+        /// </value>
+        public int MinDurationMs { get; set; }
+
         private int _Intensity;
         /// <summary>
         /// Gets or sets the intensity.<br/>
@@ -255,6 +264,11 @@ namespace DirectOutput.LedControl.Loader
                 {
                     //WaitDuration setting
                     WaitDurationMs = Parts[PartNr].Substring(1).ToInteger().Limit(0, int.MaxValue);
+                }
+                else if (Parts[PartNr].Length > 1 && Parts[PartNr].ToUpper().Substring(0, 1) == "M" && Parts[PartNr].Substring(1).IsInteger())
+                {
+                    //MinimumDuration setting
+                    MinDurationMs = Parts[PartNr].Substring(1).ToInteger().Limit(0, int.MaxValue);
                 }
                 else if (Parts[PartNr].Length > 1 && Parts[PartNr].ToUpper().Substring(0, 1) == "F" && Parts[PartNr].Substring(1).IsInteger())
                 {
