@@ -92,7 +92,7 @@ namespace DirectOutput.LedControl.Setup
                                         AnalogAlphaValue AAV = new AnalogAlphaValue((int)((double)TCS.Intensity * 5.3125));
                                         if (TCS.FadingDownDurationMs > 0 || TCS.FadingUpDurationMs > 0)
                                         {
-                                            Effect = new AnalogToyFadeOnOffEffect() { ToyName = Toy.Name, Layer = Layer, FadeActiveDurationMs = TCS.FadingUpDurationMs, FadeInactiveDurationMs = TCS.FadingUpDurationMs, RetriggerBehaviour = RetriggerBehaviourEnum.IgnoreRetrigger, FadeMode = FadeModeEnum.CurrentToDefined, ActiveValue = AAV, InactiveValue = new AnalogAlphaValue(0, 0) };
+                                            Effect = new AnalogToyFadeOnOffEffect() { ToyName = Toy.Name, Layer = Layer, FadeActiveDurationMs = TCS.FadingUpDurationMs, FadeInactiveDurationMs = TCS.FadingDownDurationMs, RetriggerBehaviour = RetriggerBehaviourEnum.IgnoreRetrigger, FadeMode = FadeModeEnum.CurrentToDefined, ActiveValue = AAV, InactiveValue = new AnalogAlphaValue(0, 0) };
                                         }
                                         else
                                         {
