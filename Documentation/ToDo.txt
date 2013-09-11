@@ -2,8 +2,6 @@
 ledstripe support
 
 
-multilayer toys
-
 conditions for effects
 
 delay effect
@@ -12,5 +10,3 @@ Test:
 S46 Red Blink 200,S48 Red f500 influece each other
  S48 Red Blink 200,S46 Red
 
- s48 I32 fd500 doesnt fade down
- fu does influence fade up and down and fd doesnt work.
