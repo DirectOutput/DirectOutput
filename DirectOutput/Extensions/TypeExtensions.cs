@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reflection;
 
 public static class TypeExtensions
 {
@@ -26,4 +27,73 @@ public static class TypeExtensions
         || t == typeof(double)
         || t == typeof(decimal);
     }
+
+    /// <summary>
+    /// Gets the XML serializable properties.
+    /// </summary>
+    /// <returns>List of XML serializable properties.</returns>
+    public static List<PropertyInfo> GetXMLSerializableProperties(this Type t)
+    {
+        return t.GetProperties().Where(PI => PI.IsXMLSerializeable()).ToList();
+    }
+
+
+    public static bool IsGenericList(this Type type)
+    {
+        if (type == null) return false;
+
+        foreach (Type @interface in type.GetInterfaces())
+        {
+            if (@interface.IsGenericType)
+            {
+                if (@interface.GetGenericTypeDefinition() == typeof(ICollection<>))
+                {
+
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+    public static bool IsGenericDictionary(this Type type)
+    {
+        if (type == null) return false;
+
+        foreach (Type @interface in type.GetInterfaces())
+        {
+            if (@interface.IsGenericType)
+            {
+                if (@interface.GetGenericTypeDefinition() == typeof(IDictionary<,>))
+                {
+
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+    public static Type[] GetGetGenericCollectionTypeArguments(this Type type)
+    {
+        if (type == null) return null;
+        if (!type.IsGenericList() && !type.IsGenericDictionary()) return null;
+
+        foreach (Type @interface in type.GetInterfaces())
+        {
+            if (@interface.IsGenericType)
+            {
+                if (@interface.GetGenericTypeDefinition() == typeof(ICollection<>) | @interface.GetGenericTypeDefinition() == typeof(IDictionary<,>))
+                {
+
+                    return @interface.GetGenericArguments();
+                }
+            }
+        }
+        return null;
+    }
+
+
 }

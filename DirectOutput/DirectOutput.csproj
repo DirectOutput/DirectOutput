@@ -129,6 +129,7 @@
     <Compile Include="Extensions\IComparableExtensions.cs" />
     <Compile Include="Extensions\IntExtensions.cs" />
     <Compile Include="Extensions\FloatExtensions.cs" />
+    <Compile Include="Extensions\PropertyInfoExtension.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TimeSpanExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
