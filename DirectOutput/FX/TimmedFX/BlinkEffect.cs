@@ -94,7 +94,7 @@ namespace DirectOutput.FX.TimmedFX
 
 
         /// <summary>
-        /// Triggers the BlinkEffect with the given TableElementData.<br>
+        /// Triggers the BlinkEffect with the given TableElementData.<br/>
         /// If the Value property of the TableElementData is >0 or TableElementData is null (static effect), the blinking gets started. If the TableElementData Value property is 0, the blinking is stopped.
         /// </summary>
         /// <param name="TableElementData">TableElementData for the TableElement which has triggered the effect.</param>
