@@ -76,7 +76,7 @@ namespace DirectOutput.LedControl.Loader
         /// </value>
         public int DurationMs { get; set; }
 
-        private int? _MinDurationMs;
+        private int _MinDurationMs=0;
 
         /// <summary>
         /// Gets or sets the minimum duration in milliseconds.
@@ -86,7 +86,7 @@ namespace DirectOutput.LedControl.Loader
         /// </value>
         public int MinDurationMs
         {
-            get { return (_MinDurationMs.HasValue ? _MinDurationMs.Value : 60); }
+            get { return _MinDurationMs; }
                 set { _MinDurationMs = value; }
         }
         
