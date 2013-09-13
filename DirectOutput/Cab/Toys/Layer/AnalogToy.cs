@@ -22,38 +22,6 @@ namespace DirectOutput.Cab.Toys.Layer
         public AnalogLayerDictionary Layers { get; private set; }
 
 
-        /// <summary>
-        /// Sets the value of a layer.<br/>
-        /// The alpha values is set to 0 if the supplied value is 0, otherwise the alpha value will be set to 255.
-        /// </summary>
-        /// <param name="Layer">The number of layer.</param>
-        /// <param name="Value">The value for the layer.</param>
-        public void SetLayer(int Layer, int Value)
-        {
-            Layers.SetLayer(Layer, Value);
-        }
-
-        /// <summary>
-        /// Sets the the value and the alpha value for the specified layer.
-        /// </summary>
-        /// <param name="Layer">The number of the layer.</param>
-        /// <param name="Value">The value for the layer.</param>
-        /// <param name="Alpha">The alpha value for the layer.</param>
-        public void SetLayer(int Layer, int Value, int Alpha)
-        {
-            Layers.SetLayer(Layer, Value, Alpha);
-        }
-
-        /// <summary>
-        /// Sets the the value and the alpha value for the specified layer.
-        /// </summary>
-        /// <param name="Layer">The number of the layer.</param>
-        /// <param name="AnalogAlphaValue">AnalogAlphaValue object containg the values for the layer.</param>
-        public void SetLayer(int Layer, AnalogAlphaValue AnalogAlphaValue)
-        {
-            Layers.SetLayer(Layer, AnalogAlphaValue);
-        }
-
 
 
         #region Outputs

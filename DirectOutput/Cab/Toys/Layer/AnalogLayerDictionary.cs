@@ -30,62 +30,7 @@ namespace DirectOutput.Cab.Toys.Layer
         }
 
 
-        public AnalogLayer SetLayer(int Layer, int Value)
-        {
-            AnalogLayer L;
-
-            try
-            {
-                L = this[Layer];
-            }
-            catch
-            {
-                L = new AnalogLayer();
-                Add(Layer, L);
-            }
-            L.SetLayer(Value);
-
-            return L;
-        }
-
-
-
-
-        public AnalogLayer SetLayer(int Layer, int Value, int Alpha)
-        {
-            AnalogLayer L;
-
-            try
-            {
-                L = this[Layer];
-            }
-            catch
-            {
-                L = new AnalogLayer();
-                Add(Layer, L);
-            }
-            L.SetLayer(Value, Alpha);
-
-            return L;
-        }
-
-        public AnalogLayer SetLayer(int Layer, AnalogAlphaValue AnalogAlphaValue)
-        {
-            AnalogLayer L;
-
-            try
-            {
-                L = this[Layer];
-            }
-            catch
-            {
-                L = new AnalogLayer();
-                Add(Layer, L);
-            }
-            L.SetLayer(AnalogAlphaValue);
-
-            return L;
-        }
+       
 
 
         public int GetResultingValue()

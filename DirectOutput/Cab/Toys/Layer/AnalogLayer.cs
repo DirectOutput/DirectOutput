@@ -21,6 +21,7 @@ namespace DirectOutput.Cab.Toys.Layer
         public void SetLayer(int Value)
         {
             this.Value=Value;
+            this.Alpha = (Value == 0 ? 0 : 255);
         }
 
         public void SetLayer(int Value, int Alpha)
