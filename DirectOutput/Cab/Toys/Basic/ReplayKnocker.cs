@@ -7,7 +7,7 @@ namespace DirectOutput.Cab.Toys.Basic
     /// <summary>
     /// Replayknocker toy which can fire the replay knocker one or several times at given intervalls.
     /// </summary>
-    public class ReplayKnocker : GenericDigitalToy, IToy
+    public class ReplayKnocker : DigitalToy, IToy
     {
 
         private int _DefaultIntervallMs = 300;

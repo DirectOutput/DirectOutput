@@ -105,11 +105,11 @@
     <Compile Include="Cab\Toys\Basic\Basic.cs" />
     <Compile Include="Cab\Toys\Basic\GearMotor.cs" />
     <Compile Include="Cab\Color\IRGBColor.cs" />
-    <Compile Include="Cab\Toys\IRGBToy.cs" />
+    <Compile Include="Cab\Toys\Basic\IRGBToy.cs" />
     <Content Include="Config\GlobalConfig_B2SServer.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Compile Include="Cab\Toys\ILampToy.cs" />
+    <Compile Include="Cab\Toys\Basic\ILampToy.cs" />
     <Compile Include="Cab\Toys\IToyUpdatable.cs" />
     <Compile Include="Cab\Toys\Layer\AlphaMappingTable.cs" />
     <Compile Include="Cab\Toys\Layer\AnalogAlphaValue.cs" />
@@ -247,8 +247,8 @@
     <Compile Include="Cab\Color\ColorList.cs" />
     <Compile Include="Cab\Toys\Basic\Contactor.cs" />
     <Compile Include="Cab\Toys\Basic\Flasher.cs" />
-    <Compile Include="Cab\Toys\IAnalogToy.cs" />
-    <Compile Include="Cab\Toys\IDigitalToy.cs" />
+    <Compile Include="Cab\Toys\Basic\IAnalogToy.cs" />
+    <Compile Include="Cab\Toys\Basic\IDigitalToy.cs" />
     <Compile Include="Cab\Toys\IToy.cs" />
     <Compile Include="Cab\Toys\LWEquivalent\LedWizEquivalent.cs" />
     <Compile Include="Cab\Toys\LWEquivalent\LedWizEquivalentOutput.cs" />
@@ -268,8 +268,8 @@
     <Compile Include="Cab\Out\LW\LEDWizOutput.cs" />
     <Compile Include="Cab\Out\Output.cs" />
     <Compile Include="Cab\Toys\Basic\Motor.cs" />
-    <Compile Include="Cab\Toys\Generic\GenericAnalogToy.cs" />
-    <Compile Include="Cab\Toys\Generic\GenericDigitalToy.cs" />
+    <Compile Include="Cab\Toys\Basic\AnalogToy.cs" />
+    <Compile Include="Cab\Toys\Basic\DigitalToy.cs" />
     <Compile Include="Cab\Toys\Basic\Lamp.cs" />
     <Compile Include="Cab\Out\OutputControllerList.cs" />
     <Compile Include="Cab\Out\OutputList.cs" />

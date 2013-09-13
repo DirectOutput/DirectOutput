@@ -12,13 +12,13 @@ namespace DirectOutput.Cab.Toys.Generic
     /// Implementation of a generic digital toy.
     /// Implements IToy.
     /// </summary>
-    public class GenericDigitalToy : ToyBase, IToy, DirectOutput.Cab.Toys.IDigitalToy
+    public class DigitalToy : ToyBase, IToy, DirectOutput.Cab.Toys.IDigitalToy
     {
 
         /// <summary>
         /// Initalizes the GenericDigitalToy.
         /// </summary>
-        /// <param name="Cabinet"><see cref="Cabinet"/> object to which the <see cref="GenericDigitalToy"/> belongs.</param>
+        /// <param name="Cabinet"><see cref="Cabinet"/> object to which the <see cref="DigitalToy"/> belongs.</param>
         public override void Init(Cabinet Cabinet)
         {
             InitOutput(Cabinet);

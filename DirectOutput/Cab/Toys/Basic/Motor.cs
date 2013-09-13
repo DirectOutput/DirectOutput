@@ -9,7 +9,7 @@ namespace DirectOutput.Cab.Toys.Basic
     /// Motor toy supporting max. and min. power, max. runtime and kickstart settings.<br/>
     /// Inherits from GenericAnalogToy, implements IToy.
     /// </summary>
-    public class Motor : GenericAnalogToy, IToy
+    public class Motor : AnalogToy, IToy
     {
         private int _MaxRuntimeMs = 300000;
 
