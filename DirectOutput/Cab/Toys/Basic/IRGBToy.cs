@@ -1,6 +1,6 @@
 ﻿using System;
 using DirectOutput.Cab.Color;
-namespace DirectOutput.Cab.Toys
+namespace DirectOutput.Cab.Toys.Basic
 {
     /// <summary>
     /// This interface is to be used for toys outputing RGB colors (e.g. RGBLed toy).<br/>

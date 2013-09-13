@@ -1,5 +1,4 @@
-﻿using DirectOutput.Cab.Toys.Generic;
-using DirectOutput.PinballSupport;
+﻿using DirectOutput.PinballSupport;
 
 namespace DirectOutput.Cab.Toys.Basic
 {

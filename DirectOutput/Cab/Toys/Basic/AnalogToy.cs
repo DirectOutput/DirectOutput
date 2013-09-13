@@ -5,13 +5,13 @@ using System.Text;
 using DirectOutput.Cab.Out;
 using System.Xml.Serialization;
 
-namespace DirectOutput.Cab.Toys.Generic
+namespace DirectOutput.Cab.Toys.Basic
 {
     /// <summary>
     /// Implementation of a generic analog toy.
     /// Implements IToy.
     /// </summary>
-    public class AnalogToy : ToyBase, IToy, DirectOutput.Cab.Toys.IAnalogToy
+    public class AnalogToy : ToyBase, IToy, IAnalogToy
     {
 
         /// <summary>

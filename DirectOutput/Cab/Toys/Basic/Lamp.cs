@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
-using DirectOutput.Cab.Toys.Generic;
 
 namespace DirectOutput.Cab.Toys.Basic
 {
@@ -12,7 +11,7 @@ namespace DirectOutput.Cab.Toys.Basic
     /// Lamp toy.<br/>
     /// Inherits from <see cref="AnalogToy"/>, implements <see cref="IToy"/>.
     /// </summary>
-    public class Lamp : AnalogToy, IToy, DirectOutput.Cab.Toys.ILampToy
+    public class Lamp : AnalogToy, IToy,ILampToy
     {
 
         /// <summary>

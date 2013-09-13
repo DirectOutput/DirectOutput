@@ -1,5 +1,4 @@
 ﻿using System.Xml.Serialization;
-using DirectOutput.Cab.Toys.Generic;
 using DirectOutput.PinballSupport;
 
 namespace DirectOutput.Cab.Toys.Basic

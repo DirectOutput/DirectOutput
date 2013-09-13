@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using DirectOutput.Cab.Toys;
 using DirectOutput.Table;
+using DirectOutput.Cab.Toys.Basic;
 
 namespace DirectOutput.FX.BasicFX
 {

@@ -1,5 +1,5 @@
 ﻿using System;
-namespace DirectOutput.Cab.Toys
+namespace DirectOutput.Cab.Toys.Basic
 {
     /// <summary>
     /// Common interface for lamp like toys.<br/>
