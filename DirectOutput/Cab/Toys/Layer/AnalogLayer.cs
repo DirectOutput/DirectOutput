@@ -11,20 +11,20 @@ namespace DirectOutput.Cab.Toys.Layer
         public int Value;
         public int Alpha;
 
-        public void SetLayer(AnalogAlphaValue AnalogAlphaValue)
+        public void Set(AnalogAlphaValue AnalogAlphaValue)
         {
             this.Value = AnalogAlphaValue.Value;
             this.Alpha = AnalogAlphaValue.Alpha;
         }
        
 
-        public void SetLayer(int Value)
+        public void Set(int Value)
         {
             this.Value=Value;
             this.Alpha = (Value == 0 ? 0 : 255);
         }
 
-        public void SetLayer(int Value, int Alpha)
+        public void Set(int Value, int Alpha)
         {
             this.Value=Value;
             this.Alpha=Alpha;
@@ -36,9 +36,9 @@ namespace DirectOutput.Cab.Toys.Layer
         }
 
         public AnalogLayer() { }
-        public AnalogLayer(int Value) { SetLayer(Value); }
-        public AnalogLayer(int Value, int Alpha) { SetLayer(Value, Alpha); }
-        public  AnalogLayer(AnalogAlphaValue AnalogAlphaValue) {SetLayer(AnalogAlphaValue);}
+        public AnalogLayer(int Value) { Set(Value); }
+        public AnalogLayer(int Value, int Alpha) { Set(Value, Alpha); }
+        public  AnalogLayer(AnalogAlphaValue AnalogAlphaValue) {Set(AnalogAlphaValue);}
 
 
     }

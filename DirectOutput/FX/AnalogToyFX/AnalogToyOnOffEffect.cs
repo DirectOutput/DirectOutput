@@ -53,11 +53,11 @@ namespace DirectOutput.FX.AnalogToyFX
             {
                 if (TableElementData == null || TableElementData.Value != 0)
                 {
-                    Toy.Layers[Layer].SetLayer(ActiveValue);
+                    Toy.Layers[Layer].Set(ActiveValue);
                 }
                 else
                 {
-                    Toy.Layers[Layer].SetLayer( InactiveValue);
+                    Toy.Layers[Layer].Set( InactiveValue);
                 }
             }
         }

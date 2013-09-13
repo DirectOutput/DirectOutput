@@ -126,7 +126,7 @@ namespace DirectOutput.FX.RGBAFX
             }
             else
             {
-                RGBAToy.Layers[Layer].SetLayer( TargetColor);
+                RGBAToy.Layers[Layer].Set( TargetColor);
             }
         }
 
@@ -163,7 +163,7 @@ namespace DirectOutput.FX.RGBAFX
                 }
             }
 
-            RGBAToy.Layers[Layer].SetLayer( (int)Current[0], (int)Current[1], (int)Current[2], (int)Current[3]);
+            RGBAToy.Layers[Layer].Set( (int)Current[0], (int)Current[1], (int)Current[2], (int)Current[3]);
 
             if (ContinueFading)
             {

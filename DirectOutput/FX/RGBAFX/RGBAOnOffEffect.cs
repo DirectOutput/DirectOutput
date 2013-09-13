@@ -55,11 +55,11 @@ namespace DirectOutput.FX.RGBAFX
             {
                 if (TableElementData == null || TableElementData.Value != 0)
                 {
-                    RGBAToy.Layers[Layer].SetLayer(ActiveColor);
+                    RGBAToy.Layers[Layer].Set(ActiveColor);
                 }
                 else
                 {
-                    RGBAToy.Layers[Layer].SetLayer(InactiveColor);
+                    RGBAToy.Layers[Layer].Set(InactiveColor);
                 }
             }
         }
