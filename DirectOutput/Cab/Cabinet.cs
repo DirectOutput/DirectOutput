@@ -10,6 +10,7 @@ using DirectOutput.Cab.Out.LW;
 using DirectOutput.Cab.Toys;
 using DirectOutput.Cab.Out;
 using DirectOutput.Cab.Toys.LWEquivalent;
+using DirectOutput.Cab.Color;
 
 
 namespace DirectOutput.Cab
@@ -83,13 +84,13 @@ namespace DirectOutput.Cab
 
 
 
-        private Toys.ColorList _Colors;
+        private DirectOutput.Cab.Color.ColorList _Colors;
 
         /// <summary>
         /// List of Color objects used to set colors for toys. 
         /// </summary>
         [XmlElementAttribute(Order = 4)]
-        public Toys.ColorList Colors
+        public DirectOutput.Cab.Color.ColorList Colors
         {
             get { return _Colors; }
             set { _Colors = value; }
@@ -301,7 +302,7 @@ namespace DirectOutput.Cab
             _OutputControllers = new Out.OutputControllerList();
             _Outputs = new CabinetOutputList(this);
             _Toys = new Toys.ToyList();
-            _Colors = new Toys.ColorList();
+            _Colors = new ColorList();
         }
         #endregion
 

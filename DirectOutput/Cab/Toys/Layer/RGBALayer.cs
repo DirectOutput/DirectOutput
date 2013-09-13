@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DirectOutput.Cab.Color;
 
 namespace DirectOutput.Cab.Toys.Layer
 {
@@ -35,12 +36,12 @@ namespace DirectOutput.Cab.Toys.Layer
             return new RGBAColor(Red, Green, Blue, Alpha);
         }
 
-        public void Set(RGBAColor RGBA)
+        public void Set(IRGBAColor RGBA)
         {
             Set(RGBA.Red, RGBA.Green, RGBA.Blue, RGBA.Alpha);
         }
 
-        public void Set(RGBColor RGB)
+        public void Set(IRGBColor RGB)
         {
             Set(RGB.Red, RGB.Green, RGB.Blue);
         }
@@ -57,12 +58,12 @@ namespace DirectOutput.Cab.Toys.Layer
             Set(Red, Green, Blue, Alpha);
         }
 
-        public RGBALayer(RGBAColor RGBA)
+        public RGBALayer(IRGBAColor RGBA)
         {
             Set(RGBA.Red, RGBA.Green, RGBA.Blue, RGBA.Alpha);
         }
 
-        public  RGBALayer(RGBColor RGB)
+        public  RGBALayer(IRGBColor RGB)
         {
             Set(RGB.Red, RGB.Green, RGB.Blue);
         }

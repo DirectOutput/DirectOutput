@@ -5,13 +5,13 @@ using System.Text;
 using System.Xml.Serialization;
 using DirectOutput.General.Generic;
 
-namespace DirectOutput.Cab.Toys
+namespace DirectOutput.Cab.Color
 {
 
     /// <summary>
-    /// This class stores information on colors used for toys (e.g. RGBLed).
+    /// This class stores information on colors used for toys and effects (e.g. RGBLed).
     /// </summary>
-    public class RGBColor:NamedItemBase,INamedItem
+    public class RGBColor :IRGBColor
     {
         
 
@@ -129,23 +129,15 @@ namespace DirectOutput.Cab.Toys
 
         #region Contructor
         public RGBColor() { }
-        public RGBColor(string Name, int BrightnessRed, int BrightnessGreen, int BrightnessBlue)
-            : this()
-        {
-            this.Name = Name;
+   
+        public RGBColor(int BrightnessRed, int BrightnessGreen, int BrightnessBlue){
             SetColor(BrightnessRed, BrightnessGreen, BrightnessBlue);
         }
-        public RGBColor(int BrightnessRed, int BrightnessGreen, int BrightnessBlue)
-            : this("", BrightnessRed, BrightnessGreen, BrightnessBlue)
-        { }
-        public RGBColor(string Color):this()
+        public RGBColor(string Color)
         {
             SetColor(Color);
         }
-        public RGBColor(string Name, string Color):this(Color)
-        {
-            this.Name = Name;
-        }
+
 
         #endregion
     }

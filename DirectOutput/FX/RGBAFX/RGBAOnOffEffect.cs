@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DirectOutput.Cab.Toys.Layer;
+using DirectOutput.Cab.Color;
 
 namespace DirectOutput.FX.RGBAFX
 {
@@ -12,7 +13,7 @@ namespace DirectOutput.FX.RGBAFX
     public class RGBAOnOffEffect : RGBAEffectBase
     {
 
-        private RGBAColor _ActiveColor=new RGBAColor(0,0,0,0);
+        private IRGBAColor _ActiveColor=new RGBAColor(0,0,0,0);
 
         /// <summary>
         /// Gets or sets the RGBA color which is set when the effect is triggered with a table element value which is not equal 0 or if the effect is triggered as a static effect (table element data = 0).
@@ -20,14 +21,14 @@ namespace DirectOutput.FX.RGBAFX
         /// <value>
         /// The RGBA color to be used when the effect is active.
         /// </value>
-        public RGBAColor ActiveColor
+        public IRGBAColor ActiveColor
         {
             get { return _ActiveColor; }
             set { _ActiveColor = value; }
         }
 
 
-        private RGBAColor _InactiveColor = new RGBAColor(0, 0, 0, 0);
+        private IRGBAColor _InactiveColor = new RGBAColor(0, 0, 0, 0);
 
         /// <summary>
         /// Gets or sets the RGBA color which is set when the effect is triggered with a table element value which is 0.
@@ -35,7 +36,7 @@ namespace DirectOutput.FX.RGBAFX
         /// <value>
         /// The RGBA color to be used when the effect is inactive.
         /// </value>
-        public RGBAColor InactiveColor
+        public IRGBAColor InactiveColor
         {
             get { return _InactiveColor; }
             set { _InactiveColor = value; }

@@ -10,6 +10,7 @@ using DirectOutput.FX.AnalogToyFX;
 using DirectOutput.FX.RGBAFX;
 using DirectOutput.FX.TimmedFX;
 using DirectOutput.LedControl.Loader;
+using DirectOutput.Cab.Color;
 
 namespace DirectOutput.LedControl.Setup
 {
@@ -57,7 +58,7 @@ namespace DirectOutput.LedControl.Setup
                                         RGBAColor ActiveColor = null;
                                         if (TCS.ColorConfig != null)
                                         {
-                                            ActiveColor = TCS.ColorConfig.GetCabinetColor().Clone();
+                                            ActiveColor = TCS.ColorConfig.GetCabinetColor().GetRGBAColor();
                                         }
                                         else
                                         {

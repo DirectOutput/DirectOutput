@@ -1,4 +1,5 @@
 ﻿using System;
+using DirectOutput.Cab.Color;
 namespace DirectOutput.Cab.Toys
 {
     /// <summary>
@@ -32,7 +33,7 @@ namespace DirectOutput.Cab.Toys
         /// Sets the color if the rgb toy.
         /// </summary>
         /// <param name="Color">The color for the rgb toy.</param>
-        void SetColor(RGBColor Color);
+        void SetColor(IRGBColor Color);
         /// <summary>
         /// Sets the color for the rgb toy by specifying the red, green and blue color components.
         /// </summary>

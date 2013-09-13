@@ -1,5 +1,7 @@
 ﻿using System;
 using DirectOutput.Cab.Toys.Layer;
+using DirectOutput.Cab.Color;
+
 
 namespace DirectOutput.LedControl.Loader
 {
@@ -12,10 +14,10 @@ namespace DirectOutput.LedControl.Loader
         /// <summary>
         /// Gets a cabinet RGBAColor object representing the values in the ColorConfig object-.
         /// </summary>
-        /// <returns>RGBAColor object for the content of the ColorConfig.</returns>
-        public RGBAColor GetCabinetColor()
+        /// <returns>RGBAColorNamed object for the content of the ColorConfig.</returns>
+        public RGBAColorNamed GetCabinetColor()
         {
-            return new RGBAColor(Name, (int)(Red * 5.3125), (int)(Green * 5.3125), (int)(Blue * 5.3125), (int)(Alpha * 5.3125));
+            return new RGBAColorNamed(Name,(int)(Red * 5.3125), (int)(Green * 5.3125), (int)(Blue * 5.3125), (int)(Alpha * 5.3125));
         }
 
         /// <summary>
