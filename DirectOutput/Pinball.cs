@@ -310,16 +310,16 @@ namespace DirectOutput
                             {
                                 DirectoryInfo DI = new DirectoryInfo(P);
 
-                                foreach (FileInfo FI in DI.EnumerateFiles("directoutput*.ini"))
+                                foreach (FileInfo FI in DI.EnumerateFiles("directoutputconfig*.ini"))
                                 {
-                                    if (string.Equals(FI.Name, "directoutput.ini", StringComparison.OrdinalIgnoreCase))
+                                    if (string.Equals(FI.Name, "directoutputconfig.ini", StringComparison.OrdinalIgnoreCase))
                                     {
                                         LedControlIniFiles.Add(FI.FullName, 1);
                                         FoundIt = true;
                                     }
                                     else
                                     {
-                                        string F = FI.Name.Substring(10, FI.Name.Length - 10 - 4);
+                                        string F = FI.Name.Substring("directoutputconfig".Length, FI.Name.Length - 10 - 4);
                                         if (F.IsInteger())
                                         {
                                             int LedWizNr = -1;
