@@ -396,6 +396,8 @@ namespace DirectOutput
                             Log.Write("Config for RomName {0} exists in LedControl data. Updating cabinet and config.".Build(RomName));
 
                             DirectOutput.LedControl.Setup.Configurator C = new DirectOutput.LedControl.Setup.Configurator();
+                            C.EffectMinDurationMs = GlobalConfig.LedControlMinimumEffectDurationMs;
+                            C.EffectRGBMinDurationMs = GlobalConfig.LedControlMinimumRGBEffectDurationMs;
                             C.Setup(L, Table, Cabinet, RomName);
                             C = null;
                             //                        L.UpdateTableConfig(Table, RomName, Cabinet);

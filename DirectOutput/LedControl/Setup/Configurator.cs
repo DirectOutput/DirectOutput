@@ -16,6 +16,8 @@ namespace DirectOutput.LedControl.Setup
 {
     public class Configurator
     {
+        public int EffectMinDurationMs = 60;
+        public int EffectRGBMinDurationMs = 120;
 
         public void Setup(LedControlConfigList LedControlConfigList, DirectOutput.Table.Table Table, Cabinet Cabinet, string RomName)
         {
@@ -122,9 +124,11 @@ namespace DirectOutput.LedControl.Setup
                                             MakeEffectNameUnique(Effect, Table);
                                             Table.Effects.Add(Effect);
                                         }
-                                        if (TCS.MinDurationMs > 0)
+                                        if (TCS.MinDurationMs > 0 || (Toy is IRGBAToy && EffectRGBMinDurationMs > 0) || (!(Toy is  IRGBAToy) && EffectMinDurationMs > 0))
                                         {
-                                            Effect = new MinDurationEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} MinDurationEffect".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name, MinDurationMs = TCS.MinDurationMs };
+                                            string N = (TCS.MinDurationMs > 0?"MinDuratonEffect":"DefaultMinDurationEffect");
+                                            int Min=(TCS.MinDurationMs > 0?TCS.MinDurationMs:(Toy is IRGBAToy?EffectRGBMinDurationMs:EffectMinDurationMs));
+                                            Effect = new MinDurationEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} {3}".Build(new object[] {LedWizNr, TCC.Number, SettingNumber,N}), TargetEffectName = Effect.Name, MinDurationMs = Min };
                                             MakeEffectNameUnique(Effect, Table);
                                             Table.Effects.Add(Effect);
                                         }
