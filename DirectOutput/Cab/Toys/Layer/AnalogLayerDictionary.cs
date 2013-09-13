@@ -5,10 +5,10 @@ using System.Text;
 
 namespace DirectOutput.Cab.Toys.Layer
 {
-    public class AnalogLayerDictionary : SortedDictionary<int, AnalogLayer>
+    public class AnalogLayerDictionary : SortedDictionary<int, AnalogAlphaLayer>
     {
 
-        public new AnalogLayer this[int key]
+        public new AnalogAlphaLayer this[int key]
         {
             get
             {
@@ -18,7 +18,7 @@ namespace DirectOutput.Cab.Toys.Layer
                 }
                 catch
                 {
-                    AnalogLayer L = new AnalogLayer();
+                    AnalogAlphaLayer L = new AnalogAlphaLayer();
                     Add(key, L);
                     return L;
                 }
@@ -39,7 +39,7 @@ namespace DirectOutput.Cab.Toys.Layer
             {
                 float Value = 0;
 
-                foreach (KeyValuePair<int, AnalogLayer> KV in this)
+                foreach (KeyValuePair<int, AnalogAlphaLayer> KV in this)
                 {
                     int Alpha = KV.Value.Alpha ;
                     if (Alpha != 0)

@@ -7,7 +7,7 @@ using DirectOutput.Cab.Color;
 
 namespace DirectOutput.Cab.Toys.Layer
 {
-    public class RGBAToy : ToyBaseUpdatable
+    public class RGBAToy : ToyBaseUpdatable, IRGBAToy
     {
 
 

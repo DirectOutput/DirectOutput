@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DirectOutput.Cab.Toys.Layer
 {
-    public class AnalogLayer
+    public class AnalogAlphaLayer
     {
 
         public int Value;
@@ -35,10 +35,10 @@ namespace DirectOutput.Cab.Toys.Layer
             return new AnalogAlphaValue(Value, Alpha);
         }
 
-        public AnalogLayer() { }
-        public AnalogLayer(int Value) { Set(Value); }
-        public AnalogLayer(int Value, int Alpha) { Set(Value, Alpha); }
-        public  AnalogLayer(AnalogAlphaValue AnalogAlphaValue) {Set(AnalogAlphaValue);}
+        public AnalogAlphaLayer() { }
+        public AnalogAlphaLayer(int Value) { Set(Value); }
+        public AnalogAlphaLayer(int Value, int Alpha) { Set(Value, Alpha); }
+        public  AnalogAlphaLayer(AnalogAlphaValue AnalogAlphaValue) {Set(AnalogAlphaValue);}
 
 
     }

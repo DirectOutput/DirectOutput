@@ -51,9 +51,9 @@ namespace DirectOutput.LedControl.Setup
 
                                 int Layer = (TCS.Layer.HasValue ? TCS.Layer.Value : SettingNumber);
 
-                                if (Toy is RGBAToy || Toy is AnalogToy)
+                                if (Toy is IRGBAToy || Toy is IAnalogAlphaToy)
                                 {
-                                    if (Toy is RGBAToy)
+                                    if (Toy is IRGBAToy)
                                     {
                                         RGBAColor ActiveColor = null;
                                         if (TCS.ColorConfig != null)
@@ -88,7 +88,7 @@ namespace DirectOutput.LedControl.Setup
 
                                         }
                                     }
-                                    else if (Toy is AnalogToy)
+                                    else if (Toy is IAnalogAlphaToy)
                                     {
                                         AnalogAlphaValue AAV = new AnalogAlphaValue((int)((double)TCS.Intensity * 5.3125));
                                         if (TCS.FadingDownDurationMs > 0 || TCS.FadingUpDurationMs > 0)
@@ -216,7 +216,7 @@ namespace DirectOutput.LedControl.Setup
                                     try
                                     {
                                         //Toy does already exist
-                                        TargetToy = (IToy)Cabinet.Toys.First(Toy => Toy is RGBAToy && ((RGBAToy)Toy).OutputNameRed == LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName && ((RGBAToy)Toy).OutputNameGreen == LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 1).OutputName && ((RGBAToy)Toy).OutputNameBlue == LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 2).OutputName);
+                                        TargetToy = (IToy)Cabinet.Toys.First(Toy => Toy is IRGBAToy && ((IRGBAToy)Toy).OutputNameRed == LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName && ((IRGBAToy)Toy).OutputNameGreen == LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 1).OutputName && ((IRGBAToy)Toy).OutputNameBlue == LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 2).OutputName);
 
                                     }
                                     catch
@@ -248,7 +248,7 @@ namespace DirectOutput.LedControl.Setup
                                 {
                                     try
                                     {
-                                        TargetToy = Cabinet.Toys.First(Toy => Toy is AnalogToy && ((AnalogToy)Toy).OutputName == LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName);
+                                        TargetToy = Cabinet.Toys.First(Toy => Toy is IAnalogAlphaToy && ((IAnalogAlphaToy)Toy).OutputName == LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName);
                                     }
                                     catch
                                     {
@@ -264,7 +264,7 @@ namespace DirectOutput.LedControl.Setup
                                             }
                                             ToyName = "{0} {1}".Build(ToyName, Cnt);
                                         }
-                                        TargetToy = (IToy)new AnalogToy() { Name = ToyName, OutputName = LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName };
+                                        TargetToy = (IToy)new AnalogAlphaToy() { Name = ToyName, OutputName = LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName };
                                         Cabinet.Toys.Add(TargetToy);
                                     }
                                     ToyAssignments[LedWizNr].Add(TCC.Number, TargetToy);
