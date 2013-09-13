@@ -48,27 +48,7 @@ namespace DirectOutput.Cab.Toys.Layer
             }
         }
 
-        public void SetColor(RGBColor Color)
-        {
-           Layers[-1].SetLayer(Color);
-        }
 
-        public void SetColor(int Red, int Green, int Blue)
-        {
-            Layers[-1].SetLayer(Red, Green, Blue);
-        }
-
-        public void SetColor(string Color)
-        {
-            if (_Cabinet.Colors.Contains(Color))
-            {
-                Layers[-1].SetLayer( _Cabinet.Colors[Color]);
-            }
-            else
-            {
-               Layers[-1].SetLayer(new RGBAColor(Color));
-            }
-        }
 
         #endregion
 
