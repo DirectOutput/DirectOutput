@@ -195,8 +195,7 @@ namespace DirectOutput
                 Log.Write("Loading script files");
                 Scripts.LoadAndAddScripts(GlobalConfig.GetGlobalScriptFiles());
 
-                //Load cabinet script files
-                Scripts.LoadAndAddScripts(GlobalConfig.GetCabinetScriptFiles());
+
 
 
                 //Load table script files

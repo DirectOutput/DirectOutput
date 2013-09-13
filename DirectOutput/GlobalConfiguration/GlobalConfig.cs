@@ -117,39 +117,6 @@ namespace DirectOutput.GlobalConfiguration
         }
         #endregion
 
-        #region Cabinet Scripts file patterns
-        private FilePatternList _CabinetScriptFilePatterns = new FilePatternList();
-
-        /// <summary>
-        /// Gets or sets the search patterns for cabinet scripts files.
-        /// </summary>
-        /// <value>
-        /// The search patterns for cabinet scripts files.
-        /// </value>
-        public FilePatternList CabinetScriptFilePatterns
-        {
-            get { return _CabinetScriptFilePatterns; }
-            set { _CabinetScriptFilePatterns = value; }
-        }
-
-
-        /// <summary>
-        /// Gets a list of FileInfo objects representing the cabinet script files.
-        /// </summary>
-        /// <returns>A list of FileOnfo objects or a empty list of the files have been found.</returns>
-        public List<FileInfo> GetCabinetScriptFiles()
-        {
-            if (CabinetScriptFilePatterns != null)
-            {
-                return CabinetScriptFilePatterns.GetMatchingFiles(GetReplaceValuesDictionary());
-            }
-            return new List<FileInfo>();
-        }
-
-
-        #endregion
-
-
 
         #endregion
 

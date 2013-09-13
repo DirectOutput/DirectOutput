@@ -14,9 +14,6 @@ namespace DirectOutput.LedControl.Loader
     /// </summary>
     public class LedControlConfigList : List<LedControlConfig>
     {
-        
-     
-
         public Dictionary<int, TableConfig> GetTableConfigDictonary(string RomName)
         {
             Dictionary<int, TableConfig> D = new Dictionary<int, TableConfig>();
