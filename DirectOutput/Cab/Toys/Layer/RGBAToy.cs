@@ -11,47 +11,6 @@ namespace DirectOutput.Cab.Toys.Layer
     {
 
 
-        #region IRGBToy Member
-
-        public int Blue
-        {
-            get
-            {
-                if (_OutputBlue != null)
-                {
-                    return _OutputBlue.Value;
-                }
-                return 0;
-            }
-        }
-
-        public int Green
-        {
-            get
-            {
-                if (_OutputGreen != null)
-                {
-                    return _OutputGreen.Value;
-                }
-                return 0;
-            }
-        }
-
-        public int Red
-        {
-            get
-            {
-                if (_OutputRed != null)
-                {
-                    return _OutputRed.Value;
-                }
-                return 0;
-            }
-        }
-
-
-
-        #endregion
 
 
 
