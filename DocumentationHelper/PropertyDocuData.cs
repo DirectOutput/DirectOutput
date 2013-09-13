@@ -11,11 +11,60 @@ namespace DocumentationHelper
         public PropertyInfo PropertyInfo;
 
 
+
+
+        public string Summary
+        {
+            get
+            {
+                string N = "{0}.{1}.{2}".Build(PropertyInfo.DeclaringType.Namespace, PropertyInfo.DeclaringType.Name,PropertyInfo.Name);
+                if (VSXmlDocu.PropertySummary.ContainsKey(N))
+                {
+                    return VSXmlDocu.PropertySummary[N];
+                }
+                return "";
+            }
+        }
+
+
+        public string Value
+        {
+            get
+            {
+                string N = "{0}.{1}.{2}".Build(PropertyInfo.DeclaringType.Namespace, PropertyInfo.DeclaringType.Name, PropertyInfo.Name);
+                if (VSXmlDocu.PropertyValue.ContainsKey(N))
+                {
+                    return VSXmlDocu.PropertyValue[N];
+                }
+                return "";
+            }
+        }
+
         public string GetDocu()
         {
             string S = "";
 
-            S += "\\subsubsection {0}_{1}_{2} {2}\n\n".Build(PropertyInfo.DeclaringType.Namespace.Replace(".", "_"), PropertyInfo.DeclaringType.Name, Name);
+            S += "\\subsubsection {0}_{1}_{2} {2}\n\n".Build(PropertyInfo.ReflectedType.Namespace.Replace(".", "_"), PropertyInfo.ReflectedType.Name, Name);
+
+            if (!Summary.IsNullOrWhiteSpace())
+            {
+                S += Summary;
+                S += "\n\n";
+            }
+
+            if (!Value.IsNullOrWhiteSpace() || !ValidValuesDescription.IsNullOrWhiteSpace())
+            {
+                S += "__Value__\n";
+                if (!Value.IsNullOrWhiteSpace())
+                {
+                    S += Value;
+                    S += "\n\n";
+                };
+                if (!ValidValuesDescription.IsNullOrWhiteSpace())
+                {
+                    S += ValidValuesDescription + "\n\n";
+                }
+            }
 
             //S += "__Value type__\n";
             //S += "The property {0} is of type _{1}_.\n".Build(Name, TypeName);
@@ -27,7 +76,7 @@ namespace DocumentationHelper
             if (!N.IsNullOrWhiteSpace())
             {
                 S += "__Nested Properties__\n";
-                S += "The following nested propteries exist for the {0} property:\n".Build(Name);
+                S += "The following nested propteries exist for {0}:\n".Build(Name);
                 S += N;
 
                 S += "\n";

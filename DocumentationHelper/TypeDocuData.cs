@@ -20,11 +20,35 @@ namespace DocumentationHelper
             set { _Type = value; }
         }
 
+
+        public string Summary
+        {
+            get
+            {
+                string N = "{0}.{1}".Build(Type.Namespace, Type.Name);
+                if (VSXmlDocu.TypeSummary.ContainsKey(N))
+                {
+                    return VSXmlDocu.TypeSummary[N];
+                }
+                return "";
+            }
+        }
+
+
         public string GetDocu()
         {
             string S = "";
 
+
+
             S += "\\section use_{0}_{1} {1}\n\n".Build(NamespaceName.Replace(".", "_"), Name);
+
+            if (!Summary.IsNullOrWhiteSpace())
+            {
+                S += "\\subsection use_{0}_{1}_summary Summary\n\n".Build(NamespaceName.Replace(".", "_"), Name);
+                S += Summary;
+                S += "\n\n";
+            }
 
             string Xml = GetSampleXML();
             if (!Xml.IsNullOrWhiteSpace())
@@ -36,19 +60,16 @@ namespace DocumentationHelper
                 S += "\n~~~~~~~~~~~~~\n";
             }
 
-            S += "\\subsection use_{0}_{1}_properties Properties\n\n".Build(NamespaceName.Replace(".", "_"), Name);
             List<PropertyDocuData> PDL=GetPropertyDocuDataList();
             if (PDL.Count > 0)
             {
+                S += "\\subsection use_{0}_{1}_properties Properties\n\n".Build(NamespaceName.Replace(".", "_"), Name);
+                S += "{0} has the following {1} configurable properties:\n\n".Build(Name, PDL.Count);
                 foreach (PropertyDocuData PDD in PDL)
                 {
                     S += PDD.GetDocu();                    
                 }
 
-            }
-            else
-            {
-                S+="{0} doesn't have any configurable properties.".Build(Name);
             }
 
 
