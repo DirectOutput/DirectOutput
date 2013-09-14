@@ -26,11 +26,42 @@ namespace DocumentationHelper
 
             }
 
+            S.WriteToFile("Toys.txt");
 
-            Console.WriteLine(S);
+
+             Types = new DirectOutput.General.TypeList(AppDomain.CurrentDomain.GetAssemblies().ToList().SelectMany(s => s.GetTypes()).Where(p => typeof(DirectOutput.FX.IEffect).IsAssignableFrom(p) && !p.IsAbstract));
+
+             S = "";
+            foreach (Type T in Types)
+            {
+                TypeDocuData I = new TypeDocuData();
+
+                I.Type = T;
+
+                S += I.GetDocu();
+
+            }
+
+            S.WriteToFile("Effects.txt");
+
+            Types = new DirectOutput.General.TypeList(AppDomain.CurrentDomain.GetAssemblies().ToList().SelectMany(s => s.GetTypes()).Where(p => typeof(DirectOutput.Cab.Out.IOutputController).IsAssignableFrom(p) && !p.IsAbstract));
+
+            S = "";
+            foreach (Type T in Types)
+            {
+                TypeDocuData I = new TypeDocuData();
+
+                I.Type = T;
+
+                S += I.GetDocu();
+
+            }
+
+            S.WriteToFile("OutputControllers.txt");
 
 
-            Console.ReadKey();
+
+
         }
     }
 }

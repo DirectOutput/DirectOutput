@@ -54,7 +54,7 @@ namespace DocumentationHelper
 
             if (!Value.IsNullOrWhiteSpace() || !ValidValuesDescription.IsNullOrWhiteSpace())
             {
-                S += "__Value__\n";
+                S += "__Value__\n\n";
                 if (!Value.IsNullOrWhiteSpace())
                 {
                     S += Value;
@@ -75,7 +75,7 @@ namespace DocumentationHelper
             string N = GetNestedPropertiesDocu(this);
             if (!N.IsNullOrWhiteSpace())
             {
-                S += "__Nested Properties__\n";
+                S += "__Nested Properties__\n\n";
                 S += "The following nested propteries exist for {0}:\n".Build(Name);
                 S += N;
 
@@ -84,7 +84,7 @@ namespace DocumentationHelper
 
             if (!ValidValuesDescription.IsNullOrWhiteSpace())
             {
-                S += "__Valid values__\n";
+                S += "__Valid values__\n\n";
                 S += ValidValuesDescription + "\n";
 
             }
@@ -109,7 +109,7 @@ namespace DocumentationHelper
                     string N = GetNestedPropertiesDocu(PDD, Level + 1);
                     if (!N.IsNullOrWhiteSpace())
                     {
-                        S += Indent + "  This property has the following childs:";
+                        S += Indent + "  This property has the following childs:\n";
                         S += N;
                     }
 
@@ -150,7 +150,7 @@ namespace DocumentationHelper
                 string S = "";
                 if (PropertyInfo.PropertyType.IsEnum)
                 {
-                    S = "The property {0} accepts the following values:\n".Build(Name);
+                    S = "The property {0} accepts the following values:\n\n".Build(Name);
                     S += string.Join("\n* ", Enum.GetNames(PropertyInfo.PropertyType));
 
 
