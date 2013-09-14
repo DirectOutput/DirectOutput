@@ -314,7 +314,17 @@ namespace DirectOutput
                                 {
                                     DirectoryInfo DI = new DirectoryInfo(P);
 
-                                    foreach (FileInfo FI in DI.EnumerateFiles("{0}*.ini".Build(LedControlFilename)))
+                                    List<FileInfo> Files = new List<FileInfo>();
+                                    foreach (FileInfo FI in DI.EnumerateFiles())
+                                    {
+                                        if (FI.Name.ToLower().StartsWith(LedControlFilename.ToLower()) && FI.Name.ToLower().EndsWith(".ini"))
+                                        {
+                                            Files.Add(FI);
+                                        }
+                                    }
+
+
+                                    foreach (FileInfo FI in Files)
                                     {
                                         if (string.Equals(FI.Name, "{0}.ini".Build(LedControlFilename), StringComparison.OrdinalIgnoreCase))
                                         {
