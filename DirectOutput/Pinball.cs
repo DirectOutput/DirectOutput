@@ -333,7 +333,7 @@ namespace DirectOutput
                                         }
                                         else
                                         {
-                                            string F = FI.Name.Substring(LedControlFilename.Length, FI.Name.Length - 10 - 4);
+                                            string F = FI.Name.Substring(LedControlFilename.Length, FI.Name.Length - LedControlFilename.Length - 4);
                                             if (F.IsInteger())
                                             {
                                                 int LedWizNr = -1;
@@ -442,7 +442,7 @@ namespace DirectOutput
             }
             catch (Exception E)
             {
-                Log.Equals("A eception occured during initialization", E);
+                Log.Exception("A eception occured during initialization", E);
                 throw new Exception("DirectOutput framework has encountered a exception during initialization.\n Inner exception: {0}".Build(E.Message), E);
             }
         }
