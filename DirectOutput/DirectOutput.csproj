@@ -201,6 +201,7 @@
     <Compile Include="FX\TimmedFX\BlinkEffect.cs" />
     <Compile Include="FX\TimmedFX\DelayEffect.cs" />
     <Compile Include="FX\TimmedFX\DurationEffect.cs" />
+    <Compile Include="FX\TimmedFX\ExtendDurationEffect.cs" />
     <Compile Include="FX\TimmedFX\MinDurationEffect.cs" />
     <Compile Include="FX\TimmedFX\TimmedFX.cs" />
     <Compile Include="FX\EffectEffectBase.cs" />
