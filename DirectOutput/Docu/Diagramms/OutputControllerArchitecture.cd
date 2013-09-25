@@ -2,15 +2,8 @@
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="DirectOutput.Cab.Out.OutputControllerBase">
     <Position X="4.75" Y="2" Width="1.5" />
-    <AssociationLine Name="Outputs" Type="DirectOutput.Cab.Out.IOutput" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="5.5" Y="3.617" />
-        <Point X="5.5" Y="4.938" />
-        <Point X="4" Y="4.938" />
-      </Path>
-    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>BAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAg=</HashCode>
+      <HashCode>BAQAEAAAAQAAAAAAAAAAAAAAAAIAAAAAAAACAAAAAAg=</HashCode>
       <FileName>Cab\Out\OutputControllerBase.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
@@ -22,9 +15,7 @@
     <Position X="7.25" Y="2" Width="1.5" />
     <Members>
       <Field Name="_Number" Hidden="true" />
-      <Field Name="_Outputs" Hidden="true" />
       <Method Name="~LedWiz" Hidden="true" />
-      <Method Name="AddMissingOutputs" Hidden="true" />
       <Field Name="deviceList" Hidden="true" />
       <Method Name="Dispose" Hidden="true" />
       <Field Name="disposed" Hidden="true" />
@@ -40,18 +31,15 @@
       <Field Name="MainWindow" Hidden="true" />
       <Method Name="Notify" Hidden="true" />
       <Field Name="NumberUpdateLocker" Hidden="true" />
-      <Method Name="Outputs_OutputValueChanged" Hidden="true" />
       <Field Name="StartedUp" Hidden="true" />
       <Method Name="StartupLedWiz" Hidden="true" />
       <Field Name="StartupLocker" Hidden="true" />
       <Method Name="TerminateLedWiz" Hidden="true" />
     </Members>
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
     <NestedTypes>
-      <Class Name="DirectOutput.Cab.Out.LW.LedWiz.LedWizUnit" Collapsed="true">
-        <TypeIdentifier>
-          <NewMemberFileName>Cab\Out\LW\LedWiz.cs</NewMemberFileName>
-        </TypeIdentifier>
-      </Class>
       <Struct Name="DirectOutput.Cab.Out.LW.LedWiz.LWZDEVICELIST" Collapsed="true">
         <TypeIdentifier>
           <NewMemberFileName>Cab\Out\LW\LedWiz.cs</NewMemberFileName>
@@ -67,14 +55,16 @@
           <NewMemberFileName>Cab\Out\LW\LedWiz.cs</NewMemberFileName>
         </TypeIdentifier>
       </Enum>
+      <Class Name="DirectOutput.Cab.Out.LW.LedWiz.LedWizUnit" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Cab\Out\LW\LedWiz.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>BkYCkAAAACAjgAACEEAEAAgAAAIAAAFABAACIAAEAGg=</HashCode>
+      <HashCode>AkYCgAAAASAjgAACEEAEAAgACAAAAAFABAACIAAEAGg=</HashCode>
       <FileName>Cab\Out\LW\LedWiz.cs</FileName>
     </TypeIdentifier>
-    <ShowAsCollectionAssociation>
-      <Property Name="Outputs" />
-    </ShowAsCollectionAssociation>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="DirectOutput.Cab.Out.LW.LedWizOutput">

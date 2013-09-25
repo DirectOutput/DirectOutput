@@ -715,14 +715,16 @@ namespace DirectOutput.Cab.Out.LW
 
 
             //TODO: Remove update delay code
+            private DateTime LastUpdate = DateTime.Now;
+            const int MinUpdateIntervalMilliseconds = 1;
             private void UpdateDelay()
             {
-                //int Ms = (int)DateTime.Now.Subtract(LastUpdate).TotalMilliseconds;
-                //if (Ms < MinUpdateIntervalMilliseconds)
-                //{
-                //    Thread.Sleep(MinUpdateIntervalMilliseconds - Ms);
-                //}
-                //LastUpdate = DateTime.Now;
+                int Ms = (int)DateTime.Now.Subtract(LastUpdate).TotalMilliseconds;
+                if (Ms < MinUpdateIntervalMilliseconds)
+                {
+                    Thread.Sleep((MinUpdateIntervalMilliseconds - Ms).Limit(0,MinUpdateIntervalMilliseconds));
+                }
+                LastUpdate = DateTime.Now;
             }
 
             private void SendLedWizUpdate()
