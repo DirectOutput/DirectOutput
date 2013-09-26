@@ -714,7 +714,7 @@ namespace DirectOutput.Cab.Out.LW
             }
 
 
-            //TODO: Remove update delay code
+
             private DateTime LastUpdate = DateTime.Now;
             const int MinUpdateIntervalMilliseconds = 1;
             private void UpdateDelay()
