@@ -132,7 +132,7 @@ namespace B2SServerPlugin
             Pinball.Init(F.FullName, TableFilename, RomName);
 
 
-           // PluginShowFrontend();
+           //PluginShowFrontend();
 
 
         }

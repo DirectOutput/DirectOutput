@@ -10,6 +10,7 @@ using DirectOutput.Cab.Out.LW;
 using DirectOutput.Cab.Toys;
 using DirectOutput.Cab.Out;
 using DirectOutput.Cab.Toys.LWEquivalent;
+using DirectOutput.Cab.Color;
 
 
 namespace DirectOutput.Cab
@@ -79,29 +80,17 @@ namespace DirectOutput.Cab
         }
 
 
-        private EffectList _Effects = new EffectList();
-
-        /// <summary>
-        /// List of cabinet specific effects.
-        /// 
-        /// </summary>
-        //TODO: This property is likely not necessary. Check if it can be dropped.
-        [XmlElementAttribute(Order = 4)]
-        public EffectList Effects
-        {
-            get { return _Effects; }
-            set { _Effects = value; }
-        }
 
 
 
-        private Toys.ColorList _Colors;
+
+        private DirectOutput.Cab.Color.ColorList _Colors;
 
         /// <summary>
         /// List of Color objects used to set colors for toys. 
         /// </summary>
-        [XmlElementAttribute(Order = 5)]
-        public Toys.ColorList Colors
+        [XmlElementAttribute(Order = 4)]
+        public DirectOutput.Cab.Color.ColorList Colors
         {
             get { return _Colors; }
             set { _Colors = value; }
@@ -116,7 +105,7 @@ namespace DirectOutput.Cab
         /// <value>
         ///   <c>true</c> enables auto config, <c>false</c> disables auto config.
         /// </value>
-        [XmlElementAttribute(Order = 6)]
+        [XmlElementAttribute(Order = 5)]
         public bool AutoConfigEnabled
         {
             get { return _AutoConfigEnabled; }
@@ -206,6 +195,27 @@ namespace DirectOutput.Cab
             return GetCabinetFromConfigXml(Xml);
         }
 
+
+        /// <summary>
+        /// Tests a cabinet config in a XML file.
+        /// </summary>
+        /// <param name="FileName">Name of the file.</param>
+        /// <returns>true is the file contains a valid config, otherwise false.</returns>
+        public static bool TestCabinetConfigXmlFile(string FileName)
+        {
+            Cabinet C = null;
+            try
+            {
+                C = GetCabinetFromConfigXmlFile(FileName);
+            }
+            catch
+            {
+                return false;
+            }
+            return C != null;
+
+        }
+
         /// <summary>
         /// Instanciates a Cabinet object from a cabinet configuration in a XML file.
         /// </summary>
@@ -252,11 +262,20 @@ namespace DirectOutput.Cab
             Log.Write("Initializing cabinet");
             this.Pinball = Pinball;
             OutputControllers.Init(this);
-            Toys.Init(Pinball);
-            Effects.Init(Pinball);
+            Toys.Init(this);
+    
             Log.Write("Cabinet initialized");
         }
 
+
+        /// <summary>
+        /// Calls the update method for toys and output controllers in the cabinet
+        /// </summary>
+        public void Update()
+        {
+            Toys.UpdateOutputs();
+            OutputControllers.Update();
+        }
 
 
 
@@ -266,8 +285,7 @@ namespace DirectOutput.Cab
         public void Finish()
         {
             Log.Write("Finishing cabinet");
-   
-            Effects.Finish();
+
             Toys.Finish();
             OutputControllers.Finish();
             Log.Write("Cabinet finished");
@@ -284,8 +302,7 @@ namespace DirectOutput.Cab
             _OutputControllers = new Out.OutputControllerList();
             _Outputs = new CabinetOutputList(this);
             _Toys = new Toys.ToyList();
-            _Effects = new EffectList();
-            _Colors = new Toys.ColorList();
+            _Colors = new ColorList();
         }
         #endregion
 

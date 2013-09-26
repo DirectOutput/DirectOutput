@@ -9,24 +9,9 @@ namespace DirectOutput.Table
     /// <summary>
     /// Represents a element (e.g. Switch, Solenoid) of a pinball table
     /// </summary>
-    public class TableElement : INotifyPropertyChanged
+    public class TableElement 
     {
-        #region INotifyPropertyChanged Member
 
-        /// <summary>
-        /// Is fired if the value of a property changes.
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged(string PropertyName)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(PropertyName));
-            }
-        }
-
-        #endregion
 
 
 
@@ -43,7 +28,7 @@ namespace DirectOutput.Table
                 if (_TableElementType != value)
                 {
                     _TableElementType = value;
-                    NotifyPropertyChanged("TableElementType");
+
                 }
             }
         }
@@ -63,7 +48,7 @@ namespace DirectOutput.Table
                 {
 
                     _Number = value;
-                    NotifyPropertyChanged("Number");
+                
                 }
             }
         }
@@ -87,7 +72,7 @@ namespace DirectOutput.Table
                     if (NameChanged != null)
                     {
                         NameChanged(this, new EventArgs());
-                        NotifyPropertyChanged("Name");
+                      
                     }
                 }
             }
@@ -116,7 +101,7 @@ namespace DirectOutput.Table
                     if (ValueChanged != null)
                     {
                         ValueChanged(this, new TableElementValueChangedEventArgs(this));
-                        NotifyPropertyChanged("ValueChanged");
+           
                     }
                 }
             }
@@ -149,7 +134,7 @@ namespace DirectOutput.Table
                 if (_TableElementEffectList != value)
                 {
                     _TableElementEffectList = value;
-                    NotifyPropertyChanged("AssignedEffects");
+                 
                 }
             }
         }

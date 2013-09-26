@@ -1,6 +1,7 @@
 ﻿using System;
 using DirectOutput.General.Generic;
 using DirectOutput.Table;
+
 namespace DirectOutput.FX
 {
 
@@ -25,7 +26,8 @@ namespace DirectOutput.FX
         /// <summary>
         /// Init must do all necessary initialization work after the IEffect object has been instanciated.
         /// </summary>
-        void Init(Pinball Pinball);
+        /// <param name="Table">The Table object containing the effect.</param>
+        void Init(Table.Table Pinball);
 
 
         /// <summary>

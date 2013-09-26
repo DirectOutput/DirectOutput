@@ -42,9 +42,10 @@ namespace DirectOutput.FX.ListFX
         /// <summary>
         /// Initializes the ListEffect.
         /// </summary>
-        public override void Init(Pinball Pinball)
+        /// <param name="Table">Table object containing the effect.</param>
+        public override void Init(Table.Table Table)
         {
-            AssignedEffects.Init(Pinball);
+            AssignedEffects.Init(Table);
         }
 
 

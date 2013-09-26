@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Xml.Serialization;
+using System.Reflection;
 
 namespace DirectOutputConfigTester
 {
@@ -83,8 +84,8 @@ namespace DirectOutputConfigTester
                     }
 
                 }
-                new DirectoryInfo("config").CreateDirectoryPath();
-                Xml.WriteToFile("Config\\DirectOutputTesterSettings.xml");
+                new DirectoryInfo(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),"config")).CreateDirectoryPath();
+                Xml.WriteToFile(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),"config","DirectOutputTesterSettings.xml"));
             }
             catch
             {
@@ -97,7 +98,7 @@ namespace DirectOutputConfigTester
         {
             try
             {
-                string SettingsXML = DirectOutput.General.FileReader.ReadFileToString("Config\\DirectOutputTesterSettings.xml");
+                string SettingsXML = DirectOutput.General.FileReader.ReadFileToString(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "config", "DirectOutputTesterSettings.xml"));
                 
                 using (MemoryStream ms = new MemoryStream(Encoding.Default.GetBytes(SettingsXML)))
                 {

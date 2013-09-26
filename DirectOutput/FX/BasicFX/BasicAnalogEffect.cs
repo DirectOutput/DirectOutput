@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using DirectOutput.Cab.Toys;
 using DirectOutput.Table;
+using DirectOutput.Cab.Toys.Basic;
 
 namespace DirectOutput.FX.BasicFX
 {
@@ -33,13 +34,13 @@ namespace DirectOutput.FX.BasicFX
             }
         }
 
-        private void ResolveName(Pinball Pinball)
+        private void ResolveName(Table.Table Table)
         {
-            if (!AnalogToyName.IsNullOrWhiteSpace() && Pinball.Cabinet.Toys.Contains(AnalogToyName))
+            if (!AnalogToyName.IsNullOrWhiteSpace() && Table.Pinball.Cabinet.Toys.Contains(AnalogToyName))
             {
-                if (Pinball.Cabinet.Toys[AnalogToyName] is IAnalogToy)
+                if (Table.Pinball.Cabinet.Toys[AnalogToyName] is IAnalogToy)
                 {
-                    _AnalogToy = (IAnalogToy)Pinball.Cabinet.Toys[AnalogToyName];
+                    _AnalogToy = (IAnalogToy)Table.Pinball.Cabinet.Toys[AnalogToyName];
                 }
             }
         }
@@ -107,17 +108,17 @@ namespace DirectOutput.FX.BasicFX
             get { return _ValueOff; }
             set { _ValueOff = value.Limit(0,255); }
         }
-        
-        
+
+
 
         /// <summary>
-        /// Initializes the <see cref="IAnalogToy"/>.
+        /// Initializes the <see cref="IAnalogToy" />.
         /// </summary>
-        public override void Init(Pinball Pinball)
+        public override void Init(Table.Table Table)
         {
 
-            ResolveName(Pinball);
-            if (AnalogToy != null) AnalogToy.Reset();
+            ResolveName(Table);
+
         }
         /// <summary>
         /// Finishes the <see cref="IAnalogToy"/>.

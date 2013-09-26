@@ -29,6 +29,22 @@ namespace DirectOutput.Cab.Toys.LWEquivalent
             }
         }
 
+
+        /// <summary>
+        /// Gets the value of a LedWizEquivalentOutput.
+        /// </summary>
+        /// <param name="OutputNumber">The number of the the LedWizEquivalentOutput.</param>
+        /// <returns>Current value of the LedWiz output</returns>
+        public int GetOutputValue(int OutputNumber)
+        {
+            LedWizEquivalentOutput LWO = Outputs.First(O => O.LedWizEquivalentOutputNumber == OutputNumber);
+            if (LWO != null)
+            {
+                return LWO.Value;
+            }
+            return 0;
+        }
+
         /// <summary>
         /// Gets or sets the outputs of the LedWizEquivalent toy.
         /// </summary>
@@ -59,11 +75,11 @@ namespace DirectOutput.Cab.Toys.LWEquivalent
         /// <summary>
         /// Initializes the LedwizEquivalent toy.
         /// </summary>
-        /// <param name="Pinball"><see cref="Pinball"/> object containing the <see cref="Cabinet"/> to which the <see cref="LedWizEquivalent"/> belongs.</param>
-        public override void Init(Pinball Pinball)
+        /// <param name="Cabinet"><see cref="Cabinet" /> object to which the <see cref="LedWizEquivalent"/> belongs.</param>
+        public override void Init(Cabinet Cabinet)
         {
 
-            Outputs.Init(Pinball.Cabinet); 
+            Outputs.Init(Cabinet); 
         }
 
         /// <summary>

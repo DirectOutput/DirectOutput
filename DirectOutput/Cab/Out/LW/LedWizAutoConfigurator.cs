@@ -31,33 +31,23 @@ namespace DirectOutput.Cab.Out.LW
                     LedWiz LW = new LedWiz(N);
                     if (!Cabinet.OutputControllers.Contains(LW.Name))
                     {
-                        LW.AddOutputs();
+                        
                         Cabinet.OutputControllers.Add(LW);
                         Log.Write("Detected and added LedWiz Nr. {0} with name {1}".Build(LW.Number, LW.Name));
 
-                        bool NumberOccupied = false;
-                        foreach (IToy Toy in Cabinet.Toys.Where(T => T is LedWizEquivalent))
-                        {
-                            LedWizEquivalent LWE = (LedWizEquivalent)Toy;
-                            if (LWE.LedWizNumber == LW.Number)
-                            {
-                                NumberOccupied = true;
-                                break;
-                            }
-                        }
-                        if (!NumberOccupied)
+
+                        if (!Cabinet.Toys.Any(T => T is LedWizEquivalent && ((LedWizEquivalent)T).LedWizNumber == LW.Number))
                         {
                             LedWizEquivalent LWE = new LedWizEquivalent();
                             LWE.LedWizNumber = LW.Number;
                             LWE.Name = "{0} Equivalent".Build(LW.Name);
-                            foreach (IOutput O in LW.Outputs)
-                            {
-                                LedWizOutput LWO = (LedWizOutput)O;
 
-                                LedWizEquivalentOutput LWEO = new LedWizEquivalentOutput() { OutputName = "{0}\\{1}".Build(LW.Name, LWO.Name), LedWizEquivalentOutputNumber = LWO.LedWizOutputNumber };
+                            for (int i = 1; i < 33; i++)
+                            {
+                                 LedWizEquivalentOutput LWEO = new LedWizEquivalentOutput() { OutputName = "{0}\\{0}.{1:00}".Build(LW.Name, i), LedWizEquivalentOutputNumber = i };
                                 LWE.Outputs.Add(LWEO);
-                             
                             }
+
                             if (!Cabinet.Toys.Contains(LWE.Name))
                             {
                                 Cabinet.Toys.Add(LWE);

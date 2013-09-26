@@ -4,16 +4,17 @@ using System.Linq;
 using System.Text;
 using DirectOutput.Cab.Toys;
 using DirectOutput.Table;
+using DirectOutput.Cab.Toys.Basic;
 
 namespace DirectOutput.FX.BasicFX
 {
     /// <summary>
     /// The BasicRGBToyEffect is used to turn on (/set a color) and off RGB toys based on the value of a TableElement.<br/>
+    /// If the value of the table element is >0, the assigned IRGBToy will be set to the value specified in the Color property, for 0 the IRGBToy is set to black. <br/>
+    /// If this effect is used as a static effect, the value of Color will be set on table start.
     /// </summary>
     public class BasicRGBEffect : EffectBase, IEffect
     {
-
-
         private string _RGBToyName;
 
 
@@ -35,7 +36,6 @@ namespace DirectOutput.FX.BasicFX
                 }
             }
         }
-
 
         /// <summary>
         /// Color for the RGB toy.
@@ -61,14 +61,14 @@ namespace DirectOutput.FX.BasicFX
             }
         }
 
-        private void ResolveName(Pinball Pinball)
+        private void ResolveName(Table.Table Table)
         {
 
-            if (!RGBToyName.IsNullOrWhiteSpace() && Pinball.Cabinet.Toys.Contains(RGBToyName))
+            if (!RGBToyName.IsNullOrWhiteSpace() && Table.Pinball.Cabinet.Toys.Contains(RGBToyName))
             {
-                if (Pinball.Cabinet.Toys[RGBToyName] is IRGBToy)
+                if (Table.Pinball.Cabinet.Toys[RGBToyName] is IRGBToy)
                 {
-                    _RGBToy = (IRGBToy)Pinball.Cabinet.Toys[RGBToyName];
+                    _RGBToy = (IRGBToy)Table.Pinball.Cabinet.Toys[RGBToyName];
                 }
 
             }
@@ -106,11 +106,12 @@ namespace DirectOutput.FX.BasicFX
         /// <summary>
         /// Initializes the BasicRGBEffect.
         /// </summary>
-        public override void Init(Pinball Pinball)
+        /// <param name="Table">Table object containing the effect.</param>
+        public override void Init(Table.Table Table)
         {
 
-            ResolveName(Pinball);
-            if (RGBToy != null) RGBToy.Reset();
+            ResolveName(Table);
+           
         }
         /// <summary>
         /// Finishes the BasicRGBEffect.

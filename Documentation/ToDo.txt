@@ -2,8 +2,11 @@
 ledstripe support
 
 
-multilayer toys
-
 conditions for effects
 
 delay effect
+
+Test:
+S46 Red Blink 200,S48 Red f500 influece each other
+ S48 Red Blink 200,S46 Red
+

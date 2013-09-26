@@ -1,0 +1,434 @@
+<?xml version="1.0"?>
+<Cabinet xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>Lizard Pin</Name>
+  <OutputControllers>
+    <LedWiz>
+      <Name>LedWiz 01</Name>
+      <Number>1</Number>
+    </LedWiz>
+    <LedWiz>
+      <Name>LedWiz 02</Name>
+      <Number>2</Number>
+    </LedWiz>
+    <ArtNet>
+      <Name>Artnet Node 1</Name>
+      <Universe>0</Universe>
+      <BroadcastAddress>255.255.255.255</BroadcastAddress>
+    </ArtNet>
+  </OutputControllers>
+  <Toys>
+    <Contactor>
+      <Name>Contactor Top Left</Name>
+      <OutputName>LedWizOutput 01.05</OutputName>
+    </Contactor>
+    <Contactor>
+      <Name>Contactor Top Center</Name>
+      <OutputName>LedWizOutput 01.10</OutputName>
+    </Contactor>
+    <Contactor>
+      <Name>Contactor Top Right</Name>
+      <OutputName>LedWizOutput 01.09</OutputName>
+    </Contactor>
+    <Contactor>
+      <Name>Contactor Middle Left</Name>
+      <OutputName>LedWizOutput 01.03</OutputName>
+    </Contactor>
+    <Contactor>
+      <Name>Contactor Middle Center</Name>
+      <OutputName>LedWizOutput 01.04</OutputName>
+    </Contactor>
+    <Contactor>
+      <Name>Contactor Middle Right</Name>
+      <OutputName>LedWizOutput 01.08</OutputName>
+    </Contactor>
+    <Contactor>
+      <Name>Contactor Slingshot Left</Name>
+      <OutputName>LedWizOutput 01.02</OutputName>
+    </Contactor>
+    <Contactor>
+      <Name>Contactor Slingshot Right</Name>
+      <OutputName>LedWizOutput 01.07</OutputName>
+    </Contactor>
+    <Contactor>
+      <Name>Contactor Flipper Left</Name>
+      <OutputName>LedWizOutput 01.01</OutputName>
+    </Contactor>
+    <Contactor>
+      <Name>Contactor Flipper Right</Name>
+      <OutputName>LedWizOutput 01.07</OutputName>
+    </Contactor>
+    <ReplayKnocker>
+      <Name>ReplayKnocker</Name>
+      <OutputName>LedWizOutput 01.11</OutputName>
+    </ReplayKnocker>
+    <Lamp>
+      <Name>Start Button</Name>
+      <OutputName>LedWizOutput 01.12</OutputName>
+    </Lamp>
+    <Lamp>
+      <Name>Extra Ball Button</Name>
+      <OutputName>LedWizOutput 01.13</OutputName>
+    </Lamp>
+    <Lamp>
+      <Name>Exit Button</Name>
+      <OutputName>LedWizOutput 01.14</OutputName>
+    </Lamp>
+    <Lamp>
+      <Name>Launch Ball Button</Name>
+      <OutputName>LedWizOutput 01.15</OutputName>
+    </Lamp>
+    <Lamp>
+      <Name>Con Door</Name>
+      <OutputName>LedWizOutput 01.16</OutputName>
+    </Lamp>
+    <RGBLed>
+      <Name>Backboard Left</Name>
+      <OutputNameRed>LedWizOutput 01.17</OutputNameRed>
+      <OutputNameGreen>LedWizOutput 01.19</OutputNameGreen>
+      <OutputNameBlue>LedWizOutput 01.18</OutputNameBlue>
+    </RGBLed>
+    <RGBLed>
+      <Name>Backboard Center Left</Name>
+      <OutputNameRed>LedWizOutput 01.20</OutputNameRed>
+      <OutputNameGreen>LedWizOutput 01.22</OutputNameGreen>
+      <OutputNameBlue>LedWizOutput 01.21</OutputNameBlue>
+    </RGBLed>
+    <RGBLed>
+      <Name>Backboard Center</Name>
+      <OutputNameRed>LedWizOutput 01.23</OutputNameRed>
+      <OutputNameGreen>LedWizOutput 01.25</OutputNameGreen>
+      <OutputNameBlue>LedWizOutput 01.24</OutputNameBlue>
+    </RGBLed>
+    <RGBLed>
+      <Name>Backboard Center Right</Name>
+      <OutputNameRed>LedWizOutput 01.26</OutputNameRed>
+      <OutputNameGreen>LedWizOutput 01.28</OutputNameGreen>
+      <OutputNameBlue>LedWizOutput 01.27</OutputNameBlue>
+    </RGBLed>
+    <RGBLed>
+      <Name>Backboard Right</Name>
+      <OutputNameRed>LedWizOutput 01.29</OutputNameRed>
+      <OutputNameGreen>LedWizOutput 01.31</OutputNameGreen>
+      <OutputNameBlue>LedWizOutput 01.30</OutputNameBlue>
+    </RGBLed>
+    <Shaker>
+      <Name>Shaker</Name>
+      <OutputName>LedWizOutput 01.31</OutputName>
+    </Shaker>
+    <LedWizEquivalent>
+      <Name>LedWizEquivalent 1</Name>
+      <Outputs>
+        <LedWizEquivalentOutput>
+          <OutputName>LedWiz 01\LedWiz 01.01</OutputName>
+          <LedWizEquivalentOutputNumber>1</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>LedWiz 01\LedWiz 01.02</OutputName>
+          <LedWizEquivalentOutputNumber>2</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>LedWiz 01\LedWiz 01.03</OutputName>
+          <LedWizEquivalentOutputNumber>3</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>LedWiz 01\LedWiz 01.04</OutputName>
+          <LedWizEquivalentOutputNumber>4</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>LedWiz 01\LedWiz 01.05</OutputName>
+          <LedWizEquivalentOutputNumber>5</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>LedWiz 01\LedWiz 01.06</OutputName>
+          <LedWizEquivalentOutputNumber>6</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>LedWiz 01\LedWiz 01.07</OutputName>
+          <LedWizEquivalentOutputNumber>7</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>LedWiz 01\LedWiz 01.08</OutputName>
+          <LedWizEquivalentOutputNumber>8</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>LedWiz 01\LedWiz 01.09</OutputName>
+          <LedWizEquivalentOutputNumber>9</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>LedWiz 01\LedWiz 01.10</OutputName>
+          <LedWizEquivalentOutputNumber>10</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>LedWiz 01\LedWiz 01.11</OutputName>
+          <LedWizEquivalentOutputNumber>11</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>LedWiz 01\LedWiz 01.12</OutputName>
+          <LedWizEquivalentOutputNumber>12</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>LedWiz 01\LedWiz 01.13</OutputName>
+          <LedWizEquivalentOutputNumber>13</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>LedWiz 01\LedWiz 01.14</OutputName>
+          <LedWizEquivalentOutputNumber>14</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>LedWiz 01\LedWiz 01.15</OutputName>
+          <LedWizEquivalentOutputNumber>15</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>LedWiz 01\LedWiz 01.16</OutputName>
+          <LedWizEquivalentOutputNumber>16</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>LedWiz 01\LedWiz 01.17</OutputName>
+          <LedWizEquivalentOutputNumber>17</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>LedWiz 01\LedWiz 01.18</OutputName>
+          <LedWizEquivalentOutputNumber>18</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>LedWiz 01\LedWiz 01.19</OutputName>
+          <LedWizEquivalentOutputNumber>19</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>LedWiz 01\LedWiz 01.20</OutputName>
+          <LedWizEquivalentOutputNumber>20</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>LedWiz 01\LedWiz 01.21</OutputName>
+          <LedWizEquivalentOutputNumber>21</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>LedWiz 01\LedWiz 01.22</OutputName>
+          <LedWizEquivalentOutputNumber>22</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>LedWiz 01\LedWiz 01.23</OutputName>
+          <LedWizEquivalentOutputNumber>23</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>LedWiz 01\LedWiz 01.24</OutputName>
+          <LedWizEquivalentOutputNumber>24</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>LedWiz 01\LedWiz 01.25</OutputName>
+          <LedWizEquivalentOutputNumber>25</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>LedWiz 01\LedWiz 01.26</OutputName>
+          <LedWizEquivalentOutputNumber>26</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>LedWiz 01\LedWiz 01.27</OutputName>
+          <LedWizEquivalentOutputNumber>27</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>LedWiz 01\LedWiz 01.28</OutputName>
+          <LedWizEquivalentOutputNumber>28</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>LedWiz 01\LedWiz 01.29</OutputName>
+          <LedWizEquivalentOutputNumber>29</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>LedWiz 01\LedWiz 01.30</OutputName>
+          <LedWizEquivalentOutputNumber>30</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>LedWiz 01\LedWiz 01.31</OutputName>
+          <LedWizEquivalentOutputNumber>31</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>LedWiz 01\LedWiz 01.32</OutputName>
+          <LedWizEquivalentOutputNumber>32</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+      </Outputs>
+      <LedWizNumber>1</LedWizNumber>
+    </LedWizEquivalent>
+    <LedWizEquivalent>
+      <Name>LedWizEquivalent 100</Name>
+      <Outputs>
+        <LedWizEquivalentOutput>
+          <OutputName>Artnet Node 1\Artnet Node 1.001</OutputName>
+          <LedWizEquivalentOutputNumber>1</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>Artnet Node 1\Artnet Node 1.002</OutputName>
+          <LedWizEquivalentOutputNumber>2</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>Artnet Node 1\Artnet Node 1.003</OutputName>
+          <LedWizEquivalentOutputNumber>3</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>Artnet Node 1\Artnet Node 1.004</OutputName>
+          <LedWizEquivalentOutputNumber>4</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>Artnet Node 1\Artnet Node 1.005</OutputName>
+          <LedWizEquivalentOutputNumber>5</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>Artnet Node 1\Artnet Node 1.006</OutputName>
+          <LedWizEquivalentOutputNumber>6</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>Artnet Node 1\Artnet Node 1.007</OutputName>
+          <LedWizEquivalentOutputNumber>7</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>Artnet Node 1\Artnet Node 1.008</OutputName>
+          <LedWizEquivalentOutputNumber>8</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>Artnet Node 1\Artnet Node 1.009</OutputName>
+          <LedWizEquivalentOutputNumber>9</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>Artnet Node 1\Artnet Node 1.010</OutputName>
+          <LedWizEquivalentOutputNumber>10</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>Artnet Node 1\Artnet Node 1.011</OutputName>
+          <LedWizEquivalentOutputNumber>11</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>Artnet Node 1\Artnet Node 1.012</OutputName>
+          <LedWizEquivalentOutputNumber>12</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>Artnet Node 1\Artnet Node 1.013</OutputName>
+          <LedWizEquivalentOutputNumber>13</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>Artnet Node 1\Artnet Node 1.014</OutputName>
+          <LedWizEquivalentOutputNumber>14</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>Artnet Node 1\Artnet Node 1.015</OutputName>
+          <LedWizEquivalentOutputNumber>15</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>Artnet Node 1\Artnet Node 1.016</OutputName>
+          <LedWizEquivalentOutputNumber>16</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>Artnet Node 1\Artnet Node 1.017</OutputName>
+          <LedWizEquivalentOutputNumber>17</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>Artnet Node 1\Artnet Node 1.018</OutputName>
+          <LedWizEquivalentOutputNumber>18</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>Artnet Node 1\Artnet Node 1.019</OutputName>
+          <LedWizEquivalentOutputNumber>19</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>Artnet Node 1\Artnet Node 1.020</OutputName>
+          <LedWizEquivalentOutputNumber>20</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>Artnet Node 1\Artnet Node 1.021</OutputName>
+          <LedWizEquivalentOutputNumber>21</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>Artnet Node 1\Artnet Node 1.022</OutputName>
+          <LedWizEquivalentOutputNumber>22</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>Artnet Node 1\Artnet Node 1.023</OutputName>
+          <LedWizEquivalentOutputNumber>23</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>Artnet Node 1\Artnet Node 1.024</OutputName>
+          <LedWizEquivalentOutputNumber>24</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>Artnet Node 1\Artnet Node 1.025</OutputName>
+          <LedWizEquivalentOutputNumber>25</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>Artnet Node 1\Artnet Node 1.026</OutputName>
+          <LedWizEquivalentOutputNumber>26</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>Artnet Node 1\Artnet Node 1.027</OutputName>
+          <LedWizEquivalentOutputNumber>27</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>Artnet Node 1\Artnet Node 1.028</OutputName>
+          <LedWizEquivalentOutputNumber>28</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>Artnet Node 1\Artnet Node 1.029</OutputName>
+          <LedWizEquivalentOutputNumber>29</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>Artnet Node 1\Artnet Node 1.030</OutputName>
+          <LedWizEquivalentOutputNumber>30</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>Artnet Node 1\Artnet Node 1.031</OutputName>
+          <LedWizEquivalentOutputNumber>31</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>Artnet Node 1\Artnet Node 1.032</OutputName>
+          <LedWizEquivalentOutputNumber>32</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+      </Outputs>
+      <LedWizNumber>100</LedWizNumber>
+    </LedWizEquivalent>
+  </Toys>
+  <Effects />
+  <Colors>
+    <Color>
+      <Name>Black</Name>
+      <HexColor>#000000</HexColor>
+    </Color>
+    <Color>
+      <Name>Red</Name>
+      <HexColor>#FF0000</HexColor>
+    </Color>
+    <Color>
+      <Name>Green</Name>
+      <HexColor>#0000FF</HexColor>
+    </Color>
+    <Color>
+      <Name>Blue</Name>
+      <HexColor>#00FF00</HexColor>
+    </Color>
+    <Color>
+      <Name>White</Name>
+      <HexColor>#FFFFFF</HexColor>
+    </Color>
+    <Color>
+      <Name>Yellow</Name>
+      <HexColor>#FF00FF</HexColor>
+    </Color>
+    <Color>
+      <Name>Orange</Name>
+      <HexColor>#FF0080</HexColor>
+    </Color>
+    <Color>
+      <Name>Cyan</Name>
+      <HexColor>#00FFFF</HexColor>
+    </Color>
+    <Color>
+      <Name>Purple</Name>
+      <HexColor>#40FF00</HexColor>
+    </Color>
+    <Color>
+      <Name>Violet</Name>
+      <HexColor>#80FF00</HexColor>
+    </Color>
+    <Color>
+      <Name>Magenta</Name>
+      <HexColor>#FFFF00</HexColor>
+    </Color>
+  </Colors>
+</Cabinet>

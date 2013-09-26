@@ -1,6 +1,8 @@
 ﻿
 using System.Xml.Serialization;
 using DirectOutput.Cab.Out;
+using DirectOutput.Cab.Toys.Layer;
+using DirectOutput.Cab.Color;
 
 namespace DirectOutput.Cab.Toys.Basic
 {
@@ -16,11 +18,11 @@ namespace DirectOutput.Cab.Toys.Basic
         /// <summary>
         /// Initializes the RGBLed toy.
         /// </summary>
-        /// <param name="Pinball"><see cref="Pinball"/> object containing the <see cref="Cabinet"/> to which the <see cref="RGBLed"/> belongs.</param>
-        public override void Init(Pinball Pinball)
+        /// <param name="Cabinet"><see cref="Cabinet"/> object to which the <see cref="RGBLed"/> belongs.</param>
+        public override void Init(Cabinet Cabinet)
         {
-            _Cabinet = Pinball.Cabinet;
-            InitOutputs(Pinball.Cabinet);
+            _Cabinet = Cabinet;
+            InitOutputs(Cabinet);
         }
 
         private void InitOutputs(Cabinet Cabinet)
@@ -74,7 +76,7 @@ namespace DirectOutput.Cab.Toys.Basic
         /// <summary>
         /// Name of the IOutput for red.
         /// </summary>
-       
+
         public string OutputNameRed { get; set; }
 
         private IOutput _OutputGreen;
@@ -82,7 +84,7 @@ namespace DirectOutput.Cab.Toys.Basic
         /// <summary>
         /// Name of the IOutput for green.
         /// </summary>
-        
+
         public string OutputNameGreen { get; set; }
 
         private IOutput _OutputBlue;
@@ -90,7 +92,7 @@ namespace DirectOutput.Cab.Toys.Basic
         /// <summary>
         /// Name of the IOutput for blue.
         /// </summary>
-        
+
         public string OutputNameBlue { get; set; }
 
 
@@ -100,7 +102,7 @@ namespace DirectOutput.Cab.Toys.Basic
         /// Red brightness.
         /// </summary>
         [XmlIgnoreAttribute]
-        public int BrightnessRed
+        public int Red
         {
             get { return _BrightnessRed; }
             private set
@@ -118,7 +120,7 @@ namespace DirectOutput.Cab.Toys.Basic
         /// Green brightness
         /// </summary>
         [XmlIgnoreAttribute]
-        public int BrightnessGreen
+        public int Green
         {
             get { return _BrightnessGreen; }
             private set
@@ -136,7 +138,7 @@ namespace DirectOutput.Cab.Toys.Basic
         /// Blue brightness
         /// </summary>
         [XmlIgnoreAttribute]
-        public int BrightnessBlue
+        public int Blue
         {
             get { return _BrightnessBlue; }
             private set
@@ -158,9 +160,9 @@ namespace DirectOutput.Cab.Toys.Basic
         /// </summary>
         public override void Reset()
         {
-            BrightnessRed = 0;
-            BrightnessBlue = 0;
-            BrightnessGreen = 0;
+            Red = 0;
+            Blue = 0;
+            Green = 0;
 
         }
 
@@ -172,9 +174,9 @@ namespace DirectOutput.Cab.Toys.Basic
         /// <param name="Blue">Blue brightness</param>
         public void SetColor(int Red, int Green, int Blue)
         {
-            BrightnessRed = Red;
-            BrightnessBlue = Blue;
-            BrightnessGreen = Green;
+            this.Red = Red;
+            this.Blue = Blue;
+            this.Green = Green;
 
         }
 
@@ -183,11 +185,21 @@ namespace DirectOutput.Cab.Toys.Basic
         /// Sets the color of the RGBLed toy.
         /// </summary>
         /// <param name="Color">Color object containg the brightness values for the color.</param>
-        public void SetColor(Color Color)
+        public void SetColor(IRGBColor Color)
         {
-            SetColor(Color.BrightnessRed, BrightnessGreen, BrightnessBlue);
+            SetColor(Color.Red, Color.Green, Color.Blue);
         }
 
+
+        /// <summary>
+        /// Sets the color of the RGBLed toy. <br/>
+        /// The Alpha part of the RGBAColor is ignored.
+        /// </summary>
+        /// <param name="Color">IRGBAColor object containg the brightness values for the color.</param>
+        public void SetColor(IRGBAColor Color)
+        {
+            SetColor(Color.Red, Color.Green, Color.Blue);
+        }
 
         /// <summary>
         /// Sets the color of the RGB led toy. 
@@ -195,7 +207,14 @@ namespace DirectOutput.Cab.Toys.Basic
         /// <param name="Color">Hexadecimal color (e.g. \#ff0000 for red), comma separated color (e.g. 0,255,0 for green) or color name as defined in Cabinet.Colors.</param>
         public void SetColor(string Color)
         {
-            SetColor(_Cabinet.Colors[Color]);
+            if (_Cabinet.Colors.Contains(Color))
+            {
+                SetColor(_Cabinet.Colors[Color]);
+            }
+            else
+            {
+                SetColor(new RGBColor(Color));
+            }
         }
     }
 }

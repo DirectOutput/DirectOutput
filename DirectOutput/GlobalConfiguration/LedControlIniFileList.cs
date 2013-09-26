@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel;
+using System.Collections.Generic;
 
 namespace DirectOutput.GlobalConfiguration
 {
-    public class LedControlIniFileList : BindingList<LedControlIniFile>
+    public class LedControlIniFileList : List<LedControlIniFile>
     {
         public void Add(string Filename, int LedWizNumber)
         {

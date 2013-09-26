@@ -27,13 +27,13 @@ namespace DirectOutput.Cab.Out
             get { return _Value; }
             set
             {
-                bool ValueChanged;
+                byte OldValue;
                 lock (ValueChangeLocker)
                 {
-                    ValueChanged = (value != _Value);
+                    OldValue = _Value;
                     _Value = value;
                 }
-                if (ValueChanged) OnValueChanged();
+                if (OldValue!=value) OnValueChanged();
             }
         }
 

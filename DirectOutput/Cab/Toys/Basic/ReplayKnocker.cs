@@ -1,5 +1,4 @@
-﻿using DirectOutput.Cab.Toys.Generic;
-using DirectOutput.PinballSupport;
+﻿using DirectOutput.PinballSupport;
 
 namespace DirectOutput.Cab.Toys.Basic
 {
@@ -7,7 +6,7 @@ namespace DirectOutput.Cab.Toys.Basic
     /// <summary>
     /// Replayknocker toy which can fire the replay knocker one or several times at given intervalls.
     /// </summary>
-    public class ReplayKnocker : GenericDigitalToy, IToy
+    public class ReplayKnocker : DigitalToy, IToy
     {
 
         private int _DefaultIntervallMs = 300;
@@ -106,12 +105,12 @@ namespace DirectOutput.Cab.Toys.Basic
         /// <summary>
         /// Initalizes the ReplayKnocker toy.
         /// </summary>
-        /// <param name="Pinball"><see cref="Pinball" /> object containing the <see cref="Cabinet" /> to which the <see cref="ReplayKnocker" /> belongs.</param>
-        public override void Init(Pinball Pinball)
+        /// <param name="Cabinet"><see cref="Cabinet" /> object to which the <see cref="ReplayKnocker" /> belongs.</param>
+        public override void Init(Cabinet Cabinet)
         {
-            AlarmHandler = Pinball.Alarms;
+            AlarmHandler = Cabinet.Pinball.Alarms;
             if (DefaultIntervallMs < 2) { DefaultIntervallMs = 2; }
-            base.Init(Pinball);
+            base.Init(Cabinet);
         }
 
         /// <summary>

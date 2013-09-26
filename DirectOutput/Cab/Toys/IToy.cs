@@ -1,5 +1,4 @@
-﻿using System;
-using DirectOutput.General.Generic;
+﻿using DirectOutput.General.Generic;
 namespace DirectOutput.Cab.Toys
 {
 
@@ -21,8 +20,8 @@ namespace DirectOutput.Cab.Toys
         /// <summary>
         /// Must initialize the <see cref="IToy"/>.
         /// </summary>
-        /// <param name="Pinball"> Pinball object containging the Cabinet to which the <see cref="IToy"/> belongs.</param>
-        void Init(Pinball Pinball);
+        /// <param name="Cabinet"> Cabinet object cto which the <see cref="IToy"/> belongs.</param>
+        void Init(Cabinet Cabinet);
 
 
 

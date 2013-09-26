@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
-using DirectOutput.LedControl;
+using DirectOutput.LedControl.Loader;
 using System.Threading;
 
 namespace LedControlFileTester

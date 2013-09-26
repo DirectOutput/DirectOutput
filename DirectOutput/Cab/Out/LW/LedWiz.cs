@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Runtime.InteropServices;
 using System.Threading;
-using System.Xml.Serialization;
-using DirectOutput.General;
 using DirectOutput.General.Statistics;
 
 namespace DirectOutput.Cab.Out.LW
@@ -84,6 +81,7 @@ namespace DirectOutput.Cab.Out.LW
         public override void Init(Cabinet Cabinet)
         {
             Log.Debug("Initializing LedWiz Nr. {0:00}".Build(Number));
+            AddOutputs();
             LedWizUnits[Number].Init(Cabinet);
             Log.Write("LedWiz Nr. {0:00} initialized and updater thread initialized.".Build(Number));
 
@@ -106,65 +104,42 @@ namespace DirectOutput.Cab.Out.LW
 
 
         #region Outputs
-        private OutputList _Outputs = new OutputList();
-        /// <summary>
-        /// OutputList containing the LedWizOutput objects for a LedWiz.
-        /// </summary>
-        public override OutputList Outputs
-        {
-            get { return _Outputs; }
-            set
-            {
-                if (_Outputs != null)
-                {
-                    _Outputs.OutputValueChanged -= new OutputList.OutputValueChangedEventHandler(Outputs_OutputValueChanged);
-                }
 
-                _Outputs = value;
-
-                if (_Outputs != null)
-                {
-                    _Outputs.OutputValueChanged += new OutputList.OutputValueChangedEventHandler(Outputs_OutputValueChanged);
-
-                }
-
-            }
-        }
+        
 
         /// <summary>
         /// Adds the outputs for a LedWiz.<br/>
         /// A LedWiz has 32 outputs numbered from 1 to 32. This method adds LedWizOutput objects for all outputs to the list.
         /// </summary>
-        public void AddOutputs()
+        private void AddOutputs()
         {
             for (int i = 1; i <= 32; i++)
             {
                 if (!Outputs.Any(x => ((LedWizOutput)x).LedWizOutputNumber == i))
                 {
-                    Outputs.Add(new LedWizOutput(i) { Name = "LedWizOutput {0:00}.{1:00}".Build(Number, i) });
+                    Outputs.Add(new LedWizOutput(i) { Name = "{0}.{1:00}".Build(Name, i) });
                 }
             }
         }
 
 
-
-
-
         /// <summary>
-        /// Handles the OutputValueChanged event of the Outputs property.<br/>
-        /// Updates the internal arrays holding the states of the LedWiz outputs. 
+        /// This method is called whenever the value of a output in the Outputs property changes its value.<br />
+        /// Updates the internal arrays holding the states of the LedWiz outputs.
         /// </summary>
-        /// <param name="sender">The source of the event (must be a LedWizOutput).</param>
-        /// <param name="e">The <see cref="OutputEventArgs" /> instance containing the event data.</param>
-        /// <exception cref="System.Exception">The OutputValueChanged event handler for LedWiz {0:00} has been called by a sender which is not a LedWizOutput. or LedWiz output numbers must be in the range of 1-32. The supplied output number {0} is out of range.</exception>
-        void Outputs_OutputValueChanged(object sender, OutputEventArgs e)
+        /// <param name="Output">The output which has changed.</param>
+        /// <exception cref="System.Exception">
+        /// The OutputValueChanged event handler for LedWiz {0:00} has been called by a sender which is not a LedWizOutput.<br/>
+        /// or<br/>
+        /// LedWiz output numbers must be in the range of 1-32. The supplied output number {0} is out of range.
+        /// </exception>
+        public override void OnOutputValueChanged(IOutput Output)
         {
-
-            if (!(e.Output is LedWizOutput))
+            if (!(Output is LedWizOutput))
             {
                 throw new Exception("The OutputValueChanged event handler for LedWiz {0:00} has been called by a sender which is not a LedWizOutput.".Build(Number));
             }
-            LedWizOutput LWO = (LedWizOutput)e.Output;
+            LedWizOutput LWO = (LedWizOutput)Output;
 
             if (!LWO.LedWizOutputNumber.IsBetween(1, 32))
             {
@@ -174,6 +149,33 @@ namespace DirectOutput.Cab.Out.LW
             LedWizUnit S = LedWizUnits[this.Number];
             S.UpdateValue(LWO);
         }
+
+
+
+        ///// <summary>
+        ///// Handles the OutputValueChanged event of the base class.<br/>
+        ///// Updates the internal arrays holding the states of the LedWiz outputs. 
+        ///// </summary>
+        ///// <param name="sender">The source of the event (must be a LedWizOutput).</param>
+        ///// <param name="e">The <see cref="OutputEventArgs" /> instance containing the event data.</param>
+        ///// <exception cref="System.Exception">The OutputValueChanged event handler for LedWiz {0:00} has been called by a sender which is not a LedWizOutput. or LedWiz output numbers must be in the range of 1-32. The supplied output number {0} is out of range.</exception>
+        //private void OutputValueChanged(object sender, OutputEventArgs e)
+        //{
+
+        //    if (!(e.Output is LedWizOutput))
+        //    {
+        //        throw new Exception("The OutputValueChanged event handler for LedWiz {0:00} has been called by a sender which is not a LedWizOutput.".Build(Number));
+        //    }
+        //    LedWizOutput LWO = (LedWizOutput)e.Output;
+
+        //    if (!LWO.LedWizOutputNumber.IsBetween(1, 32))
+        //    {
+        //        throw new Exception("LedWiz output numbers must be in the range of 1-32. The supplied output number {0} is out of range.".Build(LWO.LedWizOutputNumber));
+        //    }
+
+        //    LedWizUnit S = LedWizUnits[this.Number];
+        //    S.UpdateValue(LWO);
+        //}
         #endregion
 
 
@@ -392,7 +394,9 @@ namespace DirectOutput.Cab.Out.LW
         public LedWiz()
         {
             StartupLedWiz();
+
             Outputs = new OutputList();
+
 
         }
 
@@ -428,7 +432,9 @@ namespace DirectOutput.Cab.Out.LW
             private TimeSpanStatisticsItem OnOffUpdateTimeStatistics;
 
             //Used to convert the 0-255 range of output values to LedWiz values in the range of 0-48.
-            private static readonly byte[] ByteToLedWizValue = { 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 9, 10, 10, 10, 10, 10, 11, 11, 11, 11, 11, 12, 12, 12, 12, 12, 13, 13, 13, 13, 13, 14, 14, 14, 14, 14, 14, 15, 15, 15, 15, 15, 16, 16, 16, 16, 16, 17, 17, 17, 17, 17, 18, 18, 18, 18, 18, 19, 19, 19, 19, 19, 19, 20, 20, 20, 20, 20, 21, 21, 21, 21, 21, 22, 22, 22, 22, 22, 23, 23, 23, 23, 23, 24, 24, 24, 24, 24, 24, 25, 25, 25, 25, 25, 26, 26, 26, 26, 26, 27, 27, 27, 27, 27, 28, 28, 28, 28, 28, 29, 29, 29, 29, 29, 29, 30, 30, 30, 30, 30, 31, 31, 31, 31, 31, 32, 32, 32, 32, 32, 33, 33, 33, 33, 33, 34, 34, 34, 34, 34, 34, 35, 35, 35, 35, 35, 36, 36, 36, 36, 36, 37, 37, 37, 37, 37, 38, 38, 38, 38, 38, 39, 39, 39, 39, 39, 39, 40, 40, 40, 40, 40, 41, 41, 41, 41, 41, 42, 42, 42, 42, 42, 43, 43, 43, 43, 43, 44, 44, 44, 44, 44, 44, 45, 45, 45, 45, 45, 46, 46, 46, 46, 46, 47, 47, 47, 47, 47, 48, 48, 48, 48, 48 };
+//            private static readonly byte[] ByteToLedWizValue = { 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 9, 10, 10, 10, 10, 10, 11, 11, 11, 11, 11, 12, 12, 12, 12, 12, 13, 13, 13, 13, 13, 14, 14, 14, 14, 14, 14, 15, 15, 15, 15, 15, 16, 16, 16, 16, 16, 17, 17, 17, 17, 17, 18, 18, 18, 18, 18, 19, 19, 19, 19, 19, 19, 20, 20, 20, 20, 20, 21, 21, 21, 21, 21, 22, 22, 22, 22, 22, 23, 23, 23, 23, 23, 24, 24, 24, 24, 24, 24, 25, 25, 25, 25, 25, 26, 26, 26, 26, 26, 27, 27, 27, 27, 27, 28, 28, 28, 28, 28, 29, 29, 29, 29, 29, 29, 30, 30, 30, 30, 30, 31, 31, 31, 31, 31, 32, 32, 32, 32, 32, 33, 33, 33, 33, 33, 34, 34, 34, 34, 34, 34, 35, 35, 35, 35, 35, 36, 36, 36, 36, 36, 37, 37, 37, 37, 37, 38, 38, 38, 38, 38, 39, 39, 39, 39, 39, 39, 40, 40, 40, 40, 40, 41, 41, 41, 41, 41, 42, 42, 42, 42, 42, 43, 43, 43, 43, 43, 44, 44, 44, 44, 44, 44, 45, 45, 45, 45, 45, 46, 46, 46, 46, 46, 47, 47, 47, 47, 47, 48, 48, 48, 48, 48 };
+
+            private static readonly byte[] ByteToLedWizValue = { 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 10, 10, 10, 10, 10, 10, 11, 11, 11, 11, 11, 12, 12, 12, 12, 12, 13, 13, 13, 13, 13, 13, 14, 14, 14, 14, 14, 15, 15, 15, 15, 15, 16, 16, 16, 16, 16, 16, 17, 17, 17, 17, 17, 18, 18, 18, 18, 18, 19, 19, 19, 19, 19, 20, 20, 20, 20, 20, 20, 21, 21, 21, 21, 21, 22, 22, 22, 22, 22, 23, 23, 23, 23, 23, 23, 24, 24, 24, 24, 24, 25, 25, 25, 25, 25, 26, 26, 26, 26, 26, 26, 27, 27, 27, 27, 27, 28, 28, 28, 28, 28, 29, 29, 29, 29, 29, 29, 30, 30, 30, 30, 30, 31, 31, 31, 31, 31, 32, 32, 32, 32, 32, 32, 33, 33, 33, 33, 33, 34, 34, 34, 34, 34, 35, 35, 35, 35, 35, 36, 36, 36, 36, 36, 36, 37, 37, 37, 37, 37, 38, 38, 38, 38, 38, 39, 39, 39, 39, 39, 39, 40, 40, 40, 40, 40, 41, 41, 41, 41, 41, 42, 42, 42, 42, 42, 42, 43, 43, 43, 43, 43, 44, 44, 44, 44, 44, 45, 45, 45, 45, 45, 45, 46, 46, 46, 46, 46, 47, 47, 47, 47, 47, 48, 48, 48, 48, 48, 48 };
             private const int MaxUpdateFailCount = 5;
 
 
@@ -708,15 +714,17 @@ namespace DirectOutput.Cab.Out.LW
             }
 
 
-            //TODO: Remove update delay code
+
+            private DateTime LastUpdate = DateTime.Now;
+            const int MinUpdateIntervalMilliseconds = 1;
             private void UpdateDelay()
             {
-                //int Ms = (int)DateTime.Now.Subtract(LastUpdate).TotalMilliseconds;
-                //if (Ms < MinUpdateIntervalMilliseconds)
-                //{
-                //    Thread.Sleep(MinUpdateIntervalMilliseconds - Ms);
-                //}
-                //LastUpdate = DateTime.Now;
+                int Ms = (int)DateTime.Now.Subtract(LastUpdate).TotalMilliseconds;
+                if (Ms < MinUpdateIntervalMilliseconds)
+                {
+                    Thread.Sleep((MinUpdateIntervalMilliseconds - Ms).Limit(0,MinUpdateIntervalMilliseconds));
+                }
+                LastUpdate = DateTime.Now;
             }
 
             private void SendLedWizUpdate()

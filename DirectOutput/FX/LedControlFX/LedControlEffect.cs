@@ -32,11 +32,11 @@ namespace DirectOutput.FX.LedControlFX
 
         private LedWizEquivalent LedWizEquivalent;
 
-        private void ResolveName(Pinball Pinball)
+        private void ResolveName(Table.Table Table)
         {
-            if (!LedWizEquivalentName.IsNullOrWhiteSpace() && Pinball.Cabinet.Toys.Contains(LedWizEquivalentName))
+            if (!LedWizEquivalentName.IsNullOrWhiteSpace() && Table.Pinball.Cabinet.Toys.Contains(LedWizEquivalentName))
             {
-                IToy T = Pinball.Cabinet.Toys[LedWizEquivalentName];
+                IToy T = Table.Pinball.Cabinet.Toys[LedWizEquivalentName];
                 if (T is LedWizEquivalent)
                 {
                     LedWizEquivalent = (LedWizEquivalent)T;
@@ -152,6 +152,35 @@ namespace DirectOutput.FX.LedControlFX
             get { return _Duration; }
             set { _Duration = value; }
         }
+
+        private int _FadeUpDurationMs = 0;
+
+        /// <summary>
+        /// Gets or sets the fadeing up duration in milliseconds.
+        /// </summary>
+        /// <value>
+        /// The fading up duration in miliseconds.
+        /// </value>
+        public int FadeUpDurationMs
+        {
+            get { return _FadeUpDurationMs; }
+            set { _FadeUpDurationMs = value.Limit(0, int.MaxValue); }
+        }
+
+        private int _FadeDownDurationMs = 0;
+
+        /// <summary>
+        /// Gets or sets the fadeing down duration in milliseconds.
+        /// </summary>
+        /// <value>
+        /// The fading down duration in miliseconds.
+        /// </value>
+        public int FadeDownDurationMs
+        {
+            get { return _FadeDownDurationMs; }
+            set { _FadeDownDurationMs = value.Limit(0, int.MaxValue); }
+        }
+
         #endregion
 
 
@@ -183,25 +212,125 @@ namespace DirectOutput.FX.LedControlFX
 
         private void SetOutputColor()
         {
+
             if (RGBColor[0] >= 0)
             {
-                SetOutputValue(FirstOutputNumber, RGBColor[0]);
-                SetOutputValue(FirstOutputNumber + 1, RGBColor[1]);
-                SetOutputValue(FirstOutputNumber + 2, RGBColor[2]);
+                if (FadeUpDurationMs > 0 || FadeDownDurationMs > 0)
+                {
+                    FadeColor(true);
+                }
+                else
+                {
+                    SetOutputValue(FirstOutputNumber, RGBColor[0]);
+                    SetOutputValue(FirstOutputNumber + 1, RGBColor[1]);
+                    SetOutputValue(FirstOutputNumber + 2, RGBColor[2]);
+                }
             }
         }
         private void UnsetOutputColor()
         {
-            SetOutputValue(FirstOutputNumber, 0);
-            SetOutputValue(FirstOutputNumber + 1, 0);
-            SetOutputValue(FirstOutputNumber + 2, 0);
+            if (FadeUpDurationMs > 0 || FadeDownDurationMs > 0)
+            {
+                FadeColor(false);
+            }
+            else
+            {
+                SetOutputValue(FirstOutputNumber, 0);
+                SetOutputValue(FirstOutputNumber + 1, 0);
+                SetOutputValue(FirstOutputNumber + 2, 0);
+            }
+        }
+
+        private double[] ColorFadeStep = new double[3] { 0, 0, 0 };
+        private double[] ColorCurrent = new double[3] { 0, 0, 0 };
+        private double[] ColorTarget = new double[3] { 0, 0, 0 };
+        private void FadeColor(bool LedState)
+        {
+            AlarmHandler.UnregisterAlarm(FadeColorAlarmHandler);
+            int Duration = (LedState ? FadeUpDurationMs : FadeDownDurationMs);
+            if (Duration > 0)
+            {
+                bool ColorMatch = true;
+                for (int i = 0; i < 3; i++)
+                {
+                    ColorCurrent[i] = LedWizEquivalent.GetOutputValue((FirstOutputNumber + i).Limit(1, 32));
+                    ColorTarget[i] = (LedState ? RGBColor[i] : 0);
+                    ColorMatch &= (ColorCurrent[i] == ColorTarget[i]);
+
+                    ColorFadeStep[i] = (ColorTarget[i] - ColorCurrent[i]) / (Duration / 30);
+
+                }
+                if (!ColorMatch)
+                {
+                    FadeColorAlarmHandler();
+                    //                    AlarmHandler.RegisterAlarm(30, DimColorAlarmHandler);
+                }
+            }
+            else
+            {
+
+                SetOutputValue(FirstOutputNumber, (LedState ? RGBColor[0] : 0));
+                SetOutputValue(FirstOutputNumber + 1, (LedState ? RGBColor[1] : 0));
+                SetOutputValue(FirstOutputNumber + 2, (LedState ? RGBColor[2] : 0));
+            }
+
+
+        }
+
+        private void FadeColorAlarmHandler()
+        {
+            bool ContinueDimming = false;
+
+            for (int i = 0; i < 3; i++)
+            {
+                ColorCurrent[i] += ColorFadeStep[i];
+
+                if (ColorFadeStep[i] > 0)
+                {
+                    if (ColorCurrent[i] >= ColorTarget[i] || ColorCurrent[i] >= 48)
+                    {
+                        ColorFadeStep[i] = 0;
+                        ColorCurrent[i] = ColorTarget[i];
+                    }
+                    else
+                    {
+                        ContinueDimming = true;
+                    }
+                }
+                else if (ColorFadeStep[i] < 0)
+                {
+                    if (ColorCurrent[i] <= ColorTarget[i] || ColorCurrent[i] <= 0)
+                    {
+                        ColorFadeStep[i] = 0;
+                        ColorCurrent[i] = ColorTarget[i];
+                    }
+                    else
+                    {
+                        ContinueDimming = true;
+                    }
+
+                }
+                SetOutputValue(FirstOutputNumber + i, ((int)ColorCurrent[i]).Limit(0, 48));
+            }
+
+            if (ContinueDimming)
+            {
+                AlarmHandler.RegisterAlarm(30, FadeColorAlarmHandler);
+            }
         }
 
         private void SetAnalogOutput()
         {
             if (RGBColor[0] < 0)
             {
-                SetOutputValue(FirstOutputNumber, Intensity);
+                if (FadeUpDurationMs > 0 || FadeDownDurationMs > 0)
+                {
+                    FadeAnalogOutput(true);
+                }
+                else
+                {
+                    SetOutputValue(FirstOutputNumber, Intensity);
+                }
             }
         }
 
@@ -209,18 +338,95 @@ namespace DirectOutput.FX.LedControlFX
         {
             if (RGBColor[0] < 0)
             {
-                SetOutputValue(FirstOutputNumber, 0);
+                if (FadeUpDurationMs > 0 || FadeDownDurationMs > 0)
+                {
+                    FadeAnalogOutput(false);
+                }
+                else
+                {
+                    SetOutputValue(FirstOutputNumber, 0);
+                }
             }
         }
 
+
+        private double FadeCurrent = 0;
+
+        private double FadeStep = 0;
+        private double FadeTarget = 0;
+
+
+        private void FadeAnalogOutput(bool OutputState)
+        {
+            AlarmHandler.UnregisterAlarm(FadeAnalogOutputAlarmHandler);
+
+            FadeCurrent = LedWizEquivalent.GetOutputValue(FirstOutputNumber);
+            FadeTarget = (OutputState ? Intensity : 0);
+            int Duration = (FadeCurrent < FadeTarget ? FadeUpDurationMs : FadeDownDurationMs);
+            if (FadeCurrent == FadeTarget || Duration == 0)
+            {
+                LedWizEquivalent.SetOutputValue(FirstOutputNumber, (OutputState?Intensity:0));
+            }
+            else
+            {
+
+                FadeStep = (FadeTarget - FadeCurrent) / (Duration / 30);
+
+
+                if (FadeStep != 0)
+                {
+                    FadeAnalogOutputAlarmHandler();
+                }
+            }
+        }
+
+
+        private void FadeAnalogOutputAlarmHandler()
+        {
+            FadeCurrent += FadeStep;
+            if (FadeStep > 0)
+            {
+                if (FadeCurrent < FadeTarget && FadeCurrent < 48)
+                {
+                    AlarmHandler.RegisterAlarm(30, FadeAnalogOutputAlarmHandler);
+                }
+                else
+                {
+                    FadeCurrent = FadeTarget;
+                }
+            }
+            else if (FadeStep < 0)
+            {
+                if (FadeCurrent > FadeTarget && FadeCurrent > 0)
+                {
+                    AlarmHandler.RegisterAlarm(30, FadeAnalogOutputAlarmHandler);
+                }
+                else
+                {
+                    FadeCurrent = FadeTarget;
+                }
+            }
+
+            if (FadeStep == 0 || FadeCurrent >= 48 || FadeCurrent <= 0)
+            {
+                AlarmHandler.UnregisterAlarm(FadeAnalogOutputAlarmHandler);
+            }
+
+
+            LedWizEquivalent.SetOutputValue(FirstOutputNumber, ((int)FadeCurrent).Limit(0, 48));
+        }
 
         private void SetOutputValue(int OutputNumber, int Value)
         {
             if (LedWizEquivalent != null && OutputNumber.IsBetween(1, 32))
             {
+
                 LedWizEquivalent.SetOutputValue(OutputNumber, Value);
             }
         }
+
+
+
         #endregion
 
 
@@ -344,12 +550,12 @@ namespace DirectOutput.FX.LedControlFX
         /// Initializes the LedControlEffect.
         /// </summary>
         /// <param name="Pinball">Pinball object containing the effect.</param>
-        public override void Init(Pinball Pinball)
+        public override void Init(Table.Table Table)
         {
-            ResolveName(Pinball);
-            AlarmHandler = Pinball.Alarms;
-            MinimumEffectDurationMs = Pinball.GlobalConfig.LedControlMinimumEffectDurationMs;
-            MinimumRGBEffectDurationMs = Pinball.GlobalConfig.LedControlMinimumRGBEffectDurationMs;
+            ResolveName(Table);
+            AlarmHandler = Table.Pinball.Alarms;
+            MinimumEffectDurationMs = Table.Pinball.GlobalConfig.LedControlMinimumEffectDurationMs;
+            MinimumRGBEffectDurationMs = Table.Pinball.GlobalConfig.LedControlMinimumRGBEffectDurationMs;
         }
 
         /// <summary>
@@ -359,8 +565,10 @@ namespace DirectOutput.FX.LedControlFX
         {
             AlarmHandler.UnregisterAlarm(DurationAlarmHandler);
             AlarmHandler.UnregisterIntervalAlarm(BlinkAlarmHandler);
+            AlarmHandler.UnregisterAlarm(FadeAnalogOutputAlarmHandler);
             Unset();
             AlarmHandler = null;
+            LedWizEquivalent = null;
         }
 
 

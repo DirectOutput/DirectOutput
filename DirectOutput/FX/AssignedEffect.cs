@@ -70,11 +70,11 @@ namespace DirectOutput.FX
             }
         }
 
-        private void ResolveEffectName(Pinball Pinball)
+        private void ResolveEffectName(Table.Table Table)
         {
-            if (!EffectName.IsNullOrWhiteSpace() && Pinball.Effects.Contains(EffectName))
+            if (!EffectName.IsNullOrWhiteSpace() && Table.Effects.Contains(EffectName))
             {
-                Effect = Pinball.Effects[EffectName];
+                Effect = Table.Effects[EffectName];
             };
 
         }
@@ -114,11 +114,11 @@ namespace DirectOutput.FX
         /// <summary>
         /// Initializes the AssignedEffect.
         /// </summary>
-        /// <param name="Pinball">The Pinball object to which the effect belongs.</param>
-        public void Init(Pinball Pinball)
+        /// <param name="Table">The table which contains the AssignedEffect.</param>
+        public void Init(Table.Table Table)
         {
 
-            ResolveEffectName(Pinball);
+            ResolveEffectName(Table);
         }
 
         /// <summary>

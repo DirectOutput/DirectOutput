@@ -15,6 +15,7 @@ using DirectOutput.LedControl;
 using DirectOutput.Table;
 using DirectOutput.Cab;
 using DirectOutput.Cab.Out.DMX;
+using DirectOutput.Cab.Toys.Layer;
 
 
 namespace DirectOutput_Test
@@ -30,36 +31,22 @@ namespace DirectOutput_Test
 
 
 
-        
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
 
-    
 
-   
+
+
 
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
 
-            Pinball P = new Pinball();
+     
 
-            Cabinet C = new Cabinet();
-
-            ArtNet N = new ArtNet();
-            N.Name = "Artnet Node 1";
-            N.Universe = 0;
-            N.BroadcastAddress = "255.255.255.255";
-
-            N.Init(C);
-
-            N.Finish();
-
-            C.OutputControllers.Add(N);
-
-           Console.WriteLine(   C.GetConfigXml());
 
 
         }
