@@ -8,24 +8,24 @@ namespace DirectOutput.Cab.Toys.Layer
 {
     public class RGBALayerDictionary : SortedDictionary<int, RGBALayer>
     {
-        public new RGBALayer this[int key]
+        public new RGBALayer this[int LayerNr]
         {
             get
             {
                 try
                 {
-                    return base[key];
+                    return base[LayerNr];
                 }
                 catch
                 {
                     RGBALayer L = new RGBALayer();
-                    Add(key, L);
+                    Add(LayerNr, L);
                     return L;
                 }
             }
             set
             {
-                base[key] = value;
+                base[LayerNr] = value;
             }
         }
 

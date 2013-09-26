@@ -43,7 +43,7 @@ namespace DirectOutput.FX.RGBAFX
         }
 
 
-
+        
         /// <summary>
         /// Triggers the effect with the given TableElementData.<br/>
         /// If the TableElementData is null, the effect acts as a static effect and will set the ActiveColor when it is triggered.<br/>
@@ -65,9 +65,16 @@ namespace DirectOutput.FX.RGBAFX
             }
         }
 
+
+        public override void Init(Table.Table Table)
+        {
+            
+            base.Init(Table);
+        }
+
           public override void Finish()
           {
-              RGBAToy.Layers.Remove(Layer);
+
               base.Finish();
           }
 
