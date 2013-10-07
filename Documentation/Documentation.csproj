@@ -64,7 +64,17 @@
     <Content Include="img\DirectOutput_Big.png" />
     <Content Include="img\DirectOutput_Small.png" />
     <Content Include="img\DMX.png" />
+    <Content Include="img\EffectEffect.png" />
     <Content Include="img\EffectsArchitecture.png" />
+    <Content Include="img\EffectTypes.png" />
+    <Content Include="img\FX_Blink.png" />
+    <Content Include="img\FX_Delay.png" />
+    <Content Include="img\FX_Duration.png" />
+    <Content Include="img\FX_ExtendDuration.png" />
+    <Content Include="img\FX_FadeOnOff.png" />
+    <Content Include="img\FX_MinDuration.png" />
+    <Content Include="img\FX_Stacked1.png" />
+    <Content Include="img\FX_Stacked2.png" />
     <Content Include="img\GlobalArchitecture.png" />
     <Content Include="img\Herweh.png" />
     <Content Include="img\Installation_DirectoryStructure.png" />
@@ -84,6 +94,7 @@
     <Content Include="img\TableArchitecture.png" />
     <Content Include="img\TestAndDevTeam.jpg" />
     <Content Include="img\ToyArchitecture.png" />
+    <Content Include="img\ToyEffect.png" />
     <Content Include="ToDo.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

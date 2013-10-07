@@ -1,4 +1,4 @@
-﻿using DirectOutput.Cab.Toys.Generic;
+﻿
 using DirectOutput.PinballSupport;
 
 namespace DirectOutput.Cab.Toys.Basic
@@ -6,7 +6,7 @@ namespace DirectOutput.Cab.Toys.Basic
     /// <summary>
     /// The Flasher toy fires one or several short pluses/flashes on the configured IOutput at given intervalls.
     /// </summary>
-    public class Flasher : GenericDigitalToy, IToy
+    public class Flasher : DigitalToy, IToy
     {
         private int _DefaultIntervallMs=150;
 

@@ -9,7 +9,7 @@ namespace DirectOutput.LedControl.Loader
     /// </summary>
     public class LedControlConfig
     {
-        private int _LedWizNumber=0;
+        private int _LedWizNumber = 0;
 
         /// <summary>
         /// Gets or sets the number of the LedWiz resp. LedWizEquivalent to which the settings in this config will be applied.
@@ -22,10 +22,10 @@ namespace DirectOutput.LedControl.Loader
             get { return _LedWizNumber; }
             set { _LedWizNumber = value; }
         }
-        
 
 
-        private TableConfigList _TableConfigurations; 
+
+        private TableConfigList _TableConfigurations;
 
         /// <summary>
         /// Gets or sets the list of table configurations in the ledcontrol.ini.
@@ -71,8 +71,8 @@ namespace DirectOutput.LedControl.Loader
         /// </exception>
         private void ParseLedControlIni(FileInfo LedControlIniFile, bool ThrowExceptions = false)
         {
-            const string ColorStartString = "[Colors LedWiz]";
-            const string OutStartString = "[Config outs]";
+            string[] ColorStartStrings = {"[Colors DOF]","[Colors LedWiz]"};
+            string[] OutStartStrings = {"[Config DOF]","[Config outs]"};
 
             //Read the file
             string Data="";
@@ -99,25 +99,39 @@ namespace DirectOutput.LedControl.Loader
             }
 
             //Find starting positions of both sections
-            int ColorStart = Data.IndexOf(ColorStartString, StringComparison.InvariantCultureIgnoreCase);
-            int OutStart = Data.IndexOf(OutStartString, StringComparison.InvariantCultureIgnoreCase);
+            int ColorStart = -1;
+                string ColorStartString="";
+            foreach (string S in ColorStartStrings)
+            {
+                ColorStart = Data.IndexOf(S, StringComparison.InvariantCultureIgnoreCase);
+                ColorStartString=S;
+                if (ColorStart >= 0) break;
+            }
+            int OutStart = -1;
+            string OutStartString = "";
+            foreach (string S in OutStartStrings)
+            {
+                OutStart = Data.IndexOf(S, StringComparison.InvariantCultureIgnoreCase);
+                OutStartString = S;
+                if (OutStart >= 0) break;
+            }
 
             if (ColorStart < 0)
             {
-                Log.Exception("Could not find {0} section in file {1}.".Build(ColorStartString, LedControlIniFile));
+                Log.Exception("Could not find color definition section in file {0}.".Build(LedControlIniFile));
                 if (ThrowExceptions)
                 {
-                    throw new Exception("Could not find {0} section in file {1}.".Build(ColorStartString, LedControlIniFile));
+                    throw new Exception("Could not find  color definition section in file {0}.".Build(LedControlIniFile));
                 }
                 return;
             }
 
             if (OutStart < 0)
             {
-                Log.Exception("Could not find {0} section in file {1}.".Build(OutStartString, LedControlIniFile));
+                Log.Exception("Could not find table config section in file {0}.".Build(LedControlIniFile));
                 if (ThrowExceptions)
                 {
-                    throw new Exception("Could not find {0} section in file {1}.".Build(OutStartString, LedControlIniFile));
+                    throw new Exception("Could not find table config section section in file {1}.".Build(LedControlIniFile));
                 }
                 return;
             }
@@ -216,12 +230,12 @@ namespace DirectOutput.LedControl.Loader
                             RequiredOutputs.Add(C.Number, Cnt);
                         }
                     }
-                    
+
                 }
-                
+
             }
 
-         
+
             //Dump();
         }
 
@@ -267,7 +281,7 @@ namespace DirectOutput.LedControl.Loader
         /// File {1} does not contain data in the {0} section.
         /// or
         /// Section {0} of file {1} does not have the same number of columns in all lines.</exception>
-        public LedControlConfig(string LedControlIniFilename,int LedWizNumber, bool ThrowExceptions=false)
+        public LedControlConfig(string LedControlIniFilename, int LedWizNumber, bool ThrowExceptions = false)
             : this()
         {
             ParseLedControlIni(new FileInfo(LedControlIniFilename), ThrowExceptions);

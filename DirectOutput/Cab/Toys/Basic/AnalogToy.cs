@@ -5,19 +5,19 @@ using System.Text;
 using DirectOutput.Cab.Out;
 using System.Xml.Serialization;
 
-namespace DirectOutput.Cab.Toys.Generic
+namespace DirectOutput.Cab.Toys.Basic
 {
     /// <summary>
     /// Implementation of a generic analog toy.
     /// Implements IToy.
     /// </summary>
-    public class GenericAnalogToy : ToyBase, IToy, DirectOutput.Cab.Toys.IAnalogToy
+    public class AnalogToy : ToyBase, IToy, IAnalogToy
     {
 
         /// <summary>
         /// Initalizes the GenericAnalogToy.
         /// </summary>
-         /// <param name="Cabinet"><see cref="Cabinet"/> object to which the <see cref="GenericAnalogToy"/> belongs.</param>
+         /// <param name="Cabinet"><see cref="Cabinet"/> object to which the <see cref="AnalogToy"/> belongs.</param>
         public override void Init(Cabinet Cabinet)
         {
             InitOutput(Cabinet);

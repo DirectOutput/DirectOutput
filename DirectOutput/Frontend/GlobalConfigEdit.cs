@@ -68,7 +68,7 @@ namespace DirectOutput.Frontend
             return ValidateLedcontrolFiles()
                 && ValidateFilePatterns(GlobalScriptFilePatterns)
                 && ValidateFilePatterns(CabinetConfigFilePatterns)
-                && ValidateFilePatterns(CabinetScriptFilePatterns)
+ 
                 && ValidateFilePatterns(TableScriptFilePatterns)
                 && ValidateFilePatterns(TableConfigFilePatterns)
                 && ValidateLogFilePattern();
@@ -118,7 +118,7 @@ namespace DirectOutput.Frontend
                 SaveFilePatterns(Config.GlobalScriptFilePatterns, GlobalScriptFilePatterns);
 
                 SaveFilePatterns(Config.CabinetConfigFilePatterns, CabinetConfigFilePatterns);
-                SaveFilePatterns(Config.CabinetScriptFilePatterns, CabinetScriptFilePatterns);
+                
 
                 SaveFilePatterns(Config.TableConfigFilePatterns, TableConfigFilePatterns);
                 SaveFilePatterns(Config.TableScriptFilePatterns, TableScriptFilePatterns);
@@ -170,7 +170,7 @@ namespace DirectOutput.Frontend
             LoadFilePatterns(Config.GlobalScriptFilePatterns, GlobalScriptFilePatterns);
 
             LoadFilePatterns(Config.CabinetConfigFilePatterns, CabinetConfigFilePatterns);
-            LoadFilePatterns(Config.CabinetScriptFilePatterns, CabinetScriptFilePatterns);
+
 
             LoadFilePatterns(Config.TableConfigFilePatterns, TableConfigFilePatterns);
             LoadFilePatterns(Config.TableScriptFilePatterns, TableScriptFilePatterns);
@@ -530,6 +530,8 @@ namespace DirectOutput.Frontend
             }
 
         }
+
+
 
 
 

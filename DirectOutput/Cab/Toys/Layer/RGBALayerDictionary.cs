@@ -2,107 +2,35 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DirectOutput.Cab.Color;
 
 namespace DirectOutput.Cab.Toys.Layer
 {
     public class RGBALayerDictionary : SortedDictionary<int, RGBALayer>
     {
-        public new RGBALayer this[int key]
+        public new RGBALayer this[int LayerNr]
         {
             get
             {
                 try
                 {
-                    return base[key];
+                    return base[LayerNr];
                 }
                 catch
                 {
                     RGBALayer L = new RGBALayer();
-                    Add(key, L);
+                    Add(LayerNr, L);
                     return L;
                 }
             }
             set
             {
-                base[key] = value;
+                base[LayerNr] = value;
             }
         }
 
 
-        public RGBALayer SetLayer(int Layer, int Red, int Green, int Blue)
-        {
-            RGBALayer L = null;
-            try
-            {
-                L = this[Layer];
-            }
-            catch
-            {
-                L = new RGBALayer();
-                Add(Layer, L);
-            }
-
-            L.SetLayer(Red, Green, Blue);
-
-            return L;
-        }
-
-        public RGBALayer SetLayer(int Layer, int Red, int Green, int Blue, int Alpha)
-        {
-
-            RGBALayer L = null;
-            try
-            {
-                L = this[Layer];
-            }
-            catch
-            {
-                L = new RGBALayer();
-                Add(Layer, L);
-            }
-
-            L.SetLayer(Red, Green, Blue, Alpha);
-
-            return L;
-        }
-
-        public RGBALayer SetLayer(int Layer, RGBAColor RGBA)
-        {
-            RGBALayer L = null;
-            try
-            {
-                L = this[Layer];
-            }
-            catch
-            {
-                L = new RGBALayer();
-                Add(Layer, L);
-            }
-
-            L.SetLayer(RGBA);
-
-            return L;
-        }
-
-
-        public RGBALayer SetLayer(int Layer, RGBColor RGB)
-        {
-            RGBALayer L = null;
-            try
-            {
-                L = this[Layer];
-            }
-            catch
-            {
-                L = new RGBALayer();
-                Add(Layer, L);
-            }
-
-            L.SetLayer(RGB);
-
-            return L;
-        }
-
+       
 
 
         public RGBColor GetResultingColor()

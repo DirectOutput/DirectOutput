@@ -1,5 +1,5 @@
 ﻿using System;
-namespace DirectOutput.Cab.Toys
+namespace DirectOutput.Cab.Toys.Basic
 {
     /// <summary>
     /// Generic interface for Toys having only 2 states.<br/>

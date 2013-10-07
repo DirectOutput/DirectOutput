@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DirectOutput.Cab.Color;
 
 namespace DirectOutput.Cab.Toys.Layer
 {
@@ -12,7 +13,7 @@ namespace DirectOutput.Cab.Toys.Layer
         public int Blue;
         public int Alpha;
 
-        public void SetLayer(int Red, int Green, int Blue)
+        public void Set(int Red, int Green, int Blue)
         {
             
             this.Red = Red;
@@ -21,7 +22,7 @@ namespace DirectOutput.Cab.Toys.Layer
             this.Alpha = (Red + Green + Blue > 0 ? 255 : 0);
         }
 
-        public void SetLayer(int Red, int Green, int Blue, int Alpha)
+        public void Set(int Red, int Green, int Blue, int Alpha)
         {
             this.Red = Red;
             this.Green = Green;
@@ -35,36 +36,36 @@ namespace DirectOutput.Cab.Toys.Layer
             return new RGBAColor(Red, Green, Blue, Alpha);
         }
 
-        public void SetLayer(RGBAColor RGBA)
+        public void Set(IRGBAColor RGBA)
         {
-            SetLayer(RGBA.Red, RGBA.Green, RGBA.Blue, RGBA.Alpha);
+            Set(RGBA.Red, RGBA.Green, RGBA.Blue, RGBA.Alpha);
         }
 
-        public void SetLayer(RGBColor RGB)
+        public void Set(IRGBColor RGB)
         {
-            SetLayer(RGB.Red, RGB.Green, RGB.Blue);
+            Set(RGB.Red, RGB.Green, RGB.Blue);
         }
 
         public RGBALayer() { }
 
         public RGBALayer(int Red, int Green, int Blue)
         {
-            SetLayer(Red, Green, Blue);
+            Set(Red, Green, Blue);
         }
 
         public RGBALayer(int Red, int Green, int Blue, int Alpha)
         {
-            SetLayer(Red, Green, Blue, Alpha);
+            Set(Red, Green, Blue, Alpha);
         }
 
-        public RGBALayer(RGBAColor RGBA)
+        public RGBALayer(IRGBAColor RGBA)
         {
-            SetLayer(RGBA.Red, RGBA.Green, RGBA.Blue, RGBA.Alpha);
+            Set(RGBA.Red, RGBA.Green, RGBA.Blue, RGBA.Alpha);
         }
 
-        public  RGBALayer(RGBColor RGB)
+        public  RGBALayer(IRGBColor RGB)
         {
-            SetLayer(RGB.Red, RGB.Green, RGB.Blue);
+            Set(RGB.Red, RGB.Green, RGB.Blue);
         }
     }
 }

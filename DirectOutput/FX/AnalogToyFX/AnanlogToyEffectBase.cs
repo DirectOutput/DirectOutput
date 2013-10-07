@@ -60,16 +60,16 @@ namespace DirectOutput.FX.AnalogToyFX
         /// Refrence to the AnalogToyy specified in the ToyName property.<br/>
         /// If the ToyName property is empty or contains a unknown name or the name of a toy which is not a AnalogToy this property will return null.
         /// </summary>
-        public AnalogToy Toy{get;protected set;}
+        public IAnalogAlphaToy Toy{get;protected set;}
 
         private void ResolveName(Table.Table Table)
         {
 
             if (!ToyName.IsNullOrWhiteSpace() && Table.Pinball.Cabinet.Toys.Contains(ToyName))
             {
-                if (Table.Pinball.Cabinet.Toys[ToyName] is AnalogToy)
+                if (Table.Pinball.Cabinet.Toys[ToyName] is IAnalogAlphaToy)
                 {
-                    Toy = (AnalogToy)Table.Pinball.Cabinet.Toys[ToyName];
+                    Toy = (IAnalogAlphaToy)Table.Pinball.Cabinet.Toys[ToyName];
                 }
 
             }

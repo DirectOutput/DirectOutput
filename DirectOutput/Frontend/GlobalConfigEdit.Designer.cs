@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GlobalConfigEdit));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
@@ -64,7 +64,6 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.label5 = new System.Windows.Forms.Label();
-            this.splitContainer5 = new System.Windows.Forms.SplitContainer();
             this.splitContainer6 = new System.Windows.Forms.SplitContainer();
             this.label2 = new System.Windows.Forms.Label();
             this.CabinetConfigFilePatterns = new System.Windows.Forms.DataGridView();
@@ -73,11 +72,6 @@
             this.CabinetContextMenuGlobalConfigDir = new System.Windows.Forms.ToolStripMenuItem();
             this.CabinetContextMenuInsertDllDir = new System.Windows.Forms.ToolStripMenuItem();
             this.CabinetConfigFilePatternStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.splitContainer7 = new System.Windows.Forms.SplitContainer();
-            this.label3 = new System.Windows.Forms.Label();
-            this.CabinetScriptFilePatterns = new System.Windows.Forms.DataGridView();
-            this.CabinetScriptFilePattern = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CabinetScriptFilePatternStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.splitContainer8 = new System.Windows.Forms.SplitContainer();
             this.label4 = new System.Windows.Forms.Label();
@@ -134,21 +128,12 @@
             this.splitContainer4.Panel1.SuspendLayout();
             this.splitContainer4.Panel2.SuspendLayout();
             this.splitContainer4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).BeginInit();
-            this.splitContainer5.Panel1.SuspendLayout();
-            this.splitContainer5.Panel2.SuspendLayout();
-            this.splitContainer5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer6)).BeginInit();
             this.splitContainer6.Panel1.SuspendLayout();
             this.splitContainer6.Panel2.SuspendLayout();
             this.splitContainer6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CabinetConfigFilePatterns)).BeginInit();
             this.CabinetContextMenu.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer7)).BeginInit();
-            this.splitContainer7.Panel1.SuspendLayout();
-            this.splitContainer7.Panel2.SuspendLayout();
-            this.splitContainer7.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.CabinetScriptFilePatterns)).BeginInit();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer8)).BeginInit();
             this.splitContainer8.Panel1.SuspendLayout();
@@ -454,9 +439,9 @@
             // 
             this.LedwizNumber.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.LedwizNumber.DataPropertyName = "LedwizNumber";
-            dataGridViewCellStyle1.Format = "N0";
-            dataGridViewCellStyle1.NullValue = null;
-            this.LedwizNumber.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Format = "N0";
+            dataGridViewCellStyle2.NullValue = null;
+            this.LedwizNumber.DefaultCellStyle = dataGridViewCellStyle2;
             this.LedwizNumber.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
             this.LedwizNumber.FillWeight = 10F;
             this.LedwizNumber.HeaderText = "Ledwiz Number";
@@ -615,9 +600,9 @@
             // 
             // splitContainer4.Panel2
             // 
-            this.splitContainer4.Panel2.Controls.Add(this.splitContainer5);
+            this.splitContainer4.Panel2.Controls.Add(this.splitContainer6);
             this.splitContainer4.Size = new System.Drawing.Size(1233, 758);
-            this.splitContainer4.SplitterDistance = 137;
+            this.splitContainer4.SplitterDistance = 200;
             this.splitContainer4.TabIndex = 0;
             // 
             // label5
@@ -625,28 +610,9 @@
             this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label5.Location = new System.Drawing.Point(0, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(1233, 137);
+            this.label5.Size = new System.Drawing.Size(1233, 200);
             this.label5.TabIndex = 1;
             this.label5.Text = resources.GetString("label5.Text");
-            // 
-            // splitContainer5
-            // 
-            this.splitContainer5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.splitContainer5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer5.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer5.Name = "splitContainer5";
-            this.splitContainer5.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer5.Panel1
-            // 
-            this.splitContainer5.Panel1.Controls.Add(this.splitContainer6);
-            // 
-            // splitContainer5.Panel2
-            // 
-            this.splitContainer5.Panel2.Controls.Add(this.splitContainer7);
-            this.splitContainer5.Size = new System.Drawing.Size(1233, 617);
-            this.splitContainer5.SplitterDistance = 175;
-            this.splitContainer5.TabIndex = 0;
             // 
             // splitContainer6
             // 
@@ -663,7 +629,7 @@
             // splitContainer6.Panel2
             // 
             this.splitContainer6.Panel2.Controls.Add(this.CabinetConfigFilePatterns);
-            this.splitContainer6.Size = new System.Drawing.Size(1229, 171);
+            this.splitContainer6.Size = new System.Drawing.Size(1233, 554);
             this.splitContainer6.SplitterDistance = 170;
             this.splitContainer6.TabIndex = 0;
             // 
@@ -672,7 +638,7 @@
             this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label2.Location = new System.Drawing.Point(0, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(170, 171);
+            this.label2.Size = new System.Drawing.Size(170, 554);
             this.label2.TabIndex = 0;
             this.label2.Text = "Cabinet configuration file patterns:";
             // 
@@ -686,7 +652,7 @@
             this.CabinetConfigFilePatterns.Location = new System.Drawing.Point(0, 0);
             this.CabinetConfigFilePatterns.MultiSelect = false;
             this.CabinetConfigFilePatterns.Name = "CabinetConfigFilePatterns";
-            this.CabinetConfigFilePatterns.Size = new System.Drawing.Size(1055, 171);
+            this.CabinetConfigFilePatterns.Size = new System.Drawing.Size(1059, 554);
             this.CabinetConfigFilePatterns.TabIndex = 1;
             this.CabinetConfigFilePatterns.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.CabinetConfigFilePatterns_CellValueChanged);
             // 
@@ -729,66 +695,6 @@
             this.CabinetConfigFilePatternStatus.MinimumWidth = 50;
             this.CabinetConfigFilePatternStatus.Name = "CabinetConfigFilePatternStatus";
             this.CabinetConfigFilePatternStatus.ReadOnly = true;
-            // 
-            // splitContainer7
-            // 
-            this.splitContainer7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer7.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.splitContainer7.IsSplitterFixed = true;
-            this.splitContainer7.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer7.Name = "splitContainer7";
-            // 
-            // splitContainer7.Panel1
-            // 
-            this.splitContainer7.Panel1.Controls.Add(this.label3);
-            // 
-            // splitContainer7.Panel2
-            // 
-            this.splitContainer7.Panel2.Controls.Add(this.CabinetScriptFilePatterns);
-            this.splitContainer7.Size = new System.Drawing.Size(1229, 434);
-            this.splitContainer7.SplitterDistance = 170;
-            this.splitContainer7.TabIndex = 0;
-            // 
-            // label3
-            // 
-            this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label3.Location = new System.Drawing.Point(0, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(170, 434);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Cabinet script file patterns:";
-            // 
-            // CabinetScriptFilePatterns
-            // 
-            this.CabinetScriptFilePatterns.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.CabinetScriptFilePatterns.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.CabinetScriptFilePattern,
-            this.CabinetScriptFilePatternStatus});
-            this.CabinetScriptFilePatterns.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CabinetScriptFilePatterns.Location = new System.Drawing.Point(0, 0);
-            this.CabinetScriptFilePatterns.MultiSelect = false;
-            this.CabinetScriptFilePatterns.Name = "CabinetScriptFilePatterns";
-            this.CabinetScriptFilePatterns.Size = new System.Drawing.Size(1055, 434);
-            this.CabinetScriptFilePatterns.TabIndex = 0;
-            this.CabinetScriptFilePatterns.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.CabinetScriptFilePatterns_CellValueChanged);
-            // 
-            // CabinetScriptFilePattern
-            // 
-            this.CabinetScriptFilePattern.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.CabinetScriptFilePattern.ContextMenuStrip = this.CabinetContextMenu;
-            this.CabinetScriptFilePattern.FillWeight = 70F;
-            this.CabinetScriptFilePattern.HeaderText = "Cabinet script file pattern";
-            this.CabinetScriptFilePattern.MinimumWidth = 100;
-            this.CabinetScriptFilePattern.Name = "CabinetScriptFilePattern";
-            // 
-            // CabinetScriptFilePatternStatus
-            // 
-            this.CabinetScriptFilePatternStatus.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.CabinetScriptFilePatternStatus.FillWeight = 30F;
-            this.CabinetScriptFilePatternStatus.HeaderText = "Status";
-            this.CabinetScriptFilePatternStatus.MinimumWidth = 30;
-            this.CabinetScriptFilePatternStatus.Name = "CabinetScriptFilePatternStatus";
-            this.CabinetScriptFilePatternStatus.ReadOnly = true;
             // 
             // tabPage3
             // 
@@ -1128,21 +1034,12 @@
             this.splitContainer4.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
             this.splitContainer4.ResumeLayout(false);
-            this.splitContainer5.Panel1.ResumeLayout(false);
-            this.splitContainer5.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).EndInit();
-            this.splitContainer5.ResumeLayout(false);
             this.splitContainer6.Panel1.ResumeLayout(false);
             this.splitContainer6.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer6)).EndInit();
             this.splitContainer6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.CabinetConfigFilePatterns)).EndInit();
             this.CabinetContextMenu.ResumeLayout(false);
-            this.splitContainer7.Panel1.ResumeLayout(false);
-            this.splitContainer7.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer7)).EndInit();
-            this.splitContainer7.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.CabinetScriptFilePatterns)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.splitContainer8.Panel1.ResumeLayout(false);
             this.splitContainer8.Panel2.ResumeLayout(false);
@@ -1182,12 +1079,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.SplitContainer splitContainer4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.SplitContainer splitContainer5;
         private System.Windows.Forms.SplitContainer splitContainer6;
-        private System.Windows.Forms.SplitContainer splitContainer7;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.DataGridView CabinetScriptFilePatterns;
         private System.Windows.Forms.SplitContainer splitContainer8;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.SplitContainer splitContainer9;
@@ -1208,8 +1101,6 @@
         private System.Windows.Forms.ToolStripMenuItem CabinetContextMenuGlobalConfigDir;
         private System.Windows.Forms.ToolStripMenuItem CabinetContextMenuInsertDllDir;
         private System.Windows.Forms.DataGridViewTextBoxColumn CabinetConfigFilePatternStatus;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CabinetScriptFilePattern;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CabinetScriptFilePatternStatus;
         private System.Windows.Forms.DataGridViewTextBoxColumn TableConfigFilePattern;
         private System.Windows.Forms.ContextMenuStrip TableContextMenu;
         private System.Windows.Forms.ToolStripMenuItem TableConfigInsertGlobalConfigDir;

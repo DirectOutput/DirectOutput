@@ -6,19 +6,19 @@ using DirectOutput.Cab.Out;
 using System.Xml.Serialization;
 using System.ComponentModel;
 
-namespace DirectOutput.Cab.Toys.Generic
+namespace DirectOutput.Cab.Toys.Basic
 {
     /// <summary>
     /// Implementation of a generic digital toy.
     /// Implements IToy.
     /// </summary>
-    public class GenericDigitalToy : ToyBase, IToy, DirectOutput.Cab.Toys.IDigitalToy
+    public class DigitalToy : ToyBase, IToy,IDigitalToy
     {
 
         /// <summary>
         /// Initalizes the GenericDigitalToy.
         /// </summary>
-        /// <param name="Cabinet"><see cref="Cabinet"/> object to which the <see cref="GenericDigitalToy"/> belongs.</param>
+        /// <param name="Cabinet"><see cref="Cabinet"/> object to which the <see cref="DigitalToy"/> belongs.</param>
         public override void Init(Cabinet Cabinet)
         {
             InitOutput(Cabinet);

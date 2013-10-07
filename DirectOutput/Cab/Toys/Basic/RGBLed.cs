@@ -2,6 +2,7 @@
 using System.Xml.Serialization;
 using DirectOutput.Cab.Out;
 using DirectOutput.Cab.Toys.Layer;
+using DirectOutput.Cab.Color;
 
 namespace DirectOutput.Cab.Toys.Basic
 {
@@ -184,7 +185,7 @@ namespace DirectOutput.Cab.Toys.Basic
         /// Sets the color of the RGBLed toy.
         /// </summary>
         /// <param name="Color">Color object containg the brightness values for the color.</param>
-        public void SetColor(RGBColor Color)
+        public void SetColor(IRGBColor Color)
         {
             SetColor(Color.Red, Color.Green, Color.Blue);
         }
@@ -194,8 +195,8 @@ namespace DirectOutput.Cab.Toys.Basic
         /// Sets the color of the RGBLed toy. <br/>
         /// The Alpha part of the RGBAColor is ignored.
         /// </summary>
-        /// <param name="Color">RGBAColor object containg the brightness values for the color.</param>
-        public void SetColor(RGBAColor Color)
+        /// <param name="Color">IRGBAColor object containg the brightness values for the color.</param>
+        public void SetColor(IRGBAColor Color)
         {
             SetColor(Color.Red, Color.Green, Color.Blue);
         }

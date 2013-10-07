@@ -52,13 +52,13 @@ namespace DirectOutput.FX.RGBAFX
         
 
 
-        private RGBAToy _RGBAToy;
+        private IRGBAToy _RGBAToy;
 
         /// <summary>
         /// Refrence to the RGBA Toy specified in the RGBAToyName property.<br/>
         /// If the RGBAToyName property is empty or contains a unknown name or the name of a toy which is not a IRGBAToy this property will return null.
         /// </summary>
-        public RGBAToy RGBAToy
+        public IRGBAToy RGBAToy
         {
             get
             {
@@ -71,9 +71,9 @@ namespace DirectOutput.FX.RGBAFX
 
             if (!ToyName.IsNullOrWhiteSpace() && Table.Pinball.Cabinet.Toys.Contains(ToyName))
             {
-                if (Table.Pinball.Cabinet.Toys[ToyName] is RGBAToy)
+                if (Table.Pinball.Cabinet.Toys[ToyName] is IRGBAToy)
                 {
-                    _RGBAToy = (RGBAToy)Table.Pinball.Cabinet.Toys[ToyName];
+                    _RGBAToy = (IRGBAToy)Table.Pinball.Cabinet.Toys[ToyName];
                 }
 
             }

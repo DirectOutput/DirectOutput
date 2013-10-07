@@ -104,20 +104,26 @@
     <Compile Include="Cab\Out\Pac\PacLed64AutoConfigurator.cs" />
     <Compile Include="Cab\Toys\Basic\Basic.cs" />
     <Compile Include="Cab\Toys\Basic\GearMotor.cs" />
-    <Compile Include="Cab\Toys\IRGBToy.cs" />
+    <Compile Include="Cab\Color\IRGBColor.cs" />
+    <Compile Include="Cab\Toys\Basic\IRGBToy.cs" />
     <Content Include="Config\GlobalConfig_B2SServer.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Compile Include="Cab\Toys\ILampToy.cs" />
+    <Compile Include="Cab\Toys\Basic\ILampToy.cs" />
     <Compile Include="Cab\Toys\IToyUpdatable.cs" />
     <Compile Include="Cab\Toys\Layer\AlphaMappingTable.cs" />
     <Compile Include="Cab\Toys\Layer\AnalogAlphaValue.cs" />
-    <Compile Include="Cab\Toys\Layer\AnalogLayer.cs" />
+    <Compile Include="Cab\Toys\Layer\AnalogAlphaLayer.cs" />
     <Compile Include="Cab\Toys\Layer\AnalogLayerDictionary.cs" />
-    <Compile Include="Cab\Toys\Layer\AnalogToy.cs" />
-    <Compile Include="Cab\Toys\Layer\RGBAColor.cs" />
+    <Compile Include="Cab\Toys\Layer\AnalogAlphaToy.cs" />
+    <Compile Include="Cab\Color\IRGBAColor.cs" />
+    <Compile Include="Cab\Color\RGBAColorNamed.cs" />
+    <Compile Include="Cab\Color\RGBAColor.cs" />
+    <Compile Include="Cab\Toys\Layer\IAnalogAlphaToy.cs" />
+    <Compile Include="Cab\Toys\Layer\IRGBAToy.cs" />
     <Compile Include="Cab\Toys\Layer\RGBALayer.cs" />
     <Compile Include="Cab\Toys\Layer\RGBALayerDictionary.cs" />
+    <Compile Include="Cab\Color\RGBColorNamed.cs" />
     <Compile Include="Cab\Toys\ToyBaseUpdatable.cs" />
     <Compile Include="Cab\Toys\Layer\RGBAToy.cs" />
     <Compile Include="DirectOutput.cs" />
@@ -196,6 +202,7 @@
     <Compile Include="FX\TimmedFX\BlinkEffect.cs" />
     <Compile Include="FX\TimmedFX\DelayEffect.cs" />
     <Compile Include="FX\TimmedFX\DurationEffect.cs" />
+    <Compile Include="FX\TimmedFX\ExtendDurationEffect.cs" />
     <Compile Include="FX\TimmedFX\MinDurationEffect.cs" />
     <Compile Include="FX\TimmedFX\TimmedFX.cs" />
     <Compile Include="FX\EffectEffectBase.cs" />
@@ -238,12 +245,12 @@
     <Compile Include="Cab\Out\OutputEventArgs.cs" />
     <Compile Include="Cab\Out\OutputControllerBase.cs" />
     <Compile Include="Cab\CabinetOutputList.cs" />
-    <Compile Include="Cab\Toys\RGBColor.cs" />
-    <Compile Include="Cab\Toys\ColorList.cs" />
+    <Compile Include="Cab\Color\RGBColor.cs" />
+    <Compile Include="Cab\Color\ColorList.cs" />
     <Compile Include="Cab\Toys\Basic\Contactor.cs" />
     <Compile Include="Cab\Toys\Basic\Flasher.cs" />
-    <Compile Include="Cab\Toys\IAnalogToy.cs" />
-    <Compile Include="Cab\Toys\IDigitalToy.cs" />
+    <Compile Include="Cab\Toys\Basic\IAnalogToy.cs" />
+    <Compile Include="Cab\Toys\Basic\IDigitalToy.cs" />
     <Compile Include="Cab\Toys\IToy.cs" />
     <Compile Include="Cab\Toys\LWEquivalent\LedWizEquivalent.cs" />
     <Compile Include="Cab\Toys\LWEquivalent\LedWizEquivalentOutput.cs" />
@@ -263,8 +270,8 @@
     <Compile Include="Cab\Out\LW\LEDWizOutput.cs" />
     <Compile Include="Cab\Out\Output.cs" />
     <Compile Include="Cab\Toys\Basic\Motor.cs" />
-    <Compile Include="Cab\Toys\Generic\GenericAnalogToy.cs" />
-    <Compile Include="Cab\Toys\Generic\GenericDigitalToy.cs" />
+    <Compile Include="Cab\Toys\Basic\AnalogToy.cs" />
+    <Compile Include="Cab\Toys\Basic\DigitalToy.cs" />
     <Compile Include="Cab\Toys\Basic\Lamp.cs" />
     <Compile Include="Cab\Out\OutputControllerList.cs" />
     <Compile Include="Cab\Out\OutputList.cs" />

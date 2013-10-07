@@ -3,100 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DirectOutput.Cab.Out;
+using DirectOutput.Cab.Color;
 
 namespace DirectOutput.Cab.Toys.Layer
 {
-    public class RGBAToy : ToyBaseUpdatable, IRGBToy
+    public class RGBAToy : ToyBaseUpdatable, IRGBAToy
     {
 
 
-        #region IRGBToy Member
-
-        public int Blue
-        {
-            get
-            {
-                if (_OutputBlue != null)
-                {
-                    return _OutputBlue.Value;
-                }
-                return 0;
-            }
-        }
-
-        public int Green
-        {
-            get
-            {
-                if (_OutputGreen != null)
-                {
-                    return _OutputGreen.Value;
-                }
-                return 0;
-            }
-        }
-
-        public int Red
-        {
-            get
-            {
-                if (_OutputRed != null)
-                {
-                    return _OutputRed.Value;
-                }
-                return 0;
-            }
-        }
-
-        public void SetColor(RGBColor Color)
-        {
-            SetLayer(int.MaxValue, Color);
-        }
-
-        public void SetColor(int Red, int Green, int Blue)
-        {
-            SetLayer(int.MaxValue, Red, Green, Blue);
-        }
-
-        public void SetColor(string Color)
-        {
-            if (_Cabinet.Colors.Contains(Color))
-            {
-                SetLayer(int.MaxValue, _Cabinet.Colors[Color]);
-            }
-            else
-            {
-                SetLayer(int.MaxValue, new RGBAColor(Color));
-            }
-        }
-
-        #endregion
 
 
 
         #region Layers
         public RGBALayerDictionary Layers { get; private set; }
 
-        public RGBALayer SetLayer(int Layer, int Red, int Green, int Blue)
-        {
-            return Layers.SetLayer(Layer, Red, Green, Blue);
-        }
-
-        public RGBALayer SetLayer(int Layer, int Red, int Green, int Blue, int Alpha)
-        {
-            return Layers.SetLayer(Layer, Red, Green, Blue, Alpha);
-        }
-
-        public RGBALayer SetLayer(int Layer, RGBAColor RGBA)
-        {
-            return Layers.SetLayer(Layer, RGBA);
-        }
-
-
-        public RGBALayer SetLayer(int Layer, RGBColor RGB)
-        {
-            return Layers.SetLayer(Layer, RGB);
-        }
+       
 
         #endregion
 

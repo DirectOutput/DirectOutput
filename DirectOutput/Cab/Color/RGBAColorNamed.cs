@@ -5,13 +5,13 @@ using System.Text;
 using System.Xml.Serialization;
 using DirectOutput.General.Generic;
 
-namespace DirectOutput.Cab.Toys.Layer
+namespace DirectOutput.Cab.Color
 {
 
     /// <summary>
     /// This class stores information on colors used for toys (e.g. RGBLed).
     /// </summary>
-    public class RGBAColor:NamedItemBase,INamedItem
+    public class RGBAColorNamed : NamedItemBase, INamedItem, IRGBAColor
     {
         
 
@@ -84,10 +84,10 @@ namespace DirectOutput.Cab.Toys.Layer
         }
 
         /// <summary>
-        /// Clones the instance of the RGBAColor
+        /// Gets a new RGBAColor instance with the same color values.
         /// </summary>
         /// <returns></returns>
-        public RGBAColor Clone()
+        public RGBAColor GetRGBAColor()
         {
             return new RGBAColor(Red, Green, Blue, Alpha);
         }
@@ -133,7 +133,7 @@ namespace DirectOutput.Cab.Toys.Layer
         /// </summary>
         /// <param name="Color">The RGB color to be set.</param>
         /// <returns></returns>
-        public bool SetColor(RGBColor Color)
+        public bool SetColor(IRGBColor Color)
         {
             SetColor(Color.Red, Color.Green, Color.Blue);
             return true;
@@ -223,47 +223,34 @@ namespace DirectOutput.Cab.Toys.Layer
         }
 
         #region Contructor
-        public RGBAColor() { }
-        public RGBAColor(string Name, int BrightnessRed, int BrightnessGreen, int BrightnessBlue)
+        public RGBAColorNamed() { }
+        public RGBAColorNamed(string Name, int BrightnessRed, int BrightnessGreen, int BrightnessBlue)
             : this()
         {
             this.Name = Name;
             SetColor(BrightnessRed, BrightnessGreen, BrightnessBlue);
         }
-        public RGBAColor(string Name, int BrightnessRed, int BrightnessGreen, int BrightnessBlue,int Alpha)
+        public RGBAColorNamed(string Name, int BrightnessRed, int BrightnessGreen, int BrightnessBlue,int Alpha)
             : this()
         {
             this.Name = Name;
             SetColor(BrightnessRed, BrightnessGreen, BrightnessBlue,Alpha);
         }
         
-        public RGBAColor(int BrightnessRed, int BrightnessGreen, int BrightnessBlue)
-            : this("", BrightnessRed, BrightnessGreen, BrightnessBlue)
-        { }
 
-        public RGBAColor(int BrightnessRed, int BrightnessGreen, int BrightnessBlue,int Alpha)
-            : this("", BrightnessRed, BrightnessGreen, BrightnessBlue,Alpha)
-        { }
-
-        
-        public RGBAColor(string Color):this()
+        public RGBAColorNamed(string Name, string Color)
         {
             SetColor(Color);
-        }
-        public RGBAColor(string Name, string Color):this(Color)
-        {
             this.Name = Name;
         }
 
-        public RGBAColor(string Name, RGBColor RGBColor)
-            : this(RGBColor)
+        public RGBAColorNamed(string Name, IRGBColor RGBColor)
+            
         {
-            this.Name = Name;
-        }
-
-        public RGBAColor(RGBColor RGBColor) {
             SetColor(RGBColor);
+            this.Name = Name;
         }
+
 
         #endregion
     }

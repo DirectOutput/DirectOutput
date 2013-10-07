@@ -195,8 +195,7 @@ namespace DirectOutput
                 Log.Write("Loading script files");
                 Scripts.LoadAndAddScripts(GlobalConfig.GetGlobalScriptFiles());
 
-                //Load cabinet script files
-                Scripts.LoadAndAddScripts(GlobalConfig.GetCabinetScriptFiles());
+
 
 
                 //Load table script files
@@ -307,75 +306,57 @@ namespace DirectOutput
 
                             LedControlIniFileList LedControlIniFiles = new LedControlIniFileList();
 
-                            foreach (string P in LookupPaths)
+                            string[] LedControlFilenames = { "directoutputconfig", "ledcontrol" };
+
+                            foreach (string LedControlFilename in LedControlFilenames)
                             {
-                                DirectoryInfo DI = new DirectoryInfo(P);
-
-                                foreach (FileInfo FI in DI.EnumerateFiles("directoutput*.ini"))
+                                foreach (string P in LookupPaths)
                                 {
-                                    if (string.Equals(FI.Name, "directoutput.ini", StringComparison.OrdinalIgnoreCase))
+                                    DirectoryInfo DI = new DirectoryInfo(P);
+
+                                    List<FileInfo> Files = new List<FileInfo>();
+                                    foreach (FileInfo FI in DI.EnumerateFiles())
                                     {
-                                        LedControlIniFiles.Add(FI.FullName, 1);
-                                        FoundIt = true;
-                                    }
-                                    else
-                                    {
-                                        string F = FI.Name.Substring(10, FI.Name.Length - 10 - 4);
-                                        if (F.IsInteger())
+                                        if (FI.Name.ToLower().StartsWith(LedControlFilename.ToLower()) && FI.Name.ToLower().EndsWith(".ini"))
                                         {
-                                            int LedWizNr = -1;
-                                            if (int.TryParse(F, out LedWizNr))
+                                            Files.Add(FI);
+                                        }
+                                    }
+
+
+                                    foreach (FileInfo FI in Files)
+                                    {
+                                        if (string.Equals(FI.Name, "{0}.ini".Build(LedControlFilename), StringComparison.OrdinalIgnoreCase))
+                                        {
+                                            LedControlIniFiles.Add(FI.FullName, 1);
+                                            FoundIt = true;
+                                        }
+                                        else
+                                        {
+                                            string F = FI.Name.Substring(LedControlFilename.Length, FI.Name.Length - LedControlFilename.Length - 4);
+                                            if (F.IsInteger())
                                             {
-                                                if (!LedControlIniFiles.Contains(LedWizNr))
+                                                int LedWizNr = -1;
+                                                if (int.TryParse(F, out LedWizNr))
                                                 {
-                                                    LedControlIniFiles.Add(FI.FullName, LedWizNr);
-                                                    FoundIt = true;
+                                                    if (!LedControlIniFiles.Contains(LedWizNr))
+                                                    {
+                                                        LedControlIniFiles.Add(FI.FullName, LedWizNr);
+                                                        FoundIt = true;
+                                                    }
+
                                                 }
 
                                             }
 
                                         }
-
-                                    }
+                                    };
+                                    if (FoundIt) break;
                                 }
-
-                                if (FoundIt) break;
-
-                                foreach (FileInfo FI in DI.EnumerateFiles("ledcontrol*.ini"))
-                                {
-                                    if (string.Equals(FI.Name, "ledcontrol.ini", StringComparison.OrdinalIgnoreCase))
-                                    {
-                                        LedControlIniFiles.Add(FI.FullName, 1);
-                                        FoundIt = true;
-                                    }
-                                    else
-                                    {
-                                        string F = FI.Name.Substring(10, FI.Name.Length - 10 - 4);
-                                        if (F.IsInteger())
-                                        {
-                                            int LedWizNr = -1;
-                                            if (int.TryParse(F, out LedWizNr))
-                                            {
-                                                if (!LedControlIniFiles.Contains(LedWizNr))
-                                                {
-                                                    LedControlIniFiles.Add(FI.FullName, LedWizNr);
-                                                    FoundIt = true;
-                                                }
-
-                                            }
-
-                                        }
-
-                                    }
-                                }
-
                                 if (FoundIt) break;
                             }
 
-
-
-
-
+        
 
                             if (FoundIt)
                             {
@@ -396,6 +377,8 @@ namespace DirectOutput
                             Log.Write("Config for RomName {0} exists in LedControl data. Updating cabinet and config.".Build(RomName));
 
                             DirectOutput.LedControl.Setup.Configurator C = new DirectOutput.LedControl.Setup.Configurator();
+                            C.EffectMinDurationMs = GlobalConfig.LedControlMinimumEffectDurationMs;
+                            C.EffectRGBMinDurationMs = GlobalConfig.LedControlMinimumRGBEffectDurationMs;
                             C.Setup(L, Table, Cabinet, RomName);
                             C = null;
                             //                        L.UpdateTableConfig(Table, RomName, Cabinet);
@@ -459,7 +442,7 @@ namespace DirectOutput
             }
             catch (Exception E)
             {
-                Log.Equals("A eception occured during initialization", E);
+                Log.Exception("A eception occured during initialization", E);
                 throw new Exception("DirectOutput framework has encountered a exception during initialization.\n Inner exception: {0}".Build(E.Message), E);
             }
         }

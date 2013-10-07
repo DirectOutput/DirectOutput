@@ -3,13 +3,13 @@ using System.Xml.Serialization;
 using DirectOutput.General.Generic;
 using DirectOutput.Cab.Toys.Layer;
 
-namespace DirectOutput.Cab.Toys
+namespace DirectOutput.Cab.Color
 {
 
     /// <summary>
     /// List for Color objects 
     /// </summary>
-    public class ColorList : NamedItemList<RGBAColor>, IXmlSerializable
+    public class ColorList : NamedItemList<RGBAColorNamed>, IXmlSerializable
     {
 
         #region IXmlSerializable implementation
@@ -22,9 +22,9 @@ namespace DirectOutput.Cab.Toys
 
             XmlSerializerNamespaces Namespaces = new XmlSerializerNamespaces();
             Namespaces.Add(string.Empty, string.Empty);
-            foreach (RGBAColor C in this)
+            foreach (RGBAColorNamed C in this)
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(RGBAColor));
+                XmlSerializer serializer = new XmlSerializer(typeof(RGBAColorNamed));
                 serializer.Serialize(writer, C, Namespaces);
             }
         }
@@ -46,11 +46,11 @@ namespace DirectOutput.Cab.Toys
 
             while (reader.NodeType != System.Xml.XmlNodeType.EndElement)
             {
-                if (reader.LocalName == typeof(RGBAColor).Name)
+                if (reader.LocalName == typeof(RGBAColorNamed).Name)
                 {
 
-                    XmlSerializer serializer = new XmlSerializer(typeof(RGBColor));
-                    RGBAColor C = (RGBAColor)serializer.Deserialize(reader);
+                    XmlSerializer serializer = new XmlSerializer(typeof(RGBAColorNamed));
+                    RGBAColorNamed C = (RGBAColorNamed)serializer.Deserialize(reader);
                     if (!Contains(C.Name))
                     {
                         Add(C);

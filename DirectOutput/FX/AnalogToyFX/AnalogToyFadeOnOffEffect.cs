@@ -155,7 +155,7 @@ namespace DirectOutput.FX.AnalogToyFX
             }
             else
             {
-                Toy.SetLayer(Layer, TargetValue);
+                Toy.Layers[Layer].Set(TargetValue);
             }
 
         }
@@ -193,7 +193,7 @@ namespace DirectOutput.FX.AnalogToyFX
                 }
             }
 
-            Toy.SetLayer(Layer, (int)Current[0], (int)Current[1]);
+            Toy.Layers[Layer].Set((int)Current[0], (int)Current[1]);
 
             if (ContinueFading)
             {

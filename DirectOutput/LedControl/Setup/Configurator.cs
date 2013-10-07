@@ -10,11 +10,14 @@ using DirectOutput.FX.AnalogToyFX;
 using DirectOutput.FX.RGBAFX;
 using DirectOutput.FX.TimmedFX;
 using DirectOutput.LedControl.Loader;
+using DirectOutput.Cab.Color;
 
 namespace DirectOutput.LedControl.Setup
 {
     public class Configurator
     {
+        public int EffectMinDurationMs = 60;
+        public int EffectRGBMinDurationMs = 120;
 
         public void Setup(LedControlConfigList LedControlConfigList, DirectOutput.Table.Table Table, Cabinet Cabinet, string RomName)
         {
@@ -50,14 +53,14 @@ namespace DirectOutput.LedControl.Setup
 
                                 int Layer = (TCS.Layer.HasValue ? TCS.Layer.Value : SettingNumber);
 
-                                if (Toy is RGBAToy || Toy is AnalogToy)
+                                if (Toy is IRGBAToy || Toy is IAnalogAlphaToy)
                                 {
-                                    if (Toy is RGBAToy)
+                                    if (Toy is IRGBAToy)
                                     {
                                         RGBAColor ActiveColor = null;
                                         if (TCS.ColorConfig != null)
                                         {
-                                            ActiveColor = TCS.ColorConfig.GetCabinetColor().Clone();
+                                            ActiveColor = TCS.ColorConfig.GetCabinetColor().GetRGBAColor();
                                         }
                                         else
                                         {
@@ -87,12 +90,12 @@ namespace DirectOutput.LedControl.Setup
 
                                         }
                                     }
-                                    else if (Toy is AnalogToy)
+                                    else if (Toy is IAnalogAlphaToy)
                                     {
                                         AnalogAlphaValue AAV = new AnalogAlphaValue((int)((double)TCS.Intensity * 5.3125));
                                         if (TCS.FadingDownDurationMs > 0 || TCS.FadingUpDurationMs > 0)
                                         {
-                                            Effect = new AnalogToyFadeOnOffEffect() { ToyName = Toy.Name, Layer = Layer, FadeActiveDurationMs = TCS.FadingUpDurationMs, FadeInactiveDurationMs = TCS.FadingUpDurationMs, RetriggerBehaviour = RetriggerBehaviourEnum.IgnoreRetrigger, FadeMode = FadeModeEnum.CurrentToDefined, ActiveValue = AAV, InactiveValue = new AnalogAlphaValue(0, 0) };
+                                            Effect = new AnalogToyFadeOnOffEffect() { ToyName = Toy.Name, Layer = Layer, FadeActiveDurationMs = TCS.FadingUpDurationMs, FadeInactiveDurationMs = TCS.FadingDownDurationMs, RetriggerBehaviour = RetriggerBehaviourEnum.IgnoreRetrigger, FadeMode = FadeModeEnum.CurrentToDefined, ActiveValue = AAV, InactiveValue = new AnalogAlphaValue(0, 0) };
                                         }
                                         else
                                         {
@@ -121,9 +124,11 @@ namespace DirectOutput.LedControl.Setup
                                             MakeEffectNameUnique(Effect, Table);
                                             Table.Effects.Add(Effect);
                                         }
-                                        if (TCS.MinDurationMs > 0)
+                                        if (TCS.MinDurationMs > 0 || (Toy is IRGBAToy && EffectRGBMinDurationMs > 0) || (!(Toy is  IRGBAToy) && EffectMinDurationMs > 0))
                                         {
-                                            Effect = new MinDurationEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} MinDurationEffect".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name, MinDurationMs = TCS.MinDurationMs };
+                                            string N = (TCS.MinDurationMs > 0?"MinDuratonEffect":"DefaultMinDurationEffect");
+                                            int Min=(TCS.MinDurationMs > 0?TCS.MinDurationMs:(Toy is IRGBAToy?EffectRGBMinDurationMs:EffectMinDurationMs));
+                                            Effect = new MinDurationEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} {3}".Build(new object[] {LedWizNr, TCC.Number, SettingNumber,N}), TargetEffectName = Effect.Name, MinDurationMs = Min };
                                             MakeEffectNameUnique(Effect, Table);
                                             Table.Effects.Add(Effect);
                                         }
@@ -215,7 +220,7 @@ namespace DirectOutput.LedControl.Setup
                                     try
                                     {
                                         //Toy does already exist
-                                        TargetToy = (IToy)Cabinet.Toys.First(Toy => Toy is RGBAToy && ((RGBAToy)Toy).OutputNameRed == LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName && ((RGBAToy)Toy).OutputNameGreen == LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 1).OutputName && ((RGBAToy)Toy).OutputNameBlue == LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 2).OutputName);
+                                        TargetToy = (IToy)Cabinet.Toys.First(Toy => Toy is IRGBAToy && ((IRGBAToy)Toy).OutputNameRed == LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName && ((IRGBAToy)Toy).OutputNameGreen == LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 1).OutputName && ((IRGBAToy)Toy).OutputNameBlue == LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 2).OutputName);
 
                                     }
                                     catch
@@ -247,7 +252,7 @@ namespace DirectOutput.LedControl.Setup
                                 {
                                     try
                                     {
-                                        TargetToy = Cabinet.Toys.First(Toy => Toy is AnalogToy && ((AnalogToy)Toy).OutputName == LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName);
+                                        TargetToy = Cabinet.Toys.First(Toy => Toy is IAnalogAlphaToy && ((IAnalogAlphaToy)Toy).OutputName == LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName);
                                     }
                                     catch
                                     {
@@ -263,7 +268,7 @@ namespace DirectOutput.LedControl.Setup
                                             }
                                             ToyName = "{0} {1}".Build(ToyName, Cnt);
                                         }
-                                        TargetToy = (IToy)new AnalogToy() { Name = ToyName, OutputName = LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName };
+                                        TargetToy = (IToy)new AnalogAlphaToy() { Name = ToyName, OutputName = LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName };
                                         Cabinet.Toys.Add(TargetToy);
                                     }
                                     ToyAssignments[LedWizNr].Add(TCC.Number, TargetToy);

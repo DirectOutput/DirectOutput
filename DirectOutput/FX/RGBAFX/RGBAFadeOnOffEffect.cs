@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DirectOutput.Cab.Toys.Layer;
+using DirectOutput.Cab.Color;
 
 namespace DirectOutput.FX.RGBAFX
 {
@@ -86,7 +87,7 @@ namespace DirectOutput.FX.RGBAFX
         {
             Table.Pinball.Alarms.UnregisterAlarm(FadingStep);
 
-            RGBAColor TargetColor = (Active ? ActiveColor : InactiveColor);
+            IRGBAColor TargetColor = (Active ? ActiveColor : InactiveColor);
 
             int Duration = (Active ? FadeActiveDurationMs : FadeInactiveDurationMs);
             int Steps = Duration / FadingRefreshIntervalMs;
@@ -95,7 +96,7 @@ namespace DirectOutput.FX.RGBAFX
             {
                 IsFading = true;
 
-                RGBAColor CurrentColor;
+                IRGBAColor CurrentColor;
                 switch (FadeMode)
                 {
                     case FadeModeEnum.CurrentToDefined:
@@ -103,7 +104,7 @@ namespace DirectOutput.FX.RGBAFX
                         break;
                     case FadeModeEnum.DefinedToDefined:
                     default:
-                        CurrentColor = (!Active ? ActiveColor.Clone() : InactiveColor.Clone());
+                        CurrentColor = (!Active ? ActiveColor.GetRGBAColor() : InactiveColor.GetRGBAColor());
                         break;
                 }
 
@@ -126,7 +127,7 @@ namespace DirectOutput.FX.RGBAFX
             }
             else
             {
-                RGBAToy.SetLayer(Layer, TargetColor);
+                RGBAToy.Layers[Layer].Set( TargetColor);
             }
         }
 
@@ -163,7 +164,7 @@ namespace DirectOutput.FX.RGBAFX
                 }
             }
 
-            RGBAToy.SetLayer(Layer, (int)Current[0], (int)Current[1], (int)Current[2], (int)Current[3]);
+            RGBAToy.Layers[Layer].Set( (int)Current[0], (int)Current[1], (int)Current[2], (int)Current[3]);
 
             if (ContinueFading)
             {
@@ -179,7 +180,7 @@ namespace DirectOutput.FX.RGBAFX
 
 
 
-        private RGBAColor _ActiveColor = new RGBAColor(0, 0, 0, 0);
+        private IRGBAColor _ActiveColor = new RGBAColor(0, 0, 0, 0);
 
         /// <summary>
         /// Gets or sets the RGBA color which is the target for the fading when the effect is triggered with a table element value which is not equal 0 or if the effect is triggered as a static effect (table element data = 0).
@@ -187,14 +188,14 @@ namespace DirectOutput.FX.RGBAFX
         /// <value>
         /// The RGBA color to be used when the effect is active.
         /// </value>
-        public RGBAColor ActiveColor
+        public IRGBAColor ActiveColor
         {
             get { return _ActiveColor; }
             set { _ActiveColor = value; }
         }
 
 
-        private RGBAColor _InactiveColor = new RGBAColor(0, 0, 0, 0);
+        private IRGBAColor _InactiveColor = new RGBAColor(0, 0, 0, 0);
 
         /// <summary>
         /// Gets or sets the RGBA color which is the target for the fading when the effect is triggered with a table element value which is 0.
@@ -202,7 +203,7 @@ namespace DirectOutput.FX.RGBAFX
         /// <value>
         /// The RGBA color to be used when the effect is inactive.
         /// </value>
-        public RGBAColor InactiveColor
+        public IRGBAColor InactiveColor
         {
             get { return _InactiveColor; }
             set { _InactiveColor = value; }

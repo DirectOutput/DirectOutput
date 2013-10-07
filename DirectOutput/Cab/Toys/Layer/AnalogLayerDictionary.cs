@@ -5,10 +5,10 @@ using System.Text;
 
 namespace DirectOutput.Cab.Toys.Layer
 {
-    public class AnalogLayerDictionary : SortedDictionary<int, AnalogLayer>
+    public class AnalogLayerDictionary : SortedDictionary<int, AnalogAlphaLayer>
     {
 
-        public new AnalogLayer this[int key]
+        public new AnalogAlphaLayer this[int key]
         {
             get
             {
@@ -18,7 +18,7 @@ namespace DirectOutput.Cab.Toys.Layer
                 }
                 catch
                 {
-                    AnalogLayer L = new AnalogLayer();
+                    AnalogAlphaLayer L = new AnalogAlphaLayer();
                     Add(key, L);
                     return L;
                 }
@@ -30,62 +30,7 @@ namespace DirectOutput.Cab.Toys.Layer
         }
 
 
-        public AnalogLayer SetLayer(int Layer, int Value)
-        {
-            AnalogLayer L;
-
-            try
-            {
-                L = this[Layer];
-            }
-            catch
-            {
-                L = new AnalogLayer();
-                Add(Layer, L);
-            }
-            L.SetLayer(Value);
-
-            return L;
-        }
-
-
-
-
-        public AnalogLayer SetLayer(int Layer, int Value, int Alpha)
-        {
-            AnalogLayer L;
-
-            try
-            {
-                L = this[Layer];
-            }
-            catch
-            {
-                L = new AnalogLayer();
-                Add(Layer, L);
-            }
-            L.SetLayer(Value, Alpha);
-
-            return L;
-        }
-
-        public AnalogLayer SetLayer(int Layer, AnalogAlphaValue AnalogAlphaValue)
-        {
-            AnalogLayer L;
-
-            try
-            {
-                L = this[Layer];
-            }
-            catch
-            {
-                L = new AnalogLayer();
-                Add(Layer, L);
-            }
-            L.SetLayer(AnalogAlphaValue);
-
-            return L;
-        }
+       
 
 
         public int GetResultingValue()
@@ -94,7 +39,7 @@ namespace DirectOutput.Cab.Toys.Layer
             {
                 float Value = 0;
 
-                foreach (KeyValuePair<int, AnalogLayer> KV in this)
+                foreach (KeyValuePair<int, AnalogAlphaLayer> KV in this)
                 {
                     int Alpha = KV.Value.Alpha ;
                     if (Alpha != 0)
