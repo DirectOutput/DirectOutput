@@ -7,7 +7,8 @@ namespace DirectOutput.FX.TimmedFX
 {
     /// <summary>
     /// Duration effect which triggers a specified target effect for a specified duration.<br/>
-    /// When this effect is triggered it triggers the target effect immediately with the same data it has received. After the specified duration it calls trigger on the target effect again with data for the same table elmenet, but with the value changed to 0.
+    /// When this effect is triggered it triggers the target effect immediately with the same data it has received. After the specified duration it calls trigger on the target effect again with data for the same table elmenet, but with the value changed to 0.<br/>
+    /// \image html FX_Duration.png "Duration effect"
     /// </summary>
     public class DurationEffect : EffectEffectBase
     {

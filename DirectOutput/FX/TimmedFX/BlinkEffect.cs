@@ -6,7 +6,8 @@ using System.Text;
 namespace DirectOutput.FX.TimmedFX
 {
     /// <summary>
-    /// Blink effect which triggers a TargetEffect at specified intervalls with active (org value of TableElementData used in Trigger method is used to trigger the TargetEffect) and inactive (uses 0 as the Value of the TableElementData to trigger the TargetEffect) values.
+    /// Blink effect which triggers a TargetEffect at specified intervalls with active (org value of TableElementData used in Trigger method is used to trigger the TargetEffect) and inactive (uses 0 as the Value of the TableElementData to trigger the TargetEffect) values.<br/>
+    /// \image html FX_Blink.png "Blink effect"
     /// </summary>
     public class BlinkEffect : EffectEffectBase
     {
