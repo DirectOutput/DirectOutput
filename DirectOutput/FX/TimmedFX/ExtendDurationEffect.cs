@@ -4,8 +4,9 @@ using DirectOutput.Table;
 namespace DirectOutput.FX.TimmedFX
 {
     /// <summary>
-    /// The extend duration effect triggers another effect for a duration which is extebnded by the number of milliseconds specified in DurationMs.
-    /// This is done by forwarding triggers calls which are seting the effect to active directly to the target effect and delaying the forwarding of calls which set the effect to inactive by the number of milliseconds specified in DurationMs.
+    /// The extend duration effect triggers another effect for a duration which is extebnded by the number of milliseconds specified in DurationMs.<br/>
+    /// This is done by forwarding triggers calls which are seting the effect to active directly to the target effect and delaying the forwarding of calls which set the effect to inactive by the number of milliseconds specified in DurationMs.<br/>
+    /// \image html FX_ExtendDuration.png "ExtendDuration effect"
     /// </summary>
     public class ExtendDurationEffect : EffectEffectBase
     {

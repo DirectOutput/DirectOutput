@@ -11,26 +11,22 @@ namespace DirectOutput.Cab.Toys.Layer
     /// </summary>
     public class AnalogAlphaToy : ToyBaseUpdatable, IAnalogAlphaToy
     {
-        
+
         /// <summary>
         /// Gets the layers dictionary.
         /// </summary>
         /// <value>
         /// The layers dictionary.
         /// </value>
+        [System.Xml.Serialization.XmlIgnore]
         public AnalogLayerDictionary Layers { get; private set; }
 
 
 
 
         #region Outputs
-        /// <summary>
-        /// Gets the output for the toy.
-        /// </summary>
-        /// <value>
-        /// The output of the toy.
-        /// </value>
-        public IOutput Output { get; private set; }
+
+        private IOutput Output;
 
 
         /// <summary>

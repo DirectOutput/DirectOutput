@@ -104,7 +104,6 @@
     <Compile Include="Cab\Out\Pac\PacLed64AutoConfigurator.cs" />
     <Compile Include="Cab\Toys\Basic\Basic.cs" />
     <Compile Include="Cab\Toys\Basic\GearMotor.cs" />
-    <Compile Include="Cab\Color\IRGBColor.cs" />
     <Compile Include="Cab\Toys\Basic\IRGBToy.cs" />
     <Content Include="Config\GlobalConfig_B2SServer.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -116,7 +115,6 @@
     <Compile Include="Cab\Toys\Layer\AnalogAlphaLayer.cs" />
     <Compile Include="Cab\Toys\Layer\AnalogLayerDictionary.cs" />
     <Compile Include="Cab\Toys\Layer\AnalogAlphaToy.cs" />
-    <Compile Include="Cab\Color\IRGBAColor.cs" />
     <Compile Include="Cab\Color\RGBAColorNamed.cs" />
     <Compile Include="Cab\Color\RGBAColor.cs" />
     <Compile Include="Cab\Toys\Layer\IAnalogAlphaToy.cs" />
@@ -135,6 +133,7 @@
     <Compile Include="Extensions\IComparableExtensions.cs" />
     <Compile Include="Extensions\IntExtensions.cs" />
     <Compile Include="Extensions\FloatExtensions.cs" />
+    <Compile Include="Extensions\PropertyInfoExtension.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TimeSpanExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />

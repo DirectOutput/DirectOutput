@@ -5,6 +5,7 @@ namespace DirectOutput.Cab.Toys.Layer
     {
         void Finish();
         void Init(DirectOutput.Cab.Cabinet Cabinet);
+
         RGBALayerDictionary Layers { get; }
         string OutputNameBlue { get; set; }
         string OutputNameGreen { get; set; }

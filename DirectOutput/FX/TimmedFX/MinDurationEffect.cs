@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace DirectOutput.FX.TimmedFX
 {
     /// <summary>
     /// This effect enforces a minimum duration on the effect calls.<br/>
     /// Calls which are setting a effect to active (having a trigger value which is not equal 0 or null) are forwarded directly to the TargetEffect.<br/>
-    /// Calls setting the effect to inactive (having a trigger value of 0) are only forwarded to the TargetEffect after the specified minimum duration.
+    /// Calls setting the effect to inactive (having a trigger value of 0) are only forwarded to the TargetEffect after the specified minimum duration has expired.<br/>
+    /// \image html FX_MinDuration.png "MinDuration effect"
     /// </summary>
     public class MinDurationEffect : EffectEffectBase
     {
@@ -50,6 +52,7 @@ namespace DirectOutput.FX.TimmedFX
         /// <value>
         ///   <c>true</c> if active; otherwise <c>false</c>.
         /// </value>
+        [XmlIgnoreAttribute]
         public bool Active { get; private set; }
 
         private Queue<Table.TableElementData> UntriggerData = new Queue<Table.TableElementData>();

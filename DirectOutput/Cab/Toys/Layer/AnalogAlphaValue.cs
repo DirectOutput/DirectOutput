@@ -34,6 +34,7 @@ namespace DirectOutput.Cab.Toys.Layer
             this.Alpha = (Value != 0 ? 255 : 0);
         }
 
+        public AnalogAlphaValue() { }
 
     }
 }

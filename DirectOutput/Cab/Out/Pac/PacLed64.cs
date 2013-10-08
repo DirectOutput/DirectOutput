@@ -11,8 +11,15 @@ using DirectOutput.General.Statistics;
 namespace DirectOutput.Cab.Out.Pac
 {
     /// <summary>
-    /// IOutputController class for PacLed64 controllers.<br />
-    /// Updates for the physical PacLed64 units are sent in a separate thread per unit to ensure max. performance.
+    /// The PacLed64 is a output controller with 64 outputs all supporting 256 <a target="_blank" href="https://en.wikipedia.org/wiki/Pulse-width_modulation">pwm</a> levels. Since the outputs of the unit are constant current drivers providing 20ma each, smaller leds can be connected directly to the outputs, but booster circuits might be used to driver higher loads (e.g. Cree leds). Up to 4 PacLed64 controllers can be used with the DirectOutput framework.
+    /// 
+    /// The framework supports auto detection and configuration of these units.
+    /// 
+    /// This unit is made and sold by <a target="_blank" href="http://www.ultimarc.com">Ultimarc</a>.
+    /// 
+    /// The implemention of the PacLed64 driver uses a separate thred per connected unit to ensure max. performance.
+    /// 
+    /// \image html PacLed64Logo.png 
     /// </summary>
     public class PacLed64 : OutputControllerBase, IOutputController
     {

@@ -11,9 +11,12 @@ namespace DirectOutput.Cab.Color
     /// <summary>
     /// This class stores information on colors used for toys and effects (e.g. RGBLed).
     /// </summary>
-    public class RGBColor :IRGBColor
+    public class RGBColor 
     {
-        
+
+
+
+ 
 
         private int _BrightnessRed;
 

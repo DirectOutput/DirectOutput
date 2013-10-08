@@ -2,15 +2,22 @@
 
 namespace DirectOutput.General.Generic
 {
+    /// <summary>
+    /// Abstract base class for named items.<br/>
+    /// Implements the name property and the necessary events.
+    /// </summary>
     public abstract class NamedItemBase : INamedItem
     {
         #region Name
         private string _Name;
         /// <summary>
-        /// Name of the Named item.<br/>
-        /// Triggers BeforeNameChange before a new Name is set.<br/>
+        /// Name of the named item.<br />
+        /// Triggers BeforeNameChange before a new Name is set.<br />
         /// Triggers AfterNameChanged after a new name has been set.
-        /// </summary>    
+        /// </summary>
+        /// <value>
+        /// The name of the item.
+        /// </value>
         public string Name
         {
             get { return _Name; }
