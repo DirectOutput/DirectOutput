@@ -11,7 +11,6 @@ namespace DirectOutput.FX.BasicFX
     /// <summary>
     /// The BasicRGBToyEffect is used to turn on (/set a color) and off RGB toys based on the value of a TableElement.<br/>
     /// If the value of the table element is >0, the assigned IRGBToy will be set to the value specified in the Color property, for 0 the IRGBToy is set to black. <br/>
-    /// If this effect is used as a static effect, the value of Color will be set on table start.
     /// </summary>
     public class BasicRGBEffect : EffectBase, IEffect
     {
@@ -78,29 +77,23 @@ namespace DirectOutput.FX.BasicFX
         /// <summary>
         /// Triggers the effect.<br />
         /// If the Value property of the TableElement is 0 the RGB toy will be turned off resp. set to color #000000, if the value is not 0 the RGB toy will be set to the color specified in the Color property.
-        /// If TableElement is null, the IRGBToy will be set to the value of Color.
         /// </summary>
         /// <param name="TableElementData">TableElementData for the TableElement which has triggered the effect.</param>
         public override void Trigger(TableElementData TableElementData)
         {
             if (RGBToy != null && !Color.IsNullOrWhiteSpace())
             {
-                if (TableElementData != null)
+
+                if (TableElementData.Value == 0)
                 {
-                    if (TableElementData.Value == 0)
-                    {
-                        RGBToy.SetColor("#000000");
-                    }
-                    else
-                    {
-                        RGBToy.SetColor(Color);
-                    }
+                    RGBToy.SetColor("#000000");
+                }
+                else
+                {
+                    RGBToy.SetColor(Color);
                 }
             }
-            else
-            {
-                RGBToy.SetColor(Color);
-            }
+
         }
 
         /// <summary>
@@ -111,7 +104,7 @@ namespace DirectOutput.FX.BasicFX
         {
 
             ResolveName(Table);
-           
+
         }
         /// <summary>
         /// Finishes the BasicRGBEffect.

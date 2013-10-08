@@ -98,18 +98,14 @@ namespace DirectOutput.FX.TimmedFX
 
         /// <summary>
         /// Triggers the BlinkEffect with the given TableElementData.<br/>
-        /// If the Value property of the TableElementData is >0 or TableElementData is null (static effect), the blinking gets started. If the TableElementData Value property is 0, the blinking is stopped.
+        /// If the Value property of the TableElementData is >0, the blinking gets started. If the TableElementData Value property is 0, the blinking is stopped.
         /// </summary>
         /// <param name="TableElementData">TableElementData for the TableElement which has triggered the effect.</param>
         public override void Trigger(Table.TableElementData TableElementData)
         {
             if (TargetEffect != null)
             {
-                if (TableElementData == null)
-                {
-                    StartBlinking(new Table.TableElementData(TableElementTypeEnum.Unknown,0,1));
-                }
-                else if (TableElementData.Value != 0)
+                if (TableElementData.Value != 0)
                 {
                     StartBlinking(TableElementData);
                 }

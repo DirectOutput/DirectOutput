@@ -6,6 +6,8 @@ namespace DirectOutput.FX.LedControlFX
 {
 
     /// <summary>
+    /// \deprecated The use of this effect is deprecated. The ledcontrol parse is also not using this effect anymore. It will likely be removed soon.
+    /// 
     /// The LedControlEffect is used when LedControl.ini files are parsed for this framework.<br/>
     /// It is recommended not to use this effect, for other purposes. Use specific effects instead.
     /// </summary>
@@ -365,7 +367,7 @@ namespace DirectOutput.FX.LedControlFX
             int Duration = (FadeCurrent < FadeTarget ? FadeUpDurationMs : FadeDownDurationMs);
             if (FadeCurrent == FadeTarget || Duration == 0)
             {
-                LedWizEquivalent.SetOutputValue(FirstOutputNumber, (OutputState?Intensity:0));
+                LedWizEquivalent.SetOutputValue(FirstOutputNumber, (OutputState ? Intensity : 0));
             }
             else
             {
@@ -487,12 +489,17 @@ namespace DirectOutput.FX.LedControlFX
         {
 
 
-            if (TableElementData == null)
-            {
-                //Static effect init
 
+
+            //Controlled effect call
+            if (TableElementData.Value > 0)
+            {
                 Set();
                 BlinkInit();
+                if (SetTime == DateTime.MinValue)
+                {
+                    SetTime = DateTime.Now;
+                }
                 if (Duration > 0)
                 {
                     AlarmHandler.RegisterAlarm(Duration, DurationAlarmHandler);
@@ -500,41 +507,24 @@ namespace DirectOutput.FX.LedControlFX
             }
             else
             {
+                if (Duration <= 0 && Blink <= 0)
+                {
+                    if (SetTime != DateTime.MinValue)
+                    {
 
-                //Controlled effect call
-                if (TableElementData.Value > 0)
-                {
-                    Set();
-                    BlinkInit();
-                    if (SetTime == DateTime.MinValue)
-                    {
-                        SetTime = DateTime.Now;
-                    }
-                    if (Duration > 0)
-                    {
-                        AlarmHandler.RegisterAlarm(Duration, DurationAlarmHandler);
-                    }
-                }
-                else
-                {
-                    if (Duration <= 0 && Blink <= 0)
-                    {
-                        if (SetTime != DateTime.MinValue)
+                        int D = (int)(DateTime.Now - SetTime).TotalMilliseconds;
+
+                        if (D < (IsRGBEffect ? MinimumRGBEffectDurationMs : MinimumEffectDurationMs))
                         {
-
-                            int D = (int)(DateTime.Now - SetTime).TotalMilliseconds;
-
-                            if (D < (IsRGBEffect ? MinimumRGBEffectDurationMs : MinimumEffectDurationMs))
-                            {
-                                AlarmHandler.RegisterAlarm(((IsRGBEffect ? MinimumRGBEffectDurationMs : MinimumEffectDurationMs) - D).Limit(1, 10000), DelayedUnsetAlarmHandler);
-                                return;
-                            }
+                            AlarmHandler.RegisterAlarm(((IsRGBEffect ? MinimumRGBEffectDurationMs : MinimumEffectDurationMs) - D).Limit(1, 10000), DelayedUnsetAlarmHandler);
+                            return;
                         }
-                        BlinkFinish();
-                        Unset();
-                        SetTime = DateTime.MinValue;
                     }
+                    BlinkFinish();
+                    Unset();
+                    SetTime = DateTime.MinValue;
                 }
+
             }
         }
 

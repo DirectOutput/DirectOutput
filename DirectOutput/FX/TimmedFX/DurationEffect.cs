@@ -55,7 +55,8 @@ namespace DirectOutput.FX.TimmedFX
 
         /// <summary>
         /// Triggers the DurationEffect with the given TableElementData.<br>
-        /// The duration is started, if the value portion of the TableElementData parameter is !=0. If the effect is used as a static effect (TableElementData is null), the duration is started and the target effect is called with a dummy table elment (type: unknown (?), Number: 0).
+        /// The duration is started, if the value portion of the TableElementData parameter is !=0. 
+        /// Trigger calls with a TableElement value=0 have no effect.
         /// </summary>
         /// <param name="TableElementData">TableElementData for the TableElement which has triggered the effect.</param>
         public override void Trigger(Table.TableElementData TableElementData)
@@ -64,12 +65,7 @@ namespace DirectOutput.FX.TimmedFX
             {
                 if (!Active || RetriggerBehaviour == RetriggerBehaviourEnum.RestartEffect)
                 {
-                    if (TableElementData == null)
-                    {
-                        TargetEffect.Trigger(new Table.TableElementData(TableElementTypeEnum.Unknown, 0, 1));
-                        Table.Pinball.Alarms.RegisterAlarm(DurationMs, DurationEnd, new Table.TableElementData(TableElementTypeEnum.Unknown, 0, 0));
-                    }
-                    else if (TableElementData.Value != 0)
+                    if (TableElementData.Value != 0)
                     {
                         TargetEffect.Trigger(TableElementData);
                         Table.Pinball.Alarms.RegisterAlarm(DurationMs, DurationEnd, TableElementData.Clone() );

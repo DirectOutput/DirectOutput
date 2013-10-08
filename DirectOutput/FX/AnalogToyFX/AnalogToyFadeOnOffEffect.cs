@@ -7,7 +7,7 @@ using DirectOutput.Cab.Toys.Layer;
 namespace DirectOutput.FX.AnalogToyFX
 {
     /// <summary>
-    /// A effect fading the output value of a AnalogToy object to a active or inactive value. The fading is controlled by the value property (0, not 0 or null) of the TableElementData parameter of the Trigger method.
+    /// A effect fading the output value of a AnalogToy object to a active or inactive value. The fading is controlled by the value property (0, not 0) of the TableElementData parameter of the Trigger method.
     /// \image html FX_FadeOnOff.png "FadeOnOff effect"
     /// </summary>
     public class AnalogToyFadeOnOffEffect : AnanlogToyEffectBase
@@ -82,7 +82,7 @@ namespace DirectOutput.FX.AnalogToyFX
         private AnalogAlphaValue _ActiveValue = new AnalogAlphaValue(255, 255);
 
         /// <summary>
-        /// Gets or sets the value which is set on the specified layer of the referenced AnalogToy object if this effect is triggered with a TableElementData instance having a Value which is not zero of if the Effect is triggered with a null value for the TableElementData paramter.
+        /// Gets or sets the value which is set on the specified layer of the referenced AnalogToy object if this effect is triggered with a TableElementData instance having a Value which is not zero.
         /// </summary>
         /// <value>
         /// The active value between 0 and 255.
@@ -210,7 +210,7 @@ namespace DirectOutput.FX.AnalogToyFX
         bool LastTriggerState = false;
         /// <summary>
         /// Triggers the effect with the given TableElementData.<br>
-        /// If the Value property of the TableElementData parameter is not 0 or if the TableElementData parameter is null, the value of the specified layer of the referenced AnalogToy fades towards the value specified in the ActiveValue property.<br/>
+        /// If the Value property of the TableElementData parameter is not 0, the value of the specified layer of the referenced AnalogToy fades towards the value specified in the ActiveValue property.<br/>
         /// If the Value property of the TableElementData parameter equals 0, the value of the specified layer of the referenced AnalogToy fades towards the value specified in the InactiveValue property.
         /// </summary>
         /// <param name="TableElementData">TableElementData for the TableElement which has triggered the effect.</param>
@@ -219,7 +219,7 @@ namespace DirectOutput.FX.AnalogToyFX
             if (Toy != null)
             {
                
-                bool TriggerState = (TableElementData == null || TableElementData.Value != 0);
+                bool TriggerState =  TableElementData.Value != 0;
 
                 if (TriggerState != LastTriggerState || IsFading == false || RetriggerBehaviour == RetriggerBehaviourEnum.RestartEffect)
                 {

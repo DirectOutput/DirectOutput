@@ -59,14 +59,14 @@ namespace DirectOutput.FX.TimmedFX
 
         /// <summary>
         /// Triggers the MinDurationEffect with the given TableElementData.<br>
-        /// The minimal duration is started, if the value portion of the TableElementData parameter is !=0. If the effect is used as a static effect (TableElementData is null), the duration is started and the target effect is called with a dummy table elment (type: unknown (?), Number: 0).
+        /// The minimal duration is started, if the value portion of the TableElementData parameter is !=0. 
         /// </summary>
         /// <param name="TableElementData">TableElementData for the TableElement which has triggered the effect.</param>
         public override void Trigger(Table.TableElementData TableElementData)
         {
             if (TargetEffect != null)
             {
-                Table.TableElementData TED = (TableElementData == null ? new Table.TableElementData(TableElementTypeEnum.Unknown, 0, 1) : TableElementData);
+                Table.TableElementData TED =  TableElementData;
                 if (TED.Value != 0)
                 {
                     TargetEffect.Trigger(TED);

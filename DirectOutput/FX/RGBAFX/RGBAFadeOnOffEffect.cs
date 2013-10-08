@@ -8,7 +8,7 @@ using DirectOutput.Cab.Color;
 namespace DirectOutput.FX.RGBAFX
 {
     /// <summary>
-    /// This RGBA effect fades the color of a RGBA toys towards a defined target color based on the state (not 0, 0 or null) of the triggering table element (see Trigger method for details).
+    /// This RGBA effect fades the color of a RGBA toys towards a defined target color based on the state (not 0, 0) of the triggering table element.
     /// \image html FX_FadeOnOff.png "FadeOnOff effect"
     /// </summary>
     public class RGBAFadeOnOffEffect : RGBAEffectBase
@@ -184,7 +184,7 @@ namespace DirectOutput.FX.RGBAFX
         private RGBAColor _ActiveColor = new RGBAColor(0, 0, 0, 0);
 
         /// <summary>
-        /// Gets or sets the RGBA color which is the target for the fading when the effect is triggered with a table element value which is not equal 0 or if the effect is triggered as a static effect (table element data = 0).
+        /// Gets or sets the RGBA color which is the target for the fading when the effect is triggered with a table element value which is not equal 0).
         /// </summary>
         /// <value>
         /// The RGBA color to be used when the effect is active.
@@ -215,8 +215,7 @@ namespace DirectOutput.FX.RGBAFX
         bool LastTriggerState = false;
         /// <summary>
         /// Triggers the effect with the given TableElementData.<br/>
-        /// If the TableElementData is null, the effect acts as a static effect and will fade towards the ActiveColor when it is triggered.<br/>
-        /// If TableElementData is not null, the effect will fade the specified layer towards the ActiveColor if the TableElementData value is not 0. For 0 the layer will fade to the InactiveColor.
+        /// The effect will fade the specified layer towards the ActiveColor if the TableElementData value is not 0. For 0 the layer will fade to the InactiveColor.
         /// </summary>
         /// <param name="TableElementData">TableElementData for the TableElement which has triggered the effect or null.</param>
         public override void Trigger(Table.TableElementData TableElementData)

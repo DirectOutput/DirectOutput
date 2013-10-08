@@ -183,7 +183,7 @@ namespace DirectOutput.Table
 
         public void TriggerStaticEffects()
         {
-            AssignedStaticEffects.Trigger(null);
+            AssignedStaticEffects.Trigger(new TableElementData(TableElementTypeEnum.Unknown,0,1);
         }
 
         /// <summary>
