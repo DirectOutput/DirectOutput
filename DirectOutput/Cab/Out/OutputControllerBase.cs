@@ -15,7 +15,8 @@ namespace DirectOutput.Cab.Out
     /// <remarks>Remember that IOutputController does inherit INamedItem, so the members of that interface have to be implemented as well. The easiest way to achiev this is to inherit the NamedItemBase class.</remarks>
     public abstract class OutputControllerBase : NamedItemBase, IOutputController
     {
-        
+
+ 
 
 
 

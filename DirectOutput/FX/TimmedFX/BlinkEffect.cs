@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace DirectOutput.FX.TimmedFX
 {
@@ -47,6 +48,7 @@ namespace DirectOutput.FX.TimmedFX
         /// <value>
         ///   <c>true</c> if active; otherwise <c>false</c>.
         /// </value>
+        [XmlIgnoreAttribute]
         public bool Active { get; private set; }
 
 

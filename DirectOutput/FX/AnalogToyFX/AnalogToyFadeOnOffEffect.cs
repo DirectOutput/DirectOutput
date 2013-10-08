@@ -8,6 +8,7 @@ namespace DirectOutput.FX.AnalogToyFX
 {
     /// <summary>
     /// A effect fading the output value of a AnalogToy object to a active or inactive value. The fading is controlled by the value property (0, not 0 or null) of the TableElementData parameter of the Trigger method.
+    /// \image html FX_FadeOnOff.png "FadeOnOff effect"
     /// </summary>
     public class AnalogToyFadeOnOffEffect : AnanlogToyEffectBase
     {

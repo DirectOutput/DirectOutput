@@ -185,7 +185,7 @@ namespace DirectOutput.Cab.Toys.Basic
         /// Sets the color of the RGBLed toy.
         /// </summary>
         /// <param name="Color">Color object containg the brightness values for the color.</param>
-        public void SetColor(IRGBColor Color)
+        public void SetColor(RGBColor Color)
         {
             SetColor(Color.Red, Color.Green, Color.Blue);
         }
@@ -195,8 +195,8 @@ namespace DirectOutput.Cab.Toys.Basic
         /// Sets the color of the RGBLed toy. <br/>
         /// The Alpha part of the RGBAColor is ignored.
         /// </summary>
-        /// <param name="Color">IRGBAColor object containg the brightness values for the color.</param>
-        public void SetColor(IRGBAColor Color)
+        /// <param name="Color">RGBAColor object containg the brightness values for the color.</param>
+        public void SetColor(RGBAColor Color)
         {
             SetColor(Color.Red, Color.Green, Color.Blue);
         }

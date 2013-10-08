@@ -13,6 +13,9 @@ namespace DirectOutput.FX
     public interface IEffect:INamedItem
     {
 
+
+
+
         /// <summary>
         /// Execute triggers the effect for the given TableElement.
         /// <warning>
@@ -42,6 +45,9 @@ namespace DirectOutput.FX
         /// <note>
         /// Be sure to fire the NameChanged event if the name of the object gets changed. The abstract Effect class does already implement this property and the required NameChanged event.
         /// </note>
+        /// <value>
+        /// The name of the effect.
+        /// </value>
         new string Name { get; set; }
         
         /// <summary>

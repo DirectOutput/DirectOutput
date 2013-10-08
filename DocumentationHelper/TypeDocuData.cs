@@ -93,7 +93,7 @@ namespace DocumentationHelper
             object O = GetSampleReferenceType(Type);
 
             string Xml = "";
-            try
+           // try
             {
                 using (MemoryStream ms = new MemoryStream())
                 {
@@ -111,7 +111,7 @@ namespace DocumentationHelper
 
                 Xml = Xml.Substring(Xml.IndexOf("\n")+1);
             }
-            catch { }
+            //catch { }
 
             return Xml;
 

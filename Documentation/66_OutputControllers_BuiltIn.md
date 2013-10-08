@@ -36,23 +36,13 @@ LedWiz has the following 2 configurable properties:
 
 \subsubsection DirectOutput_Cab_Out_LW_LedWiz_Number Number
 
-Gets or sets the number of the LedWiz.<br />
-The number of the LedWiz must be unique.<br />
-Setting changes the Name property, if it is blank or if the Name coresponds to LedWiz {Number}.
-
-
-
-__Value__
-
 The unique number of the LedWiz (Range 1-16).
 
 
 
 \subsubsection DirectOutput_Cab_Out_LW_LedWiz_Name Name
 
-Name of the Named item.<br />
-Triggers BeforeNameChange before a new Name is set.<br />
-Triggers AfterNameChanged after a new name has been set.
+The name of the item.
 
 
 
@@ -88,23 +78,13 @@ PacLed64 has the following 2 configurable properties:
 
 \subsubsection DirectOutput_Cab_Out_Pac_PacLed64_Id Id
 
-Gets or sets the Id of the PacLed64.<br />
-The Id of the PacLed64 must be unique and in the range of 1 to 4.<br />
-Setting changes the Name property, if it is blank or if the Name coresponds to PacLed64 {Id}.
-
-
-
-__Value__
-
 The unique Id of the PacLed64 (Range 1-4).
 
 
 
 \subsubsection DirectOutput_Cab_Out_Pac_PacLed64_Name Name
 
-Name of the Named item.<br />
-Triggers BeforeNameChange before a new Name is set.<br />
-Triggers AfterNameChanged after a new name has been set.
+The name of the item.
 
 
 
@@ -127,24 +107,11 @@ ArtNet has the following 3 configurable properties:
 
 \subsubsection DirectOutput_Cab_Out_DMX_ArtNet_Universe Universe
 
-Gets or sets the number of the Dmx universe for the ArtNet node.
-
-
-
-__Value__
-
 The number of the Dmx universe.
 
 
 
 \subsubsection DirectOutput_Cab_Out_DMX_ArtNet_BroadcastAddress BroadcastAddress
-
-Gets or sets the broadcast address for the ArtNet object.<br />
-If no BroadcastAddress is set, the default address (255.255.255.255) will be used.
-
-
-
-__Value__
 
 String containing broadcast address.
 
@@ -152,9 +119,7 @@ String containing broadcast address.
 
 \subsubsection DirectOutput_Cab_Out_DMX_ArtNet_Name Name
 
-Name of the Named item.<br />
-Triggers BeforeNameChange before a new Name is set.<br />
-Triggers AfterNameChanged after a new name has been set.
+The name of the item.
 
 
 
@@ -181,9 +146,7 @@ NullOutputController has the following 1 configurable properties:
 
 \subsubsection DirectOutput_Cab_Out_NullOutputController_NullOutputController_Name Name
 
-Name of the Named item.<br />
-Triggers BeforeNameChange before a new Name is set.<br />
-Triggers AfterNameChanged after a new name has been set.
+The name of the item.
 
 
 

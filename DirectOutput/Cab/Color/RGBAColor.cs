@@ -11,9 +11,10 @@ namespace DirectOutput.Cab.Color
     /// <summary>
     /// This class stores information on colors used for toys and effects (e.g. RGBLed).
     /// </summary>
-    public class RGBAColor : IRGBAColor
+    public class RGBAColor 
     {
-        
+
+
 
         private int _Red;
 
@@ -133,7 +134,7 @@ namespace DirectOutput.Cab.Color
         /// </summary>
         /// <param name="Color">The RGB color to be set.</param>
         /// <returns></returns>
-        public bool SetColor(IRGBColor Color)
+        public bool SetColor(RGBColor Color)
         {
             SetColor(Color.Red, Color.Green, Color.Blue);
             return true;
@@ -241,7 +242,7 @@ namespace DirectOutput.Cab.Color
         }
 
 
-        public RGBAColor(IRGBColor RGBColor) {
+        public RGBAColor(RGBColor RGBColor) {
             SetColor(RGBColor);
         }
 

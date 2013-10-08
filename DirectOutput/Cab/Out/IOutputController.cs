@@ -10,6 +10,7 @@ namespace DirectOutput.Cab.Out
     public interface IOutputController : INamedItem
     {
 
+
         /// <summary>
         /// Must initialize the IOutputController.
         /// Is called after the objects have been instanciated.
@@ -28,6 +29,9 @@ namespace DirectOutput.Cab.Out
         /// Name of the IOutputController.
         /// This property is fully implemented in the abstract OutputControllerBase class.
         /// </summary>
+        /// <value>
+        /// The name of the output controller.
+        /// </value>
         new string Name { get; set; }
 
         /// <summary>

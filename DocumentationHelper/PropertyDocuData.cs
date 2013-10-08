@@ -17,7 +17,7 @@ namespace DocumentationHelper
         {
             get
             {
-                string N = "{0}.{1}.{2}".Build(PropertyInfo.DeclaringType.Namespace, PropertyInfo.DeclaringType.Name,PropertyInfo.Name);
+                string N = "{0}.{1}.{2}".Build(PropertyInfo.DeclaringType.Namespace, PropertyInfo.DeclaringType.Name, PropertyInfo.Name);
                 if (VSXmlDocu.PropertySummary.ContainsKey(N))
                 {
                     return VSXmlDocu.PropertySummary[N];
@@ -46,15 +46,10 @@ namespace DocumentationHelper
 
             S += "\\subsubsection {0}_{1}_{2} {2}\n\n".Build(PropertyInfo.ReflectedType.Namespace.Replace(".", "_"), PropertyInfo.ReflectedType.Name, Name);
 
-            if (!Summary.IsNullOrWhiteSpace())
-            {
-                S += Summary;
-                S += "\n\n";
-            }
+
 
             if (!Value.IsNullOrWhiteSpace() || !ValidValuesDescription.IsNullOrWhiteSpace())
             {
-                S += "__Value__\n\n";
                 if (!Value.IsNullOrWhiteSpace())
                 {
                     S += Value;
@@ -64,6 +59,11 @@ namespace DocumentationHelper
                 {
                     S += ValidValuesDescription + "\n\n";
                 }
+            }
+            else if (!Summary.IsNullOrWhiteSpace())
+            {
+                S += Summary;
+                S += "\n\n";
             }
 
             //S += "__Value type__\n";
@@ -105,7 +105,24 @@ namespace DocumentationHelper
             {
                 foreach (PropertyDocuData PDD in L)
                 {
-                    S += Indent + "* __{0}__\n".Build(PDD.Name);
+                    S += Indent + "* __{0}__<br/>".Build(PDD.Name);
+                    if (!PDD.Value.IsNullOrWhiteSpace() || !PDD.ValidValuesDescription.IsNullOrWhiteSpace())
+                    {
+                        if (!PDD.Value.IsNullOrWhiteSpace())
+                        {
+                            S += Indent + "  "+PDD.Value;
+                            S += "\n\n";
+                        };
+                        if (!PDD.ValidValuesDescription.IsNullOrWhiteSpace())
+                        {
+                            S += Indent + "  " + PDD.ValidValuesDescription + "\n\n";
+                        }
+                    }
+                    else if (!PDD.Summary.IsNullOrWhiteSpace())
+                    {
+                        S += Indent + "  " + PDD.Summary;
+                        S += "\n\n";
+                    }
                     string N = GetNestedPropertiesDocu(PDD, Level + 1);
                     if (!N.IsNullOrWhiteSpace())
                     {

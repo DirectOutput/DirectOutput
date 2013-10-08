@@ -15,9 +15,10 @@ namespace DirectOutput.Cab.Toys.Layer
 
 
         #region Layers
+        [System.Xml.Serialization.XmlIgnore]
         public RGBALayerDictionary Layers { get; private set; }
 
-       
+
 
         #endregion
 

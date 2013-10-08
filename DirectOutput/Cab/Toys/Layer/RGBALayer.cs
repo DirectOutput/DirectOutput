@@ -36,12 +36,12 @@ namespace DirectOutput.Cab.Toys.Layer
             return new RGBAColor(Red, Green, Blue, Alpha);
         }
 
-        public void Set(IRGBAColor RGBA)
+        public void Set(RGBAColor RGBA)
         {
             Set(RGBA.Red, RGBA.Green, RGBA.Blue, RGBA.Alpha);
         }
 
-        public void Set(IRGBColor RGB)
+        public void Set(RGBColor RGB)
         {
             Set(RGB.Red, RGB.Green, RGB.Blue);
         }
@@ -58,12 +58,12 @@ namespace DirectOutput.Cab.Toys.Layer
             Set(Red, Green, Blue, Alpha);
         }
 
-        public RGBALayer(IRGBAColor RGBA)
+        public RGBALayer(RGBAColor RGBA)
         {
             Set(RGBA.Red, RGBA.Green, RGBA.Blue, RGBA.Alpha);
         }
 
-        public  RGBALayer(IRGBColor RGB)
+        public  RGBALayer(RGBColor RGB)
         {
             Set(RGB.Red, RGB.Green, RGB.Blue);
         }

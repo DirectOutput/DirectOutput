@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DirectOutput.Cab.Toys.Layer;
+using System.Xml.Serialization;
 
 namespace DirectOutput.FX.RGBAFX
 {
@@ -58,6 +59,7 @@ namespace DirectOutput.FX.RGBAFX
         /// Refrence to the RGBA Toy specified in the RGBAToyName property.<br/>
         /// If the RGBAToyName property is empty or contains a unknown name or the name of a toy which is not a IRGBAToy this property will return null.
         /// </summary>
+        [XmlIgnoreAttribute]
         public IRGBAToy RGBAToy
         {
             get

@@ -15,6 +15,9 @@ namespace DocumentationHelper
 
             DirectOutput.General.TypeList Types = new DirectOutput.General.TypeList(AppDomain.CurrentDomain.GetAssemblies().ToList().SelectMany(s => s.GetTypes()).Where(p => typeof(DirectOutput.Cab.Toys.IToy).IsAssignableFrom(p) && !p.IsAbstract));
 
+
+            Types.Sort((T1, T2) => T1.FullName.CompareTo(T2.FullName));
+
             string S = "Built in Toys  {#toy_builtin}\n";
             S += "==========\n";
             foreach (Type T in Types)
@@ -31,6 +34,8 @@ namespace DocumentationHelper
 
 
             Types = new DirectOutput.General.TypeList(AppDomain.CurrentDomain.GetAssemblies().ToList().SelectMany(s => s.GetTypes()).Where(p => typeof(DirectOutput.FX.IEffect).IsAssignableFrom(p) && !p.IsAbstract));
+
+            Types.Sort((T1, T2) => T1.FullName.CompareTo(T2.FullName));
 
              S = "Built in Effects  {#fx_builtin}\n";
             S += "==========\n";
