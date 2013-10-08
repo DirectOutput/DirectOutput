@@ -62,7 +62,7 @@ namespace DocumentationHelper
         public static void Load()
         {
             XmlDocument doc = new XmlDocument();
-            doc.Load(@"C:\Users\Tom\Documents\GitHub\DirectOutput\bin\Docu\DirectOutput.XML");
+            doc.Load(@"DirectOutput.XML");
 
 
             XmlNode docNode = null;

@@ -134,8 +134,23 @@ namespace DocumentationHelper
 
 
 
-        private object GetSampleReferenceType(Type T)
+        private object GetSampleReferenceType(Type RefType)
         {
+            Type T=RefType;
+            if (T.IsInterface)
+            {
+                DirectOutput.General.TypeList Types = new DirectOutput.General.TypeList(AppDomain.CurrentDomain.GetAssemblies().ToList().SelectMany(s => s.GetTypes()).Where(p => T.IsAssignableFrom(p) && !p.IsAbstract));
+                if (Types.Count > 0)
+                {
+                    T = Types[0];
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            
+
             Object O = Activator.CreateInstance(T);
 
 
