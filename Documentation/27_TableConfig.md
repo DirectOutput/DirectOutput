@@ -45,7 +45,7 @@ The TableElements section contains the definition of the table elements (solenoi
 
 The definition of a table element consists of the type and the number of the table element. A name for the element can be specified in addition. The name has no technical relevance, but can be useful for informational purposes and configuring a table will for sure be easier if the table elements are named.
 
-For every table element one or several effects can be assigned. A effect assignment consists of the name of the effect and a number which defines the order in which the effects are triggered. If the order of the effects doesnt matter, you can also use the same order number for every assigned effect.
+For every table element one or several effects can be assigned.
 
 On initialization of the framework the names of the assigned effects are resolved into references to the actual effect objects. If a name cant be resolved, the effect assignmenet will be disabled.
 
@@ -57,40 +57,36 @@ A typical table element definition looks as follows:
       <Number>4</Number>
       <Name>Right slingshot</Name>
       <AssignedEffects>
-        <AssignedEffectOrder>
+        <AssignedEffect>
           <EffectName>Fire Right Bottom Contactor</EffectName>
-          <Order>1</Order>
-        </AssignedEffectOrder>
-        <AssignedEffectOrder>
+        </AssignedEffect>
+        <AssignedEffect>
           <EffectName>Flash Right Backboard Led</EffectName>
-          <Order>2</Order>
-        </AssignedEffectOrder>
+        </AssignedEffect>
       </AssignedEffects>
     </TableElement>
 ~~~~~~~~~~~~~
 
 \subsection tableconfigfile_configfilestructurestaticeffects Assigned static effects section
 
-The AssignedStaticEffects contains the assignment of the static effects which are triggered when the system starts up. The static effects are defined by using AssignedEffectOrder sections. 
-
-The AssignedEffectOrder sections consist of the name of the assigned effect and a number specifying the order in which the static effects are triggered.
+The AssignedStaticEffects contains the assignment of the static effects which are triggered when the system starts up. The static effects are defined by using AssignedEffect sections. 
 
 On initialization of the framework the names of the assigned effects are resolved into references to the actual effect objects. If a name cant be resolved, the effect assignmenet will be disabled.
 
-A typical AssignedEffectOrder might looks like this:
-
-~~~~~~~~~~~~~{.xml}
-    <AssignedEffectOrder>
-      <EffectName>Set Flipperbutton to Red</EffectName>
-      <Order>1</Order>
-    </AssignedEffectOrder>
-~~~~~~~~~~~~~
+This section might looks like this:
+  <AssignedStaticEffects>
+        <AssignedEffect>
+          <EffectName>Turn on Start Button</EffectName>
+        </AssignedEffect>
+        <AssignedEffect>
+          <EffectName>Turn on Launch Button</EffectName>
+        </AssignedEffect>
+      </AssignedEffects>
+  </AssignedStaticEffects>
 
 
 \subsection tableconfigfile_configfilestructureeffects Effects section
 
 The effects section contains the configurations for all table effects. Effects configured in this section can be referenced by their name in the static effects section and in the assigned effect sections of the various table elements.
 
-The Directoutput framework contains some built in effects and more effects can be added through scripting (see scripting page for details). 
-
-Please see the page on effects for details.
+Please refer to the pages on \ref fx "Effects" and on \ref fx_builtin "Built in Effects" for more information.
