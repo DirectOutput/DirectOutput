@@ -8,9 +8,19 @@ using DirectOutput.General.Statistics;
 namespace DirectOutput.Cab.Out.LW
 {
     /// <summary>
-    /// IOutputController class for LedWiz controllers.<br/>
-    /// The code for this class (mainly the private, static methods) is based on the implementation in the LedWiz SDK provided by Randolf Turner of GroovyGameGear (Thanks for all the support).<br/>
-    /// Updates for the physical LedWiz units are sent in a separate thread per unit to ensure max. performance. 
+    /// The LedWiz is a easy to use outputcontroller with 32 outputs which all support 49 <a target="_blank" href="https://en.wikipedia.org/wiki/Pulse-width_modulation">pwm</a> levels. The LedWiz is able to drive leds and smaller loads directly, but will require some kind of booster for power hungery gadgets like big contactors or motors.
+    ///
+    /// \image html LedWizboard.jpg
+    /// 
+    /// The DirectOutput framework does fully support the LedWiz and can control up to 16 LedWiz units. The framework can automatically detect connected LedWiz units and configure them for use with the framework.
+    /// 
+    /// The LedWiz is made by <a href="http://groovygamegear.com/">GroovyGameGear</a> and can by ordered directly on GroovyGamegears website, but also from some other vendors.
+    /// 
+    /// This unit was the first output controller which was widely used in the virtual pinball community and was the unit for which the legacy vbscript solution was developed. The DirectOutput framework replaces the vbscript solution, but can reuse the ini files which were used for the configuration of the tables. Please read \ref ledcontrolfiles for more information.
+    /// 
+    /// The current implementation of the LedWiz driver uses a separate thread for every ledwiz connected to the system to ensure max. performance.
+    /// 
+    /// \image html LedWizLogo.jpg
     /// </summary>
     public class LedWiz : OutputControllerBase, IOutputController, IDisposable
     {

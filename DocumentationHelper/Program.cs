@@ -10,12 +10,13 @@ namespace DocumentationHelper
     {
         static void Main(string[] args)
         {
-      
+
 
 
             DirectOutput.General.TypeList Types = new DirectOutput.General.TypeList(AppDomain.CurrentDomain.GetAssemblies().ToList().SelectMany(s => s.GetTypes()).Where(p => typeof(DirectOutput.Cab.Toys.IToy).IsAssignableFrom(p) && !p.IsAbstract));
 
-            string S = "";
+            string S = "Built in Toys  {#toy_builtin}\n";
+            S += "==========\n";
             foreach (Type T in Types)
             {
                 TypeDocuData I = new TypeDocuData();
@@ -26,12 +27,13 @@ namespace DocumentationHelper
 
             }
 
-            S.WriteToFile("Toys.txt");
+            S.WriteToFile(@"..\..\..\Documentation\64_Toys_BuiltIn.md");
 
 
-             Types = new DirectOutput.General.TypeList(AppDomain.CurrentDomain.GetAssemblies().ToList().SelectMany(s => s.GetTypes()).Where(p => typeof(DirectOutput.FX.IEffect).IsAssignableFrom(p) && !p.IsAbstract));
+            Types = new DirectOutput.General.TypeList(AppDomain.CurrentDomain.GetAssemblies().ToList().SelectMany(s => s.GetTypes()).Where(p => typeof(DirectOutput.FX.IEffect).IsAssignableFrom(p) && !p.IsAbstract));
 
-             S = "";
+             S = "Built in Effects  {#fx_builtin}\n";
+            S += "==========\n";
             foreach (Type T in Types)
             {
                 TypeDocuData I = new TypeDocuData();
@@ -42,11 +44,12 @@ namespace DocumentationHelper
 
             }
 
-            S.WriteToFile("Effects.txt");
+            S.WriteToFile(@"..\..\..\Documentation\61_FX_BuiltIn.md");
 
             Types = new DirectOutput.General.TypeList(AppDomain.CurrentDomain.GetAssemblies().ToList().SelectMany(s => s.GetTypes()).Where(p => typeof(DirectOutput.Cab.Out.IOutputController).IsAssignableFrom(p) && !p.IsAbstract));
 
-            S = "";
+            S = "Built in Output controllers  {#outputcontrollers_builtin}\n";
+            S += "==========\n";
             foreach (Type T in Types)
             {
                 TypeDocuData I = new TypeDocuData();
@@ -57,7 +60,7 @@ namespace DocumentationHelper
 
             }
 
-            S.WriteToFile("OutputControllers.txt");
+            S.WriteToFile(@"..\..\..\Documentation\66_OutputControllers_BuiltIn.md");
 
 
 
