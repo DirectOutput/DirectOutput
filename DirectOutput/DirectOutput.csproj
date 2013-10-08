@@ -246,7 +246,6 @@
     <Compile Include="Cab\Color\RGBColor.cs" />
     <Compile Include="Cab\Color\ColorList.cs" />
     <Compile Include="Cab\Toys\Basic\Contactor.cs" />
-    <Compile Include="Cab\Toys\Basic\Flasher.cs" />
     <Compile Include="Cab\Toys\Basic\IAnalogToy.cs" />
     <Compile Include="Cab\Toys\Basic\IDigitalToy.cs" />
     <Compile Include="Cab\Toys\IToy.cs" />
@@ -299,7 +298,6 @@
     <Compile Include="LedControl\Loader\TableConfigList.cs" />
     <Compile Include="LedControl\Loader\TableConfigSetting.cs" />
     <Compile Include="Table\TableElementData.cs" />
-    <Compile Include="Cab\Toys\Basic\ReplayKnocker.cs" />
     <Compile Include="Cab\Toys\Basic\RGBLed.cs" />
     <Compile Include="Cab\Toys\Basic\Shaker.cs" />
     <Compile Include="Scripting\Script.cs" />
