@@ -1,6 +1,8 @@
 ﻿Architecture
 ============
 
+\warning This page is not up to date. It was last update in spring 2013.
+
 \section architecture_objectmodel Object model 
 
 \image html GlobalArchitecture.png "Please check the docu on the classes for details on all class members and class descriptions."
