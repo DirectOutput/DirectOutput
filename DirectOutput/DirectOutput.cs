@@ -105,6 +105,11 @@ namespace DirectOutput
                             {
                                 //if global config file does not exist, set filename to config directory.
                                 F = new FileInfo(Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName, "config", "GlobalConfig_{0}.xml".Build(HostAppFilename)));
+                                if (!F.Directory.Exists)
+                                {
+                                    //If the config dir does not exist set the dll dir for the config
+                                    F = new FileInfo(Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName, "GlobalConfig_{0}.xml".Build(HostAppFilename)));
+                                }
                             }
                         }
                     }

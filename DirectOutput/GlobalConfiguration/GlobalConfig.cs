@@ -326,8 +326,9 @@ namespace DirectOutput.GlobalConfiguration
         /// <returns>string containing to the global config directory.</returns>
         public string GlobalConfigDirectoryName()
         {
-            if (GlobalConfigFilename.IsNullOrWhiteSpace()) { return null; }
-            return Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Config");
+            DirectoryInfo DI = GetGlobalConfigDirectory();
+            if (DI == null) return null;
+            return DI.FullName;
         }
 
         /// <summary>
@@ -338,9 +339,9 @@ namespace DirectOutput.GlobalConfiguration
         /// </returns>
         public DirectoryInfo GetGlobalConfigDirectory()
         {
-
-            if (GlobalConfigFilename.IsNullOrWhiteSpace()) { return null; }
-            return GetGlobalConfigFile().Directory;
+            FileInfo FI = GetGlobalConfigFile();
+            if (FI == null) return null;
+            return FI.Directory;
 
         }
 
