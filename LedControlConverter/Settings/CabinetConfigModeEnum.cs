@@ -8,7 +8,7 @@ namespace LedControlConverter.Settings
     public enum CabinetConfigModeEnum
     {
         CreateNewCabinetConfig=0,
-        UpdateExistingConfig=1,
-        MatchExistingConfig=2   
+        UseExistingConfig=1
+
     }
 }
