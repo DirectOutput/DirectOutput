@@ -10,7 +10,6 @@ To facilitate the use of the framework, the auto config function will automatica
 
 If you dont have a directoutputconfig.ini file for your cabinet, it is best if you go to the <a href="http://vpuniverse.com/ledwiz/login.php">LedWiz ConfigTool Website</a> and create a file matching your cabinet. 
 
-\image html LedWizConfigTool.jpg LedWiz ConfigTool 
 
 LedControl.ini files which worked for the legacy ledcontrol.vbs solution are working in DOF too and will generally create the same effects as the ledcontrol.vbs, but you might notice some small differences since the timeing behaviour of DOF is completely different from the old solution (DOF is much, much faster).
 
@@ -69,10 +68,10 @@ For ini files specified in the global config any filename can be used. The restr
 
 \section inifiles_cabinetconfig Cabinet configuration
 
-The DirectOutput framework is not capable of doing anything without a cabinet config. For detailed information on this topic please read the page on \ref cabinetconfig "Cabinet Configuration", since the following paragraphs only contain a few details which are relevantwhen it come to config through ini files.
+The DirectOutput framework is not capable of doing anything without a cabinet config. For detailed information on this topic please read the page on \ref cabinetconfig "Cabinet Configuration", since the following paragraphs only contain a few details which are relevant when it come to config through ini files.
 
 
-\subsubsection inifiles_autocabinetconfig Automatic cabinet configuration
+\subsection inifiles_autocabinetconfig Automatic cabinet configuration
 
 A cabinet config file can contain any number of LedWizEquivalent toys to control any number of output controllers. If cabinet auto configuration is used, the framework will automatically generate LedWizEquivalent toys for the output controllers which are automatically detected. 
 
@@ -81,7 +80,7 @@ If active (typically if no cabinet config file exists), automatic cabinet config
 * For LedWiz unit 1-16, the framework creates one LedWizEquivalent per unit having the same number as the LedWiz (LedWiz nr. = LedWizEquivalent nr. = ini file number).
 * For PacLed64 units (max 4 supported), the framework creates 2 LedWizEquivalentToys per unit to cover all 64 outputs. The numbering for those LedWizEquivalent starts at 20, so PacLed64 id 1 can be accessed through LedWizEquivalents numbered 20 & 21, PacLed id 2 uses 22 & 23 and so on.
 
-\subsubsection inifiles_manualcabinetconfig Manual cabinet configuration
+\subsection inifiles_manualcabinetconfig Manual cabinet configuration
 
 Instead of relying on the automatic cabinet configuration, you can also specifiy your own cabinet config for the use with ini files.
 
@@ -91,9 +90,13 @@ When ini file data is used for the Table configuration, the number of the LedWiz
 
 If a cabinet config file exists, the framework normally no do any automatic detection of output controllers and will no create any LedWizEquivalent toys automatically.
 
-\section inifiles_settings Settings in DirectOutputConfig/LedControl files
+\section inifiles_settings Settings in DirectOutputConfig/LedControl ini files
 
-This is a short overview on the settings in directoutput.ini  files.
+The content opf the ini files is a bit hard to read and understand. The following paragraphs try to explain the most importants points.
+
+The ini files are also quite hard to edit manually. Therefore the best option to get your own settings, is to use the <a href="http://vpuniverse.com/ledwiz/login.php">LedWiz ConfigTool Website</a>. If you create your own settings, it is highly recommended that you use the \ref inifiles_testingapp "LedControlFileTester.exe" to check if your files can be parsed.
+
+\image html LedWizConfigTool.jpg LedWiz ConfigTool 
 
 \subsection inifiles_settingscolors Colors Section
 
@@ -122,7 +125,18 @@ Every column can contain any number of definitions how the framework should cont
 
 The following definitions can be used to specifiy the output behaviour of the physical outputs. Definitions can consist of up to three parts each containing one setting separated by a space.
 
-If you want to create your own settings, it is best if you use the <a href="http://vpuniverse.com/ledwiz/login.php">LedWiz ConfigTool Website</a> and try to learn from the settings found there. In addition it is recommended that you use the LedControlFileTester.exe (explained in the next section) to check if your files can be parsed, if you create your own settings.
+
+\image html LedWizConfigTool.jpg LedWiz ConfigTool 
+
+The config section of a ini file might looks like this:
+~~~~~~~~~~~~~~~~~~~~~~~~~{.ini}
+[Config DOF]
+
+abv106,S6/S7 60/S48,S4,S8/S11/W58 60/W59 60/W60 60/W61 60,S13,0,S1/S2/S46,S5/S12 60,0,S15/S16/S31 60/S32/W51 60/W52 60/W53 60,S14/S17 60/S30,S3,ON,ON,L34,W27 Blink,L3,S6 Yellow/S20 Yellow,S4 White/S14 Red/S21 Red/S22 Green/S27 Red/S28 Red/W62 Green/W65 Yellow/W66 Yellow/W69 Yellow,S1 Blue/S13 Red/W41 Yellow/W42 Yellow/W43 Yellow/W70 Yellow,S5 White/S15 Red/S24 Yellow/S25 Green/S27 Red/W54 White/W71 Yellow,S23 Yellow/S26 Yellow/W49 White/W50 White,0
+afm,S48,S9,0,0,S3/S11,S1/S2/S46,S10,0,S4/S13,S12/S16,S7,ON,ON,0,L86,L88,S27 Red/S11 Red/S28 Green/W56 Green/W57 Green/W58 Green,S9 Blue/S25 Red/S26 Red/W43 Green,S12 Red/S21 Red/S23 Green,S10 Blue/S17 Red/S18 Red/S22 Yellow/W38 Yellow/W44 Green,S19 Red/S13 Red/S20 Green/W41 Green/W42 Green/W48 Yellow,S5 600 I32/S6 600 I32/S8 600 I32/S14 600 I32/S15 600 I32
+... more table configs ...
+atlantis,S48,S7,0,S2/S9/W1 60/W2 60/W3 60/W4 60,S4/S11,S12/S14/S46,S8,0,S1/S5,S6,S15,ON,ON,0,W16 Blink,ON,S4 Red/W25 Red/W26 White/W27 Yellow/L43 Orange,S7 Yellow/W32 Blue/L77 White,S6 Red/W12 White/W33 Red/W34 White/W35 Yellow/L45 Red,S8 Yellow/W36 Cyan/L62 White,S5 Red/W13 White/W28 Red/W29 White/W30 Yellow/W45 Blue/L76 Orange,0
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 \subsection inifiles_settingspara Setting parameters
@@ -149,7 +163,8 @@ The second and following parts can contain the following:
 * __S48__ will turn the toy associated with the column on and off depending on the state of solenoid 48.
 * __S48 Green__ will set the rgb led associated with the column of the file to green depending on the state of solenoid 48.
 * __S48 Green Blink__ will set the rgb led associated with the column of the file to green blinking depending on the state of solenoid 48.
-* __W32 Red Blink 250 5__ will make a rgbled blink red for 5 times with a interval of 250ms when switch 32 is activated.
+* __W32 Red Blink 500 5__ will make a rgbled blink red for 5 times with a interval of 500ms when switch 32 is activated.
+* __W32 Red Blink 250 5 F200__ same result as previous example but the color will fadin and out in 200 millieconds.
 * __W36 I32__ sets the output associated with the column to intensity 32 as long as switch 32 is active.
 
 
