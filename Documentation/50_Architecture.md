@@ -1,7 +1,7 @@
 ﻿Architecture
 ============
 
-\warning This page is not up to date. It was last update in spring 2013.
+\warning This page is not up to date! It was last updated in spring 2013.
 
 \section architecture_objectmodel Object model 
 
