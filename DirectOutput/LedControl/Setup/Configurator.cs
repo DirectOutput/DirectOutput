@@ -216,7 +216,7 @@ namespace DirectOutput.LedControl.Setup
 
                                 if (LWE.Outputs.Any(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber) && LWE.Outputs.Any(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 1) && LWE.Outputs.Any(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 2))
                                 {
-                                    //Try to get the toy name
+                                    //Try to get the toy 
                                     try
                                     {
                                         //Toy does already exist
@@ -280,7 +280,7 @@ namespace DirectOutput.LedControl.Setup
 
                             default:
                                 //Unknow value
-                                Log.Warning("A illegal number ({0}) of required outputs has been found in a table config colum {0} for ledcontrol nr. {2}. Can configure toy.".Build(TCC.RequiredOutputCount, TCC.Number, LedWizNr));
+                                Log.Warning("A illegal number ({0}) of required outputs has been found in a table config colum {0} for ledcontrol nr. {2}. Cant configure toy.".Build(TCC.RequiredOutputCount, TCC.Number, LedWizNr));
                                 break;
                         }
                     }
