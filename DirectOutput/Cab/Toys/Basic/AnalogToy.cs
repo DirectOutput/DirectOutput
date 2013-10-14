@@ -8,6 +8,7 @@ using System.Xml.Serialization;
 namespace DirectOutput.Cab.Toys.Basic
 {
     /// <summary>
+    /// \deprecated The use of this toy is depreceated. Use the new AnalogAlphaToy instead.
     /// Implementation of a generic analog toy.
     /// Implements IToy.
     /// </summary>
