@@ -83,6 +83,7 @@
     <Content Include="img\Installation_DirectoryStructure.png" />
     <Content Include="img\Installation_OwnDirectory1.png" />
     <Content Include="img\Installation_OwnDirectory2.png" />
+    <Content Include="img\LayersRGBA.png" />
     <Content Include="img\LedControlFileTester.jpg" />
     <Content Include="img\LedWizBoard.jpg" />
     <Content Include="img\LedWizConfigTool.jpg" />
