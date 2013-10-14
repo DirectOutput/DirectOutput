@@ -216,8 +216,7 @@ The list of effects assigned to the ListEffect.
 __Nested Properties__
 
 The following nested propteries exist for AssignedEffects:
-* __EffectName__<br/>  Name of the AssignedEffect.<br />
-Triggers EffectNameChanged if value is changed.
+* __EffectName__<br/>  The name of the assigned effect.
 
 
 
