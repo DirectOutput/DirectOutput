@@ -36,23 +36,24 @@ A configuration section for AnalogToyFadeOnOffEffect might resemble the followin
 
 AnalogToyFadeOnOffEffect has the following 9 configurable properties:
 
-\subsubsection DirectOutput_FX_AnalogToyFX_AnalogToyFadeOnOffEffect_RetriggerBehaviour RetriggerBehaviour
+\subsubsection DirectOutput_FX_AnalogToyFX_AnalogToyFadeOnOffEffect_ActiveValue ActiveValue
 
-Valid values are RestartEffect or IgnoreRetrigger.
+The active value between 0 and 255.
 
 
 
-The property RetriggerBehaviour accepts the following values:
+\subsubsection DirectOutput_FX_AnalogToyFX_AnalogToyFadeOnOffEffect_FadeActiveDurationMs FadeActiveDurationMs
 
-RestartEffect
-* IgnoreRetrigger
+The fading duration in milliseconds.
 
-__Valid values__
 
-The property RetriggerBehaviour accepts the following values:
 
-RestartEffect
-* IgnoreRetrigger
+\subsubsection DirectOutput_FX_AnalogToyFX_AnalogToyFadeOnOffEffect_FadeInactiveDurationMs FadeInactiveDurationMs
+
+The fading duration in milliseconds.
+
+
+
 \subsubsection DirectOutput_FX_AnalogToyFX_AnalogToyFadeOnOffEffect_FadeMode FadeMode
 
 CurrentToDefinedColor or DefinedColor
@@ -70,33 +71,9 @@ The property FadeMode accepts the following values:
 
 CurrentToDefined
 * DefinedToDefined
-\subsubsection DirectOutput_FX_AnalogToyFX_AnalogToyFadeOnOffEffect_FadeInactiveDurationMs FadeInactiveDurationMs
-
-The fading duration in milliseconds.
-
-
-
-\subsubsection DirectOutput_FX_AnalogToyFX_AnalogToyFadeOnOffEffect_FadeActiveDurationMs FadeActiveDurationMs
-
-The fading duration in milliseconds.
-
-
-
-\subsubsection DirectOutput_FX_AnalogToyFX_AnalogToyFadeOnOffEffect_ActiveValue ActiveValue
-
-The active value between 0 and 255.
-
-
-
 \subsubsection DirectOutput_FX_AnalogToyFX_AnalogToyFadeOnOffEffect_InactiveValue InactiveValue
 
 The inactive value between 0 and 255.
-
-
-
-\subsubsection DirectOutput_FX_AnalogToyFX_AnalogToyFadeOnOffEffect_ToyName ToyName
-
-The name of the AnalogToy.
 
 
 
@@ -109,6 +86,29 @@ The layer number.
 \subsubsection DirectOutput_FX_AnalogToyFX_AnalogToyFadeOnOffEffect_Name Name
 
 The name of the item.
+
+
+
+\subsubsection DirectOutput_FX_AnalogToyFX_AnalogToyFadeOnOffEffect_RetriggerBehaviour RetriggerBehaviour
+
+Valid values are RestartEffect or IgnoreRetrigger.
+
+
+
+The property RetriggerBehaviour accepts the following values:
+
+RestartEffect
+* IgnoreRetrigger
+
+__Valid values__
+
+The property RetriggerBehaviour accepts the following values:
+
+RestartEffect
+* IgnoreRetrigger
+\subsubsection DirectOutput_FX_AnalogToyFX_AnalogToyFadeOnOffEffect_ToyName ToyName
+
+The name of the AnalogToy.
 
 
 
@@ -155,12 +155,6 @@ The inactive value between 0 and 255.
 
 
 
-\subsubsection DirectOutput_FX_AnalogToyFX_AnalogToyOnOffEffect_ToyName ToyName
-
-The name of the AnalogToy.
-
-
-
 \subsubsection DirectOutput_FX_AnalogToyFX_AnalogToyOnOffEffect_Layer Layer
 
 The layer number.
@@ -170,6 +164,12 @@ The layer number.
 \subsubsection DirectOutput_FX_AnalogToyFX_AnalogToyOnOffEffect_Name Name
 
 The name of the item.
+
+
+
+\subsubsection DirectOutput_FX_AnalogToyFX_AnalogToyOnOffEffect_ToyName ToyName
+
+The name of the AnalogToy.
 
 
 
@@ -269,23 +269,30 @@ A configuration section for RGBAFadeOnOffEffect might resemble the following str
 
 RGBAFadeOnOffEffect has the following 9 configurable properties:
 
-\subsubsection DirectOutput_FX_RGBAFX_RGBAFadeOnOffEffect_RetriggerBehaviour RetriggerBehaviour
+\subsubsection DirectOutput_FX_RGBAFX_RGBAFadeOnOffEffect_ActiveColor ActiveColor
 
-Valid values are RestartEffect or IgnoreRetrigger.
+The RGBA color to be used when the effect is active.
 
 
 
-The property RetriggerBehaviour accepts the following values:
+__Nested Properties__
 
-RestartEffect
-* IgnoreRetrigger
+The following nested propteries exist for ActiveColor:
+* __HexColor__<br/>  6 digit hexadecimal color code with leading  #(e.g. #ff0000 for red).
 
-__Valid values__
 
-The property RetriggerBehaviour accepts the following values:
+\subsubsection DirectOutput_FX_RGBAFX_RGBAFadeOnOffEffect_FadeActiveDurationMs FadeActiveDurationMs
 
-RestartEffect
-* IgnoreRetrigger
+The fading duration in milliseconds.
+
+
+
+\subsubsection DirectOutput_FX_RGBAFX_RGBAFadeOnOffEffect_FadeInactiveDurationMs FadeInactiveDurationMs
+
+The fading duration in milliseconds.
+
+
+
 \subsubsection DirectOutput_FX_RGBAFX_RGBAFadeOnOffEffect_FadeMode FadeMode
 
 CurrentToDefinedColor or DefinedColor
@@ -303,30 +310,6 @@ The property FadeMode accepts the following values:
 
 CurrentToDefined
 * DefinedToDefined
-\subsubsection DirectOutput_FX_RGBAFX_RGBAFadeOnOffEffect_FadeInactiveDurationMs FadeInactiveDurationMs
-
-The fading duration in milliseconds.
-
-
-
-\subsubsection DirectOutput_FX_RGBAFX_RGBAFadeOnOffEffect_FadeActiveDurationMs FadeActiveDurationMs
-
-The fading duration in milliseconds.
-
-
-
-\subsubsection DirectOutput_FX_RGBAFX_RGBAFadeOnOffEffect_ActiveColor ActiveColor
-
-The RGBA color to be used when the effect is active.
-
-
-
-__Nested Properties__
-
-The following nested propteries exist for ActiveColor:
-* __HexColor__<br/>  6 digit hexadecimal color code with leading  #(e.g. #ff0000 for red).
-
-
 \subsubsection DirectOutput_FX_RGBAFX_RGBAFadeOnOffEffect_InactiveColor InactiveColor
 
 The RGBA color to be used when the effect is inactive.
@@ -339,12 +322,6 @@ The following nested propteries exist for InactiveColor:
 * __HexColor__<br/>  6 digit hexadecimal color code with leading  #(e.g. #ff0000 for red).
 
 
-\subsubsection DirectOutput_FX_RGBAFX_RGBAFadeOnOffEffect_ToyName ToyName
-
-The name of the RGBAToy.
-
-
-
 \subsubsection DirectOutput_FX_RGBAFX_RGBAFadeOnOffEffect_Layer Layer
 
 The layer number.
@@ -354,6 +331,29 @@ The layer number.
 \subsubsection DirectOutput_FX_RGBAFX_RGBAFadeOnOffEffect_Name Name
 
 The name of the item.
+
+
+
+\subsubsection DirectOutput_FX_RGBAFX_RGBAFadeOnOffEffect_RetriggerBehaviour RetriggerBehaviour
+
+Valid values are RestartEffect or IgnoreRetrigger.
+
+
+
+The property RetriggerBehaviour accepts the following values:
+
+RestartEffect
+* IgnoreRetrigger
+
+__Valid values__
+
+The property RetriggerBehaviour accepts the following values:
+
+RestartEffect
+* IgnoreRetrigger
+\subsubsection DirectOutput_FX_RGBAFX_RGBAFadeOnOffEffect_ToyName ToyName
+
+The name of the RGBAToy.
 
 
 
@@ -411,12 +411,6 @@ The following nested propteries exist for InactiveColor:
 * __HexColor__<br/>  6 digit hexadecimal color code with leading  #(e.g. #ff0000 for red).
 
 
-\subsubsection DirectOutput_FX_RGBAFX_RGBAOnOffEffect_ToyName ToyName
-
-The name of the RGBAToy.
-
-
-
 \subsubsection DirectOutput_FX_RGBAFX_RGBAOnOffEffect_Layer Layer
 
 The layer number.
@@ -426,6 +420,12 @@ The layer number.
 \subsubsection DirectOutput_FX_RGBAFX_RGBAOnOffEffect_Name Name
 
 The name of the item.
+
+
+
+\subsubsection DirectOutput_FX_RGBAFX_RGBAOnOffEffect_ToyName ToyName
+
+The name of the RGBAToy.
 
 
 
@@ -466,16 +466,16 @@ The inactive duration of the blinking in milliseconds.
 
 
 
+\subsubsection DirectOutput_FX_TimmedFX_BlinkEffect_Name Name
+
+The name of the item.
+
+
+
 \subsubsection DirectOutput_FX_TimmedFX_BlinkEffect_TargetEffectName TargetEffectName
 
 Name of the target effect.<br />
 Triggers EffectNameChanged if value is changed.
-
-
-
-\subsubsection DirectOutput_FX_TimmedFX_BlinkEffect_Name Name
-
-The name of the item.
 
 
 
@@ -510,16 +510,16 @@ The delay in milliseconds.
 
 
 
+\subsubsection DirectOutput_FX_TimmedFX_DelayEffect_Name Name
+
+The name of the item.
+
+
+
 \subsubsection DirectOutput_FX_TimmedFX_DelayEffect_TargetEffectName TargetEffectName
 
 Name of the target effect.<br />
 Triggers EffectNameChanged if value is changed.
-
-
-
-\subsubsection DirectOutput_FX_TimmedFX_DelayEffect_Name Name
-
-The name of the item.
 
 
 
@@ -549,6 +549,18 @@ A configuration section for DurationEffect might resemble the following structur
 
 DurationEffect has the following 4 configurable properties:
 
+\subsubsection DirectOutput_FX_TimmedFX_DurationEffect_DurationMs DurationMs
+
+The effect duration in milliseconds.
+
+
+
+\subsubsection DirectOutput_FX_TimmedFX_DurationEffect_Name Name
+
+The name of the item.
+
+
+
 \subsubsection DirectOutput_FX_TimmedFX_DurationEffect_RetriggerBehaviour RetriggerBehaviour
 
 Valid values are RestartEffect (Restarts the duration) or IgnoreRetrigger (keeps the org duration).
@@ -566,22 +578,10 @@ The property RetriggerBehaviour accepts the following values:
 
 RestartEffect
 * IgnoreRetrigger
-\subsubsection DirectOutput_FX_TimmedFX_DurationEffect_DurationMs DurationMs
-
-The effect duration in milliseconds.
-
-
-
 \subsubsection DirectOutput_FX_TimmedFX_DurationEffect_TargetEffectName TargetEffectName
 
 Name of the target effect.<br />
 Triggers EffectNameChanged if value is changed.
-
-
-
-\subsubsection DirectOutput_FX_TimmedFX_DurationEffect_Name Name
-
-The name of the item.
 
 
 
@@ -616,16 +616,16 @@ The extended duration in milliseconds.
 
 
 
+\subsubsection DirectOutput_FX_TimmedFX_ExtendDurationEffect_Name Name
+
+The name of the item.
+
+
+
 \subsubsection DirectOutput_FX_TimmedFX_ExtendDurationEffect_TargetEffectName TargetEffectName
 
 Name of the target effect.<br />
 Triggers EffectNameChanged if value is changed.
-
-
-
-\subsubsection DirectOutput_FX_TimmedFX_ExtendDurationEffect_Name Name
-
-The name of the item.
 
 
 
@@ -656,6 +656,18 @@ A configuration section for MinDurationEffect might resemble the following struc
 
 MinDurationEffect has the following 4 configurable properties:
 
+\subsubsection DirectOutput_FX_TimmedFX_MinDurationEffect_MinDurationMs MinDurationMs
+
+The minimal effect duration in milliseconds.
+
+
+
+\subsubsection DirectOutput_FX_TimmedFX_MinDurationEffect_Name Name
+
+The name of the item.
+
+
+
 \subsubsection DirectOutput_FX_TimmedFX_MinDurationEffect_RetriggerBehaviour RetriggerBehaviour
 
 Valid values are RestartEffect (Restarts the minimal duration) or IgnoreRetrigger (keeps the org duration).
@@ -673,22 +685,10 @@ The property RetriggerBehaviour accepts the following values:
 
 RestartEffect
 * IgnoreRetrigger
-\subsubsection DirectOutput_FX_TimmedFX_MinDurationEffect_MinDurationMs MinDurationMs
-
-The minimal effect duration in milliseconds.
-
-
-
 \subsubsection DirectOutput_FX_TimmedFX_MinDurationEffect_TargetEffectName TargetEffectName
 
 Name of the target effect.<br />
 Triggers EffectNameChanged if value is changed.
-
-
-
-\subsubsection DirectOutput_FX_TimmedFX_MinDurationEffect_Name Name
-
-The name of the item.
 
 
 

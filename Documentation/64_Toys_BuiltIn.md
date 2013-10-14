@@ -5,6 +5,7 @@ Built in Toys  {#toy_builtin}
 \subsection use_DirectOutput_Cab_Toys_Basic_AnalogToy_summary Summary
 
 \deprecated The use of this toy is depreceated. Use the new AnalogAlphaToy instead.
+
 Implementation of a generic analog toy.
 Implements IToy.
 
@@ -24,15 +25,15 @@ A configuration section for AnalogToy might resemble the following structure:
 
 AnalogToy has the following 2 configurable properties:
 
-\subsubsection DirectOutput_Cab_Toys_Basic_AnalogToy_OutputName OutputName
-
-Name of the Output for the GenericAnalogToy.
-
-
-
 \subsubsection DirectOutput_Cab_Toys_Basic_AnalogToy_Name Name
 
 The name of the item.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Basic_AnalogToy_OutputName OutputName
+
+Name of the Output for the GenericAnalogToy.
 
 
 
@@ -41,6 +42,7 @@ The name of the item.
 \subsection use_DirectOutput_Cab_Toys_Basic_Contactor_summary Summary
 
 \deprecated The use of this toy is depreceated.
+
 Contactor toy.
 Basicaly just a more descriptive name for a GenericDigitalToy.
 Implements IToy, inherits GenericDigitalToy
@@ -61,15 +63,15 @@ A configuration section for Contactor might resemble the following structure:
 
 Contactor has the following 2 configurable properties:
 
-\subsubsection DirectOutput_Cab_Toys_Basic_Contactor_OutputName OutputName
-
-Name of the Output for the GenericDigitalToy
-
-
-
 \subsubsection DirectOutput_Cab_Toys_Basic_Contactor_Name Name
 
 The name of the item.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Basic_Contactor_OutputName OutputName
+
+Name of the Output for the GenericDigitalToy
 
 
 
@@ -78,6 +80,7 @@ The name of the item.
 \subsection use_DirectOutput_Cab_Toys_Basic_DigitalToy_summary Summary
 
 \deprecated The use of this toy is depreceated.
+
 Implementation of a generic digital toy.
 Implements IToy.
 
@@ -97,15 +100,15 @@ A configuration section for DigitalToy might resemble the following structure:
 
 DigitalToy has the following 2 configurable properties:
 
-\subsubsection DirectOutput_Cab_Toys_Basic_DigitalToy_OutputName OutputName
-
-Name of the Output for the GenericDigitalToy
-
-
-
 \subsubsection DirectOutput_Cab_Toys_Basic_DigitalToy_Name Name
 
 The name of the item.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Basic_DigitalToy_OutputName OutputName
+
+Name of the Output for the GenericDigitalToy
 
 
 
@@ -114,6 +117,7 @@ The name of the item.
 \subsection use_DirectOutput_Cab_Toys_Basic_GearMotor_summary Summary
 
 \deprecated The use of this toy is depreceated.
+
 GearMotor toy is just a simple wrapper around the Motor toy.
 
 
@@ -137,6 +141,24 @@ A configuration section for GearMotor might resemble the following structure:
 
 GearMotor has the following 7 configurable properties:
 
+\subsubsection DirectOutput_Cab_Toys_Basic_GearMotor_KickstartDurationMs KickstartDurationMs
+
+The kickstart duration in milliseconds.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Basic_GearMotor_KickstartPower KickstartPower
+
+The kickstart power for the motor.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Basic_GearMotor_MaxPower MaxPower
+
+The maximum power for the motor.
+
+
+
 \subsubsection DirectOutput_Cab_Toys_Basic_GearMotor_MaxRunTimeMs MaxRunTimeMs
 
 The max run time in milliseconds.
@@ -149,21 +171,9 @@ The minimal power for the motor.
 
 
 
-\subsubsection DirectOutput_Cab_Toys_Basic_GearMotor_MaxPower MaxPower
+\subsubsection DirectOutput_Cab_Toys_Basic_GearMotor_Name Name
 
-The maximum power for the motor.
-
-
-
-\subsubsection DirectOutput_Cab_Toys_Basic_GearMotor_KickstartPower KickstartPower
-
-The kickstart power for the motor.
-
-
-
-\subsubsection DirectOutput_Cab_Toys_Basic_GearMotor_KickstartDurationMs KickstartDurationMs
-
-The kickstart duration in milliseconds.
+The name of the item.
 
 
 
@@ -173,17 +183,12 @@ Name of the Output for the GenericAnalogToy.
 
 
 
-\subsubsection DirectOutput_Cab_Toys_Basic_GearMotor_Name Name
-
-The name of the item.
-
-
-
 \section use_DirectOutput_Cab_Toys_Basic_Lamp Lamp
 
 \subsection use_DirectOutput_Cab_Toys_Basic_Lamp_summary Summary
 
 \deprecated The use of this toy is depreceated. Use the AnalogAlphaToy instead.
+
 Lamp toy.<br />
 Inherits from <see cref="T:DirectOutput.Cab.Toys.Basic.AnalogToy" />, implements <see cref="T:DirectOutput.Cab.Toys.IToy" />.
 
@@ -203,15 +208,15 @@ A configuration section for Lamp might resemble the following structure:
 
 Lamp has the following 2 configurable properties:
 
-\subsubsection DirectOutput_Cab_Toys_Basic_Lamp_OutputName OutputName
-
-Name of the Output for the GenericAnalogToy.
-
-
-
 \subsubsection DirectOutput_Cab_Toys_Basic_Lamp_Name Name
 
 The name of the item.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Basic_Lamp_OutputName OutputName
+
+Name of the Output for the GenericAnalogToy.
 
 
 
@@ -220,6 +225,7 @@ The name of the item.
 \subsection use_DirectOutput_Cab_Toys_Basic_Motor_summary Summary
 
 \deprecated The use of this toy is depreceated. A new version of this toy will be available later.
+
 Motor toy supporting max. and min. power, max. runtime and kickstart settings.<br />
 Inherits from GenericAnalogToy, implements IToy.
 
@@ -244,6 +250,24 @@ A configuration section for Motor might resemble the following structure:
 
 Motor has the following 7 configurable properties:
 
+\subsubsection DirectOutput_Cab_Toys_Basic_Motor_KickstartDurationMs KickstartDurationMs
+
+The kickstart duration in milliseconds.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Basic_Motor_KickstartPower KickstartPower
+
+The kickstart power for the motor.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Basic_Motor_MaxPower MaxPower
+
+The maximum power for the motor.
+
+
+
 \subsubsection DirectOutput_Cab_Toys_Basic_Motor_MaxRunTimeMs MaxRunTimeMs
 
 The max run time in milliseconds.
@@ -256,21 +280,9 @@ The minimal power for the motor.
 
 
 
-\subsubsection DirectOutput_Cab_Toys_Basic_Motor_MaxPower MaxPower
+\subsubsection DirectOutput_Cab_Toys_Basic_Motor_Name Name
 
-The maximum power for the motor.
-
-
-
-\subsubsection DirectOutput_Cab_Toys_Basic_Motor_KickstartPower KickstartPower
-
-The kickstart power for the motor.
-
-
-
-\subsubsection DirectOutput_Cab_Toys_Basic_Motor_KickstartDurationMs KickstartDurationMs
-
-The kickstart duration in milliseconds.
+The name of the item.
 
 
 
@@ -280,17 +292,12 @@ Name of the Output for the GenericAnalogToy.
 
 
 
-\subsubsection DirectOutput_Cab_Toys_Basic_Motor_Name Name
-
-The name of the item.
-
-
-
 \section use_DirectOutput_Cab_Toys_Basic_RGBLed RGBLed
 
 \subsection use_DirectOutput_Cab_Toys_Basic_RGBLed_summary Summary
 
 \deprecated The use of this toy is depreceated. Use the new RGBAToy instead.
+
 RGB led toy controlls a multicolor led.
 Implement IToy, inherits Toy.
 
@@ -312,15 +319,9 @@ A configuration section for RGBLed might resemble the following structure:
 
 RGBLed has the following 4 configurable properties:
 
-\subsubsection DirectOutput_Cab_Toys_Basic_RGBLed_OutputNameRed OutputNameRed
+\subsubsection DirectOutput_Cab_Toys_Basic_RGBLed_Name Name
 
-Name of the IOutput for red.
-
-
-
-\subsubsection DirectOutput_Cab_Toys_Basic_RGBLed_OutputNameGreen OutputNameGreen
-
-Name of the IOutput for green.
+The name of the item.
 
 
 
@@ -330,9 +331,15 @@ Name of the IOutput for blue.
 
 
 
-\subsubsection DirectOutput_Cab_Toys_Basic_RGBLed_Name Name
+\subsubsection DirectOutput_Cab_Toys_Basic_RGBLed_OutputNameGreen OutputNameGreen
 
-The name of the item.
+Name of the IOutput for green.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Basic_RGBLed_OutputNameRed OutputNameRed
+
+Name of the IOutput for red.
 
 
 
@@ -341,6 +348,7 @@ The name of the item.
 \subsection use_DirectOutput_Cab_Toys_Basic_Shaker_summary Summary
 
 \deprecated The use of this toy is depreceated.
+
 Shaker toy.<br />
 This is just a simple wrapper around the motor toy.<br />
 Inherits from GenericAnalogToy, implements IToy.
@@ -366,6 +374,24 @@ A configuration section for Shaker might resemble the following structure:
 
 Shaker has the following 7 configurable properties:
 
+\subsubsection DirectOutput_Cab_Toys_Basic_Shaker_KickstartDurationMs KickstartDurationMs
+
+The kickstart duration in milliseconds.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Basic_Shaker_KickstartPower KickstartPower
+
+The kickstart power for the motor.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Basic_Shaker_MaxPower MaxPower
+
+The maximum power for the motor.
+
+
+
 \subsubsection DirectOutput_Cab_Toys_Basic_Shaker_MaxRunTimeMs MaxRunTimeMs
 
 The max run time in milliseconds.
@@ -378,33 +404,15 @@ The minimal power for the motor.
 
 
 
-\subsubsection DirectOutput_Cab_Toys_Basic_Shaker_MaxPower MaxPower
+\subsubsection DirectOutput_Cab_Toys_Basic_Shaker_Name Name
 
-The maximum power for the motor.
-
-
-
-\subsubsection DirectOutput_Cab_Toys_Basic_Shaker_KickstartPower KickstartPower
-
-The kickstart power for the motor.
-
-
-
-\subsubsection DirectOutput_Cab_Toys_Basic_Shaker_KickstartDurationMs KickstartDurationMs
-
-The kickstart duration in milliseconds.
+The name of the item.
 
 
 
 \subsubsection DirectOutput_Cab_Toys_Basic_Shaker_OutputName OutputName
 
 Name of the Output for the GenericAnalogToy.
-
-
-
-\subsubsection DirectOutput_Cab_Toys_Basic_Shaker_Name Name
-
-The name of the item.
 
 
 
@@ -430,15 +438,15 @@ A configuration section for AnalogAlphaToy might resemble the following structur
 
 AnalogAlphaToy has the following 2 configurable properties:
 
-\subsubsection DirectOutput_Cab_Toys_Layer_AnalogAlphaToy_OutputName OutputName
-
-The name of the output.
-
-
-
 \subsubsection DirectOutput_Cab_Toys_Layer_AnalogAlphaToy_Name Name
 
 The name of the item.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Layer_AnalogAlphaToy_OutputName OutputName
+
+The name of the output.
 
 
 
@@ -471,15 +479,9 @@ A configuration section for RGBAToy might resemble the following structure:
 
 RGBAToy has the following 4 configurable properties:
 
-\subsubsection DirectOutput_Cab_Toys_Layer_RGBAToy_OutputNameRed OutputNameRed
+\subsubsection DirectOutput_Cab_Toys_Layer_RGBAToy_Name Name
 
-Name of the IOutput for red.
-
-
-
-\subsubsection DirectOutput_Cab_Toys_Layer_RGBAToy_OutputNameGreen OutputNameGreen
-
-Name of the IOutput for green.
+The name of the item.
 
 
 
@@ -489,9 +491,15 @@ Name of the IOutput for blue.
 
 
 
-\subsubsection DirectOutput_Cab_Toys_Layer_RGBAToy_Name Name
+\subsubsection DirectOutput_Cab_Toys_Layer_RGBAToy_OutputNameGreen OutputNameGreen
 
-The name of the item.
+Name of the IOutput for green.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Layer_RGBAToy_OutputNameRed OutputNameRed
+
+Name of the IOutput for red.
 
 
 
@@ -532,24 +540,6 @@ A configuration section for LedWizEquivalent might resemble the following struct
 
 LedWizEquivalent has the following 3 configurable properties:
 
-\subsubsection DirectOutput_Cab_Toys_LWEquivalent_LedWizEquivalent_Outputs Outputs
-
-The outputs of the LedWizEquivalent toy.
-
-
-
-__Nested Properties__
-
-The following nested propteries exist for Outputs:
-* __OutputName__<br/>  The name of the IOutput object beeing controlled by the LedWizEquivalenOutput.
-
-
-
-* __LedWizEquivalentOutputNumber__<br/>  The number of the LedWizEquivalentOutput.
-
-
-
-
 \subsubsection DirectOutput_Cab_Toys_LWEquivalent_LedWizEquivalent_LedWizNumber LedWizNumber
 
 The number of the virtual LedWiz resp. ini file to be matched with the LedWizEquivalentToy.
@@ -559,6 +549,24 @@ The number of the virtual LedWiz resp. ini file to be matched with the LedWizEqu
 \subsubsection DirectOutput_Cab_Toys_LWEquivalent_LedWizEquivalent_Name Name
 
 The name of the item.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_LWEquivalent_LedWizEquivalent_Outputs Outputs
+
+The outputs of the LedWizEquivalent toy.
+
+
+
+__Nested Properties__
+
+The following nested propteries exist for Outputs:
+* __LedWizEquivalentOutputNumber__<br/>  The number of the LedWizEquivalentOutput.
+
+
+
+* __OutputName__<br/>  The name of the IOutput object beeing controlled by the LedWizEquivalenOutput.
+
 
 
 

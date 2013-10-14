@@ -34,15 +34,15 @@ A configuration section for LedWiz might resemble the following structure:
 
 LedWiz has the following 2 configurable properties:
 
-\subsubsection DirectOutput_Cab_Out_LW_LedWiz_Number Number
-
-The unique number of the LedWiz (Range 1-16).
-
-
-
 \subsubsection DirectOutput_Cab_Out_LW_LedWiz_Name Name
 
 The name of the item.
+
+
+
+\subsubsection DirectOutput_Cab_Out_LW_LedWiz_Number Number
+
+The unique number of the LedWiz (Range 1-16).
 
 
 
@@ -118,12 +118,6 @@ A configuration section for ArtNet might resemble the following structure:
 
 ArtNet has the following 3 configurable properties:
 
-\subsubsection DirectOutput_Cab_Out_DMX_ArtNet_Universe Universe
-
-The number of the Dmx universe.
-
-
-
 \subsubsection DirectOutput_Cab_Out_DMX_ArtNet_BroadcastAddress BroadcastAddress
 
 String containing broadcast address.
@@ -133,6 +127,12 @@ String containing broadcast address.
 \subsubsection DirectOutput_Cab_Out_DMX_ArtNet_Name Name
 
 The name of the item.
+
+
+
+\subsubsection DirectOutput_Cab_Out_DMX_ArtNet_Universe Universe
+
+The number of the Dmx universe.
 
 
 
