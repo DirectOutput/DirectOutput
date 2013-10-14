@@ -19,9 +19,12 @@ namespace DirectOutput.FX
         #region EffectName
         private string _EffectName;
         /// <summary>
-        /// Name of the AssignedEffect.<br/>
+        /// Name of the AssignedEffect.<br />
         /// Triggers EffectNameChanged if value is changed.
-        /// </summary>    
+        /// </summary>
+        /// <value>
+        /// The name of the assigned effect.
+        /// </value>
         public string EffectName
         {
             get { return _EffectName; }
