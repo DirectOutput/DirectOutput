@@ -183,6 +183,26 @@ This effect triggers a list of other effect when it is triggered.<br />
 
 
 
+\subsection use_DirectOutput_FX_ListFX_ListEffect_samplexml Sample XML
+
+A configuration section for ListEffect might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<ListEffect>
+  <Name>Name of ListEffect</Name>
+  <AssignedEffects>
+    <AssignedEffect>
+      <EffectName>Name of Effect</EffectName>
+    </AssignedEffect>
+    <AssignedEffect>
+      <EffectName>Name of Effect</EffectName>
+    </AssignedEffect>
+    <AssignedEffect>
+      <EffectName>Name of Effect</EffectName>
+    </AssignedEffect>
+  </AssignedEffects>
+</ListEffect>
+~~~~~~~~~~~~~
 \subsection use_DirectOutput_FX_ListFX_ListEffect_properties Properties
 
 ListEffect has the following 2 configurable properties:
