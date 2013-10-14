@@ -15,35 +15,7 @@ namespace DirectOutput.Cab.Toys.LWEquivalent
         private LedWizEquivalentOutputList _Outputs=new LedWizEquivalentOutputList();
 
 
-        /// <summary>
-        /// Sets the value of a LedWizEquivalentOutput.
-        /// </summary>
-        /// <param name="OutputNumber">The number of the the LedWizEquivalentOutput.</param>
-        /// <param name="Value">The value for the LedWizEquivalentOutput.</param>
-        public void SetOutputValue(int OutputNumber, int Value)
-        {
-            LedWizEquivalentOutput LWO= Outputs.First(O => O.LedWizEquivalentOutputNumber == OutputNumber);
-            if (LWO != null)
-            {
-                LWO.Value = Value;
-            }
-        }
 
-
-        /// <summary>
-        /// Gets the value of a LedWizEquivalentOutput.
-        /// </summary>
-        /// <param name="OutputNumber">The number of the the LedWizEquivalentOutput.</param>
-        /// <returns>Current value of the LedWiz output</returns>
-        public int GetOutputValue(int OutputNumber)
-        {
-            LedWizEquivalentOutput LWO = Outputs.First(O => O.LedWizEquivalentOutputNumber == OutputNumber);
-            if (LWO != null)
-            {
-                return LWO.Value;
-            }
-            return 0;
-        }
 
         /// <summary>
         /// Gets or sets the outputs of the LedWizEquivalent toy.
@@ -87,7 +59,7 @@ namespace DirectOutput.Cab.Toys.LWEquivalent
         /// </summary>
         public override void Reset()
         {
-            Outputs.Reset();
+
         }
 
         /// <summary>

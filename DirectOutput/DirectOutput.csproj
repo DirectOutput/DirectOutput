@@ -217,7 +217,6 @@
     <Compile Include="Log.cs" />
     <Compile Include="GlobalConfiguration\FilePattern.cs" />
     <Compile Include="GlobalConfiguration\FilePatternList.cs" />
-    <Compile Include="FX\LedControlFX\LedControlFX.cs" />
     <Compile Include="General\Generic\SortableBindingList.cs" />
     <Compile Include="GlobalConfiguration\LedControlIniFile.cs" />
     <Compile Include="GlobalConfiguration\LedControlIniFileList.cs" />
@@ -258,7 +257,6 @@
     <Compile Include="FX\EffectEventArgs.cs" />
     <Compile Include="FX\EffectList.cs" />
     <Compile Include="FX\EffectBase.cs" />
-    <Compile Include="FX\LedControlFX\LedControlEffect.cs" />
     <Compile Include="FX\ListFX\ListEffect.cs" />
     <Compile Include="FX\FX.cs" />
     <Compile Include="Cab\Out\LW\LEDWizOutput.cs" />

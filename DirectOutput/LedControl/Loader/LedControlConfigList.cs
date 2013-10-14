@@ -2,7 +2,6 @@
 using System.Linq;
 using DirectOutput.Cab;
 using DirectOutput.Cab.Toys;
-using DirectOutput.FX.LedControlFX;
 using DirectOutput.GlobalConfiguration;
 using DirectOutput.Table;
 using DirectOutput.Cab.Toys.LWEquivalent;
