@@ -7,16 +7,20 @@ using System.Xml.Serialization;
 
 namespace DirectOutput.Cab.Color
 {
+    /// <summary>
+    /// Named RGBColor object
+    /// </summary>
    public class RGBColorNamed:RGBColor, INamedItem
     {
 
         #region Name
         private string _Name;
         /// <summary>
-        /// Name of the Named item.<br/>
-        /// Triggers BeforeNameChange before a new Name is set.<br/>
-        /// Triggers AfterNameChanged after a new name has been set.
-        /// </summary>    
+        /// Name of the color.<br />
+        /// </summary>
+        /// <value>
+        /// The name of the color.
+        /// </value>
         public string Name
         {
             get { return _Name; }
@@ -53,7 +57,17 @@ namespace DirectOutput.Cab.Color
        
        
         #region Contructor
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RGBColorNamed"/> class.
+        /// </summary>
         public RGBColorNamed() { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RGBColorNamed"/> class.
+        /// </summary>
+        /// <param name="Name">The name of the color.</param>
+        /// <param name="BrightnessRed">The brightness for red.</param>
+        /// <param name="BrightnessGreen">The brightness for green.</param>
+        /// <param name="BrightnessBlue">The brightness for blue.</param>
         public RGBColorNamed(string Name, int BrightnessRed, int BrightnessGreen, int BrightnessBlue)
             : this()
         {
@@ -62,6 +76,12 @@ namespace DirectOutput.Cab.Color
         }
 
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RGBColorNamed"/> class.
+        /// The parameter string <paramref name="Color"/> ist first parsed for hexadecimal color codes and afterwards checked for comma separated color values.
+        /// </summary>
+        /// <param name="Name">The name of the color.</param>
+        /// <param name="Color">The color string.</param>
         public RGBColorNamed(string Name, string Color)
         {
             SetColor(Color);

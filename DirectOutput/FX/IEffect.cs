@@ -30,7 +30,7 @@ namespace DirectOutput.FX
         /// Init must do all necessary initialization work after the IEffect object has been instanciated.
         /// </summary>
         /// <param name="Table">The Table object containing the effect.</param>
-        void Init(Table.Table Pinball);
+        void Init(Table.Table Table);
 
 
         /// <summary>

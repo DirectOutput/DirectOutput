@@ -5,6 +5,9 @@ using System.Text;
 using System.Reflection;
 
 
+/// <summary>
+/// Extends the PropertyInfo type with additional functionality.
+/// </summary>
 public static class PropertyInfoExtension
 {
     /// <summary>

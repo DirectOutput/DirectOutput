@@ -14,11 +14,27 @@ using DirectOutput.Cab.Color;
 
 namespace DirectOutput.LedControl.Setup
 {
+    /// <summary>
+    /// Configures the system based on data from ini files (either directoutputconfig.ini or ledcontrol.ini files)
+    /// </summary>
     public class Configurator
     {
+        /// <summary>
+        /// The min duration for effects targeting a single output.
+        /// </summary>
         public int EffectMinDurationMs = 60;
+        /// <summary>
+        /// The min duration for effects targeting rgbleds.
+        /// </summary>
         public int EffectRGBMinDurationMs = 120;
 
+        /// <summary>
+        /// Configures the system based on the data loaded from ini files.
+        /// </summary>
+        /// <param name="LedControlConfigList">The list of loaded led control config data.</param>
+        /// <param name="Table">The table object to be configured.</param>
+        /// <param name="Cabinet">The cabinet object to be configured.</param>
+        /// <param name="RomName">Name of the rom to be used for the setup.</param>
         public void Setup(LedControlConfigList LedControlConfigList, DirectOutput.Table.Table Table, Cabinet Cabinet, string RomName)
         {
             Dictionary<int, TableConfig> TableConfigDict = LedControlConfigList.GetTableConfigDictonary(RomName);

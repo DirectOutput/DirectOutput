@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 
 
+/// <summary>
+/// Extends the double type with additional functionality.
+/// </summary>
 public static class DoubleExtensions
 {
     /// <summary>

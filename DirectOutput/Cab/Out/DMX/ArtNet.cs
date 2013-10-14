@@ -15,7 +15,7 @@ namespace DirectOutput.Cab.Out.DMX
     /// 
     /// Each Art-Net node/DMX universe supports 512 DMX channels and several Art-Net nodes controlling different DMX universes can be used in parallel.
     /// 
-    /// If you want to read more about Art-net, visit the website of <a href="http://www.artisticlicence.com">Artistic License</a>. The specs for Art-net can be found in the Resources -> User Guides & Datasheets section of the site.
+    /// If you want to read more about Art-net, visit the website of <a href="http://www.artisticlicence.com">Artistic License</a>. The specs for Art-net can be found in the Resources -> User Guides &amp; Datasheets section of the site.
     /// </summary>
     public class ArtNet : OutputControllerBase, IOutputController
     {

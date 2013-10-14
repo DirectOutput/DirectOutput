@@ -360,6 +360,9 @@ namespace DirectOutput.LedControl.Loader
 
 
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TableConfigSetting"/> class.
+        /// </summary>
         public TableConfigSetting()
         {
             this.Intensity = 48;

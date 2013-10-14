@@ -96,7 +96,7 @@ namespace DirectOutput.Cab.Toys.Basic
 
 
         /// <summary>
-        /// Power of the motor.<br>
+        /// Power of the motor.<br/>
         /// Value is scaled using MinPower and MaxPower settings.
         /// </summary>
         [XmlIgnoreAttribute]

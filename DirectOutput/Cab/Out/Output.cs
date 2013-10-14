@@ -39,6 +39,9 @@ namespace DirectOutput.Cab.Out
 
         #region Events
         #region "ValueChanged Event"
+        /// <summary>
+        /// Called when value of the output changes.
+        /// </summary>
         protected void OnValueChanged()
         {
             if (ValueChanged != null)
@@ -52,6 +55,11 @@ namespace DirectOutput.Cab.Out
         /// </summary>
         public event ValueChangedEventHandler ValueChanged;
 
+        /// <summary>
+        /// Event handler for ValueChanged events.
+        /// </summary>
+        /// <param name="sender">The sender of the event.</param>
+        /// <param name="e">The <see cref="OutputEventArgs"/> instance containing the event data.</param>
         public delegate void ValueChangedEventHandler(object sender, OutputEventArgs e);
 
 

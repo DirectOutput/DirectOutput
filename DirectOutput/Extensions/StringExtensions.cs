@@ -9,6 +9,9 @@ using System.IO;
 //using System.Web;
 
 
+/// <summary>
+/// Extends the String object with additional functionality.
+/// </summary>
 public static class StringExtensions
 {
     /// <summary>

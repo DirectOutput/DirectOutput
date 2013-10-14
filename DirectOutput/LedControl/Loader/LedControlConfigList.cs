@@ -14,6 +14,11 @@ namespace DirectOutput.LedControl.Loader
     /// </summary>
     public class LedControlConfigList : List<LedControlConfig>
     {
+        /// <summary>
+        /// Gets a dictionary of table configs for a specific romname from the loaded ini file data.
+        /// </summary>
+        /// <param name="RomName">Name of the rom.</param>
+        /// <returns></returns>
         public Dictionary<int, TableConfig> GetTableConfigDictonary(string RomName)
         {
             Dictionary<int, TableConfig> D = new Dictionary<int, TableConfig>();

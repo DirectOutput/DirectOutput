@@ -63,7 +63,7 @@ namespace DirectOutput.FX
 
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AssignedStaticEffects"/> class.
+        /// Initializes a new instance of the class.
         /// </summary>
         public AssignedEffectList()
         {

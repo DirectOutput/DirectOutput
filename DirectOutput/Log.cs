@@ -70,6 +70,10 @@ namespace DirectOutput
             }
         }
 
+        /// <summary>
+        /// Finishes the logger.<br/>
+        /// Closes the log file.
+        /// </summary>
         public static void Finish()
         {
             lock (Locker)

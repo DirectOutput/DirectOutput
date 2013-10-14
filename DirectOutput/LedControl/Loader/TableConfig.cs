@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace DirectOutput.LedControl.Loader
 {
+    /// <summary>
+    /// A table config from a ini file.
+    /// </summary>
     public class TableConfig
     {
         /// <summary>
@@ -19,7 +22,14 @@ namespace DirectOutput.LedControl.Loader
 
 
 
+        /// <summary>
+        /// Gets or sets the columns in the table table config.
+        /// </summary>
+        /// <value>
+        /// The columns.
+        /// </value>
         public TableConfigColumnList Columns { get; set; }
+
         /// <summary>
         /// Gets the table config from led control data.<br />
         /// Parses one line of a Ledcontrol.ini file, it should look something like<br />

@@ -3,8 +3,16 @@ using System.Collections.Generic;
 
 namespace DirectOutput.LedControl.Loader
 {
+    /// <summary>
+    /// A list of table configs from a ini file.
+    /// </summary>
     public class TableConfigList:List<TableConfig>
     {
+        /// <summary>
+        /// Parses several lines of LedControlData.
+        /// </summary>
+        /// <param name="TableConfigDataFromLedControlIni">The table config data from led control ini.</param>
+        /// <param name="ThrowExceptions">if set to <c>true</c> [throw exceptions].</param>
         public void ParseLedcontrolData(string[] TableConfigDataFromLedControlIni, bool ThrowExceptions = true)
         {
             foreach (string Data in TableConfigDataFromLedControlIni)

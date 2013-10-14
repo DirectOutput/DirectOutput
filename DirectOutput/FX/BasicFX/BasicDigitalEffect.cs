@@ -9,7 +9,7 @@ using DirectOutput.Cab.Toys.Basic;
 namespace DirectOutput.FX.BasicFX
 {
     /// <summary>
-    /// The <cref="BasicDigitalEffect"/> is used to set the state of toys implementing <see cref="IDigitalToy"/> based on the value of a <see cref="TableElement"/>.<br/>
+    /// The BasicDigitalEffect is used to set the state of toys implementing <see cref="IDigitalToy"/> based on the value of a <see cref="TableElement"/>.<br/>
     /// </summary>
     public class BasicDigitalEffect : EffectBase, IEffect
     {
@@ -46,8 +46,8 @@ namespace DirectOutput.FX.BasicFX
         private IDigitalToy _DigitalToy;
 
         /// <summary>
-        /// Reference to the <see cref="IDigitalToy"/> specified in the <paramref name="DigitalToyName"/> property.<br/>
-        /// If the  <paramref name="DigitalToyName"/> property is empty or contains a unknown name or the name of a toy which does not implement <see cref="IDigitalToy"/> this property will return null.
+        /// Reference to the <see cref="IDigitalToy"/> specified in the DigitalToyName property.<br/>
+        /// If the DigitalToyName property is empty or contains a unknown name or the name of a toy which does not implement <see cref="IDigitalToy"/> this property will return null.
         /// </summary>
         public IDigitalToy DigitalToy
         {

@@ -40,7 +40,7 @@ namespace DirectOutput.FX.AnalogToyFX
         }
 
         /// <summary>
-        /// Triggers the effect with the given TableElementData.<br>
+        /// Triggers the effect with the given TableElementData.<br/>
         /// If the Value property of the TableElementData parameter is not 0, the value of the specified layer of the referenced AnalogToy is set to the value specified in the ActiveValue property.<br/>
         /// If the Value property of the TableElementData parameter equals 0, the value of the specified layer of the referenced AnalogToy is set to the value specified in the InactiveValue property.
         /// </summary>

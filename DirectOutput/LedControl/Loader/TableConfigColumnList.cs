@@ -76,6 +76,9 @@ namespace DirectOutput.LedControl.Loader
             
         }
 
+        /// <summary>
+        /// Sorts the elements in the list on the column number.
+        /// </summary>
         public new void Sort()
         {
           base.Sort((a, b) => a.Number.CompareTo(b.Number));

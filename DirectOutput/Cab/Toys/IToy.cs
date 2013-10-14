@@ -3,8 +3,8 @@ namespace DirectOutput.Cab.Toys
 {
 
     /// <summary>
-    /// Common interface for all <see cref="IToy"/>.<br/>
-    /// The abstract class <see cref="Toy"/> implements this interface.
+    /// Common interface for all toy implementations.<br/>
+    /// The abstract class <see cref="ToyBase"/> implements this interface.
     /// </summary>
     public interface IToy:INamedItem
     {

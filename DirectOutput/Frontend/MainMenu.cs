@@ -34,7 +34,7 @@ namespace DirectOutput.Frontend
                 case DirectOutput.Table.TableConfigSourceEnum.TableConfigurationFile:
                     TableConfigFilename.Text = Pinball.Table.TableConfigurationFilename;
                     break;
-                case DirectOutput.Table.TableConfigSourceEnum.LedControlIni:
+                case DirectOutput.Table.TableConfigSourceEnum.IniFile:
                     TableConfigFilename.Text = "Table config parsed from LedControl file.";
                     break;
                 default:

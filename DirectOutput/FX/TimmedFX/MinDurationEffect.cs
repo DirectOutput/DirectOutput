@@ -58,7 +58,7 @@ namespace DirectOutput.FX.TimmedFX
         private Queue<Table.TableElementData> UntriggerData = new Queue<Table.TableElementData>();
 
         /// <summary>
-        /// Triggers the MinDurationEffect with the given TableElementData.<br>
+        /// Triggers the MinDurationEffect with the given TableElementData.<br/>
         /// The minimal duration is started, if the value portion of the TableElementData parameter is !=0. 
         /// </summary>
         /// <param name="TableElementData">TableElementData for the TableElement which has triggered the effect.</param>

@@ -29,6 +29,10 @@ namespace DirectOutput.Table
         /// </value>
         public int Value { get; set; }
 
+        /// <summary>
+        /// Clones this instance.
+        /// </summary>
+        /// <returns>A new TableElementData object containg the same values as the instance on which the methods was called.</returns>
         public TableElementData Clone()
         {
             return new TableElementData(TableElementType, Number, Value);

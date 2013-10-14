@@ -56,6 +56,9 @@ namespace DirectOutput.Cab.Out.DMX.ArtnetEngine
             }
         }
 
+        /// <summary>
+        /// Finalizes an instance of the <see cref="Engine"/> class.
+        /// </summary>
         ~Engine()
         {
             lock (UdpServerLocker)

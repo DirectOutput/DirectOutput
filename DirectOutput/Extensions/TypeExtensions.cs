@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 
+/// <summary>
+/// Extends the Type object with additional functionality.
+/// </summary>
 public static class TypeExtensions
 {
     /// <summary>
@@ -38,6 +41,13 @@ public static class TypeExtensions
     }
 
 
+    /// <summary>
+    /// Determines whether the type is a generic list.
+    /// </summary>
+    /// <param name="type">The type.</param>
+    /// <returns>
+    ///   <c>true</c> if the type is a generic list; otherwise, <c>false</c>.
+    /// </returns>
     public static bool IsGenericList(this Type type)
     {
         if (type == null) return false;
@@ -57,6 +67,13 @@ public static class TypeExtensions
     }
 
 
+    /// <summary>
+    /// Determines whether the type is a generic dictionary.
+    /// </summary>
+    /// <param name="type">The type.</param>
+    /// <returns>
+    ///   <c>true</c> if the type is a generic dictionary; otherwise, <c>false</c>.
+    /// </returns>
     public static bool IsGenericDictionary(this Type type)
     {
         if (type == null) return false;
@@ -76,6 +93,11 @@ public static class TypeExtensions
     }
 
 
+    /// <summary>
+    /// Gets the get generic collection type arguments.
+    /// </summary>
+    /// <param name="type">The type.</param>
+    /// <returns>Array of the types of the generic collection.</returns>
     public static Type[] GetGetGenericCollectionTypeArguments(this Type type)
     {
         if (type == null) return null;

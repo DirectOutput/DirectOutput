@@ -54,7 +54,7 @@ namespace DirectOutput.FX.TimmedFX
         public bool Active { get; private set; }
 
         /// <summary>
-        /// Triggers the DurationEffect with the given TableElementData.<br>
+        /// Triggers the DurationEffect with the given TableElementData.<br/>
         /// The duration is started, if the value portion of the TableElementData parameter is !=0. 
         /// Trigger calls with a TableElement value=0 have no effect.
         /// </summary>

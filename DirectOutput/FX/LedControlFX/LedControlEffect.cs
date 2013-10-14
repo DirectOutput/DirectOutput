@@ -539,7 +539,7 @@ namespace DirectOutput.FX.LedControlFX
         /// <summary>
         /// Initializes the LedControlEffect.
         /// </summary>
-        /// <param name="Pinball">Pinball object containing the effect.</param>
+        /// <param name="Table">Table object containing the effect.</param>
         public override void Init(Table.Table Table)
         {
             ResolveName(Table);

@@ -209,7 +209,7 @@ namespace DirectOutput.FX.AnalogToyFX
 
         bool LastTriggerState = false;
         /// <summary>
-        /// Triggers the effect with the given TableElementData.<br>
+        /// Triggers the effect with the given TableElementData.<br/>
         /// If the Value property of the TableElementData parameter is not 0, the value of the specified layer of the referenced AnalogToy fades towards the value specified in the ActiveValue property.<br/>
         /// If the Value property of the TableElementData parameter equals 0, the value of the specified layer of the referenced AnalogToy fades towards the value specified in the InactiveValue property.
         /// </summary>

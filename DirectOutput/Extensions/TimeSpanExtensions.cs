@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 
 
+/// <summary>
+/// Extends the TimeSPan object with additional functionality.
+/// </summary>
 public static class TimeSpanExtensions
 {
     /// <summary>

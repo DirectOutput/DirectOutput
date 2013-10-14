@@ -9,7 +9,7 @@ using DirectOutput.Cab.Toys.Basic;
 namespace DirectOutput.FX.BasicFX
 {
     /// <summary>
-    /// The <cref="BasicAnalogEffect"/> is used to set the state of toys implementing <see cref="IAnalogToy"/> based on the value of a <see cref="TableElement"/>.<br/>
+    /// The BasicAnalogEffect is used to set the state of toys implementing <see cref="IAnalogToy"/> based on the value of a <see cref="TableElement"/>.<br/>
     /// </summary>
     public class BasicAnalogEffect : EffectBase, IEffect
     {
@@ -48,8 +48,8 @@ namespace DirectOutput.FX.BasicFX
         private IAnalogToy _AnalogToy;
 
         /// <summary>
-        /// Reference to the <see cref="IAnalogToy"/> specified in the <paramref name="AnalogToyName"/> property.<br/>
-        /// If the  <paramref name="AnalogToyName"/> property is empty or contains a unknown name or the name of a toy which does not implement <see cref="IAnalogToy"/> this property will return null.
+        /// Reference to the <see cref="IAnalogToy"/> specified in the AnalogToyName property.<br/>
+        /// If the  AnalogToyName property is empty or contains a unknown name or the name of a toy which does not implement <see cref="IAnalogToy"/> this property will return null.
         /// </summary>
         public IAnalogToy AnalogToy
         {

@@ -330,6 +330,7 @@ namespace DirectOutput.PinballSupport
         /// </summary>
         /// <param name="AlarmTime">The alarm time.</param>
         /// <param name="AlarmHandler">The alarm handler.</param>
+        /// <param name="DontUnregister">If set to <c>true</c>, previously registered alarms for the same AlarmHandler will not be unregistered. If set to <c>false</c>, previously registred alarms for the same AlarmHandler will be unregistered.</param>
         public void RegisterAlarm(DateTime AlarmTime, Action AlarmHandler, bool DontUnregister = false)
         {
             lock (AlarmLocker)

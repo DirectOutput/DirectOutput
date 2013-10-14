@@ -246,7 +246,7 @@ namespace DirectOutput.Cab.Out.Pac
         /// <summary>
         /// Initializes a new instance of the <see cref="PacLed64"/> class.
         /// </summary>
-        /// <param name="Number">The number of the PacLed64 (1-4).</param>
+        /// <param name="Id">The number of the PacLed64 (1-4).</param>
         public PacLed64(int Id)
             : this()
         {

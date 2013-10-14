@@ -313,6 +313,11 @@ namespace DirectOutput.Table
         /// </summary>
         public event TableElementValueChangedEventHandler TableElementValueChanged;
 
+        /// <summary>
+        /// EventHandler for TableElementValueChanged events.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="TableElementValueChangedEventArgs"/> instance containing the event data.</param>
         public delegate void TableElementValueChangedEventHandler(object sender, TableElementValueChangedEventArgs e);
 
 
@@ -345,6 +350,9 @@ namespace DirectOutput.Table
 
         #endregion
 
+        /// <summary>
+        /// Finalizes an instance of the <see cref="TableElementList"/> class.
+        /// </summary>
         ~TableElementList()
         {
             foreach (TableElement TE in this)

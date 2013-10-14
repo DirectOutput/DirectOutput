@@ -181,6 +181,9 @@ namespace DirectOutput.Table
         }
 
 
+        /// <summary>
+        /// Triggers the static effects for the table.
+        /// </summary>
         public void TriggerStaticEffects()
         {
             AssignedStaticEffects.Trigger(new TableElementData(TableElementTypeEnum.Unknown,0,1));
