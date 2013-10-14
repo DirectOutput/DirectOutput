@@ -179,6 +179,7 @@ namespace DirectOutput.LedControl.Loader
         /// </exception>
         public void ParseSettingData(string SettingData)
         {
+
             string[] Parts = SettingData.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             if (Parts.Length == 0)
             {
@@ -238,6 +239,7 @@ namespace DirectOutput.LedControl.Loader
             int PartNr = 1;
             while (Parts.Length > PartNr)
             {
+
                 if (Parts[PartNr].ToUpper() == "BLINK")
                 {
                     Blink = -1;
