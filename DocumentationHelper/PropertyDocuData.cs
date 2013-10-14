@@ -101,6 +101,7 @@ namespace DocumentationHelper
             string S = "";
             string Indent = new string(' ', Level * 2);
             List<PropertyDocuData> L = PDDP.ChildPropertyDocuDataList;
+            L.Sort((PDD1, PDD2) => PDD1.Name.CompareTo(PDD2.Name));
             if (L.Count > 0)
             {
                 foreach (PropertyDocuData PDD in L)

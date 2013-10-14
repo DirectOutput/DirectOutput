@@ -9,6 +9,7 @@ namespace DirectOutput.Cab.Toys.Basic
 
     /// <summary>
     /// \deprecated The use of this toy is depreceated. Use the new RGBAToy instead.
+    /// 
     /// RGB led toy controlls a multicolor led.
     /// Implement IToy, inherits Toy.
     /// </summary>

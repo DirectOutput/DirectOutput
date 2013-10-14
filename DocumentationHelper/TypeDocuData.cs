@@ -61,6 +61,7 @@ namespace DocumentationHelper
             }
 
             List<PropertyDocuData> PDL=GetPropertyDocuDataList();
+            PDL.Sort((PDD1, PDD2) => PDD1.Name.CompareTo(PDD2.Name));
             if (PDL.Count > 0)
             {
                 S += "\\subsection use_{0}_{1}_properties Properties\n\n".Build(NamespaceName.Replace(".", "_"), Name);
