@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Collections;
 using System.IO;
 using System.Xml.Serialization;
+using DirectOutput.General.Generic;
 
 namespace DocumentationHelper
 {
@@ -307,6 +308,10 @@ namespace DocumentationHelper
             }
             return C;
         }
+
+
+
+
 
         private IList GetSampleGenericList(Type T)
         {
