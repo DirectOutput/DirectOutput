@@ -159,7 +159,7 @@ namespace DirectOutput.Cab.Out.DMX
                 KeepUpdaterThreadAlive = true;
                 try
                 {
-                    UpdaterThread = new Thread(MainThreadDoIt);
+                    UpdaterThread = new Thread(UpdaterThreadDoIt);
                     UpdaterThread.Name = "ArtNet node {0} updater thread ".Build(Name);
                     UpdaterThread.Start();
                 }
@@ -242,16 +242,16 @@ namespace DirectOutput.Cab.Out.DMX
         /// <summary>
         /// This is the main method of the ArtNet object updater thread.
         /// </summary>
-        private void MainThreadDoIt()
+        private void UpdaterThreadDoIt()
         {
             if (Engine == null)
             {
-                Engine = new Engine(Name, BroadcastAddress);
+                Engine = Engine.Instance;
                 
             }
 
             //Send all channels to ensure that there are defined values
-            Engine.SendDMX(Universe, DMXData, 512);
+            Engine.SendDMX(BroadcastAddress,Universe, DMXData, 512);
 
             while (KeepUpdaterThreadAlive)
             {
@@ -261,7 +261,7 @@ namespace DirectOutput.Cab.Out.DMX
                     lock (UpdateLocker)
                     {
                         UpdateRequired = false;
-                        Engine.SendDMX(Universe, DMXData, ((LastDMXChannel | 1) + 1).Limit(2, 512));
+                        Engine.SendDMX(BroadcastAddress, Universe, DMXData, ((LastDMXChannel | 1) + 1).Limit(2, 512));
                     }
 
                 }
