@@ -329,9 +329,9 @@ namespace DirectOutput.LedControl.Loader
                 }
                 else
                 {
-                    Log.Warning("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(Parts[PartNr], SettingData));
+                    Log.Warning("Cant parse the part {0} of the ledcontrol table config setting {1}".Build(Parts[PartNr], SettingData));
 
-                    throw new Exception("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(Parts[PartNr], SettingData));
+                    throw new Exception("Cant parse the part {0} of the ledcontrol table config setting {1}".Build(Parts[PartNr], SettingData));
                 }
                 PartNr++;
             }
