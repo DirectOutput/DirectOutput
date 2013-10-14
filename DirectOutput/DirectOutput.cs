@@ -9,14 +9,35 @@ using System.Reflection;
 using System;
 namespace DirectOutput
 {
+    /// <summary>
+    /// Static class providing simple access to the DirectOutput framework functionality.
+    /// </summary>
     public static class DirectOutputHandler
     {
 
+        /// <summary>
+        /// Gets the version of the DirectOutput framework.
+        /// </summary>
+        /// <returns></returns>
         public static string GetVersion()
         {
             return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
 
+        /// <summary>
+        /// Receives data to be processed by the DirectOutput framework.<br/>
+        /// This function has to be called whenever the state of a table element changes in the hosting application.
+        /// </summary>
+        /// <param name="TableElementTypeChar">The table element type char.</param>
+        /// <param name="Number">The number of the table element.</param>
+        /// <param name="Value">The value of the table element.</param>
+        /// <exception cref="System.Exception">
+        /// Could not extract the first char of the TableElementTypeChar parameter
+        /// or
+        /// You must call Init before passing data to the DirectOutput framework
+        /// or
+        /// A exception occured when passing in data (TableElementTypeChar: {0}, Number: {1}, Value: {2})
+        /// </exception>
         public static void DataReceive(string TableElementTypeChar, int Number, int Value)
         {
             char C;
@@ -47,6 +68,10 @@ namespace DirectOutput
         }
 
 
+        /// <summary>
+        /// Finishes the DirectOutput framework.<br/>
+        /// The is the last methods to be called on the framework.
+        /// </summary>
         public static void Finish()
         {
             if (Pinball != null)
@@ -57,6 +82,15 @@ namespace DirectOutput
 
         }
 
+        /// <summary>
+        /// Initializes the DirectOutput framework.<br/>
+        /// The method has to be called before any data is sent to DOF.<br/>
+        /// It loads all necessary configuration data and starts all internal processes.
+        /// </summary>
+        /// <param name="HostingApplicationName">Name of the hosting application.</param>
+        /// <param name="TableFilename">The table filename (specify a dummy filename of no table file is available).</param>
+        /// <param name="RomName">Name of the rom (If thhere is no rom name of a table, specify your own unique name for the game).</param>
+        /// <exception cref="System.Exception">Object has already been initialized. You must call Finish() before initializing again.</exception>
         public static void Init(string HostingApplicationName, string TableFilename, string RomName)
         {
             if (Pinball == null)
@@ -126,6 +160,10 @@ namespace DirectOutput
         }
 
 
+        /// <summary>
+        /// Shows the frontend of the DirectOutput framework.
+        /// </summary>
+        /// <exception cref="System.Exception">Init has to be called before the frontend is opend.</exception>
         public static void ShowFrontend()
         {
             if (Pinball != null)
