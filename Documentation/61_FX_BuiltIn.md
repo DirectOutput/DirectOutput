@@ -173,123 +173,6 @@ The name of the item.
 
 
 
-\section use_DirectOutput_FX_BasicFX_BasicAnalogEffect BasicAnalogEffect
-
-\subsection use_DirectOutput_FX_BasicFX_BasicAnalogEffect_summary Summary
-
-The BasicAnalogEffect is used to set the state of toys implementing <see cref="T:DirectOutput.Cab.Toys.Basic.IAnalogToy" /> based on the value of a <see cref="T:DirectOutput.Table.TableElement" />.<br />
-
-
-\subsection use_DirectOutput_FX_BasicFX_BasicAnalogEffect_samplexml Sample XML
-
-A configuration section for BasicAnalogEffect might resemble the following structure:
-
-~~~~~~~~~~~~~{.xml}
-<BasicAnalogEffect>
-  <Name>Name of BasicAnalogEffect</Name>
-  <AnalogToyName>Name of AnalogToy</AnalogToyName>
-  <ValueOn>255</ValueOn>
-  <ValueOff>0</ValueOff>
-</BasicAnalogEffect>
-~~~~~~~~~~~~~
-\subsection use_DirectOutput_FX_BasicFX_BasicAnalogEffect_properties Properties
-
-BasicAnalogEffect has the following 4 configurable properties:
-
-\subsubsection DirectOutput_FX_BasicFX_BasicAnalogEffect_AnalogToyName AnalogToyName
-
-Name of the <see cref="T:DirectOutput.Cab.Toys.Basic.IAnalogToy" />.
-
-\subsubsection DirectOutput_FX_BasicFX_BasicAnalogEffect_ValueOn ValueOn
-
-The value which will be set for the IAnalogToy if the value of the TableElement supplied to the trigger method is &gt;0.
-
-
-
-\subsubsection DirectOutput_FX_BasicFX_BasicAnalogEffect_ValueOff ValueOff
-
-The value which will be set for the IAnalogToy if the value of the TableElement supplied to the trigger method is 0.
-
-
-
-\subsubsection DirectOutput_FX_BasicFX_BasicAnalogEffect_Name Name
-
-The name of the item.
-
-
-
-\section use_DirectOutput_FX_BasicFX_BasicDigitalEffect BasicDigitalEffect
-
-\subsection use_DirectOutput_FX_BasicFX_BasicDigitalEffect_summary Summary
-
-The BasicDigitalEffect is used to set the state of toys implementing <see cref="T:DirectOutput.Cab.Toys.Basic.IDigitalToy" /> based on the value of a <see cref="T:DirectOutput.Table.TableElement" />.<br />
-
-
-\subsection use_DirectOutput_FX_BasicFX_BasicDigitalEffect_samplexml Sample XML
-
-A configuration section for BasicDigitalEffect might resemble the following structure:
-
-~~~~~~~~~~~~~{.xml}
-<BasicDigitalEffect>
-  <Name>Name of BasicDigitalEffect</Name>
-  <DigitalToyName>Name of DigitalToy</DigitalToyName>
-</BasicDigitalEffect>
-~~~~~~~~~~~~~
-\subsection use_DirectOutput_FX_BasicFX_BasicDigitalEffect_properties Properties
-
-BasicDigitalEffect has the following 2 configurable properties:
-
-\subsubsection DirectOutput_FX_BasicFX_BasicDigitalEffect_DigitalToyName DigitalToyName
-
-Name of the <see cref="T:DirectOutput.Cab.Toys.Basic.IDigitalToy" />.
-
-\subsubsection DirectOutput_FX_BasicFX_BasicDigitalEffect_Name Name
-
-The name of the item.
-
-
-
-\section use_DirectOutput_FX_BasicFX_BasicRGBEffect BasicRGBEffect
-
-\subsection use_DirectOutput_FX_BasicFX_BasicRGBEffect_summary Summary
-
-The BasicRGBToyEffect is used to turn on (/set a color) and off RGB toys based on the value of a TableElement.<br />
-If the value of the table element is &gt;0, the assigned IRGBToy will be set to the value specified in the Color property, for 0 the IRGBToy is set to black. <br />
-
-
-\subsection use_DirectOutput_FX_BasicFX_BasicRGBEffect_samplexml Sample XML
-
-A configuration section for BasicRGBEffect might resemble the following structure:
-
-~~~~~~~~~~~~~{.xml}
-<BasicRGBEffect>
-  <Name>Name of BasicRGBEffect</Name>
-  <RGBToyName>Name of RGBToy</RGBToyName>
-  <Color>Color string</Color>
-</BasicRGBEffect>
-~~~~~~~~~~~~~
-\subsection use_DirectOutput_FX_BasicFX_BasicRGBEffect_properties Properties
-
-BasicRGBEffect has the following 3 configurable properties:
-
-\subsubsection DirectOutput_FX_BasicFX_BasicRGBEffect_RGBToyName RGBToyName
-
-The name of the RGB toy.
-
-
-
-\subsubsection DirectOutput_FX_BasicFX_BasicRGBEffect_Color Color
-
-The color for the RGB toy.
-
-
-
-\subsubsection DirectOutput_FX_BasicFX_BasicRGBEffect_Name Name
-
-The name of the item.
-
-
-
 \section use_DirectOutput_FX_ListFX_ListEffect ListEffect
 
 \subsection use_DirectOutput_FX_ListFX_ListEffect_summary Summary
@@ -300,15 +183,6 @@ This effect triggers a list of other effect when it is triggered.<br />
 
 
 
-\subsection use_DirectOutput_FX_ListFX_ListEffect_samplexml Sample XML
-
-A configuration section for ListEffect might resemble the following structure:
-
-~~~~~~~~~~~~~{.xml}
-<ListEffect>
-  <Name>Name of ListEffect</Name>
-</ListEffect>
-~~~~~~~~~~~~~
 \subsection use_DirectOutput_FX_ListFX_ListEffect_properties Properties
 
 ListEffect has the following 2 configurable properties:
@@ -488,6 +362,7 @@ The name of the item.
 \subsection use_DirectOutput_FX_RGBAFX_RGBAOnOffEffect_summary Summary
 
 A basic RBA effect which sets the color of a layer of a RGBA toy to a specified color based on the state (not 0, 0) of the triggering table element.
+\image html FX_OnOff.png "OnOff effect"
 
 
 

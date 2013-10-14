@@ -9,6 +9,7 @@ namespace DirectOutput.FX.RGBAFX
 {
     /// <summary>
     /// A basic RBA effect which sets the color of a layer of a RGBA toy to a specified color based on the state (not 0, 0) of the triggering table element.
+    /// \image html FX_OnOff.png "OnOff effect"
     /// </summary>
     public class RGBAOnOffEffect : RGBAEffectBase
     {

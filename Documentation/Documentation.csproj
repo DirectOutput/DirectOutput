@@ -76,6 +76,7 @@
     <Content Include="img\FX_ExtendDuration.png" />
     <Content Include="img\FX_FadeOnOff.png" />
     <Content Include="img\FX_MinDuration.png" />
+    <Content Include="img\FX_OnOff.png" />
     <Content Include="img\FX_Stacked1.png" />
     <Content Include="img\FX_Stacked2.png" />
     <Content Include="img\GlobalArchitecture.png" />

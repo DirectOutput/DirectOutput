@@ -40,6 +40,7 @@ The name of the item.
 
 \subsection use_DirectOutput_Cab_Toys_Basic_Contactor_summary Summary
 
+\deprecated The use of this toy is depreceated.
 Contactor toy.
 Basicaly just a more descriptive name for a GenericDigitalToy.
 Implements IToy, inherits GenericDigitalToy
@@ -76,6 +77,7 @@ The name of the item.
 
 \subsection use_DirectOutput_Cab_Toys_Basic_DigitalToy_summary Summary
 
+\deprecated The use of this toy is depreceated.
 Implementation of a generic digital toy.
 Implements IToy.
 
@@ -111,6 +113,7 @@ The name of the item.
 
 \subsection use_DirectOutput_Cab_Toys_Basic_GearMotor_summary Summary
 
+\deprecated The use of this toy is depreceated.
 GearMotor toy is just a simple wrapper around the Motor toy.
 
 
@@ -180,6 +183,7 @@ The name of the item.
 
 \subsection use_DirectOutput_Cab_Toys_Basic_Lamp_summary Summary
 
+\deprecated The use of this toy is depreceated. Use the AnalogAlphaToy instead.
 Lamp toy.<br />
 Inherits from <see cref="T:DirectOutput.Cab.Toys.Basic.AnalogToy" />, implements <see cref="T:DirectOutput.Cab.Toys.IToy" />.
 
@@ -215,6 +219,7 @@ The name of the item.
 
 \subsection use_DirectOutput_Cab_Toys_Basic_Motor_summary Summary
 
+\deprecated The use of this toy is depreceated. A new version of this toy will be available later.
 Motor toy supporting max. and min. power, max. runtime and kickstart settings.<br />
 Inherits from GenericAnalogToy, implements IToy.
 
@@ -335,6 +340,7 @@ The name of the item.
 
 \subsection use_DirectOutput_Cab_Toys_Basic_Shaker_summary Summary
 
+\deprecated The use of this toy is depreceated.
 Shaker toy.<br />
 This is just a simple wrapper around the motor toy.<br />
 Inherits from GenericAnalogToy, implements IToy.
@@ -493,9 +499,8 @@ The name of the item.
 
 \subsection use_DirectOutput_Cab_Toys_LWEquivalent_LedWizEquivalent_summary Summary
 
-The LEDWizEquivalent toy provides a Ledwiz like interface to 32 outputs.<br />
-The outputs listes in the Outputs property can point to any IOutput in the Cabinet.<br />
-This toy is also used when legacy LedCOntrol.ini files are used to configure the framework.
+The LEDWizEquivalent toy is only used by the framework when ini files are used for the configuration to determine which outputs should be controled by the columns in the ini files.<br />
+Do not target this type of toy with any effects.
 
 
 
@@ -547,7 +552,7 @@ The following nested propteries exist for Outputs:
 
 \subsubsection DirectOutput_Cab_Toys_LWEquivalent_LedWizEquivalent_LedWizNumber LedWizNumber
 
-The number of the virtual LedWiz emulated by the LedWizEquivalentToy.
+The number of the virtual LedWiz resp. ini file to be matched with the LedWizEquivalentToy.
 
 
 

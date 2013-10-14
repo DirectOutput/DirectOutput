@@ -71,5 +71,35 @@ namespace DirectOutput.FX
 
 
 
+
+
+
+        #region ICollection Member
+
+        public void CopyTo(Array array, int index)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsSynchronized
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public object SyncRoot
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        #endregion
+
+        #region IEnumerable Member
+
+        public new IEnumerator GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }
