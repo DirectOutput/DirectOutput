@@ -6,9 +6,8 @@ using System.Text;
 namespace DirectOutput.Cab.Toys.LWEquivalent
 {
     /// <summary>
-    /// The LEDWizEquivalent toy provides a Ledwiz like interface to 32 outputs.<br />
-    /// The outputs listes in the Outputs property can point to any IOutput in the Cabinet.<br />
-    /// This toy is also used when legacy LedCOntrol.ini files are used to configure the framework.
+    /// The LEDWizEquivalent toy is only used by the framework when ini files are used for the configuration to determine which outputs should be controled by the columns in the ini files.<br />
+    /// Do not target this type of toy with any effects.
     /// </summary>
     public class LedWizEquivalent:ToyBase,IToy
     {
@@ -32,10 +31,10 @@ namespace DirectOutput.Cab.Toys.LWEquivalent
         private int _LedWizNumber=-1;
 
         /// <summary>
-        /// Gets or sets the number of the virtual LedWiz emulated by the LedWizEquivalentToy.
+        /// Gets or sets the number of the virtual LedWiz resp. ini file to be matched with the LedWizEquivalentToy.
         /// </summary>
         /// <value>
-        /// The number of the virtual LedWiz emulated by the LedWizEquivalentToy.
+        /// The number of the virtual LedWiz resp. ini file to be matched with the LedWizEquivalentToy.
         /// </value>
         public int LedWizNumber
         {

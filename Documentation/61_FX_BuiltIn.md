@@ -4,7 +4,7 @@ Built in Effects  {#fx_builtin}
 
 \subsection use_DirectOutput_FX_AnalogToyFX_AnalogToyFadeOnOffEffect_summary Summary
 
-A effect fading the output value of a AnalogToy object to a active or inactive value. The fading is controlled by the value property (0, not 0 or null) of the TableElementData parameter of the Trigger method.
+A effect fading the output value of a AnalogToy object to a active or inactive value. The fading is controlled by the value property (0, not 0) of the TableElementData parameter of the Trigger method.
 \image html FX_FadeOnOff.png "FadeOnOff effect"
 
 
@@ -116,7 +116,7 @@ The name of the item.
 
 \subsection use_DirectOutput_FX_AnalogToyFX_AnalogToyOnOffEffect_summary Summary
 
-A basic effect setting the output of a AnalogToy object to a active or inactive value, based on value property (0, not 0 or null) of the TableElementData parameter of the Trigger method.
+A basic effect setting the output of a AnalogToy object to a active or inactive value, based on value property (0, not 0) of the TableElementData parameter of the Trigger method.
 
 
 
@@ -175,6 +175,11 @@ The name of the item.
 
 \section use_DirectOutput_FX_BasicFX_BasicAnalogEffect BasicAnalogEffect
 
+\subsection use_DirectOutput_FX_BasicFX_BasicAnalogEffect_summary Summary
+
+The BasicAnalogEffect is used to set the state of toys implementing <see cref="T:DirectOutput.Cab.Toys.Basic.IAnalogToy" /> based on the value of a <see cref="T:DirectOutput.Table.TableElement" />.<br />
+
+
 \subsection use_DirectOutput_FX_BasicFX_BasicAnalogEffect_samplexml Sample XML
 
 A configuration section for BasicAnalogEffect might resemble the following structure:
@@ -215,6 +220,11 @@ The name of the item.
 
 \section use_DirectOutput_FX_BasicFX_BasicDigitalEffect BasicDigitalEffect
 
+\subsection use_DirectOutput_FX_BasicFX_BasicDigitalEffect_summary Summary
+
+The BasicDigitalEffect is used to set the state of toys implementing <see cref="T:DirectOutput.Cab.Toys.Basic.IDigitalToy" /> based on the value of a <see cref="T:DirectOutput.Table.TableElement" />.<br />
+
+
 \subsection use_DirectOutput_FX_BasicFX_BasicDigitalEffect_samplexml Sample XML
 
 A configuration section for BasicDigitalEffect might resemble the following structure:
@@ -245,8 +255,6 @@ The name of the item.
 
 The BasicRGBToyEffect is used to turn on (/set a color) and off RGB toys based on the value of a TableElement.<br />
 If the value of the table element is &gt;0, the assigned IRGBToy will be set to the value specified in the Color property, for 0 the IRGBToy is set to black. <br />
-If this effect is used as a static effect, the value of Color will be set on table start.
-
 
 
 \subsection use_DirectOutput_FX_BasicFX_BasicRGBEffect_samplexml Sample XML
@@ -282,107 +290,13 @@ The name of the item.
 
 
 
-\section use_DirectOutput_FX_LedControlFX_LedControlEffect LedControlEffect
-
-\subsection use_DirectOutput_FX_LedControlFX_LedControlEffect_summary Summary
-
-The LedControlEffect is used when LedControl.ini files are parsed for this framework.<br />
-It is recommended not to use this effect, for other purposes. Use specific effects instead.
-
-
-
-\subsection use_DirectOutput_FX_LedControlFX_LedControlEffect_samplexml Sample XML
-
-A configuration section for LedControlEffect might resemble the following structure:
-
-~~~~~~~~~~~~~{.xml}
-<LedControlEffect>
-  <Name>Name of LedControlEffect</Name>
-  <LedWizEquivalentName>Name of LedWizEquivalent</LedWizEquivalentName>
-  <FirstOutputNumber>0</FirstOutputNumber>
-  <Intensity>48</Intensity>
-  <RGBColor>
-    <int>-1</int>
-    <int>-1</int>
-    <int>-1</int>
-  </RGBColor>
-  <Blink>0</Blink>
-  <BlinkInterval>500</BlinkInterval>
-  <Duration>-1</Duration>
-  <FadeUpDurationMs>0</FadeUpDurationMs>
-  <FadeDownDurationMs>0</FadeDownDurationMs>
-</LedControlEffect>
-~~~~~~~~~~~~~
-\subsection use_DirectOutput_FX_LedControlFX_LedControlEffect_properties Properties
-
-LedControlEffect has the following 10 configurable properties:
-
-\subsubsection DirectOutput_FX_LedControlFX_LedControlEffect_LedWizEquivalentName LedWizEquivalentName
-
-The name of the LedWizEquivalent used for the effect output.
-
-
-
-\subsubsection DirectOutput_FX_LedControlFX_LedControlEffect_FirstOutputNumber FirstOutputNumber
-
-The number of the first output for this effect (1-32).
-
-
-
-\subsubsection DirectOutput_FX_LedControlFX_LedControlEffect_Intensity Intensity
-
-The intensity (0-48).
-
-
-
-\subsubsection DirectOutput_FX_LedControlFX_LedControlEffect_RGBColor RGBColor
-
-The array of color parts (Red, Green, Blue).
-
-
-
-\subsubsection DirectOutput_FX_LedControlFX_LedControlEffect_Blink Blink
-
-The blink configuration for the effect.
-
-
-
-\subsubsection DirectOutput_FX_LedControlFX_LedControlEffect_BlinkInterval BlinkInterval
-
-The blink interval in milliseconds.
-
-
-
-\subsubsection DirectOutput_FX_LedControlFX_LedControlEffect_Duration Duration
-
-The duration of the effect.
-
-
-
-\subsubsection DirectOutput_FX_LedControlFX_LedControlEffect_FadeUpDurationMs FadeUpDurationMs
-
-The fading up duration in miliseconds.
-
-
-
-\subsubsection DirectOutput_FX_LedControlFX_LedControlEffect_FadeDownDurationMs FadeDownDurationMs
-
-The fading down duration in miliseconds.
-
-
-
-\subsubsection DirectOutput_FX_LedControlFX_LedControlEffect_Name Name
-
-The name of the item.
-
-
-
 \section use_DirectOutput_FX_ListFX_ListEffect ListEffect
 
 \subsection use_DirectOutput_FX_ListFX_ListEffect_summary Summary
 
-IEffect class which handles a list of other IEffect objects.<br />
-Attention! Be careful not to add ListEffect objects which finnaly contain a reference to the instance you're working with. This will create a recursive loop which never exit!.
+This effect triggers a list of other effect when it is triggered.<br />
+
+\warning Be careful not to add ListEffect objects which finnaly contain a reference to the instance you're working with. This will create a recursive loop which never exit!.
 
 
 
@@ -451,7 +365,7 @@ The name of the item.
 
 \subsection use_DirectOutput_FX_RGBAFX_RGBAFadeOnOffEffect_summary Summary
 
-This RGBA effect fades the color of a RGBA toys towards a defined target color based on the state (not 0, 0 or null) of the triggering table element (see Trigger method for details).
+This RGBA effect fades the color of a RGBA toys towards a defined target color based on the state (not 0, 0) of the triggering table element.
 \image html FX_FadeOnOff.png "FadeOnOff effect"
 
 
@@ -573,7 +487,7 @@ The name of the item.
 
 \subsection use_DirectOutput_FX_RGBAFX_RGBAOnOffEffect_summary Summary
 
-A basic RBA effect which sets the color of a layer of a RGBA toy to a specified color based on the state (not 0, 0 or null) of the triggering table element (see Trigger method for details).
+A basic RBA effect which sets the color of a layer of a RGBA toy to a specified color based on the state (not 0, 0) of the triggering table element.
 
 
 

@@ -4,6 +4,7 @@ Built in Toys  {#toy_builtin}
 
 \subsection use_DirectOutput_Cab_Toys_Basic_AnalogToy_summary Summary
 
+\deprecated The use of this toy is depreceated. Use the new AnalogAlphaToy instead.
 Implementation of a generic analog toy.
 Implements IToy.
 
@@ -101,54 +102,6 @@ Name of the Output for the GenericDigitalToy
 
 
 \subsubsection DirectOutput_Cab_Toys_Basic_DigitalToy_Name Name
-
-The name of the item.
-
-
-
-\section use_DirectOutput_Cab_Toys_Basic_Flasher Flasher
-
-\subsection use_DirectOutput_Cab_Toys_Basic_Flasher_summary Summary
-
-The Flasher toy fires one or several short pluses/flashes on the configured IOutput at given intervalls.
-
-
-
-\subsection use_DirectOutput_Cab_Toys_Basic_Flasher_samplexml Sample XML
-
-A configuration section for Flasher might resemble the following structure:
-
-~~~~~~~~~~~~~{.xml}
-<Flasher>
-  <Name>Name of Flasher</Name>
-  <OutputName>Name of Output</OutputName>
-  <DefaultIntervallMs>150</DefaultIntervallMs>
-  <FlashDurationMs>20</FlashDurationMs>
-</Flasher>
-~~~~~~~~~~~~~
-\subsection use_DirectOutput_Cab_Toys_Basic_Flasher_properties Properties
-
-Flasher has the following 4 configurable properties:
-
-\subsubsection DirectOutput_Cab_Toys_Basic_Flasher_DefaultIntervallMs DefaultIntervallMs
-
-The default intervall in milliseconds.
-
-
-
-\subsubsection DirectOutput_Cab_Toys_Basic_Flasher_FlashDurationMs FlashDurationMs
-
-The flash duration in milliseconds.
-
-
-
-\subsubsection DirectOutput_Cab_Toys_Basic_Flasher_OutputName OutputName
-
-Name of the Output for the GenericDigitalToy
-
-
-
-\subsubsection DirectOutput_Cab_Toys_Basic_Flasher_Name Name
 
 The name of the item.
 
@@ -328,51 +281,11 @@ The name of the item.
 
 
 
-\section use_DirectOutput_Cab_Toys_Basic_ReplayKnocker ReplayKnocker
-
-\subsection use_DirectOutput_Cab_Toys_Basic_ReplayKnocker_summary Summary
-
-Replayknocker toy which can fire the replay knocker one or several times at given intervalls.
-
-
-
-\subsection use_DirectOutput_Cab_Toys_Basic_ReplayKnocker_samplexml Sample XML
-
-A configuration section for ReplayKnocker might resemble the following structure:
-
-~~~~~~~~~~~~~{.xml}
-<ReplayKnocker>
-  <Name>Name of ReplayKnocker</Name>
-  <OutputName>Name of Output</OutputName>
-  <DefaultIntervallMs>300</DefaultIntervallMs>
-</ReplayKnocker>
-~~~~~~~~~~~~~
-\subsection use_DirectOutput_Cab_Toys_Basic_ReplayKnocker_properties Properties
-
-ReplayKnocker has the following 3 configurable properties:
-
-\subsubsection DirectOutput_Cab_Toys_Basic_ReplayKnocker_DefaultIntervallMs DefaultIntervallMs
-
-The default intervall in milliseconds.
-
-
-
-\subsubsection DirectOutput_Cab_Toys_Basic_ReplayKnocker_OutputName OutputName
-
-Name of the Output for the GenericDigitalToy
-
-
-
-\subsubsection DirectOutput_Cab_Toys_Basic_ReplayKnocker_Name Name
-
-The name of the item.
-
-
-
 \section use_DirectOutput_Cab_Toys_Basic_RGBLed RGBLed
 
 \subsection use_DirectOutput_Cab_Toys_Basic_RGBLed_summary Summary
 
+\deprecated The use of this toy is depreceated. Use the new RGBAToy instead.
 RGB led toy controlls a multicolor led.
 Implement IToy, inherits Toy.
 
@@ -524,6 +437,17 @@ The name of the item.
 
 
 \section use_DirectOutput_Cab_Toys_Layer_RGBAToy RGBAToy
+
+\subsection use_DirectOutput_Cab_Toys_Layer_RGBAToy_summary Summary
+
+Thie RGBAToy controls RGB leds and other gadgets displaying RGB colors.<br /><br />
+The RGBAToy has multilayer support with alpha channels. This allows the effects targeting RGBAToys to send their data to different layers.
+Values in a layer do also have a alpha/transparency channel which will allow us to blend the colors/values in the various layers (e.g. if  a bottom layer is blue and top is a semi transparent red, you will get some mix of both or if one of the two blinks you get changing colors).<br />
+The following picture might give you a clearer idea how the layers with their alpha channels work:
+
+\image html LayersRGBA.png "RGBA Layers"
+
+
 
 \subsection use_DirectOutput_Cab_Toys_Layer_RGBAToy_samplexml Sample XML
 
