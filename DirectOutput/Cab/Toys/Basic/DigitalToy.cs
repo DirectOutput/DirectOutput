@@ -9,6 +9,7 @@ using System.ComponentModel;
 namespace DirectOutput.Cab.Toys.Basic
 {
     /// <summary>
+    /// \deprecated The use of this toy is depreceated.
     /// Implementation of a generic digital toy.
     /// Implements IToy.
     /// </summary>

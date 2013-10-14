@@ -250,10 +250,6 @@
     <Compile Include="Cab\Toys\LWEquivalent\LedWizEquivalentOutputList.cs" />
     <Compile Include="Cab\Toys\ToyEventArgs.cs" />
     <Compile Include="Cab\Toys\Toys.cs" />
-    <Compile Include="FX\BasicFX\BasicDigitalEffect.cs" />
-    <Compile Include="FX\BasicFX\BasicFX.cs" />
-    <Compile Include="FX\BasicFX\BasicRGBEffect.cs" />
-    <Compile Include="FX\BasicFX\BasicAnalogEffect.cs" />
     <Compile Include="FX\EffectEventArgs.cs" />
     <Compile Include="FX\EffectList.cs" />
     <Compile Include="FX\EffectBase.cs" />
