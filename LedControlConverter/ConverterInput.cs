@@ -176,7 +176,7 @@ namespace LedControlConverter
                 {
                     MaxPageNr = 2;
 
-                    if (!Settings.CabinetConfigFilename.IsNullOrWhiteSpace() && Cabinet!=null)
+                    if (!Settings.CabinetConfigFilename.IsNullOrWhiteSpace())
                     {
                         MaxPageNr = 3;
 
