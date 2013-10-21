@@ -62,36 +62,7 @@ namespace DirectOutput_Test
         private void button2_Click(object sender, EventArgs e)
         {
 
-            List<int> L = new List<int>();
-
-            Type LT = L.GetType();
-            
-
-
-            DurationEffect E = new DurationEffect();
-           
-            
-            E.Name = "ABC";
-
-     
-
-            PropertyInfo EN = RB.GetType().GetProperty("RetriggerBehaviour");
-
-
-            string Xml = "";
-            using (MemoryStream ms = new MemoryStream())
-            {
-                
-                new XmlSerializer(E.GetType()).Serialize(ms, E);
-                ms.Position = 0;
-                using (StreamReader sr = new StreamReader(ms, Encoding.Default))
-                {
-                    Xml = sr.ReadToEnd();
-                    sr.Dispose();
-                }
-            }
-
-            Console.WriteLine( Xml);
+  
 
 
         }
