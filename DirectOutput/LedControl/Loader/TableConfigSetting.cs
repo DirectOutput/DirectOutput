@@ -203,6 +203,7 @@ namespace DirectOutput.LedControl.Loader
                 case "B":
                     OutputControl = OutputControlEnum.FixedOn;
                     Blink = -1;
+                    BlinkIntervalMs = 500;
                     break;
                 default:
                     if (Parts[0].Length > 1 && Parts[0].Substring(1).IsInteger())

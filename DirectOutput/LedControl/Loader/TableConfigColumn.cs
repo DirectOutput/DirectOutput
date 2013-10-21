@@ -105,7 +105,10 @@ namespace DirectOutput.LedControl.Loader
                     try
                     {
                         TableConfigSetting TCS = new TableConfigSetting(CC);
-                        Add(TCS);
+                        if (TCS.OutputControl != OutputControlEnum.FixedOff)
+                        {
+                            Add(TCS);
+                        }
                     }
                     catch (Exception E)
                     {

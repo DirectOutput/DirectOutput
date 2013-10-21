@@ -29,6 +29,7 @@ namespace DirectOutput.Table
         /// <value>
         /// The pinball object to which the Table object belongs.
         /// </value>
+        [XmlIgnoreAttribute]
         public Pinball Pinball { get; private set; }
         
 
