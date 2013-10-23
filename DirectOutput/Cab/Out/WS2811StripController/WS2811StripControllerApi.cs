@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace DirectOutput.Cab.Out.WS2811StripController
 {
-    public class WS2811StripController:IOutputController
+    public class WS2811StripControllerApi
     {
         const string ControllerNameBase = "WS2811 Strip Controller ";
 
@@ -77,9 +77,9 @@ namespace DirectOutput.Cab.Out.WS2811StripController
             }
         }
 
-        public WS2811StripController() { }
+        public WS2811StripControllerApi() { }
 
-        public WS2811StripController(int ControllerNumber)
+        public WS2811StripControllerApi(int ControllerNumber)
         {
             Open(ControllerNumber);
 
