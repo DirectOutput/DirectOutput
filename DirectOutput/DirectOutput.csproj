@@ -101,7 +101,7 @@
     <Compile Include="Cab\Out\Pac\Pac.cs" />
     <Compile Include="Cab\Out\Pac\PacLed64AutoConfigurator.cs" />
     <Compile Include="Cab\Out\WS2811StripController\FTD2XX_NET.cs" />
-    <Compile Include="Cab\Out\WS2811StripController\WS2811StripController.cs" />
+    <Compile Include="Cab\Out\WS2811StripController\WS2811StripControllerApi.cs" />
     <Compile Include="Cab\Toys\Basic\Basic.cs" />
     <Compile Include="Cab\Toys\Basic\GearMotor.cs" />
     <Compile Include="Cab\Toys\Basic\IRGBToy.cs" />
