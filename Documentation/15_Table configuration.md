@@ -117,7 +117,7 @@ There are still some tables around which dont have a backglass running with B2S.
 
 To overcome the problem, uncheck the "Error message without backglass" checkbox in the B2S.Server settings window.
 
-\image html B2SServer_Settings_NoBackglass.png "Error message without backglass" checkbox.
+\image html B2SServer_Settings_NoBackglass.png Error message without backglass checkbox.
 
 \note For tables without a backglass you will not be able to call the settings window of the B2S.Server.
 
