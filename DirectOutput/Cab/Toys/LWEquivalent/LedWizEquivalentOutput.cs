@@ -25,33 +25,7 @@ namespace DirectOutput.Cab.Toys.LWEquivalent
         /// </value>
         public int LedWizEquivalentOutputNumber { get; set; }
 
-        /// <summary>
-        /// Gets or sets the value of the output.<br/>
-        /// Valid values must be in the range of 0-48.
-        /// </summary>
-        /// <value>
-        /// The value of the output.
-        /// </value>
-        [XmlIgnoreAttribute]
-        public int Value
-        {
-            get
-            {
-                if (_Output != null)
-                {
-                    return (int)(_Output.Value/5.3125);
-                }
-                return 0;
-            }
-            set
-            {
-                
-                if (_Output != null)
-                {
-                    _Output.Value = (byte)(value.Limit(0, 48) * 5.3125);
-                }
-            }
-        }
+
         private IOutput _Output;
 
         /// <summary>
@@ -75,7 +49,7 @@ namespace DirectOutput.Cab.Toys.LWEquivalent
         /// </summary>
         public void Reset()
         {
-            Value = 0;
+        
         }
 
         /// <summary>
@@ -83,7 +57,7 @@ namespace DirectOutput.Cab.Toys.LWEquivalent
         /// </summary>
         public void Finish()
         {
-            Value = 0;
+         
             _Output = null;
         }
     }

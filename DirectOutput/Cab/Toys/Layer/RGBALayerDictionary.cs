@@ -6,33 +6,46 @@ using DirectOutput.Cab.Color;
 
 namespace DirectOutput.Cab.Toys.Layer
 {
+    /// <summary>
+    /// Dictionary for RGBALayer objects.
+    /// </summary>
     public class RGBALayerDictionary : SortedDictionary<int, RGBALayer>
     {
-        public new RGBALayer this[int key]
+        /// <summary>
+        /// Gets or sets the <see cref="RGBALayer"/> for the specified layer nr.<br/>
+        /// If no layer exists for the specified number, a new layer will be created for the layer nr.
+        /// </summary>
+        /// <value>
+        /// The <see cref="RGBALayer"/> with the specified layer nr.
+        /// </value>
+        /// <param name="LayerNr">The layer nr.</param>
+        /// <returns></returns>
+        public new RGBALayer this[int LayerNr]
         {
             get
             {
                 try
                 {
-                    return base[key];
+                    return base[LayerNr];
                 }
                 catch
                 {
                     RGBALayer L = new RGBALayer();
-                    Add(key, L);
+                    Add(LayerNr, L);
                     return L;
                 }
             }
             set
             {
-                base[key] = value;
+                base[LayerNr] = value;
             }
         }
 
 
-       
-
-
+        /// <summary>
+        /// Get the RGBColor resulting from the colors and alpha values in the layers.
+        /// </summary>
+        /// <returns></returns>
         public RGBColor GetResultingColor()
         {
             if (Count > 0)

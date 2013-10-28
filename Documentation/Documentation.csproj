@@ -45,6 +45,9 @@
     <None Include="50_Architecture.md" />
     <None Include="60_FX.md" />
     <None Include="55_B2SServerPlugin.md" />
+    <None Include="61_FX_BuiltIn.md" />
+    <None Include="64_Toys_BuiltIn.md" />
+    <None Include="66_OutputControllers_BuiltIn.md" />
     <None Include="80_Contribute.md" />
     <None Include="85_Downloads.md" />
     <None Include="87_History and Roadmap.md" />
@@ -64,12 +67,24 @@
     <Content Include="img\DirectOutput_Big.png" />
     <Content Include="img\DirectOutput_Small.png" />
     <Content Include="img\DMX.png" />
+    <Content Include="img\EffectEffect.png" />
     <Content Include="img\EffectsArchitecture.png" />
+    <Content Include="img\EffectTypes.png" />
+    <Content Include="img\FX_Blink.png" />
+    <Content Include="img\FX_Delay.png" />
+    <Content Include="img\FX_Duration.png" />
+    <Content Include="img\FX_ExtendDuration.png" />
+    <Content Include="img\FX_FadeOnOff.png" />
+    <Content Include="img\FX_MinDuration.png" />
+    <Content Include="img\FX_OnOff.png" />
+    <Content Include="img\FX_Stacked1.png" />
+    <Content Include="img\FX_Stacked2.png" />
     <Content Include="img\GlobalArchitecture.png" />
     <Content Include="img\Herweh.png" />
     <Content Include="img\Installation_DirectoryStructure.png" />
     <Content Include="img\Installation_OwnDirectory1.png" />
     <Content Include="img\Installation_OwnDirectory2.png" />
+    <Content Include="img\LayersRGBA.png" />
     <Content Include="img\LedControlFileTester.jpg" />
     <Content Include="img\LedWizBoard.jpg" />
     <Content Include="img\LedWizConfigTool.jpg" />
@@ -84,6 +99,7 @@
     <Content Include="img\TableArchitecture.png" />
     <Content Include="img\TestAndDevTeam.jpg" />
     <Content Include="img\ToyArchitecture.png" />
+    <Content Include="img\ToyEffect.png" />
     <Content Include="ToDo.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

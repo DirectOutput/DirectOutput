@@ -11,6 +11,11 @@ namespace DirectOutput.LedControl.Loader
     public class ColorConfigList : List<ColorConfig>
     {
 
+        /// <summary>
+        /// Gets the ColorConfig for the specified name.
+        /// </summary>
+        /// <param name="Name">The name of the color config.</param>
+        /// <returns></returns>
         public ColorConfig this[string Name]
         {
             get

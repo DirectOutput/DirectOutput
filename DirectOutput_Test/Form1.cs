@@ -16,6 +16,11 @@ using DirectOutput.Table;
 using DirectOutput.Cab;
 using DirectOutput.Cab.Out.DMX;
 using DirectOutput.Cab.Toys.Layer;
+using DirectOutput.FX.RGBAFX;
+using System.Xml.Serialization;
+using DirectOutput.FX.TimmedFX;
+using System.Reflection;
+using DirectOutput.FX;
 
 
 namespace DirectOutput_Test
@@ -47,6 +52,17 @@ namespace DirectOutput_Test
 
      
 
+
+
+        }
+
+
+        public RetriggerBehaviourEnum RB { get; set; }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+  
 
 
         }

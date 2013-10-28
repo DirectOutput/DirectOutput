@@ -13,8 +13,7 @@ namespace LedControlConverter.Settings
        public List<string> ConfigsToConvert = new List<string>();
 
        public CabinetConfigModeEnum CabinetConfigMode = 0;
-       public string NewCabinetConfigFilename = "";
-       public string ExistingCabinetConfigFilename = "";
+       public string CabinetConfigFilename = "";
        public bool AutoDetectOutputControllers=false;
        
 

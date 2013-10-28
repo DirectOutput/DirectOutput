@@ -9,6 +9,7 @@ namespace DirectOutput.Cab.Toys
     /// <summary>
     /// EventArgs for events of IToy objects
     /// </summary>
+    // TODO: Check if this class is necessary (no references to the class yet).
     public class ToyEventArgs : EventArgs
     {
 
@@ -22,11 +23,18 @@ namespace DirectOutput.Cab.Toys
         /// </summary>
         public string Name { get { return Toy.Name; } }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ToyEventArgs"/> class.
+        /// </summary>
+        /// <param name="Toy">The toy.</param>
         public ToyEventArgs(IToy Toy)
         {
             this.Toy = Toy;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ToyEventArgs"/> class.
+        /// </summary>
         public ToyEventArgs() { }
     }
 }

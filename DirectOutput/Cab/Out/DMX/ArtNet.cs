@@ -7,9 +7,15 @@ using System.Linq;
 namespace DirectOutput.Cab.Out.DMX
 {
     /// <summary>
-    /// OutputController implementation for ArtNet (DMX via ethernet) nodes.<br/>
-    /// Information on ArtNet can be found on http://en.wikipedia.org/wiki/Art-Net. <br/>
-    /// Information on DMX can be found on http://en.wikipedia.org/wiki/DMX512.
+    /// Artnet is a industry standard protocol used to control <a target="_blank" href="https://en.wikipedia.org/wiki/DMX512">DMX</a> lighting effects over othernet. Using <a target="_blank" href="https://en.wikipedia.org/wiki/Art-Net">Art-Net</a> it is possible to connect a very wide range of lighting effects like <a target="_blank" href="https://www.google.ch/search?q=dmx+strobe">strobes</a> or <a target="_blank" href="https://www.google.ch/search?q=dmx+dimmer">dimmer packs</a>. There are tons of DMX controlled effects available on the market (from very cheap and small to very expensive and big). It might sounds a bit crazy, but with Art-net and DMX you could at least in theory control a whole stage lighting system (this would likely make you feel like Tommy in the movie).
+    /// 
+    /// To use Art-Net you will need a Art-Net node (unit that converts from ethernet to DMX protocol) and also some DMX controlled lighting effect. There are quite a few different Art-Net nodes available on the market and most of them should be compatible with the DirectOutput framework. For testing the Art-Net node <a target="_blank" href="http://www.ulrichradig.de/home/index.php/avr/dmx-avr-artnetnode">sold by Ulrich Radig</a> as a DIY kit was used. 
+    /// 
+    /// Each Art-Net node/DMX universe supports 512 DMX channels and several Art-Net nodes controlling different DMX universes can be used in parallel.
+    /// 
+    /// If you want to read more about Art-net, visit the website of <a href="http://www.artisticlicence.com">Artistic License</a>. The specs for Art-net can be found in the Resources - User Guides + Datasheets section of the site.
+    /// 
+    /// \image html DMX.png DMX
     /// </summary>
     public class ArtNet : OutputControllerBase, IOutputController
     {
@@ -153,7 +159,7 @@ namespace DirectOutput.Cab.Out.DMX
                 KeepUpdaterThreadAlive = true;
                 try
                 {
-                    UpdaterThread = new Thread(MainThreadDoIt);
+                    UpdaterThread = new Thread(UpdaterThreadDoIt);
                     UpdaterThread.Name = "ArtNet node {0} updater thread ".Build(Name);
                     UpdaterThread.Start();
                 }
@@ -236,16 +242,16 @@ namespace DirectOutput.Cab.Out.DMX
         /// <summary>
         /// This is the main method of the ArtNet object updater thread.
         /// </summary>
-        private void MainThreadDoIt()
+        private void UpdaterThreadDoIt()
         {
             if (Engine == null)
             {
-                Engine = new Engine(Name, BroadcastAddress);
+                Engine = Engine.Instance;
                 
             }
 
             //Send all channels to ensure that there are defined values
-            Engine.SendDMX(Universe, DMXData, 512);
+            Engine.SendDMX(BroadcastAddress,Universe, DMXData, 512);
 
             while (KeepUpdaterThreadAlive)
             {
@@ -255,7 +261,7 @@ namespace DirectOutput.Cab.Out.DMX
                     lock (UpdateLocker)
                     {
                         UpdateRequired = false;
-                        Engine.SendDMX(Universe, DMXData, ((LastDMXChannel | 1) + 1).Limit(2, 512));
+                        Engine.SendDMX(BroadcastAddress, Universe, DMXData, ((LastDMXChannel | 1) + 1).Limit(2, 512));
                     }
 
                 }

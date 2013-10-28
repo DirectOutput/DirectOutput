@@ -7,17 +7,28 @@ using DirectOutput.Cab.Color;
 
 namespace DirectOutput.Cab.Toys.Layer
 {
+    /// <summary>
+    /// Thie RGBAToy controls RGB leds and other gadgets displaying RGB colors.<br/><br/>
+    /// The RGBAToy has multilayer support with alpha channels. This allows the effects targeting RGBAToys to send their data to different layers. 
+    /// Values in a layer do also have a alpha/transparency channel which will allow us to blend the colors/values in the various layers (e.g. if  a bottom layer is blue and top is a semi transparent red, you will get some mix of both or if one of the two blinks you get changing colors).<br/>
+    /// The following picture might give you a clearer idea how the layers with their alpha channels work:
+    /// 
+    /// \image html LayersRGBA.png "RGBA Layers"
+    /// </summary>
     public class RGBAToy : ToyBaseUpdatable, IRGBAToy
     {
 
-
-
-
-
         #region Layers
+        /// <summary>
+        /// Gets the dictionary of RGBALayers.
+        /// </summary>
+        /// <value>
+        /// The layers dictionary.
+        /// </value>
+        [System.Xml.Serialization.XmlIgnore]
         public RGBALayerDictionary Layers { get; private set; }
 
-       
+
 
         #endregion
 
@@ -92,7 +103,7 @@ namespace DirectOutput.Cab.Toys.Layer
         #region Finish
 
         /// <summary>
-        /// Finishes the RGBLed toy.<br/>
+        /// Finishes the RGBALed toy.<br/>
         /// Resets the the toy and releases all references.
         /// </summary>
         public override void Finish()
@@ -108,6 +119,9 @@ namespace DirectOutput.Cab.Toys.Layer
 
 
 
+        /// <summary>
+        /// Updates the outputs of the RGBAToy.
+        /// </summary>
         public override void UpdateOutputs()
         {
             RGBColor RGB = Layers.GetResultingColor();
@@ -126,6 +140,9 @@ namespace DirectOutput.Cab.Toys.Layer
         }
 
 
+        /// <summary>
+        /// Clears all layers and sets all outputs to 0 (off).
+        /// </summary>
         public override void Reset()
         {
             Layers.Clear();
@@ -135,6 +152,9 @@ namespace DirectOutput.Cab.Toys.Layer
         }
 
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RGBAToy"/> class.
+        /// </summary>
         public RGBAToy()
         {
             Layers = new RGBALayerDictionary();

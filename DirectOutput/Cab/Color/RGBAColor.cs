@@ -11,9 +11,10 @@ namespace DirectOutput.Cab.Color
     /// <summary>
     /// This class stores information on colors used for toys and effects (e.g. RGBLed).
     /// </summary>
-    public class RGBAColor : IRGBAColor
+    public class RGBAColor
     {
-        
+
+
 
         private int _Red;
 
@@ -25,7 +26,7 @@ namespace DirectOutput.Cab.Color
         public int Red
         {
             get { return _Red; }
-            set { _Red = value.Limit(0,255); }
+            set { _Red = value.Limit(0, 255); }
         }
 
         private int _Green;
@@ -76,9 +77,10 @@ namespace DirectOutput.Cab.Color
         {
             get
             {
-                return "#{0:X2}{1:X2}{2:X2}{3:X2}".Build(new object[] {Red, Blue, Green, Alpha});
+                return "#{0:X2}{1:X2}{2:X2}{3:X2}".Build(new object[] { Red, Blue, Green, Alpha });
             }
-            set {
+            set
+            {
                 SetColor(value);
             }
         }
@@ -99,7 +101,7 @@ namespace DirectOutput.Cab.Color
         /// <param name="Red">Red brightness</param>
         /// <param name="Green">Green brightness</param>
         /// <param name="Blue">Blue brightness</param>
-        /// <param name="Blue">Alpha value for the color</param>
+        /// <param name="Alpha">Alpha value for the color</param>
         /// <returns>true</returns>
         public bool SetColor(int Red, int Green, int Blue, int Alpha)
         {
@@ -133,7 +135,7 @@ namespace DirectOutput.Cab.Color
         /// </summary>
         /// <param name="Color">The RGB color to be set.</param>
         /// <returns></returns>
-        public bool SetColor(IRGBColor Color)
+        public bool SetColor(RGBColor Color)
         {
             SetColor(Color.Red, Color.Green, Color.Blue);
             return true;
@@ -168,8 +170,8 @@ namespace DirectOutput.Cab.Color
                 }
                 SetColor(Color.Substring(0 + Offset, 2).HexToInt(), Color.Substring(2 + Offset, 2).HexToInt(), Color.Substring(4 + Offset, 2).HexToInt(), Color.Substring(6 + Offset, 2).HexToInt());
                 return true;
-            }; 
-            
+            };
+
             if ((Color.Length == 6 && Color.IsHexString()) || (Color.Length == 7 && Color.StartsWith("#") && Color.IsHexString(1)))
             {
                 int Offset;
@@ -223,25 +225,61 @@ namespace DirectOutput.Cab.Color
         }
 
         #region Contructor
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RGBAColor"/> class.
+        /// </summary>
         public RGBAColor() { }
-       
-        
-        public RGBAColor(int BrightnessRed, int BrightnessGreen, int BrightnessBlue) {
-            SetColor(BrightnessRed, BrightnessGreen, BrightnessBlue);
-         }
 
-        public RGBAColor(int BrightnessRed, int BrightnessGreen, int BrightnessBlue,int Alpha) {
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RGBAColor"/> class.<br/>
+        /// If all color components are set to 0, the alpha value will be set to 0, otherwise the alpha value will be set to 255.
+        /// </summary>
+        /// <param name="BrightnessRed">The brightness for red.</param>
+        /// <param name="BrightnessGreen">The brightness for green.</param>
+        /// <param name="BrightnessBlue">The brightness for blue.</param>
+        public RGBAColor(int BrightnessRed, int BrightnessGreen, int BrightnessBlue)
+        {
+            SetColor(BrightnessRed, BrightnessGreen, BrightnessBlue);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RGBAColor"/> class.
+        /// </summary>
+        /// <param name="BrightnessRed">The brightness for red.</param>
+        /// <param name="BrightnessGreen">The brightness for green.</param>
+        /// <param name="BrightnessBlue">The brightness for blue.</param>
+        /// <param name="Alpha">The alpha value for the color.</param>
+        public RGBAColor(int BrightnessRed, int BrightnessGreen, int BrightnessBlue, int Alpha)
+        {
             SetColor(BrightnessRed, BrightnessGreen, BrightnessBlue, Alpha);
         }
 
-        
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RGBAColor"/> class.<br/>
+        /// The parameter string <paramref name="Color"/> is first parsed for hexadecimal color codes and afterwards checked for comma separated color values.<br/>
+        /// The following values are accepted:<br/>
+        /// 
+        /// * Hexadecimal color code including alpha channel (e.g. &#35;ff0000FF for fully opaque red).<br/>
+        /// * Hexadecimal color code without alpha channel (e.g. &#35;ff0000 for red). If all color components are set to 0 (that equals black) the alpha value is set to 0 (fully transparent), otherwise to 255 (fully opaque).
+        /// * Comma separated color components including alpha channel (e.g. 255,0,0,128 for half transparent red).
+        /// * Comma separated color components without alpha channel (e.g. 255,0,0 for for fully opque red). If all color components are set to 0 (that equals black) the alpha value is set to 0 (fully transparent), otherwise to 255 (fully opaque).
+        /// </summary>
+        /// <param name="Color">The color string.</param>
         public RGBAColor(string Color)
         {
             SetColor(Color);
         }
 
 
-        public RGBAColor(IRGBColor RGBColor) {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RGBAColor"/> class.
+        /// The Alpha value is set to 0 if all color components are set to 0, otherwise the Alpha value will be set to 255.
+        /// </summary>
+        /// <param name="RGBColor">RGBColor object.</param>
+        public RGBAColor(RGBColor RGBColor)
+        {
             SetColor(RGBColor);
         }
 

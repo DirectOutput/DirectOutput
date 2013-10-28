@@ -7,122 +7,67 @@ using System.Xml.Serialization;
 
 namespace DirectOutput.Cab.Color
 {
-   public class RGBColorNamed:NamedItemBase,IRGBColor
+    /// <summary>
+    /// Named RGBColor object
+    /// </summary>
+   public class RGBColorNamed:RGBColor, INamedItem
     {
-          private int _BrightnessRed;
 
+        #region Name
+        private string _Name;
         /// <summary>
-        /// Brightness for Red. 
+        /// Name of the color.<br />
         /// </summary>
-        /// <value>Brightness between 0 and 255.</value>
-        [XmlIgnoreAttribute]
-        public int Red
+        /// <value>
+        /// The name of the color.
+        /// </value>
+        public string Name
         {
-            get { return _BrightnessRed; }
-            set { _BrightnessRed = value.Limit(0,255); }
-        }
-
-        private int _BrightnessGreen;
-
-        /// <summary>
-        /// Brightness for Green.
-        /// </summary>
-        /// <value>Brightness between 0 and 255.</value>
-        [XmlIgnoreAttribute]
-        public int Green
-        {
-            get { return _BrightnessGreen; }
-            set { _BrightnessGreen = value.Limit(0, 255); }
-        }
-
-        private int _BrightnessBlue;
-        /// <summary>
-        /// Brightness for Blue.
-        /// </summary>
-        /// <value>Brightness between 0 and 255.</value>
-        [XmlIgnoreAttribute]
-        public int Blue
-        {
-            get { return _BrightnessBlue; }
-            set { _BrightnessBlue = value.Limit(0, 255); }
-        }
-
-
-        /// <summary>
-        /// Returns the hexadecimal code for the color.
-        /// </summary>
-        /// <value>6 digit hexadecimal color code with leading  &#35;(e.g. &#35;ff0000 for red).</value>
-        public string HexColor
-        {
-            get
+            get { return _Name; }
+            set
             {
-                return "#{0:X2}{1:X2}{2:X2}".Build(Red, Blue, Green);
-            }
-            set {
-                SetColor(value);
-            }
-        }
-
-        /// <summary>
-        /// Sets the RGB components of the Color.
-        /// </summary>
-        /// <param name="Red">Red brightness</param>
-        /// <param name="Green">Green brightness</param>
-        /// <param name="Blue">Blue brightness</param>
-        /// <returns>true</returns>
-        public bool SetColor(int Red, int Green, int Blue)
-        {
-            this.Red = Red;
-            this.Blue = Blue;
-            this.Green = Green;
-            return true;
-        }
-
-        /// <summary>
-        /// Sets the RGB components of the Color.<br/>
-        /// The parameter string <paramref name="Color"/> ist first parsed for hexadecimal color codes and afterwards checked for comma separated color values.
-        /// </summary>
-        /// <param name="Color">Hexadecimal color code (e.g. &#35;ff0000 for red) or comma separated color (e.g. 0,255,0 for green).</param>
-        /// <returns>true if the parameter string contained a valid color codes, otherwise false.</returns>
-        public bool SetColor(string Color)
-        {
-            if ((Color.Length == 6 && Color.IsHexString()) || (Color.Length == 7 && Color.StartsWith("#") && Color.IsHexString(1, 6)))
-            {
-                int Offset;
-                if (Color.StartsWith("#"))
+                if (_Name != value)
                 {
-                    Offset = 1;
-                }
-                else
-                {
-                    Offset = 0;
-                }
-                SetColor(Color.Substring(0 + Offset, 2).HexToInt(), Color.Substring(2 + Offset, 2).HexToInt(), Color.Substring(4 + Offset, 2).HexToInt());
-                return true;
-            };
-
-            string[] SplitColors = Color.Split(',');
-            if (SplitColors.Length == 3)
-            {
-                bool ColorsOK = true;
-                foreach (string C in SplitColors)
-                {
-                    if (C.IsInteger())
+                    string OldName = _Name;
+                    if (BeforeNameChange != null)
                     {
-                        ColorsOK = false;
+                        BeforeNameChange(this, new NameChangeEventArgs(OldName, value));
+                    }
+
+                    _Name = value;
+
+                    if (AfterNameChanged != null)
+                    {
+                        AfterNameChanged(this, new NameChangeEventArgs(OldName, value));
                     }
                 }
-                if (ColorsOK)
-                {
-                    SetColor(int.Parse(SplitColors[0]), int.Parse(SplitColors[1]), int.Parse(SplitColors[2]));
-                    return true;
-                }
             }
-            return false;
         }
+        /// <summary>
+        /// Event is fired after the value of the property Name has changed.
+        /// </summary>
+        public event EventHandler<NameChangeEventArgs> AfterNameChanged;
 
+        /// <summary>
+        /// Event is fired before the value of the property Name is changed.
+        /// </summary>
+        public event EventHandler<NameChangeEventArgs> BeforeNameChange;
+        #endregion
+       
+       
+       
         #region Contructor
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RGBColorNamed"/> class.
+        /// </summary>
         public RGBColorNamed() { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RGBColorNamed"/> class.
+        /// </summary>
+        /// <param name="Name">The name of the color.</param>
+        /// <param name="BrightnessRed">The brightness for red.</param>
+        /// <param name="BrightnessGreen">The brightness for green.</param>
+        /// <param name="BrightnessBlue">The brightness for blue.</param>
         public RGBColorNamed(string Name, int BrightnessRed, int BrightnessGreen, int BrightnessBlue)
             : this()
         {
@@ -131,6 +76,12 @@ namespace DirectOutput.Cab.Color
         }
 
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RGBColorNamed"/> class.
+        /// The parameter string <paramref name="Color"/> ist first parsed for hexadecimal color codes and afterwards checked for comma separated color values.
+        /// </summary>
+        /// <param name="Name">The name of the color.</param>
+        /// <param name="Color">The color string.</param>
         public RGBColorNamed(string Name, string Color)
         {
             SetColor(Color);

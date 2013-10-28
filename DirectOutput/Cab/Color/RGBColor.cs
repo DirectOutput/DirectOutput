@@ -9,11 +9,14 @@ namespace DirectOutput.Cab.Color
 {
 
     /// <summary>
-    /// This class stores information on colors used for toys and effects (e.g. RGBLed).
+    /// This class stores information on RGB colors used for toys and effects (e.g. RGBLed).
     /// </summary>
-    public class RGBColor :IRGBColor
+    public class RGBColor 
     {
-        
+
+
+
+ 
 
         private int _BrightnessRed;
 
@@ -128,11 +131,25 @@ namespace DirectOutput.Cab.Color
         }
 
         #region Contructor
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RGBColor"/> class.
+        /// </summary>
         public RGBColor() { }
-   
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RGBColor"/> class.
+        /// </summary>
+        /// <param name="BrightnessRed">The brightness for red.</param>
+        /// <param name="BrightnessGreen">The brightness for green.</param>
+        /// <param name="BrightnessBlue">The brightness for blue.</param>
         public RGBColor(int BrightnessRed, int BrightnessGreen, int BrightnessBlue){
             SetColor(BrightnessRed, BrightnessGreen, BrightnessBlue);
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RGBColor"/> class.
+        /// The parameter string <paramref name="Color"/> ist first parsed for hexadecimal color codes and afterwards checked for comma separated color values.
+        /// </summary>
+        /// <param name="Color">The color string.</param>
         public RGBColor(string Color)
         {
             SetColor(Color);

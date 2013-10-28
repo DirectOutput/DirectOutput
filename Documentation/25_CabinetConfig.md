@@ -1,5 +1,8 @@
 ﻿Cabinet Configuration {#cabinetconfig}
 =====================
+
+\warning This page is not up to date! It was last updated in spring 2013.
+
 \section cabinetconfig_introduction Introduction
 
 The Cabinet configuration defines the parts of a virtual pinball cabinet. The parts of the cabinet are divided into the following main areas:

@@ -160,6 +160,9 @@ namespace DirectOutput.Cab.Out
 
 
 
+        /// <summary>
+        /// Finalizes an instance of the <see cref="OutputList"/> class.
+        /// </summary>
         ~OutputList()
         {
             foreach (IOutput O in this)

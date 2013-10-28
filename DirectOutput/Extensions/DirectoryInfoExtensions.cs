@@ -5,6 +5,9 @@ using System.Text;
 using System.IO;
 
 
+/// <summary>
+/// Extends the DirectoryInfo calls with additional functionality.
+/// </summary>
 public static class DirectoryInfoExtensions
 {
 

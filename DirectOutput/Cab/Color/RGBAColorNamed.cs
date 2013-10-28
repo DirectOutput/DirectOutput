@@ -11,240 +11,110 @@ namespace DirectOutput.Cab.Color
     /// <summary>
     /// This class stores information on colors used for toys (e.g. RGBLed).
     /// </summary>
-    public class RGBAColorNamed : NamedItemBase, INamedItem, IRGBAColor
+    public class RGBAColorNamed : RGBAColor, INamedItem
     {
-        
 
-        private int _Red;
 
+        #region Name
+        private string _Name;
         /// <summary>
-        /// Brightness for Red. 
-        /// </summary>
-        /// <value>Brightness between 0 and 255.</value>
-        [XmlIgnoreAttribute]
-        public int Red
+        /// Name of the Named item.<br/>
+        /// Triggers BeforeNameChange before a new Name is set.<br/>
+        /// Triggers AfterNameChanged after a new name has been set.
+        /// </summary>    
+        public string Name
         {
-            get { return _Red; }
-            set { _Red = value.Limit(0,255); }
-        }
-
-        private int _Green;
-
-        /// <summary>
-        /// Brightness for Green.
-        /// </summary>
-        /// <value>Brightness between 0 and 255.</value>
-        [XmlIgnoreAttribute]
-        public int Green
-        {
-            get { return _Green; }
-            set { _Green = value.Limit(0, 255); }
-        }
-
-        private int _Blue;
-        /// <summary>
-        /// Brightness for Blue.
-        /// </summary>
-        /// <value>Brightness between 0 and 255.</value>
-        [XmlIgnoreAttribute]
-        public int Blue
-        {
-            get { return _Blue; }
-            set { _Blue = value.Limit(0, 255); }
-        }
-
-        private int _Alpha;
-        /// <summary>
-        /// Alpha value for the color.
-        /// </summary>
-        /// <value>Alpha value between 0 and 255.</value>
-        [XmlIgnoreAttribute]
-        public int Alpha
-        {
-            get { return _Alpha; }
-            set { _Alpha = value.Limit(0, 255); }
-        }
-
-
-
-
-        /// <summary>
-        /// Returns the hexadecimal code for the color.
-        /// </summary>
-        /// <value>6 digit hexadecimal color code with leading  &#35;(e.g. &#35;ff0000 for red).</value>
-        public string HexColor
-        {
-            get
+            get { return _Name; }
+            set
             {
-                return "#{0:X2}{1:X2}{2:X2}{3:X2}".Build(new object[] {Red, Blue, Green, Alpha});
-            }
-            set {
-                SetColor(value);
-            }
-        }
-
-        /// <summary>
-        /// Gets a new RGBAColor instance with the same color values.
-        /// </summary>
-        /// <returns></returns>
-        public RGBAColor GetRGBAColor()
-        {
-            return new RGBAColor(Red, Green, Blue, Alpha);
-        }
-
-
-        /// <summary>
-        /// Sets the RGBA components of the Color.
-        /// </summary>
-        /// <param name="Red">Red brightness</param>
-        /// <param name="Green">Green brightness</param>
-        /// <param name="Blue">Blue brightness</param>
-        /// <param name="Blue">Alpha value for the color</param>
-        /// <returns>true</returns>
-        public bool SetColor(int Red, int Green, int Blue, int Alpha)
-        {
-            this.Red = Red;
-            this.Blue = Blue;
-            this.Green = Green;
-            this.Alpha = Alpha;
-            return true;
-        }
-
-        /// <summary>
-        /// Sets the RGB components of the Color.<br/>
-        /// The Alpha value is set to 0 if all color components are set to 0, otherwise the Alpha value will be set to 255.
-        /// </summary>
-        /// <param name="Red">Red brightness</param>
-        /// <param name="Green">Green brightness</param>
-        /// <param name="Blue">Blue brightness</param>
-        /// <returns>true</returns>
-        public bool SetColor(int Red, int Green, int Blue)
-        {
-            this.Red = Red;
-            this.Blue = Blue;
-            this.Green = Green;
-            this.Alpha = (Red + Green + Blue > 0 ? 255 : 0);
-            return true;
-        }
-
-        /// <summary>
-        /// Sets the RGB components of the RGBAColor.<br />
-        /// The Alpha value is set to 0 if all color components are set to 0, otherwise the Alpha value will be set to 255.
-        /// </summary>
-        /// <param name="Color">The RGB color to be set.</param>
-        /// <returns></returns>
-        public bool SetColor(IRGBColor Color)
-        {
-            SetColor(Color.Red, Color.Green, Color.Blue);
-            return true;
-        }
-
-
-        /// <summary>
-        /// Sets the RGBA components of the Color.<br/>
-        /// The parameter string <paramref name="Color"/> ist first parsed for hexadecimal color codes and afterwards checked for comma separated color values.<br/>
-        /// The following values are accepted:<br/>
-        /// 
-        /// * Hexadecimal color code including alpha channel (e.g. &#35;ff0000FF for fully opaque red).<br/>
-        /// * Hexadecimal color code without alpha channel (e.g. &#35;ff0000 for red). If all color components are set to 0 (that equals black) the alpha value is set to 0 (fully transparent), otherwise to 255 (fully opaque).
-        /// * Comma separated color components including alpha channel (e.g. 255,0,0,128 for half transparent red).
-        /// * Comma separated color components without alpha channel (e.g. 255,0,0 for for fully opque red). If all color components are set to 0 (that equals black) the alpha value is set to 0 (fully transparent), otherwise to 255 (fully opaque).
-        /// 
-        /// </summary>
-        /// <param name="Color">String describing the color.</param>
-        /// <returns>true if the parameter string contained a valid color code, otherwise false.</returns>
-        public bool SetColor(string Color)
-        {
-            if ((Color.Length == 8 && Color.IsHexString()) || (Color.Length == 9 && Color.StartsWith("#") && Color.IsHexString(1)))
-            {
-                int Offset;
-                if (Color.StartsWith("#"))
+                if (_Name != value)
                 {
-                    Offset = 1;
-                }
-                else
-                {
-                    Offset = 0;
-                }
-                SetColor(Color.Substring(0 + Offset, 2).HexToInt(), Color.Substring(2 + Offset, 2).HexToInt(), Color.Substring(4 + Offset, 2).HexToInt(), Color.Substring(6 + Offset, 2).HexToInt());
-                return true;
-            }; 
-            
-            if ((Color.Length == 6 && Color.IsHexString()) || (Color.Length == 7 && Color.StartsWith("#") && Color.IsHexString(1)))
-            {
-                int Offset;
-                if (Color.StartsWith("#"))
-                {
-                    Offset = 1;
-                }
-                else
-                {
-                    Offset = 0;
-                }
-                SetColor(Color.Substring(0 + Offset, 2).HexToInt(), Color.Substring(2 + Offset, 2).HexToInt(), Color.Substring(4 + Offset, 2).HexToInt());
-                return true;
-            };
-
-            string[] SplitColors = Color.Split(',');
-            if (SplitColors.Length == 3)
-            {
-                bool ColorsOK = true;
-                foreach (string C in SplitColors)
-                {
-                    if (C.IsInteger())
+                    string OldName = _Name;
+                    if (BeforeNameChange != null)
                     {
-                        ColorsOK = false;
+                        BeforeNameChange(this, new NameChangeEventArgs(OldName, value));
+                    }
+
+                    _Name = value;
+
+                    if (AfterNameChanged != null)
+                    {
+                        AfterNameChanged(this, new NameChangeEventArgs(OldName, value));
                     }
                 }
-                if (ColorsOK)
-                {
-                    SetColor(int.Parse(SplitColors[0]), int.Parse(SplitColors[1]), int.Parse(SplitColors[2]));
-                    return true;
-                }
             }
-            else if (SplitColors.Length == 4)
-            {
-                bool ColorsOK = true;
-                foreach (string C in SplitColors)
-                {
-                    if (C.IsInteger())
-                    {
-                        ColorsOK = false;
-                    }
-                }
-                if (ColorsOK)
-                {
-                    SetColor(int.Parse(SplitColors[0]), int.Parse(SplitColors[1]), int.Parse(SplitColors[2]), int.Parse(SplitColors[3]));
-                    return true;
-                }
-
-            }
-            return false;
         }
+        /// <summary>
+        /// Event is fired after the value of the property Name has changed.
+        /// </summary>
+        public event EventHandler<NameChangeEventArgs> AfterNameChanged;
+
+        /// <summary>
+        /// Event is fired before the value of the property Name is changed.
+        /// </summary>
+        public event EventHandler<NameChangeEventArgs> BeforeNameChange;
+        #endregion
 
         #region Contructor
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RGBAColorNamed"/> class.
+        /// </summary>
         public RGBAColorNamed() { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RGBAColorNamed"/> class.
+        /// If all color components are set to 0, the alpha value will be set to 0, otherwise the alpha value will be set to 255.
+        /// </summary>
+        /// <param name="Name">The name of the color.</param>
+        /// <param name="BrightnessRed">The brightness for red.</param>
+        /// <param name="BrightnessGreen">The brightness for green.</param>
+        /// <param name="BrightnessBlue">The brightness for blue.</param>
         public RGBAColorNamed(string Name, int BrightnessRed, int BrightnessGreen, int BrightnessBlue)
             : this()
         {
             this.Name = Name;
             SetColor(BrightnessRed, BrightnessGreen, BrightnessBlue);
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RGBAColorNamed"/> class.
+        /// </summary>
+        /// <param name="Name">The name of the color.</param>
+        /// <param name="BrightnessRed">The brightness for red.</param>
+        /// <param name="BrightnessGreen">The brightness for green.</param>
+        /// <param name="BrightnessBlue">The brightness for blue.</param>
+        /// <param name="Alpha">The alpha value for the color.</param>
         public RGBAColorNamed(string Name, int BrightnessRed, int BrightnessGreen, int BrightnessBlue,int Alpha)
             : this()
         {
             this.Name = Name;
             SetColor(BrightnessRed, BrightnessGreen, BrightnessBlue,Alpha);
         }
-        
 
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RGBAColorNamed"/> class.
+        /// The parameter string <paramref name="Color"/> is first parsed for hexadecimal color codes and afterwards checked for comma separated color values.<br/>
+        /// The following values are accepted:<br/>
+        /// 
+        /// * Hexadecimal color code including alpha channel (e.g. &#35;ff0000FF for fully opaque red).<br/>
+        /// * Hexadecimal color code without alpha channel (e.g. &#35;ff0000 for red). If all color components are set to 0 (that equals black) the alpha value is set to 0 (fully transparent), otherwise to 255 (fully opaque).
+        /// * Comma separated color components including alpha channel (e.g. 255,0,0,128 for half transparent red).
+        /// * Comma separated color components without alpha channel (e.g. 255,0,0 for for fully opque red). If all color components are set to 0 (that equals black) the alpha value is set to 0 (fully transparent), otherwise to 255 (fully opaque).
+        /// </summary>
+        /// <param name="Name">The name of the color.</param>
+        /// <param name="Color">The color string.</param>
         public RGBAColorNamed(string Name, string Color)
         {
             SetColor(Color);
             this.Name = Name;
         }
 
-        public RGBAColorNamed(string Name, IRGBColor RGBColor)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RGBAColorNamed"/> class.
+        /// The Alpha value is set to 0 if all color components are set to 0, otherwise the Alpha value will be set to 255.
+        /// </summary>
+        /// <param name="Name">The name of the color.</param>
+        /// <param name="RGBColor">RGBColor object.</param>
+        public RGBAColorNamed(string Name, RGBColor RGBColor)
             
         {
             SetColor(RGBColor);

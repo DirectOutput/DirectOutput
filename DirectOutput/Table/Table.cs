@@ -29,6 +29,7 @@ namespace DirectOutput.Table
         /// <value>
         /// The pinball object to which the Table object belongs.
         /// </value>
+        [XmlIgnoreAttribute]
         public Pinball Pinball { get; private set; }
         
 
@@ -181,9 +182,12 @@ namespace DirectOutput.Table
         }
 
 
+        /// <summary>
+        /// Triggers the static effects for the table.
+        /// </summary>
         public void TriggerStaticEffects()
         {
-            AssignedStaticEffects.Trigger(null);
+            AssignedStaticEffects.Trigger(new TableElementData(TableElementTypeEnum.Unknown,0,1));
         }
 
         /// <summary>

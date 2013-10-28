@@ -7,7 +7,9 @@ using DirectOutput.Table;
 namespace DirectOutput.FX.TimmedFX
 {
     /// <summary>
-    /// The effect fires a assigned target effect after a specified delay.
+    /// The effect fires a assigned target effect after a specified delay.<br/>
+    /// The original values supplied when the effect is triggered are forwarded to the target effect.<br/>
+    /// \image html FX_Delay.png "Delay effect"
     /// </summary>
     public class DelayEffect:EffectEffectBase
     {

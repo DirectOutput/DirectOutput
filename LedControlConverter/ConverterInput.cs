@@ -27,10 +27,11 @@ namespace LedControlConverter
             UpdateButtons();
 
             BeforePageChange += new EventHandler<BeforePageChangeEventArgs>(InputFiles_BeforePageChange);
-
+            AfterPageChange += new EventHandler<PageChangeEventArgs>(CabinetFile_AfterPageChange);
             LoadSettings();
 
         }
+
 
 
 
@@ -174,6 +175,12 @@ namespace LedControlConverter
                 if (Settings.ConfigsToConvert.Count > 0)
                 {
                     MaxPageNr = 2;
+
+                    if (!Settings.CabinetConfigFilename.IsNullOrWhiteSpace())
+                    {
+                        MaxPageNr = 3;
+
+                    }
                 }
             }
 
@@ -447,35 +454,38 @@ namespace LedControlConverter
 
         #endregion
 
-        
 
+
+        void CabinetFile_AfterPageChange(object sender, ConverterInput.PageChangeEventArgs e)
+        {
+            if (e.LastPageNr == 1 && e.NextPageNr == 2)
+            {
+
+
+            }
+        }
 
 
         private void UpdateCabinetData()
         {
-            
+
             switch (Settings.CabinetConfigMode)
             {
                 case CabinetConfigModeEnum.CreateNewCabinetConfig:
-                    CabinetConfigFilename.Enabled = false;
+                    CabinetConfigFilename.Enabled = true;
                     CabinetConfigFilenameLabel.Text = "New cabinet config file:";
-                    CabinetConfigFilename.Text = Settings.NewCabinetConfigFilename;
+                    CabinetConfigFilename.Text = Settings.CabinetConfigFilename;
+
                     break;
-                case CabinetConfigModeEnum.UpdateExistingConfig:
+                case CabinetConfigModeEnum.UseExistingConfig:
                     CabinetConfigFilename.Enabled = true;
                     CabinetConfigFilenameLabel.Text = "Cabinet config file to update:";
-                    CabinetConfigFilename.Text = Settings.ExistingCabinetConfigFilename;
+                    CabinetConfigFilename.Text = Settings.CabinetConfigFilename;
 
-
-                    break;
-                case CabinetConfigModeEnum.MatchExistingConfig:
-                    CabinetConfigFilename.Enabled = true;
-                    CabinetConfigFilenameLabel.Text = "Cabinet config file to match:";
-                    CabinetConfigFilename.Text = Settings.ExistingCabinetConfigFilename;
 
                     break;
             }
-
+            UpdateButtons();
         }
 
 
@@ -483,12 +493,19 @@ namespace LedControlConverter
 
         private void CabinetConfigMode_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+
+            if (Settings.CabinetConfigMode != (CabinetConfigModeEnum)((ComboBox)sender).SelectedIndex)
+            {
+                Settings.CabinetConfigFilename = null;
+
+            };
 
             Settings.CabinetConfigMode = (CabinetConfigModeEnum)((ComboBox)sender).SelectedIndex;
 
             UpdateCabinetData();
         }
+
+
 
         private void CabinetConfigFilename_Click(object sender, EventArgs e)
         {
@@ -496,15 +513,18 @@ namespace LedControlConverter
             {
                 if (SaveCabinetConfigFile.ShowDialog(this) == DialogResult.OK)
                 {
-                    Settings.NewCabinetConfigFilename = SaveCabinetConfigFile.FileName;
+                    Settings.CabinetConfigFilename = SaveCabinetConfigFile.FileName;
+
                     UpdateCabinetData();
                 }
-            } else {
+            }
+            else
+            {
                 if (SelectCabinetConfigFile.ShowDialog(this) == DialogResult.OK)
                 {
                     if (Cabinet.TestCabinetConfigXmlFile(SelectCabinetConfigFile.FileName))
                     {
-                        Settings.ExistingCabinetConfigFilename = SelectCabinetConfigFile.FileName;
+                        Settings.CabinetConfigFilename = SelectCabinetConfigFile.FileName;
                         UpdateCabinetData();
                     }
                     else
@@ -513,6 +533,9 @@ namespace LedControlConverter
                     }
                 }
             }
+
+
+
         }
 
         private void CabinetConfigFilename_DragDrop(object sender, DragEventArgs e)
@@ -525,12 +548,12 @@ namespace LedControlConverter
                 {
                     if (Cabinet.TestCabinetConfigXmlFile(files[0]))
                     {
-                        Settings.ExistingCabinetConfigFilename = files[0];
+                        Settings.CabinetConfigFilename = files[0];
                         UpdateCabinetData();
                     }
                     else
                     {
-                        MessageBox.Show("The file {0} does not contain a valid cabinet configuration.".Build(files[0]),"Invalid file",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                        MessageBox.Show("The file {0} does not contain a valid cabinet configuration.".Build(files[0]), "Invalid file", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
             }

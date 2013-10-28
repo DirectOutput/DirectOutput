@@ -33,7 +33,7 @@ namespace DirectOutput.Cab.Toys.Basic
         /// Sets the color if the rgb toy.
         /// </summary>
         /// <param name="Color">The color for the rgb toy.</param>
-        void SetColor(IRGBColor Color);
+        void SetColor(RGBColor Color);
         /// <summary>
         /// Sets the color for the rgb toy by specifying the red, green and blue color components.
         /// </summary>

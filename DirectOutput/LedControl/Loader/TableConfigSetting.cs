@@ -170,20 +170,6 @@ namespace DirectOutput.LedControl.Loader
 
         /// <summary>
         /// Parses the setting data. <br />
-        /// Possible config settings:<br />
-        /// S1<br />
-        /// S4 1500       (Solenoid4: 1500ms)<br />
-        /// S8 300 I32    (Solenoid8: 300ms Intensity32)<br />
-        /// W15 300 2     (Switch15:   2Times within 300ms Period)<br />
-        /// ON Red (Red)<br />
-        /// S5 Red 10 (Solenoid 5: Red 10milliseconds)<br />
-        /// S7 White (Solenoid 7: White)<br />
-        /// ON Orange I48 (On Orange, I48 is probably not relevant)<br />
-        /// L88 Blink I44 (Lamp88:Blink with insensity 44)<br />
-        /// W58 Blink 5 (Switch48: Blink 5 times.<br />
-        /// s4 420 24 (flash 24 times within 420 milliseconds) <br />
-        /// First char(s):<br />
-        /// L??=Lamp, S??=Solenoid, W??=Switch, B=Blink (very likely), 0=off, 1=on, on=on, off=off
         /// </summary>
         /// <param name="SettingData">The setting data.</param>
         /// <exception cref="System.Exception">
@@ -193,6 +179,7 @@ namespace DirectOutput.LedControl.Loader
         /// </exception>
         public void ParseSettingData(string SettingData)
         {
+
             string[] Parts = SettingData.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             if (Parts.Length == 0)
             {
@@ -216,6 +203,7 @@ namespace DirectOutput.LedControl.Loader
                 case "B":
                     OutputControl = OutputControlEnum.FixedOn;
                     Blink = -1;
+                    BlinkIntervalMs = 500;
                     break;
                 default:
                     if (Parts[0].Length > 1 && Parts[0].Substring(1).IsInteger())
@@ -252,6 +240,7 @@ namespace DirectOutput.LedControl.Loader
             int PartNr = 1;
             while (Parts.Length > PartNr)
             {
+
                 if (Parts[PartNr].ToUpper() == "BLINK")
                 {
                     Blink = -1;
@@ -341,9 +330,9 @@ namespace DirectOutput.LedControl.Loader
                 }
                 else
                 {
-                    Log.Warning("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(Parts[PartNr], SettingData));
+                    Log.Warning("Cant parse the part {0} of the ledcontrol table config setting {1}".Build(Parts[PartNr], SettingData));
 
-                    throw new Exception("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(Parts[PartNr], SettingData));
+                    throw new Exception("Cant parse the part {0} of the ledcontrol table config setting {1}".Build(Parts[PartNr], SettingData));
                 }
                 PartNr++;
             }
@@ -359,19 +348,6 @@ namespace DirectOutput.LedControl.Loader
         /// <summary>
         /// Initializes a new instance of the <see cref="TableConfigSetting"/> class.
         /// Parses the setting data. <br/>
-        /// Possible config settings:<br/>
-        /// S1<br/>
-        /// S4 1500       (Solenoid4: 1500ms)<br/>
-        /// S8 300 I32    (Solenoid8: 300ms Intensity32)<br/>
-        /// W15 300 2     (Switch15:   2Times 300ms Period)<br/>
-        /// ON Red (Red)<br/>
-        /// S5 Red 10 (Solenoid 5: Red Blink 10 times)<br/>
-        /// S7 White (Solenoid 7: White)<br/>
-        /// ON Orange I48 (On Orange, I48 is probably not relevant)<br/>
-        /// L88 Blink I44 (Lamp88:Blink with insensity 44)<br/>
-        /// W58 Blink 5 (Switch48: Blink 5 times.<br/>
-        /// First char(s):<br/>
-        /// L??=Lamp, S??=Solenoid, W??=Switch, B=Blink (very likely), 0=off, 1=on, on=on, off=off
         /// </summary>
         /// <param name="SettingData">The setting data.</param>
         /// <exception cref="System.Exception">
@@ -387,6 +363,9 @@ namespace DirectOutput.LedControl.Loader
 
 
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TableConfigSetting"/> class.
+        /// </summary>
         public TableConfigSetting()
         {
             this.Intensity = 48;

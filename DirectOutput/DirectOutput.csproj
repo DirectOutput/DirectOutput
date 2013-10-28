@@ -87,12 +87,10 @@
   <ItemGroup>
     <Compile Include="Cab\Out\DMX\ArtNet.cs" />
     <Compile Include="Cab\Out\DMX\ArtnetEngine\ArtnetEngine.cs" />
-    <Compile Include="Cab\Out\DMX\ArtnetEngine\DmxInPacket.cs" />
     <Compile Include="Cab\Out\IAutoConfigOutputController.cs" />
     <Compile Include="Cab\Out\IOutputNumbered.cs" />
     <Compile Include="Cab\Out\LW\LedWizAutoConfigurator.cs" />
     <Compile Include="Cab\Out\DMX\ArtnetEngine\Engine.cs" />
-    <Compile Include="Cab\Out\DMX\ArtnetEngine\OpCodesEnum.cs" />
     <Compile Include="Cab\Out\DMX\DMX.cs" />
     <Compile Include="Cab\Out\DMX\DMXOutput.cs" />
     <Compile Include="Cab\Out\LW\LW.cs" />
@@ -104,7 +102,6 @@
     <Compile Include="Cab\Out\Pac\PacLed64AutoConfigurator.cs" />
     <Compile Include="Cab\Toys\Basic\Basic.cs" />
     <Compile Include="Cab\Toys\Basic\GearMotor.cs" />
-    <Compile Include="Cab\Color\IRGBColor.cs" />
     <Compile Include="Cab\Toys\Basic\IRGBToy.cs" />
     <Content Include="Config\GlobalConfig_B2SServer.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -116,7 +113,6 @@
     <Compile Include="Cab\Toys\Layer\AnalogAlphaLayer.cs" />
     <Compile Include="Cab\Toys\Layer\AnalogLayerDictionary.cs" />
     <Compile Include="Cab\Toys\Layer\AnalogAlphaToy.cs" />
-    <Compile Include="Cab\Color\IRGBAColor.cs" />
     <Compile Include="Cab\Color\RGBAColorNamed.cs" />
     <Compile Include="Cab\Color\RGBAColor.cs" />
     <Compile Include="Cab\Toys\Layer\IAnalogAlphaToy.cs" />
@@ -132,9 +128,9 @@
     <Compile Include="Extensions\DirectoryInfoExtensions.cs" />
     <Compile Include="Extensions\DoubleExtensions.cs" />
     <Compile Include="Extensions\FileInfoExtensions.cs" />
-    <Compile Include="Extensions\IComparableExtensions.cs" />
     <Compile Include="Extensions\IntExtensions.cs" />
     <Compile Include="Extensions\FloatExtensions.cs" />
+    <Compile Include="Extensions\PropertyInfoExtension.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TimeSpanExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
@@ -221,7 +217,6 @@
     <Compile Include="Log.cs" />
     <Compile Include="GlobalConfiguration\FilePattern.cs" />
     <Compile Include="GlobalConfiguration\FilePatternList.cs" />
-    <Compile Include="FX\LedControlFX\LedControlFX.cs" />
     <Compile Include="General\Generic\SortableBindingList.cs" />
     <Compile Include="GlobalConfiguration\LedControlIniFile.cs" />
     <Compile Include="GlobalConfiguration\LedControlIniFileList.cs" />
@@ -247,7 +242,6 @@
     <Compile Include="Cab\Color\RGBColor.cs" />
     <Compile Include="Cab\Color\ColorList.cs" />
     <Compile Include="Cab\Toys\Basic\Contactor.cs" />
-    <Compile Include="Cab\Toys\Basic\Flasher.cs" />
     <Compile Include="Cab\Toys\Basic\IAnalogToy.cs" />
     <Compile Include="Cab\Toys\Basic\IDigitalToy.cs" />
     <Compile Include="Cab\Toys\IToy.cs" />
@@ -256,14 +250,9 @@
     <Compile Include="Cab\Toys\LWEquivalent\LedWizEquivalentOutputList.cs" />
     <Compile Include="Cab\Toys\ToyEventArgs.cs" />
     <Compile Include="Cab\Toys\Toys.cs" />
-    <Compile Include="FX\BasicFX\BasicDigitalEffect.cs" />
-    <Compile Include="FX\BasicFX\BasicFX.cs" />
-    <Compile Include="FX\BasicFX\BasicRGBEffect.cs" />
-    <Compile Include="FX\BasicFX\BasicAnalogEffect.cs" />
     <Compile Include="FX\EffectEventArgs.cs" />
     <Compile Include="FX\EffectList.cs" />
     <Compile Include="FX\EffectBase.cs" />
-    <Compile Include="FX\LedControlFX\LedControlEffect.cs" />
     <Compile Include="FX\ListFX\ListEffect.cs" />
     <Compile Include="FX\FX.cs" />
     <Compile Include="Cab\Out\LW\LEDWizOutput.cs" />
@@ -300,7 +289,6 @@
     <Compile Include="LedControl\Loader\TableConfigList.cs" />
     <Compile Include="LedControl\Loader\TableConfigSetting.cs" />
     <Compile Include="Table\TableElementData.cs" />
-    <Compile Include="Cab\Toys\Basic\ReplayKnocker.cs" />
     <Compile Include="Cab\Toys\Basic\RGBLed.cs" />
     <Compile Include="Cab\Toys\Basic\Shaker.cs" />
     <Compile Include="Scripting\Script.cs" />

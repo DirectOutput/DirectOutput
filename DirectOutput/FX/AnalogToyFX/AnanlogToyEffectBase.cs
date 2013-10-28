@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DirectOutput.Cab.Toys.Layer;
+using System.Xml.Serialization;
 
 namespace DirectOutput.FX.AnalogToyFX
 {
@@ -60,6 +61,7 @@ namespace DirectOutput.FX.AnalogToyFX
         /// Refrence to the AnalogToyy specified in the ToyName property.<br/>
         /// If the ToyName property is empty or contains a unknown name or the name of a toy which is not a AnalogToy this property will return null.
         /// </summary>
+        [XmlIgnoreAttribute]
         public IAnalogAlphaToy Toy{get;protected set;}
 
         private void ResolveName(Table.Table Table)

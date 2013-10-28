@@ -7,14 +7,14 @@ using DirectOutput.Cab.Toys.Layer;
 namespace DirectOutput.FX.AnalogToyFX
 {
     /// <summary>
-    /// A basic effect setting the output of a AnalogToy object to a active or inactive value, based on value property (0, not 0 or null) of the TableElementData parameter of the Trigger method.
+    /// A basic effect setting the output of a AnalogToy object to a active or inactive value, based on value property (0, not 0) of the TableElementData parameter of the Trigger method.
     /// </summary>
     public class AnalogToyOnOffEffect: AnanlogToyEffectBase
     {
         private AnalogAlphaValue _ActiveValue = new AnalogAlphaValue(255,255);
 
         /// <summary>
-        /// Gets or sets the value which is set on the specified layer of the referenced AnalogToy object if this effect is triggered with a TableElementData instance having a Value which is not zero of if the Effect is triggered with a null value for the TableElementData paramter.
+        /// Gets or sets the value which is set on the specified layer of the referenced AnalogToy object if this effect is triggered with a TableElementData instance having a Value which is not zero.
         /// </summary>
         /// <value>
         /// The active value between 0 and 255.
@@ -40,8 +40,8 @@ namespace DirectOutput.FX.AnalogToyFX
         }
 
         /// <summary>
-        /// Triggers the effect with the given TableElementData.<br>
-        /// If the Value property of the TableElementData parameter is not 0 or if the TableElementData parameter is null, the value of the specified layer of the referenced AnalogToy is set to the value specified in the ActiveValue property.<br/>
+        /// Triggers the effect with the given TableElementData.<br/>
+        /// If the Value property of the TableElementData parameter is not 0, the value of the specified layer of the referenced AnalogToy is set to the value specified in the ActiveValue property.<br/>
         /// If the Value property of the TableElementData parameter equals 0, the value of the specified layer of the referenced AnalogToy is set to the value specified in the InactiveValue property.
         /// </summary>
         /// <param name="TableElementData">TableElementData for the TableElement which has triggered the effect.</param>

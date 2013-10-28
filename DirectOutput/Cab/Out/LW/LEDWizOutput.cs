@@ -45,6 +45,9 @@ namespace DirectOutput.Cab.Out.LW
 
 
         #region Constructor
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LedWizOutput"/> class.
+        /// </summary>
         public LedWizOutput()
         {
 

@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace DirectOutput.FX.TimmedFX
 {
     /// <summary>
     /// This effect enforces a minimum duration on the effect calls.<br/>
     /// Calls which are setting a effect to active (having a trigger value which is not equal 0 or null) are forwarded directly to the TargetEffect.<br/>
-    /// Calls setting the effect to inactive (having a trigger value of 0) are only forwarded to the TargetEffect after the specified minimum duration.
+    /// Calls setting the effect to inactive (having a trigger value of 0) are only forwarded to the TargetEffect after the specified minimum duration has expired.<br/>
+    /// \image html FX_MinDuration.png "MinDuration effect"
     /// </summary>
     public class MinDurationEffect : EffectEffectBase
     {
@@ -50,20 +52,21 @@ namespace DirectOutput.FX.TimmedFX
         /// <value>
         ///   <c>true</c> if active; otherwise <c>false</c>.
         /// </value>
+        [XmlIgnoreAttribute]
         public bool Active { get; private set; }
 
         private Queue<Table.TableElementData> UntriggerData = new Queue<Table.TableElementData>();
 
         /// <summary>
-        /// Triggers the MinDurationEffect with the given TableElementData.<br>
-        /// The minimal duration is started, if the value portion of the TableElementData parameter is !=0. If the effect is used as a static effect (TableElementData is null), the duration is started and the target effect is called with a dummy table elment (type: unknown (?), Number: 0).
+        /// Triggers the MinDurationEffect with the given TableElementData.<br/>
+        /// The minimal duration is started, if the value portion of the TableElementData parameter is !=0. 
         /// </summary>
         /// <param name="TableElementData">TableElementData for the TableElement which has triggered the effect.</param>
         public override void Trigger(Table.TableElementData TableElementData)
         {
             if (TargetEffect != null)
             {
-                Table.TableElementData TED = (TableElementData == null ? new Table.TableElementData(TableElementTypeEnum.Unknown, 0, 1) : TableElementData);
+                Table.TableElementData TED =  TableElementData;
                 if (TED.Value != 0)
                 {
                     TargetEffect.Trigger(TED);

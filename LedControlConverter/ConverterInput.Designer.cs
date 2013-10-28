@@ -265,7 +265,7 @@
             this.CabinetConfigFile.Padding = new System.Windows.Forms.Padding(3);
             this.CabinetConfigFile.Size = new System.Drawing.Size(774, 491);
             this.CabinetConfigFile.TabIndex = 4;
-            this.CabinetConfigFile.Text = "Cabinet Config File";
+            this.CabinetConfigFile.Text = "Cabinet Configuraion File";
             // 
             // CabinetConfigFilenameLabel
             // 
@@ -279,6 +279,7 @@
             // CabinetConfigFilename
             // 
             this.CabinetConfigFilename.AllowDrop = true;
+            this.CabinetConfigFilename.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.CabinetConfigFilename.Location = new System.Drawing.Point(162, 43);
             this.CabinetConfigFilename.Name = "CabinetConfigFilename";
             this.CabinetConfigFilename.ReadOnly = true;
@@ -305,8 +306,7 @@
             this.CabinetConfigMode.FormattingEnabled = true;
             this.CabinetConfigMode.Items.AddRange(new object[] {
             "Create new cabinet config file",
-            "Ammend/update existing cabinet config file",
-            "Match existing cabinet config file"});
+            "Use existing cabinet config file"});
             this.CabinetConfigMode.Location = new System.Drawing.Point(162, 16);
             this.CabinetConfigMode.Name = "CabinetConfigMode";
             this.CabinetConfigMode.Size = new System.Drawing.Size(241, 21);

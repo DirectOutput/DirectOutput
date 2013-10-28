@@ -8,6 +8,8 @@ namespace DirectOutput.Cab.Toys.Basic
 {
 
     /// <summary>
+    /// \deprecated The use of this toy is depreceated. Use the AnalogAlphaToy instead.
+    /// 
     /// Lamp toy.<br/>
     /// Inherits from <see cref="AnalogToy"/>, implements <see cref="IToy"/>.
     /// </summary>

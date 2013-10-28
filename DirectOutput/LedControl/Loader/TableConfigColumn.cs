@@ -6,7 +6,7 @@ namespace DirectOutput.LedControl.Loader
 
     /// <summary>
     /// Column in a LedControl.ini file.<br />
-    /// Is a list of <see cref="TableConfigSettingObjects" /> for that column.
+    /// Is a list of TableConfigSettingObjects for that column.
     /// </summary>
     public class TableConfigColumn:List<TableConfigSetting>
     {
@@ -105,7 +105,10 @@ namespace DirectOutput.LedControl.Loader
                     try
                     {
                         TableConfigSetting TCS = new TableConfigSetting(CC);
-                        Add(TCS);
+                        if (TCS.OutputControl != OutputControlEnum.FixedOff)
+                        {
+                            Add(TCS);
+                        }
                     }
                     catch (Exception E)
                     {

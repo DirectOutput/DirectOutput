@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 
 
+/// <summary>
+/// Extends the float type with additional functionality.
+/// </summary>
 public static class floatExtensions
 {
     /// <summary>

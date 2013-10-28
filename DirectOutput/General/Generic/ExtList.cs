@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace DirectOutput.General.Generic
 {
-    public class ExtList<T> :  IList<T>
+    public class ExtList<T> : IList<T>, ICollection<T>, IEnumerable<T>, IEnumerable, ICollection, IList
     {
         private List<T> _InternalList = new List<T>();
 
@@ -366,6 +366,92 @@ namespace DirectOutput.General.Generic
             AddRange(EnumerableList);
         }
 
+
+
+        #region ICollection Member
+
+        public void CopyTo(Array array, int index)
+        {
+            ((ICollection)_InternalList).CopyTo(array, index);
+        }
+
+        public bool IsSynchronized
+        {
+            get { return ((ICollection)_InternalList).IsSynchronized; }
+        }
+
+        public object SyncRoot
+        {
+            get { return ((ICollection)_InternalList).SyncRoot; }
+        }
+
+        #endregion
+
+        #region IList Member
+
+        public int Add(object value)
+        {
+            if(value.GetType() != typeof(T)) {
+                throw new ArgumentException(" Value is of a wrong type.");
+            }
+            Add((T)value);
+            return _InternalList.Count - 1;
+        }
+
+        public bool Contains(object value)
+        {
+            if (value.GetType() != typeof(T))
+            {
+                throw new ArgumentException(" Value is of a wrong type.");
+            }
+            return _InternalList.Contains((T)value);
+        }
+
+        public int IndexOf(object value)
+        {
+            if (value.GetType() != typeof(T))
+            {
+                throw new ArgumentException(" Value is of a wrong type.");
+            }
+            return _InternalList.IndexOf((T)value);
+        }
+
+        public void Insert(int index, object value)
+        {
+            if (value.GetType() != typeof(T))
+            {
+                throw new ArgumentException(" Value is of a wrong type.");
+            }
+            Insert(index, (T)value);
+        }
+
+        public bool IsFixedSize
+        {
+            get { return ((IList)_InternalList).IsFixedSize; }
+        }
+
+        public void Remove(object value)
+        {
+            if (value.GetType() != typeof(T))
+            {
+                throw new ArgumentException(" Value is of a wrong type.");
+            }
+            Remove((T)value);
+        }
+
+        object IList.this[int index]
+        {
+            get
+            {
+                return _InternalList[index];
+            }
+            set
+            {
+                this[index] = (T)value;
+            }
+        }
+
+        #endregion
     }
 
 }

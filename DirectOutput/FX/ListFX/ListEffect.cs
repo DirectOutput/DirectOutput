@@ -7,8 +7,9 @@ namespace DirectOutput.FX.ListFX
 {
 
     /// <summary>
-    /// IEffect class which handles a list of other IEffect objects.<br/>
-    /// Attention! Be careful not to add ListEffect objects which finnaly contain a reference to the instance you're working with. This will create a recursive loop which never exit!.
+    /// This effect triggers a list of other effect when it is triggered.<br/>
+    ///  
+    /// \warning Be careful not to add ListEffect objects which finnaly contain a reference to the instance you're working with. This will create a recursive loop which never exit!.
     /// </summary>
     public class ListEffect : EffectBase
     {

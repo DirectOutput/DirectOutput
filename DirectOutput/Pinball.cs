@@ -697,19 +697,27 @@ namespace DirectOutput
 
         }
 
-        public void UpdateTableElementStatistics(TableElementData D, TimeSpan Duration)
+        /// <summary>
+        /// Updates the table element statistics.
+        /// </summary>
+        /// <param name="TableElementData">The table element data.</param>
+        /// <param name="Duration">The duration.</param>
+        public void UpdateTableElementStatistics(TableElementData TableElementData, TimeSpan Duration)
         {
             try
             {
-                TableElementCallStatistics[D.TableElementType].AddDuration(Duration);
+                TableElementCallStatistics[TableElementData.TableElementType].AddDuration(Duration);
             }
             catch (Exception E)
             {
-                Log.Exception("Could not update TimeSpanStatistics for Pinball table element type {0} ({1})".Build(D.ToString(), D), E);
+                Log.Exception("Could not update TimeSpanStatistics for Pinball table element type {0} ({1})".Build(TableElementData.ToString(), TableElementData), E);
             }
         }
 
 
+        /// <summary>
+        /// Writes the statistics to the log.
+        /// </summary>
         public void WriteStatisticsToLog()
         {
             Log.Write("Duration statistics:");
