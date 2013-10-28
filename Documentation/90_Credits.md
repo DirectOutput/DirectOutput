@@ -19,6 +19,8 @@ Thanks for all the help. It has been my pleasure to work with you!
 
 \image html testanddevteam.jpg
 
+In addition I would like to thank everyone involded in the beta testing for their support.
+
 
 GroovyGameGear/LedWiz
 ------

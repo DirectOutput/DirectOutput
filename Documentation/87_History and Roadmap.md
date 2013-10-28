@@ -23,6 +23,13 @@ Not sure yet how this could be done, but it is definitively something I want to 
 
 \section history History
 
+__2013.10__
+
+- First public release
+
+__2013.8__
+
+- Beta testing started
 
 __2013.6__
 
