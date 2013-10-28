@@ -20,7 +20,7 @@ Welcome to the DirectOutput framework for virtual pinball cabinets
 \note This project is still in a beta status. This means that not all functionality has been fully tested and that problems have to be expected. 
 
 During my first experiments with Visual Pinball on my laptop, I thought that it would be a cool idea to a some kind of force feedback to the system. It didn't take me long to find out that a solution for this idea did already exist. 
-When I started to build my own cabinet the current vbscript implementation supporting only a single LedWiz with 32 outputs became too limited pretty soon. On some table there were also stuttering issues. So I started to think about another solution and began to implement the DirectOutput framework.
+When I started to build my own cabinet the current solution supporting only a single LedWiz with 32 outputs became too limited pretty soon. On some table there were also stuttering issues. So I started to think about another solution and began to implement the DirectOutput framework.
 
 The DirectOutput framework tries to overcome some limitations of the current solution to control toys in cabinets:
 
