@@ -77,7 +77,11 @@ If the text about the file coming from another computer does not exist, everthin
 
 \section installation_b2sserverconfig B2S.Server Configuration
 
-To enable the plugin support in the B2S.Server (DirectOutput is a B2S.Server plugin) you need to add the ArePluginsOn option to your B2STableSettings.xml file (In the Table directory). The result should resemble to following example:
+In order to activate the DirectOutput framwork you need to check the _Active Plugins_ checkbox in the B2S Server settings window. If you plan to use DOF for tables not having a directB2S backglass file (e.g. a legacy Rosve style B2S table), make sure the "Error message without backglass" checkbox is unchecked. To open the settings window, you need to move the mouse pointer to the backglass (press T to toggle the visibility of the mousepointer) and press S.
+
+\image html B2SServer_Settings_ActivatePlugins.png Activate Plugins checkbox
+
+Alternative you can also edit the B2STableSettings.xml file in the table directory. You will need to add the ArePluginsOn option to the file. The result should resemble to following example:
 ~~~~~~~~~~~~~~~{.xml}
 <B2STableSettings>
   ....
@@ -87,7 +91,6 @@ To enable the plugin support in the B2S.Server (DirectOutput is a B2S.Server plu
 ~~~~~~~~~~~~~~~
 
 \warning This block does not go to the end of the B2STableSettings.xml file. You really only have to put the line containing _ArePluginsOn_ into the file.
-
 
 
 \section installation_visualpinballcorevbs Visual Pinball core.vbs Adjustment
