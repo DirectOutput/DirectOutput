@@ -5,7 +5,7 @@ using System.Text;
 using System.IO.Ports;
 using System.Threading;
 
-namespace DirectOutput.Cab.Out.WS2811StripController
+namespace DirectOutput.Cab.Out.AdressableLedStrip
 {
     public class WS2811StripControllerApi
     {

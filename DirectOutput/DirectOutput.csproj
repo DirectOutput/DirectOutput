@@ -85,6 +85,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cab\Out\AdressableLedStrip\LedStripOutput.cs" />
+    <Compile Include="Cab\Out\AdressableLedStrip\WS2811StripController.cs" />
     <Compile Include="Cab\Out\DMX\ArtNet.cs" />
     <Compile Include="Cab\Out\DMX\ArtnetEngine\ArtnetEngine.cs" />
     <Compile Include="Cab\Out\IAutoConfigOutputController.cs" />
@@ -100,8 +102,8 @@
     <Compile Include="Cab\Out\Pac\PacLed64.cs" />
     <Compile Include="Cab\Out\Pac\Pac.cs" />
     <Compile Include="Cab\Out\Pac\PacLed64AutoConfigurator.cs" />
-    <Compile Include="Cab\Out\WS2811StripController\FTD2XX_NET.cs" />
-    <Compile Include="Cab\Out\WS2811StripController\WS2811StripControllerApi.cs" />
+    <Compile Include="Cab\Out\AdressableLedStrip\FTD2XX_NET.cs" />
+    <Compile Include="Cab\Out\AdressableLedStrip\WS2811StripControllerApi.cs" />
     <Compile Include="Cab\Toys\Basic\Basic.cs" />
     <Compile Include="Cab\Toys\Basic\GearMotor.cs" />
     <Compile Include="Cab\Toys\Basic\IRGBToy.cs" />
@@ -119,6 +121,9 @@
     <Compile Include="Cab\Color\RGBAColor.cs" />
     <Compile Include="Cab\Toys\Layer\IAnalogAlphaToy.cs" />
     <Compile Include="Cab\Toys\Layer\IRGBAToy.cs" />
+    <Compile Include="Cab\Toys\Layer\LedStrip.cs" />
+    <Compile Include="Cab\Toys\Layer\LedStripLayer.cs" />
+    <Compile Include="Cab\Toys\Layer\LedStripLayerDictionary.cs" />
     <Compile Include="Cab\Toys\Layer\RGBALayer.cs" />
     <Compile Include="Cab\Toys\Layer\RGBALayerDictionary.cs" />
     <Compile Include="Cab\Color\RGBColorNamed.cs" />

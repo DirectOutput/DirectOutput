@@ -32,7 +32,7 @@ using System.Threading;
 using System.IO;
 using System.ComponentModel;
 
-namespace DirectOutput.Cab.Out.WS2811StripController
+namespace DirectOutput.Cab.Out.AdressableLedStrip
 {
     /// <summary>
     /// Class wrapper for FTD2XX.DLL
