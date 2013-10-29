@@ -472,7 +472,7 @@ namespace DirectOutput
             }
             catch (Exception E)
             {
-                Log.Exception("A exception occured while finishing the DirectOupt framework.", E);
+                Log.Exception("A exception occured while finishing the DirectOutput framework.", E);
                 throw new Exception("DirectOutput framework has encountered while finishing.\n Inner exception: {0}".Build(E.Message), E);
             }
         }
