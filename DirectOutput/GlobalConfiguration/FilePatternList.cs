@@ -4,6 +4,9 @@ using System.Linq;
 
 namespace DirectOutput.GlobalConfiguration
 {
+    /// <summary>
+    /// A list of file patterns.
+    /// </summary>
     public class FilePatternList : List<FilePattern>
     {
         /// <summary>

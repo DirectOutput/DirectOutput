@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 
 namespace DirectOutput.FX
 {
@@ -70,12 +66,21 @@ namespace DirectOutput.FX
 
         protected Table.Table Table;
 
+        /// <summary>
+        /// Initializes the EffectEffect. <br/>
+        /// Resolves the name of the TargetEffect.
+        /// </summary>
+        /// <param name="Table">Table object containing the effect.</param>
         public override void Init(Table.Table Table)
         {
             this.Table = Table;
             ResolveEffectName(Table);
         }
 
+        /// <summary>
+        /// Finishes the EffectEffect.<br/>
+        /// Releases the references to the target effect and to the table object.
+        /// </summary>
         public override void Finish()
         {
             TargetEffect = null;

@@ -17,7 +17,15 @@ namespace DirectOutput.General.Generic
         ///  The value of the Item to remove from index.
         /// </summary>  
         public Ty Item { get; set; }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RemoveEventArgs{Ty}"/> class.
+        /// </summary>
         public RemoveEventArgs() { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RemoveEventArgs{Ty}"/> class.
+        /// </summary>
+        /// <param name="Index">The index.</param>
+        /// <param name="Item">The item.</param>
         public RemoveEventArgs(int Index, Ty Item)
         {
             this.Index = Index;

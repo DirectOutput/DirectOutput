@@ -37,7 +37,15 @@ namespace DirectOutput.FX
         /// If CancelNameChanges is set to true, the Name of the Effect will not be changed and a exception is thrown.
         /// </summary>
         public bool CancelNameChange { get; set; }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BeforeEffectNameChangeAventArgs"/> class.
+        /// </summary>
         public BeforeEffectNameChangeAventArgs() { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BeforeEffectNameChangeAventArgs"/> class.
+        /// </summary>
+        /// <param name="Effect">The effect.</param>
+        /// <param name="NewName">The new name.</param>
         public BeforeEffectNameChangeAventArgs(IEffect Effect, string NewName)
             : base(Effect)
         {
