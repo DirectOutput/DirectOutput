@@ -68,7 +68,7 @@ namespace DirectOutput.FX.TimmedFX
                     if (TableElementData.Value != 0)
                     {
                         TargetEffect.Trigger(TableElementData);
-                        Table.Pinball.Alarms.RegisterAlarm(DurationMs, DurationEnd, TableElementData.Clone() );
+                        Table.Pinball.Alarms.RegisterAlarm(DurationMs, DurationEnd, TableElementData.Clone());
                     }
                     Active = true;
                 }
@@ -78,7 +78,7 @@ namespace DirectOutput.FX.TimmedFX
 
         private void DurationEnd(object TableElementData)
         {
-            
+
             Table.TableElementData TED = (Table.TableElementData)TableElementData;
             TED.Value = 0;
             TargetEffect.Trigger(TED);
@@ -90,7 +90,12 @@ namespace DirectOutput.FX.TimmedFX
         /// </summary>
         public override void Finish()
         {
-            Table.Pinball.Alarms.UnregisterAlarm(DurationEnd);
+            try
+            {
+                Table.Pinball.Alarms.UnregisterAlarm(DurationEnd);
+
+            }
+            catch { }
             Active = false;
             base.Finish();
         }

@@ -11,10 +11,10 @@ namespace DirectOutput.FX.TimmedFX
     /// The original values supplied when the effect is triggered are forwarded to the target effect.<br/>
     /// \image html FX_Delay.png "Delay effect"
     /// </summary>
-    public class DelayEffect:EffectEffectBase
+    public class DelayEffect : EffectEffectBase
     {
-        
-        private int _DelayMs=0;
+
+        private int _DelayMs = 0;
 
         /// <summary>
         /// Gets or sets the delay in milliseconds.
@@ -59,7 +59,7 @@ namespace DirectOutput.FX.TimmedFX
             }
         }
 
-      
+
         /// <summary>
         /// Initializes the DelayEffect.
         /// </summary>
@@ -75,8 +75,12 @@ namespace DirectOutput.FX.TimmedFX
         /// </summary>
         public new void Finish()
         {
-            Table.Pinball.Alarms.UnregisterAlarm(TriggerTargetEffect);
-         
+            try
+            {
+                Table.Pinball.Alarms.UnregisterAlarm(TriggerTargetEffect);
+
+            }
+            catch { }
             base.Finish();
         }
 

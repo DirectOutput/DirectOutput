@@ -111,7 +111,12 @@ namespace DirectOutput.FX.TimmedFX
         /// </summary>
         public override void Finish()
         {
-            Table.Pinball.Alarms.UnregisterAlarm(MinDurationEnd);
+
+            try
+            {
+                Table.Pinball.Alarms.UnregisterAlarm(MinDurationEnd);
+            }
+            catch  {}
             MinDurationEnd();
             Active = false;
             base.Finish();

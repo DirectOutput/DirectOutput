@@ -89,7 +89,11 @@ namespace DirectOutput.FX.TimmedFX
         /// </summary>
         public override void Finish()
         {
-            Table.Pinball.Alarms.UnregisterAlarm(TriggerTargetEffect);
+            try
+            {
+                Table.Pinball.Alarms.UnregisterAlarm(TriggerTargetEffect);
+            }
+            catch { }
             base.Finish();
         }
 
