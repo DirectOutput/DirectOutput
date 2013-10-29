@@ -55,8 +55,10 @@ namespace DirectOutput.LedControl.Setup
                 {
                     TableConfig TC = KV.Value;
 
+                    int ColumnNumber=0;
                     foreach (TableConfigColumn TCC in TC.Columns)
                     {
+                        ColumnNumber++;
                         if (ToyAssignments[LedWizNr].ContainsKey(TCC.Number))
                         {
                             IToy Toy = ToyAssignments[LedWizNr][TCC.Number];
@@ -80,13 +82,25 @@ namespace DirectOutput.LedControl.Setup
                                         }
                                         else
                                         {
-                                            ActiveColor = new RGBAColor();
-                                            if (TCS.ColorName.StartsWith("#"))
+                                            if (!TCS.ColorName.IsNullOrWhiteSpace())
                                             {
-                                                if (!ActiveColor.SetColor(TCS.ColorName))
+                                                if (TCS.ColorName.StartsWith("#"))
                                                 {
-                                                    ActiveColor = null;
+                                                    ActiveColor = new RGBAColor();
+                                                    if (!ActiveColor.SetColor(TCS.ColorName))
+                                                    {
+                                                        ActiveColor = null;
+                                                        Log.Warning("Skipped setting {0} in column {1} for LedWizEqivalent number {2} since {3} is not a valid color specification.".Build(new object[] { SettingNumber, ColumnNumber, LedWizNr, TCS.ColorName }));
+                                                    }
                                                 }
+                                                else
+                                                {
+                                                    Log.Warning("Skipped setting {0} in column {1} for LedWizEqivalent number {2} since {3} is not a valid color specification.".Build(new object[] {SettingNumber, ColumnNumber, LedWizNr,TCS.ColorName}));
+                                                }
+                                            }
+                                            else
+                                            {
+                                                Log.Warning("Skipped setting {0} in column {1} for LedWizEqivalent number {2} since it does not contain a color specification.".Build(SettingNumber,ColumnNumber,LedWizNr)); 
                                             }
                                         }
                                         if (ActiveColor != null)
@@ -108,7 +122,7 @@ namespace DirectOutput.LedControl.Setup
                                     }
                                     else if (Toy is IAnalogAlphaToy)
                                     {
-                                        AnalogAlphaValue AAV = new AnalogAlphaValue((int)((double)TCS.Intensity * 5.3125));
+                                        AnalogAlphaValue AAV = new AnalogAlphaValue(((int)((double)TCS.Intensity * 5.3125)).Limit(0,255));
                                         if (TCS.FadingDownDurationMs > 0 || TCS.FadingUpDurationMs > 0)
                                         {
                                             Effect = new AnalogToyFadeOnOffEffect() { ToyName = Toy.Name, Layer = Layer, FadeActiveDurationMs = TCS.FadingUpDurationMs, FadeInactiveDurationMs = TCS.FadingDownDurationMs, RetriggerBehaviour = RetriggerBehaviourEnum.IgnoreRetrigger, FadeMode = FadeModeEnum.CurrentToDefined, ActiveValue = AAV, InactiveValue = new AnalogAlphaValue(0, 0) };
