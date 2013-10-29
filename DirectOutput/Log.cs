@@ -18,7 +18,7 @@ namespace DirectOutput
 
         private static object Locker = new object();
 
-        private static string _Filename=".\\DirectOutput.log";
+        private static string _Filename = ".\\DirectOutput.log";
 
         /// <summary>
         /// Gets or sets the filename for the log.
@@ -31,7 +31,7 @@ namespace DirectOutput
             get { return _Filename; }
             set { _Filename = value; }
         }
-        
+
 
         /// <summary>
         /// Initializes the log using the file defnied in the Filename property.
@@ -52,12 +52,12 @@ namespace DirectOutput
                         Version V = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
                         DateTime BuildDate = new DateTime(2000, 1, 1).AddDays(V.Build).AddSeconds(V.Revision * 2);
                         Logger.WriteLine("{0}\t{1}", DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss.fff"), "DirectOutput Version {0} as of {1}".Build(V.ToString(), BuildDate.ToString("yyyy.MM.dd HH:mm")));
-                        
+
                         IsOk = true;
-                        
+
                         Debug("Writting of debug log messages is enabled");
 
-                       
+
 
                     }
                     catch
@@ -97,7 +97,7 @@ namespace DirectOutput
         /// <param name="Message">The message.</param>
         public static void Write(string Message)
         {
-            
+
             lock (Locker)
             {
                 if (IsOk)
@@ -118,9 +118,9 @@ namespace DirectOutput
                         }
                         Logger.Flush();
                     }
-                    catch 
+                    catch
                     {
-                        
+
                     }
                 }
             }
@@ -157,6 +157,26 @@ namespace DirectOutput
                         Write("EXCEPTION: Stacktrace: {0}".Build(S));
                     }
 
+                    if (E.TargetSite != null)
+                    {
+                        Write("EXCEPTION: Targetsite: {0}".Build(E.TargetSite.ToString()));
+                    }
+
+
+
+                    try
+                    {
+                        // Get stack trace for the exception with source file information
+                        StackTrace ST = new StackTrace(E, true);
+                        // Get the top stack frame
+                        StackFrame Frame = ST.GetFrame(0);
+
+                        int Line = Frame.GetFileLineNumber();
+                        string ExceptionFilename = Frame.GetFileName();
+
+                        Write("EXCEPTION: Location: LineNr {0} in {1]".Build(Line, ExceptionFilename));
+                    }
+                    catch { }
 
                     int Level = 1;
                     while (E.InnerException != null)
@@ -180,7 +200,7 @@ namespace DirectOutput
         /// <param name="E">The Exception to be logged.</param>
         public static void Exception(Exception E = null)
         {
-            Exception("",E);
+            Exception("", E);
         }
 
 
