@@ -152,6 +152,12 @@ namespace DirectOutput
                 {
                     Write("EXCEPTION: {0}".Build(E.Message));
 
+                    foreach (string S in E.StackTrace.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
+                    {
+                        Write("EXCEPTION: Stacktrace: {0}".Build(S));
+                    }
+
+
                     int Level = 1;
                     while (E.InnerException != null)
                     {
