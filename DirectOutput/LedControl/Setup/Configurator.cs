@@ -55,10 +55,10 @@ namespace DirectOutput.LedControl.Setup
                 {
                     TableConfig TC = KV.Value;
 
-                    int ColumnNumber=0;
+
                     foreach (TableConfigColumn TCC in TC.Columns)
                     {
-                        ColumnNumber++;
+
                         if (ToyAssignments[LedWizNr].ContainsKey(TCC.Number))
                         {
                             IToy Toy = ToyAssignments[LedWizNr][TCC.Number];
@@ -90,17 +90,17 @@ namespace DirectOutput.LedControl.Setup
                                                     if (!ActiveColor.SetColor(TCS.ColorName))
                                                     {
                                                         ActiveColor = null;
-                                                        Log.Warning("Skipped setting {0} in column {1} for LedWizEqivalent number {2} since {3} is not a valid color specification.".Build(new object[] { SettingNumber, ColumnNumber, LedWizNr, TCS.ColorName }));
+                                                        Log.Warning("Skipped setting {0} in column {1} for LedWizEqivalent number {2} since {3} is not a valid color specification.".Build(new object[] { SettingNumber, TCC.Number, LedWizNr, TCS.ColorName }));
                                                     }
                                                 }
                                                 else
                                                 {
-                                                    Log.Warning("Skipped setting {0} in column {1} for LedWizEqivalent number {2} since {3} is not a valid color specification.".Build(new object[] {SettingNumber, ColumnNumber, LedWizNr,TCS.ColorName}));
+                                                    Log.Warning("Skipped setting {0} in column {1} for LedWizEqivalent number {2} since {3} is not a valid color specification.".Build(new object[] { SettingNumber, TCC.Number, LedWizNr, TCS.ColorName }));
                                                 }
                                             }
                                             else
                                             {
-                                                Log.Warning("Skipped setting {0} in column {1} for LedWizEqivalent number {2} since it does not contain a color specification.".Build(SettingNumber,ColumnNumber,LedWizNr)); 
+                                                Log.Warning("Skipped setting {0} in column {1} for LedWizEqivalent number {2} since it does not contain a color specification.".Build(SettingNumber, TCC.Number, LedWizNr));
                                             }
                                         }
                                         if (ActiveColor != null)
@@ -108,7 +108,7 @@ namespace DirectOutput.LedControl.Setup
                                             if (TCS.FadingDownDurationMs > 0 || TCS.FadingUpDurationMs > 0)
                                             {
                                                 //Must fade, use fadeeffect
-                                                Effect = new RGBAFadeOnOffEffect() {ToyName=Toy.Name, Layer=Layer, FadeActiveDurationMs = TCS.FadingUpDurationMs, FadeInactiveDurationMs = TCS.FadingDownDurationMs, RetriggerBehaviour = RetriggerBehaviourEnum.IgnoreRetrigger, FadeMode = FadeModeEnum.CurrentToDefined, ActiveColor = ActiveColor, InactiveColor = new RGBAColor(0, 0, 0, 0) };
+                                                Effect = new RGBAFadeOnOffEffect() { ToyName = Toy.Name, Layer = Layer, FadeActiveDurationMs = TCS.FadingUpDurationMs, FadeInactiveDurationMs = TCS.FadingDownDurationMs, RetriggerBehaviour = RetriggerBehaviourEnum.IgnoreRetrigger, FadeMode = FadeModeEnum.CurrentToDefined, ActiveColor = ActiveColor, InactiveColor = new RGBAColor(0, 0, 0, 0) };
 
                                             }
                                             else
@@ -122,7 +122,7 @@ namespace DirectOutput.LedControl.Setup
                                     }
                                     else if (Toy is IAnalogAlphaToy)
                                     {
-                                        AnalogAlphaValue AAV = new AnalogAlphaValue(((int)((double)TCS.Intensity * 5.3125)).Limit(0,255));
+                                        AnalogAlphaValue AAV = new AnalogAlphaValue(((int)((double)TCS.Intensity * 5.3125)).Limit(0, 255));
                                         if (TCS.FadingDownDurationMs > 0 || TCS.FadingUpDurationMs > 0)
                                         {
                                             Effect = new AnalogToyFadeOnOffEffect() { ToyName = Toy.Name, Layer = Layer, FadeActiveDurationMs = TCS.FadingUpDurationMs, FadeInactiveDurationMs = TCS.FadingDownDurationMs, RetriggerBehaviour = RetriggerBehaviourEnum.IgnoreRetrigger, FadeMode = FadeModeEnum.CurrentToDefined, ActiveValue = AAV, InactiveValue = new AnalogAlphaValue(0, 0) };
@@ -135,7 +135,7 @@ namespace DirectOutput.LedControl.Setup
                                     }
                                     if (Effect != null)
                                     {
-                                        Effect.Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} {3}".Build(new object[] {LedWizNr, TCC.Number, SettingNumber,Effect.GetType().Name});
+                                        Effect.Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} {3}".Build(new object[] { LedWizNr, TCC.Number, SettingNumber, Effect.GetType().Name });
                                         MakeEffectNameUnique(Effect, Table);
 
                                         Table.Effects.Add(Effect);
@@ -149,21 +149,21 @@ namespace DirectOutput.LedControl.Setup
 
                                         if (TCS.DurationMs > 0 || TCS.Blink > 0)
                                         {
-                                            int Duration = (TCS.DurationMs > 0 ? TCS.DurationMs : (TCS.Blink*2-1) * TCS.BlinkIntervalMs +1);
+                                            int Duration = (TCS.DurationMs > 0 ? TCS.DurationMs : (TCS.Blink * 2 - 1) * TCS.BlinkIntervalMs + 1);
                                             Effect = new DurationEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} DurationEffect".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name, DurationMs = Duration, RetriggerBehaviour = RetriggerBehaviourEnum.RestartEffect };
                                             MakeEffectNameUnique(Effect, Table);
                                             Table.Effects.Add(Effect);
                                         }
-                                        if (TCS.MinDurationMs > 0 || (Toy is IRGBAToy && EffectRGBMinDurationMs > 0) || (!(Toy is  IRGBAToy) && EffectMinDurationMs > 0))
+                                        if (TCS.MinDurationMs > 0 || (Toy is IRGBAToy && EffectRGBMinDurationMs > 0) || (!(Toy is IRGBAToy) && EffectMinDurationMs > 0))
                                         {
-                                            string N = (TCS.MinDurationMs > 0?"MinDuratonEffect":"DefaultMinDurationEffect");
-                                            int Min=(TCS.MinDurationMs > 0?TCS.MinDurationMs:(Toy is IRGBAToy?EffectRGBMinDurationMs:EffectMinDurationMs));
-                                            Effect = new MinDurationEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} {3}".Build(new object[] {LedWizNr, TCC.Number, SettingNumber,N}), TargetEffectName = Effect.Name, MinDurationMs = Min };
+                                            string N = (TCS.MinDurationMs > 0 ? "MinDuratonEffect" : "DefaultMinDurationEffect");
+                                            int Min = (TCS.MinDurationMs > 0 ? TCS.MinDurationMs : (Toy is IRGBAToy ? EffectRGBMinDurationMs : EffectMinDurationMs));
+                                            Effect = new MinDurationEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} {3}".Build(new object[] { LedWizNr, TCC.Number, SettingNumber, N }), TargetEffectName = Effect.Name, MinDurationMs = Min };
                                             MakeEffectNameUnique(Effect, Table);
                                             Table.Effects.Add(Effect);
                                         }
 
-                                        
+
                                         if (TCS.WaitDurationMs > 0)
                                         {
                                             Effect = new DelayEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} DelayEffect".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name, DelayMs = TCS.WaitDurationMs };
