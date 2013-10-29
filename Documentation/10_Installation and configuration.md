@@ -9,9 +9,7 @@ Therefore you must first install and configure Herwehs B2S-Server before you can
 
 \section installation_download Download 
 
-\note Sorry, public downloads are not yet available. As soon as the framework is released to the public, everyone will be allowed to download the framework.
-
-The DirectOutput framework can be downloaded from <a target="_blank" href="http://www.vpuniverse.com">vpuniverse.com</a>, but other sites might host the binaries as well. 
+The DirectOutput framework can be downloaded from <a target="_blank" href="http://vpuniverse.com/forums/files/category/61-direct-output-framework/">vpuniverse.com</a>, but other sites might host the binaries as well. 
 
 You are also very welcome to fork/download and enhance the source code from <a target="_blank" href="https://github.com/DirectOutput/DirectOutput">GitHub</a>.
 

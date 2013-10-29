@@ -21,7 +21,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DoxygenConfig", "DoxygenCon
 		DoxygenConfig\footer_local.html = DoxygenConfig\footer_local.html
 		DoxygenConfig\header_Github.html = DoxygenConfig\header_Github.html
 		DoxygenConfig\header_local.html = DoxygenConfig\header_local.html
-		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LedControlFileTester", "LedControlFileTester\LedControlFileTester.csproj", "{97F9D29A-6938-4667-A489-C4D3308EB086}"
