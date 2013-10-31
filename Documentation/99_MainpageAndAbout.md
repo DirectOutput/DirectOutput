@@ -17,18 +17,23 @@ Welcome to the DirectOutput framework for virtual pinball cabinets
 
 \note Please take note that this documentation is not yet complete and that some parts of it might change in the future. 
 
-\note This project is still in a beta status. This means that not all functionality has been fully tested and that problems have to be expected. 
-
 During my first experiments with Visual Pinball on my laptop, I thought that it would be a cool idea to a some kind of force feedback to the system. It didn't take me long to find out that a solution for this idea did already exist. 
 When I started to build my own cabinet the current solution supporting only a single LedWiz with 32 outputs became too limited pretty soon. On some table there were also stuttering issues. So I started to think about another solution and began to implement the DirectOutput framework.
 
-The DirectOutput framework tries to overcome some limitations of the current solution to control toys in cabinets:
+Some key features of the DirectOutput framework are:
 
-* __Stuttering__ is hopefully a thing of the past. By using several threads the framework isolates the main thread doing the work in Visual Pinball from the communication with the Ledwiz and other output controllers.
-* __More outputs__ are also possible. Instead of using only one LedWiz it is now possible to connect up to 16 LedWiz and 4 PacLed64 units or other output controllers.
-* __More configuration options__ are available troughthe DirectOutput framework as well.
-* __Legacy support__ by supporting LedControl.ini file(s).
-* __Open for extensions__ means that the framework is able to load uncompiled C#-script files containing new effects, toys or other types of output controllers at runtime. After the scripts have been loaded they are copiled and integrated into the framework.
+* Support of up to __16 LedWiz__ and 4 __Pacled64__ units (including a mix of them).
+* Support of __Art-net/DMX__.
+* __Multithreaded__ to ensure optimal performance and avoid stuttering issues.
+* __B2S.Server integration__.
+* __EM table support__.
+* Loads of __new config options__.
+* Extendable through scripting.
+* Extendable object oriented architecture.
+* Support of the legacy in file format for configs.
+* Own more powerfull XML config file format.
+* Coded in C#.
+* Fully documented code.
 
 If you are new to the DirectOutput framework the page on \rel installation is a good starting point.
 
