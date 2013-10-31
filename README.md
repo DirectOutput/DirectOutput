@@ -4,6 +4,6 @@
 DirectOutput framework for virtual pinball cabinets
 ===================================================
 
-DirectOutput as a framework to controll the toys which are installed in a virtual pinball cabinet.
+DirectOutput is a framework to control the toys which are installed in a virtual pinball cabinet.
 
 Please read the documentation at http://directoutput.github.io/DirectOutput/
