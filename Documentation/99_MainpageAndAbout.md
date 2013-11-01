@@ -13,7 +13,7 @@ The DirectOutput framework has been implemented by <a href="http://vpuniverse.co
 Welcome to the DirectOutput framework for virtual pinball cabinets
 ===================================================================
 
-\warning This software has been designed to control hardware which is connected to a computer. This means that there is always a risk that something goes wrong and that your hardware or something else gets damaged. You use this software at your own risk. Dont blame me if your boards go up in smoke, your house burns down or something or someone else gets damaged. You have been warned! 
+\warning This software has been designed to control hardware which is connected to a computer. This means that there is always a risk that something goes wrong and that your hardware or something else gets damaged. You use this software at your own risk! Dont blame me if your boards go up in smoke, your house burns down or something or someone else gets damaged. You have been warned! 
 
 \note Please take note that this documentation is not yet complete and that some parts of it might change in the future. 
 
