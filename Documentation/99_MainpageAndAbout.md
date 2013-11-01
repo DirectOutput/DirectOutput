@@ -1,6 +1,6 @@
 ﻿About and Copyright
 =====
-The DirectOutput framework has been implemented by <a href="http://vpuniverse.com/forums/user/668-swisslizard/">SwissLizard</a>. 
+The DirectOutput framework has been implemented by <a target="_blank" href="http://vpuniverse.com/forums/user/668-swisslizard/">SwissLizard</a>. 
 
 \image html swisslizard.png "Swisslizard"
 

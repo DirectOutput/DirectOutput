@@ -7,6 +7,6 @@ In particular the pages on \ref installation "Installation and Configuration" an
 
 \image html rtfm.gif Read the f.... manual
 
-For questions not answered in the manual, bug report and other issues with DOF please visit the support forum: <a href="http://vpuniverse.com/forums/forum/118-direct-output-framework/">DirectOutput Framework Support Forum<a/>
+For questions not answered in the manual, bug report and other issues with DOF please visit the support forum: <a target="_blank" href="http://vpuniverse.com/forums/forum/118-direct-output-framework/">DirectOutput Framework Support Forum<a/>
 
  

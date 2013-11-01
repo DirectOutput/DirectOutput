@@ -5,11 +5,11 @@
 
 The Directoutput framework relies on the B2S-Server which has been developed by Herweh/Stefan. The B2S-Server implements a plugin interface which can load and execute plugins. This framework has been developed as such a plugin.
 
-Therefore you must first install and configure Herwehs B2S-Server before you can install the DirectOutput framework. You can download the B2S-Server from <a href="http://vpuniverse.com/forums/files/file/2042-b2s-backglass-server/">vpuniverse.com</a> or <a href="http://www.vpforums.org/index.php?app=downloads&showfile=7426">VPForums</a>.
+Therefore you must first install and configure Herwehs B2S-Server before you can install the DirectOutput framework. You can download the B2S-Server from <a target="_blank" href="http://vpuniverse.com/forums/files/file/2042-b2s-backglass-server/">vpuniverse.com</a> or <a target="_blank" href="http://www.vpforums.org/index.php?app=downloads&showfile=7426">VPForums</a>.
 
 \section installation_download Download 
 
-The DirectOutput framework can be downloaded from the <a target="_blank" href="http://vpuniverse.com/forums/files/category/61-direct-output-framework/">Direct Output Framework download section at vpuniverse.com</a> and from the <a href="http://www.vpforums.org/index.php?app=downloads&showcat=17">Frontends and Addons section at vpforums.org</a>, but other sites might host the binaries as well. 
+The DirectOutput framework can be downloaded from the <a target="_blank" href="http://vpuniverse.com/forums/files/category/61-direct-output-framework/">Direct Output Framework download section at vpuniverse.com</a> and from the <a target="_blank" href="http://www.vpforums.org/index.php?app=downloads&showcat=17">Frontends and Addons section at vpforums.org</a>, but other sites might host the binaries as well. 
 
 You are also very welcome to fork/download and enhance the source code from <a target="_blank" href="https://github.com/DirectOutput/DirectOutput">GitHub</a>.
 
