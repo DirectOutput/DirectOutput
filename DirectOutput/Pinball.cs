@@ -462,7 +462,7 @@ namespace DirectOutput
                 Cabinet.Finish();
 
 
-                WriteStatisticsToLog();
+       //         WriteStatisticsToLog();
 
                 ThreadInfoList.ThreadTerminates();
 
