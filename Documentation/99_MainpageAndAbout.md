@@ -8,7 +8,7 @@ The DirectOutput framework has been implemented by <a href="http://vpuniverse.co
 
 \mainpage notitle
 
-\image html DirectOutput_Big.png "DirectOutput framework for virtual pinball cabinets"
+\image html DirectOutput_Big.png 
 
 Welcome to the DirectOutput framework for virtual pinball cabinets
 ===================================================================
@@ -18,24 +18,24 @@ Welcome to the DirectOutput framework for virtual pinball cabinets
 \note Please take note that this documentation is not yet complete and that some parts of it might change in the future. 
 
 During my first experiments with Visual Pinball on my laptop, I thought that it would be a cool idea to a some kind of force feedback to the system. It didn't take me long to find out that a solution for this idea did already exist. 
-When I started to build my own cabinet the current solution supporting only a single LedWiz with 32 outputs became too limited pretty soon. On some table there were also stuttering issues. So I started to think about another solution and began to implement the DirectOutput framework.
+When I started to build my own cabinet the current solution supporting only a single LedWiz with 32 outputs became too limited pretty soon. On some table there were also stuttering issues. So I started to think about another solution and began to implement the DirectOutput framework. From a small thing to solve a few problems with my cabinet, this has fast grown into something mucher and more complex, with a lot of new config options, various types of supported hardware and a lot of other features.
 
 Some key features of the DirectOutput framework are:
 
-* Support of up to __16 LedWiz__ and 4 __Pacled64__ units (including a mix of them).
-* Support of __Art-net/DMX__.
-* __Multithreaded__ to ensure optimal performance and avoid stuttering issues.
-* __B2S.Server integration__.
-* __EM table support__.
-* Loads of __new config options__.
+* Support of up to 16 \ref hardware_ledwiz "LedWiz" and 4 \ref hardware_ultimarc_pacled64 "Pacled64" units (including a mix of them).
+* Support of \ref hardware_artnet "Art-net/DMX".
+* Multithreaded to ensure optimal performance and avoid stuttering issues.
+* \ref b2sserverplugin "B2S.Server integration".
+* \ref tableconfig_VPEM "EM table support".
+* Loads of new config options.
 * Extendable through scripting.
 * Extendable object oriented architecture.
-* Support of the legacy in file format for configs.
+* Support of the \ref inifiles "legacy ini file" format for configs.
 * Own more powerfull XML config file format.
 * Coded in C#.
 * Fully documented code.
 
-If you are new to the DirectOutput framework the page on \rel installation is a good starting point.
+If you are new to the DirectOutput framework the pages on \rel installation and \rel tableconfig are a good starting point.
 
 Enjoy (virtual) pinball and keep pinball alive!
 

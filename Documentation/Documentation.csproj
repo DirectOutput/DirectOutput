@@ -48,6 +48,7 @@
     <None Include="61_FX_BuiltIn.md" />
     <None Include="64_Toys_BuiltIn.md" />
     <None Include="66_OutputControllers_BuiltIn.md" />
+    <None Include="79_Support.md" />
     <None Include="80_Contribute.md" />
     <None Include="85_Downloads.md" />
     <None Include="87_History and Roadmap.md" />

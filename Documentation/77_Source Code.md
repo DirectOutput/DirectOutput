@@ -25,7 +25,7 @@ The following tools and addons have been used to develop DirectOutput:
 - Visual Studio 2010. You can get the free Express version of Visual Studio from Microsofts website.
 - Git Source Control Provider. This addon for Visual Studio is available from http://visualstudiogallery.msdn.microsoft.com/63a7e40d-4d71-4fbb-a23b-d262124b8f4c. It integrates directly with Visual Studio and allows you to exceute most of the relevant Git operations directly from Visual Studio.
 - GhostDoc was used to help documenting the code. This addon for Visual Studio is available at <a target="_blank" href="http://submain.com/products/ghostdoc.aspx">http://submain.com/products/ghostdoc.aspx</a>.
-- DoxyGen is used to generate the documention on the framework. Doxygen open source and can be found at <a target="_blank" href="http://www.doxygen.org/">http://www.doxygen.org/</a>. The config file for doxygen is included in the project files on GitHub.
+- DoxyGen is used to generate the documention on the framework. Doxygen is open source and can be found at <a target="_blank" href="http://www.doxygen.org/">http://www.doxygen.org/</a>. The config file for doxygen is included in the project files on GitHub.
 - 7Zip is used to create the deployment packages of the framework. It is available at <a target="_blank" href="http://www.7-zip.org/">http://www.7-zip.org/</a>.
 
 
