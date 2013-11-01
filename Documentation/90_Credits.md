@@ -25,7 +25,7 @@ In addition I would like to thank everyone involded in the beta testing for thei
 
 Table configuration and config tool
 -----------------------------------
-<a href=http://vpuniverse.com/forums/user/7-deegor/">Degoor</a> has updated his <a href="http://vpuniverse.com/ledwiz/login.php">config tool</a> with some new options and functionality so the DirectOutput framework can be configured easily.
+<a href="http://vpuniverse.com/forums/user/7-deegor/">Degoor</a> has updated his <a href="http://vpuniverse.com/ledwiz/login.php">config tool</a> with some new options and functionality so the DirectOutput framework can be configured easily.
 
 <a href="http://vpuniverse.com/forums/user/100-arngrim">Arngrim</a> has put a lot effort into updating the table config for the framework. The new configs make a huge difference.
 
