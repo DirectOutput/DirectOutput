@@ -1,13 +1,13 @@
 ﻿Credits
 =======
 
-The implementation of this framework would not have possible without the work and help of some other people. I'd like to thank the following persons and companies to support this project:
+The implementation of this framework would not have been possible without the work and help of some other people. I'd like to thank the following persons and companies for their support of this project:
 
 B2S Direct BackglassServer
 --------------------------
 Many thanks to Stefan/<a href="http://www.vpforums.org/index.php?showuser=57523">Herweh</a> for his Direct B2S-Server. Without his idea and his work I would probably never have come up with the plan to build this framework.
 
-Thanks a lot for allowing me to use the B2S.Server as a host for DirectOutput and for enduring me endless requests for features and changes!
+Thanks a lot for allowing me to use the B2S.Server as a host for DirectOutput and for enduring my endless requests for features and changes!
 
 \image html Herweh.png
 
