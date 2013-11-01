@@ -13,13 +13,21 @@ Thanks a lot for allowing me to use the B2S.Server as a host for DirectOutput an
 
 Testing and support
 -------------------
-Many thanks go to some folks at <a href="http://vpuniverse.com/">VPUniverse.com</a>. Arngrim, Bent98, Deegor, Bill55, Slydog43 and SirCheddar have contributed a lot of help during testing and development. Without their support, I would probably not have finished the project and without their testing it would for sure be no where as stable as it is now. 
+Many thanks go to some folks at <a href="http://vpuniverse.com/">VPUniverse.com</a>. Arngrim, Bent98, Deegor, Bill55, Slydog43 and SirCheddar have contributed a lot of help during testing and development. Without their support, I would probably never have finished the project and without their testing it would for sure be no where as stable as it is now. 
 
 Thanks for all the help. It has been my pleasure to work with you!
 
 \image html testanddevteam.jpg
 
 In addition I would like to thank everyone involded in the beta testing for their support.
+
+\image html you-re-the-best.gif
+
+Table configuration and config tool
+-----------------------------------
+<a href=http://vpuniverse.com/forums/user/7-deegor/">Degoor</a> has updated his <a href="http://vpuniverse.com/ledwiz/login.php">config tool</a> with some new options and functionality so the DirectOutput framework can be configured easily.
+
+<a href="http://vpuniverse.com/forums/user/100-arngrim">Arngrim</a> has put a lot effort into updating the table config for the framework. The new configs make a huge difference.
 
 
 GroovyGameGear/LedWiz

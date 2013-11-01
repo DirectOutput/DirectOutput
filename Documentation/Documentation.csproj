@@ -107,6 +107,7 @@
     <Content Include="img\TestAndDevTeam.jpg" />
     <Content Include="img\ToyArchitecture.png" />
     <Content Include="img\ToyEffect.png" />
+    <Content Include="img\you-re-the-best.gif" />
     <Content Include="ToDo.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
