@@ -32,7 +32,7 @@ Table configuration and config tool
 
 GroovyGameGear/LedWiz
 ------
-The LEDWiz.dll, the LEDWizSDK and some testing hardware has  been supplied by Randol Turner (RandyT) of <a href="http://groovygamegear.com">groovygamegear.com</a>.
+The LEDWiz.dll, the LEDWizSDK and some testing hardware has  been supplied by Randolph Turner (RandyT) of <a href="http://groovygamegear.com">groovygamegear.com</a>.
 The code for the LedWiz class is based on the implementation in the LedWiz SDK.
 
 \image html ledwizlogo.jpg
