@@ -31,6 +31,7 @@ namespace DirectOutput.Cab.Out.Pac
         };
 
         #region DLL imports
+
         [DllImport("PacDrive.dll", CallingConvention = CallingConvention.StdCall)]
         private static extern void PacSetCallbacks(PAC_ATTACHED_CALLBACK pacAttachedCallback, PAC_REMOVED_CALLBACK pacRemovedCallback);
 

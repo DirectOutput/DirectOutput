@@ -8,6 +8,11 @@ Toys are configured in the cabinet config file or are, depending on your config,
 
 
 
+\section toys_bultin Builtin toys
+
+A list of builtin toys, including configuration samples, can be found on the following page: \ref toy_builtin "Built in toys"
+
+
 \section toys_custom Custom toys 
 
 

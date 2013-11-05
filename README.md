@@ -4,6 +4,6 @@
 DirectOutput framework for virtual pinball cabinets
 ===================================================
 
-This library and B2S.Server plugin is a replacement for the vbscript solution to controll the toys in a virtual pinball cabinet. 
+DirectOutput is a framework to control the toys which are installed in a virtual pinball cabinet.
 
 Please read the documentation at http://directoutput.github.io/DirectOutput/

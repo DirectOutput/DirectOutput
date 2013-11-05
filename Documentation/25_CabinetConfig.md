@@ -1,7 +1,7 @@
 ﻿Cabinet Configuration {#cabinetconfig}
 =====================
 
-\warning This page is not up to date! It was last updated in spring 2013.
+\warning This page is not fully up to date! 
 
 \section cabinetconfig_introduction Introduction
 
@@ -28,10 +28,7 @@ Cabinet configuration files are XML files with the following basic structure:
   <Toys>
      ... configuration of any number toys ...
   </Toys>
-  <Effects>
-     ... configuration of any number of cabinet specific effects ...
-  </Effects>
-  <Colors>
+ <Colors>
      ... any number of color definitions ...
   </Colors>
 </Cabinet>
@@ -105,71 +102,6 @@ In addition to the minimal tags in the example above, a typical toy will have at
 ~~~~~~~~~~~~~
 
 
-\subsubsection cabinetconfig_toysexamples Toy configuration examples
-
-__Contactor__
-
-~~~~~~~~~~~~~{.xml}
-    <Contactor>
-      <Name>Contactor Top Left</Name>
-      <OutputName>LedWizOutput 01.05</OutputName>
-    </Contactor>
-~~~~~~~~~~~~~
-
-__ReplayKnocker__
-
-~~~~~~~~~~~~~{.xml}
-    <ReplayKnocker>
-      <Name>ReplayKnocker</Name>
-      <OutputName>LedWizOutput 01.11</OutputName>
-    </ReplayKnocker>
-~~~~~~~~~~~~~
-
-__Lamp__
-
-~~~~~~~~~~~~~{.xml}
-    <Lamp>
-      <Name>Start Button</Name>
-      <OutputName>LedWizOutput 01.16</OutputName>
-    </Lamp>
-~~~~~~~~~~~~~
-
-__RGBLed__
-
-~~~~~~~~~~~~~{.xml}
-    <RGBLed>
-      <Name>Backboard Left</Name>
-      <OutputNameRed>LedWizOutput 01.17</OutputNameRed>
-      <OutputNameGreen>LedWizOutput 01.19</OutputNameGreen>
-      <OutputNameBlue>LedWizOutput 01.18</OutputNameBlue>
-    </RGBLed>
-~~~~~~~~~~~~~
-
-
-
-\subsection cabinetconfig_effects Effects section
-
-\subsection cabinetconfig_colors Colors section
-
-The colors section of a cabinet config file can contain any number of color definitions. Color definitions are used by _Toys_ supporting colors (e.g. RGB-Leds) to allow the use of named colors instead of numeric color representations.
-
-A color definition structure looks as follows:
-~~~~~~~~~~~~~{.xml}
-<Color>
-  <Name>Name of the color</Name>
-  <HexColor>Hexadecimal representation (6 hex digits) of the red, green and blue components of the color</HexColor>
-</Color>
-~~~~~~~~~~~~~
-
-For the color Red this structure would look as follows:
-~~~~~~~~~~~~~{.xml}
-<Color>
-  <Name>Red</Name>
-  <HexColor>#ff0000</HexColor>
-</Color>
-~~~~~~~~~~~~~
-
-
 \section cabinetconfig_example Example cabinet configuration
 
 The following xml is the config for a cabinet with 1 LedWiz unis, 10 contactors, 1 replay knocker, 5 lamps, 5 RGB-leds and one shaker installed.
@@ -185,136 +117,6 @@ In addition 1 LedWizEquivalent toy is configured to allow the system, to use leg
   <OutputControllers>
     <LedWiz>
       <Name>LedWiz 01</Name>
-      <Outputs>
-        <LedWizOutput>
-          <Name>LedWizOutput 01.01</Name>
-          <LedWizOutputNumber>1</LedWizOutputNumber>
-        </LedWizOutput>
-        <LedWizOutput>
-          <Name>LedWizOutput 01.02</Name>
-          <LedWizOutputNumber>2</LedWizOutputNumber>
-        </LedWizOutput>
-        <LedWizOutput>
-          <Name>LedWizOutput 01.03</Name>
-          <LedWizOutputNumber>3</LedWizOutputNumber>
-        </LedWizOutput>
-        <LedWizOutput>
-          <Name>LedWizOutput 01.04</Name>
-          <LedWizOutputNumber>4</LedWizOutputNumber>
-        </LedWizOutput>
-        <LedWizOutput>
-          <Name>LedWizOutput 01.05</Name>
-          <LedWizOutputNumber>5</LedWizOutputNumber>
-        </LedWizOutput>
-        <LedWizOutput>
-          <Name>LedWizOutput 01.06</Name>
-          <LedWizOutputNumber>6</LedWizOutputNumber>
-        </LedWizOutput>
-        <LedWizOutput>
-          <Name>LedWizOutput 01.07</Name>
-          <LedWizOutputNumber>7</LedWizOutputNumber>
-        </LedWizOutput>
-        <LedWizOutput>
-          <Name>LedWizOutput 01.08</Name>
-          <LedWizOutputNumber>8</LedWizOutputNumber>
-        </LedWizOutput>
-        <LedWizOutput>
-          <Name>LedWizOutput 01.09</Name>
-          <LedWizOutputNumber>9</LedWizOutputNumber>
-        </LedWizOutput>
-        <LedWizOutput>
-          <Name>LedWizOutput 01.10</Name>
-          <LedWizOutputNumber>10</LedWizOutputNumber>
-        </LedWizOutput>
-        <LedWizOutput>
-          <Name>LedWizOutput 01.11</Name>
-          <LedWizOutputNumber>11</LedWizOutputNumber>
-        </LedWizOutput>
-        <LedWizOutput>
-          <Name>LedWizOutput 01.12</Name>
-          <LedWizOutputNumber>12</LedWizOutputNumber>
-        </LedWizOutput>
-        <LedWizOutput>
-          <Name>LedWizOutput 01.13</Name>
-          <LedWizOutputNumber>13</LedWizOutputNumber>
-        </LedWizOutput>
-        <LedWizOutput>
-          <Name>LedWizOutput 01.14</Name>
-          <LedWizOutputNumber>14</LedWizOutputNumber>
-        </LedWizOutput>
-        <LedWizOutput>
-          <Name>LedWizOutput 01.15</Name>
-          <LedWizOutputNumber>15</LedWizOutputNumber>
-        </LedWizOutput>
-        <LedWizOutput>
-          <Name>LedWizOutput 01.16</Name>
-          <LedWizOutputNumber>16</LedWizOutputNumber>
-        </LedWizOutput>
-        <LedWizOutput>
-          <Name>LedWizOutput 01.17</Name>
-          <LedWizOutputNumber>17</LedWizOutputNumber>
-        </LedWizOutput>
-        <LedWizOutput>
-          <Name>LedWizOutput 01.18</Name>
-          <LedWizOutputNumber>18</LedWizOutputNumber>
-        </LedWizOutput>
-        <LedWizOutput>
-          <Name>LedWizOutput 01.19</Name>
-          <LedWizOutputNumber>19</LedWizOutputNumber>
-        </LedWizOutput>
-        <LedWizOutput>
-          <Name>LedWizOutput 01.20</Name>
-          <LedWizOutputNumber>20</LedWizOutputNumber>
-        </LedWizOutput>
-        <LedWizOutput>
-          <Name>LedWizOutput 01.21</Name>
-          <LedWizOutputNumber>21</LedWizOutputNumber>
-        </LedWizOutput>
-        <LedWizOutput>
-          <Name>LedWizOutput 01.22</Name>
-          <LedWizOutputNumber>22</LedWizOutputNumber>
-        </LedWizOutput>
-        <LedWizOutput>
-          <Name>LedWizOutput 01.23</Name>
-          <LedWizOutputNumber>23</LedWizOutputNumber>
-        </LedWizOutput>
-        <LedWizOutput>
-          <Name>LedWizOutput 01.24</Name>
-          <LedWizOutputNumber>24</LedWizOutputNumber>
-        </LedWizOutput>
-        <LedWizOutput>
-          <Name>LedWizOutput 01.25</Name>
-          <LedWizOutputNumber>25</LedWizOutputNumber>
-        </LedWizOutput>
-        <LedWizOutput>
-          <Name>LedWizOutput 01.26</Name>
-          <LedWizOutputNumber>26</LedWizOutputNumber>
-        </LedWizOutput>
-        <LedWizOutput>
-          <Name>LedWizOutput 01.27</Name>
-          <LedWizOutputNumber>27</LedWizOutputNumber>
-        </LedWizOutput>
-        <LedWizOutput>
-          <Name>LedWizOutput 01.28</Name>
-          <LedWizOutputNumber>28</LedWizOutputNumber>
-        </LedWizOutput>
-        <LedWizOutput>
-          <Name>LedWizOutput 01.29</Name>
-          <LedWizOutputNumber>29</LedWizOutputNumber>
-        </LedWizOutput>
-        <LedWizOutput>
-          <Name>LedWizOutput 01.30</Name>
-          <LedWizOutputNumber>30</LedWizOutputNumber>
-        </LedWizOutput>
-        <LedWizOutput>
-          <Name>LedWizOutput 01.31</Name>
-          <LedWizOutputNumber>31</LedWizOutputNumber>
-        </LedWizOutput>
-        <LedWizOutput>
-          <Name>LedWizOutput 01.32</Name>
-          <LedWizOutputNumber>32</LedWizOutputNumber>
-        </LedWizOutput>
-      </Outputs>
       <Number>1</Number>
     </LedWiz>
   </OutputControllers>
@@ -323,101 +125,101 @@ In addition 1 LedWizEquivalent toy is configured to allow the system, to use leg
   <Toys>
     <Contactor>
       <Name>Contactor Top Left</Name>
-      <OutputName>LedWizOutput 01.05</OutputName>
+      <OutputName>LedWiz 01.05</OutputName>
     </Contactor>
     <Contactor>
       <Name>Contactor Top Center</Name>
-      <OutputName>LedWizOutput 01.10</OutputName>
+      <OutputName>LedWiz 01.10</OutputName>
     </Contactor>
     <Contactor>
       <Name>Contactor Top Right</Name>
-      <OutputName>LedWizOutput 01.09</OutputName>
+      <OutputName>LedWiz 01.09</OutputName>
     </Contactor>
     <Contactor>
       <Name>Contactor Middle Left</Name>
-      <OutputName>LedWizOutput 01.03</OutputName>
+      <OutputName>LedWiz 01.03</OutputName>
     </Contactor>
     <Contactor>
       <Name>Contactor Middle Center</Name>
-      <OutputName>LedWizOutput 01.04</OutputName>
+      <OutputName>LedWiz 01.04</OutputName>
     </Contactor>
     <Contactor>
       <Name>Contactor Middle Right</Name>
-      <OutputName>LedWizOutput 01.08</OutputName>
+      <OutputName>LedWiz 01.08</OutputName>
     </Contactor>
     <Contactor>
       <Name>Contactor Slingshot Left</Name>
-      <OutputName>LedWizOutput 01.02</OutputName>
+      <OutputName>LedWiz 01.02</OutputName>
     </Contactor>
     <Contactor>
       <Name>Contactor Slingshot Right</Name>
-      <OutputName>LedWizOutput 01.07</OutputName>
+      <OutputName>LedWiz 01.07</OutputName>
     </Contactor>
     <Contactor>
       <Name>Contactor Flipper Left</Name>
-      <OutputName>LedWizOutput 01.01</OutputName>
+      <OutputName>LedWiz 01.01</OutputName>
     </Contactor>
     <Contactor>
       <Name>Contactor Flipper Right</Name>
-      <OutputName>LedWizOutput 01.07</OutputName>
+      <OutputName>LedWiz 01.07</OutputName>
     </Contactor>
     <ReplayKnocker>
       <Name>ReplayKnocker</Name>
-      <OutputName>LedWizOutput 01.11</OutputName>
+      <OutputName>LedWiz 01.11</OutputName>
     </ReplayKnocker>
     <Lamp>
       <Name>Start Button</Name>
-      <OutputName>LedWizOutput 01.12</OutputName>
+      <OutputName>LedWiz 01.12</OutputName>
     </Lamp>
     <Lamp>
       <Name>Extra Ball Button</Name>
-      <OutputName>LedWizOutput 01.13</OutputName>
+      <OutputName>LedWiz 01.13</OutputName>
     </Lamp>
     <Lamp>
       <Name>Exit Button</Name>
-      <OutputName>LedWizOutput 01.14</OutputName>
+      <OutputName>LedWiz 01.14</OutputName>
     </Lamp>
     <Lamp>
       <Name>Launch Ball Button</Name>
-      <OutputName>LedWizOutput 01.15</OutputName>
+      <OutputName>LedWiz 01.15</OutputName>
     </Lamp>
     <Lamp>
       <Name>Coin Door</Name>
-      <OutputName>LedWizOutput 01.16</OutputName>
+      <OutputName>LedWiz 01.16</OutputName>
     </Lamp>
     <RGBLed>
       <Name>Backboard Left</Name>
-      <OutputNameRed>LedWizOutput 01.17</OutputNameRed>
-      <OutputNameGreen>LedWizOutput 01.19</OutputNameGreen>
-      <OutputNameBlue>LedWizOutput 01.18</OutputNameBlue>
+      <OutputNameRed>LedWiz 01.17</OutputNameRed>
+      <OutputNameGreen>LedWiz 01.19</OutputNameGreen>
+      <OutputNameBlue>LedWiz 01.18</OutputNameBlue>
     </RGBLed>
     <RGBLed>
       <Name>Backboard Center Left</Name>
-      <OutputNameRed>LedWizOutput 01.20</OutputNameRed>
-      <OutputNameGreen>LedWizOutput 01.22</OutputNameGreen>
-      <OutputNameBlue>LedWizOutput 01.21</OutputNameBlue>
+      <OutputNameRed>LedWiz 01.20</OutputNameRed>
+      <OutputNameGreen>LedWiz 01.22</OutputNameGreen>
+      <OutputNameBlue>LedWiz 01.21</OutputNameBlue>
     </RGBLed>
     <RGBLed>
       <Name>Backboard Center</Name>
-      <OutputNameRed>LedWizOutput 01.23</OutputNameRed>
-      <OutputNameGreen>LedWizOutput 01.25</OutputNameGreen>
-      <OutputNameBlue>LedWizOutput 01.24</OutputNameBlue>
+      <OutputNameRed>LedWiz 01.23</OutputNameRed>
+      <OutputNameGreen>LedWiz 01.25</OutputNameGreen>
+      <OutputNameBlue>LedWiz 01.24</OutputNameBlue>
     </RGBLed>
     <RGBLed>
       <Name>Backboard Center Right</Name>
-      <OutputNameRed>LedWizOutput 01.26</OutputNameRed>
-      <OutputNameGreen>LedWizOutput 01.28</OutputNameGreen>
-      <OutputNameBlue>LedWizOutput 01.27</OutputNameBlue>
+      <OutputNameRed>LedWiz 01.26</OutputNameRed>
+      <OutputNameGreen>LedWiz 01.28</OutputNameGreen>
+      <OutputNameBlue>LedWiz 01.27</OutputNameBlue>
     </RGBLed>
     <RGBLed>
       <Name>Backboard Right</Name>
-      <OutputNameRed>LedWizOutput 01.29</OutputNameRed>
-      <OutputNameGreen>LedWizOutput 01.31</OutputNameGreen>
-      <OutputNameBlue>LedWizOutput 01.30</OutputNameBlue>
+      <OutputNameRed>LedWiz 01.29</OutputNameRed>
+      <OutputNameGreen>LedWiz 01.31</OutputNameGreen>
+      <OutputNameBlue>LedWiz 01.30</OutputNameBlue>
     </RGBLed>
     <Shaker>
       <Name>Shaker</Name>
-      <OutputName>LedWizOutput 01.31</OutputName>
+      <OutputName>LedWiz 01.31</OutputName>
     </Shaker>
 
 	  <!-- The LedWizEquivalent toy is used when a legacy LedControl.ini file is loaded.   -->
@@ -425,131 +227,131 @@ In addition 1 LedWizEquivalent toy is configured to allow the system, to use leg
       <Name>LedWizEquivalent 1</Name>
       <Outputs>
         <LEDWizEquivalentOutput>
-          <OutputName>LedWiz 01\LedWizOutput 01.01</OutputName>
+          <OutputName>LedWiz 01\LedWiz 01.01</OutputName>
           <LedWizEquivalentOutputNumber>1</LedWizEquivalentOutputNumber>
         </LEDWizEquivalentOutput>
         <LEDWizEquivalentOutput>
-          <OutputName>LedWiz 01\LedWizOutput 01.02</OutputName>
+          <OutputName>LedWiz 01\LedWiz 01.02</OutputName>
           <LedWizEquivalentOutputNumber>2</LedWizEquivalentOutputNumber>
         </LEDWizEquivalentOutput>
         <LEDWizEquivalentOutput>
-          <OutputName>LedWiz 01\LedWizOutput 01.03</OutputName>
+          <OutputName>LedWiz 01\LedWiz 01.03</OutputName>
           <LedWizEquivalentOutputNumber>3</LedWizEquivalentOutputNumber>
         </LEDWizEquivalentOutput>
         <LEDWizEquivalentOutput>
-          <OutputName>LedWiz 01\LedWizOutput 01.04</OutputName>
+          <OutputName>LedWiz 01\LedWiz 01.04</OutputName>
           <LedWizEquivalentOutputNumber>4</LedWizEquivalentOutputNumber>
         </LEDWizEquivalentOutput>
         <LEDWizEquivalentOutput>
-          <OutputName>LedWiz 01\LedWizOutput 01.05</OutputName>
+          <OutputName>LedWiz 01\LedWiz 01.05</OutputName>
           <LedWizEquivalentOutputNumber>5</LedWizEquivalentOutputNumber>
         </LEDWizEquivalentOutput>
         <LEDWizEquivalentOutput>
-          <OutputName>LedWiz 01\LedWizOutput 01.06</OutputName>
+          <OutputName>LedWiz 01\LedWiz 01.06</OutputName>
           <LedWizEquivalentOutputNumber>6</LedWizEquivalentOutputNumber>
         </LEDWizEquivalentOutput>
         <LEDWizEquivalentOutput>
-          <OutputName>LedWiz 01\LedWizOutput 01.07</OutputName>
+          <OutputName>LedWiz 01\LedWiz 01.07</OutputName>
           <LedWizEquivalentOutputNumber>7</LedWizEquivalentOutputNumber>
         </LEDWizEquivalentOutput>
         <LEDWizEquivalentOutput>
-          <OutputName>LedWiz 01\LedWizOutput 01.08</OutputName>
+          <OutputName>LedWiz 01\LedWiz 01.08</OutputName>
           <LedWizEquivalentOutputNumber>8</LedWizEquivalentOutputNumber>
         </LEDWizEquivalentOutput>
         <LEDWizEquivalentOutput>
-          <OutputName>LedWiz 01\LedWizOutput 01.09</OutputName>
+          <OutputName>LedWiz 01\LedWiz 01.09</OutputName>
           <LedWizEquivalentOutputNumber>9</LedWizEquivalentOutputNumber>
         </LEDWizEquivalentOutput>
         <LEDWizEquivalentOutput>
-          <OutputName>LedWiz 01\LedWizOutput 01.10</OutputName>
+          <OutputName>LedWiz 01\LedWiz 01.10</OutputName>
           <LedWizEquivalentOutputNumber>10</LedWizEquivalentOutputNumber>
         </LEDWizEquivalentOutput>
         <LEDWizEquivalentOutput>
-          <OutputName>LedWiz 01\LedWizOutput 01.11</OutputName>
+          <OutputName>LedWiz 01\LedWiz 01.11</OutputName>
           <LedWizEquivalentOutputNumber>11</LedWizEquivalentOutputNumber>
         </LEDWizEquivalentOutput>
         <LEDWizEquivalentOutput>
-          <OutputName>LedWiz 01\LedWizOutput 01.12</OutputName>
+          <OutputName>LedWiz 01\LedWiz 01.12</OutputName>
           <LedWizEquivalentOutputNumber>12</LedWizEquivalentOutputNumber>
         </LEDWizEquivalentOutput>
         <LEDWizEquivalentOutput>
-          <OutputName>LedWiz 01\LedWizOutput 01.13</OutputName>
+          <OutputName>LedWiz 01\LedWiz 01.13</OutputName>
           <LedWizEquivalentOutputNumber>13</LedWizEquivalentOutputNumber>
         </LEDWizEquivalentOutput>
         <LEDWizEquivalentOutput>
-          <OutputName>LedWiz 01\LedWizOutput 01.14</OutputName>
+          <OutputName>LedWiz 01\LedWiz 01.14</OutputName>
           <LedWizEquivalentOutputNumber>14</LedWizEquivalentOutputNumber>
         </LEDWizEquivalentOutput>
         <LEDWizEquivalentOutput>
-          <OutputName>LedWiz 01\LedWizOutput 01.15</OutputName>
+          <OutputName>LedWiz 01\LedWiz 01.15</OutputName>
           <LedWizEquivalentOutputNumber>15</LedWizEquivalentOutputNumber>
         </LEDWizEquivalentOutput>
         <LEDWizEquivalentOutput>
-          <OutputName>LedWiz 01\LedWizOutput 01.16</OutputName>
+          <OutputName>LedWiz 01\LedWiz 01.16</OutputName>
           <LedWizEquivalentOutputNumber>16</LedWizEquivalentOutputNumber>
         </LEDWizEquivalentOutput>
         <LEDWizEquivalentOutput>
-          <OutputName>LedWiz 01\LedWizOutput 01.17</OutputName>
+          <OutputName>LedWiz 01\LedWiz 01.17</OutputName>
           <LedWizEquivalentOutputNumber>17</LedWizEquivalentOutputNumber>
         </LEDWizEquivalentOutput>
         <LEDWizEquivalentOutput>
-          <OutputName>LedWiz 01\LedWizOutput 01.18</OutputName>
+          <OutputName>LedWiz 01\LedWiz 01.18</OutputName>
           <LedWizEquivalentOutputNumber>18</LedWizEquivalentOutputNumber>
         </LEDWizEquivalentOutput>
         <LEDWizEquivalentOutput>
-          <OutputName>LedWiz 01\LedWizOutput 01.19</OutputName>
+          <OutputName>LedWiz 01\LedWiz 01.19</OutputName>
           <LedWizEquivalentOutputNumber>19</LedWizEquivalentOutputNumber>
         </LEDWizEquivalentOutput>
         <LEDWizEquivalentOutput>
-          <OutputName>LedWiz 01\LedWizOutput 01.20</OutputName>
+          <OutputName>LedWiz 01\LedWiz 01.20</OutputName>
           <LedWizEquivalentOutputNumber>20</LedWizEquivalentOutputNumber>
         </LEDWizEquivalentOutput>
         <LEDWizEquivalentOutput>
-          <OutputName>LedWiz 01\LedWizOutput 01.21</OutputName>
+          <OutputName>LedWiz 01\LedWiz 01.21</OutputName>
           <LedWizEquivalentOutputNumber>21</LedWizEquivalentOutputNumber>
         </LEDWizEquivalentOutput>
         <LEDWizEquivalentOutput>
-          <OutputName>LedWiz 01\LedWizOutput 01.22</OutputName>
+          <OutputName>LedWiz 01\LedWiz 01.22</OutputName>
           <LedWizEquivalentOutputNumber>22</LedWizEquivalentOutputNumber>
         </LEDWizEquivalentOutput>
         <LEDWizEquivalentOutput>
-          <OutputName>LedWiz 01\LedWizOutput 01.23</OutputName>
+          <OutputName>LedWiz 01\LedWiz 01.23</OutputName>
           <LedWizEquivalentOutputNumber>23</LedWizEquivalentOutputNumber>
         </LEDWizEquivalentOutput>
         <LEDWizEquivalentOutput>
-          <OutputName>LedWiz 01\LedWizOutput 01.24</OutputName>
+          <OutputName>LedWiz 01\LedWiz 01.24</OutputName>
           <LedWizEquivalentOutputNumber>24</LedWizEquivalentOutputNumber>
         </LEDWizEquivalentOutput>
         <LEDWizEquivalentOutput>
-          <OutputName>LedWiz 01\LedWizOutput 01.25</OutputName>
+          <OutputName>LedWiz 01\LedWiz 01.25</OutputName>
           <LedWizEquivalentOutputNumber>25</LedWizEquivalentOutputNumber>
         </LEDWizEquivalentOutput>
         <LEDWizEquivalentOutput>
-          <OutputName>LedWiz 01\LedWizOutput 01.26</OutputName>
+          <OutputName>LedWiz 01\LedWiz 01.26</OutputName>
           <LedWizEquivalentOutputNumber>26</LedWizEquivalentOutputNumber>
         </LEDWizEquivalentOutput>
         <LEDWizEquivalentOutput>
-          <OutputName>LedWiz 01\LedWizOutput 01.27</OutputName>
+          <OutputName>LedWiz 01\LedWiz 01.27</OutputName>
           <LedWizEquivalentOutputNumber>27</LedWizEquivalentOutputNumber>
         </LEDWizEquivalentOutput>
         <LEDWizEquivalentOutput>
-          <OutputName>LedWiz 01\LedWizOutput 01.28</OutputName>
+          <OutputName>LedWiz 01\LedWiz 01.28</OutputName>
           <LedWizEquivalentOutputNumber>28</LedWizEquivalentOutputNumber>
         </LEDWizEquivalentOutput>
         <LEDWizEquivalentOutput>
-          <OutputName>LedWiz 01\LedWizOutput 01.29</OutputName>
+          <OutputName>LedWiz 01\LedWiz 01.29</OutputName>
           <LedWizEquivalentOutputNumber>29</LedWizEquivalentOutputNumber>
         </LEDWizEquivalentOutput>
         <LEDWizEquivalentOutput>
-          <OutputName>LedWiz 01\LedWizOutput 01.30</OutputName>
+          <OutputName>LedWiz 01\LedWiz 01.30</OutputName>
           <LedWizEquivalentOutputNumber>30</LedWizEquivalentOutputNumber>
         </LEDWizEquivalentOutput>
         <LEDWizEquivalentOutput>
-          <OutputName>LedWiz 01\LedWizOutput 01.31</OutputName>
+          <OutputName>LedWiz 01\LedWiz 01.31</OutputName>
           <LedWizEquivalentOutputNumber>31</LedWizEquivalentOutputNumber>
         </LEDWizEquivalentOutput>
         <LEDWizEquivalentOutput>
-          <OutputName>LedWiz 01\LedWizOutput 01.32</OutputName>
+          <OutputName>LedWiz 01\LedWiz 01.32</OutputName>
           <LedWizEquivalentOutputNumber>32</LedWizEquivalentOutputNumber>
         </LEDWizEquivalentOutput>
       </Outputs>

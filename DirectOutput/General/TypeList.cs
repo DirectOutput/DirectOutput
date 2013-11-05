@@ -44,8 +44,19 @@ namespace DirectOutput.General
         }
 
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TypeList"/> class.
+        /// </summary>
         public TypeList() : base() { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TypeList"/> class.
+        /// </summary>
+        /// <param name="capacity">The number of elements that the new list can initially store.</param>
         public TypeList(int capacity) : base(capacity) { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TypeList"/> class.
+        /// </summary>
+        /// <param name="collection">The collection.</param>
         public TypeList(IEnumerable<Type> collection) : base(collection) { }
 
     }

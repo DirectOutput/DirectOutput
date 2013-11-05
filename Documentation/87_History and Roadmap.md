@@ -4,11 +4,13 @@
 
 \section roadmap Roadmap
 
-The following features are planned for future releases:
+Here are a few of the things which are planned for future releases:
 
 - __Support for WS2811 based led stripes__<br/>
 I have already installed some of those stripes in my cabinet and I want to be able to control them through DirectOutput. So this is a must!<br/>
+A prototype controller board for the stripes is already working nicely. DOF integration will be next.<br/>
 Check the following video to get a idea what those stripes can do:</br>
+
 \htmlonly
 <iframe width="560" height="315" src="http://www.youtube.com/embed/Y_qV8rwzaxs" frameborder="0" allowfullscreen></iframe>
 \endhtmlonly
@@ -23,6 +25,14 @@ Not sure yet how this could be done, but it is definitively something I want to 
 
 \section history History
 
+__2013.11.1__
+
+- First public release of the DirectOutput framerwork.
+- First upload of the source code to GitHub.
+
+__2013.8__
+
+- Beta testing started
 
 __2013.6__
 

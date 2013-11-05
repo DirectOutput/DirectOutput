@@ -91,7 +91,7 @@ namespace DirectOutput.FX.TimmedFX
                 }
             }
             TargetEffect.Trigger(BlinkTableElementData);
-            
+
         }
 
 
@@ -124,7 +124,11 @@ namespace DirectOutput.FX.TimmedFX
         /// </summary>
         public override void Finish()
         {
-            Table.Pinball.Alarms.UnregisterAlarm(DoBlink);
+            try
+            {
+                Table.Pinball.Alarms.UnregisterAlarm(DoBlink);
+            }
+            catch { }
             base.Finish();
         }
 

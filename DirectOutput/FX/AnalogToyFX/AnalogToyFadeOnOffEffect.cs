@@ -218,8 +218,8 @@ namespace DirectOutput.FX.AnalogToyFX
         {
             if (Toy != null)
             {
-               
-                bool TriggerState =  TableElementData.Value != 0;
+
+                bool TriggerState = TableElementData.Value != 0;
 
                 if (TriggerState != LastTriggerState || IsFading == false || RetriggerBehaviour == RetriggerBehaviourEnum.RestartEffect)
                 {
@@ -229,7 +229,7 @@ namespace DirectOutput.FX.AnalogToyFX
                 LastTriggerState = TriggerState;
             }
         }
-        
+
 
         /// <summary>
         /// Initializes the effect.
@@ -245,7 +245,11 @@ namespace DirectOutput.FX.AnalogToyFX
         /// </summary>
         public override void Finish()
         {
-            Table.Pinball.Alarms.UnregisterAlarm(FadingStep);
+            try
+            {
+                Table.Pinball.Alarms.UnregisterAlarm(FadingStep);
+            }
+            catch { }
             if (Toy != null)
             {
                 Toy.Layers.Remove(Layer);
