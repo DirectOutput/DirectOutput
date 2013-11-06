@@ -22,7 +22,8 @@ When I started to build my own cabinet the current solution supporting only a si
 
 Some key features of the DirectOutput framework are:
 
-* Support of up to 16 \ref hardware_ledwiz "LedWiz" and 4 \ref hardware_ultimarc_pacled64 "Pacled64" units (including a mix of them).
+* Support of up to 16 \ref hardware_ledwiz "LedWiz" units.
+* Support of 4 \ref hardware_ultimarc_pacled64 "Pacled64" units and one \ref hardware_ultimarc_pacdrive "PacDrive" unit (including a mix of them).
 * Support of \ref hardware_artnet "Art-net/DMX".
 * Multithreaded to ensure optimal performance and avoid stuttering issues.
 * \ref b2sserverplugin "B2S.Server integration".
