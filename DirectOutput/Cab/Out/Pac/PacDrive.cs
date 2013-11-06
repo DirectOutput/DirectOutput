@@ -18,7 +18,6 @@ namespace DirectOutput.Cab.Out.Pac
     public class PacDrive : OutputControllerBase, IOutputController
     {
 
-
         #region IOutputcontroller implementation
         /// <summary>
         /// Signals the workerthread that all pending updates for the PacDrive should be sent to the PacDrive.
@@ -211,6 +210,7 @@ namespace DirectOutput.Cab.Out.Pac
 
             private ushort NewValue;
             private ushort CurrentValue;
+            private bool UpdateRequired = true;
 
             private int Index = -1;
 
@@ -264,6 +264,7 @@ namespace DirectOutput.Cab.Out.Pac
                     {
                         NewValue &= (ushort)~Mask;
                     }
+                    UpdateRequired = true;
                 }
 
             }
@@ -333,7 +334,9 @@ namespace DirectOutput.Cab.Out.Pac
             bool TriggerUpdate = false;
             public void TriggerPacDriveUpdaterThread()
             {
+                if (!UpdateRequired) return;
                 TriggerUpdate = true;
+                UpdateRequired = false;
                 lock (PacDriveUpdaterThreadLocker)
                 {
                     Monitor.Pulse(PacDriveUpdaterThreadLocker);
@@ -403,7 +406,7 @@ namespace DirectOutput.Cab.Out.Pac
                     {
                         lock (ValueChangeLocker)
                         {
-                            if (NewValue != CurrentValue && !ForceFullUpdate) return;
+                            if (NewValue == CurrentValue && !ForceFullUpdate) return;
 
                             CopyNewToCurrent();
 
@@ -424,10 +427,17 @@ namespace DirectOutput.Cab.Out.Pac
 
             public void ShutdownLighting()
             {
-                 PDSingleton.PacDriveUHIDSetLEDStates(,CurrentValue);
-                CurrentValue = 0;
-            }
+                lock (PacDriveUpdateLocker)
+                {
+                    lock (ValueChangeLocker)
+                    {
+                        CurrentValue = 0;
+                        NewValue = 0;
 
+                        PDSingleton.PacDriveUHIDSetLEDStates(Index, 0);
+                    }
+                }
+            }
 
 
 
@@ -454,7 +464,11 @@ namespace DirectOutput.Cab.Out.Pac
 
             private void InitUnit()
             {
-                NewValue = 0;
+                lock (ValueChangeLocker)
+                {
+                    NewValue = 0;
+                    CurrentValue = 65535;
+                };
                 SendPacDriveUpdate();
             }
 
