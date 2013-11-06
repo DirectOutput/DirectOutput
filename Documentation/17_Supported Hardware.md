@@ -41,6 +41,16 @@ This unit is made and sold by <a target="_blank" href="http://www.ultimarc.com">
 
 \image html PacLed64Logo.png
 
+\subsection hardware_ultimarc_pacdrive PacDrive (Ultimarc)
+
+The PacDrive is smaller output controller with 16 digital outputs. It is capable of driving Leds and other smaller gadgets directly, but will require a booster to driver power hungry loads (e.g. motors). 
+
+Only 1 PacDrive unit can be connected to the system. The framework supports auto detection and configuration of that unit.
+
+\image html pacdrivelogo.jpg
+
+This unit is made and sold by <a target="_blank" href="http://www.ultimarc.com">Ultimarc</a>.
+
 \subsection hardware_artnet Art-Net / DMX
 
 <a target="_blank" href="https://en.wikipedia.org/wiki/Art-Net">Art-Net</a> is a industry standard protocol used to control <a target="_blank" href="https://en.wikipedia.org/wiki/DMX512">DMX</a> lighting effects over othernet. Using Art-Net it is possible to connect a very wide range of lighting effects like <a target="_blank" href="https://www.google.ch/search?q=dmx+strobe">strobes</a> or <a target="_blank" href="https://www.google.ch/search?q=dmx+dimmer">dimmer packs</a>. There are tons of DMX controlled effects available on the market (from very cheap and small to very expensive and big). It might sounds a bit crazy, but with Art-net and DMX you could controll a whole stage lighting system (this would likely make you feel like Tommy in the movie).
@@ -61,13 +71,6 @@ Here is a small demo video showing DMX/Artnet support in action:
 
 Support for the following devices is currently in development.
 
-\subsection hardware_ultimarc_pacdrive PacDrive (Ultimarc)
-
-The PacDrive is smaller output controller with 16 outputs. It is capable of driving Leds and other smaller gadgets directly, but will require a booster to driver power hungry loads (e.g. motors). Only 1 PacDrive unit can be connected to the system.
-
-\image html pacdrivelogo.jpg
-
-This unit is made and sold by <a target="_blank" href="http://www.ultimarc.com">Ultimarc</a>.
 
 \section hardware_WS2811 WS2811 based led stripes
 
