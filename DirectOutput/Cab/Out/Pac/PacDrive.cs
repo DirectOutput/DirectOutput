@@ -11,9 +11,15 @@ using DirectOutput.General.Statistics;
 namespace DirectOutput.Cab.Out.Pac
 {
     /// <summary>
-    /// The PacDrive output controller supports to use of one PacDrive unit. Id several units are attached to the system only the unit with the lowest index nuzmber will be controlled.
-    /// A PacDrive has 16 digital outputs (only on and off), this means that the values of the outputs are converted to on and off. 0 will resul in off, all other values set to output to on.
+    /// The PacDrive is a simple output controller with 16 digital/on off outputs.
+    /// 
+    /// DOF supports a the use of 1 PacDrive unit. This unit can be detected and configured automatically. If auto configuration is used, the generated LedWizEquivalent toy for the PacDrive will have number 19. This means that ini files numbered with 19 are automatically used to configure a PicDrive unit.
+    /// 
     /// The outputs are by default turned on when the PacDrive unit is powered up. This controller class will turn off the PacDrive outputs upon initialisation and when it is finished.
+    ///
+    /// This unit is made and sold by <a target="_blank" href="http://www.ultimarc.com">Ultimarc</a>.
+    /// 
+    /// \image html PacDriveLogo.png 
     /// </summary>
     public class PacDrive : OutputControllerBase, IOutputController
     {
