@@ -96,6 +96,8 @@
     <Compile Include="Cab\Out\LW\LW.cs" />
     <Compile Include="Cab\Out\NullOutputController\NullOutputController.cs" />
     <Compile Include="Cab\Out\OutputNumbered.cs" />
+    <Compile Include="Cab\Out\Pac\PacDrive.cs" />
+    <Compile Include="Cab\Out\Pac\PacDriveAutoConfigurator.cs" />
     <Compile Include="Cab\Out\Pac\PacDriveSingleton.cs" />
     <Compile Include="Cab\Out\Pac\PacLed64.cs" />
     <Compile Include="Cab\Out\Pac\Pac.cs" />

@@ -423,6 +423,29 @@ namespace DirectOutput.Cab.Out.Pac
 
 
         /// <summary>
+        /// Gets the Ids of the first PacDrive controller which is connected to the system.
+        /// </summary>
+        /// <returns>List of PacDrive Ids</returns>
+        public int PacDriveGetIndex()
+        {
+            List<int> L = new List<int>();
+
+
+            for (int i = 0; i < NumDevices; i++)
+            {
+                if (GetDeviceType(i) == DeviceType.PacDrive)
+                {
+                    return i;
+                }
+            }
+
+
+            return -1;
+        }
+
+
+
+        /// <summary>
         /// Gets the count of attached devices
         /// </summary>
         /// <value>
