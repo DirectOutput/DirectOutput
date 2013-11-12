@@ -1,6 +1,6 @@
 ﻿About and Copyright
 =====
-The DirectOutput framework has been implemented by <a href="http://vpuniverse.com/forums/user/668-swisslizard/">SwissLizard</a>. 
+The DirectOutput framework has been implemented by <a target="_blank" href="http://vpuniverse.com/forums/user/668-swisslizard/">SwissLizard</a>. 
 
 \image html swisslizard.png "Swisslizard"
 
@@ -8,29 +8,35 @@ The DirectOutput framework has been implemented by <a href="http://vpuniverse.co
 
 \mainpage notitle
 
-\image html DirectOutput_Big.png "DirectOutput framework for virtual pinball cabinets"
+\image html DirectOutput_Big.png 
 
 Welcome to the DirectOutput framework for virtual pinball cabinets
 ===================================================================
 
-\warning This software has been designed to control hardware which is connected to a computer. This means that there is always a risk that something goes wrong and that your hardware or something else gets damaged. You use this software at your own risk. Dont blame me if your boards go up in smoke, your house burns down or something or someone else gets damaged. You have been warned! 
+\warning This software has been designed to control hardware which is connected to a computer. This means that there is always a risk that something goes wrong and that your hardware or something else gets damaged. You use this software at your own risk! Dont blame me if your boards go up in smoke, your house burns down or something or someone else gets damaged. You have been warned! 
 
 \note Please take note that this documentation is not yet complete and that some parts of it might change in the future. 
 
-\note This project is still in a beta status. This means that not all functionality has been fully tested and that problems have to be expected. 
-
 During my first experiments with Visual Pinball on my laptop, I thought that it would be a cool idea to a some kind of force feedback to the system. It didn't take me long to find out that a solution for this idea did already exist. 
-When I started to build my own cabinet the current vbscript implementation supporting only a single LedWiz with 32 outputs became too limited pretty soon. On some table there were also stuttering issues. So I started to think about another solution and began to implement the DirectOutput framework.
+When I started to build my own cabinet the current solution supporting only a single LedWiz with 32 outputs became too limited pretty soon. On some table there were also stuttering issues. So I started to think about another solution and began to implement the DirectOutput framework. From a small thing to solve a few problems with my cabinet, this has fast grown into something mucher and more complex, with a lot of new config options, various types of supported hardware and a lot of other features.
 
-The DirectOutput framework tries to overcome some limitations of the current solution to control toys in cabinets:
+Some key features of the DirectOutput framework are:
 
-* __Stuttering__ is hopefully a thing of the past. By using several threads the framework isolates the main thread doing the work in Visual Pinball from the communication with the Ledwiz and other output controllers.
-* __More outputs__ are also possible. Instead of using only one LedWiz it is now possible to connect up to 16 LedWiz and 4 PacLed64 units or other output controllers.
-* __More configuration options__ are available troughthe DirectOutput framework as well.
-* __Legacy support__ by supporting LedControl.ini file(s).
-* __Open for extensions__ means that the framework is able to load uncompiled C#-script files containing new effects, toys or other types of output controllers at runtime. After the scripts have been loaded they are copiled and integrated into the framework.
+* Support of up to 16 \ref hardware_ledwiz "LedWiz" units.
+* Support of 4 \ref hardware_ultimarc_pacled64 "Pacled64" units and one \ref hardware_ultimarc_pacdrive "PacDrive" unit (including a mix of them).
+* Support of \ref hardware_artnet "Art-net/DMX".
+* Multithreaded to ensure optimal performance and avoid stuttering issues.
+* \ref b2sserverplugin "B2S.Server integration".
+* \ref tableconfig_VPEM "EM table support".
+* Loads of new config options.
+* Extendable through scripting.
+* Extendable object oriented architecture.
+* Support of the \ref inifiles "legacy ini file" format for configs.
+* Own more powerfull XML config file format.
+* Coded in C#.
+* Fully documented code.
 
-If you are new to the DirectOutput framework the page on \rel installation is a good starting point.
+If you are new to the DirectOutput framework the pages on \rel installation and \rel tableconfig are a good starting point.
 
 Enjoy (virtual) pinball and keep pinball alive!
 

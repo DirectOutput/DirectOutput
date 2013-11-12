@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 namespace DirectOutput.General.Generic
 {
+    /// <summary>
+    /// A list of uniquely named items which can be referenced by their name.
+    /// </summary>
+    /// <typeparam name="T">Type of the items contained in the list (must implement INamedItem).</typeparam>
     public class NamedItemList<T> : ExtList<T> where T : INamedItem
     {
         private Dictionary<string, T> _NameDict = new Dictionary<string, T>();
@@ -143,6 +147,9 @@ namespace DirectOutput.General.Generic
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NamedItemList{T}"/> class.
+        /// </summary>
         public NamedItemList()
         {
             this.BeforeInsert += new EventHandler<InsertEventArgs<T>>(NamedItemList_BeforeInsert);
@@ -155,6 +162,10 @@ namespace DirectOutput.General.Generic
 
 
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NamedItemList{T}"/> class.
+        /// </summary>
+        /// <param name="EnumerableList">A enumerable list of named items to be added to the list.</param>
         public NamedItemList(IEnumerable<T> EnumerableList)
             : this()
         {
@@ -162,6 +173,9 @@ namespace DirectOutput.General.Generic
         }
         #endregion
 
+        /// <summary>
+        /// Finalizes an instance of the <see cref="NamedItemList{T}"/> class.
+        /// </summary>
         ~NamedItemList()
         {
             foreach (T Item in this)

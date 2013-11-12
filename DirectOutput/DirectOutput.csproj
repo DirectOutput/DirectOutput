@@ -55,7 +55,7 @@
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\x86\Release\</OutputPath>
+    <OutputPath>..\bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -98,6 +98,8 @@
     <Compile Include="Cab\Out\LW\LW.cs" />
     <Compile Include="Cab\Out\NullOutputController\NullOutputController.cs" />
     <Compile Include="Cab\Out\OutputNumbered.cs" />
+    <Compile Include="Cab\Out\Pac\PacDrive.cs" />
+    <Compile Include="Cab\Out\Pac\PacDriveAutoConfigurator.cs" />
     <Compile Include="Cab\Out\Pac\PacDriveSingleton.cs" />
     <Compile Include="Cab\Out\Pac\PacLed64.cs" />
     <Compile Include="Cab\Out\Pac\Pac.cs" />

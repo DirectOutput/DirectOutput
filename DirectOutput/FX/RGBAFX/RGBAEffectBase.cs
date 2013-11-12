@@ -81,12 +81,20 @@ namespace DirectOutput.FX.RGBAFX
             }
         }
 
+        /// <summary>
+        /// Initializes the RGBA effect.<br/>
+        /// Resolves the name of the RGBA toy.
+        /// </summary>
+        /// <param name="Table">Table object containing the effect.</param>
         public override void Init(Table.Table Table)
         {
             this.Table = Table;
             ResolveName(Table);
         }
 
+        /// <summary>
+        /// Finishes the RGBA effect.
+        /// </summary>
         public override void Finish()
         {
             base.Finish();

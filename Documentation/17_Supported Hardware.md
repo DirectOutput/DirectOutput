@@ -23,7 +23,7 @@ The LedWiz is a outputcontroller with 32 outputs which all support 49 <a target=
 
 The DirectOutput framework does fully support the LedWiz and can control up to 16 LedWiz units. The framework can automatically detect connected LedWiz units and configure them for use with the framework.
 
-The LedWiz is made by <a href="http://groovygamegear.com/">GroovyGameGear</a> and can by ordered directly on GroovyGamegears website, but also from some other vendors.
+The LedWiz is made by <a target="_blank" href="http://groovygamegear.com/">GroovyGameGear</a> and can by ordered directly on GroovyGamegears website, but also from some other vendors.
 
 This unit was the first output controller which was widely used in the virtual pinball community and was the unit for which the legacy vbscript solution was developed. The DirectOutput framework replaces the vbscript solution, but can reuse the ini files which were used for the configuration of the tables. Please read \ref ledcontrolfiles for more information.
 
@@ -40,6 +40,16 @@ The framework supports auto detection and configuration of these units.
 This unit is made and sold by <a target="_blank" href="http://www.ultimarc.com">Ultimarc</a>.
 
 \image html PacLed64Logo.png
+
+\subsection hardware_ultimarc_pacdrive PacDrive (Ultimarc)
+
+The PacDrive is smaller output controller with 16 digital outputs. It is capable of driving Leds and other smaller gadgets directly, but will require a booster to driver power hungry loads (e.g. motors). 
+
+Only 1 PacDrive unit can be connected to the system. The framework supports auto detection and configuration of that unit.
+
+\image html pacdrivelogo.jpg
+
+This unit is made and sold by <a target="_blank" href="http://www.ultimarc.com">Ultimarc</a>.
 
 \subsection hardware_artnet Art-Net / DMX
 
@@ -61,13 +71,6 @@ Here is a small demo video showing DMX/Artnet support in action:
 
 Support for the following devices is currently in development.
 
-\subsection hardware_ultimarc_pacdrive PacDrive (Ultimarc)
-
-The PacDrive is smaller output controller with 16 outputs. It is capable of driving Leds and other smaller gadgets directly, but will require a booster to driver power hungry loads (e.g. motors). Only 1 PacDrive unit can be connected to the system.
-
-\image html pacdrivelogo.jpg
-
-This unit is made and sold by <a target="_blank" href="http://www.ultimarc.com">Ultimarc</a>.
 
 \section hardware_WS2811 WS2811 based led stripes
 

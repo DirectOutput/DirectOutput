@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 
 namespace DirectOutput.General.Generic
 {
+    //TODO: CHeck if the class can be dropped.
     /// <summary>
     /// Inherits BindingList&lt;T&gt; and overrides the functions necessary to provide sorting.<br/>
     /// The code of this class is based on the Codeprojekt article <a href="http://www.codeproject.com/Articles/31418/Implementing-a-Sortable-BindingList-Very-Very-Quic">Implementing a Sortable BindingList Very, Very Quickly</a> by Muigai Mwaura.

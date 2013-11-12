@@ -115,7 +115,13 @@ It is important, that you also send data to the B2S.Server when the table elemen
 
 There are still some tables around which dont have a backglass running with B2S.Server. If the B2S.Server is instanciated in such a table, it will normaly complain about the missing backglass file and therefore stop you from running the B2S.Server and the DirectOuput framework plugin.
 
-To overcome the problem you will have to add the following line to your B2STableSettings.xml file:
+To overcome the problem, uncheck the "Error message without backglass" checkbox in the B2S.Server settings window.
+
+\image html B2SServer_Settings_NoBackglass.png Error message without backglass checkbox.
+
+\note For tables without a backglass you will not be able to call the settings window of the B2S.Server.
+
+Alternatively it is also possible to edit the B2STableSettings.xml file in the table directory. You will need to add the following line to your B2STableSettings.xml file:
 
 ~~~~~~~~~~~~~~~{.xml}
 <B2STableSettings>
@@ -141,7 +147,5 @@ Set Controller = CreateObject("B2S.Server")
 
 
 Using this option any table can use the B2S.Server no matter wether it has a backglass or not. Even tables with a classic Rosve style, no B2S.Server, legacy backglass can use the B2S.Server and its plugins using the mentioned option.
-
-\note For tables without a backglass you will not be able to call the settings window of the B2S.Server.
 
 Apart from setting the mentioned option in the B2STableSettings.xml file, configuring the table for DirectOutput and B2S.Server is exactly the same as explained in the sections above.

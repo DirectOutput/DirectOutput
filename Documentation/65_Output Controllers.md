@@ -1,6 +1,8 @@
 ﻿Output controllers {#outputcontrollers}
 ==================
 
+\warning This page is fully not up to date! 
+
 \section outputcontrollers_introduction Introduction 
 
 Output controllers are devices like the Ledwiz, PacLed64 or maybe your own Arduino or Raspberry PI invention controlling one or several physical outputs in a cabinet.  

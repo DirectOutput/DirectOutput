@@ -31,6 +31,7 @@ namespace DirectOutput.Cab.Out.Pac
         };
 
         #region DLL imports
+
         [DllImport("PacDrive.dll", CallingConvention = CallingConvention.StdCall)]
         private static extern void PacSetCallbacks(PAC_ATTACHED_CALLBACK pacAttachedCallback, PAC_REMOVED_CALLBACK pacRemovedCallback);
 
@@ -419,6 +420,29 @@ namespace DirectOutput.Cab.Out.Pac
 
             return L;
         }
+
+
+        /// <summary>
+        /// Gets the Ids of the first PacDrive controller which is connected to the system.
+        /// </summary>
+        /// <returns>List of PacDrive Ids</returns>
+        public int PacDriveGetIndex()
+        {
+            List<int> L = new List<int>();
+
+
+            for (int i = 0; i < NumDevices; i++)
+            {
+                if (GetDeviceType(i) == DeviceType.PacDrive)
+                {
+                    return i;
+                }
+            }
+
+
+            return -1;
+        }
+
 
 
         /// <summary>

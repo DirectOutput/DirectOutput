@@ -25,7 +25,7 @@ The following tools and addons have been used to develop DirectOutput:
 - Visual Studio 2010. You can get the free Express version of Visual Studio from Microsofts website.
 - Git Source Control Provider. This addon for Visual Studio is available from http://visualstudiogallery.msdn.microsoft.com/63a7e40d-4d71-4fbb-a23b-d262124b8f4c. It integrates directly with Visual Studio and allows you to exceute most of the relevant Git operations directly from Visual Studio.
 - GhostDoc was used to help documenting the code. This addon for Visual Studio is available at <a target="_blank" href="http://submain.com/products/ghostdoc.aspx">http://submain.com/products/ghostdoc.aspx</a>.
-- DoxyGen is used to generate the documention on the framework. Doxygen open source and can be found at <a target="_blank" href="http://www.doxygen.org/">http://www.doxygen.org/</a>. The config file for doxygen is included in the project files on GitHub.
+- DoxyGen is used to generate the documention on the framework. Doxygen is open source and can be found at <a target="_blank" href="http://www.doxygen.org/">http://www.doxygen.org/</a>. The config file for doxygen is included in the project files on GitHub.
 - 7Zip is used to create the deployment packages of the framework. It is available at <a target="_blank" href="http://www.7-zip.org/">http://www.7-zip.org/</a>.
 
 
@@ -86,18 +86,12 @@ This project contains the source code for the LedControlFileTester.exe which as 
 
 Read \ref ledcontrol_testingapp for more information on this tool.
 
-\subsection sourcecode_wheredirectoutputest DirectOutput_Test project
-
-Just a small test project which was sometimes used for component and unit testing. 
-
-Nothing is documented in it and all of its contents should be regarded as irrelevant and likely wrong. This project will probably be removed from the solution. 
-
 
 \section sourcecode_extend Extending and changing the source code (guidelines)
 
 Every contribution to the source code is very welcome! It is however recommend to observe a few guidelines:
 
-- Please document you code using XML comments. Doxygen is used to create to dumention on the framework and will automatically create docu pages for all classes using the XML comments you enter. At least the classes themselfs and the public methods sould be documented. GhostDoc can be very helpfull the create the necessary comments.
+- Please document you code using XML comments. Doxygen is used to create the documentation of the framework and will automatically create docu pages for all classes using the XML comments you enter. At least the classes themselfs and the public methods sould be documented. GhostDoc can be very helpfull the create the necessary comments.
 - Put things in the right namespace and directory. There a separate namespaces for the major areas of the framework. Please put your code into a meaningfull namespace. If you implement something completly new (e.g. a new output controller), consider putting your addition into a sub namespace (e.g. DirectOutput.Cab.Out.MyOutputController), but think twice before you add a new main namespace (e.g. DirectOutput.MyAddition).
 - Use descriptive names for classes, methods and namespaces.
 - Think about exception handling. To ensure reliable operation of the framework, please implement proper exception handling for your classes.

@@ -57,6 +57,9 @@ namespace DirectOutput.Cab.Out.DMX
 
 
 
+        /// <summary>
+        /// Adds the outputs.
+        /// </summary>
         private void AddOutputs()
         {
             for (int i = 1; i <= 512; i++)

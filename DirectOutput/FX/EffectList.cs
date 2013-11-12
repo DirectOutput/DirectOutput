@@ -102,6 +102,9 @@ namespace DirectOutput.FX
         }
 
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EffectList"/> class.
+        /// </summary>
         public EffectList()
         {
             

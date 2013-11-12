@@ -12,7 +12,9 @@ namespace DirectOutput.Cab.Out.LW
     ///
     /// \image html LedWizboard.jpg
     /// 
-    /// The DirectOutput framework does fully support the LedWiz and can control up to 16 LedWiz units. The framework can automatically detect connected LedWiz units and configure them for use with the framework.
+    /// The DirectOutput framework does fully support the LedWiz and can control up to 16 LedWiz units. 
+    /// 
+    /// The framework can automatically detect connected LedWiz units and configure them for use with the framework. 
     /// 
     /// The LedWiz is made by <a href="http://groovygamegear.com/">GroovyGameGear</a> and can by ordered directly on GroovyGamegears website, but also from some other vendors.
     /// 

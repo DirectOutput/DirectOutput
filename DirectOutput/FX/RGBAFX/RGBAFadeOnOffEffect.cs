@@ -128,7 +128,10 @@ namespace DirectOutput.FX.RGBAFX
             }
             else
             {
-                RGBAToy.Layers[Layer].Set( TargetColor);
+                if (RGBAToy != null)
+                {
+                    RGBAToy.Layers[Layer].Set(TargetColor);
+                }
             }
         }
 
@@ -165,8 +168,10 @@ namespace DirectOutput.FX.RGBAFX
                 }
             }
 
-            RGBAToy.Layers[Layer].Set( (int)Current[0], (int)Current[1], (int)Current[2], (int)Current[3]);
-
+            if (RGBAToy != null)
+            {
+                RGBAToy.Layers[Layer].Set((int)Current[0], (int)Current[1], (int)Current[2], (int)Current[3]);
+            }
             if (ContinueFading)
             {
                 Table.Pinball.Alarms.RegisterAlarm(FadingRefreshIntervalMs, FadingStep);
@@ -238,7 +243,11 @@ namespace DirectOutput.FX.RGBAFX
         /// </summary>
         public override void Finish()
         {
-            Table.Pinball.Alarms.UnregisterAlarm(FadingStep);
+            try
+            {
+                Table.Pinball.Alarms.UnregisterAlarm(FadingStep);
+            }
+            catch { }
             if (RGBAToy != null)
             {
                 RGBAToy.Layers.Remove(Layer);

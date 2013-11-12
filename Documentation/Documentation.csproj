@@ -48,6 +48,7 @@
     <None Include="61_FX_BuiltIn.md" />
     <None Include="64_Toys_BuiltIn.md" />
     <None Include="66_OutputControllers_BuiltIn.md" />
+    <None Include="79_Support.md" />
     <None Include="80_Contribute.md" />
     <None Include="85_Downloads.md" />
     <None Include="87_History and Roadmap.md" />
@@ -62,7 +63,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="docu_todo.txt" />
+    <Content Include="img\B2SServer_PluginWindow.png" />
+    <Content Include="img\B2SServer_Settings.png" />
+    <Content Include="img\B2SServer_Settings_ActivatePlugins.png" />
+    <Content Include="img\B2SServer_Settings_NoBackglass.png" />
     <Content Include="img\CabinetArchitecture.png" />
+    <Content Include="img\Config Overview.png" />
     <Content Include="img\DirectOutputIcon_32.ico" />
     <Content Include="img\DirectOutput_Big.png" />
     <Content Include="img\DirectOutput_Small.png" />
@@ -93,6 +99,7 @@
     <Content Include="img\pacdrivelogo.jpg" />
     <Content Include="img\PacLed64logo.png" />
     <Content Include="img\Plugin.png" />
+    <Content Include="img\RTFM.gif" />
     <Content Include="img\SquashBug.jpg" />
     <Content Include="img\swisslizard.png" />
     <Content Include="img\Table.png" />
@@ -100,6 +107,7 @@
     <Content Include="img\TestAndDevTeam.jpg" />
     <Content Include="img\ToyArchitecture.png" />
     <Content Include="img\ToyEffect.png" />
+    <Content Include="img\you-re-the-best.gif" />
     <Content Include="ToDo.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

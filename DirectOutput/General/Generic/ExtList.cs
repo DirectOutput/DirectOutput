@@ -4,6 +4,10 @@ using System.Collections.Generic;
 
 namespace DirectOutput.General.Generic
 {
+    /// <summary>
+    /// Extended version of the generic List class supporting events for various actions on the list.
+    /// </summary>
+    /// <typeparam name="T">Type of the items contained in the list</typeparam>
     public class ExtList<T> : IList<T>, ICollection<T>, IEnumerable<T>, IEnumerable, ICollection, IList
     {
         private List<T> _InternalList = new List<T>();
@@ -389,6 +393,7 @@ namespace DirectOutput.General.Generic
 
         #region IList Member
 
+
         public int Add(object value)
         {
             if(value.GetType() != typeof(T)) {
@@ -397,6 +402,7 @@ namespace DirectOutput.General.Generic
             Add((T)value);
             return _InternalList.Count - 1;
         }
+
 
         public bool Contains(object value)
         {

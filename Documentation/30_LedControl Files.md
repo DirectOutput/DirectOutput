@@ -8,7 +8,7 @@ Since this framework supports the use of more than one output controller/LedWiz,
 
 To facilitate the use of the framework, the auto config function will automatically load ini files and select a table config from the data based on the RomName, if no xml table config can be found. But even if a xml table config file is available is is possible to use the directoutputconfig.ini/ledcontrol.ini configs together with xml table configs by setting the right option in the xml table config. 
 
-If you dont have a directoutputconfig.ini file for your cabinet, it is best if you go to the <a href="http://vpuniverse.com/ledwiz/login.php">LedWiz ConfigTool Website</a> and create a file matching your cabinet. 
+If you dont have a directoutputconfig.ini file for your cabinet, it is best if you go to the <a target="_blank" href="http://vpuniverse.com/ledwiz/login.php">LedWiz ConfigTool Website</a> and create a file matching your cabinet. 
 
 
 LedControl.ini files which worked for the legacy ledcontrol.vbs solution are working in DOF too and will generally create the same effects as the ledcontrol.vbs, but you might notice some small differences since the timeing behaviour of DOF is completely different from the old solution (DOF is much, much faster).
@@ -94,7 +94,7 @@ If a cabinet config file exists, the framework normally no do any automatic dete
 
 The content opf the ini files is a bit hard to read and understand. The following paragraphs try to explain the most importants points.
 
-The ini files are also quite hard to edit manually. Therefore the best option to get your own settings, is to use the <a href="http://vpuniverse.com/ledwiz/login.php">LedWiz ConfigTool Website</a>. If you create your own settings, it is highly recommended that you use the \ref inifiles_testingapp "LedControlFileTester.exe" to check if your files can be parsed.
+The ini files are also quite hard to edit manually. Therefore the best option to get your own settings, is to use the <a target="_blank" href="http://vpuniverse.com/ledwiz/login.php">LedWiz ConfigTool Website</a>. If you create your own settings, it is highly recommended that you use the \ref inifiles_testingapp "LedControlFileTester.exe" to check if your files can be parsed.
 
 \image html LedWizConfigTool.jpg LedWiz ConfigTool 
 
