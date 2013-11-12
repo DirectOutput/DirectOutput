@@ -85,6 +85,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cab\Out\AdressableLedStrip\AdressableLedStrip.cs" />
     <Compile Include="Cab\Out\AdressableLedStrip\LedStripOutput.cs" />
     <Compile Include="Cab\Out\AdressableLedStrip\WS2811StripController.cs" />
     <Compile Include="Cab\Out\DMX\ArtNet.cs" />

@@ -94,7 +94,7 @@ namespace DirectOutput.Cab.Out.Pac
         /// or
         /// PacDrive output numbers must be in the range of 1-16. The supplied output number {0} is out of range..Build(ON.Number)
         /// </exception>
-        public override void OnOutputValueChanged(IOutput Output)
+        protected override void OnOutputValueChanged(IOutput Output)
         {
 
             if (!(Output is OutputNumbered))

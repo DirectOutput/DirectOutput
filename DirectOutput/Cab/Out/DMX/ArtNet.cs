@@ -78,7 +78,7 @@ namespace DirectOutput.Cab.Out.DMX
         /// <param name="Output">The output.</param>
         /// <exception cref="System.Exception">The OutputValueChanged event handler for ArtNet node {0} (controlling Dmx universe {1}) has been called by a sender which is not a DmxOutput..Build(Name, Universe)</exception>
         /// <exception cref="System.ArgumentOutOfRangeException">ArtNet node {0} has received a update for a illegal dmx channel number ({1})..Build(Name, O.DmxChannel)</exception>
-        public override void OnOutputValueChanged(IOutput Output)
+        protected override void OnOutputValueChanged(IOutput Output)
         {
             if (!(Output is DMXOutput))
             {
