@@ -117,7 +117,7 @@ namespace DirectOutput.FX.TimmedFX
                 Table.Pinball.Alarms.UnregisterAlarm(MinDurationEnd);
             }
             catch  {}
-            MinDurationEnd();
+            //MinDurationEnd();
             Active = false;
             base.Finish();
         }
