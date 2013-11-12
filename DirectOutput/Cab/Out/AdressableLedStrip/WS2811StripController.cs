@@ -27,7 +27,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         private byte[] OutputLedData = new byte[0];
 
 
-        private int _ControllerNumber;
+        private int _ControllerNumber=1;
 
         /// <summary>
         /// Gets or sets the number of the controller.
@@ -38,7 +38,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         public int ControllerNumber
         {
             get { return _ControllerNumber; }
-            set { _ControllerNumber = value; }
+            set { _ControllerNumber=value ; }
         }
 
 
@@ -55,7 +55,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             get { return _NumberOfLeds; }
             set
             {
-                _NumberOfLeds = value.Limit(1, 4006);
+                _NumberOfLeds = value.Limit(0, 4006);
                 LedData = new byte[_NumberOfLeds * 3];
                 OutputLedData = new byte[_NumberOfLeds * 3];
             }
@@ -112,10 +112,15 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
 
                 try
                 {
-                    if (LedData[ByteNr] != ON.Value)
+
+                    lock (UpdateLocker)
                     {
-                        LedData[ByteNr] = ON.Value;
-                        UpdateRequired = true;
+                        if (LedData[ByteNr] != ON.Value)
+                        {
+                            LedData[ByteNr] = ON.Value;
+                            UpdateRequired = true;
+                        }
+                        
                     }
                 }
                 catch (Exception E)
