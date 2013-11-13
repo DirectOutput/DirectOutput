@@ -27,7 +27,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         private byte[] OutputLedData = new byte[0];
 
 
-        private int _ControllerNumber=1;
+        private int _ControllerNumber = 1;
 
         /// <summary>
         /// Gets or sets the number of the controller.
@@ -38,7 +38,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         public int ControllerNumber
         {
             get { return _ControllerNumber; }
-            set { _ControllerNumber=value ; }
+            set { _ControllerNumber = value; }
         }
 
 
@@ -120,12 +120,12 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                             LedData[ByteNr] = ON.Value;
                             UpdateRequired = true;
                         }
-                        
+
                     }
                 }
                 catch (Exception E)
                 {
-                    Log.Exception("WS2811StripController {0} with number {1} has received a update with a illegal or to high output number ({2}).".Build(Name, ControllerNumber, ON.Number),E);
+                    Log.Exception("WS2811StripController {0} with number {1} has received a update with a illegal or to high output number ({2}).".Build(Name, ControllerNumber, ON.Number), E);
                 }
             }
 
@@ -138,7 +138,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             {
                 if (!Outputs.Any(x => ((LedStripOutput)x).Number == i))
                 {
-                    Outputs.Add(new LedStripOutput() { Name = "{0}.{1:0000}".Build(Name, i), Number = i });
+                    Outputs.Add(new LedStripOutput() { Name = "{0}.{1}".Build(Name, i), Number = i });
                 }
             }
         }
@@ -146,7 +146,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
 
 
         /// <summary>
-/// Initializes the output controller.
+        /// Initializes the output controller.
         /// </summary>
         /// <param name="Cabinet">The Cabinet object which is using the IOutputController instance.</param>
         public override void Init(Cabinet Cabinet)
@@ -273,7 +273,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
 
 
 
-        private WS2811StripControllerApi Controller=null;
+        private WS2811StripControllerApi Controller = null;
 
         /// <summary>
         /// This is the main method of the WS2811StripController object updater thread.

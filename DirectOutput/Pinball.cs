@@ -361,11 +361,11 @@ namespace DirectOutput
                             if (FoundIt)
                             {
                                 L.LoadLedControlFiles(LedControlIniFiles, false);
-                                Log.Write("{0} directoutput.ini or ledcontrol.ini files loaded.".Build(LedControlIniFiles.Count));
+                                Log.Write("{0} directoutputconfig.ini or ledcontrol.ini files loaded.".Build(LedControlIniFiles.Count));
                             }
                             else
                             {
-                                Log.Write("No directoutput.ini or ledcontrol.ini files found. No directoutput.ini or ledcontrol.ini configs will be loaded.");
+                                Log.Write("No directoutputconfig.ini or ledcontrol.ini files found.");
                             }
                         }
                         if (!L.ContainsConfig(RomName))
