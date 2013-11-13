@@ -31,7 +31,7 @@ namespace DirectOutput.Cab.Out.Pac
 
                         Log.Write("Detected and added PacDrive");
 
-                        if (!Cabinet.Toys.Any(T => T is LedWizEquivalent && ((LedWizEquivalent)T).LedWizNumber != 19))
+                        if (!Cabinet.Toys.Any(T => T is LedWizEquivalent && ((LedWizEquivalent)T).LedWizNumber == 19))
                         {
 
 
