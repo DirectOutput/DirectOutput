@@ -397,6 +397,9 @@ namespace DirectOutput.Cab.Out.Pac
                     }
                     TriggerUpdate = false;
                 }
+
+                ShutdownLighting();
+
                 Pinball.ThreadInfoList.ThreadTerminates();
             }
 
