@@ -47,7 +47,8 @@ namespace DirectOutput.Cab.Out.DMX
         /// If no BroadcastAddress is set, the default address (255.255.255.255) will be used.
         /// </summary>
         /// <value>
-        /// String containing broadcast address.
+        /// String containing broadcast address. If this parameter is not set the default broadcast address (255.255.255.255) will be used.
+        /// Valid values are any IP adresses (e.g. 192.168.1.53).
         /// </value>
         public string BroadcastAddress
         {
