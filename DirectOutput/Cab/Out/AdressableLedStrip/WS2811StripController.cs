@@ -285,15 +285,17 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                 Controller = new WS2811StripControllerApi(ControllerNumber);
                 if (!Controller.DeviceIsPresent)
                 {
-                    Log.Warning("WS2811 Strip Controller Nr. {0} is not present. Will not send updates.");
+                    Log.Warning("WS2811 Strip Controller Nr. {0} is not present. Will not send updates.".Build(ControllerNumber));
                     Controller = null;
                 }
             }
 
 
             OutputLedData.Fill((byte)0);
-            Controller.SetAndDisplayData(OutputLedData);
-
+            if (Controller != null)
+            {
+                Controller.SetAndDisplayData(OutputLedData);
+            }
             while (KeepUpdaterThreadAlive)
             {
 
@@ -308,6 +310,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
 
                     if (Controller != null)
                     {
+
                         Controller.SetAndDisplayData(OutputLedData);
                     }
                 }
@@ -326,10 +329,12 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             }
 
             OutputLedData.Fill((byte)0);
-            Controller.SetAndDisplayData(OutputLedData);
+            if (Controller != null)
+            {
+                Controller.SetAndDisplayData(OutputLedData);
 
-            Controller.Close();
-
+                Controller.Close();
+            }
             Controller = null;
 
         }
