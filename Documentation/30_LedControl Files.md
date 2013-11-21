@@ -155,7 +155,7 @@ The second and following parts can contain the following:
 * __L{Number}__ defines the layer on which the setting operates. In most cases the setting is not required, since DOF will assign ascending layer numbers to the settings for a column anyway.
 * __W{NumberOfMilliseconds}__ defines a wait period resp. delay before the effect executes after it has been triggered.
 * __M{NumberOfMilliseconds}__ defines the minimum duration for the effect in milliseconds.
-* __F{NumberOfMilliseconds}, FU{NumberOfMilliseconds}, FD{NumberOfMilliseconds}__ are used to specify the fading duration in milliseconds. _F_ sets the duration for both fading up and down, _FU_ controls fading up anly and _FD_ fading down only.
+* __F{NumberOfMilliseconds}, FU{NumberOfMilliseconds}, FD{NumberOfMilliseconds}__ are used to specify the fading duration in milliseconds. _F_ sets the duration for both fading up and down, _FU_ controls fading up only and _FD_ fading down only.
 * __BPW{Percentage}__ defines the blink pulse width in percent. Valid values are 1-99, default value if not defined is 50.
 * __Numeric Values__ without any extra character can be used to specify the duration of the effect or the blinking behaviour. If blinking has been defined, one or two numeric values are parsed. Value 1 controls the blink interval in milliseconds, while value 2 defines the number of blinks. If no blinking has been defined, only one numeric values which is used to defined the duration of the effect in milliseconds is parsed.
 
