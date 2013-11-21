@@ -142,14 +142,14 @@ namespace DirectOutput.LedControl.Setup
 
                                         if (TCS.Blink != 0)
                                         {
-                                            Effect = new BlinkEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} BlinkEffect".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name, DurationActiveMs = TCS.BlinkIntervalMs, DurationInactiveMs = TCS.BlinkIntervalMs };
+                                            Effect = new BlinkEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} BlinkEffect".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name, DurationActiveMs = (int)((double)TCS.BlinkIntervalMs * (double)TCS.BlinkPulseWidth / 100), DurationInactiveMs = (int)((double)TCS.BlinkIntervalMs * (100-(double)TCS.BlinkPulseWidth) / 100) };
                                             MakeEffectNameUnique(Effect, Table);
                                             Table.Effects.Add(Effect);
                                         }
 
                                         if (TCS.DurationMs > 0 || TCS.Blink > 0)
                                         {
-                                            int Duration = (TCS.DurationMs > 0 ? TCS.DurationMs : (TCS.Blink * 2 - 1) * TCS.BlinkIntervalMs + 1);
+                                            int Duration = (TCS.DurationMs > 0 ? TCS.DurationMs : (TCS.Blink * 2 - 1) * TCS.BlinkIntervalMs/2 + 1);
                                             Effect = new DurationEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} DurationEffect".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name, DurationMs = Duration, RetriggerBehaviour = RetriggerBehaviourEnum.RestartEffect };
                                             MakeEffectNameUnique(Effect, Table);
                                             Table.Effects.Add(Effect);
