@@ -52,7 +52,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                 DisplayData(Data.Length);
             }
         }
-       
+
 
         public void SetData(byte[] Data)
         {
@@ -65,7 +65,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                     {
                         uint Dummy = 0;
                         FT245R.Write(Header, 3, ref Dummy);
-                        FT245R.Write(Data, Data.Length,ref Dummy);
+                        FT245R.Write(Data, Data.Length, ref Dummy);
                         if (Dummy != Data.Length)
                         {
                             Console.WriteLine("Stop");
@@ -98,7 +98,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         {
             get
             {
-                uint Dummy=0;
+                uint Dummy = 0;
                 return FT245R != null && FT245R.GetRxBytesAvailable(ref Dummy) == FTDI.FT_STATUS.FT_OK;
             }
         }
@@ -107,7 +107,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
 
 
         FTDI FT245R;
-        private object FT245RLocker=new object();
+        private object FT245RLocker = new object();
 
         public void Open(int ControllerNumber)
         {
@@ -116,11 +116,12 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                 Close();
 
                 bool OK = false;
-                
+
                 this.ControllerNumber = ControllerNumber;
 
                 FT245R = new FTDI();
                 FTDI.FT_STATUS FTStatus;
+
 
                 //Get number of devices
                 uint DeviceCnt = 0;
@@ -130,9 +131,32 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                 {
                     FTDI.FT_DEVICE_INFO_NODE[] Devices = new FTDI.FT_DEVICE_INFO_NODE[DeviceCnt];
 
+                    for (uint i = 0; i < DeviceCnt; i++)
+                    {
+                        FTStatus = FT245R.OpenByIndex(i);
+                        Log.Write("Open {0}: Result: {1}".Build(i, FTStatus.ToString()));
+                        if (FT245R.IsOpen)
+                        {
+                            string D = "";
+                            FT245R.GetDescription(out D);
+                            Log.Write("Desc: {0}".Build(D));
+                            try
+                            {
+                                FTStatus = FT245R.Close();
+                                Log.Write("Close {i}: Result: {1}".Build(i, FTStatus.ToString()));
+                            } catch {}
+                        }
+
+                    }
+                    Log.Write("All listed");
+
                     FTStatus = FT245R.GetDeviceList(Devices);
                     if (FTStatus == FTDI.FT_STATUS.FT_OK)
                     {
+                        foreach (FTDI.FT_DEVICE_INFO_NODE DI in Devices)
+                        {
+                            Log.Write("Found {0}".Build(DI.Description));
+                        }
                         foreach (FTDI.FT_DEVICE_INFO_NODE DI in Devices)
                         {
                             if (DI != null && DI.Type == FTDI.FT_DEVICE.FT_DEVICE_232R)
@@ -151,13 +175,26 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                                             OK = true;
                                             break;
                                         }
+                                        else
+                                        {
+                                            Log.Exception("Purge failed for WS2811StripController {0} Error: {1}".Build(ControllerNumber, FTStatus.ToString()));
+                                        }
                                     }
-                                   
+                                    else
+                                    {
+                                        Log.Exception("Open failed for WS2811StripController {0}. Error: {1}".Build(ControllerNumber, FTStatus.ToString()));
+                                    }
                                 }
                             }
                         }
                     }
+                    else
+                    {
+
+                        Log.Exception("Could not fetch devicelist for WS2811StripControllers. Error: {0}".Build(FTStatus.ToString()));
+                    }
                 }
+
 
                 if (!OK)
                 {
@@ -178,7 +215,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                 byte[] Response = new Byte[CharsToRead];
                 FT245R.Read(Response, CharsToRead, ref BytesRead);
 
-                bool OK=true;
+                bool OK = true;
                 for (int i = 0; i < BytesRead; i++)
                 {
                     if (Response[i] == 0x4e)
@@ -240,7 +277,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         {
             List<int> L = new List<int>();
 
-            FTDI  FTD2xxWrapper = new FTDI();
+            FTDI FTD2xxWrapper = new FTDI();
             FTDI.FT_STATUS FTStatus;
 
             //Get number of devices
@@ -258,8 +295,8 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                     {
                         if (DI != null && DI.Type == FTDI.FT_DEVICE.FT_DEVICE_232R)
                         {
-                            int ControllerNr=0;
-                            if (DI.Description.StartsWith(ControllerNameBase) && int.TryParse(DI.Description.Substring(ControllerNameBase.Length),out ControllerNr)) 
+                            int ControllerNr = 0;
+                            if (DI.Description.StartsWith(ControllerNameBase) && int.TryParse(DI.Description.Substring(ControllerNameBase.Length), out ControllerNr))
                             {
                                 if (ControllerNr > 0)
                                 {

@@ -112,6 +112,7 @@
     <Compile Include="Cab\Toys\Basic\IRGBToy.cs" />
     <Content Include="Config\GlobalConfig_B2SServer.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Compile Include="Cab\Toys\Basic\ILampToy.cs" />
     <Compile Include="Cab\Toys\IToyUpdatable.cs" />
