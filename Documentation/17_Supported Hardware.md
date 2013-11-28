@@ -17,7 +17,7 @@ The following devices are fully supported by the framework.
 
 \subsection hardware_ledwiz LedWiz (GroovyGameGear)
 
-The LedWiz is a outputcontroller with 32 outputs which all support 49 <a target="_blank" href="https://en.wikipedia.org/wiki/Pulse-width_modulation">pwm</a> levels. The LedWiz is able to drive Leds directly, but will require some kind of booster of power hunger gadgets like big contactors or motors are connected to it.
+The LedWiz is a outputcontroller with 32 outputs which all support 49 <a target="_blank" href="https://en.wikipedia.org/wiki/Pulse-width_modulation">pwm</a> levels with a PWM frequency of approx. 50hz. The LedWiz is able to drive Leds and other small loads directly, but will require some kind of booster for power hunger gadgets like big contactors or motors are connected to it.
 
 \image html LedWizboard.jpg
 
@@ -33,7 +33,7 @@ The framework supports auto detection and configuration of the LedWiz.
 
 \subsection hardware_ultimarc_pacled64 PacLed64 (Ultimarc)
 
-The PacLed64 is a output controller with 64 outputs all supporting 256 <a target="_blank" href="https://en.wikipedia.org/wiki/Pulse-width_modulation">pwm</a> levels. The unit is mainly designed to connect leds (cosuming 20ma each) directly to the outputs, but boosters might be used to driver higher loads (e.g. Cree leds). Up to 4 PacLed64 controllers can be used with the DirectOutput framework.
+The PacLed64 is a output controller with 64 outputs all supporting 256 <a target="_blank" href="https://en.wikipedia.org/wiki/Pulse-width_modulation">pwm</a> levels with a PWM frequency of 100khz. The unit is mainly designed to connect leds (cosuming 20ma each) directly to the outputs, but boosters must be used to driver higher loads (e.g. Cree leds). Up to 4 PacLed64 controllers can be used with the DirectOutput framework.
 
 The framework supports auto detection and configuration of these units.
 
