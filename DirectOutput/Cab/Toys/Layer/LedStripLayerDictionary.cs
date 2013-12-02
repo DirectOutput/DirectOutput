@@ -13,7 +13,7 @@ namespace DirectOutput.Cab.Toys.Layer
 
         /// <summary>
         /// Gets or sets the <see cref="RGBAData"/> array for the specified layernr.
-        /// Dimension 0 of the array repersent the x resp. horizontal direction. Dimension 1 of the array repersent the y resp. vertical direction.
+        /// Dimension 0 of the array represents the x resp. horizontal direction. Dimension 1 of the array represents the y resp. vertical direction.
         /// Position 0,0 is the upper left corner of the ledarray.
         /// </summary>
         /// <value>
