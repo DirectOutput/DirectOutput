@@ -1,4 +1,5 @@
 ﻿using DirectOutput.Cab.Toys.Layer;
+using System.Xml.Serialization;
 
 namespace DirectOutput.FX.LedStripFX
 {
@@ -117,11 +118,14 @@ namespace DirectOutput.FX.LedStripFX
         }
         #endregion
 
-
-        protected int AreaLeft=0;
-        protected int AreaTop=0;
-        protected int AreaRight=0;
-        protected int AreaBottom=0;
+        [XmlIgnoreAttribute]
+        protected int AreaLeft = 0;
+        [XmlIgnoreAttribute]
+        protected int AreaTop = 0;
+        [XmlIgnoreAttribute]
+        protected int AreaRight = 0;
+        [XmlIgnoreAttribute]
+        protected int AreaBottom = 0;
 
         /// <summary>
         /// Gets the table object which was specified during initialisation of the effect.
@@ -129,6 +133,7 @@ namespace DirectOutput.FX.LedStripFX
         /// <value>
         /// The table object which was specified during initialisation of the effect..
         /// </value>
+        [XmlIgnoreAttribute]
         protected Table.Table Table { get; private set; }
 
 
@@ -139,6 +144,7 @@ namespace DirectOutput.FX.LedStripFX
         /// <value>
         /// The led strip layer array.
         /// </value>
+        [XmlIgnoreAttribute]
         protected RGBAData[,] LedStripLayer;
 
 
