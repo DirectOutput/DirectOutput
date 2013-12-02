@@ -209,6 +209,9 @@
     <Compile Include="FX\AnalogToyFX\AnanlogToyEffectBase.cs" />
     <Compile Include="FX\AnalogToyFX\AnalogToyFadeOnOffEffect.cs" />
     <Compile Include="FX\FadeModeEnum.cs" />
+    <Compile Include="FX\LedStripFX\ColorFadeModeEnum.cs" />
+    <Compile Include="FX\LedStripFX\LedStripEffectBase.cs" />
+    <Compile Include="FX\LedStripFX\LedStripSetColorEffect.cs" />
     <Compile Include="FX\RetriggerBehaviourEnum.cs" />
     <Compile Include="FX\TimmedFX\BlinkEffect.cs" />
     <Compile Include="FX\TimmedFX\DelayEffect.cs" />

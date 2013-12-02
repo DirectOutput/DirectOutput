@@ -1,0 +1,116 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using DirectOutput.Cab.Color;
+using DirectOutput.Cab.Toys.Layer;
+
+namespace DirectOutput.FX.LedStripFX
+{
+    /// <summary>
+    /// Sets the spefied area of a ledstrip to a color depending on configured colors and the trigger value.
+    /// </summary>
+    public class LedStripColorEffect:LedStripEffectBase
+    {
+
+        private RGBAColor _ActiveColor = new RGBAColor(0xff, 0xff, 0xff, 0xff);
+
+        /// <summary>
+        /// Gets or sets the active color.
+        /// The ColorSetMode property defines how this value is used.
+        /// </summary>
+        /// <value>
+        /// The active color.
+        /// </value>
+        public RGBAColor ActiveColor
+        {
+            get { return _ActiveColor; }
+            set { _ActiveColor = value; }
+        }
+
+        private RGBAColor _InactiveColor = new RGBAColor(0, 0, 0, 0);
+
+        /// <summary>
+        /// Gets or sets the inactive color.
+        /// The ColorSetMode property defines how this value is used.
+        /// </summary>
+        /// <value>
+        /// The inactive color.
+        /// </value>
+        public RGBAColor InactiveColor
+        {
+            get { return _InactiveColor; }
+            set { _InactiveColor = value; }
+        }
+
+
+        private ColorSetModeEnum _ColorSetMode=ColorSetModeEnum.OnOff;
+
+        /// <summary>
+        /// Gets or sets the color set mode.
+        /// </summary>
+        /// <value>
+        /// Fade (active and inactive color will fade depending on trigger value) or OnOff (actvice color is used for triger values >0, otherwise inactive color will be used).
+        /// </value>
+        public ColorSetModeEnum ColorSetMode
+        {
+            get { return _ColorSetMode; }
+            set { _ColorSetMode = value; }
+        }
+
+
+
+        /// <summary>
+        /// Triggers the effect with the given TableElementData.
+        /// </summary>
+        /// <param name="TableElementData">TableElementData for the TableElement which has triggered the effect.</param>
+        public override void Trigger(Table.TableElementData TableElementData)
+        {
+            RGBAData D;
+
+            int V = TableElementData.Value.Limit(0,255);
+            if (V > 0 && ColorSetMode == ColorSetModeEnum.OnOff) { V = 255; }
+
+            D.Red = InactiveColor.Red + (int)((float)(ActiveColor.Red - InactiveColor.Red) * TableElementData.Value / 255).Limit(0,255);
+            D.Green = InactiveColor.Green + (int)((float)(ActiveColor.Green - InactiveColor.Green) * TableElementData.Value / 255).Limit(0, 255);
+            D.Blue = InactiveColor.Blue + (int)((float)(ActiveColor.Blue - InactiveColor.Blue) * TableElementData.Value / 255).Limit(0, 255);
+            D.Alpha = InactiveColor.Alpha + (int)((float)(ActiveColor.Alpha - InactiveColor.Alpha) * TableElementData.Value / 255).Limit(0, 255);
+           
+            if (LedStripLayer != null)
+            {
+                for (int x = AreaLeft; x <= AreaRight; x++)
+                {
+                    for (int y = AreaTop; y < AreaBottom; y++)
+                    {
+                        LedStripLayer[x, y] = D;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Initializes the effect.
+        /// </summary>
+        /// <param name="Table">Table object containing the effect.</param>
+        public override void Init(Table.Table Table)
+        {
+            base.Init(Table);
+
+            if (LedStrip != null)
+            {
+
+
+            }
+        }
+
+        /// <summary>
+        /// Finishes the effect.
+        /// </summary>
+        public override void Finish()
+        {
+            base.Finish();
+        }
+
+
+    }
+}
