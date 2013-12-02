@@ -21,6 +21,7 @@ using System.Xml.Serialization;
 using DirectOutput.FX.TimmedFX;
 using System.Reflection;
 using DirectOutput.FX;
+using DirectOutput.Cab.Toys;
 
 
 namespace DirectOutput_Test
@@ -50,14 +51,45 @@ namespace DirectOutput_Test
         private void button1_Click(object sender, EventArgs e)
         {
 
-     
+            Curve F = new Curve();
+            F.Data[1] = 20;
+            //F.Name = "Test";
+
+            string Xml = "";
+            using (MemoryStream ms = new MemoryStream())
+            {
+                new XmlSerializer(F.GetType()).Serialize(ms, F);
+                ms.Position = 0;
+                using (StreamReader sr = new StreamReader(ms, Encoding.Default))
+                {
+                    Xml = sr.ReadToEnd();
+                    sr.Dispose();
+                }
+            }
+            Console.WriteLine(Xml);
 
 
+            byte[] xmlBytes = Encoding.Default.GetBytes(Xml);
+            using (MemoryStream ms = new MemoryStream(xmlBytes))
+            {
+                try
+                {
+                   Curve F2=(Curve)new XmlSerializer(typeof(Curve)).Deserialize(ms);
+                }
+                catch (Exception E)
+                {
+
+                    Exception Ex = new Exception("Could not deserialize the cabinet config from XML data.", E);
+                    Ex.Data.Add("XML Data", Xml);
+                    Log.Exception("Could not load cabinet config from XML data.", Ex);
+                    throw Ex;
+                }
+            }
 
         }
 
 
-        public RetriggerBehaviourEnum RB { get; set; }
+
 
         private void button2_Click(object sender, EventArgs e)
         {

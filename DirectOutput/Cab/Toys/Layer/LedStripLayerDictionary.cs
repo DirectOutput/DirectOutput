@@ -5,10 +5,10 @@ using System.Text;
 
 namespace DirectOutput.Cab.Toys.Layer
 {
-    public class LedStripLayerDictionary : SortedDictionary<int, LedStripLayer>
+    public class LedStripLayerDictionary : SortedDictionary<int, RGBAData[,]>
     {
 
-        public new LedStripLayer this[int LayerNr]
+        public new RGBAData[,] this[int LayerNr]
         {
             get
             {
@@ -18,8 +18,8 @@ namespace DirectOutput.Cab.Toys.Layer
                 }
                 catch
                 {
-                    LedStripLayer L = new LedStripLayer();
-                    L.NumberOfLeds = Parent.NumberOfLeds;
+                    RGBAData[,] L = new RGBAData[Parent.Width, Parent.Height];
+
                     Add(LayerNr, L);
                     return L;
                 }
@@ -33,45 +33,6 @@ namespace DirectOutput.Cab.Toys.Layer
         private LedStrip Parent;
 
 
-
-        public int[,] GetResultingValue()
-        {
-            if (Count > 0)
-            {
-                float[,] Value = new float[Parent.NumberOfLeds, 3];
-
-
-
-                foreach (KeyValuePair<int, LedStripLayer> KV in this)
-                {
-                    int[,] D = KV.Value.RGBALedData;
-
-                    for (int i = 0; i < Parent.NumberOfLeds; i++)
-                    {
-                        int Alpha = D[i, 3];
-                        if (Alpha != 0)
-                        {
-                            Value[i, 0] = AlphaMappingTable.AlphaMapping[255 - Alpha, (int)Value[i, 0]] + AlphaMappingTable.AlphaMapping[Alpha, D[i, 0]];
-                            Value[i, 1] = AlphaMappingTable.AlphaMapping[255 - Alpha, (int)Value[i, 1]] + AlphaMappingTable.AlphaMapping[Alpha, D[i, 1]];
-                            Value[i, 2] = AlphaMappingTable.AlphaMapping[255 - Alpha, (int)Value[i, 2]] + AlphaMappingTable.AlphaMapping[Alpha, D[i, 2]];
-                        }
-                    }
-                }
-                int[,] Result = new int[Parent.NumberOfLeds, 3]; 
-                for (int i = 0; i < Parent.NumberOfLeds; i++)
-                {
-                    Result[i, 0] = (int)Value[i, 0];
-                    Result[i, 1] = (int)Value[i, 1];
-                    Result[i, 2] = (int)Value[i, 2];
-                }
-                return Result;
-
-            }
-            else
-            {
-                return new int[0, 3];
-            }
-        }
 
     }
 }

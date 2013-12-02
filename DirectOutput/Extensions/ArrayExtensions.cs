@@ -33,6 +33,30 @@ using System.Text;
             {
                 x[i] = FillValue;
             }
+        }
+
+
+        /// <summary>
+        /// Compares the array with the specified array.
+        /// </summary>
+        /// <typeparam name="T">Type of the array.</typeparam>
+        /// <param name="CurrentArray">The current array.</param>
+        /// <param name="CompareWith">The array to compare with.</param>
+        /// <returns>True if both arrays are equal (size and content), otherwise false.</returns>
+        public static bool CompareContents<T>(this T[] CurrentArray, T[] CompareWith)
+        {
+            if (CurrentArray.Length != CompareWith.Length)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < CurrentArray.Length; i++)
+            {
+                if (!EqualityComparer<T>.Default.Equals(CurrentArray[i], CompareWith[i])) return false;
+            }
+            return true;
+
 
         }
+    
     }

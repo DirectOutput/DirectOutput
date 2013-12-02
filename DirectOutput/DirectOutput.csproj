@@ -92,6 +92,7 @@
     <Compile Include="Cab\Out\DMX\ArtnetEngine\ArtnetEngine.cs" />
     <Compile Include="Cab\Out\IAutoConfigOutputController.cs" />
     <Compile Include="Cab\Out\IOutputNumbered.cs" />
+    <Compile Include="Cab\Out\ISupportsSetValues.cs" />
     <Compile Include="Cab\Out\LW\LedWizAutoConfigurator.cs" />
     <Compile Include="Cab\Out\DMX\ArtnetEngine\Engine.cs" />
     <Compile Include="Cab\Out\DMX\DMX.cs" />
@@ -115,6 +116,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Compile Include="Cab\Toys\Basic\ILampToy.cs" />
+    <Compile Include="Cab\Toys\CurveList.cs" />
     <Compile Include="Cab\Toys\IToyUpdatable.cs" />
     <Compile Include="Cab\Toys\Layer\AlphaMappingTable.cs" />
     <Compile Include="Cab\Toys\Layer\AnalogAlphaValue.cs" />
@@ -126,11 +128,14 @@
     <Compile Include="Cab\Toys\Layer\IAnalogAlphaToy.cs" />
     <Compile Include="Cab\Toys\Layer\IRGBAToy.cs" />
     <Compile Include="Cab\Toys\Layer\LedStrip.cs" />
-    <Compile Include="Cab\Toys\Layer\LedStripLayer.cs" />
     <Compile Include="Cab\Toys\Layer\LedStripLayerDictionary.cs" />
+    <Compile Include="Cab\Toys\Layer\RGBAData.cs" />
     <Compile Include="Cab\Toys\Layer\RGBALayer.cs" />
     <Compile Include="Cab\Toys\Layer\RGBALayerDictionary.cs" />
     <Compile Include="Cab\Color\RGBColorNamed.cs" />
+    <Compile Include="Cab\Toys\Layer\RGBOrderEnum.cs" />
+    <Compile Include="Cab\Toys\Layer\StripArrangementEnum.cs" />
+    <Compile Include="Cab\Toys\Curve.cs" />
     <Compile Include="Cab\Toys\ToyBaseUpdatable.cs" />
     <Compile Include="Cab\Toys\Layer\RGBAToy.cs" />
     <Compile Include="DirectOutput.cs" />

@@ -20,7 +20,7 @@ public static class StringExtensions
     /// <returns>Int of given Hexnumber</returns>
     public static int HexToInt(this string s)
     {
-       return int.Parse(s, System.Globalization.NumberStyles.HexNumber);
+        return int.Parse(s, System.Globalization.NumberStyles.HexNumber);
     }
     /// <summary>
     /// Converts a Hexnumber to byte
@@ -65,11 +65,11 @@ public static class StringExtensions
 
         if (startindex + length > s.Length) return false;
 
-        return  System.Text.RegularExpressions.Regex.IsMatch(s.Substring(startindex,length), @"\A\b[0-9a-fA-F]+\b\Z");
+        return System.Text.RegularExpressions.Regex.IsMatch(s.Substring(startindex, length), @"\A\b[0-9a-fA-F]+\b\Z");
     }
 
 
-   
+
 
     /// <summary>
     /// Converts the string to a byte array.
@@ -129,12 +129,23 @@ public static class StringExtensions
     /// <summary>
     /// Converts the string to int
     /// </summary>
-    /// <returns>The int value of the string. <para>If the string can not be converted to int, the return value will be 0.</para></returns>
+    /// <returns>The int value of the string.If the string can not be converted to int, the return value will be 0.</returns>
     public static int ToInteger(this string s)
     {
         int integerValue = 0;
         int.TryParse(s, out integerValue);
         return integerValue;
+    }
+
+    /// <summary>
+    /// Converts the string to uint
+    /// </summary>
+    /// <returns>The uint value of the string. <para>If the string can not be converted to uint, the return value will be 0.</para></returns>
+    public static uint ToUInt(this string s)
+    {
+        uint uintegerValue = 0;
+        uint.TryParse(s, out uintegerValue);
+        return uintegerValue;
     }
 
     /// <summary>
@@ -146,10 +157,19 @@ public static class StringExtensions
         int dummy;
         if (s.IsNullOrWhiteSpace()) return false;
         return int.TryParse(s, out dummy);
-
-        //Regex regularExpression = new Regex("^-[0-9]+$|^[0-9]+$");
-        //return regularExpression.Match(s).Success;
     }
+
+    /// <summary>
+    /// Indicates whether the string contains a unsigned integer value
+    /// </summary>
+    /// <returns>true if the string can be converted to uint, otherwise false.</returns>
+    public static bool IsUInt(this string s)
+    {
+        uint dummy;
+        if (s.IsNullOrWhiteSpace()) return false;
+        return uint.TryParse(s, out dummy);
+    }
+
 
     /// <summary>
     /// Indicates whether the string is Nothing or an Empty string.

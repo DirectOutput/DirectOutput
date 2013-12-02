@@ -17,9 +17,30 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
     ///
     /// Those controller chips are controlled using a single data line (there is no clock line). The data has to be sent with a frequency of 800khz. 1 bits have a duration of 0.65uS high and 0.6uS low. 0 bits have a duration of 0.25uS high and 1uS low. A interuption in the dataflow trigger the controller chips to push the data in the shift register to the PWM outputs. 
     /// </summary>
-    public class WS2811StripController : OutputControllerBase
+    public class WS2811StripController : OutputControllerBase, ISupportsSetValues
     {
+        #region ISupportsSetValues Member
 
+        /// <summary>
+        /// Sets the values for one or several outputs of the controller.
+        /// </summary>
+        /// <param name="FirstOutput">The first output to be updated with a new value (zero based).</param>
+        /// <param name="Values">The values to be used.</param>
+        public void SetValues(int FirstOutput, byte[] Values)
+        {
+            if (FirstOutput >= LedData.Length) return;
+
+            int CopyLength = (LedData.Length - FirstOutput).Limit(0, Values.Length);
+            if (CopyLength < 1) return;
+
+            lock (UpdateLocker)
+            {
+                Buffer.BlockCopy(Values, 0, LedData, FirstOutput, CopyLength);
+                UpdateRequired = true;
+            }
+        }
+
+        #endregion
 
 
         private byte[] LedData = new byte[0];
@@ -69,31 +90,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
 
 
 
-        /// <summary>
-        /// Sets the RGB values for the LED strip.
-        /// </summary>
-        /// <param name="FirstLedNumber">The first led number to be set.</param>
-        /// <param name="Data">2 dimonsional array containing the data for the Leds. Dimension 1 is the number of the led, dimension 2 contains the 3 color components.</param>
-        public void SetRGBValues(int FirstLedNumber, int[,] Data)
-        {
-            if (FirstLedNumber <= NumberOfLeds && Data.GetUpperBound(1) == 2)
-            {
-                int End = (FirstLedNumber + Data.GetUpperBound(0) + 1).Limit(0, NumberOfLeds);
-                int DataPointer = (FirstLedNumber * 3).Limit(0, NumberOfLeds * 3);
-                lock (UpdateLocker)
-                {
-                    for (int i = FirstLedNumber; i < End; i++)
-                    {
-                        LedData[DataPointer] = (byte)Data[i, 1];
-                        DataPointer++;
-                        LedData[DataPointer] = (byte)Data[i, 0];
-                        DataPointer++;
-                        LedData[DataPointer] = (byte)Data[i, 2];
-                    }
-                    UpdateRequired = true;
-                }
-            }
-        }
+
 
 
         private readonly int[] ColNrLookup = { 1, 0, 2 };
@@ -347,5 +344,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         {
             Outputs = new OutputList();
         }
+
+
     }
 }
