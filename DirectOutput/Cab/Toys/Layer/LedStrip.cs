@@ -172,8 +172,6 @@ namespace DirectOutput.Cab.Toys.Layer
         #endregion
 
 
-
-
         /// <summary>
         /// Gets the layers dictionary of the toy.
         /// </summary>
@@ -203,6 +201,8 @@ namespace DirectOutput.Cab.Toys.Layer
             BuildMappingTables();
             OutputData = new byte[NumberOfOutputs];
             InitFadingCurve(Cabinet);
+
+            Layers = new LedStripLayerDictionary() { Width = Width, Height = Height };
         }
 
 
@@ -230,18 +230,24 @@ namespace DirectOutput.Cab.Toys.Layer
 
         #endregion
 
-
-
-        public void SetLayer(int LayerNr, RGBAData[,] LedData)
+        /// <summary>
+        /// Gets the 2 dimensional RGBAData array for the specified layer.
+        /// 
+        /// Dimension 0 of the array represents the x resp. horizontal direction. Dimension 1 of the array repersent the y resp. vertical direction.
+        /// Position 0,0 is the upper left corner of the ledarray.
+        /// 
+        /// If the specified layer does not exist, it will be created as a fully transparent layer where all positions are set to transparent black.
+        /// </summary>
+        /// <param name="LayerNr">The layer nr.</param>
+        /// <returns>The RGBAData array for the specified layer.</returns>
+        public RGBAData[,] GetLayer(int LayerNr)
         {
-            if (LedData.GetUpperBound(0) == Width - 1 && LedData.GetUpperBound(1) == Height - 1)
-            {
-                Layers[LayerNr] = LedData;
-            }
+            return Layers[LayerNr];
         }
 
 
-        
+
+
         //private int[,] LedMappingTable = new int[0, 0];
         private int[,] OutputMappingTable = new int[0, 0];
 
