@@ -63,6 +63,7 @@ namespace DirectOutput.FX.TimmedFX
         float TargetValue = 0;
         float CurrentValue = 0;
         float StepValue = 0;
+        int LastTargetTriggerValue = -1;
         Table.TableElementData TableElementData;
 
         /// <summary>
@@ -87,7 +88,7 @@ namespace DirectOutput.FX.TimmedFX
                 if (Steps > 0)
                 {
                     StepValue = (float)(TargetValue - CurrentValue) / Steps;
-
+                    LastTargetTriggerValue = -1;
                     FadingStep();
 
                 }
@@ -96,7 +97,7 @@ namespace DirectOutput.FX.TimmedFX
                     Table.Pinball.Alarms.UnregisterAlarm( FadingStep);
 
                     CurrentValue=TargetValue;
-                    TableElementData.Value=(int)TargetValue;
+                    LastTargetTriggerValue = -1;
                     TargetEffect.Trigger(TableElementData);
                 }
 
@@ -117,8 +118,12 @@ namespace DirectOutput.FX.TimmedFX
                 CurrentValue = TargetValue;
             }
 
-            TableElementData.Value = (int)CurrentValue.Limit(0,255);
-            TargetEffect.Trigger(TableElementData);
+            if (LastTargetTriggerValue != (int)CurrentValue)
+            {
+                LastTargetTriggerValue = (int)CurrentValue;
+                TableElementData.Value = LastTargetTriggerValue;
+                TargetEffect.Trigger(TableElementData);
+            }
         }
 
     }
