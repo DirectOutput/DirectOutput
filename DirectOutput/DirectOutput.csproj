@@ -212,6 +212,8 @@
     <Compile Include="FX\LedStripFX\ColorFadeModeEnum.cs" />
     <Compile Include="FX\LedStripFX\LedStripEffectBase.cs" />
     <Compile Include="FX\LedStripFX\LedStripSetColorEffect.cs" />
+    <Compile Include="FX\LedStripFX\LedStripShiftColorEffect.cs" />
+    <Compile Include="FX\LedStripFX\ShiftDirectionEnum.cs" />
     <Compile Include="FX\RetriggerBehaviourEnum.cs" />
     <Compile Include="FX\TimmedFX\BlinkEffect.cs" />
     <Compile Include="FX\TimmedFX\DelayEffect.cs" />
