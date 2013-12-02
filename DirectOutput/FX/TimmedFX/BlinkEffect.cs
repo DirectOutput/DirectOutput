@@ -61,7 +61,7 @@ namespace DirectOutput.FX.TimmedFX
         {
             if (!BlinkEnabled)
             {
-                BlinkTableElementData = TableElementData.Clone();
+                BlinkTableElementData = TableElementData;
                 BlinkOrgTableElementDataValue = BlinkTableElementData.Value;
                 BlinkEnabled = true;
                 BlinkState = false;

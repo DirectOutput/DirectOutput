@@ -68,7 +68,7 @@ namespace DirectOutput.FX.TimmedFX
                     if (TableElementData.Value != 0)
                     {
                         TargetEffect.Trigger(TableElementData);
-                        Table.Pinball.Alarms.RegisterAlarm(DurationMs, DurationEnd, TableElementData.Clone());
+                        Table.Pinball.Alarms.RegisterAlarm(DurationMs, DurationEnd, TableElementData);
                     }
                     Active = true;
                 }

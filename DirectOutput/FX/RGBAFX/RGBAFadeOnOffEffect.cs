@@ -227,7 +227,7 @@ namespace DirectOutput.FX.RGBAFX
         {
             if (RGBAToy != null)
             {
-                bool TriggerState = (TableElementData == null || TableElementData.Value != 0);
+                bool TriggerState = ( TableElementData.Value != 0);
 
                 if (TriggerState != LastTriggerState || IsFading == false || RetriggerBehaviour == RetriggerBehaviourEnum.RestartEffect)
                 {

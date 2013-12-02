@@ -81,7 +81,7 @@ namespace DirectOutput.FX.TimmedFX
                     if (Active)
                     {
                         //Min duration is active, put data in queue
-                        UntriggerData.Enqueue(TED.Clone());
+                        UntriggerData.Enqueue(TED);
                     }
                     else
                     {

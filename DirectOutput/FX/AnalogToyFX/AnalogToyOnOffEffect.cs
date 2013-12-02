@@ -51,7 +51,7 @@ namespace DirectOutput.FX.AnalogToyFX
 
             if (Toy != null)
             {
-                if (TableElementData == null || TableElementData.Value != 0)
+                if (TableElementData.Value != 0)
                 {
                     Toy.Layers[Layer].Set(ActiveValue);
                 }
