@@ -10,7 +10,7 @@ namespace DirectOutput.FX.LedStripFX
     /// <summary>
     /// Sets the spefied area of a ledstrip to a color depending on configured colors and the trigger value.
     /// </summary>
-    public class LedStripColorEffect:LedStripEffectBase
+    public class LedStripColorEffect : LedStripEffectBase
     {
 
         private RGBAColor _ActiveColor = new RGBAColor(0xff, 0xff, 0xff, 0xff);
@@ -44,7 +44,7 @@ namespace DirectOutput.FX.LedStripFX
         }
 
 
-        private ColorSetModeEnum _ColorSetMode=ColorSetModeEnum.OnOff;
+        private ColorSetModeEnum _ColorSetMode = ColorSetModeEnum.OnOff;
 
         /// <summary>
         /// Gets or sets the color set mode.
@@ -66,18 +66,19 @@ namespace DirectOutput.FX.LedStripFX
         /// <param name="TableElementData">TableElementData for the TableElement which has triggered the effect.</param>
         public override void Trigger(Table.TableElementData TableElementData)
         {
-            RGBAData D;
-
-            int V = TableElementData.Value.Limit(0,255);
-            if (V > 0 && ColorSetMode == ColorSetModeEnum.OnOff) { V = 255; }
-
-            D.Red = InactiveColor.Red + (int)((float)(ActiveColor.Red - InactiveColor.Red) * TableElementData.Value / 255).Limit(0,255);
-            D.Green = InactiveColor.Green + (int)((float)(ActiveColor.Green - InactiveColor.Green) * TableElementData.Value / 255).Limit(0, 255);
-            D.Blue = InactiveColor.Blue + (int)((float)(ActiveColor.Blue - InactiveColor.Blue) * TableElementData.Value / 255).Limit(0, 255);
-            D.Alpha = InactiveColor.Alpha + (int)((float)(ActiveColor.Alpha - InactiveColor.Alpha) * TableElementData.Value / 255).Limit(0, 255);
-           
             if (LedStripLayer != null)
             {
+                RGBAData D;
+
+                int V = TableElementData.Value.Limit(0, 255);
+                if (V > 0 && ColorSetMode == ColorSetModeEnum.OnOff) { V = 255; }
+
+                D.Red = InactiveColor.Red + (int)((float)(ActiveColor.Red - InactiveColor.Red) * TableElementData.Value / 255).Limit(0, 255);
+                D.Green = InactiveColor.Green + (int)((float)(ActiveColor.Green - InactiveColor.Green) * TableElementData.Value / 255).Limit(0, 255);
+                D.Blue = InactiveColor.Blue + (int)((float)(ActiveColor.Blue - InactiveColor.Blue) * TableElementData.Value / 255).Limit(0, 255);
+                D.Alpha = InactiveColor.Alpha + (int)((float)(ActiveColor.Alpha - InactiveColor.Alpha) * TableElementData.Value / 255).Limit(0, 255);
+
+
                 for (int x = AreaLeft; x <= AreaRight; x++)
                 {
                     for (int y = AreaTop; y < AreaBottom; y++)
