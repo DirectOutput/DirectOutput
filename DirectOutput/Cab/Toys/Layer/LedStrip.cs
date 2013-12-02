@@ -8,9 +8,9 @@ using System.Xml.Serialization;
 namespace DirectOutput.Cab.Toys.Layer
 {
     /// <summary>
-    /// Represent a adressable led strip. 
+    /// Represents a adressable led strip. 
     /// 
-    /// The toy supports several layers of transparency/alpha support.
+    /// The toy supports several layers and supports transparency/alpha channels for every single led.
     /// </summary>
     public class LedStrip : ToyBaseUpdatable, IToy
     {
@@ -151,10 +151,6 @@ namespace DirectOutput.Cab.Toys.Layer
                     Cabinet.Curves.Add(FadingCurveName);
                 }
             }
-            else if (Cabinet.Curves.Contains("DefaultLinearCurve"))
-            {
-                FadingCurve = Cabinet.Curves["DefaultLinearCurve"];
-            }
             else
             {
                 FadingCurve = new Curve(Curve.CurveTypeEnum.Linear);
@@ -171,9 +167,11 @@ namespace DirectOutput.Cab.Toys.Layer
         /// </value>
         public string OutputControllerName { get; set; }
 
+        private ISupportsSetValues OutputController;
+
         #endregion
 
-        private ISupportsSetValues OutputController;
+
 
 
         /// <summary>
@@ -184,6 +182,9 @@ namespace DirectOutput.Cab.Toys.Layer
         /// </value>
         [XmlIgnore]
         public LedStripLayerDictionary Layers { get; private set; }
+
+
+        #region IToy methods
 
         Cabinet Cabinet;
         /// <summary>
@@ -205,17 +206,6 @@ namespace DirectOutput.Cab.Toys.Layer
         }
 
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="LedStrip"/> class.
-        /// </summary>
-        public LedStrip()
-        {
-            Layers = new LedStripLayerDictionary();
-            
-
-        }
-
-
 
         /// <summary>
         /// Resets the toy. Turns all outputs off.
@@ -230,21 +220,34 @@ namespace DirectOutput.Cab.Toys.Layer
         /// </summary>
         public override void UpdateOutputs()
         {
-            if (OutputController != null)
+            if (OutputController != null && Layers.Count > 0)
             {
                 SetOutputData();
-                OutputController.SetValues(NumberOfOutputs,OutputData);
+                OutputController.SetValues(NumberOfOutputs, OutputData);
 
             };
         }
 
+        #endregion
 
-        private int[,] LedMappingTable = new int[0, 0];
+
+
+        public void SetLayer(int LayerNr, RGBAData[,] LedData)
+        {
+            if (LedData.GetUpperBound(0) == Width - 1 && LedData.GetUpperBound(1) == Height - 1)
+            {
+                Layers[LayerNr] = LedData;
+            }
+        }
+
+
+        
+        //private int[,] LedMappingTable = new int[0, 0];
         private int[,] OutputMappingTable = new int[0, 0];
 
         private void BuildMappingTables()
         {
-            LedMappingTable = new int[Width, Height];
+            //LedMappingTable = new int[Width, Height];
             OutputMappingTable = new int[Width, Height];
             bool FirstException = true;
             int LedNr = 0;
@@ -313,7 +316,7 @@ namespace DirectOutput.Cab.Toys.Layer
                             LedNr = (Y * Width) + X;
                             break;
                     }
-                    LedMappingTable[X, Y] = LedNr;
+                    //LedMappingTable[X, Y] = LedNr;
                     OutputMappingTable[X, Y] = LedNr * 3;
                 }
             }
@@ -321,19 +324,18 @@ namespace DirectOutput.Cab.Toys.Layer
         }
 
         //Array for output data is not in GetResultingValues to avoid reinitiaslisation of the array
-        byte[] OutputData =new byte[0];
+        byte[] OutputData = new byte[0];
 
         /// <summary>
         /// Gets a array of bytes values re'presenting the data to be sent to the led strip.
         /// </summary>
         /// <returns></returns>
-        private void SetOutputData() 
+        private void SetOutputData()
         {
             if (Layers.Count > 0)
             {
+                //Blend layers
                 float[, ,] Value = new float[Width, Height, 3];
-
-
 
                 foreach (KeyValuePair<int, RGBAData[,]> KV in Layers)
                 {
@@ -356,7 +358,7 @@ namespace DirectOutput.Cab.Toys.Layer
                     }
                 }
 
-          
+
                 //The following code mapps the led data to the outputs of the stripe
                 byte[] FadingTable = FadingCurve.Data;
                 switch (ColorOrder)
@@ -434,9 +436,22 @@ namespace DirectOutput.Cab.Toys.Layer
                             }
                         }
                         break;
-                }      
+                }
             }
 
         }
+
+        #region Constructor
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LedStrip"/> class.
+        /// </summary>
+        public LedStrip()
+        {
+            Layers = new LedStripLayerDictionary();
+
+
+        }
+        #endregion
+
     }
 }

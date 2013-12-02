@@ -8,5 +8,8 @@ namespace DirectOutput.Cab.Toys
 {
     public class CurveList: NamedItemList<Curve>
     {
+
+
+
     }
 }
