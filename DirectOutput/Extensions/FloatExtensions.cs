@@ -64,5 +64,15 @@ public static class floatExtensions
     {
         return (int)Math.Round(d, 0);
     }
+
+    /// <summary>
+    /// Returns the absolute value of the float.
+    /// </summary>
+    /// <param name="d">The value.</param>
+    /// <returns>The absolute value of the float.</returns>
+    public static float Abs(this float d)
+    {
+        return Math.Abs(d);
+    }
 }
 

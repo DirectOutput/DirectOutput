@@ -68,6 +68,15 @@ public static class DoubleExtensions
         return Math.Round(d, Digits.Limit(0, 15));
     }
 
+    /// <summary>
+    /// Returns the absolute value of the double.
+    /// </summary>
+    /// <param name="d">The value.</param>
+    /// <returns>The absolute value of the double.</returns>
+    public static double Abs(this double d)
+    {
+        return Math.Abs(d);
+    }
 
 }
 
