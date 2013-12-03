@@ -73,10 +73,10 @@ namespace DirectOutput.FX.LedStripFX
                 int V = TableElementData.Value.Limit(0, 255);
                 if (V > 0 && ColorSetMode == ColorSetModeEnum.OnOff) { V = 255; }
 
-                D.Red = InactiveColor.Red + (int)((float)(ActiveColor.Red - InactiveColor.Red) * TableElementData.Value / 255).Limit(0, 255);
-                D.Green = InactiveColor.Green + (int)((float)(ActiveColor.Green - InactiveColor.Green) * TableElementData.Value / 255).Limit(0, 255);
-                D.Blue = InactiveColor.Blue + (int)((float)(ActiveColor.Blue - InactiveColor.Blue) * TableElementData.Value / 255).Limit(0, 255);
-                D.Alpha = InactiveColor.Alpha + (int)((float)(ActiveColor.Alpha - InactiveColor.Alpha) * TableElementData.Value / 255).Limit(0, 255);
+                D.Red = InactiveColor.Red + (int)((float)(ActiveColor.Red - InactiveColor.Red) * V / 255).Limit(0, 255);
+                D.Green = InactiveColor.Green + (int)((float)(ActiveColor.Green - InactiveColor.Green) * V / 255).Limit(0, 255);
+                D.Blue = InactiveColor.Blue + (int)((float)(ActiveColor.Blue - InactiveColor.Blue) * V / 255).Limit(0, 255);
+                D.Alpha = InactiveColor.Alpha + (int)((float)(ActiveColor.Alpha - InactiveColor.Alpha) * V / 255).Limit(0, 255);
 
 
                 for (int x = AreaLeft; x <= AreaRight; x++)

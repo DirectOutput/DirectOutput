@@ -43,6 +43,7 @@ namespace DirectOutput.FX.TimmedFX
         }
 
 
+        private FadeDurationModeEnum _FadeDurationMode = FadeDurationModeEnum.CurrentToTarget;
         /// <summary>
         /// Gets or sets the fade duration mode.
         /// </summary>
@@ -50,8 +51,6 @@ namespace DirectOutput.FX.TimmedFX
         /// The fade duration mode.<br/>
         /// Depending on the FadeDurationMode the transition from the current to the target value will use one of the duration values directly or use the duration values to determine how long it would take to fade through the whole possible value range and the effective fading duration will depend on the defference between the current and the target value.
         /// </value>
-        private FadeDurationModeEnum _FadeDurationMode;
-
         public FadeDurationModeEnum FadeDurationMode
         {
             get { return _FadeDurationMode; }
