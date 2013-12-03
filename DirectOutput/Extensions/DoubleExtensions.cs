@@ -78,5 +78,39 @@ public static class DoubleExtensions
         return Math.Abs(d);
     }
 
+    /// <summary>
+    /// Returns the largest integer less than or equal to the specified floating-point number.
+    /// </summary>
+    /// <param name="d">The value.</param>
+    /// <returns>The largest integer less than or equal to the float value.</returns>
+    public static double Floor(this double d)
+    {
+        return Math.Floor(d);
+    }
+
+
+    /// <summary>
+    /// Returns the smallest integral value that is greater than or equal to the specified floating-point number.
+    /// </summary>
+    /// <param name="d">The value.</param>
+    /// <returns>The smallest integral value that is greater than or equal to a. If a is equal to NaN, NegativeInfinity, or PositiveInfinity, that value is returned.</returns>
+    public static double Ceiling(this double d)
+    {
+        return Math.Ceiling(d);
+    }
+
+    /// <summary>
+    /// Determines whether the specified double is integral.
+    /// </summary>
+    /// <param name="d">The d.</param>
+    /// <returns>
+    ///   <c>true</c> if the double is integral; otherwise, <c>false</c>.
+    /// </returns>
+    public static bool IsIntegral(this double d)
+    {
+        return d == Math.Floor(d);
+
+    }
+
 }
 

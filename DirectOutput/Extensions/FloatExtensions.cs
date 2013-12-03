@@ -74,5 +74,39 @@ public static class floatExtensions
     {
         return Math.Abs(d);
     }
+
+    /// <summary>
+    /// Returns the largest integer less than or equal to the specified floating-point number.
+    /// </summary>
+    /// <param name="d">The value.</param>
+    /// <returns>The largest integer less than or equal to the float value.</returns>
+    public static float Floor(this float d)
+    {
+        return (float)Math.Floor(d);
+    }
+
+
+    /// <summary>
+    /// Returns the smallest integral value that is greater than or equal to the specified  floating-point number.
+    /// </summary>
+    /// <param name="d">The value.</param>
+    /// <returns>The smallest integral value that is greater than or equal to a. If a is equal to NaN, NegativeInfinity, or PositiveInfinity, that value is returned.</returns>
+    public static float Ceiling(this float d)
+    {
+        return (float)Math.Ceiling(d);
+    }
+
+    /// <summary>
+    /// Determines whether the specified float is integral.
+    /// </summary>
+    /// <param name="d">The d.</param>
+    /// <returns>
+    ///   <c>true</c> if the float is integral; otherwise, <c>false</c>.
+    /// </returns>
+    public static bool IsIntegral(this float d)
+    {
+        return d == Math.Floor(d);
+
+    }
 }
 
