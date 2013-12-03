@@ -127,6 +127,16 @@ namespace DirectOutput.FX.LedStripFX
         [XmlIgnoreAttribute]
         protected int AreaBottom = 0;
 
+        protected int AreaWidth
+        {
+            get { return (AreaRight-AreaLeft)+1;}
+        }
+
+        protected int AreaHeight
+        {
+            get { return (AreaBottom - AreaTop) + 1; }
+        }
+
         /// <summary>
         /// Gets the table object which was specified during initialisation of the effect.
         /// </summary>
