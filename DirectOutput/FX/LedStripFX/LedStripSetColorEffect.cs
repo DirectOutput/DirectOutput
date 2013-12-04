@@ -81,7 +81,7 @@ namespace DirectOutput.FX.LedStripFX
 
                 for (int x = AreaLeft; x <= AreaRight; x++)
                 {
-                    for (int y = AreaTop; y < AreaBottom; y++)
+                    for (int y = AreaTop; y <= AreaBottom; y++)
                     {
                         LedStripLayer[x, y] = D;
                     }
