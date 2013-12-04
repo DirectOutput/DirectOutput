@@ -170,10 +170,10 @@ namespace DirectOutput.FX.LedStripFX
                 LedStrip = (LedStrip)Table.Pinball.Cabinet.Toys[ToyName];
                 LedStripLayer = LedStrip.GetLayer(LayerNr);
 
-                AreaLeft = (LedStrip.Width / 100 * Left).RoundToInt();
-                AreaTop = (LedStrip.Height / 100 * Top).RoundToInt();
-                AreaRight = (LedStrip.Width / 100 * (Left + Width).Limit(0, 100)).RoundToInt();
-                AreaBottom = (LedStrip.Height / 100 * (Top + Height).Limit(0, 100)).RoundToInt();
+                AreaLeft = ((float)LedStrip.Width / 100 * Left).RoundToInt().Limit(0,LedStrip.Width-1);
+                AreaTop = ((float)LedStrip.Height / 100 * Top).RoundToInt().Limit(0, LedStrip.Height - 1);
+                AreaRight = ((float)LedStrip.Width / 100 * (Left + Width).Limit(0, 100)).RoundToInt().Limit(0, LedStrip.Width - 1);
+                AreaBottom = ((float)LedStrip.Height / 100 * (Top + Height).Limit(0, 100)).RoundToInt().Limit(0, LedStrip.Height - 1);
 
                 int Tmp;
                 if (AreaLeft > AreaRight) { Tmp = AreaRight; AreaRight = AreaLeft; AreaLeft = AreaRight; }
