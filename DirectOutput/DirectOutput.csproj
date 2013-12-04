@@ -230,6 +230,9 @@
     <Compile Include="FX\RGBAFX\RGBAOnOffEffect.cs" />
     <Compile Include="FX\NullFX\NullEffect.cs" />
     <Compile Include="FX\RGBAFX\RGBAFX.cs" />
+    <Compile Include="General\Bitmap\FastBitmap.cs" />
+    <Compile Include="General\Bitmap\FastBitmapFrame.cs" />
+    <Compile Include="General\Bitmap\PixelData.cs" />
     <Compile Include="General\Statistics\SimpleStatistics.cs" />
     <Compile Include="General\Statistics\TimeSpanStatisticsList.cs" />
     <Compile Include="General\ThreadInfo.cs" />
@@ -239,8 +242,8 @@
     <Compile Include="LedControl\Setup\Configurator.cs" />
     <Compile Include="PinballSupport\InputQueue.cs" />
     <Compile Include="Log.cs" />
-    <Compile Include="GlobalConfiguration\FilePattern.cs" />
-    <Compile Include="GlobalConfiguration\FilePatternList.cs" />
+    <Compile Include="General\FilePattern.cs" />
+    <Compile Include="General\FilePatternList.cs" />
     <Compile Include="General\Generic\SortableBindingList.cs" />
     <Compile Include="GlobalConfiguration\LedControlIniFile.cs" />
     <Compile Include="GlobalConfiguration\LedControlIniFileList.cs" />

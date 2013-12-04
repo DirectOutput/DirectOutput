@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 
-namespace DirectOutput.GlobalConfiguration
+namespace DirectOutput.General
 {
     /// <summary>
     /// A list of file patterns.
