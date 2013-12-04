@@ -223,7 +223,7 @@ namespace DirectOutput.Cab.Toys.Layer
             if (OutputController != null && Layers.Count > 0)
             {
                 SetOutputData();
-                OutputController.SetValues(NumberOfOutputs, OutputData);
+                OutputController.SetValues((FirstLedNumber-1)*3, OutputData);
 
             };
         }
@@ -365,6 +365,8 @@ namespace DirectOutput.Cab.Toys.Layer
                 }
 
 
+
+
                 //The following code mapps the led data to the outputs of the stripe
                 byte[] FadingTable = FadingCurve.Data;
                 switch (ColorOrder)
@@ -444,6 +446,7 @@ namespace DirectOutput.Cab.Toys.Layer
                         break;
                 }
             }
+
 
         }
 
