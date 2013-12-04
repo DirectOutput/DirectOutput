@@ -100,18 +100,19 @@ namespace DirectOutput.FX.LedStripFX
             int TotalSteps = (int)((double)100000 / ShiftSpeed / RefreshIntervalMs);
 
             int NumberOfLeds = (ShiftDirection == ShiftDirectionEnum.Left || ShiftDirection == ShiftDirectionEnum.Right ? AreaWidth : AreaHeight);
-            int StepsPerLed = TotalSteps / NumberOfLeds;
+            float StepsPerLed = (float)TotalSteps / NumberOfLeds;
 
 
-            float FromLedNr = NumberOfLeds - 1;
+            float FromLedNr = NumberOfLeds;
             float ToLedNr = 0;
-            float[] Value = new float[NumberOfLeds];
+            float[] Value = new float[NumberOfLeds+1];
 
             int LastValue = LastDiscardedValue;
 
+            int ToNr;
             foreach (KeyValuePair<int, int> KV in TriggerValueBuffer)
             {
-                ToLedNr = (KV.Key - CurrentStep) / StepsPerLed;
+                ToLedNr = ((CurrentStep-KV.Key) / StepsPerLed).Limit(0,NumberOfLeds);
 
                 if (FromLedNr.Floor() == ToLedNr.Floor())
                 {
@@ -124,8 +125,8 @@ namespace DirectOutput.FX.LedStripFX
                         Value[(int)FromLedNr.Floor()] += (FromLedNr - FromLedNr.Floor()) * LastValue;
                     }
 
-                    int ToNr = (int)ToLedNr.Ceiling();
-                    for (int i = (int)FromLedNr.Floor(); i >= ToNr; i--)
+                     ToNr = (int)(ToLedNr.Ceiling());
+                    for (int i = (int)FromLedNr.Floor()-1; i >= ToNr; i--)
                     {
                         Value[i] = LastValue;
                     }
@@ -137,6 +138,24 @@ namespace DirectOutput.FX.LedStripFX
                 }
                 FromLedNr=ToLedNr;
                 LastValue = KV.Value;
+            }
+            ToLedNr = 0;
+            if (FromLedNr != ToLedNr)
+            {
+                if (!FromLedNr.IsIntegral() && FromLedNr.Floor() < Width - 1)
+                {
+                    Value[(int)FromLedNr.Floor()] += (FromLedNr - FromLedNr.Floor()) * LastValue;
+                }
+
+                ToNr = (int)(ToLedNr.Ceiling()).Limit(0, int.MaxValue);
+                for (int i = (int)FromLedNr.Floor()-1; i >= ToNr; i--)
+                {
+                    Value[i] = LastValue;
+                }
+                if (!ToLedNr.IsIntegral())
+                {
+                    Value[(int)ToLedNr.Floor()] += (ToLedNr.Ceiling() - ToLedNr) * LastValue;
+                }
             }
 
 
@@ -160,7 +179,7 @@ namespace DirectOutput.FX.LedStripFX
                         }
                     }
                     break;
-                case ShiftDirectionEnum.Up:
+                case ShiftDirectionEnum.Down:
                     for (int i = 0; i < NumberOfLeds; i++)
                     {
                         int V = ((int)Value[i]).Limit(0, 255);
@@ -177,7 +196,7 @@ namespace DirectOutput.FX.LedStripFX
                         }
                     }
                     break;
-                case ShiftDirectionEnum.Down:
+                case ShiftDirectionEnum.Up:
                     for (int i = 0; i < NumberOfLeds; i++)
                     {
                         int V = ((int)Value[i]).Limit(0, 255);
@@ -225,7 +244,7 @@ namespace DirectOutput.FX.LedStripFX
                 TriggerValueBuffer.Remove(DropKey);
             };
 
-            if (TriggerValueBuffer.Count > 0)
+            if (TriggerValueBuffer.Count > 0 || LastDiscardedValue!=0)
             {
                 CurrentStep++;
             }
@@ -241,10 +260,10 @@ namespace DirectOutput.FX.LedStripFX
         int LastDiscardedValue = 0;
         bool Active = false;
 
-        Dictionary<int, int> TriggerValueBuffer = new Dictionary<int, int>(100);
+        SortedDictionary<int, int> TriggerValueBuffer = new SortedDictionary<int, int>();
         int LastTriggerValue = 0;
 
-        int LastTriggerStep = -1;
+
         int CurrentStep = 0;
         
 
@@ -253,7 +272,7 @@ namespace DirectOutput.FX.LedStripFX
             if (LastTriggerValue != TableElementData.Value && LedStripLayer!=null)
             {
                 LastTriggerValue = TableElementData.Value;
-                LastTriggerStep = CurrentStep;
+
 
                 if (TriggerValueBuffer.ContainsKey(CurrentStep))
                 {
