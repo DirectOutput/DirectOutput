@@ -29,7 +29,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         public void SetValues(int FirstOutput, byte[] Values)
         {
             if (FirstOutput >= LedData.Length) return;
-
+            if (FirstOutput < 0) return;
             int CopyLength = (LedData.Length - FirstOutput).Limit(0, Values.Length);
             if (CopyLength < 1) return;
 
