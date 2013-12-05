@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 using DirectOutput.General.Generic;
 using System.Xml;
 
-namespace DirectOutput.Cab.Toys
+namespace DirectOutput.General
 {
     /// <summary>
     /// Represents a curve which can be used to map values (e.g. adjust a brighnetss value of a led to the brightness perception of the human eye).

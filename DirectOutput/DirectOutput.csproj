@@ -116,7 +116,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Compile Include="Cab\Toys\Basic\ILampToy.cs" />
-    <Compile Include="Cab\Toys\CurveList.cs" />
+    <Compile Include="General\CurveList.cs" />
     <Compile Include="Cab\Toys\IToyUpdatable.cs" />
     <Compile Include="Cab\Toys\Layer\AlphaMappingTable.cs" />
     <Compile Include="Cab\Toys\Layer\AnalogAlphaValue.cs" />
@@ -136,7 +136,7 @@
     <Compile Include="Cab\Color\RGBColorNamed.cs" />
     <Compile Include="Cab\Toys\Layer\RGBOrderEnum.cs" />
     <Compile Include="Cab\Toys\Layer\StripArrangementEnum.cs" />
-    <Compile Include="Cab\Toys\Curve.cs" />
+    <Compile Include="General\Curve.cs" />
     <Compile Include="Cab\Toys\ToyBaseUpdatable.cs" />
     <Compile Include="Cab\Toys\Layer\RGBAToy.cs" />
     <Compile Include="DirectOutput.cs" />

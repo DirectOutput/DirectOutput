@@ -11,6 +11,7 @@ using DirectOutput.Cab.Toys;
 using DirectOutput.Cab.Out;
 using DirectOutput.Cab.Toys.LWEquivalent;
 using DirectOutput.Cab.Color;
+using DirectOutput.General;
 
 
 namespace DirectOutput.Cab

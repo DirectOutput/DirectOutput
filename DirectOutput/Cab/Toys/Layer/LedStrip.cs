@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using DirectOutput.Cab.Out;
 using System.Xml.Serialization;
+using DirectOutput.General;
 
 namespace DirectOutput.Cab.Toys.Layer
 {

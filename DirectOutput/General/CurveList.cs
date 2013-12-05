@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using DirectOutput.General.Generic;
 
-namespace DirectOutput.Cab.Toys
+namespace DirectOutput.General
 {
     public class CurveList: NamedItemList<Curve>
     {
