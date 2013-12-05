@@ -43,13 +43,13 @@ namespace DirectOutput.FX
         /// The property is resolved from the TargetEffectName. If TargetEffectName is empty or unknown this property will return null.
         /// </summary>
         [XmlIgnoreAttribute]
-        public IEffect TargetEffect
+        protected IEffect TargetEffect
         {
             get
             {
                 return _TargetEffect;
             }
-            protected set
+            private set
             {
                 _TargetEffect = value;
             }
