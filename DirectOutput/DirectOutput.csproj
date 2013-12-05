@@ -208,7 +208,6 @@
     <Compile Include="FX\AnalogToyFX\AnalogToyFX.cs" />
     <Compile Include="FX\AnalogToyFX\AnalogToyValueEffect.cs" />
     <Compile Include="FX\AnalogToyFX\AnanlogToyEffectBase.cs" />
-    <Compile Include="FX\FadeModeEnumOld.cs" />
     <Compile Include="FX\RGBAFX\RGBAColorEffect.cs" />
     <Compile Include="FX\FadeModeEnum.cs" />
     <Compile Include="FX\RGBAMatrixFX\RGBAMatrixBitmapEffect.cs" />
