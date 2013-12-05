@@ -10,7 +10,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
     /// <summary>
     /// Sets the spefied area of a ledstrip to a color depending on configured colors and the trigger value.
     /// </summary>
-    public class LedStripColorEffect : LedStripEffectBase
+    public class RGBAMatrixColorEffect : RGBAMatrixEffectBase
     {
 
         private RGBAColor _ActiveColor = new RGBAColor(0xff, 0xff, 0xff, 0xff);

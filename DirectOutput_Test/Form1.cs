@@ -62,10 +62,10 @@ namespace DirectOutput_Test
             C.Toys.Add(new LedStrip() { Name = "Strip 2", OutputControllerName = "StripController 1", FadingCurveName = "SwissLizardsLedCurve", Width = 65, Height = 1, ColorOrder = RGBOrderEnum.WS2812, FirstLedNumber = 97 });
 
             Table T = new Table();
-            T.Effects.Add(new LedStripColorEffect() {Name="SetColor", ToyName="Strip 1",FadeMode=FadeModeEnum.Fade,  ActiveColor=new DirectOutput.Cab.Color.RGBAColor("#ff0000ff"),Top=15, Left=20, Width=60,Height=70,LayerNr=1 });
+            T.Effects.Add(new RGBAMatrixColorEffect() {Name="SetColor", ToyName="Strip 1",FadeMode=FadeModeEnum.Fade,  ActiveColor=new DirectOutput.Cab.Color.RGBAColor("#ff0000ff"),Top=15, Left=20, Width=60,Height=70,LayerNr=1 });
 
-            T.Effects.Add(new LedStripShiftColorEffect() { ShiftDirection=ShiftDirectionEnum.Down, Name = "ShiftColor", ToyName = "Strip 1", FadeMode = FadeModeEnum.Fade, ActiveColor = new DirectOutput.Cab.Color.RGBAColor("#00ff00ff"), ShiftSpeed = 20, Top = 15, Left = 20, Width = 60, Height = 70, LayerNr = 2 });
-            T.Effects.Add(new LedStripShiftColorEffect() { Name = "ShiftColor2", ToyName = "Strip 2", FadeMode = FadeModeEnum.Fade, ActiveColor = new DirectOutput.Cab.Color.RGBAColor("#00ff00ff"), ShiftSpeed =4, Top = 0, Left = 20, Width = 60, Height = 100, LayerNr = 2 });
+            T.Effects.Add(new RGBAMatrixColorShiftEffect() { ShiftDirection=ShiftDirectionEnum.Down, Name = "ShiftColor", ToyName = "Strip 1", FadeMode = FadeModeEnum.Fade, ActiveColor = new DirectOutput.Cab.Color.RGBAColor("#00ff00ff"), ShiftSpeed = 20, Top = 15, Left = 20, Width = 60, Height = 70, LayerNr = 2 });
+            T.Effects.Add(new RGBAMatrixColorShiftEffect() { Name = "ShiftColor2", ToyName = "Strip 2", FadeMode = FadeModeEnum.Fade, ActiveColor = new DirectOutput.Cab.Color.RGBAColor("#00ff00ff"), ShiftSpeed =4, Top = 0, Left = 20, Width = 60, Height = 100, LayerNr = 2 });
 
 
             T.TableElements.Add(TableElementTypeEnum.Switch, 48, 0);

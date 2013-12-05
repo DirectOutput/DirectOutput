@@ -6,7 +6,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
     /// <summary>
     /// Base class for effects targeting Ledstrip toys
     /// </summary>
-    public abstract class LedStripEffectBase : EffectBase
+    public abstract class RGBAMatrixEffectBase : EffectBase
     {
         #region Config properties
 

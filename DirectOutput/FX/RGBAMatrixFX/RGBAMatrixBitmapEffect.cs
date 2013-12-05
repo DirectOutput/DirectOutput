@@ -10,7 +10,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
     /// <summary>
     /// Displays a defined part of a bitmap on a area of a ledstrip.
     /// </summary>
-    public class LedStripBitmapEffect : LedStripEffectBase
+    public class RGBAMatrixBitmapEffect : RGBAMatrixEffectBase
     {
 
         private int _BitmapFrameNumber = 0;

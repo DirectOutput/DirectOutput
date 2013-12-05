@@ -210,10 +210,10 @@
     <Compile Include="FX\AnalogToyFX\AnalogToyFadeOnOffEffect.cs" />
     <Compile Include="FX\FadeModeEnum.cs" />
     <Compile Include="FX\RGBAMatrixFX\FadeModeEnum.cs" />
-    <Compile Include="FX\RGBAMatrixFX\LedStripBitmapEffect.cs" />
-    <Compile Include="FX\RGBAMatrixFX\LedStripEffectBase.cs" />
-    <Compile Include="FX\RGBAMatrixFX\LedStripSetColorEffect.cs" />
-    <Compile Include="FX\RGBAMatrixFX\LedStripShiftColorEffect.cs" />
+    <Compile Include="FX\RGBAMatrixFX\RGBAMatrixBitmapEffect.cs" />
+    <Compile Include="FX\RGBAMatrixFX\RGBAMatrixEffectBase.cs" />
+    <Compile Include="FX\RGBAMatrixFX\RGBAMatrixColorEffect.cs" />
+    <Compile Include="FX\RGBAMatrixFX\RGBAMatrixColorShiftEffect.cs" />
     <Compile Include="FX\RGBAMatrixFX\RGBAMatrixFX.cs" />
     <Compile Include="FX\RGBAMatrixFX\ShiftDirectionEnum.cs" />
     <Compile Include="FX\RetriggerBehaviourEnum.cs" />

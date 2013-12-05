@@ -7,7 +7,7 @@ using DirectOutput.Cab.Toys.Layer;
 
 namespace DirectOutput.FX.RGBAMatrixFX
 {
-    public class LedStripShiftColorEffect : LedStripEffectBase
+    public class RGBAMatrixColorShiftEffect : RGBAMatrixEffectBase
     {
         private const int RefreshIntervalMs = 30;
 
