@@ -105,33 +105,19 @@ namespace DirectOutput.LedControl.Setup
                                         }
                                         if (ActiveColor != null)
                                         {
-                                            if (TCS.FadingDownDurationMs > 0 || TCS.FadingUpDurationMs > 0)
-                                            {
-                                                //Must fade, use fadeeffect
-                                                Effect = new RGBAFadeOnOffEffect() { ToyName = Toy.Name, Layer = Layer, FadeActiveDurationMs = TCS.FadingUpDurationMs, FadeInactiveDurationMs = TCS.FadingDownDurationMs, RetriggerBehaviour = RetriggerBehaviourEnum.IgnoreRetrigger, FadeMode = FadeModeEnum.CurrentToDefined, ActiveColor = ActiveColor, InactiveColor = new RGBAColor(0, 0, 0, 0) };
-
-                                            }
-                                            else
-                                            {
-                                                //No fadinging, set color directly
-                                                Effect = new RGBAOnOffEffect() { ToyName = Toy.Name, Layer = Layer, ActiveColor = ActiveColor, InactiveColor = new RGBAColor(0, 0, 0, 0) };
-                                            }
-
-
+                                            RGBAColor InactiveColor = ActiveColor.Clone();
+                                            InactiveColor.Alpha = 0;
+                                            Effect = new RGBAColorEffect() { ToyName = Toy.Name, LayerNr = Layer, ActiveColor = ActiveColor, InactiveColor = InactiveColor };
                                         }
+                                       
                                     }
                                     else if (Toy is IAnalogAlphaToy)
                                     {
-                                        AnalogAlphaValue AAV = new AnalogAlphaValue(((int)((double)TCS.Intensity * 5.3125)).Limit(0, 255));
-                                        if (TCS.FadingDownDurationMs > 0 || TCS.FadingUpDurationMs > 0)
-                                        {
-                                            Effect = new AnalogToyFadeOnOffEffect() { ToyName = Toy.Name, Layer = Layer, FadeActiveDurationMs = TCS.FadingUpDurationMs, FadeInactiveDurationMs = TCS.FadingDownDurationMs, RetriggerBehaviour = RetriggerBehaviourEnum.IgnoreRetrigger, FadeMode = FadeModeEnum.CurrentToDefined, ActiveValue = AAV, InactiveValue = new AnalogAlphaValue(0, 0) };
-                                        }
-                                        else
-                                        {
-                                            Effect = new AnalogToyOnOffEffect() { ToyName = Toy.Name, Layer = Layer, ActiveValue = AAV, InactiveValue = new AnalogAlphaValue(0, 0) };
-                                        }
-
+                                        AnalogAlphaValue ActiveValue = new AnalogAlphaValue(((int)((double)TCS.Intensity * 5.3125)).Limit(0, 255),255);
+                                        AnalogAlphaValue InactiveValue = ActiveValue.Clone();
+                                        InactiveValue.Alpha = 0;
+                                        Effect = new AnalogToyValueEffect() { ToyName = Toy.Name, LayerNr = Layer, ActiveValue = ActiveValue, InactiveValue = InactiveValue };
+                       
                                     }
                                     if (Effect != null)
                                     {
@@ -139,6 +125,13 @@ namespace DirectOutput.LedControl.Setup
                                         MakeEffectNameUnique(Effect, Table);
 
                                         Table.Effects.Add(Effect);
+
+                                        if (TCS.FadingUpDurationMs > 0 || TCS.FadingDownDurationMs > 0)
+                                        {
+                                            Effect = new FadeEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} FadeEffect".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name, FadeDownDuration = TCS.FadingDownDurationMs, FadeUpDuration = TCS.FadingUpDurationMs };
+                                            MakeEffectNameUnique(Effect, Table);
+                                            Table.Effects.Add(Effect);
+                                        }
 
                                         if (TCS.Blink != 0)
                                         {
@@ -150,7 +143,7 @@ namespace DirectOutput.LedControl.Setup
                                         if (TCS.DurationMs > 0 || TCS.Blink > 0)
                                         {
                                             int Duration = (TCS.DurationMs > 0 ? TCS.DurationMs : (TCS.Blink * 2 - 1) * TCS.BlinkIntervalMs/2 + 1);
-                                            Effect = new DurationEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} DurationEffect".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name, DurationMs = Duration, RetriggerBehaviour = RetriggerBehaviourEnum.RestartEffect };
+                                            Effect = new DurationEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} DurationEffect".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name, DurationMs = Duration, RetriggerBehaviour = RetriggerBehaviourEnum.Restart };
                                             MakeEffectNameUnique(Effect, Table);
                                             Table.Effects.Add(Effect);
                                         }

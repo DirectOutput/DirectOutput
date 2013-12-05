@@ -32,6 +32,7 @@ namespace DirectOutput.FX.TimmedFX
         /// Calls with a TableElementData Value of 0, are delayed by the Duration specifed in DurationMs before they are forwarded to the target effect.
         /// </summary>
         /// <param name="TableElementData">TableElementData for the TableElement which has triggered the effect.</param>
+        /// TODO: implement proper retrigger behaviour
         public override void Trigger(Table.TableElementData TableElementData)
         {
             if (TargetEffect != null)

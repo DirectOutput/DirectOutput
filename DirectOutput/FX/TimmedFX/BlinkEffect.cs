@@ -12,6 +12,38 @@ namespace DirectOutput.FX.TimmedFX
     /// </summary>
     public class BlinkEffect : EffectEffectBase
     {
+        private int _ActiveValue = -1;
+
+        /// <summary>
+        /// Gets or sets the high value for the blinking.
+        /// </summary>
+        /// <value>
+        /// The high value for the blinking. Values between 0 and 255 define the actual values which have to be output during the on phase of the blinking. A value of -1 defines that the value which has been received by the trigger event is used.
+        /// </value>
+        public int HighValue
+        {
+            get { return _ActiveValue; }
+            set { _ActiveValue = value.Limit(-1, 255); }
+        }
+
+        private int _LowValue = 0;
+
+        /// <summary>
+        /// Gets or sets the low value for the blinking.
+        /// </summary>
+        /// <value>
+        /// The low value for the blinking (0-255).
+        /// </value>
+        public int LowValue
+        {
+            get { return _LowValue; }
+            set { _LowValue = value.Limit(0, 255); }
+        }
+
+
+
+
+
 
         private int _DurationActiveMs = 500;
 
@@ -42,6 +74,23 @@ namespace DirectOutput.FX.TimmedFX
             set { _DurationInactiveMs = value.Limit(1, int.MaxValue); }
         }
 
+
+        private BlinkEffectUntriggerBehaviourEnum _UntriggerBehaviour=BlinkEffectUntriggerBehaviourEnum.Immediate;
+
+        /// <summary>
+        /// Gets or sets the untrigger behaviour which defines how the blinking stops.
+        /// </summary>
+        /// <value>
+        /// The untrigger behaviour defines how the blinking stops.
+        /// </value>
+        public BlinkEffectUntriggerBehaviourEnum UntriggerBehaviour
+        {
+            get { return _UntriggerBehaviour; }
+            set { _UntriggerBehaviour = value; }
+        }
+        
+
+
         /// <summary>
         /// Gets a value indicating whether this <see cref="BlinkEffect"/> is currently active.
         /// </summary>
@@ -59,19 +108,32 @@ namespace DirectOutput.FX.TimmedFX
 
         private void StartBlinking(Table.TableElementData TableElementData)
         {
+            BlinkTableElementData = TableElementData;
+            BlinkOrgTableElementDataValue = BlinkTableElementData.Value;
+
             if (!BlinkEnabled)
             {
-                BlinkTableElementData = TableElementData;
-                BlinkOrgTableElementDataValue = BlinkTableElementData.Value;
                 BlinkEnabled = true;
                 BlinkState = false;
                 DoBlink();
+            }
+            else
+            {
+                if (BlinkState)
+                {
+                    BlinkTableElementData.Value = (HighValue >= 0 ? HighValue : BlinkOrgTableElementDataValue);
+                }
             }
         }
 
         private void StopBlinking()
         {
             BlinkEnabled = false;
+            if (UntriggerBehaviour == BlinkEffectUntriggerBehaviourEnum.Immediate)
+            {
+                Table.Pinball.Alarms.UnregisterAlarm(DoBlink);
+                BlinkTableElementData.Value = 0;
+            };
         }
 
         private void DoBlink()
@@ -79,15 +141,19 @@ namespace DirectOutput.FX.TimmedFX
             BlinkState = !BlinkState;
             if (BlinkState)
             {
-                BlinkTableElementData.Value = BlinkOrgTableElementDataValue;
+                BlinkTableElementData.Value = (HighValue >= 0 ? HighValue : BlinkOrgTableElementDataValue);
                 Table.Pinball.Alarms.RegisterAlarm(DurationActiveMs, DoBlink);
             }
             else
             {
-                BlinkTableElementData.Value = 0;
                 if (BlinkEnabled)
                 {
+                    BlinkTableElementData.Value = LowValue;
                     Table.Pinball.Alarms.RegisterAlarm(DurationInactiveMs, DoBlink);
+                }
+                else
+                {
+                    BlinkTableElementData.Value = 0;
                 }
             }
             TargetEffect.Trigger(BlinkTableElementData);

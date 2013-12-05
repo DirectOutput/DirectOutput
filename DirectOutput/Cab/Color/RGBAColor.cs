@@ -67,7 +67,14 @@ namespace DirectOutput.Cab.Color
         }
 
 
-
+        /// <summary>
+        /// Clones this instance.
+        /// </summary>
+        /// <returns>A clone of this RGBAColor instance.</returns>
+        public RGBAColor Clone()
+        {
+            return new RGBAColor(HexColor); 
+        }
 
         /// <summary>
         /// Returns the hexadecimal code for the color.

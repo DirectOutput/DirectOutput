@@ -8,7 +8,7 @@ namespace DirectOutput.FX.TimmedFX
     /// <summary>
     /// Options which define how the durations of the FadeEffect are used.
     /// </summary>
-    public enum FadeDurationModeEnum
+    public enum FadeEffectDurationModeEnum
     {
         /// <summary>
         /// The duration(s) specify whoe long it will take to fade from the current value to the target value.

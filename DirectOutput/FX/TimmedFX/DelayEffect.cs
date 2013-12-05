@@ -25,7 +25,7 @@ namespace DirectOutput.FX.TimmedFX
         public int DelayMs
         {
             get { return _DelayMs; }
-            set { _DelayMs = value; }
+            set { _DelayMs = value.Limit(0,int.MaxValue); }
         }
 
 
@@ -38,7 +38,14 @@ namespace DirectOutput.FX.TimmedFX
         {
             if (TargetEffect != null)
             {
-                Table.Pinball.Alarms.RegisterAlarm(DelayMs, TriggerTargetEffect, TableElementData, true);
+                if (DelayMs > 0)
+                {
+                    Table.Pinball.Alarms.RegisterAlarm(DelayMs, TriggerTargetEffect, TableElementData, true);
+                }
+                else
+                {
+                    TriggerTargetEffect(TableElementData);
+                }
             }
         }
 

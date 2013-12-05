@@ -20,11 +20,12 @@ using DirectOutput.FX.RGBAFX;
 using System.Xml.Serialization;
 using DirectOutput.FX.TimmedFX;
 using System.Reflection;
-using DirectOutput.FX;
+
 using DirectOutput.Cab.Toys;
 using DirectOutput.Cab.Out.AdressableLedStrip;
 using DirectOutput.FX.RGBAMatrixFX;
 using System.Threading;
+using DirectOutput.FX;
 
 
 namespace DirectOutput_Test

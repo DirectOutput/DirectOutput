@@ -43,7 +43,7 @@ namespace DirectOutput.FX.TimmedFX
         }
 
 
-        private FadeDurationModeEnum _FadeDurationMode = FadeDurationModeEnum.CurrentToTarget;
+        private FadeEffectDurationModeEnum _FadeDurationMode = FadeEffectDurationModeEnum.CurrentToTarget;
         /// <summary>
         /// Gets or sets the fade duration mode.
         /// </summary>
@@ -51,7 +51,7 @@ namespace DirectOutput.FX.TimmedFX
         /// The fade duration mode.<br/>
         /// Depending on the FadeDurationMode the transition from the current to the target value will use one of the duration values directly or use the duration values to determine how long it would take to fade through the whole possible value range and the effective fading duration will depend on the defference between the current and the target value.
         /// </value>
-        public FadeDurationModeEnum FadeDurationMode
+        public FadeEffectDurationModeEnum FadeDurationMode
         {
             get { return _FadeDurationMode; }
             set { _FadeDurationMode = value; }
@@ -78,7 +78,7 @@ namespace DirectOutput.FX.TimmedFX
                 this.TableElementData = TableElementData;
 
                 double Duration = (CurrentValue < TargetValue ? FadeUpDuration : FadeDownDuration);
-                if (FadeDurationMode == FadeDurationModeEnum.FullValueRange)
+                if (FadeDurationMode == FadeEffectDurationModeEnum.FullValueRange)
                 {
                     Duration = Duration / 255 * (TargetValue - CurrentValue).Abs();
                 }

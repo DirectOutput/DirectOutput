@@ -70,7 +70,7 @@ namespace DirectOutput.FX.TimmedFX
                 if (TED.Value != 0)
                 {
                     TargetEffect.Trigger(TED);
-                    if (!Active || RetriggerBehaviour == RetriggerBehaviourEnum.RestartEffect)
+                    if (!Active || RetriggerBehaviour == RetriggerBehaviourEnum.Restart)
                     {
                         Table.Pinball.Alarms.RegisterAlarm(MinDurationMs, MinDurationEnd);
                         Active = true;
