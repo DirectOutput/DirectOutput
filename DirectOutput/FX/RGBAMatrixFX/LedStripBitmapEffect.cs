@@ -5,7 +5,7 @@ using System.Text;
 using DirectOutput.General;
 using DirectOutput.General.Bitmap;
 
-namespace DirectOutput.FX.LedStripFX
+namespace DirectOutput.FX.RGBAMatrixFX
 {
     /// <summary>
     /// Displays a defined part of a bitmap on a area of a ledstrip.

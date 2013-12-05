@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DirectOutput.FX.LedStripFX
+namespace DirectOutput.FX.RGBAMatrixFX
 {
     /// <summary>
     /// Shift directions for LedStrip effects

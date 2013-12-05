@@ -5,7 +5,7 @@ using System.Text;
 using DirectOutput.Cab.Color;
 using DirectOutput.Cab.Toys.Layer;
 
-namespace DirectOutput.FX.LedStripFX
+namespace DirectOutput.FX.RGBAMatrixFX
 {
     /// <summary>
     /// Sets the spefied area of a ledstrip to a color depending on configured colors and the trigger value.

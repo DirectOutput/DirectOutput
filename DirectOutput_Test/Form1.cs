@@ -23,7 +23,7 @@ using System.Reflection;
 using DirectOutput.FX;
 using DirectOutput.Cab.Toys;
 using DirectOutput.Cab.Out.AdressableLedStrip;
-using DirectOutput.FX.LedStripFX;
+using DirectOutput.FX.RGBAMatrixFX;
 using System.Threading;
 
 

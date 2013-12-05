@@ -1,7 +1,7 @@
 ﻿using DirectOutput.Cab.Toys.Layer;
 using System.Xml.Serialization;
 
-namespace DirectOutput.FX.LedStripFX
+namespace DirectOutput.FX.RGBAMatrixFX
 {
     /// <summary>
     /// Base class for effects targeting Ledstrip toys

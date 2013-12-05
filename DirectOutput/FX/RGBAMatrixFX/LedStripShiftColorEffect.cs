@@ -5,7 +5,7 @@ using System.Text;
 using DirectOutput.Cab.Color;
 using DirectOutput.Cab.Toys.Layer;
 
-namespace DirectOutput.FX.LedStripFX
+namespace DirectOutput.FX.RGBAMatrixFX
 {
     public class LedStripShiftColorEffect : LedStripEffectBase
     {
