@@ -139,10 +139,10 @@ namespace DirectOutput.FX.RGBAMatrixFX
                 for (int x = 0; x < AreaWidth; x++)
                 {
                     int xd = x + AreaLeft;
-                    LedStripLayer[xd, yd].Red = Pixels[x, y].Red;
-                    LedStripLayer[xd, yd].Green = Pixels[x, y].Green;
-                    LedStripLayer[xd, yd].Blue = Pixels[x, y].Blue;
-                    LedStripLayer[xd, yd].Alpha = (int)(AlphaWeight * Pixels[x, y].Alpha);
+                    RGBAMatrixLayer[xd, yd].Red = Pixels[x, y].Red;
+                    RGBAMatrixLayer[xd, yd].Green = Pixels[x, y].Green;
+                    RGBAMatrixLayer[xd, yd].Blue = Pixels[x, y].Blue;
+                    RGBAMatrixLayer[xd, yd].Alpha = (int)(AlphaWeight * Pixels[x, y].Alpha);
                 }
             }
 
@@ -218,7 +218,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
             }
 
 
-            InitOK = (Pixels != null && LedStripLayer != null);
+            InitOK = (Pixels != null && RGBAMatrixLayer != null);
 
         }
 

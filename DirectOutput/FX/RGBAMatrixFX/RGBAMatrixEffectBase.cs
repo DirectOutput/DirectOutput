@@ -26,20 +26,20 @@ namespace DirectOutput.FX.RGBAMatrixFX
                 if (_ToyName != value)
                 {
                     _ToyName = value;
-                    LedStrip = null;
+                    RGBAMatrix = null;
                 }
             }
         }
 
 
         /// <summary>
-        /// Gets the LedStrip object which is referenced by the ToyName property.
+        /// Gets the IRGBAMatrix object which is referenced by the ToyName property.
         /// This property is initialized by the Init method.
         /// </summary>
         /// <value>
-        /// The led LedStrip object which is referenced by the ToyName property.
+        /// The IRGBAMatrix object which is referenced by the ToyName property.
         /// </value>
-        protected LedStrip LedStrip { get; private set; }
+        protected IRGBAMatrix RGBAMatrix { get; private set; }
 
 
 
@@ -148,14 +148,14 @@ namespace DirectOutput.FX.RGBAMatrixFX
 
 
         /// <summary>
-        /// The led strip layer array of a led strip as specified by the ToyName and the LayerNr.
+        /// The layer array of a IRGBAMatrix object as specified by the ToyName and the LayerNr.
         /// This reference is initialized by the Init method.
         /// </summary>
         /// <value>
-        /// The led strip layer array.
+        /// A IRGBAMatrix object layer array.
         /// </value>
         [XmlIgnoreAttribute]
-        protected RGBAData[,] LedStripLayer;
+        protected RGBAData[,] RGBAMatrixLayer;
 
 
         /// <summary>
@@ -165,15 +165,15 @@ namespace DirectOutput.FX.RGBAMatrixFX
         /// <param name="Table">Table object containing the effect.</param>
         public override void Init(Table.Table Table)
         {
-            if (!ToyName.IsNullOrWhiteSpace() && Table.Pinball.Cabinet.Toys.Contains(ToyName) && Table.Pinball.Cabinet.Toys[ToyName] is LedStrip)
+            if (!ToyName.IsNullOrWhiteSpace() && Table.Pinball.Cabinet.Toys.Contains(ToyName) && Table.Pinball.Cabinet.Toys[ToyName] is IRGBAMatrix)
             {
-                LedStrip = (LedStrip)Table.Pinball.Cabinet.Toys[ToyName];
-                LedStripLayer = LedStrip.GetLayer(LayerNr);
+                RGBAMatrix = (IRGBAMatrix)Table.Pinball.Cabinet.Toys[ToyName];
+                RGBAMatrixLayer = RGBAMatrix.GetLayer(LayerNr);
 
-                AreaLeft = ((float)LedStrip.Width / 100 * Left).RoundToInt().Limit(0,LedStrip.Width-1);
-                AreaTop = ((float)LedStrip.Height / 100 * Top).RoundToInt().Limit(0, LedStrip.Height - 1);
-                AreaRight = ((float)LedStrip.Width / 100 * (Left + Width).Limit(0, 100)).RoundToInt().Limit(0, LedStrip.Width - 1);
-                AreaBottom = ((float)LedStrip.Height / 100 * (Top + Height).Limit(0, 100)).RoundToInt().Limit(0, LedStrip.Height - 1);
+                AreaLeft = ((float)RGBAMatrix.Width / 100 * Left).RoundToInt().Limit(0,RGBAMatrix.Width-1);
+                AreaTop = ((float)RGBAMatrix.Height / 100 * Top).RoundToInt().Limit(0, RGBAMatrix.Height - 1);
+                AreaRight = ((float)RGBAMatrix.Width / 100 * (Left + Width).Limit(0, 100)).RoundToInt().Limit(0, RGBAMatrix.Width - 1);
+                AreaBottom = ((float)RGBAMatrix.Height / 100 * (Top + Height).Limit(0, 100)).RoundToInt().Limit(0, RGBAMatrix.Height - 1);
 
                 int Tmp;
                 if (AreaLeft > AreaRight) { Tmp = AreaRight; AreaRight = AreaLeft; AreaLeft = AreaRight; }
@@ -192,8 +192,8 @@ namespace DirectOutput.FX.RGBAMatrixFX
         /// </summary>
         public override void Finish()
         {
-            LedStripLayer = null;
-            LedStrip = null;
+            RGBAMatrixLayer = null;
+            RGBAMatrix = null;
             Table = null;
             base.Finish();
         }

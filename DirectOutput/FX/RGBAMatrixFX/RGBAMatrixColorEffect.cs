@@ -66,7 +66,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
         /// <param name="TableElementData">TableElementData for the TableElement which has triggered the effect.</param>
         public override void Trigger(Table.TableElementData TableElementData)
         {
-            if (LedStripLayer != null)
+            if (RGBAMatrixLayer != null)
             {
                 RGBAData D;
 
@@ -83,7 +83,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
                 {
                     for (int y = AreaTop; y <= AreaBottom; y++)
                     {
-                        LedStripLayer[x, y] = D;
+                        RGBAMatrixLayer[x, y] = D;
                     }
                 }
             }
@@ -97,7 +97,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
         {
             base.Init(Table);
 
-            if (LedStrip != null)
+            if (RGBAMatrix != null)
             {
 
 

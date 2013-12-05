@@ -12,7 +12,7 @@ namespace DirectOutput.Cab.Toys.Layer
     /// 
     /// The toy supports several layers and supports transparency/alpha channels for every single led.
     /// </summary>
-    public class LedStrip : ToyBaseUpdatable, IToy
+    public class LedStrip : ToyBaseUpdatable, IToy, IRGBAMatrix
     {
         #region Config properties
         private int _Width = 1;

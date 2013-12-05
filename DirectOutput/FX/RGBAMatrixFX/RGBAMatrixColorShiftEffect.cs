@@ -174,7 +174,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
 
                         for (int y = AreaTop; y <= AreaBottom; y++)
                         {
-                            LedStripLayer[AreaLeft + i, y] = D;
+                            RGBAMatrixLayer[AreaLeft + i, y] = D;
                         }
                     }
                     break;
@@ -191,7 +191,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
 
                         for (int x = AreaLeft; x <= AreaRight; x++)
                         {
-                            LedStripLayer[x, AreaTop + i] = D;
+                            RGBAMatrixLayer[x, AreaTop + i] = D;
                         }
                     }
                     break;
@@ -208,7 +208,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
 
                         for (int x = AreaLeft; x <= AreaRight; x++)
                         {
-                            LedStripLayer[x, AreaBottom - i] = D;
+                            RGBAMatrixLayer[x, AreaBottom - i] = D;
                         }
                     }
                     break;
@@ -226,7 +226,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
 
                         for (int y = AreaTop; y <= AreaBottom; y++)
                         {
-                            LedStripLayer[AreaRight - i, y] = D;
+                            RGBAMatrixLayer[AreaRight - i, y] = D;
                         }
                     }
                     break;
@@ -268,7 +268,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
 
         public override void Trigger(Table.TableElementData TableElementData)
         {
-            if (LastTriggerValue != TableElementData.Value && LedStripLayer!=null)
+            if (LastTriggerValue != TableElementData.Value && RGBAMatrixLayer!=null)
             {
                 LastTriggerValue = TableElementData.Value;
 
