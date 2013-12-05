@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
+using DirectOutput.Table;
 
 namespace DirectOutput.FX.TimmedFX
 {
@@ -14,7 +15,7 @@ namespace DirectOutput.FX.TimmedFX
     /// </summary>
     public class MinDurationEffect : EffectEffectBase
     {
-        private RetriggerBehaviourEnum _RetriggerBehaviour;
+        private RetriggerBehaviourEnum _RetriggerBehaviour = RetriggerBehaviourEnum.Ignore;
 
         /// <summary>
         /// Gets or sets the retrigger behaviour.<br/>
@@ -22,7 +23,7 @@ namespace DirectOutput.FX.TimmedFX
         /// This settings is only relevant, if the effect can be called from more than one table element.
         /// </summary>
         /// <value>
-        /// Valid values are RestartEffect (Restarts the minimal duration) or IgnoreRetrigger (keeps the org duration).
+        /// Valid values are Restart (restarts the minimal duration) or Ignore (keeps the org duration).
         /// </value>
         public RetriggerBehaviourEnum RetriggerBehaviour
         {
@@ -55,41 +56,45 @@ namespace DirectOutput.FX.TimmedFX
         [XmlIgnoreAttribute]
         public bool Active { get; private set; }
 
-        private Queue<Table.TableElementData> UntriggerData = new Queue<Table.TableElementData>();
+        private TableElementData UntriggerData;
+        private DateTime DurationStart = DateTime.MinValue;
 
         /// <summary>
         /// Triggers the MinDurationEffect with the given TableElementData.<br/>
         /// The minimal duration is started, if the value portion of the TableElementData parameter is !=0. 
         /// </summary>
         /// <param name="TableElementData">TableElementData for the TableElement which has triggered the effect.</param>
-        public override void Trigger(Table.TableElementData TableElementData)
+        public override void Trigger(TableElementData TableElementData)
         {
             if (TargetEffect != null)
             {
-                Table.TableElementData TED =  TableElementData;
-                if (TED.Value != 0)
+                if (TableElementData.Value != 0)
                 {
-                    TargetEffect.Trigger(TED);
-                    if (!Active || RetriggerBehaviour == RetriggerBehaviourEnum.Restart)
+                    if (!Active)
                     {
-                        Table.Pinball.Alarms.RegisterAlarm(MinDurationMs, MinDurationEnd);
+                        DurationStart = DateTime.Now;
+                        TriggerTargetEffect(TableElementData);
                         Active = true;
+                    } else if(RetriggerBehaviour==RetriggerBehaviourEnum.Restart) {
+                        DurationStart = DateTime.Now;
                     }
                 }
                 else
                 {
-                    if (Active)
+                    if (Active && TableElementData.TableElementType == UntriggerData.TableElementType && TableElementData.Number == UntriggerData.Number)
                     {
-                        //Min duration is active, put data in queue
-                        UntriggerData.Enqueue(TED);
-                    }
-                    else
-                    {
-                        //Min duration has ended call target effect directly
-                        TargetEffect.Trigger(TED);
+                        if ((DateTime.Now - DurationStart).TotalMilliseconds >= MinDurationMs)
+                        {
+                            MinDurationEnd();
+                        }
+                        else
+                        {
+                            Table.Pinball.Alarms.RegisterAlarm(MinDurationMs - (int)(DateTime.Now - DurationStart).TotalMilliseconds, MinDurationEnd);
+                        }
                     }
 
                 }
+
             }
         }
 
@@ -97,9 +102,11 @@ namespace DirectOutput.FX.TimmedFX
 
         private void MinDurationEnd()
         {
-            while (UntriggerData.Count>0)
+            if (Active)
             {
-                TargetEffect.Trigger(UntriggerData.Dequeue());
+                TableElementData D = UntriggerData;
+                D.Value = 0;
+                TriggerTargetEffect(D);
             }
             Active = false;
         }
@@ -116,7 +123,7 @@ namespace DirectOutput.FX.TimmedFX
             {
                 Table.Pinball.Alarms.UnregisterAlarm(MinDurationEnd);
             }
-            catch  {}
+            catch { }
             //MinDurationEnd();
             Active = false;
             base.Finish();

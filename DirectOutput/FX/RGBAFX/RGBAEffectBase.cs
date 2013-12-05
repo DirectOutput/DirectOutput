@@ -31,7 +31,8 @@ namespace DirectOutput.FX.RGBAFX
                 if (_ToyName != value)
                 {
                     _ToyName = value;
-                    _RGBAToy = null;
+                    RGBAToy = null;
+                    Layer = null;
                 }
             }
         }

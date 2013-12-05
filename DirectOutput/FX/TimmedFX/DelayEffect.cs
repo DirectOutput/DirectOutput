@@ -40,7 +40,7 @@ namespace DirectOutput.FX.TimmedFX
             {
                 if (DelayMs > 0)
                 {
-                    Table.Pinball.Alarms.RegisterAlarm(DelayMs, TriggerTargetEffect, TableElementData, true);
+                    Table.Pinball.Alarms.RegisterAlarm(DelayMs, AfterDelay, TableElementData, true);
                 }
                 else
                 {
@@ -49,22 +49,11 @@ namespace DirectOutput.FX.TimmedFX
             }
         }
 
-
-        private void TriggerTargetEffect(object AlarmParameter)
+        private void AfterDelay(object Data)
         {
-            if (TargetEffect != null)
-            {
-                try
-                {
-                    TargetEffect.Trigger((TableElementData)AlarmParameter);
-                }
-                catch (Exception E)
-                {
-                    Log.Exception("The target effect {0} of the DelayEffect {1} has trown a exception.".Build(TargetEffectName, Name), E);
-                    TargetEffect = null;
-                }
-            }
+            TriggerTargetEffect((TableElementData)Data);
         }
+
 
 
         /// <summary>
@@ -84,7 +73,7 @@ namespace DirectOutput.FX.TimmedFX
         {
             try
             {
-                Table.Pinball.Alarms.UnregisterAlarm(TriggerTargetEffect);
+                Table.Pinball.Alarms.UnregisterAlarm(AfterDelay);
 
             }
             catch { }

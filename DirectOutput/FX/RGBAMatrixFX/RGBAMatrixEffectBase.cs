@@ -27,6 +27,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
                 {
                     _ToyName = value;
                     RGBAMatrix = null;
+                    RGBAMatrixLayer = null;
                 }
             }
         }
