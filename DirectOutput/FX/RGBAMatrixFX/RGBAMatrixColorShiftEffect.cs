@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using DirectOutput.Cab.Color;
+using DirectOutput.General.Color;
 using DirectOutput.Cab.Toys.Layer;
 
 namespace DirectOutput.FX.RGBAMatrixFX

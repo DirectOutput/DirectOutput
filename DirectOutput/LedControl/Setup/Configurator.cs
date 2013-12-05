@@ -10,7 +10,7 @@ using DirectOutput.FX.AnalogToyFX;
 using DirectOutput.FX.RGBAFX;
 using DirectOutput.FX.TimmedFX;
 using DirectOutput.LedControl.Loader;
-using DirectOutput.Cab.Color;
+using DirectOutput.General.Color;
 
 namespace DirectOutput.LedControl.Setup
 {

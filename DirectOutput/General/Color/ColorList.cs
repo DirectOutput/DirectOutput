@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 using DirectOutput.General.Generic;
 using DirectOutput.Cab.Toys.Layer;
 
-namespace DirectOutput.Cab.Color
+namespace DirectOutput.General.Color
 {
 
     /// <summary>

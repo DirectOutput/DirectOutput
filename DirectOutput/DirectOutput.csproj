@@ -123,8 +123,8 @@
     <Compile Include="Cab\Toys\Layer\AnalogAlphaLayer.cs" />
     <Compile Include="Cab\Toys\Layer\AnalogLayerDictionary.cs" />
     <Compile Include="Cab\Toys\Layer\AnalogAlphaToy.cs" />
-    <Compile Include="Cab\Color\RGBAColorNamed.cs" />
-    <Compile Include="Cab\Color\RGBAColor.cs" />
+    <Compile Include="General\Color\RGBAColorNamed.cs" />
+    <Compile Include="General\Color\RGBAColor.cs" />
     <Compile Include="Cab\Toys\Layer\IAnalogAlphaToy.cs" />
     <Compile Include="Cab\Toys\Layer\IRGBAMatrix.cs" />
     <Compile Include="Cab\Toys\Layer\IRGBAToy.cs" />
@@ -133,7 +133,7 @@
     <Compile Include="Cab\Toys\Layer\RGBAData.cs" />
     <Compile Include="Cab\Toys\Layer\RGBALayer.cs" />
     <Compile Include="Cab\Toys\Layer\RGBALayerDictionary.cs" />
-    <Compile Include="Cab\Color\RGBColorNamed.cs" />
+    <Compile Include="General\Color\RGBColorNamed.cs" />
     <Compile Include="Cab\Toys\Layer\RGBOrderEnum.cs" />
     <Compile Include="Cab\Toys\Layer\StripArrangementEnum.cs" />
     <Compile Include="General\Curve.cs" />
@@ -269,8 +269,8 @@
     <Compile Include="Cab\Out\OutputEventArgs.cs" />
     <Compile Include="Cab\Out\OutputControllerBase.cs" />
     <Compile Include="Cab\CabinetOutputList.cs" />
-    <Compile Include="Cab\Color\RGBColor.cs" />
-    <Compile Include="Cab\Color\ColorList.cs" />
+    <Compile Include="General\Color\RGBColor.cs" />
+    <Compile Include="General\Color\ColorList.cs" />
     <Compile Include="Cab\Toys\Basic\Contactor.cs" />
     <Compile Include="Cab\Toys\Basic\IAnalogToy.cs" />
     <Compile Include="Cab\Toys\Basic\IDigitalToy.cs" />

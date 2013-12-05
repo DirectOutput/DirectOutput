@@ -1,6 +1,6 @@
 ﻿using System;
 using DirectOutput.Cab.Toys.Layer;
-using DirectOutput.Cab.Color;
+using DirectOutput.General.Color;
 
 
 namespace DirectOutput.LedControl.Loader

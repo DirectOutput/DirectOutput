@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DirectOutput.Cab.Out;
-using DirectOutput.Cab.Color;
+using DirectOutput.General.Color;
 
 namespace DirectOutput.Cab.Toys.Layer
 {
