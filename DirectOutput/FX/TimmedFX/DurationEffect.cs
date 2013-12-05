@@ -65,7 +65,7 @@ namespace DirectOutput.FX.TimmedFX
             {
                 if (!Active)
                 {
-                    TargetEffect.Trigger(TableElementData);
+                   TriggerTargetEffect(TableElementData);
                     Table.Pinball.Alarms.RegisterAlarm(DurationMs, DurationEnd, TableElementData);
                     Active = true;
                 } else if(RetriggerBehaviour==RetriggerBehaviourEnum.Restart) {
@@ -80,7 +80,7 @@ namespace DirectOutput.FX.TimmedFX
 
             Table.TableElementData TED = (Table.TableElementData)TableElementData;
             TED.Value = 0;
-            TargetEffect.Trigger(TED);
+            TriggerTargetEffect(TED);
             Active = false;
         }
 

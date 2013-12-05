@@ -97,7 +97,7 @@ namespace DirectOutput.FX.TimmedFX
 
                     CurrentValue=TargetValue;
                     LastTargetTriggerValue = -1;
-                    TargetEffect.Trigger(TableElementData);
+                    TriggerTargetEffect(TableElementData);
                 }
 
             }
@@ -121,7 +121,7 @@ namespace DirectOutput.FX.TimmedFX
             {
                 LastTargetTriggerValue = (int)CurrentValue;
                 TableElementData.Value = LastTargetTriggerValue;
-                TargetEffect.Trigger(TableElementData);
+                TriggerTargetEffect(TableElementData);
             }
         }
 

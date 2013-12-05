@@ -75,7 +75,7 @@ namespace DirectOutput.FX.TimmedFX
         }
 
 
-        private BlinkEffectUntriggerBehaviourEnum _UntriggerBehaviour=BlinkEffectUntriggerBehaviourEnum.Immediate;
+        private BlinkEffectUntriggerBehaviourEnum _UntriggerBehaviour = BlinkEffectUntriggerBehaviourEnum.Immediate;
 
         /// <summary>
         /// Gets or sets the untrigger behaviour which defines how the blinking stops.
@@ -88,7 +88,7 @@ namespace DirectOutput.FX.TimmedFX
             get { return _UntriggerBehaviour; }
             set { _UntriggerBehaviour = value; }
         }
-        
+
 
 
         /// <summary>

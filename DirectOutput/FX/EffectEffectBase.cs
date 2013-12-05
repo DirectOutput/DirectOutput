@@ -70,7 +70,7 @@ namespace DirectOutput.FX
                 }
                 catch (Exception E)
                 {
-                    Log.Exception("The target effect {0} of the {1} {2} has trown a exception. Disabling further calls of the target effect.".Build(TargetEffectName, GetType().Name, Name), E);
+                    Log.Exception("The target effect {0} of the {1} {2} has thrown a exception. Disabling further calls of the target effect.".Build(TargetEffectName, GetType().Name, Name), E);
                     TargetEffect = null;
                 }
             }
