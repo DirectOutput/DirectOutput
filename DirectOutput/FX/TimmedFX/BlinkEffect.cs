@@ -122,6 +122,7 @@ namespace DirectOutput.FX.TimmedFX
                 if (BlinkState)
                 {
                     BlinkTableElementData.Value = (HighValue >= 0 ? HighValue : BlinkOrgTableElementDataValue);
+                    TriggerTargetEffect(BlinkTableElementData);
                 }
             }
         }
@@ -133,6 +134,7 @@ namespace DirectOutput.FX.TimmedFX
             {
                 Table.Pinball.Alarms.UnregisterAlarm(DoBlink);
                 BlinkTableElementData.Value = 0;
+                TriggerTargetEffect(BlinkTableElementData);
             };
         }
 
@@ -156,7 +158,7 @@ namespace DirectOutput.FX.TimmedFX
                     BlinkTableElementData.Value = 0;
                 }
             }
-            TargetEffect.Trigger(BlinkTableElementData);
+            TriggerTargetEffect(BlinkTableElementData);
 
         }
 
