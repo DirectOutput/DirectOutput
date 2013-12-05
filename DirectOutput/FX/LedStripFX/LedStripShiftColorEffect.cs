@@ -42,20 +42,19 @@ namespace DirectOutput.FX.LedStripFX
         }
 
 
-        private ColorSetModeEnum _ColorSetMode = ColorSetModeEnum.OnOff;
+        private FadeModeEnum _FadeMode = FadeModeEnum.Fade;
 
         /// <summary>
-        /// Gets or sets the color set mode.
+        /// Gets or sets the fade mode.
         /// </summary>
         /// <value>
         /// Fade (active and inactive color will fade depending on trigger value) or OnOff (actvice color is used for triger values >0, otherwise inactive color will be used).
         /// </value>
-        public ColorSetModeEnum ColorSetMode
+        public FadeModeEnum FadeMode
         {
-            get { return _ColorSetMode; }
-            set { _ColorSetMode = value; }
+            get { return _FadeMode; }
+            set { _FadeMode = value; }
         }
-
 
         private ShiftDirectionEnum _ShiftDirection = ShiftDirectionEnum.Right;
 
@@ -166,7 +165,7 @@ namespace DirectOutput.FX.LedStripFX
                     for (int i = 0; i < NumberOfLeds; i++)
                     {
                         int V = ((int)Value[i]).Limit(0, 255);
-                        if (V > 0 && ColorSetMode == ColorSetModeEnum.OnOff) { V = 255; }
+                        if (V > 0 && FadeMode == FadeModeEnum.OnOff) { V = 255; }
                         RGBAData D;
                         D.Red = InactiveColor.Red + (int)((float)(ActiveColor.Red - InactiveColor.Red) * V / 255).Limit(0, 255);
                         D.Green = InactiveColor.Green + (int)((float)(ActiveColor.Green - InactiveColor.Green) * V / 255).Limit(0, 255);
@@ -183,7 +182,7 @@ namespace DirectOutput.FX.LedStripFX
                     for (int i = 0; i < NumberOfLeds; i++)
                     {
                         int V = ((int)Value[i]).Limit(0, 255);
-                        if (V > 0 && ColorSetMode == ColorSetModeEnum.OnOff) { V = 255; }
+                        if (V > 0 && FadeMode == FadeModeEnum.OnOff) { V = 255; }
                         RGBAData D;
                         D.Red = InactiveColor.Red + (int)((float)(ActiveColor.Red - InactiveColor.Red) * V / 255).Limit(0, 255);
                         D.Green = InactiveColor.Green + (int)((float)(ActiveColor.Green - InactiveColor.Green) * V / 255).Limit(0, 255);
@@ -200,7 +199,7 @@ namespace DirectOutput.FX.LedStripFX
                     for (int i = 0; i < NumberOfLeds; i++)
                     {
                         int V = ((int)Value[i]).Limit(0, 255);
-                        if (V > 0 && ColorSetMode == ColorSetModeEnum.OnOff) { V = 255; }
+                        if (V > 0 && FadeMode == FadeModeEnum.OnOff) { V = 255; }
                         RGBAData D;
                         D.Red = InactiveColor.Red + (int)((float)(ActiveColor.Red - InactiveColor.Red) * V / 255).Limit(0, 255);
                         D.Green = InactiveColor.Green + (int)((float)(ActiveColor.Green - InactiveColor.Green) * V / 255).Limit(0, 255);
@@ -218,7 +217,7 @@ namespace DirectOutput.FX.LedStripFX
                     for (int i = 0; i < NumberOfLeds; i++)
                     {
                         int V = ((int)Value[i]).Limit(0, 255);
-                        if (V > 0 && ColorSetMode == ColorSetModeEnum.OnOff) { V = 255; }
+                        if (V > 0 && FadeMode == FadeModeEnum.OnOff) { V = 255; }
                         RGBAData D;
                         D.Red = InactiveColor.Red + (int)((float)(ActiveColor.Red - InactiveColor.Red) * V / 255).Limit(0, 255);
                         D.Green = InactiveColor.Green + (int)((float)(ActiveColor.Green - InactiveColor.Green) * V / 255).Limit(0, 255);

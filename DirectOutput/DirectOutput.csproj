@@ -209,7 +209,7 @@
     <Compile Include="FX\AnalogToyFX\AnanlogToyEffectBase.cs" />
     <Compile Include="FX\AnalogToyFX\AnalogToyFadeOnOffEffect.cs" />
     <Compile Include="FX\FadeModeEnum.cs" />
-    <Compile Include="FX\LedStripFX\ColorFadeModeEnum.cs" />
+    <Compile Include="FX\LedStripFX\FadeModeEnum.cs" />
     <Compile Include="FX\LedStripFX\LedStripBitmapEffect.cs" />
     <Compile Include="FX\LedStripFX\LedStripEffectBase.cs" />
     <Compile Include="FX\LedStripFX\LedStripSetColorEffect.cs" />
@@ -230,8 +230,10 @@
     <Compile Include="FX\RGBAFX\RGBAOnOffEffect.cs" />
     <Compile Include="FX\NullFX\NullEffect.cs" />
     <Compile Include="FX\RGBAFX\RGBAFX.cs" />
+    <Compile Include="General\Bitmap\FastImage.cs" />
+    <Compile Include="General\Bitmap\FastBitmapDataExtractModeEnum.cs" />
+    <Compile Include="General\Bitmap\FastImageList.cs" />
     <Compile Include="General\Bitmap\FastBitmap.cs" />
-    <Compile Include="General\Bitmap\FastBitmapFrame.cs" />
     <Compile Include="General\Bitmap\PixelData.cs" />
     <Compile Include="General\Statistics\SimpleStatistics.cs" />
     <Compile Include="General\Statistics\TimeSpanStatisticsList.cs" />

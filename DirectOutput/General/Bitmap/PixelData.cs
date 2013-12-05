@@ -15,5 +15,16 @@ namespace DirectOutput.General.Bitmap
         public byte Green;
         public byte Red;
         public byte Alpha;
+
+        
+
+        public PixelData(byte Red, byte Green, byte Blue, byte Alpha)
+        {
+            this.Red = Red;
+            this.Green = Green;
+            this.Blue = Blue;
+            this.Alpha = Alpha;
+        }
+
     }
 }

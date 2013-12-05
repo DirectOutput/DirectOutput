@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DirectOutput.General;
+using DirectOutput.General.Bitmap;
 
 namespace DirectOutput.FX.LedStripFX
 {
@@ -82,20 +84,150 @@ namespace DirectOutput.FX.LedStripFX
         }
 
 
+        private FastBitmapDataExtractModeEnum _DataExtractMode = FastBitmapDataExtractModeEnum.SinglePixelCenter;
+
+        /// <summary>
+        /// Gets or sets the mode how data is extracted from the source bitmap.
+        /// </summary>
+        /// <value>
+        /// The data extract mode which defines how the data is extracted from the source bitmap.
+        /// </value>
+        public FastBitmapDataExtractModeEnum DataExtractMode
+        {
+            get { return _DataExtractMode; }
+            set { _DataExtractMode = value; }
+        }
+
+        private FadeModeEnum _FadeMode = FadeModeEnum.Fade;
+
+        /// <summary>
+        /// Gets or sets the fade mode.
+        /// </summary>
+        /// <value>
+        /// Fade (active and inactive color will fade depending on trigger value) or OnOff (actvice color is used for triger values >0, otherwise inactive color will be used).
+        /// </value>
+        public FadeModeEnum FadeMode
+        {
+            get { return _FadeMode; }
+            set { _FadeMode = value; }
+        }
+
+        private FilePattern _BitmapFilePattern;
+
+        /// <summary>
+        /// Gets or sets the file pattern which is used to load the bitmap file for the effect.
+        /// </summary>
+        /// <value>
+        /// The bitmap file pattern which is used to load the bitmap file for the effect.
+        /// </value>
+        public FilePattern BitmapFilePattern
+        {
+            get { return _BitmapFilePattern; }
+            set { _BitmapFilePattern = value; }
+        }
+
+        private PixelData[,] Pixels;
+
+        private void DisplayBitmap(int FadeValue)
+        {
+            if (FadeMode == FadeModeEnum.OnOff) FadeValue = (FadeValue < 1 ? 0 : 255); 
+
+            float AlphaWeight = 255 / FadeValue.Limit(0, 255);
+            for (int y = 0; y < AreaHeight; y++)
+            {
+                int yd = y * AreaTop;
+                for (int x = 0; x < AreaWidth; x++)
+                {
+                    int xd = x + AreaLeft;
+                    LedStripLayer[xd, yd].Red = Pixels[x, y].Red;
+                    LedStripLayer[xd, yd].Green = Pixels[x, y].Green;
+                    LedStripLayer[xd, yd].Blue = Pixels[x, y].Blue;
+                    LedStripLayer[xd, yd].Alpha = (int)(AlphaWeight * Pixels[x, y].Alpha);
+                }
+            }
 
 
+        }
+
+
+
+        /// <summary>
+        /// Triggers the effect with the given data.
+        /// </summary>
+        /// <param name="TableElementData">TableElementData for the TableElement which has triggered the effect.</param>
         public override void Trigger(Table.TableElementData TableElementData)
         {
-            throw new NotImplementedException();
+            if (InitOK)
+            {
+                DisplayBitmap(TableElementData.Value);
+            }
+
         }
 
+        private bool InitOK = false;
+
+
+        /// <summary>
+        /// Initializes the effect.
+        /// Resolves object references, extracts source image data.
+        /// </summary>
+        /// <param name="Table">Table object containing the effect.</param>
         public override void Init(Table.Table Table)
         {
+            InitOK = false;
+            Pixels = null;
             base.Init(Table);
+
+            //TODO: Insert replace values for file pattern
+            if (BitmapFilePattern.IsValid)
+            {
+
+                string Filename = BitmapFilePattern.GetFirstMatchingFile().FullName;
+                if (!Filename.IsNullOrWhiteSpace())
+                {
+                    FastImage BM;
+                    try
+                    {
+                        BM = Table.Bitmaps[Filename];
+                    }
+                    catch (Exception E)
+                    {
+                        Log.Exception("LedStripBitmapEffect {0} cant initialize.  Could not load file {1}.".Build(Name, Filename), E);
+                        return;
+                    }
+
+                    if (BM.Frames.ContainsKey(BitmapFrameNumber))
+                    {
+                        Pixels = BM.Frames[BitmapFrameNumber].GetClip(AreaWidth, AreaHeight, BitmapLeft, BitmapTop, BitmapWidth, BitmapHeight, DataExtractMode).Pixels;
+
+                    }
+                    else
+                    {
+                        Log.Warning("LedStripBitmapEffect {0} cant initialize. Frame {1} does not exist in source image {2}.".Build(Name, BitmapFrameNumber, Filename));
+
+                    }
+                }
+                else
+                {
+                    Log.Warning("LedStripBitmapEffect {0} cant initialize. No file matches the BitmapFilePattern {1} is invalid".Build(Name, BitmapFilePattern.ToString()));
+                }
+            }
+            else
+            {
+                Log.Warning("LedStripBitmapEffect {0} cant initialize. The BitmapFilePattern {1} is invalid".Build(Name, BitmapFilePattern.ToString()));
+            }
+
+
+            InitOK = (Pixels != null && LedStripLayer != null);
+
         }
 
+        /// <summary>
+        /// Finishes the effect and releases object references
+        /// </summary>
         public override void Finish()
         {
+            Pixels = null;
             base.Finish();
         }
     }

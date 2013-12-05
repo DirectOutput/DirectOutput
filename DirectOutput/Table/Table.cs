@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using System.Xml.Serialization;
 using DirectOutput.FX;
+using DirectOutput.General.Bitmap;
 
 
 /// <summary>
@@ -31,8 +32,23 @@ namespace DirectOutput.Table
         /// </value>
         [XmlIgnoreAttribute]
         public Pinball Pinball { get; private set; }
-        
 
+        
+        private FastImageList _Bitmaps=new FastImageList();
+
+        /// <summary>
+        /// Gets or sets the list of bitmaps
+        /// </summary>
+        /// <value>
+        /// The bitmaps list.
+        /// </value>
+        [XmlIgnoreAttribute]
+        public FastImageList Bitmaps
+        {
+            get { return _Bitmaps; }
+            private set { _Bitmaps = value; }
+        }
+        
 
         #region TableName
         private string _TableName;
