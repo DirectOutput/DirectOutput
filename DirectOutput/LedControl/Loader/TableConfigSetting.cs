@@ -248,6 +248,7 @@ namespace DirectOutput.LedControl.Loader
 
             int IntegerCnt = 0;
             int PartNr = 1;
+
             while (Parts.Length > PartNr)
             {
 
