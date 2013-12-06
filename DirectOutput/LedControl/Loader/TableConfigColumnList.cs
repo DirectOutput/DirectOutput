@@ -54,19 +54,11 @@ namespace DirectOutput.LedControl.Loader
                     Log.Warning("Previous exceptions occured in the line {0} of the ledcontrol file".Build(LedControlData));
                     if (ThrowExceptions)
                     {
-                        throw new Exception("Exception(s) accorud when parsing {0}".Build(LedControlData));
+                        throw new Exception("Exception(s) occured when parsing {0}".Build(LedControlData));
                     }
                 }
 
-                if (FirstOutputNumber + C.RequiredOutputCount > 33)
-                {
-                    Log.Warning("To many outputs (>32) are configured in the following line {0}".Build(LedControlData));
-                    if (ThrowExceptions)
-                    {
-                        throw new Exception("To many outputs (>32) are configured in the following line {0}".Build(LedControlData));
-                    }
-                    return;
-                }
+
 
                 Add(C);
 
