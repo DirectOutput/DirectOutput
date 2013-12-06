@@ -183,7 +183,7 @@ namespace DirectOutput.LedControl.Loader
 
             if (ColorData == null)
             {
-                Log.Exception("Could not find color definition section in file {0}.".Build(LedControlIniFile));
+                Log.Warning("Could not find color definition section in file {0}.".Build(LedControlIniFile));
                 if (ThrowExceptions)
                 {
                     throw new Exception("Could not find  color definition section in file {0}.".Build(LedControlIniFile));
@@ -192,7 +192,7 @@ namespace DirectOutput.LedControl.Loader
             }
             else if (ColorData.Count < 1)
             {
-                Log.Exception("File {0} does not contain data in the color definition section.".Build(LedControlIniFile));
+                Log.Warning("File {0} does not contain data in the color definition section.".Build(LedControlIniFile));
                 if (ThrowExceptions)
                 {
                     throw new Exception("File {0} does not contain data in the color definition section.".Build(LedControlIniFile));
@@ -202,7 +202,7 @@ namespace DirectOutput.LedControl.Loader
 
             if (OutData == null)
             {
-                Log.Exception("Could not find table config section in file {0}.".Build(LedControlIniFile));
+                Log.Warning("Could not find table config section in file {0}.".Build(LedControlIniFile));
                 if (ThrowExceptions)
                 {
                     throw new Exception("Could not find table config section section in file {1}.".Build(LedControlIniFile));
@@ -211,7 +211,7 @@ namespace DirectOutput.LedControl.Loader
             }
             else if (OutData.Count < 1)
             {
-                Log.Exception("File {0} does not contain data in the table config section.".Build(LedControlIniFile));
+                Log.Warning("File {0} does not contain data in the table config section.".Build(LedControlIniFile));
                 if (ThrowExceptions)
                 {
                     throw new Exception("File {0} does not contain data in the table config section".Build(LedControlIniFile));
@@ -229,7 +229,7 @@ namespace DirectOutput.LedControl.Loader
 
             TableConfigurations.ParseLedcontrolData(OutData, ThrowExceptions);
 
-            ResolveOutputNumbers();
+            //ResolveOutputNumbers();
             ResolveRGBColors();
         }
 
@@ -253,39 +253,39 @@ namespace DirectOutput.LedControl.Loader
         }
 
 
-        private void ResolveOutputNumbers()
-        {
-            //Get the number of required outputs per column
-            Dictionary<int, int> RequiredOutputs = new Dictionary<int, int>();
-            foreach (TableConfig TC in TableConfigurations)
-            {
-                TC.Columns.Sort();
-                foreach (TableConfigColumn C in TC.Columns)
-                {
-                    foreach (TableConfigSetting S in C)
-                    {
-                        int Cnt = (S.OutputType == OutputTypeEnum.RGBOutput ? 3 : 1);
-                        if (RequiredOutputs.ContainsKey(C.Number))
-                        {
+        //private void ResolveOutputNumbers()
+        //{
+        //    //Get the number of required outputs per column
+        //    Dictionary<int, int> RequiredOutputs = new Dictionary<int, int>();
+        //    foreach (TableConfig TC in TableConfigurations)
+        //    {
+        //        TC.Columns.Sort();
+        //        foreach (TableConfigColumn C in TC.Columns)
+        //        {
+        //            foreach (TableConfigSetting S in C)
+        //            {
+        //                int Cnt = (S.OutputType == OutputTypeEnum.RGBOutput ? 3 : 1);
+        //                if (RequiredOutputs.ContainsKey(C.Number))
+        //                {
 
-                            if (RequiredOutputs[C.Number] < Cnt)
-                            {
-                                RequiredOutputs[C.Number] = Cnt;
-                            }
-                        }
-                        else
-                        {
-                            RequiredOutputs.Add(C.Number, Cnt);
-                        }
-                    }
+        //                    if (RequiredOutputs[C.Number] < Cnt)
+        //                    {
+        //                        RequiredOutputs[C.Number] = Cnt;
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    RequiredOutputs.Add(C.Number, Cnt);
+        //                }
+        //            }
 
-                }
+        //        }
 
-            }
+        //    }
 
 
-            //Dump();
-        }
+        //    //Dump();
+        //}
 
 
         //private void Dump()
