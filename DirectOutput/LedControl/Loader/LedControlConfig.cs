@@ -160,8 +160,8 @@ namespace DirectOutput.LedControl.Loader
 
             FileData = null;
 
-            List<string> ColorData=null;
-            List<string> OutData=null;
+            List<string> ColorData = null;
+            List<string> OutData = null;
 
             foreach (string StartString in ColorStartStrings)
             {
@@ -190,16 +190,16 @@ namespace DirectOutput.LedControl.Loader
                 }
                 return;
             }
-            else  if (ColorData.Count<1)
+            else if (ColorData.Count < 1)
+            {
+                Log.Exception("File {0} does not contain data in the color definition section.".Build(LedControlIniFile));
+                if (ThrowExceptions)
                 {
-                    Log.Exception("File {0} does not contain data in the color definition section.".Build( LedControlIniFile));
-                    if (ThrowExceptions)
-                    {
-                        throw new Exception("File {0} does not contain data in the color definition section.".Build( LedControlIniFile));
-                    }
-                    return;
+                    throw new Exception("File {0} does not contain data in the color definition section.".Build(LedControlIniFile));
                 }
-                
+                return;
+            }
+
             if (OutData == null)
             {
                 Log.Exception("Could not find table config section in file {0}.".Build(LedControlIniFile));
@@ -244,11 +244,8 @@ namespace DirectOutput.LedControl.Loader
                     {
                         if (ColorConfigurations.Contains(S.ColorName))
                         {
-                            ColorConfig CC = ColorConfigurations[S.ColorName];
-                            if (CC != null)
-                            {
-                                S.ColorConfig = CC;
-                            }
+                            S.ColorConfig = ColorConfigurations[S.ColorName];
+
                         }
                     }
                 }
