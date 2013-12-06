@@ -92,7 +92,7 @@ namespace DirectOutput.LedControl.Loader
         /// <param name="ColumnData">The column data.</param>
         /// <param name="ThrowExceptions">If set to <c>true</c> exceptions are thrown on errors.</param>
         /// <returns>true if all settings have been parsed successfully, fals if a exception occured during parsing.</returns>
-        /// <exception cref="System.Exception">Could not parse setting {0} in column data {1}..Build(CC, ColumnData)</exception>
+        /// <exception cref="System.Exception">Could not parse setting {0} in column data {1}.</exception>
         public bool ParseColumnData(string ColumnData, bool ThrowExceptions = false)
         {
             bool ExceptionOccured = false;
