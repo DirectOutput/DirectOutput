@@ -55,7 +55,7 @@ namespace DirectOutput.Cab.Out
 
         /// <summary>
         /// This method is called whenever the value of a output in the Outputs property changes its value.<br/>
-        /// It doesn't do anything in this base class, but it can be overwritten (user override) in classes inherting the base class.
+        /// It doesn't do anything in this base class, but it can be overwritten (use override) in classes inherting the base class.
         /// </summary>
         /// <param name="Output">The output.</param>
         protected virtual void OnOutputValueChanged(IOutput Output)

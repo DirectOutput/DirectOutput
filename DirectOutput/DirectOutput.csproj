@@ -74,6 +74,9 @@
     <Reference Include="CSScriptLibrary">
       <HintPath>..\..\..\..\Downloads\CSScript\cs-script\cs-script\Lib\Bin\NET 4.0\CSScriptLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="FTD2XX_NET">
+      <HintPath>..\..\..\..\Desktop\DOF-Sainsmart\DOF-Sainsmart\FTD2XX_NET.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -108,6 +111,10 @@
     <Compile Include="Cab\Out\Pac\PacLed64AutoConfigurator.cs" />
     <Compile Include="Cab\Out\AdressableLedStrip\FTD2XX_NET.cs" />
     <Compile Include="Cab\Out\AdressableLedStrip\WS2811StripControllerApi.cs" />
+    <Compile Include="Cab\Out\SainSmart\relayBoard.cs" />
+    <Compile Include="Cab\Out\SainSmart\SainSmart.cs" />
+    <Compile Include="Cab\Out\SainSmart\SainSmartAutoConfigurator.cs" />
+    <Compile Include="Cab\Out\SainSmart\SainSmartIO.cs" />
     <Compile Include="Cab\Toys\Basic\Basic.cs" />
     <Compile Include="Cab\Toys\Basic\GearMotor.cs" />
     <Compile Include="Cab\Toys\Basic\IRGBToy.cs" />
