@@ -16,7 +16,7 @@ namespace DirectOutput.Cab.Out.Pac
 
         /// <summary>
         /// This method detects and configures PacLed64 controllers automatically
-       /// </summary>
+        /// </summary>
         /// <param name="Cabinet">The cabinet object to which the automatically detected IOutputController objects are added if necessary.</param>
         public void AutoConfig(Cabinet Cabinet)
         {
@@ -26,7 +26,7 @@ namespace DirectOutput.Cab.Out.Pac
                 {
                     PacLed64 PL = new PacLed64();
                     PL.Id = Id;
-                   
+
                     if (!Cabinet.OutputControllers.Contains(PL.Name))
                     {
                         Cabinet.OutputControllers.Add(PL);
@@ -34,43 +34,24 @@ namespace DirectOutput.Cab.Out.Pac
                         Log.Write("Detected and added PacLed64 Id {0} with name {1}".Build(PL.Id, PL.Name));
 
 
-                        if (!!Cabinet.Toys.Any(T => T is LedWizEquivalent && (((LedWizEquivalent)T).LedWizNumber == ((PL.Id - 1) * 2) + 20 || ((LedWizEquivalent)T).LedWizNumber == ((PL.Id - 1) * 2) + 20+1)))
+                        if (!Cabinet.Toys.Any(T => T is LedWizEquivalent && ((LedWizEquivalent)T).LedWizNumber == PL.Id - 1 + 20))
                         {
                             LedWizEquivalent LWE = new LedWizEquivalent();
-                            LWE.LedWizNumber = (PL.Id - 1) * 2 + 20;
+                            LWE.LedWizNumber = PL.Id - 1 + 20;
                             LWE.Name = "{0} Equivalent 1".Build(PL.Name);
-                            for (int i = 1; i <= 32; i++)
+                            for (int i = 1; i <= 64; i++)
                             {
-                                
 
-                                LedWizEquivalentOutput LWEO = new LedWizEquivalentOutput() { OutputName = "{0}\\{0}.{1:00}".Build(PL.Name,i), LedWizEquivalentOutputNumber = i };
+
+                                LedWizEquivalentOutput LWEO = new LedWizEquivalentOutput() { OutputName = "{0}\\{0}.{1:00}".Build(PL.Name, i), LedWizEquivalentOutputNumber = i };
                                 LWE.Outputs.Add(LWEO);
-
-                            }
-                            if (!Cabinet.Toys.Contains(LWE.Name))
-                            {
-                                Cabinet.Toys.Add(LWE);
-                            }
-
-                            LWE = new LedWizEquivalent();
-                            LWE.LedWizNumber = (PL.Id - 1) * 2 + 20 + 1;
-                            LWE.Name = "{0} Equivalent 2".Build(PL.Name);
-                            for (int i = 1; i <= 32; i++)
-                            {
-                                
-
-                                LedWizEquivalentOutput LWEO = new LedWizEquivalentOutput() { OutputName = "{0}\\{0}.{1:00}".Build(PL.Name, i+32), LedWizEquivalentOutputNumber = i };
-                                LWE.Outputs.Add(LWEO);
-
 
                             }
                             if (!Cabinet.Toys.Contains(LWE.Name))
                             {
                                 Cabinet.Toys.Add(LWE);
                                 Log.Write("Added LedwizEquivalent Nr. {0} with name {1} for PacLed64 with Id {2}".Build(LWE.LedWizNumber, LWE.Name, PL.Id));
-
                             }
-
 
                         }
 
