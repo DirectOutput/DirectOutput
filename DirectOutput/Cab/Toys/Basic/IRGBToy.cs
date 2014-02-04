@@ -1,5 +1,5 @@
 ﻿using System;
-using DirectOutput.Cab.Color;
+using DirectOutput.General.Color;
 namespace DirectOutput.Cab.Toys.Basic
 {
     /// <summary>

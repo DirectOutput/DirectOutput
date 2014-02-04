@@ -145,7 +145,7 @@ namespace DirectOutput.Cab.Out.LW
         /// or<br/>
         /// LedWiz output numbers must be in the range of 1-32. The supplied output number {0} is out of range.
         /// </exception>
-        public override void OnOutputValueChanged(IOutput Output)
+        protected override void OnOutputValueChanged(IOutput Output)
         {
             if (!(Output is LedWizOutput))
             {

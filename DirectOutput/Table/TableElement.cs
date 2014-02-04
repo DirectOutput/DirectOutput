@@ -131,11 +131,8 @@ namespace DirectOutput.Table
             get { return _TableElementEffectList; }
             set
             {
-                if (_TableElementEffectList != value)
-                {
                     _TableElementEffectList = value;
-                 
-                }
+                            
             }
         }
 

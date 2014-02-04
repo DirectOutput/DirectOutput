@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace DirectOutput.LedControl.Loader
 {
@@ -71,25 +72,26 @@ namespace DirectOutput.LedControl.Loader
         /// </exception>
         private void ParseLedControlIni(FileInfo LedControlIniFile, bool ThrowExceptions = false)
         {
-            string[] ColorStartStrings = {"[Colors DOF]","[Colors LedWiz]"};
-            string[] OutStartStrings = {"[Config DOF]","[Config outs]"};
+            string[] ColorStartStrings = { "[Colors DOF]", "[Colors LedWiz]" };
+            string[] OutStartStrings = { "[Config DOF]", "[Config outs]" };
 
-            //Read the file
-            string Data="";
+            string FileData = "";
+
+            #region Read file
             try
             {
-                Data = General.FileReader.ReadFileToString(LedControlIniFile);
+                FileData = General.FileReader.ReadFileToString(LedControlIniFile);
             }
             catch (Exception E)
             {
                 Log.Exception("Could not read file {0}.".Build(LedControlIniFile), E);
                 if (ThrowExceptions)
                 {
-                    
+
                     throw new Exception("Could not read file {0}.".Build(LedControlIniFile), E);
                 }
             }
-            if (Data.IsNullOrWhiteSpace())
+            if (FileData.IsNullOrWhiteSpace())
             {
                 Log.Warning("File {0} does not contain data.".Build(LedControlIniFile));
                 if (ThrowExceptions)
@@ -97,80 +99,129 @@ namespace DirectOutput.LedControl.Loader
                     throw new Exception("File {0} does not contain data.".Build(LedControlIniFile));
                 }
             }
+            #endregion
 
-            //Find starting positions of both sections
-            int ColorStart = -1;
-                string ColorStartString="";
-            foreach (string S in ColorStartStrings)
+            Dictionary<string, List<string>> Sections = new Dictionary<string, List<String>>();
+
+            #region Read sections
+
+            List<string> SectionData = new List<string>();
+            String SectionHeader = null;
+            foreach (string RawIniLine in FileData.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries))
             {
-                ColorStart = Data.IndexOf(S, StringComparison.InvariantCultureIgnoreCase);
-                ColorStartString=S;
-                if (ColorStart >= 0) break;
-            }
-            int OutStart = -1;
-            string OutStartString = "";
-            foreach (string S in OutStartStrings)
-            {
-                OutStart = Data.IndexOf(S, StringComparison.InvariantCultureIgnoreCase);
-                OutStartString = S;
-                if (OutStart >= 0) break;
+                string IniLine = RawIniLine.Trim();
+                if (IniLine.Length > 0 && !IniLine.StartsWith("#"))
+                {
+                    if (IniLine.StartsWith("[") && IniLine.EndsWith("]") && IniLine.Length > 2)
+                    {
+                        //This is a section header
+                        if (!SectionHeader.IsNullOrWhiteSpace())
+                        {
+                            if (Sections.ContainsKey(SectionHeader))
+                            {
+                                int Cnt = 2;
+                                while (Sections.ContainsKey("{0} {1}".Build(SectionHeader, Cnt)))
+                                {
+                                    Cnt++;
+                                    if (Cnt > 999) { throw new Exception("Section header {0} exists to many times.".Build(SectionHeader)); }
+                                }
+                                SectionHeader = "{0} {1}".Build(SectionHeader, Cnt);
+                            }
+                            Sections.Add(SectionHeader, SectionData);
+                            SectionData = new List<string>();
+                        }
+                        SectionHeader = IniLine;
+                    }
+                    else
+                    {
+                        //Its a data line
+                        SectionData.Add(IniLine);
+                    }
+                }
             }
 
-            if (ColorStart < 0)
+            if (!SectionHeader.IsNullOrWhiteSpace())
             {
-                Log.Exception("Could not find color definition section in file {0}.".Build(LedControlIniFile));
+                if (Sections.ContainsKey(SectionHeader))
+                {
+                    int Cnt = 2;
+                    while (Sections.ContainsKey("{0} {1}".Build(SectionHeader, Cnt)))
+                    {
+                        Cnt++;
+                        if (Cnt > 999) { throw new Exception("Section header {0} exists to many times.".Build(SectionHeader)); }
+                    }
+                    SectionHeader = "{0} {1}".Build(SectionHeader, Cnt);
+                }
+                Sections.Add(SectionHeader, SectionData);
+                SectionData = new List<string>();
+            }
+            SectionData = null;
+            #endregion
+
+            FileData = null;
+
+            List<string> ColorData = null;
+            List<string> OutData = null;
+
+            foreach (string StartString in ColorStartStrings)
+            {
+                if (Sections.ContainsKey(StartString))
+                {
+                    ColorData = Sections[StartString];
+                    break;
+                }
+            }
+
+            foreach (string StartString in OutStartStrings)
+            {
+                if (Sections.ContainsKey(StartString))
+                {
+                    OutData = Sections[StartString];
+                    break;
+                }
+            }
+
+            if (ColorData == null)
+            {
+                Log.Warning("Could not find color definition section in file {0}.".Build(LedControlIniFile));
                 if (ThrowExceptions)
                 {
                     throw new Exception("Could not find  color definition section in file {0}.".Build(LedControlIniFile));
                 }
                 return;
             }
-
-            if (OutStart < 0)
+            else if (ColorData.Count < 1)
             {
-                Log.Exception("Could not find table config section in file {0}.".Build(LedControlIniFile));
+                Log.Warning("File {0} does not contain data in the color definition section.".Build(LedControlIniFile));
+                if (ThrowExceptions)
+                {
+                    throw new Exception("File {0} does not contain data in the color definition section.".Build(LedControlIniFile));
+                }
+                return;
+            }
+
+            if (OutData == null)
+            {
+                Log.Warning("Could not find table config section in file {0}.".Build(LedControlIniFile));
                 if (ThrowExceptions)
                 {
                     throw new Exception("Could not find table config section section in file {1}.".Build(LedControlIniFile));
                 }
                 return;
             }
-
-            string[] ColorData;
-            string[] OutData;
-
-            //Extract data of the sections, split into string arrays and remove empty lines
-            if (ColorStart < OutStart)
+            else if (OutData.Count < 1)
             {
-                ColorData = Data.Substring(ColorStart + ColorStartString.Length, OutStart - (ColorStart + ColorStartString.Length)).Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
-                OutData = Data.Substring(OutStart + OutStartString.Length).Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
-            }
-            else
-            {
-                OutData = Data.Substring(OutStart + OutStartString.Length, ColorStart - (OutStart + OutStartString.Length)).Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
-                ColorData = Data.Substring(ColorStart + ColorStartString.Length).Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
-            }
-
-
-            if (OutData.Length == 0)
-            {
-                Log.Exception("File {1} does not contain data in the {0} section.".Build(OutStartString, LedControlIniFile));
+                Log.Warning("File {0} does not contain data in the table config section.".Build(LedControlIniFile));
                 if (ThrowExceptions)
                 {
-                    throw new Exception("File {1} does not contain data in the {0} section.".Build(OutStartString, LedControlIniFile));
+                    throw new Exception("File {0} does not contain data in the table config section".Build(LedControlIniFile));
                 }
                 return;
             }
 
-            if (ColorData.Length == 0)
-            {
-                Log.Exception("File {1} does not contain data in the {0} section.".Build(ColorStartString, LedControlIniFile));
-                if (ThrowExceptions)
-                {
-                    throw new Exception("File {1} does not contain data in the {0} section.".Build(ColorStartString, LedControlIniFile));
-                }
-                return;
-            }
+
+
+
 
 
 
@@ -178,7 +229,7 @@ namespace DirectOutput.LedControl.Loader
 
             TableConfigurations.ParseLedcontrolData(OutData, ThrowExceptions);
 
-            ResolveOutputNumbers();
+            //ResolveOutputNumbers();
             ResolveRGBColors();
         }
 
@@ -193,11 +244,8 @@ namespace DirectOutput.LedControl.Loader
                     {
                         if (ColorConfigurations.Contains(S.ColorName))
                         {
-                            ColorConfig CC = ColorConfigurations[S.ColorName];
-                            if (CC != null)
-                            {
-                                S.ColorConfig = CC;
-                            }
+                            S.ColorConfig = ColorConfigurations[S.ColorName];
+
                         }
                     }
                 }
@@ -205,39 +253,39 @@ namespace DirectOutput.LedControl.Loader
         }
 
 
-        private void ResolveOutputNumbers()
-        {
-            //Get the number of required outputs per column
-            Dictionary<int, int> RequiredOutputs = new Dictionary<int, int>();
-            foreach (TableConfig TC in TableConfigurations)
-            {
-                TC.Columns.Sort();
-                foreach (TableConfigColumn C in TC.Columns)
-                {
-                    foreach (TableConfigSetting S in C)
-                    {
-                        int Cnt = (S.OutputType == OutputTypeEnum.RGBOutput ? 3 : 1);
-                        if (RequiredOutputs.ContainsKey(C.Number))
-                        {
+        //private void ResolveOutputNumbers()
+        //{
+        //    //Get the number of required outputs per column
+        //    Dictionary<int, int> RequiredOutputs = new Dictionary<int, int>();
+        //    foreach (TableConfig TC in TableConfigurations)
+        //    {
+        //        TC.Columns.Sort();
+        //        foreach (TableConfigColumn C in TC.Columns)
+        //        {
+        //            foreach (TableConfigSetting S in C)
+        //            {
+        //                int Cnt = (S.OutputType == OutputTypeEnum.RGBOutput ? 3 : 1);
+        //                if (RequiredOutputs.ContainsKey(C.Number))
+        //                {
 
-                            if (RequiredOutputs[C.Number] < Cnt)
-                            {
-                                RequiredOutputs[C.Number] = Cnt;
-                            }
-                        }
-                        else
-                        {
-                            RequiredOutputs.Add(C.Number, Cnt);
-                        }
-                    }
+        //                    if (RequiredOutputs[C.Number] < Cnt)
+        //                    {
+        //                        RequiredOutputs[C.Number] = Cnt;
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    RequiredOutputs.Add(C.Number, Cnt);
+        //                }
+        //            }
 
-                }
+        //        }
 
-            }
+        //    }
 
 
-            //Dump();
-        }
+        //    //Dump();
+        //}
 
 
         //private void Dump()

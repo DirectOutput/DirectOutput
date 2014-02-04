@@ -5,7 +5,7 @@ using System.Text;
 using DirectOutput.General.Generic;
 using System.Xml.Serialization;
 
-namespace DirectOutput.Cab.Color
+namespace DirectOutput.General.Color
 {
     /// <summary>
     /// Named RGBColor object

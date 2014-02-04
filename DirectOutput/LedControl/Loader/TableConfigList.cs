@@ -13,7 +13,7 @@ namespace DirectOutput.LedControl.Loader
         /// </summary>
         /// <param name="TableConfigDataFromLedControlIni">The table config data from led control ini.</param>
         /// <param name="ThrowExceptions">if set to <c>true</c> [throw exceptions].</param>
-        public void ParseLedcontrolData(string[] TableConfigDataFromLedControlIni, bool ThrowExceptions = true)
+        public void ParseLedcontrolData(IEnumerable<string> TableConfigDataFromLedControlIni, bool ThrowExceptions = true)
         {
             foreach (string Data in TableConfigDataFromLedControlIni)
             {

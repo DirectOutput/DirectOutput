@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace DirectOutput.LedControl.Loader
@@ -8,7 +9,7 @@ namespace DirectOutput.LedControl.Loader
     /// Column in a LedControl.ini file.<br />
     /// Is a list of TableConfigSettingObjects for that column.
     /// </summary>
-    public class TableConfigColumn:List<TableConfigSetting>
+    public class TableConfigColumn : List<TableConfigSetting>
     {
         /// <summary>
         /// Gets or sets the number of the column.
@@ -34,28 +35,28 @@ namespace DirectOutput.LedControl.Loader
         }
 
 
-        /// <summary>
-        /// Gets a value indicating whether the settings for this column require a analog output.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if analog output is required; otherwise, <c>false</c>.
-        /// </value>
-        public bool AnalogOutputRequired
-        {
-            get
-            {
-                foreach (TableConfigSetting TCS in this)
-                {
-                    if (TCS.Intensity != 0 && TCS.Intensity != 48 && TCS.OutputType != OutputTypeEnum.RGBOutput)
-                    {
-                        return true;
+        ///// <summary>
+        ///// Gets a value indicating whether the settings for this column require a analog output.
+        ///// </summary>
+        ///// <value>
+        ///// <c>true</c> if analog output is required; otherwise, <c>false</c>.
+        ///// </value>
+        //public bool AnalogOutputRequired
+        //{
+        //    get
+        //    {
+        //        foreach (TableConfigSetting TCS in this)
+        //        {
+        //            if (TCS.Intensity != 0 && TCS.Intensity != 48 && TCS.OutputType != OutputTypeEnum.RGBOutput)
+        //            {
+        //                return true;
 
-                    }
+        //            }
 
-                };
-                return false;
-            }
-        }
+        //        };
+        //        return false;
+        //    }
+        //}
 
 
 
@@ -67,20 +68,12 @@ namespace DirectOutput.LedControl.Loader
         /// </value>
         public int RequiredOutputCount
         {
-            get {
-                int RequiredOutputCount = 1;
-                foreach (TableConfigSetting S in this)
-                {
-                    if (S.OutputType == OutputTypeEnum.RGBOutput)
-                    {
-                        RequiredOutputCount = 3;
-                    }
-                }
-                
-                return RequiredOutputCount; }
-            
+            get
+            {
+                return (this.Any(S => S.OutputType == OutputTypeEnum.RGBOutput) ? 3 : 1);
+            }
         }
-        
+
 
 
 
@@ -92,7 +85,7 @@ namespace DirectOutput.LedControl.Loader
         /// <param name="ColumnData">The column data.</param>
         /// <param name="ThrowExceptions">If set to <c>true</c> exceptions are thrown on errors.</param>
         /// <returns>true if all settings have been parsed successfully, fals if a exception occured during parsing.</returns>
-        /// <exception cref="System.Exception">Could not parse setting {0} in column data {1}..Build(CC, ColumnData)</exception>
+        /// <exception cref="System.Exception">Could not parse setting {0} in column data {1}.</exception>
         public bool ParseColumnData(string ColumnData, bool ThrowExceptions = false)
         {
             bool ExceptionOccured = false;
@@ -122,7 +115,7 @@ namespace DirectOutput.LedControl.Loader
                 }
             }
             return !ExceptionOccured;
-        } 
+        }
         #endregion
 
 
@@ -143,7 +136,7 @@ namespace DirectOutput.LedControl.Loader
         /// <summary>
         /// Initializes a new instance of the <see cref="TableConfigColumn"/> class.
         /// </summary>
-        public TableConfigColumn() { } 
+        public TableConfigColumn() { }
         #endregion
 
 

@@ -58,7 +58,7 @@ namespace DirectOutput.Cab.Out
         /// It doesn't do anything in this base class, but it can be overwritten (user override) in classes inherting the base class.
         /// </summary>
         /// <param name="Output">The output.</param>
-        public virtual void OnOutputValueChanged(IOutput Output)
+        protected virtual void OnOutputValueChanged(IOutput Output)
         {
 
         }

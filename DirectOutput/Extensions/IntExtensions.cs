@@ -34,10 +34,10 @@ public static class IntExtensions
     }
 
     /// <summary>
-    /// Returns the absolut value of the int
+    /// Returns the absolute value of the int
     /// </summary>
-    /// <returns>Absolut value of the int</returns>
-    public static int AbsolutValue(this int i)
+    /// <returns>Absolute value of the int</returns>
+    public static int Abs(this int i)
     {
 
         return Math.Abs(i);

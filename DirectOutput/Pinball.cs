@@ -47,7 +47,7 @@ namespace DirectOutput
         private Table.Table _Table = new Table.Table();
 
         /// <summary>
-        /// Gets the table object for the Pinball object.
+        /// Gets or sets the table object for the Pinball object.
         /// </summary>
         /// <value>
         /// The table object for the Pinball object.
@@ -55,12 +55,12 @@ namespace DirectOutput
         public Table.Table Table
         {
             get { return _Table; }
-            private set { _Table = value; }
+             set { _Table = value; }
         }
         private Cabinet _Cabinet = new Cabinet();
 
         /// <summary>
-        /// Gets the Cabinet object for the Pinball object.
+        /// Gets or sets the Cabinet object for the Pinball object.
         /// </summary>
         /// <value>
         /// The cabinet object for the Pinball object.
@@ -68,7 +68,7 @@ namespace DirectOutput
         public Cabinet Cabinet
         {
             get { return _Cabinet; }
-            private set { _Cabinet = value; }
+             set { _Cabinet = value; }
         }
 
 
@@ -107,15 +107,16 @@ namespace DirectOutput
 
 
         #region Init & Finish
+
         /// <summary>
-        /// Configures and initializes/starts and configures the Pinball object
+        /// Configures the Pinball object.<br/>
+        /// Loads the global config, table config and cabinet config
         /// </summary>
         /// <param name="GlobalConfigFilename">The global config filename.</param>
         /// <param name="TableFilename">The table filename.</param>
         /// <param name="RomName">Name of the rom.</param>
-        public void Init(string GlobalConfigFilename = "", string TableFilename = "", string RomName = "")
+        public void Setup(string GlobalConfigFilename = "", string TableFilename = "", string RomName = "")
         {
-
             bool GlobalConfigLoaded = true;
             //Load the global config
 
@@ -147,7 +148,7 @@ namespace DirectOutput
             catch (Exception E)
             {
 
-                throw new Exception("DirectOutput framework could initialize global config.\n Inner exception: {0}".Build(E.Message), E);
+                throw new Exception("DirectOutput framework could not initialize global config.\n Inner exception: {0}".Build(E.Message), E);
             }
 
             if (GlobalConfig.EnableLogging)
@@ -356,16 +357,16 @@ namespace DirectOutput
                                 if (FoundIt) break;
                             }
 
-        
+
 
                             if (FoundIt)
                             {
                                 L.LoadLedControlFiles(LedControlIniFiles, false);
-                                Log.Write("{0} directoutput.ini or ledcontrol.ini files loaded.".Build(LedControlIniFiles.Count));
+                                Log.Write("{0} directoutputconfig.ini or ledcontrol.ini files loaded.".Build(LedControlIniFiles.Count));
                             }
                             else
                             {
-                                Log.Write("No directoutput.ini or ledcontrol.ini files found. No directoutput.ini or ledcontrol.ini configs will be loaded.");
+                                Log.Write("No directoutputconfig.ini or ledcontrol.ini files found.");
                             }
                         }
                         if (!L.ContainsConfig(RomName))
@@ -416,6 +417,22 @@ namespace DirectOutput
 
 
                 Log.Write("Pinball parts loaded");
+            }
+            catch (Exception E)
+            {
+                Log.Exception("DirectOutput framework has encountered a exception during setup.", E);
+                throw new Exception("DirectOutput framework has encountered a exception during setup.\n Inner exception: {0}".Build(E.Message), E);
+            }
+        }
+
+        /// <summary>
+        /// Initializes/starts the Pinball object
+        /// </summary>
+        public void Init()
+        {
+
+            try
+            {
 
                 Log.Write("Starting processes");
                 InitStatistics();
@@ -442,7 +459,7 @@ namespace DirectOutput
             }
             catch (Exception E)
             {
-                Log.Exception("A eception occured during initialization", E);
+                Log.Exception("DirectOutput framework has encountered a exception during initialization.", E);
                 throw new Exception("DirectOutput framework has encountered a exception during initialization.\n Inner exception: {0}".Build(E.Message), E);
             }
         }
@@ -462,7 +479,7 @@ namespace DirectOutput
                 Cabinet.Finish();
 
 
-       //         WriteStatisticsToLog();
+                //         WriteStatisticsToLog();
 
                 ThreadInfoList.ThreadTerminates();
 
@@ -559,10 +576,11 @@ namespace DirectOutput
         /// <summary>
         /// Signals the main thread to continue its work (if currently sleeping).
         /// </summary>
-        private void MainThreadSignal()
+        public void MainThreadSignal()
         {
             lock (MainThreadLocker)
             {
+                MainThreadDoWork = true;
                 Monitor.Pulse(MainThreadLocker);
             }
         }
@@ -571,7 +589,7 @@ namespace DirectOutput
         private Thread MainThread { get; set; }
         private object MainThreadLocker = new object();
         private bool KeepMainThreadAlive = true;
-
+        private bool MainThreadDoWork = false;
         //TODO: Maybe this should be a config option
         const int MaxInputDataProcessingTimeMs = 10;
 
@@ -650,7 +668,7 @@ namespace DirectOutput
 
                         lock (MainThreadLocker)
                         {
-                            while (InputQueue.Count == 0 && NextAlarm > DateTime.Now && KeepMainThreadAlive)
+                            while (InputQueue.Count == 0 && NextAlarm > DateTime.Now && !MainThreadDoWork && KeepMainThreadAlive)
                             {
                                 int TimeOut = ((int)(NextAlarm - DateTime.Now).TotalMilliseconds).Limit(1, 50);
 
@@ -658,6 +676,7 @@ namespace DirectOutput
                                 ThreadInfoList.HeartBeat();
                             }
                         }
+                        MainThreadDoWork = false;
                     }
 
 

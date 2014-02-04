@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 
-namespace DirectOutput.GlobalConfiguration
+namespace DirectOutput.General
 {
     /// <summary>
     /// A file pattern class used to lookup files matching a specified pattern.
@@ -92,7 +92,7 @@ namespace DirectOutput.GlobalConfiguration
         /// <summary>
         /// Returns the pattern with replaced placeholders.
         /// </summary>
-        /// <param name="ReplaceValues">The replace values.</param>
+        /// <param name="ReplaceValues">A dictionary containg the replace values.</param>
         /// <returns>Pattern with replaced placeholders.</returns>
         public string ReplacePlaceholders(Dictionary<string, string> ReplaceValues = null)
         {

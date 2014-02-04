@@ -5,7 +5,7 @@ using System.Text;
 using System.Xml.Serialization;
 using DirectOutput.General.Generic;
 
-namespace DirectOutput.Cab.Color
+namespace DirectOutput.General.Color
 {
 
     /// <summary>

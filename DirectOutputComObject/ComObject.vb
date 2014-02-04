@@ -136,7 +136,8 @@ Public Class ComObject
 
             Pinball = New DirectOutput.Pinball()
 
-            Pinball.Init(F.FullName, TableFileName, GameName)
+            Pinball.Setup(F.FullName, TableFileName, GameName)
+            Pinball.Init()
         Else
             Throw New Exception("Object has already been initialized. Call Finish() before initializing again.")
         End If

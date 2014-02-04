@@ -13,7 +13,7 @@ namespace DirectOutput.FX.TimmedFX
     /// </summary>
     public class DurationEffect : EffectEffectBase
     {
-        private RetriggerBehaviourEnum _RetriggerBehaviour;
+        private RetriggerBehaviourEnum _RetriggerBehaviour = RetriggerBehaviourEnum.Restart;
 
         /// <summary>
         /// Gets or sets the retrigger behaviour.<br/>
@@ -21,7 +21,7 @@ namespace DirectOutput.FX.TimmedFX
         /// This settings is only relevant, if the effect can be called from more than one table element.
         /// </summary>
         /// <value>
-        /// Valid values are RestartEffect (Restarts the duration) or IgnoreRetrigger (keeps the org duration).
+        /// Valid values are Restart (Restarts the duration) or Ignore (keeps the org duration).
         /// </value>
         public RetriggerBehaviourEnum RetriggerBehaviour
         {
@@ -61,16 +61,15 @@ namespace DirectOutput.FX.TimmedFX
         /// <param name="TableElementData">TableElementData for the TableElement which has triggered the effect.</param>
         public override void Trigger(Table.TableElementData TableElementData)
         {
-            if (TargetEffect != null)
+            if (TargetEffect != null && TableElementData.Value != 0)
             {
-                if (!Active || RetriggerBehaviour == RetriggerBehaviourEnum.RestartEffect)
+                if (!Active)
                 {
-                    if (TableElementData.Value != 0)
-                    {
-                        TargetEffect.Trigger(TableElementData);
-                        Table.Pinball.Alarms.RegisterAlarm(DurationMs, DurationEnd, TableElementData.Clone());
-                    }
+                   TriggerTargetEffect(TableElementData);
+                    Table.Pinball.Alarms.RegisterAlarm(DurationMs, DurationEnd, TableElementData);
                     Active = true;
+                } else if(RetriggerBehaviour==RetriggerBehaviourEnum.Restart) {
+                    Table.Pinball.Alarms.RegisterAlarm(DurationMs, DurationEnd, TableElementData);
                 }
             }
         }
@@ -81,7 +80,7 @@ namespace DirectOutput.FX.TimmedFX
 
             Table.TableElementData TED = (Table.TableElementData)TableElementData;
             TED.Value = 0;
-            TargetEffect.Trigger(TED);
+            TriggerTargetEffect(TED);
             Active = false;
         }
 

@@ -75,7 +75,7 @@ namespace DirectOutput.Cab.Toys.Layer
         {
             if (Output != null)
             {
-                //Output.Value = (byte)FadeCurve[Layers.GetResultingValue()];
+       
                 Output.Value = (byte)Layers.GetResultingValue();
             }
         }

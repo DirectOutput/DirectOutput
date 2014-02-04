@@ -51,7 +51,7 @@ namespace DirectOutput.LedControl.Loader
             List<string> DataColumns = new List<string>(LedControlData.Split(new char[] { ',' }, StringSplitOptions.None));
             if (DataColumns.Count < 1)
             {
-                Log.Warning("No usable data found in line {0}".Build(LedControlData));
+                Log.Warning("No data found in line {0}".Build(LedControlData));
                 if (ThrowExceptions)
                 {
                     throw new Exception("No usable data found in line {0}".Build(LedControlData));

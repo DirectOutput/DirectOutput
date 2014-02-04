@@ -32,23 +32,24 @@ namespace DirectOutput.FX.TimmedFX
         /// Calls with a TableElementData Value of 0, are delayed by the Duration specifed in DurationMs before they are forwarded to the target effect.
         /// </summary>
         /// <param name="TableElementData">TableElementData for the TableElement which has triggered the effect.</param>
+        /// TODO: implement proper retrigger behaviour
         public override void Trigger(Table.TableElementData TableElementData)
         {
             if (TargetEffect != null)
             {
                 if (TableElementData.Value != 0)
                 {
-                    TargetEffect.Trigger(TableElementData);
+                    TriggerTargetEffect(TableElementData);
                 }
                 else
                 {
                     if (DurationMs > 0)
                     {
-                        Table.Pinball.Alarms.RegisterAlarm(DurationMs, TriggerTargetEffect, TableElementData, true);
+                        Table.Pinball.Alarms.RegisterAlarm(DurationMs, ExtendedDurationEnd, TableElementData, true);
                     }
                     else
                     {
-                        TargetEffect.Trigger(TableElementData);
+                        TriggerTargetEffect(TableElementData);
                     }
                 }
 
@@ -56,21 +57,9 @@ namespace DirectOutput.FX.TimmedFX
         }
 
 
-        private void TriggerTargetEffect(object AlarmParameter)
+        private void ExtendedDurationEnd(object Data)
         {
-            if (TargetEffect != null)
-            {
-                try
-                {
-                    TargetEffect.Trigger((TableElementData)AlarmParameter);
-                }
-                catch (Exception E)
-                {
-                    Log.Exception("The target effect {0} of the ExtendDurationEffect {1} has trown a exception.".Build(TargetEffectName, Name), E);
-                    TargetEffect = null;
-                }
-            }
-
+            TriggerTargetEffect((TableElementData)Data);
         }
 
 
@@ -91,7 +80,7 @@ namespace DirectOutput.FX.TimmedFX
         {
             try
             {
-                Table.Pinball.Alarms.UnregisterAlarm(TriggerTargetEffect);
+                Table.Pinball.Alarms.UnregisterAlarm(ExtendedDurationEnd);
             }
             catch { }
             base.Finish();

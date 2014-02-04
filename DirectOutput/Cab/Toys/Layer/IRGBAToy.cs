@@ -4,17 +4,9 @@ namespace DirectOutput.Cab.Toys.Layer
     /// <summary>
     /// Common interface for RGB toys supporting several layers of color with alpha value.
     /// </summary>
-    public interface IRGBAToy
+    public interface IRGBAToy:IToy
     {
-        /// <summary>
-        /// Finishes the toy.
-        /// </summary>
-        void Finish();
-        /// <summary>
-        /// Inits the the toy.
-        /// </summary>
-        /// <param name="Cabinet">The cabinet to which the toy belongs.</param>
-        void Init(Cabinet Cabinet);
+
 
         /// <summary>
         /// Gets the dictionary of RGBALayers.
@@ -44,10 +36,7 @@ namespace DirectOutput.Cab.Toys.Layer
         /// The output name for red.
         /// </value>
         string OutputNameRed { get; set; }
-        /// <summary>
-        /// Resets the toy.
-        /// </summary>
-        void Reset();
+
 
     }
 }

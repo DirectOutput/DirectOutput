@@ -151,7 +151,8 @@ namespace DirectOutput
 
 
                 Pinball = new DirectOutput.Pinball();
-                Pinball.Init((F.Exists ? F.FullName : ""), TableFilename, RomName);
+                Pinball.Setup((F.Exists ? F.FullName : ""), TableFilename, RomName);
+                Pinball.Init();
             }
             else
             {

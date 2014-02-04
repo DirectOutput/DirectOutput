@@ -107,8 +107,9 @@ namespace DirectPlugin
             }
 
             Pinball = new Pinball();
-            Pinball.Init(F.FullName,TableFilename,GameName );
 
+            Pinball.Setup(F.FullName,TableFilename,GameName );
+            Pinball.Init();
         }
 
 

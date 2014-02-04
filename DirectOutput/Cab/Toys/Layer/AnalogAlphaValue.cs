@@ -19,6 +19,16 @@ namespace DirectOutput.Cab.Toys.Layer
         /// </summary>
         public int Alpha;
 
+
+        /// <summary>
+        /// Clones this instance.
+        /// </summary>
+        /// <returns>A clone of the AnalogAlphaValue instance.</returns>
+        public AnalogAlphaValue Clone()
+        {
+            return new AnalogAlphaValue(Value, Alpha);
+        }
+
         /// <summary>
         /// Sets the specified values.
         /// </summary>

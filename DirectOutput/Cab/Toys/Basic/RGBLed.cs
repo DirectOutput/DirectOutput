@@ -2,7 +2,7 @@
 using System.Xml.Serialization;
 using DirectOutput.Cab.Out;
 using DirectOutput.Cab.Toys.Layer;
-using DirectOutput.Cab.Color;
+using DirectOutput.General.Color;
 
 namespace DirectOutput.Cab.Toys.Basic
 {
