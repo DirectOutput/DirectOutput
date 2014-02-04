@@ -138,27 +138,7 @@ namespace DirectOutput.Table
         /// <param name="State">State of entry to update</param>
         public void UpdateState(TableElementTypeEnum TableElementType, int Number, int State)
         {
-            if (TableElementType == TableElementTypeEnum.Solenoid && Number==2)
-            {
 
-            }
-
-            //TODO: This is a ugly hack and has to be solved differently
-            if (State != 0)
-            {
-                switch (TableElementType)
-                {
-                    case TableElementTypeEnum.Unknown:
-                    case TableElementTypeEnum.Lamp:
-                    case TableElementTypeEnum.Switch:
-                        State = 255;
-                        break;
-                    case TableElementTypeEnum.Solenoid:
-                        State = 255;
-                    break;
-                }
-
-            }
             if (Contains(TableElementType, Number))
             {
                 _TableElementsDictionary[TableElementType][Number].Value = State;

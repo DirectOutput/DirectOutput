@@ -11,6 +11,7 @@ using DirectOutput.FX.RGBAFX;
 using DirectOutput.FX.TimmedFX;
 using DirectOutput.LedControl.Loader;
 using DirectOutput.General.Color;
+using DirectOutput.FX.ValueFX;
 
 namespace DirectOutput.LedControl.Setup
 {
@@ -109,15 +110,15 @@ namespace DirectOutput.LedControl.Setup
                                             InactiveColor.Alpha = 0;
                                             Effect = new RGBAColorEffect() { ToyName = Toy.Name, LayerNr = Layer, ActiveColor = ActiveColor, InactiveColor = InactiveColor };
                                         }
-                                       
+
                                     }
                                     else if (Toy is IAnalogAlphaToy)
                                     {
-                                        AnalogAlphaValue ActiveValue = new AnalogAlphaValue(((int)((double)TCS.Intensity * 5.3125)).Limit(0, 255),255);
+                                        AnalogAlphaValue ActiveValue = new AnalogAlphaValue(((int)((double)TCS.Intensity * 5.3125)).Limit(0, 255), 255);
                                         AnalogAlphaValue InactiveValue = ActiveValue.Clone();
                                         InactiveValue.Alpha = 0;
                                         Effect = new AnalogToyValueEffect() { ToyName = Toy.Name, LayerNr = Layer, ActiveValue = ActiveValue, InactiveValue = InactiveValue };
-                       
+
                                     }
                                     if (Effect != null)
                                     {
@@ -135,14 +136,14 @@ namespace DirectOutput.LedControl.Setup
 
                                         if (TCS.Blink != 0)
                                         {
-                                            Effect = new BlinkEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} BlinkEffect".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name, DurationActiveMs = (int)((double)TCS.BlinkIntervalMs * (double)TCS.BlinkPulseWidth / 100), DurationInactiveMs = (int)((double)TCS.BlinkIntervalMs * (100-(double)TCS.BlinkPulseWidth) / 100) };
+                                            Effect = new BlinkEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} BlinkEffect".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name, DurationActiveMs = (int)((double)TCS.BlinkIntervalMs * (double)TCS.BlinkPulseWidth / 100), DurationInactiveMs = (int)((double)TCS.BlinkIntervalMs * (100 - (double)TCS.BlinkPulseWidth) / 100) };
                                             MakeEffectNameUnique(Effect, Table);
                                             Table.Effects.Add(Effect);
                                         }
 
                                         if (TCS.DurationMs > 0 || TCS.Blink > 0)
                                         {
-                                            int Duration = (TCS.DurationMs > 0 ? TCS.DurationMs : (TCS.Blink * 2 - 1) * TCS.BlinkIntervalMs/2 + 1);
+                                            int Duration = (TCS.DurationMs > 0 ? TCS.DurationMs : (TCS.Blink * 2 - 1) * TCS.BlinkIntervalMs / 2 + 1);
                                             Effect = new DurationEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} DurationEffect".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name, DurationMs = Duration, RetriggerBehaviour = RetriggerBehaviourEnum.Restart };
                                             MakeEffectNameUnique(Effect, Table);
                                             Table.Effects.Add(Effect);
@@ -170,6 +171,20 @@ namespace DirectOutput.LedControl.Setup
                                                 Table.AssignedStaticEffects.Add(new AssignedEffect(Effect.Name));
                                                 break;
                                             case OutputControlEnum.Controlled:
+
+
+                                                switch (TCS.TableElementType)
+                                                {
+                                                    case TableElementTypeEnum.Unknown:
+                                                    case TableElementTypeEnum.Lamp:
+                                                    case TableElementTypeEnum.Switch:
+                                                    case TableElementTypeEnum.Solenoid:
+                                                        Effect = new ValueMapFullRangeEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} FullRangeEffect".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name };
+                                                        MakeEffectNameUnique(Effect, Table);
+                                                        Table.Effects.Add(Effect);
+                                                        break;
+                                                }
+
                                                 if (!Table.TableElements.Contains(TCS.TableElementType, TCS.TableElementNumber))
                                                 {
                                                     Table.TableElements.UpdateState(TCS.TableElementType, TCS.TableElementNumber, 0);
