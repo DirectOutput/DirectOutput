@@ -769,9 +769,10 @@ namespace DirectOutput
         /// <param name="Value">The value of the TableElement.</param>
         public void ReceiveData(char TableElementTypeChar, int Number, int Value)
         {
-            InputQueue.Enqueue(TableElementTypeChar, Number, Value);
-            MainThreadSignal();
-            ThreadInfoList.HeartBeat("Data delivery");
+                InputQueue.Enqueue(TableElementTypeChar, Number, Value);
+                MainThreadSignal();
+                ThreadInfoList.HeartBeat("Data delivery");
+
         }
 
         /// <summary>

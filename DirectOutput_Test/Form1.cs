@@ -26,6 +26,7 @@ using DirectOutput.Cab.Out.AdressableLedStrip;
 using DirectOutput.FX.RGBAMatrixFX;
 using System.Threading;
 using DirectOutput.FX;
+using DirectOutput.Cab.Out.LW;
 
 
 namespace DirectOutput_Test
@@ -90,22 +91,14 @@ namespace DirectOutput_Test
         private void button2_Click(object sender, EventArgs e)
         {
 
-            TableElementData D;
-            D.TableElementType = TableElementTypeEnum.Switch;
-            D.Number = 48;
-            D.Value = 100;
-           P.Table.Effects["SetColor"].Trigger(D);
-           P.Cabinet.Update();
-           P.MainThreadSignal();
-            Thread.Sleep(2000);
+            Cabinet C = new Cabinet();
+            
+            LedWiz L = new LedWiz(1);
+            C.OutputControllers.Add(L);
+            L.Init(C);
+            L.Outputs[0].Value = 255;
 
-            D.Value = 0;
-
-            P.Table.Effects["SetColor"].Trigger(D);
-            P.Cabinet.Update();
-            P.MainThreadSignal();
-
-
+            L.Outputs[0].Value = 0;
         }
 
         private void button3_Click(object sender, EventArgs e)

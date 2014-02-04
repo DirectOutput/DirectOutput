@@ -59,7 +59,7 @@ namespace DirectOutput.FX.TimmedFX
         
 
 
-        float TargetValue = 0;
+        float TargetValue = -1;
         float CurrentValue = 0;
         float StepValue = 0;
         int LastTargetTriggerValue = -1;
@@ -71,7 +71,7 @@ namespace DirectOutput.FX.TimmedFX
         /// <param name="TableElementData">TableElementData for the TableElement which has triggered the effect.</param>
         public override void Trigger(Table.TableElementData TableElementData)
         {
-            if (TargetEffect!=null && TableElementData.Value != TargetValue && TargetValue!=CurrentValue)
+            if (TargetEffect!=null && TableElementData.Value != TargetValue)
             {
                 TargetValue = TableElementData.Value.Limit(0,255);
 

@@ -114,7 +114,7 @@ namespace DirectOutput.Table
 
         void TableElement_ValueChanged(object sender, TableElementValueChangedEventArgs e)
         {
-
+       
             AssignedEffects.Trigger(GetTableElementData());
         }
         #endregion

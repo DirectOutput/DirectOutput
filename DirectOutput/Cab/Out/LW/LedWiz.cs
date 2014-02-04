@@ -786,7 +786,7 @@ namespace DirectOutput.Cab.Out.LW
                         {
                             UpdateDelay();
                             OnOffUpdateTimeStatistics.MeasurementStart();
-                            SBA(CurrentAfterValueSwitches[0], CurrentAfterValueSwitches[1], CurrentAfterValueSwitches[2], CurrentAfterValueSwitches[3], 2);
+                            SBA(CurrentAfterValueSwitches[0], CurrentAfterValueSwitches[1], CurrentAfterValueSwitches[2], CurrentAfterValueSwitches[3],2);
                             OnOffUpdateTimeStatistics.MeasurementStop();
                         }
                         

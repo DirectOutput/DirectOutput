@@ -73,15 +73,17 @@ namespace DirectOutput.FX.TimmedFX
                     if (!Active)
                     {
                         DurationStart = DateTime.Now;
+                        UntriggerData = TableElementData;
                         TriggerTargetEffect(TableElementData);
                         Active = true;
                     } else if(RetriggerBehaviour==RetriggerBehaviourEnum.Restart) {
+                        UntriggerData = TableElementData;
                         DurationStart = DateTime.Now;
                     }
                 }
                 else
                 {
-                    if (Active && TableElementData.TableElementType == UntriggerData.TableElementType && TableElementData.Number == UntriggerData.Number)
+                    if (Active)
                     {
                         if ((DateTime.Now - DurationStart).TotalMilliseconds >= MinDurationMs)
                         {
