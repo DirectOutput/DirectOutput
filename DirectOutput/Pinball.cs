@@ -220,14 +220,22 @@ namespace DirectOutput
                         Cabinet.CabinetConfigurationFilename = CCF.FullName;
                         if (Cabinet.AutoConfigEnabled)
                         {
-                            Log.Write("Cabinet config file has AutoConfig feature enable. Calling AutoConfig.");
-                            Cabinet.AutoConfig();
-                        }
+                            Log.Write("Cabinet config file has AutoConfig feature enabled. Calling AutoConfig.");
+                            try
+                            {
+                                Cabinet.AutoConfig();
+                            }
+                            catch (Exception E)
+                            {
+                                Log.Exception("A eception occured during cabinet auto configuration", E);
+                            }
+                            Log.Write("Autoconfig complete.");
+                            }
                         Log.Write("Cabinet config loaded successfully from {0}".Build(CCF.FullName));
                     }
                     catch (Exception E)
                     {
-                        Log.Exception("A exception occured when load cabinet config file: {0}".Build(CCF.FullName), E);
+                        Log.Exception("A exception occured when loading cabinet config file: {0}".Build(CCF.FullName), E);
 
 
                     }
