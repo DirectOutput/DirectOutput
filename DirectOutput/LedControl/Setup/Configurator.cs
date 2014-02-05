@@ -180,7 +180,15 @@ namespace DirectOutput.LedControl.Setup
                                             MakeEffectNameUnique(Effect, Table);
                                             Table.Effects.Add(Effect);
                                         }
+                                        if (!TCS.NoBool)
+                                        {
 
+                                            Effect = new ValueMapFullRangeEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} FullRangeEffect".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name };
+                                            MakeEffectNameUnique(Effect, Table);
+                                            Table.Effects.Add(Effect);
+                                            break;
+
+                                        }
                                         switch (TCS.OutputControl)
                                         {
                                             case OutputControlEnum.FixedOn:
@@ -188,18 +196,6 @@ namespace DirectOutput.LedControl.Setup
                                                 break;
                                             case OutputControlEnum.Controlled:
 
-
-                                                switch (TCS.TableElementType)
-                                                {
-                                                    case TableElementTypeEnum.Unknown:
-                                                    case TableElementTypeEnum.Lamp:
-                                                    case TableElementTypeEnum.Switch:
-                                                    case TableElementTypeEnum.Solenoid:
-                                                        Effect = new ValueMapFullRangeEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} FullRangeEffect".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name };
-                                                        MakeEffectNameUnique(Effect, Table);
-                                                        Table.Effects.Add(Effect);
-                                                        break;
-                                                }
 
                                                 if (!Table.TableElements.Contains(TCS.TableElementType, TCS.TableElementNumber))
                                                 {

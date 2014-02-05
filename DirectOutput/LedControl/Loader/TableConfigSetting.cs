@@ -185,6 +185,15 @@ namespace DirectOutput.LedControl.Loader
         public bool Invert { get; set; }
 
         /// <summary>
+        /// Indicates the the trigger value of the effect is not to be treated as a boolean value resp. that the value should not be mapped to 0 or 255 (255 for all values which are not 0).
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [no bool]; otherwise, <c>false</c>.
+        /// </value>
+        public bool NoBool { get; set; }
+
+
+        /// <summary>
         /// Gets or sets the wait duration before the effect is triggered.
         /// </summary>
         /// <value>
@@ -284,6 +293,11 @@ namespace DirectOutput.LedControl.Loader
                 {
                     Invert = true;
                 }
+                else if (Parts[PartNr].ToUpper() == "NOBOOL")
+                {
+                    NoBool = true;
+                }
+
                 else if (Parts[PartNr].Length > 3 && Parts[PartNr].ToUpper().Substring(0, 3) == "MAX" && Parts[PartNr].Substring(3).IsInteger())
                 {
                     MaxDurationMs = Parts[PartNr].Substring(3).ToInteger().Limit(0, int.MaxValue);
