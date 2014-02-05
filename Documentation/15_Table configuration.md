@@ -81,6 +81,8 @@ For a list and explanation of commands to set the scores, please read the sectio
 
 \subsection tableconfig_VPEMtableelements Table element status updates
 
+\subsubsection tableconfig_VPEMtableelements_basics The basics
+
 Apart from initializing the most important thing for the DirectOutput framework is to receive updates on table element changes.
 
 To send this information to the B2S.Server and the framework, you have to use the _B2SSetData_ command of the B2S.Server. This commands accepts 2 parameters:
@@ -110,6 +112,57 @@ End Sub
 
 It is important, that you also send data to the B2S.Server when the table element reverts back to it original state (e.g. in the UnHit event of a switch). If you only use a single _B2SSetData_ statement which always sends the same value for a element, the framework will not show any reaction, since the value does not change (DirectOutput reacts on value changes and NOT on the fact that data is sent).
 
+\subsubsection tableconfig_VPEMtableelements_easy The easy way
+
+Arngrim has developed a more comfortable way to add the code for the status updates to EM tables.
+
+Instead of using the Controller.B2SSetData command (explained in the previous section) you might add one of the following code segments to your table script:
+
+<b>Version for tables which do always use the B2S.Server</b>
+~~~~~~~~~~~~~~~{.vbs}
+'*DOF method for non rom controller tables by Arngrim****************
+'*******Use DOF 1**, 1 to activate a ledwiz output*******************
+'*******Use DOF 1**, 0 to deactivate a ledwiz output*****************
+'*******Use DOF 1**, 2 to pulse a ledwiz output**********************
+Sub DOF(dofevent, dofstate) 
+	If dofstate = 2 Then
+		Controller.B2SSetData dofevent, 1:Controller.B2SSetData dofevent, 0
+	Else
+		Controller.B2SSetData dofevent, dofstate
+	End If
+End Sub
+'********************************************************************
+~~~~~~~~~~~~~~~
+
+<b>Version for tables which where B2S support can be turned on or off</b>
+Requires the variable <i>B2SOn</i> to be set to true or false to enable/disable B2S support.
+~~~~~~~~~~~~~~~{.vbs}
+'*DOF method for non rom controller tables by Arngrim****************
+'*******Use DOF 1**, 1 to activate a ledwiz output*******************
+'*******Use DOF 1**, 0 to deactivate a ledwiz output*****************
+'*******Use DOF 1**, 2 to pulse a ledwiz output**********************
+Sub DOF(dofevent, dofstate) 
+	If B2SOn=True Then
+		If dofstate = 2 Then
+			Controller.B2SSetData dofevent, 1:Controller.B2SSetData dofevent, 0
+		Else
+			Controller.B2SSetData dofevent, dofstate
+		End If
+	End If
+End Sub
+'********************************************************************
+~~~~~~~~~~~~~~~
+
+
+If these code segements are added, you can simplay call the command DOF to submit status updates to the Direct Output framework.
+
+You got 3 options:
+
+* __DOF {TableElementNumber},0__ sends a off state for the table element to DOF.
+* __DOF {TableElementNumber},1__ sends a on state for the table element to DOF.
+* __DOF {TableElementNumber},2__ sends a on state, immediately followed by a off state to DOF.
+
+For more details on the methode please read Arngrims or post over at http://vpuniverse.com/forums/topic/1105-easy-methods-to-dof-an-original-table/
 
 \section tableconfig_nobackglass Tables w/o B2S.Server Backglass
 
