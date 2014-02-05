@@ -65,7 +65,7 @@ namespace DirectOutput.General.Color
         {
             get
             {
-                return "#{0:X2}{1:X2}{2:X2}".Build(Red, Blue, Green);
+                return "#{0:X2}{1:X2}{2:X2}".Build(Red,  Green,Blue);
             }
             set {
                 SetColor(value);
