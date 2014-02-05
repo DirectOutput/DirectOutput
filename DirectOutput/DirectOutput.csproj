@@ -123,6 +123,8 @@
       <SubType>Designer</SubType>
     </Content>
     <Compile Include="Cab\Toys\Basic\ILampToy.cs" />
+    <Compile Include="FX\ValueFX\ValueFX.cs" />
+    <Compile Include="FX\ValueFX\ValueInvertEffect.cs" />
     <Compile Include="FX\ValueFX\ValueMapFullRangeEffect.cs" />
     <Compile Include="General\CurveList.cs" />
     <Compile Include="Cab\Toys\IToyUpdatable.cs" />
