@@ -27,6 +27,7 @@ using DirectOutput.FX.RGBAMatrixFX;
 using System.Threading;
 using DirectOutput.FX;
 using DirectOutput.Cab.Out.LW;
+using DirectOutput.General.Color;
 
 
 namespace DirectOutput_Test
@@ -91,14 +92,12 @@ namespace DirectOutput_Test
         private void button2_Click(object sender, EventArgs e)
         {
 
-            Cabinet C = new Cabinet();
-            
-            LedWiz L = new LedWiz(1);
-            C.OutputControllers.Add(L);
-            L.Init(C);
-            L.Outputs[0].Value = 255;
-
-            L.Outputs[0].Value = 0;
+            RGBAColor C = new RGBAColor();
+            C.Red = 255;
+            C.Green = 255;
+            C.Alpha = 255;
+            RGBAColor CL = C.Clone();
+            CL.Alpha = 0;
         }
 
         private void button3_Click(object sender, EventArgs e)

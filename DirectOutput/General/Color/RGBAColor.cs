@@ -73,7 +73,7 @@ namespace DirectOutput.General.Color
         /// <returns>A clone of this RGBAColor instance.</returns>
         public RGBAColor Clone()
         {
-            return new RGBAColor(HexColor); 
+            return new RGBAColor(HexColor);
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace DirectOutput.General.Color
         {
             get
             {
-                return "#{0:X2}{1:X2}{2:X2}{3:X2}".Build(new object[] { Red, Blue, Green, Alpha });
+                return "#{0:X2}{1:X2}{2:X2}{3:X2}".Build(new object[] { Red, Green, Blue, Alpha });
             }
             set
             {
