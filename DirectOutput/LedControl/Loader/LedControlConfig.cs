@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Linq;
 
 namespace DirectOutput.LedControl.Loader
 {
@@ -74,6 +75,7 @@ namespace DirectOutput.LedControl.Loader
         {
             string[] ColorStartStrings = { "[Colors DOF]", "[Colors LedWiz]" };
             string[] OutStartStrings = { "[Config DOF]", "[Config outs]" };
+            string[] VariableStartStrings = { "[Variables DOF]" };
 
             string FileData = "";
 
@@ -160,26 +162,9 @@ namespace DirectOutput.LedControl.Loader
 
             FileData = null;
 
-            List<string> ColorData = null;
-            List<string> OutData = null;
-
-            foreach (string StartString in ColorStartStrings)
-            {
-                if (Sections.ContainsKey(StartString))
-                {
-                    ColorData = Sections[StartString];
-                    break;
-                }
-            }
-
-            foreach (string StartString in OutStartStrings)
-            {
-                if (Sections.ContainsKey(StartString))
-                {
-                    OutData = Sections[StartString];
-                    break;
-                }
-            }
+            List<string> ColorData = GetSection(Sections, ColorStartStrings);
+            List<string> OutData = GetSection(Sections, OutStartStrings);
+            List<string> VariableData = GetSection(Sections, VariableStartStrings);
 
             if (ColorData == null)
             {
@@ -219,7 +204,10 @@ namespace DirectOutput.LedControl.Loader
                 return;
             }
 
-
+            if (VariableData != null)
+            {
+                ResolveVariables(OutData, VariableData);
+            }
 
 
 
@@ -231,6 +219,38 @@ namespace DirectOutput.LedControl.Loader
 
             //ResolveOutputNumbers();
             ResolveRGBColors();
+        }
+
+        private List<string> GetSection(Dictionary<string, List<string>> Sections, IEnumerable<string> SectionStartStrings)
+        {
+            foreach (string StartString in SectionStartStrings)
+            {
+                if (Sections.ContainsKey(StartString))
+                {
+                    return Sections[StartString];
+                }
+            }
+
+            return null;
+        }
+
+
+
+        private void ResolveVariables(List<String> DataToResolve, List<string> VariableData)
+        {
+            VariablesDictionary VD = new VariablesDictionary(VariableData);
+            foreach (KeyValuePair<string, string> KV in VD)
+            {
+                string N = KV.Key;
+                if (!N.StartsWith("%")) N = "%" + N;
+                if (!N.EndsWith("%")) N += "%";
+
+                for (int i = 0; i < DataToResolve.Count-1; i++)
+                {
+                    DataToResolve[i] = DataToResolve[i].Replace(N, KV.Value);
+                }
+            }
+
         }
 
         private void ResolveRGBColors()
