@@ -56,7 +56,7 @@ namespace DirectOutput
 
                         IsOk = true;
 
-                        Debug("Writting of debug log messages is enabled");
+                     
 
 
 
