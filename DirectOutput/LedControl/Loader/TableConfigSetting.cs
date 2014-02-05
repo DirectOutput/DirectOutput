@@ -99,7 +99,13 @@ namespace DirectOutput.LedControl.Loader
         /// </value>
         public int MaxDurationMs { get; set; }
 
-
+        /// <summary>
+        /// Gets or sets the extended duration for the effect in milliseconds.
+        /// </summary>
+        /// <value>
+        /// The extended duration of the effect in milliseconds.
+        /// </value>
+        public int ExtDurationMs { get; set; }
 
         private int _Intensity;
         /// <summary>
@@ -305,6 +311,11 @@ namespace DirectOutput.LedControl.Loader
                 else if (Parts[PartNr].Length > 3 && Parts[PartNr].ToUpper().Substring(0, 3) == "BPW" && Parts[PartNr].Substring(3).IsInteger())
                 {
                     BlinkPulseWidth = Parts[PartNr].Substring(3).ToInteger().Limit(1, 99);
+                }
+                else if (Parts[PartNr].Length > 1 && Parts[PartNr].ToUpper().Substring(0, 1) == "E" && Parts[PartNr].Substring(1).IsInteger())
+                {
+                    
+                    ExtDurationMs = Parts[PartNr].Substring(1).ToInteger().Limit(0, int.MaxValue);
                 }
                 else if (Parts[PartNr].Length > 1 && Parts[PartNr].ToUpper().Substring(0, 1) == "I" && Parts[PartNr].Substring(1).IsInteger())
                 {

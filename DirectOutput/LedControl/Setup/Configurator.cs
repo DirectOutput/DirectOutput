@@ -166,6 +166,13 @@ namespace DirectOutput.LedControl.Setup
                                             Table.Effects.Add(Effect);
                                         }
 
+                                        if (TCS.ExtDurationMs > 0)
+                                        {
+                                            Effect = new ExtendDurationEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} ExtDurationEffect".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name,DurationMs = TCS.ExtDurationMs };
+                                            MakeEffectNameUnique(Effect, Table);
+                                            Table.Effects.Add(Effect);
+
+                                        }
 
                                         if (TCS.WaitDurationMs > 0)
                                         {
