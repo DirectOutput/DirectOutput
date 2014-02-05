@@ -101,6 +101,7 @@ The ini files are also quite hard to edit manually. Therefore the best option to
 \subsection inifiles_settingscolors Colors Section
 
 The first section in a directoutputconfig.ini file is the Colors section. It starts with the header [Colors_DOF] and a empty line following the header. After the header one or several colors are specified by a name and the brighness of 3 color components (red, green, blue) or 4 color components (red, green, blue, alpha). The values of the components have a range of 0 (off resp. fully transparent for alpha) to 48 (max brightness resp. fully opaque for alpha). For color specifications without a alpha component, alpha will be set to 0 (transparent) if all components are set to 0 (resulting in black). All other definitions will have a alpha value of 255 (fully opaque).
+In addition it is also possible to specify the value for the 3 or 4 color components as hexvalues with a leading # (like color definition for html). When using hex values, the value range is 0-255 resp. 00 to FF in hexcode (e.g. #ff0000 is red or #00ff0080 is semitransparent blue).
 
 A colors section might looks as follows:
 ~~~~~~~~~~~~~~~~~~~~~~~~~{.ini}
@@ -109,7 +110,9 @@ A colors section might looks as follows:
 Black=0,0,0
 White=48,48,48,48
 Red=48,0,0,255
+Green=#0000ff
 SemitransparentRed=48,0,0,24
+SemitransparentBlue=#00ff0080
 .. more color definitions ....
 Brown=24,12,0
 
@@ -155,8 +158,10 @@ The second and following parts can contain the following:
 * __L{Number}__ defines the layer on which the setting operates. In most cases the setting is not required, since DOF will assign ascending layer numbers to the settings for a column anyway.
 * __W{NumberOfMilliseconds}__ defines a wait period resp. delay before the effect executes after it has been triggered.
 * __M{NumberOfMilliseconds}__ defines the minimum duration for the effect in milliseconds.
+* __Max{NummberOfMilliseconds}__ defines the maximum duration for the effect in milliseconds.
 * __F{NumberOfMilliseconds}, FU{NumberOfMilliseconds}, FD{NumberOfMilliseconds}__ are used to specify the fading duration in milliseconds. _F_ sets the duration for both fading up and down, _FU_ controls fading up only and _FD_ fading down only.
 * __BPW{Percentage}__ defines the blink pulse width in percent. Valid values are 1-99, default value if not defined is 50.
+* __INVERT__ inverts the effect, so the effect will be active when it is normaly inactive and vice versa.
 * __Numeric Values__ without any extra character can be used to specify the duration of the effect or the blinking behaviour. If blinking has been defined, one or two numeric values are parsed. Value 1 controls the blink interval in milliseconds, while value 2 defines the number of blinks. If no blinking has been defined, only one numeric values which is used to defined the duration of the effect in milliseconds is parsed.
 
 \subsection inifiles_settingspara Setting examples
