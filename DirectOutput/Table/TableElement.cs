@@ -84,7 +84,7 @@ namespace DirectOutput.Table
         #endregion
 
         #region  Value
-        private int _Value = -1;
+        private int _Value = int.MinValue;
         /// <summary>
         /// Value of the TableElement.<br/>
         /// Triggers ValueChanged if the value is changed.
