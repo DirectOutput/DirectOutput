@@ -148,6 +148,15 @@ namespace DirectOutput.LedControl.Setup
                                             MakeEffectNameUnique(Effect, Table);
                                             Table.Effects.Add(Effect);
                                         }
+                                        if (TCS.MaxDurationMs > 0)
+                                        {
+
+                                            Effect = new MaxDurationEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} MaxDurationEffect".Build(new object[] { LedWizNr, TCC.Number, SettingNumber }), TargetEffectName = Effect.Name, MaxDurationMs = TCS.MaxDurationMs };
+                                            MakeEffectNameUnique(Effect, Table);
+                                            Table.Effects.Add(Effect);
+                                        }
+
+
                                         if (TCS.MinDurationMs > 0 || (Toy is IRGBAToy && EffectRGBMinDurationMs > 0) || (!(Toy is IRGBAToy) && EffectMinDurationMs > 0))
                                         {
                                             string N = (TCS.MinDurationMs > 0 ? "MinDuratonEffect" : "DefaultMinDurationEffect");
@@ -161,6 +170,13 @@ namespace DirectOutput.LedControl.Setup
                                         if (TCS.WaitDurationMs > 0)
                                         {
                                             Effect = new DelayEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} DelayEffect".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name, DelayMs = TCS.WaitDurationMs };
+                                            MakeEffectNameUnique(Effect, Table);
+                                            Table.Effects.Add(Effect);
+                                        }
+
+                                        if (TCS.Invert)
+                                        {
+                                            Effect = new ValueInvertEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} ValueInvertEffect".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name };
                                             MakeEffectNameUnique(Effect, Table);
                                             Table.Effects.Add(Effect);
                                         }

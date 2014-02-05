@@ -89,7 +89,16 @@ namespace DirectOutput.LedControl.Loader
             get { return _MinDurationMs; }
                 set { _MinDurationMs = value; }
         }
-        
+
+
+        /// <summary>
+        /// Gets or sets the max duration for the effect in milliseconds.
+        /// </summary>
+        /// <value>
+        /// The max duration of the effect in milliseconds.
+        /// </value>
+        public int MaxDurationMs { get; set; }
+
 
 
         private int _Intensity;
@@ -154,12 +163,26 @@ namespace DirectOutput.LedControl.Loader
 
         private int _BlinkPulseWidth=50;
 
+        /// <summary>
+        /// Gets or sets the width of the blink pulse.
+        /// Value must be between 1 and 99 (defaults to 50).
+        /// </summary>
+        /// <value>
+        /// The width of the blink pulse.
+        /// </value>
         public int BlinkPulseWidth
         {
             get { return _BlinkPulseWidth; }
             set { _BlinkPulseWidth = value.Limit(1,99); }
         }
-        
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the trigger value for the effect is inverted.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if invert; otherwise, <c>false</c>.
+        /// </value>
+        public bool Invert { get; set; }
 
         /// <summary>
         /// Gets or sets the wait duration before the effect is triggered.
@@ -256,6 +279,14 @@ namespace DirectOutput.LedControl.Loader
                 {
                     Blink = -1;
                     BlinkIntervalMs = 1000;
+                }
+                else if (Parts[PartNr].ToUpper() == "INVERT")
+                {
+                    Invert = true;
+                }
+                else if (Parts[PartNr].Length > 3 && Parts[PartNr].ToUpper().Substring(0, 3) == "MAX" && Parts[PartNr].Substring(3).IsInteger())
+                {
+                    MaxDurationMs = Parts[PartNr].Substring(3).ToInteger().Limit(0, int.MaxValue);
                 }
                 else if (Parts[PartNr].Length > 3 && Parts[PartNr].ToUpper().Substring(0, 3) == "BPW" && Parts[PartNr].Substring(3).IsInteger())
                 {
