@@ -193,7 +193,7 @@ namespace DirectOutput.LedControl.Setup
                                             Effect = new ValueMapFullRangeEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} FullRangeEffect".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name };
                                             MakeEffectNameUnique(Effect, Table);
                                             Table.Effects.Add(Effect);
-                                            break;
+                                            
 
                                         }
                                         switch (TCS.OutputControl)
