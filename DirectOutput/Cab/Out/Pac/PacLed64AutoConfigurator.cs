@@ -20,6 +20,7 @@ namespace DirectOutput.Cab.Out.Pac
         /// <param name="Cabinet">The cabinet object to which the automatically detected IOutputController objects are added if necessary.</param>
         public void AutoConfig(Cabinet Cabinet)
         {
+        
             foreach (int Id in PacDriveSingleton.Instance.PacLed64GetIdList())
             {
                 if (!Cabinet.OutputControllers.Any(oc => oc is PacLed64 && ((PacLed64)oc).Id == Id))

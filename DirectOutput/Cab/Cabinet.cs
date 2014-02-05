@@ -25,8 +25,17 @@ namespace DirectOutput.Cab
             General.TypeList Types = new General.TypeList(AppDomain.CurrentDomain.GetAssemblies().ToList().SelectMany(s => s.GetTypes()).Where(p => typeof(IAutoConfigOutputController).IsAssignableFrom(p) && !p.IsAbstract));
             foreach (Type T in Types)
             {
-                IAutoConfigOutputController AutoConfig = (IAutoConfigOutputController)Activator.CreateInstance(T);
-                AutoConfig.AutoConfig(this);
+
+                try
+                {
+                    IAutoConfigOutputController AutoConfig = (IAutoConfigOutputController)Activator.CreateInstance(T);
+                    AutoConfig.AutoConfig(this);
+
+                }
+                catch (Exception E)
+                {
+                    Log.Exception("A exception occured during auto configuration for output controller(s) of type {0}.".Build(T.Name), E);                    
+                }
             }
 
 

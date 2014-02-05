@@ -225,11 +225,14 @@ namespace DirectOutput.Cab.Out.Pac
         /// </summary>
         static PacLed64()
         {
+           
             PacLed64Units = new Dictionary<int, PacLed64Unit>();
             for (int i = 1; i <= 4; i++)
             {
                 PacLed64Units.Add(i, new PacLed64Unit(i));
+
             }
+  
         }
 
         /// <summary>
@@ -237,6 +240,7 @@ namespace DirectOutput.Cab.Out.Pac
         /// </summary>
         public PacLed64()
         {
+       
             Outputs = new OutputList();
 
         }
@@ -628,23 +632,31 @@ namespace DirectOutput.Cab.Out.Pac
 
             private void InitUnit()
             {
-                LastValueSent.Fill((byte)0);
-                PDSingleton.PacLed64SetLEDIntensities(Index, LastValueSent);
-                LastStateSent.Fill(false);
-                LastValueSent.Fill((byte)0);
+                if (Index >= 0)
+                {
+                    LastValueSent.Fill((byte)0);
+                   
+                    PDSingleton.PacLed64SetLEDIntensities(Index, LastValueSent);
+                    LastStateSent.Fill(false);
+                    LastValueSent.Fill((byte)0);
+                }
             }
 
 
             public PacLed64Unit(int Id)
             {
                 this.Id = Id;
+               
                 PDSingleton = PacDriveSingleton.Instance;
                 PDSingleton.OnPacAttached += new PacDriveSingleton.PacAttachedDelegate(Instance_OnPacAttached);
                 PDSingleton.OnPacRemoved += new PacDriveSingleton.PacRemovedDelegate(Instance_OnPacRemoved);
+              
                 this.Index = PacDriveSingleton.Instance.PacLed64GetIndexForDeviceId(Id);
+            
                 NewValue.Fill((byte)0);
+               
                 InitUnit();
-
+     
 
             }
 
