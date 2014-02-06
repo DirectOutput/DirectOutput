@@ -223,7 +223,7 @@ namespace DirectOutput.LedControl.Loader
         public int AreaWidth = 100;
         public int AreaHeight=100;
         public int AreaSpeed = 100;
-        public ShiftDirectionEnum AreaDirection = ShiftDirectionEnum.Right;
+        public ShiftDirectionEnum? AreaDirection = null;
         public bool IsArea = false;
 
 
