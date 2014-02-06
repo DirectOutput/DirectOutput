@@ -13,18 +13,18 @@ namespace DirectOutput.FX.RGBAMatrixFX
         /// <summary>
         /// Shift left
         /// </summary>
-        Left,
+        Left='L',
         /// <summary>
         /// Shift right
         /// </summary>
-        Right,
+        Right='R',
         /// <summary>
         /// Shift up
         /// </summary>
-        Up,
+        Up='U',
         /// <summary>
         /// Shift down
         /// </summary>
-        Down
+        Down='D'
     }
 }

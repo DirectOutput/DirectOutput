@@ -75,6 +75,20 @@ namespace DirectOutput.LedControl.Loader
         }
 
 
+        /// <summary>
+        /// Gets a value indicating whether any setting in the column has area values.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if any area settings exists is area; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsArea
+        {
+            get
+            {
+                return this.Any(S => S.IsArea);
+            }
+
+        }
 
 
         #region Parser

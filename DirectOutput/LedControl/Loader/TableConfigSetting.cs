@@ -1,4 +1,5 @@
 ﻿using System;
+using DirectOutput.FX.RGBAMatrixFX;
 
 namespace DirectOutput.LedControl.Loader
 {
@@ -216,6 +217,16 @@ namespace DirectOutput.LedControl.Loader
         /// </value>
         public int? Layer{get;set;}
 
+
+        public int AreaLeft=0;
+        public int AreaTop=0;
+        public int AreaWidth = 100;
+        public int AreaHeight=100;
+        public int AreaSpeed = 100;
+        public ShiftDirectionEnum AreaDirection = ShiftDirectionEnum.Right;
+        public bool IsArea = false;
+
+
         /// <summary>
         /// Parses the setting data. <br />
         /// </summary>
@@ -304,6 +315,37 @@ namespace DirectOutput.LedControl.Loader
                     NoBool = true;
                 }
 
+                else if (Parts[PartNr].Length > 1 && Parts[PartNr].Substring(0, 1).ToUpper() == "AT" && Parts[PartNr].Substring(2).IsInteger())
+                {
+                    AreaTop = Parts[PartNr].Substring(2).ToInteger().Limit(0,100);
+                    IsArea = true;
+                }
+                else if (Parts[PartNr].Length > 1 && Parts[PartNr].Substring(0, 1).ToUpper() == "AL" && Parts[PartNr].Substring(2).IsInteger())
+                {
+                    AreaLeft = Parts[PartNr].Substring(2).ToInteger().Limit(0, 100);
+                    IsArea = true;
+                }
+                else if (Parts[PartNr].Length > 1 && Parts[PartNr].Substring(0, 1).ToUpper() == "AW" && Parts[PartNr].Substring(2).IsInteger())
+                {
+                    AreaWidth = Parts[PartNr].Substring(2).ToInteger().Limit(0, 100);
+                    IsArea = true;
+                }
+                else if (Parts[PartNr].Length > 1 && Parts[PartNr].Substring(0, 1).ToUpper() == "AH" && Parts[PartNr].Substring(2).IsInteger())
+                {
+                    AreaHeight = Parts[PartNr].Substring(2).ToInteger().Limit(0, 100);
+                    IsArea = true;
+                }
+                else if (Parts[PartNr].Length > 1 && Parts[PartNr].Substring(0, 1).ToUpper() == "AS" && Parts[PartNr].Substring(2).IsInteger())
+                {
+                    AreaSpeed = Parts[PartNr].Substring(2).ToInteger().Limit(1,10000);
+                    IsArea = true;
+                }
+                else if (Parts[PartNr].Length ==3 && Parts[PartNr].Substring(0, 1).ToUpper() == "AD" && Enum.IsDefined(typeof(ShiftDirectionEnum), (int)Parts[PartNr].Substring(2, 1).ToUpper()[0]))
+                {
+
+                    AreaDirection = (ShiftDirectionEnum)Parts[PartNr].Substring(2, 1).ToUpper()[0];
+                    IsArea = true;
+                }
                 else if (Parts[PartNr].Length > 3 && Parts[PartNr].ToUpper().Substring(0, 3) == "MAX" && Parts[PartNr].Substring(3).IsInteger())
                 {
                     MaxDurationMs = Parts[PartNr].Substring(3).ToInteger().Limit(0, int.MaxValue);
@@ -314,7 +356,7 @@ namespace DirectOutput.LedControl.Loader
                 }
                 else if (Parts[PartNr].Length > 1 && Parts[PartNr].ToUpper().Substring(0, 1) == "E" && Parts[PartNr].Substring(1).IsInteger())
                 {
-                    
+
                     ExtDurationMs = Parts[PartNr].Substring(1).ToInteger().Limit(0, int.MaxValue);
                 }
                 else if (Parts[PartNr].Length > 1 && Parts[PartNr].ToUpper().Substring(0, 1) == "I" && Parts[PartNr].Substring(1).IsInteger())
