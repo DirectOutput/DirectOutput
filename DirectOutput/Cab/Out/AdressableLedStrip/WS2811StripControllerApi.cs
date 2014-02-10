@@ -264,7 +264,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                     if (FT245R.IsOpen)
                     {
                         FT245R.Close();
-                        FT245R.CharReceived += new EventHandler<EventArgs>(FT245R_CharReceived);
+                        FT245R.CharReceived -= new EventHandler<EventArgs>(FT245R_CharReceived);
                     }
                     FT245R = null;
                 }

@@ -213,7 +213,7 @@ namespace DirectOutput.Cab.Toys.Layer
         /// </summary>
         public override void Reset()
         {
-            OutputController.SetValues(FirstLedNumber * 3, new byte[NumberOfLeds]);
+            OutputController.SetValues((FirstLedNumber-1) * 3, new byte[NumberOfLeds]);
         }
 
         /// <summary>
@@ -357,8 +357,8 @@ namespace DirectOutput.Cab.Toys.Layer
                             if (Alpha != 0)
                             {
                                 Value[x, y, 0] = AlphaMappingTable.AlphaMapping[255 - Alpha, (int)Value[x, y, 0]] + AlphaMappingTable.AlphaMapping[Alpha, D[x, y].Red.Limit(0, 255)];
-                                Value[x, y, 1] = AlphaMappingTable.AlphaMapping[255 - Alpha, (int)Value[x, y, 1]] + AlphaMappingTable.AlphaMapping[Alpha, D[x, y].Blue.Limit(0, 255)];
-                                Value[x, y, 2] = AlphaMappingTable.AlphaMapping[255 - Alpha, (int)Value[x, y, 2]] + AlphaMappingTable.AlphaMapping[Alpha, D[x, y].Green.Limit(0, 255)];
+                                Value[x, y, 1] = AlphaMappingTable.AlphaMapping[255 - Alpha, (int)Value[x, y, 1]] + AlphaMappingTable.AlphaMapping[Alpha, D[x, y].Green.Limit(0, 255)];
+                                Value[x, y, 2] = AlphaMappingTable.AlphaMapping[255 - Alpha, (int)Value[x, y, 2]] + AlphaMappingTable.AlphaMapping[Alpha, D[x, y].Blue.Limit(0, 255)];
                             }
                             Nr++;
                         }

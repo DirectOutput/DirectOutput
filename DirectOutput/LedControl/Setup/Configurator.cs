@@ -315,13 +315,11 @@ namespace DirectOutput.LedControl.Setup
                             if (LWE.Outputs.Any(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber))
                             {
                                 string OutputName = LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName;
-                                if (Cabinet.Outputs.Any(O => O is IOutputNumbered && O.Name == OutputName))
+                                if (Cabinet.Toys.Any(O => O is LedStrip && O.Name == OutputName))
                                 {
-                                    IOutputNumbered Output = (IOutputNumbered)Cabinet.Outputs.First(O => O is IOutputNumbered && O.Name == OutputName);
-                                    int FirstLedNr = Output.Number;
-                                    string ControllerName = Cabinet.OutputControllers.First(C => C.Outputs.Any(O => O.Name == OutputName)).Name;
 
-                                    TargetToy = (IToy)Cabinet.Toys.FirstOrDefault(Toy => Toy is LedStrip && ((LedStrip)Toy).FirstLedNumber == FirstLedNr && ((LedStrip)Toy).OutputControllerName == ControllerName);
+
+                                    TargetToy = (IToy)Cabinet.Toys.FirstOrDefault(O => O is LedStrip && O.Name == OutputName);
 
                                     if (TargetToy != null)
                                     {
