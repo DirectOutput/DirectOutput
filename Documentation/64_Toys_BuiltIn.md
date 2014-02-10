@@ -450,6 +450,144 @@ The name of the output.
 
 
 
+\section use_DirectOutput_Cab_Toys_Layer_LedStrip LedStrip
+
+\subsection use_DirectOutput_Cab_Toys_Layer_LedStrip_summary Summary
+
+Represents a adressable led strip.
+
+The toy supports several layers and supports transparency/alpha channels for every single led.
+
+
+
+\subsection use_DirectOutput_Cab_Toys_Layer_LedStrip_samplexml Sample XML
+
+A configuration section for LedStrip might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<LedStrip>
+  <Name>Name of LedStrip</Name>
+  <Width>1</Width>
+  <Height>1</Height>
+  <LedStripArrangement>LeftRightTopDown</LedStripArrangement>
+  <ColorOrder>RBG</ColorOrder>
+  <FirstLedNumber>1</FirstLedNumber>
+  <FadingCurveName>Linear</FadingCurveName>
+  <OutputControllerName>Name of OutputController</OutputControllerName>
+</LedStrip>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_Cab_Toys_Layer_LedStrip_properties Properties
+
+LedStrip has the following 8 configurable properties:
+
+\subsubsection DirectOutput_Cab_Toys_Layer_LedStrip_ColorOrder ColorOrder
+
+The color order of the leds on the strip.
+
+
+
+The property ColorOrder accepts the following values:
+
+* RGB
+* RBG
+* GRB
+* WS2812
+* GBR
+* BRG
+* BGR
+
+__Valid values__
+
+The property ColorOrder accepts the following values:
+
+* RGB
+* RBG
+* GRB
+* WS2812
+* GBR
+* BRG
+* BGR
+\subsubsection DirectOutput_Cab_Toys_Layer_LedStrip_FadingCurveName FadingCurveName
+
+The name of the fading curve.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Layer_LedStrip_FirstLedNumber FirstLedNumber
+
+The number of the first led of the strip.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Layer_LedStrip_Height Height
+
+The height of the led stripe.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Layer_LedStrip_LedStripArrangement LedStripArrangement
+
+The strip arrangement value as defined in the LedStripArrangementEnum.
+
+
+
+The property LedStripArrangement accepts the following values:
+
+* LeftRightTopDown
+* LeftRightBottomUp
+* RightLeftTopDown
+* RightLeftBottomUp
+* TopDownLeftRight
+* TopDownRightLeft
+* BottomUpLeftRight
+* BottomUpRightLeft
+* LeftRightAlternateTopDown
+* LeftRightAlternateBottomUp
+* RightLeftAlternateTopDown
+* RightLeftAlternateBottomUp
+* TopDownAlternateLeftRight
+* TopDownAlternateRightLeft
+* BottomUpAlternateLeftRight
+* BottomUpAlternateRightLeft
+
+__Valid values__
+
+The property LedStripArrangement accepts the following values:
+
+* LeftRightTopDown
+* LeftRightBottomUp
+* RightLeftTopDown
+* RightLeftBottomUp
+* TopDownLeftRight
+* TopDownRightLeft
+* BottomUpLeftRight
+* BottomUpRightLeft
+* LeftRightAlternateTopDown
+* LeftRightAlternateBottomUp
+* RightLeftAlternateTopDown
+* RightLeftAlternateBottomUp
+* TopDownAlternateLeftRight
+* TopDownAlternateRightLeft
+* BottomUpAlternateLeftRight
+* BottomUpAlternateRightLeft
+\subsubsection DirectOutput_Cab_Toys_Layer_LedStrip_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Layer_LedStrip_OutputControllerName OutputControllerName
+
+The name of the output controller.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Layer_LedStrip_Width Width
+
+The width of the led stripe.
+
+
+
 \section use_DirectOutput_Cab_Toys_Layer_RGBAToy RGBAToy
 
 \subsection use_DirectOutput_Cab_Toys_Layer_RGBAToy_summary Summary

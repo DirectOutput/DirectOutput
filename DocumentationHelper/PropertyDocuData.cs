@@ -169,7 +169,7 @@ namespace DocumentationHelper
                 if (PropertyInfo.PropertyType.IsEnum)
                 {
                     S = "The property {0} accepts the following values:\n\n".Build(Name);
-                    S += string.Join("\n* ", Enum.GetNames(PropertyInfo.PropertyType));
+                    S += "* " + string.Join("\n* ", Enum.GetNames(PropertyInfo.PropertyType));
 
 
                 }
