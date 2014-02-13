@@ -168,6 +168,29 @@ namespace DirectOutput.LedControl.Loader
         public int BlinkIntervalMs { get; set; }
 
 
+        /// <summary>
+        /// Gets or sets the blink interval in milliseconds for nested blinking.
+        /// </summary>
+        /// <value>
+        /// The blink interval in milliseconds for nested blinking.
+        /// </value>
+        public int BlinkIntervalMsNested{get;set;}
+
+        private int _BlinkPulseWidthNested = 50;
+
+        /// <summary>
+        /// Gets or sets the width of the blink pulse for nested blinking.
+        /// Value must be between 1 and 99 (defaults to 50).
+        /// </summary>
+        /// <value>
+        /// The width of the blink pulse for nested blinking.
+        /// </value>
+        public int BlinkPulseWidthNested
+        {
+            get { return _BlinkPulseWidthNested; }
+            set { _BlinkPulseWidthNested = value.Limit(1, 99); }
+        }
+
         private int _BlinkPulseWidth=50;
 
         /// <summary>
@@ -356,6 +379,15 @@ namespace DirectOutput.LedControl.Loader
                 {
                     MaxDurationMs = Parts[PartNr].Substring(3).ToInteger().Limit(0, int.MaxValue);
                 }
+                else if (Parts[PartNr].Length > 3 && Parts[PartNr].ToUpper().Substring(0, 3) == "BNI" && Parts[PartNr].Substring(3).IsInteger())
+                {
+                    BlinkIntervalMsNested = Parts[PartNr].Substring(3).ToInteger().Limit(0, int.MaxValue);
+                }
+                else if (Parts[PartNr].Length > 3 && Parts[PartNr].ToUpper().Substring(0, 4) == "BNPW" && Parts[PartNr].Substring(4).IsInteger())
+                {
+                    BlinkPulseWidthNested = Parts[PartNr].Substring(4).ToInteger().Limit(1, 99);
+                }
+
                 else if (Parts[PartNr].Length > 3 && Parts[PartNr].ToUpper().Substring(0, 3) == "BPW" && Parts[PartNr].Substring(3).IsInteger())
                 {
                     BlinkPulseWidth = Parts[PartNr].Substring(3).ToInteger().Limit(1, 99);

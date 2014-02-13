@@ -176,6 +176,13 @@ namespace DirectOutput.LedControl.Setup
                                         MakeEffectNameUnique(Effect, Table);
                                         Table.Effects.Add(Effect);
                                     }
+                                    if (TCS.Blink != 0 && TCS.BlinkIntervalMsNested > 0)
+                                    {
+                                        Effect = new BlinkEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} BlinkEffect Inner".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name, DurationActiveMs = (int)((double)TCS.BlinkIntervalMsNested * (double)TCS.BlinkPulseWidthNested / 100), DurationInactiveMs = (int)((double)TCS.BlinkIntervalMsNested * (100 - (double)TCS.BlinkPulseWidthNested) / 100) };
+                                        MakeEffectNameUnique(Effect, Table);
+                                        Table.Effects.Add(Effect);
+                                    }
+
 
                                     if (TCS.Blink != 0)
                                     {
