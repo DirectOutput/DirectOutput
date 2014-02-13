@@ -178,7 +178,7 @@ For adressable ledstrips and other toys which implement the IRGBAMatrix interfac
 * __AS{Speed}__ defines the speed for matrix effects have a speed parameter (e.g. the ColorShiftEffect) expressed in percent of the effect area per second. 100 will shift through the effect area in one second, 400 will shift through the effect area in 1/4 second. Min. speed is 1, max. speed is 10000.
 * __AA{Acceleration}__ defines the acceleration of the speed for matrix effects, expressed in percent of the effect area per second. Acceleration can be positive (speed increases) or negative (speed decreases). Speed will never decrease below 1 and never increase above 10000.
  
-\subsection inifiles_settingspara Setting examples
+\subsection inifiles_settingsexamples Setting examples
 
 * __S48__ will turn the toy associated with the column on and off depending on the state of solenoid 48.
 * __S48 Green__ will set the rgb led associated with the column of the file to green depending on the state of solenoid 48.
