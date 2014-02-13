@@ -168,6 +168,16 @@ The second and following parts can contain the following:
 * __NoBool__ indicates that the trigger value off the effect is not to be treated as a boolean value resp. that the daufault mapping of the value to 0 or 255 (255 for all values which are not 0) should not take place.
 * __Numeric Values__ without any extra character can be used to specify the duration of the effect or the blinking behaviour. If blinking has been defined, one or two numeric values are parsed. Value 1 controls the blink interval in milliseconds, while value 2 defines the number of blinks. If no blinking has been defined, only one numeric values which is used to defined the duration of the effect in milliseconds is parsed.
 
+For adressable ledstrips and other toys which implement the IRGBAMatrix interface the following extra parameters can be used to control the RGBA hardware of the matrix:
+
+* __AL{LeftPosition}__ defines the left of the upper left corner of the area of the matrix which is to be controlled by the effect. Position is expressed in percent of the matrix width (0-100).
+* __AT{TopPosition}__ defines the upper part of the upper left corner of the area of the matrix which is to be controlled by the effect. Position is expressed in percent of the matrix height (0-100).
+* __AW{Width}__ defines the width of the area of the matrix which is to be controlled by the effect. Width is expressed in percent of the matrix width (0-100).
+* __AH{Height}__ defines the height of the area of the matrix which is to be controlled by the effect. Height is expressed in percent of the matrix height (0-100).
+* __AD{DirectionLetter}__ defines the direction for area effects having a direction parameter (e.g. the ColorShiftEffect). Valid directions are: R-Right, L-Left, U-Up, D-Down.
+* __AS{Speed}__ defines the speed for matrix effects have a speed parameter (e.g. the ColorShiftEffect) expressed in percent of the effect area per second. 100 will shift through the effect area in one second, 400 will shift through the effect area in 1/4 second. Min. speed is 1, max. speed is 10000.
+* __AA{Acceleration}__ defines the acceleration of the speed for matrix effects, expressed in percent of the effect area per second. Acceleration can be positive (speed increases) or negative (speed decreases). Speed will never decrease below 1 and never increase above 10000.
+ 
 \subsection inifiles_settingspara Setting examples
 
 * __S48__ will turn the toy associated with the column on and off depending on the state of solenoid 48.
