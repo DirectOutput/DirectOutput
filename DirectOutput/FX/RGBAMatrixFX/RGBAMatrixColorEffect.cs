@@ -17,7 +17,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
 
         /// <summary>
         /// Gets or sets the active color.
-        /// The ColorSetMode property defines how this value is used.
+        /// The FadeMode property defines how this value is used.
         /// </summary>
         /// <value>
         /// The active color.
@@ -32,7 +32,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
 
         /// <summary>
         /// Gets or sets the inactive color.
-        /// The ColorSetMode property defines how this value is used.
+        /// The FadeMode property defines how this value is used.
         /// </summary>
         /// <value>
         /// The inactive color.

@@ -223,6 +223,7 @@ namespace DirectOutput.LedControl.Loader
         public int AreaWidth = 100;
         public int AreaHeight=100;
         public int AreaSpeed = 100;
+        public int AreaAcceleration = 0;
         public ShiftDirectionEnum? AreaDirection = null;
         public bool IsArea = false;
 
@@ -313,6 +314,11 @@ namespace DirectOutput.LedControl.Loader
                 else if (Parts[PartNr].ToUpper() == "NOBOOL")
                 {
                     NoBool = true;
+                }
+                else if (Parts[PartNr].Length > 2 && Parts[PartNr].Substring(0, 2).ToUpper() == "AA" && Parts[PartNr].Substring(2).IsInteger())
+                {
+                    AreaAcceleration = Parts[PartNr].Substring(2).ToInteger();
+                    IsArea = true;
                 }
 
                 else if (Parts[PartNr].Length > 2 && Parts[PartNr].Substring(0, 2).ToUpper() == "AT" && Parts[PartNr].Substring(2).IsInteger())

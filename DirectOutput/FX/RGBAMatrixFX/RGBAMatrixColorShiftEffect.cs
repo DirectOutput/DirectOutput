@@ -15,7 +15,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
 
         /// <summary>
         /// Gets or sets the active color.
-        /// The ColorSetMode property defines how this value is used.
+        /// The FadeMode property defines how this value is used.
         /// </summary>
         /// <value>
         /// The active color.
@@ -30,7 +30,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
 
         /// <summary>
         /// Gets or sets the inactive color.
-        /// The ColorSetMode property defines how this value is used.
+        /// The FadeMode property defines how this value is used.
         /// </summary>
         /// <value>
         /// The inactive color.
@@ -87,6 +87,43 @@ namespace DirectOutput.FX.RGBAMatrixFX
         }
 
 
+        private float _ShiftAcceleration = 0;
+        /// <summary>
+        /// Gets or sets the acceleration for the shift speed in percent of the effect area per second.
+        /// Acceleration can be zero, positive or negative. Positive values will increase the shift speed. Speed will be increased up to a max value of 10000. Negative values will decrease the shift speed. Speed will be decreased down to a minimum speed of 1.
+        /// </summary>
+        /// <value>
+        /// The acceleration for the shift speed in percent of the effect area per second.
+        /// </value>
+        public float ShiftAcceleration
+        {
+            get { return _ShiftAcceleration; }
+            set { _ShiftAcceleration = value; }
+        }
+
+
+
+        private void BuildStep2LedTable()
+        {
+            List<float> L = new List<float>();
+
+            float Position = 0;
+            float Speed=ShiftSpeed/(1000 / RefreshIntervalMs);
+            float Acceleration=ShiftAcceleration/(1000 / RefreshIntervalMs);
+            int NumberOfLeds = (ShiftDirection == ShiftDirectionEnum.Left || ShiftDirection == ShiftDirectionEnum.Right ? AreaWidth : AreaHeight);
+            while (Position <= NumberOfLeds)
+            {
+                L.Add(Position.Limit(0,NumberOfLeds));
+                Position += Speed ;
+                Speed = Speed + Acceleration.Limit(1, 10000);
+            }
+            L.Add(Position.Limit(0, NumberOfLeds));
+
+
+            Step2Led = L.ToArray();
+        }
+
+        float[] Step2Led=null;
 
         private void DoStep()
         {
@@ -95,11 +132,10 @@ namespace DirectOutput.FX.RGBAMatrixFX
                 Table.Pinball.Alarms.RegisterIntervalAlarm(RefreshIntervalMs, DoStep);
                 Active = true;
             }
-            
-            int TotalSteps = (int)((double)100000 / ShiftSpeed / RefreshIntervalMs);
+
+            int TotalSteps = Step2Led.Length;
 
             int NumberOfLeds = (ShiftDirection == ShiftDirectionEnum.Left || ShiftDirection == ShiftDirectionEnum.Right ? AreaWidth : AreaHeight);
-            float StepsPerLed = (float)TotalSteps / NumberOfLeds;
 
 
             float FromLedNr = NumberOfLeds;
@@ -111,7 +147,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
             int ToNr;
             foreach (KeyValuePair<int, int> KV in TriggerValueBuffer)
             {
-                ToLedNr = ((CurrentStep-KV.Key) / StepsPerLed).Limit(0,NumberOfLeds);
+                ToLedNr = Step2Led[(CurrentStep-KV.Key)];
 
                 if (FromLedNr.Floor() == ToLedNr.Floor())
                 {
@@ -299,6 +335,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
         public override void Init(Table.Table Table)
         {
             base.Init(Table);
+            BuildStep2LedTable();
         }
 
         public override void Finish()

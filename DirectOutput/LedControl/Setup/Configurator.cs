@@ -102,7 +102,7 @@ namespace DirectOutput.LedControl.Setup
                                         if (TCS.AreaDirection.HasValue)
                                         {
                                             //shift effect
-                                            Effect = new RGBAMatrixColorShiftEffect() { ShiftDirection = TCS.AreaDirection.Value, ShiftSpeed = TCS.AreaSpeed, ActiveColor = ActiveColor, InactiveColor = InactiveColor, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, LayerNr = Layer, ToyName = Toy.Name };
+                                            Effect = new RGBAMatrixColorShiftEffect() { ShiftDirection = TCS.AreaDirection.Value, ShiftSpeed = TCS.AreaSpeed, ShiftAcceleration=TCS.AreaAcceleration, ActiveColor = ActiveColor, InactiveColor = InactiveColor, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, LayerNr = Layer, ToyName = Toy.Name };
                                         }
                                         else
                                         {
