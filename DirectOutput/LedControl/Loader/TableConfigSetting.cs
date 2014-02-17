@@ -397,10 +397,15 @@ namespace DirectOutput.LedControl.Loader
 
                     ExtDurationMs = Parts[PartNr].Substring(1).ToInteger().Limit(0, int.MaxValue);
                 }
+                else if (Parts[PartNr].Length > 2 && Parts[PartNr].ToUpper().Substring(0, 2) == "I#" && Parts[PartNr].Substring(2).IsHexString())
+                {
+                    //Intensity setting
+                    Intensity = Parts[PartNr].Substring(2).HexToInt().Limit(0,255);
+                }
                 else if (Parts[PartNr].Length > 1 && Parts[PartNr].ToUpper().Substring(0, 1) == "I" && Parts[PartNr].Substring(1).IsInteger())
                 {
                     //Intensity setting
-                    Intensity = Parts[PartNr].Substring(1).ToInteger().Limit(0, 48);
+                    Intensity = (int)(((double)Parts[PartNr].Substring(1).ToInteger().Limit(0, 48)) * 5.3125);
                 }
                 else if (Parts[PartNr].Length > 1 && Parts[PartNr].ToUpper().Substring(0, 1) == "L" && Parts[PartNr].Substring(1).IsInteger())
                 {
@@ -519,7 +524,7 @@ namespace DirectOutput.LedControl.Loader
         /// </summary>
         public TableConfigSetting()
         {
-            this.Intensity = 48;
+            this.Intensity = 255;
             this.Blink = 0;
             this.DurationMs = -1;
 
