@@ -154,7 +154,7 @@ The second and following parts can contain the following:
 * __Color name__ as specified in the colors section of the file. Only valid as the second value.
 * __Hex color definition__ (e.g. #ff0000ff for opaque red). Take note that these color definitions allow for values from 0-255 in contrast to the colors section which only support 0-48. Hex color definitions can contain 3 or 4 parts (without or with alpha value). Setting is only accepted as the second value.
 * __Blink__ defines blinking with a default interval of 500ms.
-* __I{Number}__ defines a intensity between 0 (off) and 48 (fully on) for the effect. This settings is only valid for effect settings without a color definition and controlling only a single output.
+* __I{Number}__ defines a intensity/level of the output. The number can either be specified as a decmail number between 0 (e.g. I0 for off) and 48 (e.g. I48 for fully on) or as a hexadecimal number between 00 (off) and FF (fully on) with a leading # (e.g. I#80 for 50% power). This settings does only have a effect for settings without a color definition.
 * __L{Number}__ defines the layer on which the setting operates. In most cases the setting is not required, since DOF will assign ascending layer numbers to the settings for a column anyway.
 * __W{NumberOfMilliseconds}__ defines a wait period resp. delay before the effect executes after it has been triggered.
 * __M{NumberOfMilliseconds}__ defines the minimum duration for the effect in milliseconds.
