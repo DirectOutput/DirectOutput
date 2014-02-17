@@ -157,7 +157,7 @@ namespace DirectOutput.LedControl.Setup
                                 }
                                 else if (Toy is IAnalogAlphaToy)
                                 {
-                                    AnalogAlphaValue ActiveValue = new AnalogAlphaValue(((int)((double)TCS.Intensity * 5.3125)).Limit(0, 255), 255);
+                                    AnalogAlphaValue ActiveValue = new AnalogAlphaValue((TCS.Intensity.Limit(0, 255), 255);
                                     AnalogAlphaValue InactiveValue = ActiveValue.Clone();
                                     InactiveValue.Alpha = 0;
                                     Effect = new AnalogToyValueEffect() { ToyName = Toy.Name, LayerNr = Layer, ActiveValue = ActiveValue, InactiveValue = InactiveValue };
