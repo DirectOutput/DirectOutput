@@ -341,17 +341,17 @@ namespace DirectOutput.LedControl.Loader
                 {
                     NoBool = true;
                 }
-                else if (Parts[PartNr].Length > 2 && Parts[PartNr].Substring(0, 5).ToUpper() == "AFDEN" && Parts[PartNr].Substring(5).IsInteger())
+                else if (Parts[PartNr].Length > 5 && Parts[PartNr].Substring(0, 5).ToUpper() == "AFDEN" && Parts[PartNr].Substring(5).IsInteger())
                 {
                     AreaFlickerDensity = Parts[PartNr].Substring(5).ToInteger();
                     IsArea = true;
                 }
-                else if (Parts[PartNr].Length > 2 && Parts[PartNr].Substring(0, 5).ToUpper() == "AFMIN" && Parts[PartNr].Substring(5).IsInteger())
+                else if (Parts[PartNr].Length > 5 && Parts[PartNr].Substring(0, 5).ToUpper() == "AFMIN" && Parts[PartNr].Substring(5).IsInteger())
                 {
                     AreaFlickerMinDurationMs = Parts[PartNr].Substring(5).ToInteger();
                     IsArea = true;
                 }
-                else if (Parts[PartNr].Length > 2 && Parts[PartNr].Substring(0, 5).ToUpper() == "AFMAX" && Parts[PartNr].Substring(5).IsInteger())
+                else if (Parts[PartNr].Length > 5 && Parts[PartNr].Substring(0, 5).ToUpper() == "AFMAX" && Parts[PartNr].Substring(5).IsInteger())
                 {
                     AreaFlickerMaxDurationMs = Parts[PartNr].Substring(5).ToInteger();
                     IsArea = true;
@@ -401,7 +401,7 @@ namespace DirectOutput.LedControl.Loader
                 {
                     BlinkIntervalMsNested = Parts[PartNr].Substring(3).ToInteger().Limit(0, int.MaxValue);
                 }
-                else if (Parts[PartNr].Length > 3 && Parts[PartNr].ToUpper().Substring(0, 4) == "BNPW" && Parts[PartNr].Substring(4).IsInteger())
+                else if (Parts[PartNr].Length > 4 && Parts[PartNr].ToUpper().Substring(0, 4) == "BNPW" && Parts[PartNr].Substring(4).IsInteger())
                 {
                     BlinkPulseWidthNested = Parts[PartNr].Substring(4).ToInteger().Limit(1, 99);
                 }
