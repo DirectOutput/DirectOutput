@@ -8,7 +8,7 @@ using DirectOutput.Cab.Toys.Layer;
 namespace DirectOutput.FX.RGBAMatrixFX
 {
     /// <summary>
-    /// Sets the spefied area of a ledstrip to a color depending on configured colors and the trigger value.
+    /// Does create random flickering with a defineable density, durations and color within the spefied area of a ledstrip.
     /// </summary>
     public class RGBAMatrixColorFlickerEffect : RGBAMatrixEffectBase
     {
@@ -76,27 +76,45 @@ namespace DirectOutput.FX.RGBAMatrixFX
         }
 
 
-        private int _MinFlickerDurationMs=100;
+        private int _MinFlickerDurationMs = 60;
 
+        /// <summary>
+        /// Gets or sets the min duration in milliseconds for a single flicker/blink of a led. 
+        /// </summary>
+        /// <value>
+        /// The min duration in milliseconds for a single flicker/blink of a led.
+        /// </value>
         public int MinFlickerDurationMs
         {
             get { return _MinFlickerDurationMs; }
-            set { _MinFlickerDurationMs = value.Limit(1,int.MaxValue); }
+            set { _MinFlickerDurationMs = value.Limit(1, int.MaxValue); }
         }
 
-        private int _MaxFlickerDurationMs = 250;
+        private int _MaxFlickerDurationMs = 150;
 
+        /// <summary>
+        /// Gets or sets the max duration in milliseconds for a single flicker/blink of a led. 
+        /// </summary>
+        /// <value>
+        /// The max duration in milliseconds for a single flicker/blink of a led.
+        /// </value>
         public int MaxFlickerDurationMs
         {
             get { return _MaxFlickerDurationMs; }
-            set { _MaxFlickerDurationMs = value.Limit(1,int.MaxValue); }
+            set { _MaxFlickerDurationMs = value.Limit(1, int.MaxValue); }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether this <see cref="RGBAMatrixColorFlickerEffect"/> is active.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if active; otherwise, <c>false</c>.
+        /// </value>
         public bool Active { get; private set; }
 
 
         private SortedDictionary<int, List<System.Drawing.Point>> PixelDictionary = new SortedDictionary<int, List<System.Drawing.Point>>();
-        private int CurrentStep=0;
+        private int CurrentStep = 0;
         private int CurrentValue = 0;
         private int CurrentFlickerLeds = 0;
 
@@ -105,7 +123,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
         public void DoFlicker()
         {
             RGBAData D;
-            RGBAData I=new RGBAData();
+            RGBAData I = new RGBAData();
             I.Set(InactiveColor);
 
             int V = CurrentValue.Limit(0, 255);
@@ -116,8 +134,8 @@ namespace DirectOutput.FX.RGBAMatrixFX
                     Table.Pinball.Alarms.RegisterIntervalAlarm(RefreshIntervalMs, DoFlicker);
                     Active = true;
                 }
-                
-                
+
+
                 //Effect is active (V>0)
                 if (V > 0 && FadeMode == FadeModeEnum.OnOff) { V = 255; }
 
@@ -127,15 +145,16 @@ namespace DirectOutput.FX.RGBAMatrixFX
                 D.Alpha = InactiveColor.Alpha + (int)((float)(ActiveColor.Alpha - InactiveColor.Alpha) * V / 255).Limit(0, 255);
 
                 int NumberOfLeds = AreaWidth * AreaHeight;
-                int FlickerLeds = ((int)((double)NumberOfLeds / 100 * Density)).Limit(1,NumberOfLeds);
+                int FlickerLeds = ((int)((double)NumberOfLeds / 100 * Density)).Limit(1, NumberOfLeds);
 
                 while (CurrentFlickerLeds < FlickerLeds)
                 {
-                    int S=CurrentStep+(int)((float)(MinFlickerDurationMs + R.Next(MaxFlickerDurationMs - MinFlickerDurationMs)) / RefreshIntervalMs);
-                    if(!PixelDictionary.ContainsKey(S)) {
-                        PixelDictionary.Add(S,new List<System.Drawing.Point>());
+                    int S = CurrentStep + (int)((float)(MinFlickerDurationMs + R.Next(MaxFlickerDurationMs - MinFlickerDurationMs)) / RefreshIntervalMs);
+                    if (!PixelDictionary.ContainsKey(S))
+                    {
+                        PixelDictionary.Add(S, new List<System.Drawing.Point>());
                     }
-                    PixelDictionary[S].Add(new System.Drawing.Point(AreaLeft+R.Next(AreaWidth),AreaTop+R.Next(AreaHeight)));
+                    PixelDictionary[S].Add(new System.Drawing.Point(AreaLeft + R.Next(AreaWidth), AreaTop + R.Next(AreaHeight)));
                     CurrentFlickerLeds++;
                 }
 
@@ -147,7 +166,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
                 {
                     if (KV.Key < CurrentStep)
                     {
-                        foreach (System.Drawing.Point  P in KV.Value)
+                        foreach (System.Drawing.Point P in KV.Value)
                         {
                             RGBAMatrixLayer[P.X, P.Y] = I;
                             CurrentFlickerLeds--;
@@ -171,7 +190,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
 
                 CurrentStep++;
 
-                
+
 
             }
             else
@@ -188,13 +207,13 @@ namespace DirectOutput.FX.RGBAMatrixFX
                 PixelDictionary.Clear();
                 CurrentStep = 0;
                 CurrentFlickerLeds = 0;
-                Table.Pinball.Alarms.UnregisterIntervalAlarm( DoFlicker);
+                Table.Pinball.Alarms.UnregisterIntervalAlarm(DoFlicker);
                 Active = false;
 
             }
 
         }
-        
+
 
 
 
@@ -208,7 +227,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
             if (RGBAMatrixLayer != null)
             {
                 CurrentValue = TableElementData.Value;
-                if (CurrentValue>0 && !Active)
+                if (CurrentValue > 0 && !Active)
                 {
                     DoFlicker();
                 }
