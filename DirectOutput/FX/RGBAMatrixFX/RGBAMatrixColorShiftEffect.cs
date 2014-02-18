@@ -107,15 +107,15 @@ namespace DirectOutput.FX.RGBAMatrixFX
         {
             List<float> L = new List<float>();
 
+            float NumberOfLeds = (ShiftDirection == ShiftDirectionEnum.Left || ShiftDirection == ShiftDirectionEnum.Right ? AreaWidth : AreaHeight);
             float Position = 0;
-            float Speed=ShiftSpeed/(1000 / RefreshIntervalMs);
-            float Acceleration=ShiftAcceleration/(1000 / RefreshIntervalMs);
-            int NumberOfLeds = (ShiftDirection == ShiftDirectionEnum.Left || ShiftDirection == ShiftDirectionEnum.Right ? AreaWidth : AreaHeight);
+            float Speed = NumberOfLeds/100*(ShiftSpeed / (1000 / RefreshIntervalMs));
+            float Acceleration = NumberOfLeds / 100 * (ShiftAcceleration / (1000 / RefreshIntervalMs));
             while (Position <= NumberOfLeds)
             {
                 L.Add(Position.Limit(0,NumberOfLeds));
                 Position += Speed ;
-                Speed = Speed + Acceleration.Limit(1, 10000);
+                Speed = (Speed + Acceleration).Limit(1, 10000);
             }
             L.Add(Position.Limit(0, NumberOfLeds));
 
@@ -133,7 +133,6 @@ namespace DirectOutput.FX.RGBAMatrixFX
                 Active = true;
             }
 
-            int TotalSteps = Step2Led.Length;
 
             int NumberOfLeds = (ShiftDirection == ShiftDirectionEnum.Left || ShiftDirection == ShiftDirectionEnum.Right ? AreaWidth : AreaHeight);
 
@@ -272,7 +271,8 @@ namespace DirectOutput.FX.RGBAMatrixFX
 
 
 
-            int DropKey = CurrentStep - TotalSteps;
+            
+            int DropKey = CurrentStep - (Step2Led.Length-1);
             if (TriggerValueBuffer.ContainsKey(DropKey))
             {
                 LastDiscardedValue = TriggerValueBuffer[DropKey];
