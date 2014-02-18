@@ -102,6 +102,8 @@ namespace DirectOutput.General.Color
         }
 
 
+
+
         /// <summary>
         /// Sets the RGBA components of the Color.
         /// </summary>
