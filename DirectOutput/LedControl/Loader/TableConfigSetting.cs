@@ -379,7 +379,7 @@ namespace DirectOutput.LedControl.Loader
                 {
                     MaxDurationMs = Parts[PartNr].Substring(3).ToInteger().Limit(0, int.MaxValue);
                 }
-                else if (Parts[PartNr].Length > 3 && Parts[PartNr].ToUpper().Substring(0, 3) == "BNI" && Parts[PartNr].Substring(3).IsInteger())
+                else if (Parts[PartNr].Length > 3 && Parts[PartNr].ToUpper().Substring(0, 3) == "BNP" && Parts[PartNr].Substring(3).IsInteger())
                 {
                     BlinkIntervalMsNested = Parts[PartNr].Substring(3).ToInteger().Limit(0, int.MaxValue);
                 }
