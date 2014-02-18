@@ -147,14 +147,20 @@ namespace DirectOutput.FX.RGBAMatrixFX
                 int NumberOfLeds = AreaWidth * AreaHeight;
                 int FlickerLeds = ((int)((double)NumberOfLeds / 100 * Density)).Limit(1, NumberOfLeds);
 
+                int Min = MinFlickerDurationMs;
+                int Max = MaxFlickerDurationMs;
+                if (Max < Min)
+                {
+                    int Tmp = Min; Min = Max; Max = Tmp;
+                }
                 while (CurrentFlickerLeds < FlickerLeds)
                 {
-                    int S = CurrentStep + (int)((float)(MinFlickerDurationMs + R.Next(MaxFlickerDurationMs - MinFlickerDurationMs)) / RefreshIntervalMs);
+                    int S = CurrentStep + (int)((float)(R.Next(Min ,Max)) / RefreshIntervalMs);
                     if (!PixelDictionary.ContainsKey(S))
                     {
                         PixelDictionary.Add(S, new List<System.Drawing.Point>());
                     }
-                    PixelDictionary[S].Add(new System.Drawing.Point(AreaLeft + R.Next(AreaWidth), AreaTop + R.Next(AreaHeight)));
+                    PixelDictionary[S].Add(new System.Drawing.Point(R.Next(AreaLeft, AreaRight+1), R.Next(AreaTop,AreaBottom+1)));
                     CurrentFlickerLeds++;
                 }
 
