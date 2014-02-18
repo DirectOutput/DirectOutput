@@ -176,7 +176,10 @@ For adressable ledstrips and other toys which implement the IRGBAMatrix interfac
 * __AH{Height}__ defines the height of the area of the matrix which is to be controlled by the effect. Height is expressed in percent of the matrix height (0-100).
 * __AD{DirectionLetter}__ defines the direction for area effects having a direction parameter (e.g. the ColorShiftEffect). Valid directions are: R-Right, L-Left, U-Up, D-Down.
 * __AS{Speed}__ defines the speed for matrix effects have a speed parameter (e.g. the ColorShiftEffect) expressed in percent of the effect area per second. 100 will shift through the effect area in one second, 400 will shift through the effect area in 1/4 second. Min. speed is 1, max. speed is 10000.
-* __AA{Acceleration}__ defines the acceleration of the speed for matrix effects, expressed in percent of the effect area per second. Acceleration can be positive (speed increases) or negative (speed decreases). Speed will never decrease below 1 and never increase above 10000.
+* __AA{Acceleration}__ defines the acceleration of the speed for matrix effects (e.g. ColorShiftEffect), expressed in percent of the effect area per second. Acceleration can be positive (speed increases) or negative (speed decreases). Speed will never decrease below 1 and never increase above 10000.
+* __AFDEN{Percentage}__ defines the density for the flicker effect. Density is express in percent a has a valid value range of 1 to 99.
+* __AFMIN{DurationInMilliseconds}__ defines the min duration for the flicker of a single led in milliseconds.
+* __AFMAX{DurationInMilliseconds}__ defines the max duration for the flicker of a single led in milliseconds.
  
 \subsection inifiles_settingsexamples Setting examples
 

@@ -247,6 +247,9 @@ namespace DirectOutput.LedControl.Loader
         public int AreaHeight=100;
         public int AreaSpeed = 100;
         public int AreaAcceleration = 0;
+        public int AreaFlickerDensity = 0;
+        public int AreaFlickerMinDurationMs = 0;
+        public int AreaFlickerMaxDurationMs = 0;
         public ShiftDirectionEnum? AreaDirection = null;
         public bool IsArea = false;
 
@@ -337,6 +340,21 @@ namespace DirectOutput.LedControl.Loader
                 else if (Parts[PartNr].ToUpper() == "NOBOOL")
                 {
                     NoBool = true;
+                }
+                else if (Parts[PartNr].Length > 2 && Parts[PartNr].Substring(0, 5).ToUpper() == "AFDEN" && Parts[PartNr].Substring(5).IsInteger())
+                {
+                    AreaFlickerDensity = Parts[PartNr].Substring(5).ToInteger();
+                    IsArea = true;
+                }
+                else if (Parts[PartNr].Length > 2 && Parts[PartNr].Substring(0, 5).ToUpper() == "AFMIN" && Parts[PartNr].Substring(5).IsInteger())
+                {
+                    AreaFlickerMinDurationMs = Parts[PartNr].Substring(5).ToInteger();
+                    IsArea = true;
+                }
+                else if (Parts[PartNr].Length > 2 && Parts[PartNr].Substring(0, 5).ToUpper() == "AFMAX" && Parts[PartNr].Substring(5).IsInteger())
+                {
+                    AreaFlickerMaxDurationMs = Parts[PartNr].Substring(5).ToInteger();
+                    IsArea = true;
                 }
                 else if (Parts[PartNr].Length > 2 && Parts[PartNr].Substring(0, 2).ToUpper() == "AA" && Parts[PartNr].Substring(2).IsInteger())
                 {

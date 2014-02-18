@@ -102,11 +102,30 @@ namespace DirectOutput.LedControl.Setup
                                         if (TCS.AreaDirection.HasValue)
                                         {
                                             //shift effect
-                                            Effect = new RGBAMatrixColorShiftEffect() { ShiftDirection = TCS.AreaDirection.Value, ShiftSpeed = TCS.AreaSpeed, ShiftAcceleration=TCS.AreaAcceleration, ActiveColor = ActiveColor, InactiveColor = InactiveColor, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, LayerNr = Layer, ToyName = Toy.Name };
+                                            Effect = new RGBAMatrixColorShiftEffect() { ShiftDirection = TCS.AreaDirection.Value, ShiftAcceleration=TCS.AreaAcceleration, ActiveColor = ActiveColor, InactiveColor = InactiveColor, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, LayerNr = Layer, ToyName = Toy.Name };
+                                            if (TCS.AreaSpeed > 0)
+                                            {
+                                               ((RGBAMatrixColorShiftEffect)Effect).ShiftSpeed = TCS.AreaSpeed;
+                                            }
+                                        
+                                        }
+                                        else if (TCS.AreaFlickerDensity > 0)
+                                        {
+                                            //flicker effect
+                                            Effect = new RGBAMatrixColorFlickerEffect() {Density=TCS.AreaFlickerDensity.Limit(1,99), ActiveColor = ActiveColor, InactiveColor = InactiveColor, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, LayerNr = Layer, ToyName = Toy.Name };
+                                            if (TCS.AreaFlickerMinDurationMs > 0)
+                                            {
+                                                ((RGBAMatrixColorFlickerEffect)Effect).MinFlickerDurationMs = TCS.AreaFlickerMinDurationMs;
+                                            }
+                                            if (TCS.AreaFlickerMaxDurationMs > 0)
+                                            {
+                                                ((RGBAMatrixColorFlickerEffect)Effect).MaxFlickerDurationMs = TCS.AreaFlickerMaxDurationMs;
+                                            }
+                                        
                                         }
                                         else
                                         {
-                                            //Color effect
+                                           //Color effect
                                             Effect = new RGBAMatrixColorEffect() { ActiveColor = ActiveColor, InactiveColor = InactiveColor, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, LayerNr = Layer, ToyName = Toy.Name };
                                         }
 
