@@ -48,10 +48,10 @@ namespace DirectOutput.FX.RGBAMatrixFX
         private float _Width = 100;
 
         /// <summary>
-        /// Gets or sets the width of target area of the ledstrip which is controlled by the effect.
+        /// Gets or sets the width in percent of target area of the ledstrip which is controlled by the effect.
         /// </summary>
         /// <value>
-        /// The width of the target area for the effect (0-100).
+        /// The width in percent of the target area for the effect (0-100).
         /// </value>
         public float Width
         {
@@ -62,10 +62,10 @@ namespace DirectOutput.FX.RGBAMatrixFX
         private float _Height = 100;
 
         /// <summary>
-        /// Gets or sets the height of target area of the ledstrip which is controlled by the effect.
+        /// Gets or sets the height in percent of target area of the ledstrip which is controlled by the effect.
         /// </summary>
         /// <value>
-        /// The height of the target area for the effect (0-100).
+        /// The height in percent of the target area for the effect (0-100).
         /// </value>
         public float Height
         {
@@ -76,10 +76,10 @@ namespace DirectOutput.FX.RGBAMatrixFX
         private float _Left = 0;
 
         /// <summary>
-        /// Gets or sets the left resp. X positon of the upper left corner of the target area of the ledstrip which is controlled by the effect.
+        /// Gets or sets the left resp. X positon of the upper left corner in percent of the target area of the ledstrip which is controlled by the effect.
         /// </summary>
         /// <value>
-        /// The left resp. X position of the upper left corner of the target area for the effect (0-100).
+        /// The left resp. X position of the upper left corner in percent of the target area for the effect (0-100).
         /// </value>
         public float Left
         {
@@ -90,10 +90,10 @@ namespace DirectOutput.FX.RGBAMatrixFX
         private float _Top = 0;
 
         /// <summary>
-        /// Gets or sets the top resp. Y positon of the upper left corner of the target area of the ledstrip which is controlled by the effect.
+        /// Gets or sets the top resp. Y positon of the upper left corner in percent of the target area of the ledstrip which is controlled by the effect.
         /// </summary>
         /// <value>
-        /// The top resp. Y position of the upper left corner of the target area for the effect (0-100).
+        /// The top resp. Y position of the upper left corner in percent of the target area for the effect (0-100).
         /// </value>
         public float Top
         {
@@ -119,20 +119,46 @@ namespace DirectOutput.FX.RGBAMatrixFX
         }
         #endregion
 
+        /// <summary>
+        /// The gets the X position of the led in the upper left corner of the effect area.
+        /// </summary>
         [XmlIgnoreAttribute]
         protected int AreaLeft = 0;
+        /// <summary>
+        /// The gets the Y position of the led in the upper left corner of the effect area.
+        /// </summary>
         [XmlIgnoreAttribute]
         protected int AreaTop = 0;
+        /// <summary>
+        /// The gets the X position of the led in the lower right corner of the effect area.
+        /// </summary>
         [XmlIgnoreAttribute]
         protected int AreaRight = 0;
+        /// <summary>
+        /// The gets the Y position of the led in the lower right corner of the effect area.
+        /// </summary>
         [XmlIgnoreAttribute]
         protected int AreaBottom = 0;
 
+        /// <summary>
+        /// Gets the number of leds on horizontal direction of the area for the effect.
+        /// </summary>
+        /// <value>
+        /// The number of leds on horizontal direction of the area for the effect.
+        /// </value>
+        [XmlIgnoreAttribute]
         protected int AreaWidth
         {
             get { return (AreaRight-AreaLeft)+1;}
         }
 
+        /// <summary>
+        /// Gets the number of leds on vertical direction of the area for the effect.
+        /// </summary>
+        /// <value>
+        /// The number of leds on vertical direction of the area for the effect.
+        /// </value>
+        [XmlIgnoreAttribute]
         protected int AreaHeight
         {
             get { return (AreaBottom - AreaTop) + 1; }
