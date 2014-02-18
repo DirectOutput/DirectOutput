@@ -120,7 +120,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
 
         private Random R = new Random();
 
-        public void DoFlicker()
+        private void DoFlicker()
         {
             RGBAData D;
             RGBAData I = new RGBAData();
