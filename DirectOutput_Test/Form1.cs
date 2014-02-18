@@ -65,14 +65,15 @@ namespace DirectOutput_Test
             C.Toys.Add(new LedStrip() { Name = "Strip 2", OutputControllerName = "StripController 1", FadingCurveName = "SwissLizardsLedCurve", Width = 65, Height = 1, ColorOrder = RGBOrderEnum.WS2812, FirstLedNumber = 97 });
 
             Table T = new Table();
-            T.Effects.Add(new RGBAMatrixColorEffect() { Name = "SetColor", ToyName = "Strip 1", FadeMode = FadeModeEnum.Fade, ActiveColor = new DirectOutput.General.Color.RGBAColor("#ff0000ff"), Top = 15, Left = 20, Width = 60, Height = 70, LayerNr = 1 });
+            T.Effects.Add(new RGBAMatrixColorEffect() { Name = "SetColor", ToyName = "Strip 1", FadeMode = FadeModeEnum.Fade, ActiveColor = new DirectOutput.General.Color.RGBAColor("#0000ffff"), Top = 15, Left = 20, Width = 60, Height = 70, LayerNr = 1 });
 
-            T.Effects.Add(new RGBAMatrixColorShiftEffect() { ShiftDirection = ShiftDirectionEnum.Down, Name = "ShiftColor", ToyName = "Strip 1", FadeMode = FadeModeEnum.Fade, ActiveColor = new DirectOutput.General.Color.RGBAColor("#00ff00ff"), ShiftSpeed = 20, Top = 15, Left = 20, Width = 60, Height = 70, LayerNr = 2 });
+            T.Effects.Add(new RGBAMatrixColorFlickerEffect() {  Name = "Flicker", ToyName = "Strip 1", FadeMode = FadeModeEnum.Fade, ActiveColor = new DirectOutput.General.Color.RGBAColor("#ffffff80"), Top = 15, Left = 20, Width = 60, Height = 70, LayerNr = 3,Density=50,MinFlickerDurationMs=30,MaxFlickerDurationMs=50 });
             T.Effects.Add(new RGBAMatrixColorShiftEffect() { Name = "ShiftColor2", ToyName = "Strip 2", FadeMode = FadeModeEnum.Fade, ActiveColor = new DirectOutput.General.Color.RGBAColor("#00ff00ff"), ShiftSpeed = 4, Top = 0, Left = 20, Width = 60, Height = 100, LayerNr = 2 });
 
 
             T.TableElements.Add(TableElementTypeEnum.Switch, 48, 0);
-            T.TableElements[TableElementTypeEnum.Switch, 48].AssignedEffects.Add(new AssignedEffect("ShiftColor"));
+            T.TableElements[TableElementTypeEnum.Switch, 48].AssignedEffects.Add(new AssignedEffect("SetColor"));
+            T.TableElements[TableElementTypeEnum.Switch, 48].AssignedEffects.Add(new AssignedEffect("Flicker"));
             T.TableElements[TableElementTypeEnum.Switch, 48].AssignedEffects.Add(new AssignedEffect("ShiftColor2"));
             P = new Pinball();
             P.Table = T;
@@ -91,34 +92,15 @@ namespace DirectOutput_Test
 
         private void button2_Click(object sender, EventArgs e)
         {
+            P.ReceiveData('W', 48, 255);
 
-            RGBAColor C = new RGBAColor();
-            C.Red = 255;
-            C.Green = 255;
-            C.Alpha = 255;
-            RGBAColor CL = C.Clone();
-            CL.Alpha = 0;
+
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
 
-           // P.ReceiveData('W', 48, 255);
-
-
-            //Thread.Sleep(3000);
-
-
-           // P.ReceiveData('W', 48, 0);
-
-            //Thread.Sleep(2000);
-
-            P.ReceiveData('W', 48, 255);
-            Thread.Sleep(400);
-
-
             P.ReceiveData('W', 48, 0);
-        
         }
     }
 }
