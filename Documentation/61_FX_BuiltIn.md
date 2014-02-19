@@ -370,7 +370,7 @@ The property FadeMode accepts the following values:
 * OnOff
 \subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixBitmapEffect_Height Height
 
-The height of the target area for the effect (0-100).
+The height in percent of the target area for the effect (0-100).
 
 
 
@@ -382,7 +382,7 @@ The number of the target layer for the effect.
 
 \subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixBitmapEffect_Left Left
 
-The left resp. X position of the upper left corner of the target area for the effect (0-100).
+The left resp. X position of the upper left corner in percent of the target area for the effect (0-100).
 
 
 
@@ -394,7 +394,7 @@ The name of the item.
 
 \subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixBitmapEffect_Top Top
 
-The top resp. Y position of the upper left corner of the target area for the effect (0-100).
+The top resp. Y position of the upper left corner in percent of the target area for the effect (0-100).
 
 
 
@@ -406,7 +406,7 @@ The name of the toy which is controlled by the effect.
 
 \subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixBitmapEffect_Width Width
 
-The width of the target area for the effect (0-100).
+The width in percent of the target area for the effect (0-100).
 
 
 
@@ -475,7 +475,7 @@ The property FadeMode accepts the following values:
 * OnOff
 \subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorEffect_Height Height
 
-The height of the target area for the effect (0-100).
+The height in percent of the target area for the effect (0-100).
 
 
 
@@ -499,7 +499,7 @@ The number of the target layer for the effect.
 
 \subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorEffect_Left Left
 
-The left resp. X position of the upper left corner of the target area for the effect (0-100).
+The left resp. X position of the upper left corner in percent of the target area for the effect (0-100).
 
 
 
@@ -511,7 +511,7 @@ The name of the item.
 
 \subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorEffect_Top Top
 
-The top resp. Y position of the upper left corner of the target area for the effect (0-100).
+The top resp. Y position of the upper left corner in percent of the target area for the effect (0-100).
 
 
 
@@ -523,7 +523,145 @@ The name of the toy which is controlled by the effect.
 
 \subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorEffect_Width Width
 
-The width of the target area for the effect (0-100).
+The width in percent of the target area for the effect (0-100).
+
+
+
+\section use_DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorFlickerEffect RGBAMatrixColorFlickerEffect
+
+\subsection use_DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorFlickerEffect_summary Summary
+
+Does create random flickering with a defineable density, durations and color within the spefied area of a ledstrip.
+
+
+
+\subsection use_DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorFlickerEffect_samplexml Sample XML
+
+A configuration section for RGBAMatrixColorFlickerEffect might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<RGBAMatrixColorFlickerEffect>
+  <Name>Name of RGBAMatrixColorFlickerEffect</Name>
+  <ToyName>Name of Toy</ToyName>
+  <Width>100</Width>
+  <Height>100</Height>
+  <Left>0</Left>
+  <Top>0</Top>
+  <LayerNr>0</LayerNr>
+  <ActiveColor>
+    <HexColor>#00000000</HexColor>
+  </ActiveColor>
+  <InactiveColor>
+    <HexColor>#00000000</HexColor>
+  </InactiveColor>
+  <FadeMode>Fade</FadeMode>
+  <Density>10</Density>
+  <MinFlickerDurationMs>60</MinFlickerDurationMs>
+  <MaxFlickerDurationMs>150</MaxFlickerDurationMs>
+</RGBAMatrixColorFlickerEffect>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorFlickerEffect_properties Properties
+
+RGBAMatrixColorFlickerEffect has the following 13 configurable properties:
+
+\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorFlickerEffect_ActiveColor ActiveColor
+
+The active color.
+
+
+
+__Nested Properties__
+
+The following nested propteries exist for ActiveColor:
+* __HexColor__<br/>  6 digit hexadecimal color code with leading  #(e.g. #ff0000 for red).
+
+
+\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorFlickerEffect_Density Density
+
+The density if the flickering in percent.
+
+
+
+\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorFlickerEffect_FadeMode FadeMode
+
+Fade (active and inactive color will fade depending on trigger value) or OnOff (actvice color is used for triger values &gt;0, otherwise inactive color will be used).
+
+
+
+The property FadeMode accepts the following values:
+
+* Fade
+* OnOff
+
+__Valid values__
+
+The property FadeMode accepts the following values:
+
+* Fade
+* OnOff
+\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorFlickerEffect_Height Height
+
+The height in percent of the target area for the effect (0-100).
+
+
+
+\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorFlickerEffect_InactiveColor InactiveColor
+
+The inactive color.
+
+
+
+__Nested Properties__
+
+The following nested propteries exist for InactiveColor:
+* __HexColor__<br/>  6 digit hexadecimal color code with leading  #(e.g. #ff0000 for red).
+
+
+\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorFlickerEffect_LayerNr LayerNr
+
+The number of the target layer for the effect.
+
+
+
+\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorFlickerEffect_Left Left
+
+The left resp. X position of the upper left corner in percent of the target area for the effect (0-100).
+
+
+
+\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorFlickerEffect_MaxFlickerDurationMs MaxFlickerDurationMs
+
+The max duration in milliseconds for a single flicker/blink of a led.
+
+
+
+\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorFlickerEffect_MinFlickerDurationMs MinFlickerDurationMs
+
+The min duration in milliseconds for a single flicker/blink of a led.
+
+
+
+\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorFlickerEffect_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorFlickerEffect_Top Top
+
+The top resp. Y position of the upper left corner in percent of the target area for the effect (0-100).
+
+
+
+\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorFlickerEffect_ToyName ToyName
+
+The name of the toy which is controlled by the effect.
+
+
+
+\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorFlickerEffect_Width Width
+
+The width in percent of the target area for the effect (0-100).
 
 
 
@@ -551,11 +689,12 @@ A configuration section for RGBAMatrixColorShiftEffect might resemble the follow
   <FadeMode>Fade</FadeMode>
   <ShiftDirection>Right</ShiftDirection>
   <ShiftSpeed>200</ShiftSpeed>
+  <ShiftAcceleration>0</ShiftAcceleration>
 </RGBAMatrixColorShiftEffect>
 ~~~~~~~~~~~~~
 \subsection use_DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorShiftEffect_properties Properties
 
-RGBAMatrixColorShiftEffect has the following 12 configurable properties:
+RGBAMatrixColorShiftEffect has the following 13 configurable properties:
 
 \subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorShiftEffect_ActiveColor ActiveColor
 
@@ -588,7 +727,7 @@ The property FadeMode accepts the following values:
 * OnOff
 \subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorShiftEffect_Height Height
 
-The height of the target area for the effect (0-100).
+The height in percent of the target area for the effect (0-100).
 
 
 
@@ -612,13 +751,19 @@ The number of the target layer for the effect.
 
 \subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorShiftEffect_Left Left
 
-The left resp. X position of the upper left corner of the target area for the effect (0-100).
+The left resp. X position of the upper left corner in percent of the target area for the effect (0-100).
 
 
 
 \subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorShiftEffect_Name Name
 
 The name of the item.
+
+
+
+\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorShiftEffect_ShiftAcceleration ShiftAcceleration
+
+The acceleration for the shift speed in percent of the effect area per second.
 
 
 
@@ -651,7 +796,7 @@ The shift speed in percentage of the effect area (Left, Top, Width, Height prope
 
 \subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorShiftEffect_Top Top
 
-The top resp. Y position of the upper left corner of the target area for the effect (0-100).
+The top resp. Y position of the upper left corner in percent of the target area for the effect (0-100).
 
 
 
@@ -663,7 +808,7 @@ The name of the toy which is controlled by the effect.
 
 \subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorShiftEffect_Width Width
 
-The width of the target area for the effect (0-100).
+The width in percent of the target area for the effect (0-100).
 
 
 

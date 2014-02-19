@@ -187,48 +187,6 @@ The number of the Dmx universe.
 
 
 
-\section use_DirectOutput_Cab_Out_SainSmart_SainSmartIO SainSmartIO
-
-\subsection use_DirectOutput_Cab_Out_SainSmart_SainSmartIO_summary Summary
-
-The SainSmart is a output controller with 4 or more relay outputs
-
-The framework supports auto detection and configuration of these units.
-
-This unit is made and sold by <a target="_blank" href="http://www.sainsmart.com">Ultimarc</a>.
-
-The implemention of the SainSmartIO driver uses a separate thread per connected unit to ensure max. performance.
-
-\image html SainSmartIOLogo.png
-
-
-
-\subsection use_DirectOutput_Cab_Out_SainSmart_SainSmartIO_samplexml Sample XML
-
-A configuration section for SainSmartIO might resemble the following structure:
-
-~~~~~~~~~~~~~{.xml}
-<SainSmartIO>
-  <Name>Name of SainSmartIO</Name>
-  <Id>-1</Id>
-</SainSmartIO>
-~~~~~~~~~~~~~
-\subsection use_DirectOutput_Cab_Out_SainSmart_SainSmartIO_properties Properties
-
-SainSmartIO has the following 2 configurable properties:
-
-\subsubsection DirectOutput_Cab_Out_SainSmart_SainSmartIO_Id Id
-
-The unique Id of the SainSmartIO (Range 1-4).
-
-
-
-\subsubsection DirectOutput_Cab_Out_SainSmart_SainSmartIO_Name Name
-
-The name of the item.
-
-
-
 \section use_DirectOutput_Cab_Out_Pac_PacDrive PacDrive
 
 \subsection use_DirectOutput_Cab_Out_Pac_PacDrive_summary Summary
@@ -288,6 +246,45 @@ NullOutputController has the following 1 configurable properties:
 \subsubsection DirectOutput_Cab_Out_NullOutputController_NullOutputController_Name Name
 
 The name of the item.
+
+
+
+\section use_DirectOutput_Cab_Out_FTDIChip_FT245RBitbangController FT245RBitbangController
+
+\subsection use_DirectOutput_Cab_Out_FTDIChip_FT245RBitbangController_summary Summary
+
+This is a generic output controller class which are based on the FT245R chip (http://www.ftdichip.com/Products/ICs/FT245R.htm). Only units using the chip in bitbang mode are supported by this output controller class.
+The SainSmart USB relay boards (http://www.sainsmart.com/arduino-compatibles-1/relay/usb-relay.html) are compatible with this output controller, but other hardware which is based on the same controller chip might be compatible as well. Generally controller units which is exclusively using the FT245R (no extra cpu on board) and having max. 8 output ports are likely to be compatible. Please let me know, if you have tested other hardware successfully, so I can ammend the docu.
+
+ \image html SainSmart8PortUsbRelay.jpg SainSmart 8port USB relay board
+
+ Thanks go to <a href="http://vpuniverse.com/forums/user/3117-djrobx/">DJRobX</a> for his early implementation of a SainSmart output controller which was the starting point for the implementation of this class.
+
+
+
+\subsection use_DirectOutput_Cab_Out_FTDIChip_FT245RBitbangController_samplexml Sample XML
+
+A configuration section for FT245RBitbangController might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<FT245RBitbangController>
+  <Name>Name of FT245RBitbangController</Name>
+  <SerialNumber>SerialNumber string</SerialNumber>
+</FT245RBitbangController>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_Cab_Out_FTDIChip_FT245RBitbangController_properties Properties
+
+FT245RBitbangController has the following 2 configurable properties:
+
+\subsubsection DirectOutput_Cab_Out_FTDIChip_FT245RBitbangController_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_Cab_Out_FTDIChip_FT245RBitbangController_SerialNumber SerialNumber
+
+The serial number of the FT245R chip which is to be controlled.
 
 
 
