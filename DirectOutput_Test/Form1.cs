@@ -67,7 +67,7 @@ namespace DirectOutput_Test
             Table T = new Table();
             T.Effects.Add(new RGBAMatrixColorEffect() { Name = "SetColor", ToyName = "Strip 1", FadeMode = FadeModeEnum.Fade, ActiveColor = new DirectOutput.General.Color.RGBAColor("#0000ffff"), Top = 15, Left = 20, Width = 60, Height = 70, LayerNr = 1 });
 
-            T.Effects.Add(new RGBAMatrixColorFlickerEffect() {  Name = "Flicker", ToyName = "Strip 1", FadeMode = FadeModeEnum.Fade, ActiveColor = new DirectOutput.General.Color.RGBAColor("#ffffff80"), Top = 15, Left = 20, Width = 60, Height = 70, LayerNr = 3,Density=50,MinFlickerDurationMs=30,MaxFlickerDurationMs=50 });
+            T.Effects.Add(new RGBAMatrixColorFlickerEffect() {  Name = "Flicker", ToyName = "Strip 1", FadeMode = FadeModeEnum.Fade, ActiveColor = new DirectOutput.General.Color.RGBAColor("#ffffff80"), Top = 15, Left = 20, Width = 60, Height = 70, LayerNr = 3,Density=50,MinFlickerDurationMs=30,MaxFlickerDurationMs=300 });
             T.Effects.Add(new RGBAMatrixColorShiftEffect() { Name = "ShiftColor2", ToyName = "Strip 2", FadeMode = FadeModeEnum.Fade, ActiveColor = new DirectOutput.General.Color.RGBAColor("#00ff00ff"), ShiftSpeed = 4, Top = 0, Left = 20, Width = 60, Height = 100, LayerNr = 2 });
 
 
