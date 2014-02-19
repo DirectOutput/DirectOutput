@@ -104,6 +104,7 @@ namespace DirectOutput.LedControl.Loader
                 {
                     RGBAColor C = new RGBAColor();
                     if(C.SetColor(NameValues[1])) {
+                        Name = NameValues[0];
                         Red=C.Red;
                         Green=C.Green;
                         Blue=C.Blue;
