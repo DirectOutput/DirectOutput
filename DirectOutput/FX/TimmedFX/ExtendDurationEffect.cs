@@ -21,7 +21,7 @@ namespace DirectOutput.FX.TimmedFX
         public int DurationMs
         {
             get { return _DurationMs; }
-            set { _DurationMs = value.Limit(0, 500); }
+            set { _DurationMs = value.Limit(0, int.MaxValue); }
         }
 
 
