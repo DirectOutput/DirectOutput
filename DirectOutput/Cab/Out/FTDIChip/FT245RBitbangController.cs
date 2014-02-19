@@ -11,7 +11,9 @@ namespace DirectOutput.Cab.Out.FTDIChip
     /// This is a generic output controller class which are based on the FT245R chip (http://www.ftdichip.com/Products/ICs/FT245R.htm). Only units using the chip in bitbang mode are supported by this output controller class.
     /// The SainSmart USB relay boards (http://www.sainsmart.com/arduino-compatibles-1/relay/usb-relay.html) are compatible with this output controller, but other hardware which is based on the same controller chip might be compatible as well. Generally controller units which is exclusively using the FT245R (no extra cpu on board) and having max. 8 output ports are likely to be compatible. Please let me know, if you have tested other hardware successfully, so I can ammend the docu.
     ///
-    ///  \image html SainSmart8PortUsbRelay.jpg SainSmart 8port USB relay board 
+    ///  \image html SainSmart8PortUsbRelay.jpg SainSmart 8port USB relay board
+    ///  
+    ///  Thanks go to <a href="http://vpuniverse.com/forums/user/3117-djrobx/">DJRobX</a> for his early implementation of a SainSmart output controller which was the starting point for the implementation of this class.
     /// </summary>
     public class FT245RBitbangController : OutputControllerBase, IOutputController
     {

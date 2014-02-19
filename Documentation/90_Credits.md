@@ -39,9 +39,13 @@ The code for the LedWiz class is based on the implementation in the LedWiz SDK.
 
 Ultimarc/PacDrive/PacLed64
 --------
-The drivers for the PacDrive and the PacLed64 as well as testing hardware has be provided by Andy from <a target="_blank" href="http://www.ultimarc.com/">Ultimarc</a>.
+The drivers for the PacDrive and the PacLed64 as well as testing hardware has been provided by Andy from <a target="_blank" href="http://www.ultimarc.com/">Ultimarc</a>.
 
 \image html PacLed64logo.png
+
+SainSmart support
+----------
+Thanks go to <a href="http://vpuniverse.com/forums/user/3117-djrobx/">DJRobX</a> for his early implementation of a SainSmart output controller which was the starting point for the implementation of the generic FT245RBitbangController class.
 
 CSScript
 --------

@@ -110,10 +110,6 @@
     <Compile Include="Cab\Out\Pac\PacLed64AutoConfigurator.cs" />
     <Compile Include="Cab\Out\FTDIChip\FTD2XX_NET.cs" />
     <Compile Include="Cab\Out\AdressableLedStrip\WS2811StripControllerApi.cs" />
-    <Compile Include="Cab\Out\SainSmart\relayBoard.cs" />
-    <Compile Include="Cab\Out\SainSmart\SainSmart.cs" />
-    <Compile Include="Cab\Out\SainSmart\SainSmartAutoConfigurator.cs" />
-    <Compile Include="Cab\Out\SainSmart\SainSmartIO.cs" />
     <Compile Include="Cab\Toys\Basic\Basic.cs" />
     <Compile Include="Cab\Toys\Basic\GearMotor.cs" />
     <Compile Include="Cab\Toys\Basic\IRGBToy.cs" />
