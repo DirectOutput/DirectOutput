@@ -98,6 +98,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
         /// <value>
         /// The max duration in milliseconds for a single flicker/blink of a led.
         /// </value>
+
         public int MaxFlickerDurationMs
         {
             get { return _MaxFlickerDurationMs; }
@@ -110,7 +111,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
         /// <value>
         ///   <c>true</c> if active; otherwise, <c>false</c>.
         /// </value>
-        public bool Active { get; private set; }
+        private bool Active { get; set; }
 
 
         private SortedDictionary<int, List<System.Drawing.Point>> PixelDictionary = new SortedDictionary<int, List<System.Drawing.Point>>();
