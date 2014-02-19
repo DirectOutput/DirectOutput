@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO.Ports;
 using System.Threading;
+using DirectOutput.Cab.Out.FTDIChip;
 
 namespace DirectOutput.Cab.Out.AdressableLedStrip
 {

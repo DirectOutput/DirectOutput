@@ -74,9 +74,6 @@
     <Reference Include="CSScriptLibrary">
       <HintPath>..\..\..\..\Downloads\CSScript\cs-script\cs-script\Lib\Bin\NET 4.0\CSScriptLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="FTD2XX_NET">
-      <HintPath>..\..\..\..\Desktop\DOF-Sainsmart\DOF-Sainsmart\FTD2XX_NET.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -93,6 +90,8 @@
     <Compile Include="Cab\Out\AdressableLedStrip\WS2811StripController.cs" />
     <Compile Include="Cab\Out\DMX\ArtNet.cs" />
     <Compile Include="Cab\Out\DMX\ArtnetEngine\ArtnetEngine.cs" />
+    <Compile Include="Cab\Out\FTDIChip\FT245RBitbangController.cs" />
+    <Compile Include="Cab\Out\FTDIChip\FTDIChip.cs" />
     <Compile Include="Cab\Out\IAutoConfigOutputController.cs" />
     <Compile Include="Cab\Out\IOutputNumbered.cs" />
     <Compile Include="Cab\Out\ISupportsSetValues.cs" />
@@ -109,7 +108,7 @@
     <Compile Include="Cab\Out\Pac\PacLed64.cs" />
     <Compile Include="Cab\Out\Pac\Pac.cs" />
     <Compile Include="Cab\Out\Pac\PacLed64AutoConfigurator.cs" />
-    <Compile Include="Cab\Out\AdressableLedStrip\FTD2XX_NET.cs" />
+    <Compile Include="Cab\Out\FTDIChip\FTD2XX_NET.cs" />
     <Compile Include="Cab\Out\AdressableLedStrip\WS2811StripControllerApi.cs" />
     <Compile Include="Cab\Out\SainSmart\relayBoard.cs" />
     <Compile Include="Cab\Out\SainSmart\SainSmart.cs" />

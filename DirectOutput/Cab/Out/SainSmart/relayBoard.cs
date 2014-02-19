@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FTD2XX_NET;
+using DirectOutput.Cab.Out.FTDIChip;
+
 
 namespace DirectOutput.Cab.Out.SainSmart
 {
@@ -110,7 +111,7 @@ namespace DirectOutput.Cab.Out.SainSmart
                 ftStatus = myFtdiDevice.SetBaudRate(9600);
 
                 // Set FT245RL to synchronous bit-bang mode, used on sainsmart relay board
-                myFtdiDevice.SetBitMode(0xFF, FTD2XX_NET.FTDI.FT_BIT_MODES.FT_BIT_MODE_SYNC_BITBANG);
+                myFtdiDevice.SetBitMode(0xFF, FTDI.FT_BIT_MODES.FT_BIT_MODE_SYNC_BITBANG);
                 // Switch off all the relays
                 myFtdiDevice.Write(startup, 1, ref bytesToSend);
 

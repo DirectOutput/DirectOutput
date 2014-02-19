@@ -32,7 +32,7 @@ using System.Threading;
 using System.IO;
 using System.ComponentModel;
 
-namespace DirectOutput.Cab.Out.AdressableLedStrip
+namespace DirectOutput.Cab.Out.FTDIChip
 {
     /// <summary>
     /// Class wrapper for FTD2XX.DLL
@@ -6401,6 +6401,12 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         #endregion
 
         #region HELPER_METHODS
+
+        public void ErrorHandler(FT_STATUS ftStatus)
+        {
+            ErrorHandler(ftStatus, FT_ERROR.FT_NO_ERROR);
+        }
+
         //**************************************************************************
         // ErrorHandler
         //**************************************************************************
