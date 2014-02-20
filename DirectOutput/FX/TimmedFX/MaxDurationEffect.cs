@@ -70,6 +70,7 @@ namespace DirectOutput.FX.TimmedFX
                 {
                     TriggerTargetEffect(TableElementData);
                     UntriggerData=TableElementData;
+                    UntriggerData.Value = 0;
                     Table.Pinball.Alarms.RegisterAlarm(MaxDurationMs, DurationEnd);
                     Active = true;
                 }
