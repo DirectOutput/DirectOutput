@@ -12,7 +12,7 @@ namespace DirectOutput.FX.TimmedFX
     /// </summary>
    public class MaxDurationEffect:EffectEffectBase
     {
-        private RetriggerBehaviourEnum _RetriggerBehaviour = RetriggerBehaviourEnum.Ignore;
+        private RetriggerBehaviourEnum _RetriggerBehaviour = RetriggerBehaviourEnum.Restart;
 
         /// <summary>
         /// Gets or sets the retrigger behaviour.<br/>
