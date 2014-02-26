@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using DirectOutput.Cab.Out;
 using DirectOutput.General.Color;
+using DirectOutput.General;
 
 namespace DirectOutput.Cab.Toys.Layer
 {
@@ -59,6 +60,53 @@ namespace DirectOutput.Cab.Toys.Layer
         #endregion
 
 
+        #region Fading curve
+        private string _FadingCurveName = "Linear";
+        private Curve FadingCurve = null;
+
+        /// <summary>
+        /// Gets or sets the name of the fading curve as defined in the Curves list of the cabinet object.
+        /// This curve can be used to adjust the brightness values for the led to the brightness perception of the human eye.
+        /// </summary>
+        /// <value>
+        /// The name of the fading curve.
+        /// </value>
+        public string FadingCurveName
+        {
+            get { return _FadingCurveName; }
+            set { _FadingCurveName = value; }
+        }
+
+        private void InitFadingCurve(Cabinet Cabinet)
+        {
+            if (Cabinet.Curves.Contains(FadingCurveName))
+            {
+                FadingCurve = Cabinet.Curves[FadingCurveName];
+            }
+            else if (!FadingCurveName.IsNullOrWhiteSpace())
+            {
+                if (Enum.GetNames(typeof(Curve.CurveTypeEnum)).Contains(FadingCurveName))
+                {
+                    Curve.CurveTypeEnum T = Curve.CurveTypeEnum.Linear;
+                    Enum.TryParse(FadingCurveName, out T);
+                    FadingCurve = new Curve(T);
+                }
+                else
+                {
+                    FadingCurve = new Curve(Curve.CurveTypeEnum.Linear) { Name = FadingCurveName };
+                    Cabinet.Curves.Add(FadingCurveName);
+                }
+            }
+            else
+            {
+                FadingCurve = new Curve(Curve.CurveTypeEnum.Linear);
+            }
+
+        } 
+        #endregion
+
+
+
         private Cabinet _Cabinet;
         #region Init
         /// <summary>
@@ -68,6 +116,7 @@ namespace DirectOutput.Cab.Toys.Layer
         public override void Init(Cabinet Cabinet)
         {
             _Cabinet = Cabinet;
+            InitFadingCurve(Cabinet);
             InitOutputs(Cabinet);
         }
 
@@ -127,15 +176,15 @@ namespace DirectOutput.Cab.Toys.Layer
             RGBColor RGB = Layers.GetResultingColor();
             if (_OutputRed != null)
             {
-                _OutputRed.Value = (byte)RGB.Red;
+                _OutputRed.Value = FadingCurve.MapValue(RGB.Red);
             }
             if (_OutputGreen != null)
             {
-                _OutputGreen.Value = (byte)RGB.Green;
+                _OutputGreen.Value =  FadingCurve.MapValue(RGB.Green);
             }
             if (_OutputBlue != null)
             {
-                _OutputBlue.Value = (byte)RGB.Blue;
+                _OutputBlue.Value =  FadingCurve.MapValue(RGB.Blue);
             }
         }
 
