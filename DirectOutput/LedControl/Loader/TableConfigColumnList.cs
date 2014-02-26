@@ -19,8 +19,6 @@ namespace DirectOutput.LedControl.Loader
         /// No data to parse found in LedControlData: {0}
         /// or
         /// Exception(s) accorud when parsing {0}
-        /// or
-        /// To many outputs (>32) are configured in the following line {1}
         /// </exception>
         public void ParseControlData(string LedControlData, bool ThrowExceptions = false)
         {
