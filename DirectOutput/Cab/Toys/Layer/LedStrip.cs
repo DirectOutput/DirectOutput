@@ -121,7 +121,7 @@ namespace DirectOutput.Cab.Toys.Layer
 
         /// <summary>
         /// Gets or sets the name of the fading curve as defined in the Curves list of the cabinet object.
-        /// This curve can be used to adjust the brightness values for ther led to the brightness perception of the human eye.
+        /// This curve can be used to adjust the brightness values for the led to the brightness perception of the human eye.
         /// </summary>
         /// <value>
         /// The name of the fading curve.
