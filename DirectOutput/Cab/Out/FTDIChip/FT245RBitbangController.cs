@@ -309,7 +309,7 @@ namespace DirectOutput.Cab.Out.FTDIChip
                 {
                     lock (UpdaterThreadLocker)
                     {
-                        while (NewValue != CurrentValue && KeepUpdaterThreadAlive)
+                        while (NewValue == CurrentValue && KeepUpdaterThreadAlive)
                         {
                             Monitor.Wait(UpdaterThreadLocker, 50);  // Lock is released while we’re waiting
                         }
