@@ -87,7 +87,7 @@ namespace DirectOutput.Cab.Out.FTDIChip
 
         /// <summary>
         /// This method is called whenever the value of a output in the Outputs property changes its value.<br />
-        /// It updates the internal array holding the states of the PacDrive outputs.
+        /// It updates the internal array holding the states of the outputs.
         /// </summary>
         /// <param name="Output">The output which has changed.</param>
         /// <exception cref="System.Exception">
