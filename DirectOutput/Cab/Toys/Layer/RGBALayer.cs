@@ -88,6 +88,12 @@ namespace DirectOutput.Cab.Toys.Layer
             Set(RGB.Red, RGB.Green, RGB.Blue);
         }
 
+
+        public void Set(RGBAData RGBAData) {
+            Set(RGBAData.Red,RGBAData.Green,RGBAData.Blue,RGBAData.Alpha);
+
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="RGBALayer"/> class.
         /// </summary>
@@ -125,6 +131,8 @@ namespace DirectOutput.Cab.Toys.Layer
             Set(RGBA.Red, RGBA.Green, RGBA.Blue, RGBA.Alpha);
         }
 
+        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="RGBALayer"/> class.<br/>
         /// The alpha value is set to 0, if all color components are set to 0, otherwise the alpha value will be set to 255.
@@ -134,5 +142,7 @@ namespace DirectOutput.Cab.Toys.Layer
         {
             Set(RGB.Red, RGB.Green, RGB.Blue);
         }
+
+        
     }
 }

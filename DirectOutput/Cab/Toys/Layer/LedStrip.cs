@@ -180,7 +180,7 @@ namespace DirectOutput.Cab.Toys.Layer
         /// The layers dictionary of the toy.
         /// </value>
         [XmlIgnore]
-        public LedStripLayerDictionary Layers { get; private set; }
+        public RGBAMatrixDictionary Layers { get; private set; }
 
 
         #region IToy methods
@@ -203,7 +203,7 @@ namespace DirectOutput.Cab.Toys.Layer
             OutputData = new byte[NumberOfOutputs];
             InitFadingCurve(Cabinet);
 
-            Layers = new LedStripLayerDictionary() { Width = Width, Height = Height };
+            Layers = new RGBAMatrixDictionary() { Width = Width, Height = Height };
         }
 
 
@@ -457,7 +457,7 @@ namespace DirectOutput.Cab.Toys.Layer
         /// </summary>
         public LedStrip()
         {
-            Layers = new LedStripLayerDictionary();
+            Layers = new RGBAMatrixDictionary();
 
 
         }
