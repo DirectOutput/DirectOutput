@@ -100,7 +100,15 @@ namespace DirectOutput.Cab.Toys.Layer
             Layers = new RGBAMatrixDictionary() { Width = Width, Height = Height };
         }
 
-
+        /// <summary>
+        /// Finished the toy, releases references to toys and layers.
+        /// </summary>
+        public override void Finish()
+        {
+            base.Finish();
+            Layers = null;
+            RGBAToys = null;
+        }
 
 
 
