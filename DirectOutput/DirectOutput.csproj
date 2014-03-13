@@ -71,6 +71,9 @@
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ciloci.Flee">
+      <HintPath>..\packages\fleesharp.0.9.27-pre\lib\net40\Ciloci.Flee.dll</HintPath>
+    </Reference>
     <Reference Include="CSScriptLibrary">
       <HintPath>..\..\..\..\Downloads\CSScript\cs-script\cs-script\Lib\Bin\NET 4.0\CSScriptLibrary.dll</HintPath>
     </Reference>
@@ -380,6 +383,7 @@
     <None Include="FX\FX.cd" />
     <None Include="LedControl\Loader\LedControl.cd" />
     <None Include="Main.cd" />
+    <None Include="packages.config" />
     <None Include="Properties\DataSources\DirectOutput.GlobalConfig.Config.datasource" />
     <None Include="Properties\DataSources\DirectOutput.GlobalConfig.FilePatternList.datasource" />
     <None Include="Properties\DataSources\DirectOutput.GlobalConfig.GlobalConfigEditor.datasource" />
