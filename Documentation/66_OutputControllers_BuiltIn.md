@@ -137,6 +137,43 @@ The name of the item.
 
 
 
+\section use_DirectOutput_Cab_Out_FTDIChip_FT245RBitbangController FT245RBitbangController
+
+\subsection use_DirectOutput_Cab_Out_FTDIChip_FT245RBitbangController_summary Summary
+
+This is a generic output controller class which are based on the FT245R chip (http://www.ftdichip.com/Products/ICs/FT245R.htm). Only units using the chip in bitbang mode are supported by this output controller class.
+The SainSmart USB relay boards (http://www.sainsmart.com/arduino-compatibles-1/relay/usb-relay.html) are compatible with this output controller, but other hardware which is based on the same controller chip might be compatible as well. Generally controller units which is exclusively using the FT245R (no extra cpu on board) and having max. 8 output ports are likely to be compatible. Please let me know, if you have tested other hardware successfully, so I can ammend the docu.
+\image html SainSmart8PortUsbRelay.jpg SainSmart 8port USB relay board
+Thanks go to <a href="http://vpuniverse.com/forums/user/3117-djrobx/">DJRobX</a> for his early implementation of a SainSmart output controller which was the starting point for the implementation of this class.
+
+
+
+\subsection use_DirectOutput_Cab_Out_FTDIChip_FT245RBitbangController_samplexml Sample XML
+
+A configuration section for FT245RBitbangController might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<FT245RBitbangController>
+  <Name>Name of FT245RBitbangController</Name>
+  <SerialNumber>SerialNumber string</SerialNumber>
+</FT245RBitbangController>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_Cab_Out_FTDIChip_FT245RBitbangController_properties Properties
+
+FT245RBitbangController has the following 2 configurable properties:
+
+\subsubsection DirectOutput_Cab_Out_FTDIChip_FT245RBitbangController_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_Cab_Out_FTDIChip_FT245RBitbangController_SerialNumber SerialNumber
+
+The serial number of the FT245R chip which is to be controlled.
+
+
+
 \section use_DirectOutput_Cab_Out_DMX_ArtNet ArtNet
 
 \subsection use_DirectOutput_Cab_Out_DMX_ArtNet_summary Summary
@@ -246,45 +283,6 @@ NullOutputController has the following 1 configurable properties:
 \subsubsection DirectOutput_Cab_Out_NullOutputController_NullOutputController_Name Name
 
 The name of the item.
-
-
-
-\section use_DirectOutput_Cab_Out_FTDIChip_FT245RBitbangController FT245RBitbangController
-
-\subsection use_DirectOutput_Cab_Out_FTDIChip_FT245RBitbangController_summary Summary
-
-This is a generic output controller class which are based on the FT245R chip (http://www.ftdichip.com/Products/ICs/FT245R.htm). Only units using the chip in bitbang mode are supported by this output controller class.
-The SainSmart USB relay boards (http://www.sainsmart.com/arduino-compatibles-1/relay/usb-relay.html) are compatible with this output controller, but other hardware which is based on the same controller chip might be compatible as well. Generally controller units which is exclusively using the FT245R (no extra cpu on board) and having max. 8 output ports are likely to be compatible. Please let me know, if you have tested other hardware successfully, so I can ammend the docu.
-
- \image html SainSmart8PortUsbRelay.jpg SainSmart 8port USB relay board
-
- Thanks go to <a href="http://vpuniverse.com/forums/user/3117-djrobx/">DJRobX</a> for his early implementation of a SainSmart output controller which was the starting point for the implementation of this class.
-
-
-
-\subsection use_DirectOutput_Cab_Out_FTDIChip_FT245RBitbangController_samplexml Sample XML
-
-A configuration section for FT245RBitbangController might resemble the following structure:
-
-~~~~~~~~~~~~~{.xml}
-<FT245RBitbangController>
-  <Name>Name of FT245RBitbangController</Name>
-  <SerialNumber>SerialNumber string</SerialNumber>
-</FT245RBitbangController>
-~~~~~~~~~~~~~
-\subsection use_DirectOutput_Cab_Out_FTDIChip_FT245RBitbangController_properties Properties
-
-FT245RBitbangController has the following 2 configurable properties:
-
-\subsubsection DirectOutput_Cab_Out_FTDIChip_FT245RBitbangController_Name Name
-
-The name of the item.
-
-
-
-\subsubsection DirectOutput_Cab_Out_FTDIChip_FT245RBitbangController_SerialNumber SerialNumber
-
-The serial number of the FT245R chip which is to be controlled.
 
 
 

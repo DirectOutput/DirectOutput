@@ -432,11 +432,18 @@ A configuration section for AnalogAlphaToy might resemble the following structur
 <AnalogAlphaToy>
   <Name>Name of AnalogAlphaToy</Name>
   <OutputName>Name of Output</OutputName>
+  <FadingCurveName>Linear</FadingCurveName>
 </AnalogAlphaToy>
 ~~~~~~~~~~~~~
 \subsection use_DirectOutput_Cab_Toys_Layer_AnalogAlphaToy_properties Properties
 
-AnalogAlphaToy has the following 2 configurable properties:
+AnalogAlphaToy has the following 3 configurable properties:
+
+\subsubsection DirectOutput_Cab_Toys_Layer_AnalogAlphaToy_FadingCurveName FadingCurveName
+
+The name of the fading curve.
+
+
 
 \subsubsection DirectOutput_Cab_Toys_Layer_AnalogAlphaToy_Name Name
 
@@ -611,11 +618,18 @@ A configuration section for RGBAToy might resemble the following structure:
   <OutputNameRed>OutputNameRed string</OutputNameRed>
   <OutputNameGreen>OutputNameGreen string</OutputNameGreen>
   <OutputNameBlue>OutputNameBlue string</OutputNameBlue>
+  <FadingCurveName>Linear</FadingCurveName>
 </RGBAToy>
 ~~~~~~~~~~~~~
 \subsection use_DirectOutput_Cab_Toys_Layer_RGBAToy_properties Properties
 
-RGBAToy has the following 4 configurable properties:
+RGBAToy has the following 5 configurable properties:
+
+\subsubsection DirectOutput_Cab_Toys_Layer_RGBAToy_FadingCurveName FadingCurveName
+
+The name of the fading curve.
+
+
 
 \subsubsection DirectOutput_Cab_Toys_Layer_RGBAToy_Name Name
 
@@ -638,6 +652,36 @@ Name of the IOutput for green.
 \subsubsection DirectOutput_Cab_Toys_Layer_RGBAToy_OutputNameRed OutputNameRed
 
 Name of the IOutput for red.
+
+
+
+\section use_DirectOutput_Cab_Toys_Layer_RGBAToyGroup RGBAToyGroup
+
+\subsection use_DirectOutput_Cab_Toys_Layer_RGBAToyGroup_summary Summary
+
+This toys allows the grouping of several RGBA toys into a matrix, which can be controlled by the RGBAMatrix effects.
+
+
+
+\subsection use_DirectOutput_Cab_Toys_Layer_RGBAToyGroup_properties Properties
+
+RGBAToyGroup has the following 3 configurable properties:
+
+\subsubsection DirectOutput_Cab_Toys_Layer_RGBAToyGroup_LayerOffset LayerOffset
+
+The layer offset which defines a fixed positive or negative offset to the layers which are controlled on the target toy..
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Layer_RGBAToyGroup_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Layer_RGBAToyGroup_RGBAToyNames RGBAToyNames
+
+The 2 dimensional array of RGBA toy names.
 
 
 

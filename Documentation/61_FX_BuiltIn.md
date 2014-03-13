@@ -1129,7 +1129,7 @@ A configuration section for MaxDurationEffect might resemble the following struc
 <MaxDurationEffect>
   <Name>Name of MaxDurationEffect</Name>
   <TargetEffectName>Name of TargetEffect</TargetEffectName>
-  <RetriggerBehaviour>Ignore</RetriggerBehaviour>
+  <RetriggerBehaviour>Restart</RetriggerBehaviour>
   <MaxDurationMs>500</MaxDurationMs>
 </MaxDurationEffect>
 ~~~~~~~~~~~~~
@@ -1192,7 +1192,7 @@ A configuration section for MinDurationEffect might resemble the following struc
 <MinDurationEffect>
   <Name>Name of MinDurationEffect</Name>
   <TargetEffectName>Name of TargetEffect</TargetEffectName>
-  <RetriggerBehaviour>Ignore</RetriggerBehaviour>
+  <RetriggerBehaviour>Restart</RetriggerBehaviour>
   <MinDurationMs>500</MinDurationMs>
 </MinDurationEffect>
 ~~~~~~~~~~~~~
