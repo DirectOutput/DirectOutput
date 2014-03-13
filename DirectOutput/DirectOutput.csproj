@@ -122,6 +122,7 @@
     </Content>
     <Compile Include="Cab\Toys\Basic\ILampToy.cs" />
     <Compile Include="Cab\Toys\Layer\RGBAToyGroup.cs" />
+    <Compile Include="FX\ConditionFX\ConditionFX.cs" />
     <Compile Include="FX\RGBAMatrixFX\RGBAMatrixColorFlickerEffect.cs" />
     <Compile Include="FX\TimmedFX\MaxDurationEffect.cs" />
     <Compile Include="FX\ValueFX\ValueFX.cs" />
