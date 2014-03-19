@@ -37,21 +37,17 @@ namespace DirectOutput.LedControl.Loader
         /// </value>
         public ColorConfig ColorConfig { get; set; }
 
-        /// <summary>
-        /// Gets or sets the type of the table element controlling a output.
-        /// </summary>
-        /// <value>
-        /// The type of the table element.
-        /// </value>
-        public TableElementTypeEnum TableElementType { get; set; }
-        /// <summary>
-        /// Gets or sets the number of the table element controlling a output.
-        /// </summary>
-        /// <value>
-        /// The table element number.
-        /// </value>
-        public int TableElementNumber { get; set; }
 
+        /// <summary>
+        /// The table element triggering the effect (if available)
+        /// </summary>
+        public string TableElement = null;
+
+
+        /// <summary>
+        /// The condition if available.
+        /// </summary>
+        public string Condition = null;
 
 
         /// <summary>
@@ -77,7 +73,7 @@ namespace DirectOutput.LedControl.Loader
         /// </value>
         public int DurationMs { get; set; }
 
-        private int _MinDurationMs=0;
+        private int _MinDurationMs = 0;
 
         /// <summary>
         /// Gets or sets the minimum duration in milliseconds.
@@ -88,7 +84,7 @@ namespace DirectOutput.LedControl.Loader
         public int MinDurationMs
         {
             get { return _MinDurationMs; }
-                set { _MinDurationMs = value; }
+            set { _MinDurationMs = value; }
         }
 
 
@@ -174,7 +170,7 @@ namespace DirectOutput.LedControl.Loader
         /// <value>
         /// The blink interval in milliseconds for nested blinking.
         /// </value>
-        public int BlinkIntervalMsNested{get;set;}
+        public int BlinkIntervalMsNested { get; set; }
 
         private int _BlinkPulseWidthNested = 50;
 
@@ -191,7 +187,7 @@ namespace DirectOutput.LedControl.Loader
             set { _BlinkPulseWidthNested = value.Limit(1, 99); }
         }
 
-        private int _BlinkPulseWidth=50;
+        private int _BlinkPulseWidth = 50;
 
         /// <summary>
         /// Gets or sets the width of the blink pulse.
@@ -203,7 +199,7 @@ namespace DirectOutput.LedControl.Loader
         public int BlinkPulseWidth
         {
             get { return _BlinkPulseWidth; }
-            set { _BlinkPulseWidth = value.Limit(1,99); }
+            set { _BlinkPulseWidth = value.Limit(1, 99); }
         }
 
         /// <summary>
@@ -238,13 +234,13 @@ namespace DirectOutput.LedControl.Loader
         /// <value>
         /// The layer for the settings.
         /// </value>
-        public int? Layer{get;set;}
+        public int? Layer { get; set; }
 
 
-        public int AreaLeft=0;
-        public int AreaTop=0;
+        public int AreaLeft = 0;
+        public int AreaTop = 0;
         public int AreaWidth = 100;
-        public int AreaHeight=100;
+        public int AreaHeight = 100;
         public int AreaSpeed = 100;
         public int AreaAcceleration = 0;
         public int AreaFlickerDensity = 0;
@@ -252,6 +248,10 @@ namespace DirectOutput.LedControl.Loader
         public int AreaFlickerMaxDurationMs = 0;
         public ShiftDirectionEnum? AreaDirection = null;
         public bool IsArea = false;
+
+
+
+
 
 
         /// <summary>
@@ -265,65 +265,123 @@ namespace DirectOutput.LedControl.Loader
         /// </exception>
         public void ParseSettingData(string SettingData)
         {
+            string S = SettingData.Trim();
 
-            string[] Parts = SettingData.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            if (Parts.Length == 0)
+            if (S.StartsWith("("))
             {
-                Log.Warning("No data to parse.");
+                //It is a condition
 
-                throw new Exception("No data to parse.");
+                int BracketCnt = 1;
+                int ClosingBracketPos = -1;
+                for (int i = 1; i < S.Length; i++)
+                {
+                    if (S[i] == '(') { BracketCnt++; }
+                    else if (S[i] == ')') { BracketCnt--; }
+
+                    if (BracketCnt == 0)
+                    {
+                        ClosingBracketPos = i;
+                        break;
+                    }
+                }
+
+
+                if (ClosingBracketPos > 0)
+                {
+                    Condition = S.Substring(0, ClosingBracketPos + 1);
+                    OutputControl = OutputControlEnum.Condition;
+                    //TODO: Maybe add a check for the condition validity
+
+                }
+                else
+                {
+                    Log.Warning("No closing bracket found for condition in setting {0}.".Build(S));
+
+                    throw new Exception("No closing bracket found for condition in setting {0}.".Build(S));
+                }
+
+
+
 
             }
-            //Get output state and table element (if applicable)
-            bool ParseOK = true;
-            switch (Parts[0].ToUpper())
+            else
             {
-                case "ON":
-                case "1":
-                    OutputControl = OutputControlEnum.FixedOn;
-                    break;
-                case "OFF":
-                case "0":
-                    OutputControl = OutputControlEnum.FixedOff;
-                    break;
-                case "B":
-                    OutputControl = OutputControlEnum.FixedOn;
-                    Blink = -1;
-                    BlinkIntervalMs = 1000;
-                    break;
-                default:
-                    if (Parts[0].Length > 1 && Parts[0].Substring(1).IsInteger())
-                    {
-                        OutputControl = OutputControlEnum.Controlled;
-                        Char C = Parts[0].ToUpper().ToCharArray()[0];
-                        if (Enum.IsDefined(typeof(TableElementTypeEnum), (int)C))
+                //not a condition
+
+                string[] P = SettingData.Split(new char[] { ' ' }, 1, StringSplitOptions.RemoveEmptyEntries);
+                if (P.Length == 0)
+                {
+                    Log.Warning("No data to parse.");
+
+                    throw new Exception("No data to parse.");
+                }
+
+                //Get output state and table element (if applicable)
+                bool ParseOK = true;
+                switch (P[0].ToUpper())
+                {
+                    case "ON":
+                    case "1":
+                        OutputControl = OutputControlEnum.FixedOn;
+                        break;
+                    case "OFF":
+                    case "0":
+                        OutputControl = OutputControlEnum.FixedOff;
+                        break;
+                    case "B":
+                        OutputControl = OutputControlEnum.FixedOn;
+                        Blink = -1;
+                        BlinkIntervalMs = 1000;
+                        break;
+                    default:
+                        if (Enum.IsDefined(typeof(TableElementTypeEnum), (int)P[0][0]))
                         {
-                            TableElementType = (TableElementTypeEnum)C;
+                            //This seems to be a variable
+
+                            string[] ATE = SettingData.Split(new char[] { '@' }, StringSplitOptions.RemoveEmptyEntries );
+                            foreach (string E in ATE)
+                            {
+                                if (E.Length < 2 || !Enum.IsDefined(typeof(TableElementTypeEnum), (int)E[0]) || !E.Substring(1).IsInteger())
+                                {
+                                    ParseOK = false;
+                                    break;
+                                }
+                            }
+
+                            if (ParseOK)
+                            {
+                                TableElement = P[0];
+
+                                OutputControl = OutputControlEnum.Controlled;
+                            }
                         }
                         else
                         {
                             ParseOK = false;
                         }
 
-                        TableElementNumber = Parts[0].Substring(1).ToInteger();
-                    }
-                    else
-                    {
-                        ParseOK = false;
-                    }
 
-                    break;
+
+                        break;
+                }
+                if (!ParseOK)
+                {
+                    Log.Warning("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(P[0], SettingData));
+
+                    throw new Exception("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(P[0], SettingData));
+                }
+
+                //Remove first part
+                S = S.Substring(S.IndexOf(P[0]) + P[0].Length).Trim();
+
             }
-            if (!ParseOK)
-            {
-                Log.Warning("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(Parts[0], SettingData));
 
-                throw new Exception("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(Parts[0], SettingData));
 
-            }
+            string[] Parts = S.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
 
             int IntegerCnt = 0;
-            int PartNr = 1;
+            int PartNr = 0;
 
             while (Parts.Length > PartNr)
             {
@@ -364,7 +422,7 @@ namespace DirectOutput.LedControl.Loader
 
                 else if (Parts[PartNr].Length > 2 && Parts[PartNr].Substring(0, 2).ToUpper() == "AT" && Parts[PartNr].Substring(2).IsInteger())
                 {
-                    AreaTop = Parts[PartNr].Substring(2).ToInteger().Limit(0,100);
+                    AreaTop = Parts[PartNr].Substring(2).ToInteger().Limit(0, 100);
                     IsArea = true;
                 }
                 else if (Parts[PartNr].Length > 2 && Parts[PartNr].Substring(0, 2).ToUpper() == "AL" && Parts[PartNr].Substring(2).IsInteger())
@@ -384,10 +442,10 @@ namespace DirectOutput.LedControl.Loader
                 }
                 else if (Parts[PartNr].Length > 2 && Parts[PartNr].Substring(0, 2).ToUpper() == "AS" && Parts[PartNr].Substring(2).IsInteger())
                 {
-                    AreaSpeed = Parts[PartNr].Substring(2).ToInteger().Limit(1,10000);
+                    AreaSpeed = Parts[PartNr].Substring(2).ToInteger().Limit(1, 10000);
                     IsArea = true;
                 }
-                else if (Parts[PartNr].Length ==3 && Parts[PartNr].Substring(0, 2).ToUpper() == "AD" && Enum.IsDefined(typeof(ShiftDirectionEnum), (int)Parts[PartNr].Substring(2, 1).ToUpper()[0]))
+                else if (Parts[PartNr].Length == 3 && Parts[PartNr].Substring(0, 2).ToUpper() == "AD" && Enum.IsDefined(typeof(ShiftDirectionEnum), (int)Parts[PartNr].Substring(2, 1).ToUpper()[0]))
                 {
 
                     AreaDirection = (ShiftDirectionEnum)Parts[PartNr].Substring(2, 1).ToUpper()[0];
@@ -418,7 +476,7 @@ namespace DirectOutput.LedControl.Loader
                 else if (Parts[PartNr].Length > 2 && Parts[PartNr].ToUpper().Substring(0, 2) == "I#" && Parts[PartNr].Substring(2).IsHexString())
                 {
                     //Intensity setting
-                    Intensity = Parts[PartNr].Substring(2).HexToInt().Limit(0,255);
+                    Intensity = Parts[PartNr].Substring(2).HexToInt().Limit(0, 255);
                 }
                 else if (Parts[PartNr].Length > 1 && Parts[PartNr].ToUpper().Substring(0, 1) == "I" && Parts[PartNr].Substring(1).IsInteger())
                 {
@@ -497,7 +555,7 @@ namespace DirectOutput.LedControl.Loader
                     }
                     IntegerCnt++;
                 }
-                else if (PartNr == 1)
+                else if (PartNr == 0)
                 {
                     //This should be a color
                     ColorName = Parts[PartNr];

@@ -13,6 +13,8 @@ using DirectOutput.LedControl.Loader;
 using DirectOutput.General.Color;
 using DirectOutput.FX.ValueFX;
 using DirectOutput.FX.RGBAMatrixFX;
+using System;
+using DirectOutput.FX.ConditionFX;
 
 namespace DirectOutput.LedControl.Setup
 {
@@ -267,17 +269,42 @@ namespace DirectOutput.LedControl.Setup
                                     }
                                     switch (TCS.OutputControl)
                                     {
+                                        case OutputControlEnum.Condition:
+
+                                            Effect = new TableElementConditionEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} TableElementConditionEffect".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name, Condition = TCS.Condition };
+
+                                            foreach (string Variable in ((TableElementConditionEffect)Effect).GetVariables())
+                                            {
+                                                TableElementTypeEnum TET = (TableElementTypeEnum)Variable[0];
+                                                int TEN = Variable.Substring(1).ToInteger();
+                                                if (!Table.TableElements.Contains(TET, TEN))
+                                                {
+                                                    Table.TableElements.UpdateState(TET, TEN, 0);
+                                                }
+                                                Table.TableElements[TET, TEN].AssignedEffects.Add(new AssignedEffect(Effect.Name));
+                                            }
+                                            
+                                            break;
+
+
                                         case OutputControlEnum.FixedOn:
                                             Table.AssignedStaticEffects.Add(new AssignedEffect(Effect.Name));
                                             break;
                                         case OutputControlEnum.Controlled:
 
-
-                                            if (!Table.TableElements.Contains(TCS.TableElementType, TCS.TableElementNumber))
+                                            string[] ATE = TCS.TableElement.Split(new char[] { '@' }, StringSplitOptions.RemoveEmptyEntries);
+                                            foreach (string TE in ATE)
                                             {
-                                                Table.TableElements.UpdateState(TCS.TableElementType, TCS.TableElementNumber, 0);
+                                                TableElementTypeEnum TET = (TableElementTypeEnum)TE[0];
+                                                int TEN = TE.Substring(1).ToInteger();
+                                                if (!Table.TableElements.Contains(TET, TEN))
+                                                {
+                                                    Table.TableElements.UpdateState(TET, TEN, 0);
+                                                }
+                                                Table.TableElements[TET, TEN].AssignedEffects.Add(new AssignedEffect(Effect.Name));
                                             }
-                                            Table.TableElements[TCS.TableElementType, TCS.TableElementNumber].AssignedEffects.Add(new AssignedEffect(Effect.Name));
+
+
                                             break;
                                         case OutputControlEnum.FixedOff:
                                         default:
