@@ -272,6 +272,8 @@ namespace DirectOutput.LedControl.Setup
                                         case OutputControlEnum.Condition:
 
                                             Effect = new TableElementConditionEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} TableElementConditionEffect".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name, Condition = TCS.Condition };
+                                            MakeEffectNameUnique(Effect, Table);
+                                            Table.Effects.Add(Effect);
 
                                             foreach (string Variable in ((TableElementConditionEffect)Effect).GetVariables())
                                             {

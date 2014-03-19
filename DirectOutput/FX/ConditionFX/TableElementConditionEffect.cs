@@ -44,7 +44,7 @@ namespace DirectOutput.FX.ConditionFX
                 int VariableStart = -1;
                 for (int i = 0; i < C.Length - 1; i++)
                 {
-                    if (!Enum.IsDefined(typeof(TableElementTypeEnum), (int)C[i]))
+                    if (Enum.IsDefined(typeof(TableElementTypeEnum), (int)C[i]))
                     {
                         //Found a possible variable start letter
                         if (VariableStart >= 0)
@@ -103,7 +103,7 @@ namespace DirectOutput.FX.ConditionFX
 
         private void InitCondition()
         {
-            List<string> Variables = new List<string>();
+            List<string> Variables = GetVariables();
             string C = Condition;
             ConditionExpression = null;
 
@@ -128,6 +128,11 @@ namespace DirectOutput.FX.ConditionFX
                 foreach (string V in Variables)
                 {
                     C = C.Replace(V, "{0}.Value".Build(V), StringComparison.OrdinalIgnoreCase);
+                    if (Table.TableElements.Contains((TableElementTypeEnum)V[0], V.Substring(1).ToInteger()))
+                    {
+                        Table.TableElements.UpdateState((TableElementTypeEnum)V[0], V.Substring(1).ToInteger(), 0);
+                    }
+
 
                     TableElement TE = Table.TableElements[(TableElementTypeEnum)V[0], V.Substring(1).ToInteger()];
 
@@ -165,7 +170,8 @@ namespace DirectOutput.FX.ConditionFX
         /// <param name="TableElementData">TableElementData for the TableElement which has triggered the effect.</param>
         public override void Trigger(TableElementData TableElementData)
         {
-            if (ConditionExpression != null ) {
+            if (ConditionExpression != null)
+            {
                 try
                 {
                     if (ConditionExpression.Evaluate())
@@ -183,7 +189,7 @@ namespace DirectOutput.FX.ConditionFX
 
                     Log.Exception("A exception occured when evaluating the expression {0} of effect {1}. Effect will be deactivated.".Build(ConditionExpression.Text, Name), E);
                     ConditionExpression = null;
-                    
+
                 }
             }
         }

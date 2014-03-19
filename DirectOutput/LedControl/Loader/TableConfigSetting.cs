@@ -290,6 +290,7 @@ namespace DirectOutput.LedControl.Loader
                 {
                     Condition = S.Substring(0, ClosingBracketPos + 1);
                     OutputControl = OutputControlEnum.Condition;
+                    S = S.Substring(Condition.Length).Trim();
                     //TODO: Maybe add a check for the condition validity
 
                 }
@@ -308,7 +309,7 @@ namespace DirectOutput.LedControl.Loader
             {
                 //not a condition
 
-                string[] P = SettingData.Split(new char[] { ' ' }, 1, StringSplitOptions.RemoveEmptyEntries);
+                string[] P = SettingData.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 if (P.Length == 0)
                 {
                     Log.Warning("No data to parse.");
@@ -338,7 +339,7 @@ namespace DirectOutput.LedControl.Loader
                         {
                             //This seems to be a variable
 
-                            string[] ATE = SettingData.Split(new char[] { '@' }, StringSplitOptions.RemoveEmptyEntries );
+                            string[] ATE = P[0].Split(new char[] { '@' }, StringSplitOptions.RemoveEmptyEntries );
                             foreach (string E in ATE)
                             {
                                 if (E.Length < 2 || !Enum.IsDefined(typeof(TableElementTypeEnum), (int)E[0]) || !E.Substring(1).IsInteger())
