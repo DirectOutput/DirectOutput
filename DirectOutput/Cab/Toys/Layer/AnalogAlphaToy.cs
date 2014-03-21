@@ -28,7 +28,8 @@ namespace DirectOutput.Cab.Toys.Layer
 
         #region Outputs
 
-        private IOutput Output;
+        [XmlIgnore]
+        protected IOutput Output;
 
 
         /// <summary>
@@ -44,7 +45,8 @@ namespace DirectOutput.Cab.Toys.Layer
 
         #region Fading curve
         private string _FadingCurveName = "Linear";
-        private Curve FadingCurve = null;
+        [XmlIgnore]
+        protected Curve FadingCurve = null;
 
         /// <summary>
         /// Gets or sets the name of the fading curve as defined in the Curves list of the cabinet object.
@@ -89,7 +91,8 @@ namespace DirectOutput.Cab.Toys.Layer
 
 
 
-        private Cabinet Cabinet;
+        [XmlIgnore]
+        protected Cabinet Cabinet;
 
 
         /// <summary>
