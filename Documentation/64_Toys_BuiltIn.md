@@ -663,6 +663,30 @@ This toys allows the grouping of several RGBA toys into a matrix, which can be c
 
 
 
+\subsection use_DirectOutput_Cab_Toys_Layer_RGBAToyGroup_samplexml Sample XML
+
+A configuration section for RGBAToyGroup might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<RGBAToyGroup>
+  <Name>Name of RGBAToyGroup</Name>
+  <RGBAToyNames>
+    <Row>
+      <Column>Item</Column>
+      <Column>Item</Column>
+    </Row>
+    <Row>
+      <Column>Item</Column>
+      <Column>Item</Column>
+    </Row>
+    <Row>
+      <Column>Item</Column>
+      <Column>Item</Column>
+    </Row>
+  </RGBAToyNames>
+  <LayerOffset>0</LayerOffset>
+</RGBAToyGroup>
+~~~~~~~~~~~~~
 \subsection use_DirectOutput_Cab_Toys_Layer_RGBAToyGroup_properties Properties
 
 RGBAToyGroup has the following 3 configurable properties:
@@ -685,6 +709,10 @@ The 2 dimensional array of RGBA toy names.
 
 
 
+__Nested Properties__
+
+The following nested propteries exist for RGBAToyNames:
+* __Capacity__<br/>* __Item__<br/>
 \section use_DirectOutput_Cab_Toys_LWEquivalent_LedWizEquivalent LedWizEquivalent
 
 \subsection use_DirectOutput_Cab_Toys_LWEquivalent_LedWizEquivalent_summary Summary

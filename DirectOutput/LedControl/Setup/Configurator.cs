@@ -13,6 +13,8 @@ using DirectOutput.LedControl.Loader;
 using DirectOutput.General.Color;
 using DirectOutput.FX.ValueFX;
 using DirectOutput.FX.RGBAMatrixFX;
+using System;
+using DirectOutput.FX.ConditionFX;
 
 namespace DirectOutput.LedControl.Setup
 {
@@ -73,7 +75,7 @@ namespace DirectOutput.LedControl.Setup
 
                                 int Layer = (TCS.Layer.HasValue ? TCS.Layer.Value : SettingNumber);
 
-                                if (Toy is LedStrip)
+                                if (Toy is IRGBAMatrix)
                                 {
                                     RGBAColor ActiveColor = null;
                                     if (TCS.ColorConfig != null)
@@ -102,7 +104,7 @@ namespace DirectOutput.LedControl.Setup
                                         if (TCS.AreaDirection.HasValue)
                                         {
                                             //shift effect
-                                            Effect = new RGBAMatrixColorShiftEffect() { ShiftDirection = TCS.AreaDirection.Value, ShiftAcceleration=TCS.AreaAcceleration, ActiveColor = ActiveColor, InactiveColor = InactiveColor, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, LayerNr = Layer, ToyName = Toy.Name };
+                                            Effect = new RGBAMatrixColorShiftEffect() { ShiftDirection = TCS.AreaDirection.Value, ShiftAcceleration=TCS.AreaAcceleration, ActiveColor = ActiveColor, InactiveColor = InactiveColor, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft,  LayerNr = Layer, ToyName = Toy.Name };
                                             if (TCS.AreaSpeed > 0)
                                             {
                                                ((RGBAMatrixColorShiftEffect)Effect).ShiftSpeed = TCS.AreaSpeed;
@@ -267,17 +269,44 @@ namespace DirectOutput.LedControl.Setup
                                     }
                                     switch (TCS.OutputControl)
                                     {
+                                        case OutputControlEnum.Condition:
+
+                                            Effect = new TableElementConditionEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} TableElementConditionEffect".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name, Condition = TCS.Condition };
+                                            MakeEffectNameUnique(Effect, Table);
+                                            Table.Effects.Add(Effect);
+
+                                            foreach (string Variable in ((TableElementConditionEffect)Effect).GetVariables())
+                                            {
+                                                TableElementTypeEnum TET = (TableElementTypeEnum)Variable[0];
+                                                int TEN = Variable.Substring(1).ToInteger();
+                                                if (!Table.TableElements.Contains(TET, TEN))
+                                                {
+                                                    Table.TableElements.UpdateState(TET, TEN, 0);
+                                                }
+                                                Table.TableElements[TET, TEN].AssignedEffects.Add(new AssignedEffect(Effect.Name));
+                                            }
+                                            
+                                            break;
+
+
                                         case OutputControlEnum.FixedOn:
                                             Table.AssignedStaticEffects.Add(new AssignedEffect(Effect.Name));
                                             break;
                                         case OutputControlEnum.Controlled:
 
-
-                                            if (!Table.TableElements.Contains(TCS.TableElementType, TCS.TableElementNumber))
+                                            string[] ATE = TCS.TableElement.Split(new char[] { '@' }, StringSplitOptions.RemoveEmptyEntries);
+                                            foreach (string TE in ATE)
                                             {
-                                                Table.TableElements.UpdateState(TCS.TableElementType, TCS.TableElementNumber, 0);
+                                                TableElementTypeEnum TET = (TableElementTypeEnum)TE[0];
+                                                int TEN = TE.Substring(1).ToInteger();
+                                                if (!Table.TableElements.Contains(TET, TEN))
+                                                {
+                                                    Table.TableElements.UpdateState(TET, TEN, 0);
+                                                }
+                                                Table.TableElements[TET, TEN].AssignedEffects.Add(new AssignedEffect(Effect.Name));
                                             }
-                                            Table.TableElements[TCS.TableElementType, TCS.TableElementNumber].AssignedEffects.Add(new AssignedEffect(Effect.Name));
+
+
                                             break;
                                         case OutputControlEnum.FixedOff:
                                         default:
@@ -341,11 +370,11 @@ namespace DirectOutput.LedControl.Setup
                             if (LWE.Outputs.Any(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber))
                             {
                                 string OutputName = LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName;
-                                if (Cabinet.Toys.Any(O => O is LedStrip && O.Name == OutputName))
+                                if (Cabinet.Toys.Any(O => O is IRGBAMatrix && O.Name == OutputName))
                                 {
 
 
-                                    TargetToy = (IToy)Cabinet.Toys.FirstOrDefault(O => O is LedStrip && O.Name == OutputName);
+                                    TargetToy = (IToy)Cabinet.Toys.FirstOrDefault(O => O is IRGBAMatrix && O.Name == OutputName);
 
                                     if (TargetToy != null)
                                     {

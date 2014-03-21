@@ -71,6 +71,9 @@
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ciloci.Flee">
+      <HintPath>..\packages\fleesharp.0.9.27-pre\lib\net40\Ciloci.Flee.dll</HintPath>
+    </Reference>
     <Reference Include="CSScriptLibrary">
       <HintPath>..\..\..\..\Downloads\CSScript\cs-script\cs-script\Lib\Bin\NET 4.0\CSScriptLibrary.dll</HintPath>
     </Reference>
@@ -119,6 +122,8 @@
     </Content>
     <Compile Include="Cab\Toys\Basic\ILampToy.cs" />
     <Compile Include="Cab\Toys\Layer\RGBAToyGroup.cs" />
+    <Compile Include="FX\ConditionFX\ConditionFX.cs" />
+    <Compile Include="FX\ConditionFX\TableElementConditionEffect.cs" />
     <Compile Include="FX\RGBAMatrixFX\RGBAMatrixColorFlickerEffect.cs" />
     <Compile Include="FX\TimmedFX\MaxDurationEffect.cs" />
     <Compile Include="FX\ValueFX\ValueFX.cs" />
@@ -380,6 +385,7 @@
     <None Include="FX\FX.cd" />
     <None Include="LedControl\Loader\LedControl.cd" />
     <None Include="Main.cd" />
+    <None Include="packages.config" />
     <None Include="Properties\DataSources\DirectOutput.GlobalConfig.Config.datasource" />
     <None Include="Properties\DataSources\DirectOutput.GlobalConfig.FilePatternList.datasource" />
     <None Include="Properties\DataSources\DirectOutput.GlobalConfig.GlobalConfigEditor.datasource" />

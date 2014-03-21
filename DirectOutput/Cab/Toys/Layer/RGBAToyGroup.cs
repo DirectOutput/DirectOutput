@@ -11,7 +11,7 @@ namespace DirectOutput.Cab.Toys.Layer
     /// </summary>
     public class RGBAToyGroup : ToyBaseUpdatable, IToy, IRGBAMatrix
     {
-        private string[,] _RGBAToyNames = new string[0, 0];
+        private List<List<string>> _RGBAToyNames = new List<List<string>>();
 
         /// <summary>
         /// Gets or sets the 2-dimensional array of rgba toy names.
@@ -19,13 +19,15 @@ namespace DirectOutput.Cab.Toys.Layer
         /// <value>
         /// The 2 dimensional array of RGBA toy names.
         /// </value>
-        public string[,] RGBAToyNames
+        [XmlArrayItem("Row")]
+        [XmlArrayItem("Column",NestingLevel=1)]
+        public List<List<string>> RGBAToyNames
         {
             get { return _RGBAToyNames; }
             set { _RGBAToyNames = value; }
         }
 
-     
+        [XmlIgnore]
         private IRGBAToy[,] RGBAToys = new IRGBAToy[0, 0];
 
         private int _LayerOffset;
@@ -53,9 +55,9 @@ namespace DirectOutput.Cab.Toys.Layer
             {
                 int LayerNr = Layer.Key+LayerOffset;
 
-                for (int y = 0; y < RGBAToys.GetUpperBound(0) + 1; y++)
+                for (int y = 0; y < RGBAToys.GetUpperBound(1) + 1; y++)
                 {
-                    for (int x = 0; x < RGBAToys.GetUpperBound(1) + 1; x++)
+                    for (int x = 0; x < RGBAToys.GetUpperBound(0) + 1; x++)
                     {
                         if (RGBAToys[x, y] != null)
                         {
@@ -71,19 +73,26 @@ namespace DirectOutput.Cab.Toys.Layer
         /// <param name="Cabinet"><see cref="Cabinet" /> object  to which the <see cref="IToy" /> belongs.</param>
         public override void Init(Cabinet Cabinet)
         {
-            RGBAToys = new IRGBAToy[RGBAToyNames.GetUpperBound(0), RGBAToyNames.GetUpperBound(1)];
+            int RowCnt = RGBAToyNames.Count.Limit(1,int.MaxValue);
+            int ColCnt = RGBAToyNames.Max(X => X.Count).Limit(1, int.MaxValue);
 
-            for (int y = 0; y < RGBAToyNames.GetUpperBound(1) + 1; y++)
+
+            RGBAToys = new IRGBAToy[ColCnt, RowCnt];
+
+            for (int y = 0; y < RowCnt ; y++)
             {
-                for (int x = 0; y < RGBAToyNames.GetUpperBound(0) + 1; y++)
+                for (int x = 0; x < ColCnt ; x++)
                 {
-                    if (Cabinet.Toys.Contains(RGBAToyNames[x, y]) && Cabinet.Toys[RGBAToyNames[x, y]] is IRGBAToy)
+                    if (RGBAToyNames[y].Count > x)
                     {
-                        RGBAToys[x, y] = (IRGBAToy)Cabinet.Toys[RGBAToyNames[x, y]];
-                    }
-                    else
-                    {
-                        RGBAToys[x, y] = null;
+                        if (Cabinet.Toys.Contains(RGBAToyNames[y][x]) && Cabinet.Toys[RGBAToyNames[y][x]] is IRGBAToy)
+                        {
+                            RGBAToys[x, y] = (IRGBAToy)Cabinet.Toys[RGBAToyNames[y][x]];
+                        }
+                        else
+                        {
+                            RGBAToys[x, y] = null;
+                        }
                     }
                 }
             }

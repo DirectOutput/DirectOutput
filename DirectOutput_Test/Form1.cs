@@ -28,6 +28,7 @@ using System.Threading;
 using DirectOutput.FX;
 using DirectOutput.Cab.Out.LW;
 using DirectOutput.General.Color;
+using System.Xml;
 
 
 namespace DirectOutput_Test
@@ -92,7 +93,35 @@ namespace DirectOutput_Test
 
         private void button2_Click(object sender, EventArgs e)
         {
-            P.ReceiveData('W', 48, 255);
+            RGBAToyGroup G = new RGBAToyGroup() { Name = "Test", LayerOffset = -10 };
+
+           
+            for (int y = 1 ; y < 4; y++)
+            {
+                List<string> R = new List<string>();
+
+                for (int x = 1; x < 4; x++)
+                {
+                    if (x == 2)
+                    {
+                        R.Add("");
+                    }
+                    else
+                    {
+                        R.Add("Toy " + x + "." + y);
+                    }
+                }
+                G.RGBAToyNames.Add(R);
+            }
+
+
+
+            XmlSerializer xsSubmit = new XmlSerializer(G.GetType());
+           
+            StringWriter sww = new StringWriter();
+            XmlWriter writer = XmlWriter.Create(sww);
+            xsSubmit.Serialize(writer, G);
+            Console.WriteLine(sww.ToString()); // Your xml
 
 
         }
@@ -100,7 +129,7 @@ namespace DirectOutput_Test
         private void button3_Click(object sender, EventArgs e)
         {
 
-            P.ReceiveData('W', 48, 0);
+           
         }
     }
 }

@@ -17,6 +17,11 @@ namespace DirectOutput.LedControl.Loader
         /// <summary>
         /// Is controlled by a table element.
         /// </summary>
-        Controlled
+        Controlled,
+
+        /// <summary>
+        /// Has a condition (e.g. (S48=1 and S49=0)
+        /// </summary>
+        Condition
     }
 }
