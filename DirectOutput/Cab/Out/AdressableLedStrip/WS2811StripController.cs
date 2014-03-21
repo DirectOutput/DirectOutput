@@ -19,7 +19,6 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
     ///
     /// \image html WS2811Controller.jpg
     /// This is a image of my controller prototype with classical through the hole parts and a small breakoutboard by SparkFun.
-    
     /// </summary>
     public class WS2811StripController : OutputControllerBase, ISupportsSetValues
     {

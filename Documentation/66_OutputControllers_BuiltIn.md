@@ -60,6 +60,9 @@ WS2811 is a small controller chip which can controll a RGB led (256 PWM level on
 
 Those controller chips are controlled using a single data line (there is no clock line). The data has to be sent with a frequency of 800khz. 1 bits have a duration of 0.65uS high and 0.6uS low. 0 bits have a duration of 0.25uS high and 1uS low. A interuption in the dataflow trigger the controller chips to push the data in the shift register to the PWM outputs.
 
+\image html WS2811Controller.jpg
+This is a image of my controller prototype with classical through the hole parts and a small breakoutboard by SparkFun.
+
 
 
 \subsection use_DirectOutput_Cab_Out_AdressableLedStrip_WS2811StripController_samplexml Sample XML
@@ -236,7 +239,7 @@ The outputs are by default turned on when the PacDrive unit is powered up. This 
 
 This unit is made and sold by <a target="_blank" href="http://www.ultimarc.com">Ultimarc</a>.
 
-\image html PacDriveLogo.png
+\image html pacdrivelogo.jpg
 
 
 

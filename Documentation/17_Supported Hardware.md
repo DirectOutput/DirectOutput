@@ -11,11 +11,9 @@ For the end user the output controllers and their drivers are hidden behind a ab
 
 Currently the framework supports only a small number of output controllers, but depending on requirements and hardware availability more controllers will be supported in the future.
 
-\section hardware_ready Fully supported hardware
-
 The following devices are fully supported by the framework.  
 
-\subsection hardware_ledwiz LedWiz (GroovyGameGear)
+\section hardware_ledwiz LedWiz (GroovyGameGear)
 
 The LedWiz is a outputcontroller with 32 outputs which all support 49 <a target="_blank" href="https://en.wikipedia.org/wiki/Pulse-width_modulation">pwm</a> levels with a PWM frequency of approx. 50hz. The LedWiz is able to drive Leds and other small loads directly, but will require some kind of booster for power hunger gadgets like big contactors or motors are connected to it.
 
@@ -31,7 +29,7 @@ The framework supports auto detection and configuration of the LedWiz.
 
 \image html LedWizLogo.jpg
 
-\subsection hardware_ultimarc_pacled64 PacLed64 (Ultimarc)
+\section hardware_ultimarc_pacled64 PacLed64 (Ultimarc)
 
 The PacLed64 is a output controller with 64 outputs all supporting 256 <a target="_blank" href="https://en.wikipedia.org/wiki/Pulse-width_modulation">pwm</a> levels with a PWM frequency of 100khz. The unit is mainly designed to connect leds (cosuming 20ma each) directly to the outputs, but boosters must be used to driver higher loads (e.g. Cree leds). Up to 4 PacLed64 controllers can be used with the DirectOutput framework.
 
@@ -41,7 +39,7 @@ This unit is made and sold by <a target="_blank" href="http://www.ultimarc.com">
 
 \image html PacLed64Logo.png
 
-\subsection hardware_ultimarc_pacdrive PacDrive (Ultimarc)
+\section hardware_ultimarc_pacdrive PacDrive (Ultimarc)
 
 The PacDrive is smaller output controller with 16 digital outputs. It is capable of driving Leds and other smaller gadgets directly, but will require a booster to driver power hungry loads (e.g. motors). 
 
@@ -51,7 +49,7 @@ Only 1 PacDrive unit can be connected to the system. The framework supports auto
 
 This unit is made and sold by <a target="_blank" href="http://www.ultimarc.com">Ultimarc</a>.
 
-\subsection hardware_artnet Art-Net / DMX
+\section hardware_artnet Art-Net / DMX
 
 <a target="_blank" href="https://en.wikipedia.org/wiki/Art-Net">Art-Net</a> is a industry standard protocol used to control <a target="_blank" href="https://en.wikipedia.org/wiki/DMX512">DMX</a> lighting effects over othernet. Using Art-Net it is possible to connect a very wide range of lighting effects like <a target="_blank" href="https://www.google.ch/search?q=dmx+strobe">strobes</a> or <a target="_blank" href="https://www.google.ch/search?q=dmx+dimmer">dimmer packs</a>. There are tons of DMX controlled effects available on the market (from very cheap and small to very expensive and big). It might sounds a bit crazy, but with Art-net and DMX you could controll a whole stage lighting system (this would likely make you feel like Tommy in the movie).
 
@@ -67,25 +65,25 @@ Here is a small demo video showing DMX/Artnet support in action:
 <iframe width="560" height="315" src="http://www.youtube.com/embed/F4FI1NQ5nrc" frameborder="0" allowfullscreen></iframe>
 \endhtmlonly
 
-\section hardware_development Hardware support in development
+\section hardware_WS2811 WS2811 addressable LedStrip controller
 
-Support for the following devices is currently in development.
+This is a small controller board by Swisslizard, which is able to control addressable ledstrips which are base on the WS2811 or the WS2812 led chip.
+
+The hardware of this controller is based on a Atmel microcontroller and a FT245R USB interface chip by FTDI. To ensure max performance all copde on the controller has been written in assembler.
+
+WS2811 is a small controller chip which can controll a RGB led (256 PWM level on each channel) and be daisychained, so long cahins of LEDs (led strip are possible. The WS2812 understands the same protocoll as the WS2811, but is a RGB led with integrated controller chip which allows for even more dense populated RGB strips.
+
+Those controller chips are controlled using a single data line (there is no clock line). The data has to be sent with a frequency of 800khz. 1 bits have a duration of 0.65uS high and 0.6uS low. 0 bits have a duration of 0.25uS high and 1uS low. A interuption in the dataflow trigger the controller chips to push the data in the shift register to the PWM outputs.
+
+\image html WS2811Controller.jpg
+
+This is a image of my controller prototype with classical through the hole parts and a small breakoutboard by SparkFun. If feel like building your own controller board, get in touch with Swisslizard.
 
 
-\section hardware_WS2811 WS2811 based led stripes
+\section hardware_FT245Bitbang FT245RL based controllers (e.g. SainSmart)
 
-I have already installed some of those stripes in my cabinet and I want to be able to control them through DirectOutput. So this is a must!<br/>
-Some working controller hardware has already been designed and tested.<br/>
+The FT245RL (http://www.ftdichip.com/Products/ICs/FT245R.htm) is a USB interface chip by FTDI with 8 output lines. If this chip is run in the so called bitbang mode each output can be controlled directly.
 
-Check the following video to get a idea what those stripes can do:</br>
+The SainSmart USB relay boards (http://www.sainsmart.com/arduino-compatibles-1/relay/usb-relay.html) are compatible with DOF, but other hardware which is based on the same controller chip might be compatible as well. Generally controller units which is exclusively using the FT245R (no extra cpu on board) and having max. 8 output ports are likely to be compatible. Please let me know, if you have tested other hardware successfully, so I can ammend the docu.
 
-\htmlonly
-<iframe width="560" height="315" src="http://www.youtube.com/embed/Y_qV8rwzaxs" frameborder="0" allowfullscreen></iframe>
-\endhtmlonly
-
-\section hardware_other Other Hardware
-
-Other output controllers might be supported in the future.
-
-If you want to implement support for some outputput controller (e.g. some home grown Raspberry Pi solution), please read the page on \ref outputcontrollers for more information. Implementing drivers for new hardware should be rather simple.
-
+\image html SainSmart8PortUsbRelay.jpg SainSmart 8port USB relay board
