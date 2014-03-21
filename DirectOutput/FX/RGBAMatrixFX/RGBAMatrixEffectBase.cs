@@ -1,5 +1,6 @@
 ﻿using DirectOutput.Cab.Toys.Layer;
 using System.Xml.Serialization;
+using DirectOutput.Cab.Toys;
 
 namespace DirectOutput.FX.RGBAMatrixFX
 {

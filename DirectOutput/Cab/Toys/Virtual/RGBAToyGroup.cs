@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
+using DirectOutput.Cab.Toys.Layer;
 
-namespace DirectOutput.Cab.Toys.Layer
+namespace DirectOutput.Cab.Toys.Virtual
 {
     /// <summary>
-    /// This toys allows the grouping of several RGBA toys into a matrix, which can be controlled by the RGBAMatrix effects.
+    /// This toys allows the grouping of several RGBA toys (e.g. <see cref="RGBAToy"/> or <see cref="RGBLed"/>) into a matrix, which can be controlled by the RGBAMatrix effects.
+    /// 
+    /// \note: Be sure to define this toy in the config file before the toys, which are listed in the RGBAToyNames array.
     /// </summary>
     public class RGBAToyGroup : ToyBaseUpdatable, IToy, IRGBAMatrix
     {

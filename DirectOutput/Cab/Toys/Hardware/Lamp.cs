@@ -5,7 +5,7 @@ using System.Text;
 using System.Xml.Serialization;
 using DirectOutput.Cab.Toys.Layer;
 
-namespace DirectOutput.Cab.Toys.Basic
+namespace DirectOutput.Cab.Toys.Hardware
 {
 
     /// <summary>

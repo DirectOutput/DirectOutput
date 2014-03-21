@@ -5,8 +5,9 @@ using System.Text;
 using DirectOutput.Cab.Out;
 using System.Xml.Serialization;
 using DirectOutput.General;
+using DirectOutput.Cab.Toys.Layer;
 
-namespace DirectOutput.Cab.Toys.Layer
+namespace DirectOutput.Cab.Toys.Hardware
 {
     /// <summary>
     /// Represents a adressable led strip. 

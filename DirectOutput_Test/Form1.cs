@@ -29,6 +29,8 @@ using DirectOutput.FX;
 using DirectOutput.Cab.Out.LW;
 using DirectOutput.General.Color;
 using System.Xml;
+using DirectOutput.Cab.Toys.Virtual;
+using DirectOutput.Cab.Toys.Hardware;
 
 
 namespace DirectOutput_Test

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using DirectOutput.Cab.Toys.Layer;
 using System.Xml.Serialization;
+using DirectOutput.Cab.Toys;
 
 namespace DirectOutput.FX.AnalogToyFX
 {

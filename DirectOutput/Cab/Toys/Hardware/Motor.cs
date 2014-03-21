@@ -2,7 +2,7 @@
 using DirectOutput.PinballSupport;
 using DirectOutput.Cab.Toys.Layer;
 
-namespace DirectOutput.Cab.Toys.Basic
+namespace DirectOutput.Cab.Toys.Hardware
 {
 
     /// <summary>

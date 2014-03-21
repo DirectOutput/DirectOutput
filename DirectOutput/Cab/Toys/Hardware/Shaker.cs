@@ -1,5 +1,5 @@
 ﻿
-namespace DirectOutput.Cab.Toys.Basic
+namespace DirectOutput.Cab.Toys.Hardware
 {
     /// <summary>
     /// \deprecated The use of this toy is depreceated.

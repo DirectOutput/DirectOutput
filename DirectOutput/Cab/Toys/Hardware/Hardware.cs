@@ -5,9 +5,9 @@ using System.Text;
 
 
 /// <summary>
-/// Namespace for basic toys like contactors and RGBLeds.
+/// Namespace for hardware specific toy classes (e.g. gear motors)
 /// </summary>
-namespace DirectOutput.Cab.Toys.Basic
+namespace DirectOutput.Cab.Toys.Hardware
 {
  
 }

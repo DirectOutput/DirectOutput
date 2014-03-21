@@ -1,5 +1,6 @@
 ﻿using System;
-namespace DirectOutput.Cab.Toys.Layer
+using DirectOutput.Cab.Toys.Layer;
+namespace DirectOutput.Cab.Toys
 {
     /// <summary>
     /// Common interface for toys controlling a matrix of RGB components (e.g. led strips)
