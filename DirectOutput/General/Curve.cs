@@ -24,6 +24,26 @@ namespace DirectOutput.General
             /// </summary>
             Linear,
             /// <summary>
+            /// A linear curve, which mapps to 0 to 255 value range into a new range of 0 to 192.
+            /// </summary>
+            Linear0To192,
+            /// <summary>
+            /// A linear curve, which mapps to 0 to 255 value range into a new range of 0 to 128.
+            /// </summary>
+            Linear0To128,
+            /// <summary>
+            /// A linear curve, which mapps to 0 to 255 value range into a new range of 0 to 64.
+            /// </summary>
+            Linear0To64,
+            /// <summary>
+            /// A linear curve, which mapps to 0 to 255 value range into a new range of 0 to 32.
+            /// </summary>
+            Linear0To32,
+            /// <summary>
+            /// A linear curve, which mapps to 0 to 255 value range into a new range of 0 to 16.
+            /// </summary>
+            Linear0To16,
+            /// <summary>
             /// This is a inverted linera curve where 255=0, 254=1 and so on until 1=254 and 0=255.
             /// </summary>
             InvertedLinear,
@@ -106,6 +126,36 @@ namespace DirectOutput.General
                     for (int i = 0; i <= 255; i++)
                     {
                         C[i] = (byte)(255-i);
+                    }
+                    break;
+                case CurveTypeEnum.Linear0To192:
+                    for (int i = 0; i <= 255; i++)
+                    {
+                        C[i] = (byte)((double)192/255*i).Limit(0,255);
+                    }
+                    break;
+                case CurveTypeEnum.Linear0To128:
+                    for (int i = 0; i <= 255; i++)
+                    {
+                        C[i] = (byte)((double)128 / 255 * i).Limit(0, 255);
+                    }
+                    break;
+                case CurveTypeEnum.Linear0To64:
+                    for (int i = 0; i <= 255; i++)
+                    {
+                        C[i] = (byte)((double)64 / 255 * i).Limit(0, 255);
+                    }
+                    break;
+                case CurveTypeEnum.Linear0To32:
+                    for (int i = 0; i <= 255; i++)
+                    {
+                        C[i] = (byte)((double)32 / 255 * i).Limit(0, 255);
+                    }
+                    break;
+                case CurveTypeEnum.Linear0To16:
+                    for (int i = 0; i <= 255; i++)
+                    {
+                        C[i] = (byte)((double)16 / 255 * i).Limit(0, 255);
                     }
                     break;
                 case CurveTypeEnum.Linear:
