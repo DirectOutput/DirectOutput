@@ -19,7 +19,7 @@ namespace DirectOutput.Cab.Out.Pac
     ///
     /// This unit is made and sold by <a target="_blank" href="http://www.ultimarc.com">Ultimarc</a>.
     /// 
-    /// \image html PacDriveLogo.png 
+    /// \image html pacdrivelogo.jpg
     /// </summary>
     public class PacDrive : OutputControllerBase, IOutputController
     {
