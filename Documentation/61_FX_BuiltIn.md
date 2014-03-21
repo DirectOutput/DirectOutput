@@ -81,6 +81,48 @@ The name of the AnalogToy.
 
 
 
+\section use_DirectOutput_FX_ConditionFX_TableElementConditionEffect TableElementConditionEffect
+
+\subsection use_DirectOutput_FX_ConditionFX_TableElementConditionEffect_summary Summary
+
+This effect evaluates the condition specified in the Condition property.
+
+
+
+\subsection use_DirectOutput_FX_ConditionFX_TableElementConditionEffect_samplexml Sample XML
+
+A configuration section for TableElementConditionEffect might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<TableElementConditionEffect>
+  <Name>Name of TableElementConditionEffect</Name>
+  <TargetEffectName>Name of TargetEffect</TargetEffectName>
+  <Condition>Condition string</Condition>
+</TableElementConditionEffect>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_FX_ConditionFX_TableElementConditionEffect_properties Properties
+
+TableElementConditionEffect has the following 3 configurable properties:
+
+\subsubsection DirectOutput_FX_ConditionFX_TableElementConditionEffect_Condition Condition
+
+The condition.
+
+
+
+\subsubsection DirectOutput_FX_ConditionFX_TableElementConditionEffect_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_FX_ConditionFX_TableElementConditionEffect_TargetEffectName TargetEffectName
+
+Name of the target effect.<br />
+Triggers EffectNameChanged if value is changed.
+
+
+
 \section use_DirectOutput_FX_ListFX_ListEffect ListEffect
 
 \subsection use_DirectOutput_FX_ListFX_ListEffect_summary Summary
