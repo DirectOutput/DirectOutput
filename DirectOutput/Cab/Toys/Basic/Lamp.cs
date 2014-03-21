@@ -3,44 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
+using DirectOutput.Cab.Toys.Layer;
 
 namespace DirectOutput.Cab.Toys.Basic
 {
 
     /// <summary>
-    /// \deprecated The use of this toy is depreceated. Use the AnalogAlphaToy instead.
-    /// 
+
     /// Lamp toy.<br/>
-    /// Inherits from <see cref="AnalogToy"/>, implements <see cref="IToy"/>.
+    /// Just a simple wrapper for the <see cref="AnalogAlphaToy"/>.
     /// </summary>
-    public class Lamp : AnalogToy, IToy,ILampToy
+    public class Lamp : AnalogAlphaToy
     {
 
-        /// <summary>
-        /// Brightsness of the lamp.
-        /// </summary>
-        [XmlIgnoreAttribute]
-        public int Brightness
-        {
-            get
-            {
-                return Value;
-            }
-           protected set
-            {
-                SetValue( value);
-            }
-        }
 
-
-        /// <summary>
-        /// Sets the brightness of the lamp.
-        /// </summary>
-        /// <param name="Brightness">Brightness of the lamp.</param>
-        public void SetBrightness(int Brightness)
-        {
-            SetValue(Brightness);
-        }
 
 
     }

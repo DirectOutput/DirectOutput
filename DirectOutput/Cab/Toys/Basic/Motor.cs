@@ -1,5 +1,6 @@
 ﻿using System.Xml.Serialization;
 using DirectOutput.PinballSupport;
+using DirectOutput.Cab.Toys.Layer;
 
 namespace DirectOutput.Cab.Toys.Basic
 {
@@ -10,7 +11,7 @@ namespace DirectOutput.Cab.Toys.Basic
     /// Motor toy supporting max. and min. power, max. runtime and kickstart settings.<br/>
     /// Inherits from GenericAnalogToy, implements IToy.
     /// </summary>
-    public class Motor : AnalogToy, IToy
+    public class Motor : AnalogAlphaToy
     {
         private int _MaxRuntimeMs = 300000;
 
@@ -29,36 +30,6 @@ namespace DirectOutput.Cab.Toys.Basic
         }
 
 
-        private int _MinPower = 10;
-
-        /// <summary>
-        /// Gets or sets the minimal power for the toy.<br/>
-        /// Motors beeing run with very low power might tend to stutter or block. Setting this property to a meaningfull value will ensure that motors are always properly running.<br/>
-        /// Default value of this property is 10.
-        /// </summary>
-        /// <value>
-        /// The minimal power for the motor.
-        /// </value>
-        public int MinPower
-        {
-            get { return _MinPower; }
-            set { _MinPower = value.Limit(0, 255); }
-        }
-
-        private int _MaxPower = 255;
-
-        /// <summary>
-        /// Gets or sets the maximum power (e.g. to ensure that you cabinet is shaken into pieces by a powerfull shaker motor) for the motor controlled by the toy.<br/>
-        /// Default value of the property is 255.
-        /// </summary>
-        /// <value>
-        /// The maximum power for the motor.
-        /// </value>
-        public int MaxPower
-        {
-            get { return _MaxPower; }
-            set { _MaxPower = value.Limit(0, 255); }
-        }
 
 
         private int _KickstartPower = 128;
@@ -101,82 +72,119 @@ namespace DirectOutput.Cab.Toys.Basic
         /// Power of the motor.<br/>
         /// Value is scaled using MinPower and MaxPower settings.
         /// </summary>
-        [XmlIgnoreAttribute]
-        public int Power
-        {
-            get
-            {
+        //[XmlIgnoreAttribute]
+        //public int Power
+        //{
+        //    get
+        //    {
                 
-                return (int)((Value - MinPower) * ((double)(MaxPower - MinPower) / 255));
-            }
-        }
+        //        return (int)((Value - MinPower) * ((double)(MaxPower - MinPower) / 255));
+        //    }
+        //}
 
 
-        int MotorPower;
+        int CurrentMotorPower=0;
+        int TargetMotorPower = 0;
         bool KickstartActive = false;
+        bool TurnedOffAfterMaxRunTime = false;
+
         /// <summary>
-        /// Sets the power of the motor.<br/>
-        /// Value range for Power is 0-255. Power will be scaled using the MinPower and MaxPower settings.
+        /// Updates the output of the toy.
         /// </summary>
-        /// <param name="Power">Power of the gear motor.</param>
-        public void SetPower(int Power)
+        public override void UpdateOutputs()
         {
-
-            if (this.Power != Power)
+            if (Output != null)
             {
+                int P = FadingCurve.MapValue(Layers.GetResultingValue()).Limit(0, 255);
 
-                MotorPower = Power;
-
-                if (!KickstartActive)
+                if (P == 0)
                 {
+                    TurnedOffAfterMaxRunTime = false;
+                }
 
-                    if (KickstartPower > 0 && Power<KickstartPower && KickstartDurationMs > 0)
+                if (!TurnedOffAfterMaxRunTime)
+                {
+                    if (CurrentMotorPower == 0)
                     {
-                        KickstartActive = true;
-                        SetValue(KickstartPower);
-                        AlarmHandler.RegisterAlarm(KickstartDurationMs, StartMotor);
+                        //Motor is currently off
+                        if (P > 0)
+                        {
+                            //need to turn the motor on
+
+                            if (KickstartDurationMs > 0 && KickstartPower > 0)
+                            {
+                                //Kickstart is defined, start with kickstart
+
+                                TargetMotorPower = P;
+
+                                if (!KickstartActive)
+                                {
+                                    CurrentMotorPower = KickstartPower;
+                                    Output.Value = (byte)CurrentMotorPower;
+                                    KickstartActive = true;
+                                    AlarmHandler.RegisterAlarm(KickstartDurationMs, KickStartEnd);
+                                }
+
+                            }
+                            else
+                            {
+                                //Just turn the motor on
+                                CurrentMotorPower = P;
+                                TargetMotorPower = P;
+                                Output.Value = (byte)P;
+                                KickstartActive = false;
+
+                            }
+
+                            if (MaxRunTimeMs > 0)
+                            {
+                                AlarmHandler.RegisterAlarm(MaxRunTimeMs, MaxRunTimeMotorStop);
+
+                            }
+
+                        }
+                    }
+                    else if (KickstartActive)
+                    {
+                        //Motor is in kickstart phase
+                        TargetMotorPower = P;
+
                     }
                     else
                     {
-
-                        StartMotor();
+                        //Motor is on
+                        if (P != CurrentMotorPower)
+                        {
+                            //Power has changed
+                            CurrentMotorPower = P;
+                            TargetMotorPower = P;
+                            Output.Value = (byte)P;
+                        }
                     }
-                }
 
-            }
-        }
-
-        private void StartMotor()
-        {
-            KickstartActive = false;
-            if (MotorPower == 0)
-            {
-                StopMotor();
-            }
-            else
-            {
-                SetMotorPower(MotorPower);
-                if (MaxRunTimeMs > 0)
-                {
-                    AlarmHandler.UnregisterAlarm(StartMotor);
-                    AlarmHandler.RegisterAlarm(MaxRunTimeMs, StopMotor);
                 }
             }
         }
 
-        private void SetMotorPower(int Power)
+        private void MaxRunTimeMotorStop()
         {
-            int ScaledPower = (int)(MinPower + (MaxPower - MinPower) / 255 * (double)MotorPower).Limit(MinPower, MaxPower);
-            SetValue(ScaledPower);
+            AlarmHandler.UnregisterAlarm(KickStartEnd);
+            KickstartActive = false;
+            CurrentMotorPower = 0;
+            TargetMotorPower = 0;
+            Output.Value = 0;
+            TurnedOffAfterMaxRunTime = true;
         }
 
-        private void StopMotor()
+
+        private void KickStartEnd()
         {
             KickstartActive = false;
-            SetValue(0);
-            AlarmHandler.UnregisterAlarm(StartMotor);
-            AlarmHandler.UnregisterAlarm(StopMotor);
+            CurrentMotorPower = TargetMotorPower;
+            Output.Value = (byte)CurrentMotorPower;
         }
+
+
 
 
 
@@ -188,9 +196,9 @@ namespace DirectOutput.Cab.Toys.Basic
         /// <param name="Cabinet"><see cref="Cabinet" /> object to which the <see cref="Motor" /> belongs.</param>
         public override void Init(Cabinet Cabinet)
         {
+            base.Init(Cabinet);
             AlarmHandler = Cabinet.Pinball.Alarms;
 
-            base.Init(Cabinet);
         }
 
         /// <summary>
@@ -198,8 +206,8 @@ namespace DirectOutput.Cab.Toys.Basic
         /// </summary>
         public override void Finish()
         {
-            AlarmHandler.UnregisterAlarm(StartMotor);
-            AlarmHandler.UnregisterAlarm(StopMotor);
+            AlarmHandler.UnregisterAlarm(KickStartEnd);
+            AlarmHandler.UnregisterAlarm(MaxRunTimeMotorStop);
             AlarmHandler = null;
             base.Finish();
         }
