@@ -61,7 +61,7 @@ namespace DocumentationHelper
                 S += "\n~~~~~~~~~~~~~\n";
             }
 
-            List<PropertyDocuData> PDL=GetPropertyDocuDataList();
+            List<PropertyDocuData> PDL = GetPropertyDocuDataList();
             PDL.Sort((PDD1, PDD2) => PDD1.Name.CompareTo(PDD2.Name));
             if (PDL.Count > 0)
             {
@@ -69,7 +69,7 @@ namespace DocumentationHelper
                 S += "{0} has the following {1} configurable properties:\n\n".Build(Name, PDL.Count);
                 foreach (PropertyDocuData PDD in PDL)
                 {
-                    S += PDD.GetDocu();                    
+                    S += PDD.GetDocu();
                 }
 
             }
@@ -111,7 +111,7 @@ namespace DocumentationHelper
                     }
                 }
 
-                Xml = Xml.Substring(Xml.IndexOf("\n")+1);
+                Xml = Xml.Substring(Xml.IndexOf("\n") + 1);
             }
             catch { }
 
@@ -138,7 +138,7 @@ namespace DocumentationHelper
 
         private object GetSampleReferenceType(Type RefType)
         {
-            Type T=RefType;
+            Type T = RefType;
             if (T.IsInterface)
             {
                 DirectOutput.General.TypeList Types = new DirectOutput.General.TypeList(AppDomain.CurrentDomain.GetAssemblies().ToList().SelectMany(s => s.GetTypes()).Where(p => T.IsAssignableFrom(p) && !p.IsAbstract));
@@ -151,47 +151,59 @@ namespace DocumentationHelper
                     return null;
                 }
             }
-            
+
 
             Object O = Activator.CreateInstance(T);
 
 
             foreach (PropertyInfo PI in O.GetType().GetXMLSerializableProperties())
             {
-                if (PI.PropertyType == typeof(string))
+                if (PI.PropertyType.IsGenericList())
                 {
-                    string V = (string)PI.GetValue(O, null);
-                    if (V.IsNullOrWhiteSpace())
+
+                    IList EN = GetSampleGenericList(PI.PropertyType);
+                    PI.SetValue(O, EN, null);
+                }
+                else if (PI.PropertyType == typeof(string))
+                {
+
+                    if (PI.ReflectedType.IsGenericList())
                     {
-                        if (PI.Name.ToUpper() == "NAME")
+                        PI.ReflectedType.GetMethod("Add").Invoke(O, new[] { "Item" });
+                        PI.ReflectedType.GetMethod("Add").Invoke(O, new[] { "Item" });
+                    }
+                    else
+                    {
+                        string V = (string)PI.GetValue(O, null);
+
+
+                        if (V.IsNullOrWhiteSpace())
                         {
-                            PI.SetValue(O, "Name of {0}".Build(O.GetType().Name), null);
-                        }
-                        else if (PI.Name.ToUpper().EndsWith("NAME"))
-                        {
-                            PI.SetValue(O, "Name of {0}".Build(PI.Name.Substring(0, PI.Name.Length - 4)), null);
-                        }
-                        else
-                        {
-                            PI.SetValue(O, "{0} string".Build(PI.Name), null);
+                            if (PI.Name.ToUpper() == "NAME")
+                            {
+                                PI.SetValue(O, "Name of {0}".Build(O.GetType().Name), null);
+                            }
+                            else if (PI.Name.ToUpper().EndsWith("NAME"))
+                            {
+                                PI.SetValue(O, "Name of {0}".Build(PI.Name.Substring(0, PI.Name.Length - 4)), null);
+                            }
+                            else
+                            {
+                                PI.SetValue(O, "{0} string".Build(PI.Name), null);
+                            }
                         }
                     }
                 }
                 else if (PI.PropertyType.IsArray)
                 {
-                    object A = PI.GetValue(O,null);
+                    object A = PI.GetValue(O, null);
                     if (A == null)
                     {
                         object[] SampleArray = GetSampleArray(PI.PropertyType);
                         PI.SetValue(O, SampleArray, null);
                     }
                 }
-                else if (PI.PropertyType.IsGenericList())
-                {
 
-                    IList EN = GetSampleGenericList(PI.PropertyType);
-                    PI.SetValue(O, EN, null);
-                }
                 else if (typeof(IDictionary).IsAssignableFrom(PI.PropertyType) && PI.PropertyType.IsGenericType)
                 {
                     IDictionary EN = GetSampleGenericDictionary(PI.PropertyType);
@@ -229,9 +241,9 @@ namespace DocumentationHelper
         private object[] GetSampleArray(System.Type type)
         {
 
-       
 
-            object[] A  = (object[])Array.CreateInstance(typeof(object),3);
+
+            object[] A = (object[])Array.CreateInstance(typeof(object), 3);
 
             Type GT = type.GetElementType();
             object G;
@@ -246,7 +258,7 @@ namespace DocumentationHelper
                 {
                     G = GetSampleReferenceType(GT);
                 }
-                A[i]=G;
+                A[i] = G;
             }
 
 
@@ -315,7 +327,7 @@ namespace DocumentationHelper
 
         private IList GetSampleGenericList(Type T)
         {
-            if (!(typeof(IList).IsAssignableFrom(T) )) return null;
+            if (!(typeof(IList).IsAssignableFrom(T))) return null;
             IList C = (IList)Activator.CreateInstance(T);
 
             //if (T.GetGenericArguments().Length == 1)
