@@ -78,7 +78,7 @@ A cabinet config file can contain any number of LedWizEquivalent toys to control
 If active (typically if no cabinet config file exists), automatic cabinet configuration numbers the detected and created output controllers resp. their related LedWizEquivalent toys as follows:
 
 * For LedWiz unit 1-16, the framework creates one LedWizEquivalent per unit having the same number as the LedWiz (LedWiz nr. = LedWizEquivalent nr. = ini file number).
-* For PacLed64 units (max 4 supported), the framework creates 2 LedWizEquivalentToys per unit to cover all 64 outputs. The numbering for those LedWizEquivalent starts at 20, so PacLed64 id 1 can be accessed through LedWizEquivalents numbered 20 & 21, PacLed id 2 uses 22 & 23 and so on.
+* For PacLed64 units (max 4 supported), the framework creates 2 LedWizEquivalentToys per unit to cover all 64 outputs. The numbering for those LedWizEquivalent starts at 20, so PacLed64 id 1 can be accessed through LedWizEquivalents numbered 20, PacLed id 2 uses 21and so on.
 
 \subsection inifiles_manualcabinetconfig Manual cabinet configuration
 
@@ -188,8 +188,8 @@ For adressable ledstrips and other toys which implement the IRGBAMatrix interfac
 * __S48__ will turn the toy associated with the column on and off depending on the state of solenoid 48.
 * __S48 Green__ will set the rgb led associated with the column of the file to green depending on the state of solenoid 48.
 * __S48 Green Blink__ will set the rgb led associated with the column of the file to green blinking depending on the state of solenoid 48.
-* __W32 Red Blink 500 5__ will make a rgbled blink red for 5 times with a interval of 500ms when switch 32 is activated.
-* __W32 Red Blink 250 5 F200__ same result as previous example but the color will fadin and out in 200 millieconds.
+* __W32 Red 2500 5__ will make a rgbled blink red for 5 times within a duration of 2500ms when switch 32 is activated.
+* __W32 Red 2500 5 F200__ same result as previous example but the color will fadin and out in 200 millieconds.
 * __W36 I32__ sets the output associated with the column to intensity 32 as long as switch 32 is active.
 
 

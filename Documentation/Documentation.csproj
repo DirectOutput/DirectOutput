@@ -51,7 +51,7 @@
     <None Include="79_Support.md" />
     <None Include="80_Contribute.md" />
     <None Include="85_Downloads.md" />
-    <None Include="87_History and Roadmap.md" />
+    <None Include="87_History.md" />
     <None Include="90_Credits.md" />
     <None Include="99_MainpageAndAbout.md" />
     <None Include="63_Toys.md" />
@@ -108,6 +108,7 @@
     <Content Include="img\TestAndDevTeam.jpg" />
     <Content Include="img\ToyArchitecture.png" />
     <Content Include="img\ToyEffect.png" />
+    <Content Include="img\WS2811Controller.jpg" />
     <Content Include="img\you-re-the-best.gif" />
     <Content Include="ToDo.txt" />
   </ItemGroup>
