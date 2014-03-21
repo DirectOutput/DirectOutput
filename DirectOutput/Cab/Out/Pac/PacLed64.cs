@@ -537,7 +537,7 @@ namespace DirectOutput.Cab.Out.Pac
                                 StateUpdateRequired = false;
                             }
                         }
-                        if (ForceFullUpdate || (IntensityUpdatesRequired + StateUpdatesRequired) > 30)
+                        if ( ForceFullUpdate || (IntensityUpdatesRequired + StateUpdatesRequired) > 30)
                         {
                             //more than 30 update calls required. Will send intensity updates for all outputs.
                             PDSingleton.PacLed64SetLEDIntensities(Index, CurrentValue);
@@ -576,6 +576,7 @@ namespace DirectOutput.Cab.Out.Pac
                                     {
                                         StateUpdateRequired = true;
                                         LastStateSent[o] = false;
+                                        LastValueSent[o] = 0;
                                     }
 
                                 }
