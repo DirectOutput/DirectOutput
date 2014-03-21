@@ -115,7 +115,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
             {
                 L.Add(Position.Limit(0,NumberOfLeds));
                 Position += Speed ;
-                Speed = (Speed + Acceleration).Limit(1, 10000);
+                Speed = (Speed + Acceleration).Limit(NumberOfLeds / 100 * (1 / (1000 / RefreshIntervalMs)), 10000);
             }
             L.Add(Position.Limit(0, NumberOfLeds));
 

@@ -75,7 +75,7 @@ namespace DirectOutput.LedControl.Setup
 
                                 int Layer = (TCS.Layer.HasValue ? TCS.Layer.Value : SettingNumber);
 
-                                if (Toy is LedStrip)
+                                if (Toy is IRGBAMatrix)
                                 {
                                     RGBAColor ActiveColor = null;
                                     if (TCS.ColorConfig != null)
@@ -104,7 +104,7 @@ namespace DirectOutput.LedControl.Setup
                                         if (TCS.AreaDirection.HasValue)
                                         {
                                             //shift effect
-                                            Effect = new RGBAMatrixColorShiftEffect() { ShiftDirection = TCS.AreaDirection.Value, ShiftAcceleration=TCS.AreaAcceleration, ActiveColor = ActiveColor, InactiveColor = InactiveColor, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, LayerNr = Layer, ToyName = Toy.Name };
+                                            Effect = new RGBAMatrixColorShiftEffect() { ShiftDirection = TCS.AreaDirection.Value, ShiftAcceleration=TCS.AreaAcceleration, ActiveColor = ActiveColor, InactiveColor = InactiveColor, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft,  LayerNr = Layer, ToyName = Toy.Name };
                                             if (TCS.AreaSpeed > 0)
                                             {
                                                ((RGBAMatrixColorShiftEffect)Effect).ShiftSpeed = TCS.AreaSpeed;
@@ -370,11 +370,11 @@ namespace DirectOutput.LedControl.Setup
                             if (LWE.Outputs.Any(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber))
                             {
                                 string OutputName = LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName;
-                                if (Cabinet.Toys.Any(O => O is LedStrip && O.Name == OutputName))
+                                if (Cabinet.Toys.Any(O => O is IRGBAMatrix && O.Name == OutputName))
                                 {
 
 
-                                    TargetToy = (IToy)Cabinet.Toys.FirstOrDefault(O => O is LedStrip && O.Name == OutputName);
+                                    TargetToy = (IToy)Cabinet.Toys.FirstOrDefault(O => O is IRGBAMatrix && O.Name == OutputName);
 
                                     if (TargetToy != null)
                                     {
