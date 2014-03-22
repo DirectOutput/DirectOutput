@@ -16,7 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DoxygenConfig", "DoxygenCon
 	ProjectSection(SolutionItems) = preProject
 		DoxygenConfig\directoutputstyle.css = DoxygenConfig\directoutputstyle.css
 		DoxygenConfig\DoxygenConfigFile_Github = DoxygenConfig\DoxygenConfigFile_Github
-		DoxygenConfig\DoxygenConfigFile_Local = DoxygenConfig\DoxygenConfigFile_Local
+		DoxygenConfig\DoxygenConfigFile_LocalWIP = DoxygenConfig\DoxygenConfigFile_LocalWIP
 		DoxygenConfig\footer_Github.html = DoxygenConfig\footer_Github.html
 		DoxygenConfig\footer_local.html = DoxygenConfig\footer_local.html
 		DoxygenConfig\header_Github.html = DoxygenConfig\header_Github.html
@@ -28,7 +28,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bat Files", "Bat Files", "{C03A8BBC-F8F7-4A6B-9F4C-86866CC854E1}"
 	ProjectSection(SolutionItems) = preProject
 		betarelease.bat = betarelease.bat
-		builddocu.bat = builddocu.bat
+		BuildGithubDocu.bat = BuildGithubDocu.bat
+		BuildLocalWIPDocu.bat = BuildLocalWIPDocu.bat
 		copy2cab.bat = copy2cab.bat
 		debugrelease.bat = debugrelease.bat
 	EndProjectSection

@@ -72,6 +72,7 @@
     <Content Include="img\DirectOutputIcon_32.ico" />
     <Content Include="img\DirectOutput_Big.png" />
     <Content Include="img\DirectOutput_Small.png" />
+    <Content Include="img\DirectOutput_Small_WIP.png" />
     <Content Include="img\DMX.png" />
     <Content Include="img\EffectEffect.png" />
     <Content Include="img\EffectsArchitecture.png" />

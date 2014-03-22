@@ -170,7 +170,7 @@ The second and following parts can contain the following:
 * __NoBool__ indicates that the trigger value off the effect is not to be treated as a boolean value resp. that the daufault mapping of the value to 0 or 255 (255 for all values which are not 0) should not take place.
 * __Numeric Values__ without any extra character can be used to specify the duration of the effect or the blinking behaviour. If blinking has been defined, one or two numeric values are parsed. Value 1 controls the blink interval in milliseconds, while value 2 defines the number of blinks. If no blinking has been defined, only one numeric values which is used to defined the duration of the effect in milliseconds is parsed.
 
-For adressable ledstrips and other toys which implement the IRGBAMatrix interface the following extra parameters can be used to control the RGBA hardware of the matrix:
+For adressable ledstrips and other toys which implement the IRGBAMatrix interface the following extra parameters can be used to control the RGBA hardware of the matrix. For settings controlling a matrix you have to use at least one of these paras, so DOF realizes that a matrix/area is to be controlled.
 
 * __AL{LeftPosition}__ defines the left of the upper left corner of the area of the matrix which is to be controlled by the effect. Position is expressed in percent of the matrix width (0-100).
 * __AT{TopPosition}__ defines the upper part of the upper left corner of the area of the matrix which is to be controlled by the effect. Position is expressed in percent of the matrix height (0-100).
