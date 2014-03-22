@@ -80,7 +80,7 @@ Those controller chips are controlled using a single data line (there is no cloc
 This is a image of my controller prototype with classical through the hole parts and a small breakoutboard by SparkFun. If feel like building your own controller board, get in touch with Swisslizard.
 
 
-\section hardware_FT245Bitbang FT245RL based controllers (e.g. SainSmart)
+\section hardware_FT245bitbang FT245RL based controllers (e.g. SainSmart)
 
 The FT245RL (http://www.ftdichip.com/Products/ICs/FT245R.htm) is a USB interface chip by FTDI with 8 output lines. If this chip is run in the so called bitbang mode each output can be controlled directly.
 
