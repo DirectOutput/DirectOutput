@@ -462,7 +462,7 @@ namespace DirectOutput.Cab.Out.LW
 
             public int Number { get; private set; }
 
-            public byte[] NewOutputValues = new byte[32] { 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48 };
+            public byte[] NewOutputValues = new byte[32] { 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49 };
             public byte[] CurrentOuputValues = new byte[32];
             public byte[] NewAfterValueSwitches = new byte[4];
             public byte[] NewBeforeValueSwitches = new byte[4];
