@@ -265,7 +265,7 @@ namespace DirectOutput.Cab.Out.DMX
                     lock (UpdateLocker)
                     {
                         UpdateRequired = false;
-                        Engine.SendDMX(BroadcastAddress, Universe, DMXData, ((LastDMXChannel | 1) + 1).Limit(2, 512));
+                        Engine.SendDMX(BroadcastAddress, Universe, DMXData, 512);// ((LastDMXChannel | 1) + 1).Limit(2, 512));
                     }
 
                 }
