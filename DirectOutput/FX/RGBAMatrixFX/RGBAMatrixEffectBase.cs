@@ -198,10 +198,10 @@ namespace DirectOutput.FX.RGBAMatrixFX
                 RGBAMatrix = (IRGBAMatrix)Table.Pinball.Cabinet.Toys[ToyName];
                 RGBAMatrixLayer = RGBAMatrix.GetLayer(LayerNr);
 
-                AreaLeft = ((float)RGBAMatrix.Width / 100 * Left).RoundToInt().Limit(0,RGBAMatrix.Width-1);
-                AreaTop = ((float)RGBAMatrix.Height / 100 * Top).RoundToInt().Limit(0, RGBAMatrix.Height - 1);
-                AreaRight = ((float)RGBAMatrix.Width / 100 * (Left + Width).Limit(0, 100)).RoundToInt().Limit(0, RGBAMatrix.Width - 1);
-                AreaBottom = ((float)RGBAMatrix.Height / 100 * (Top + Height).Limit(0, 100)).RoundToInt().Limit(0, RGBAMatrix.Height - 1);
+                AreaLeft = (int)((float)RGBAMatrix.Width / 100 * Left).Floor().Limit(0,RGBAMatrix.Width-1);
+                AreaTop = (int)((float)RGBAMatrix.Height / 100 * Top).Floor().Limit(0, RGBAMatrix.Height - 1);
+                AreaRight = (int)((float)RGBAMatrix.Width / 100 * (Left + Width).Limit(0, 100)).Floor().Limit(0, RGBAMatrix.Width - 1);
+                AreaBottom = (int)((float)RGBAMatrix.Height / 100 * (Top + Height).Limit(0, 100)).Floor().Limit(0, RGBAMatrix.Height - 1);
 
                 int Tmp;
                 if (AreaLeft > AreaRight) { Tmp = AreaRight; AreaRight = AreaLeft; AreaLeft = AreaRight; }
