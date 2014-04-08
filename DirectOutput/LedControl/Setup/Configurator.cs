@@ -15,6 +15,7 @@ using DirectOutput.FX.ValueFX;
 using DirectOutput.FX.RGBAMatrixFX;
 using System;
 using DirectOutput.FX.ConditionFX;
+using DirectOutput.General;
 
 namespace DirectOutput.LedControl.Setup
 {
@@ -43,14 +44,22 @@ namespace DirectOutput.LedControl.Setup
         {
             Dictionary<int, TableConfig> TableConfigDict = LedControlConfigList.GetTableConfigDictonary(RomName);
 
+            string IniFilePath = "";
+            if (LedControlConfigList.Count > 0)
+            {
+                IniFilePath = LedControlConfigList[0].LedControlIniFile.Directory.FullName;
+            }
+
             Dictionary<int, Dictionary<int, IToy>> ToyAssignments = SetupCabinet(TableConfigDict, Cabinet);
 
-            SetupTable(Table, TableConfigDict, ToyAssignments);
+
+
+            SetupTable(Table, TableConfigDict, ToyAssignments, IniFilePath);
 
 
         }
 
-        private void SetupTable(Table.Table Table, Dictionary<int, TableConfig> TableConfigDict, Dictionary<int, Dictionary<int, IToy>> ToyAssignments)
+        private void SetupTable(Table.Table Table, Dictionary<int, TableConfig> TableConfigDict, Dictionary<int, Dictionary<int, IToy>> ToyAssignments, string IniFilePath)
         {
             foreach (KeyValuePair<int, TableConfig> KV in TableConfigDict)
             {
@@ -77,65 +86,85 @@ namespace DirectOutput.LedControl.Setup
 
                                 if (Toy is IRGBAMatrix)
                                 {
-                                    RGBAColor ActiveColor = null;
-                                    if (TCS.ColorConfig != null)
-                                    {
-                                        ActiveColor = TCS.ColorConfig.GetCabinetColor().GetRGBAColor();
-                                    }
-                                    else
-                                    {
-                                        if (!TCS.ColorName.IsNullOrWhiteSpace())
-                                        {
-                                            if (TCS.ColorName.StartsWith("#"))
-                                            {
-                                                ActiveColor = new RGBAColor();
-                                                if (!ActiveColor.SetColor(TCS.ColorName))
-                                                {
-                                                    ActiveColor = null;
-                                                }
-                                            }
-                                        }
-                                    }
 
-                                    if (ActiveColor != null)
+                                    if (TCS.IsBitmap)
                                     {
-                                        RGBAColor InactiveColor = ActiveColor.Clone();
-                                        InactiveColor.Alpha = 0;
-                                        if (TCS.AreaDirection.HasValue)
+                                        FilePattern P = new FilePattern("{0}\\{1}.*".Build(IniFilePath,TC.ShortRomName));
+
+                                        if (TCS.AreaBitmapAnimationStepCount > 1)
                                         {
-                                            //shift effect
-                                            Effect = new RGBAMatrixColorShiftEffect() { ShiftDirection = TCS.AreaDirection.Value, ShiftAcceleration=TCS.AreaAcceleration, ActiveColor = ActiveColor, InactiveColor = InactiveColor, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft,  LayerNr = Layer, ToyName = Toy.Name };
-                                            if (TCS.AreaSpeed > 0)
-                                            {
-                                               ((RGBAMatrixColorShiftEffect)Effect).ShiftSpeed = TCS.AreaSpeed;
-                                            }
-                                        
-                                        }
-                                        else if (TCS.AreaFlickerDensity > 0)
-                                        {
-                                            //flicker effect
-                                            Effect = new RGBAMatrixColorFlickerEffect() {Density=TCS.AreaFlickerDensity.Limit(1,99), ActiveColor = ActiveColor, InactiveColor = InactiveColor, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, LayerNr = Layer, ToyName = Toy.Name };
-                                            if (TCS.AreaFlickerMinDurationMs > 0)
-                                            {
-                                                ((RGBAMatrixColorFlickerEffect)Effect).MinFlickerDurationMs = TCS.AreaFlickerMinDurationMs;
-                                            }
-                                            if (TCS.AreaFlickerMaxDurationMs > 0)
-                                            {
-                                                ((RGBAMatrixColorFlickerEffect)Effect).MaxFlickerDurationMs = TCS.AreaFlickerMaxDurationMs;
-                                            }
-                                        
+                                            //it is a animation
+                                            Effect = new RGBAMatrixBitmapAnimationEffect() { BitmapFilePattern = P, BitmapLeft = TCS.AreaBitmapLeft, BitmapTop = TCS.AreaBitmapTop, BitmapHeight = TCS.AreaBitmapHeight, BitmapWidth = TCS.AreaBitmapWidth, BitmapFrameNumber = TCS.AreaBitmapFrame, AnimationDirection = TCS.AreaBitmapAnimationDirection, AnimationFrameDuration = TCS.AreaBitmapAnimationFrameDuration, AnimationStepCount = TCS.AreaBitmapAnimationStepCount, AnimationStepSize = TCS.AreaBitmapAnimationStepSize, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, LayerNr = Layer, ToyName = Toy.Name };
                                         }
                                         else
                                         {
-                                           //Color effect
-                                            Effect = new RGBAMatrixColorEffect() { ActiveColor = ActiveColor, InactiveColor = InactiveColor, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, LayerNr = Layer, ToyName = Toy.Name };
+                                            //its a static bitmap
+                                            Effect = new RGBAMatrixBitmapEffect() { BitmapFilePattern = P, BitmapLeft = TCS.AreaBitmapLeft, BitmapTop = TCS.AreaBitmapTop, BitmapHeight = TCS.AreaBitmapHeight, BitmapWidth = TCS.AreaBitmapWidth, BitmapFrameNumber = TCS.AreaBitmapFrame, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, LayerNr = Layer, ToyName = Toy.Name };
                                         }
-
                                     }
                                     else
                                     {
-                                        Log.Warning("No color valid color definition found for earea effect. Skipped setting {0} in column {1} for LedWizEqivalent number {2}.".Build(SettingNumber, TCC.Number, LedWizNr));
 
+                                        RGBAColor ActiveColor = null;
+                                        if (TCS.ColorConfig != null)
+                                        {
+                                            ActiveColor = TCS.ColorConfig.GetCabinetColor().GetRGBAColor();
+                                        }
+                                        else
+                                        {
+                                            if (!TCS.ColorName.IsNullOrWhiteSpace())
+                                            {
+                                                if (TCS.ColorName.StartsWith("#"))
+                                                {
+                                                    ActiveColor = new RGBAColor();
+                                                    if (!ActiveColor.SetColor(TCS.ColorName))
+                                                    {
+                                                        ActiveColor = null;
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        if (ActiveColor != null)
+                                        {
+                                            RGBAColor InactiveColor = ActiveColor.Clone();
+                                            InactiveColor.Alpha = 0;
+                                            if (TCS.AreaDirection.HasValue)
+                                            {
+                                                //shift effect
+                                                Effect = new RGBAMatrixColorShiftEffect() { ShiftDirection = TCS.AreaDirection.Value, ShiftAcceleration = TCS.AreaAcceleration, ActiveColor = ActiveColor, InactiveColor = InactiveColor, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, LayerNr = Layer, ToyName = Toy.Name };
+                                                if (TCS.AreaSpeed > 0)
+                                                {
+                                                    ((RGBAMatrixColorShiftEffect)Effect).ShiftSpeed = TCS.AreaSpeed;
+                                                }
+
+                                            }
+                                            else if (TCS.AreaFlickerDensity > 0)
+                                            {
+                                                //flicker effect
+                                                Effect = new RGBAMatrixColorFlickerEffect() { Density = TCS.AreaFlickerDensity.Limit(1, 99), ActiveColor = ActiveColor, InactiveColor = InactiveColor, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, LayerNr = Layer, ToyName = Toy.Name };
+                                                if (TCS.AreaFlickerMinDurationMs > 0)
+                                                {
+                                                    ((RGBAMatrixColorFlickerEffect)Effect).MinFlickerDurationMs = TCS.AreaFlickerMinDurationMs;
+                                                }
+                                                if (TCS.AreaFlickerMaxDurationMs > 0)
+                                                {
+                                                    ((RGBAMatrixColorFlickerEffect)Effect).MaxFlickerDurationMs = TCS.AreaFlickerMaxDurationMs;
+                                                }
+
+                                            }
+                                            else
+                                            {
+                                                //Color effect
+                                                Effect = new RGBAMatrixColorEffect() { ActiveColor = ActiveColor, InactiveColor = InactiveColor, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, LayerNr = Layer, ToyName = Toy.Name };
+                                            }
+
+                                        }
+                                        else
+                                        {
+                                            Log.Warning("No color valid color definition found for area effect. Skipped setting {0} in column {1} for LedWizEqivalent number {2}.".Build(SettingNumber, TCC.Number, LedWizNr));
+
+                                        }
                                     }
                                 }
                                 else if (Toy is IRGBAToy)
@@ -285,7 +314,7 @@ namespace DirectOutput.LedControl.Setup
                                                 }
                                                 Table.TableElements[TET, TEN].AssignedEffects.Add(new AssignedEffect(Effect.Name));
                                             }
-                                            
+
                                             break;
 
 

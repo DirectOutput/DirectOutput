@@ -5,6 +5,7 @@ using System.Text;
 using DirectOutput.General;
 
 using DirectOutput.General.BitmapHandling;
+using System.IO;
 
 namespace DirectOutput.FX.RGBAMatrixFX
 {
@@ -85,7 +86,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
         }
 
 
-        private FastBitmapDataExtractModeEnum _DataExtractMode = FastBitmapDataExtractModeEnum.SinglePixelCenter;
+        private FastBitmapDataExtractModeEnum _DataExtractMode = FastBitmapDataExtractModeEnum.BlendPixels;
 
         /// <summary>
         /// Gets or sets the mode how data is extracted from the source bitmap.
@@ -136,7 +137,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
             float AlphaWeight = FadeValue.Limit(0, 255) / 255;
             for (int y = 0; y < AreaHeight; y++)
             {
-                int yd = y * AreaTop;
+                int yd = y + AreaTop;
                 for (int x = 0; x < AreaWidth; x++)
                 {
                     int xd = x + AreaLeft;
@@ -182,18 +183,17 @@ namespace DirectOutput.FX.RGBAMatrixFX
             //TODO: Insert replace values for file pattern
             if (BitmapFilePattern.IsValid)
             {
-
-                string Filename = BitmapFilePattern.GetFirstMatchingFile().FullName;
-                if (!Filename.IsNullOrWhiteSpace())
+                FileInfo FI = BitmapFilePattern.GetFirstMatchingFile();
+                if (FI!=null && FI.Exists)
                 {
                     FastImage BM;
                     try
                     {
-                        BM = Table.Bitmaps[Filename];
+                        BM = Table.Bitmaps[FI.FullName];
                     }
                     catch (Exception E)
                     {
-                        Log.Exception("LedStripBitmapEffect {0} cant initialize.  Could not load file {1}.".Build(Name, Filename), E);
+                        Log.Exception("LedStripBitmapEffect {0} cant initialize.  Could not load file {1}.".Build(Name, FI.FullName), E);
                         return;
                     }
 
@@ -204,7 +204,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
                     }
                     else
                     {
-                        Log.Warning("LedStripBitmapEffect {0} cant initialize. Frame {1} does not exist in source image {2}.".Build(Name, BitmapFrameNumber, Filename));
+                        Log.Warning("LedStripBitmapEffect {0} cant initialize. Frame {1} does not exist in source image {2}.".Build(Name, BitmapFrameNumber, FI.FullName));
 
                     }
                 }

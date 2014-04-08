@@ -126,6 +126,8 @@
     <Compile Include="Cab\Toys\Virtual\Virtual.cs" />
     <Compile Include="FX\ConditionFX\ConditionFX.cs" />
     <Compile Include="FX\ConditionFX\TableElementConditionEffect.cs" />
+    <Compile Include="FX\RGBAMatrixFX\RGBAMatrixAnimationDirection.cs" />
+    <Compile Include="FX\RGBAMatrixFX\RGBAMatrixBitmapAnimationEffect.cs" />
     <Compile Include="FX\RGBAMatrixFX\RGBAMatrixColorFlickerEffect.cs" />
     <Compile Include="FX\TimmedFX\MaxDurationEffect.cs" />
     <Compile Include="FX\ValueFX\ValueFX.cs" />

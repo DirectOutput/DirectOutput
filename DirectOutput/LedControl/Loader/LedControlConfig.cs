@@ -56,6 +56,24 @@ namespace DirectOutput.LedControl.Loader
         }
 
 
+        private FileInfo _LedControlIniFile;
+
+        /// <summary>
+        /// Gets the led control ini file.
+        /// </summary>
+        /// <value>
+        /// The led control ini file.
+        /// </value>
+        public FileInfo LedControlIniFile
+        {
+            get { return _LedControlIniFile; }
+            private set { _LedControlIniFile = value; }
+        }
+        
+
+
+
+
 
         /// <summary>
         /// Parses the ledcontrol.ini file.
@@ -72,6 +90,7 @@ namespace DirectOutput.LedControl.Loader
         /// Section {0} of file {1} does not have the same number of columns in all lines.
         /// </exception>
         private void ParseLedControlIni(FileInfo LedControlIniFile, bool ThrowExceptions = false)
+        
         {
             string[] ColorStartStrings = { "[Colors DOF]", "[Colors LedWiz]" };
             string[] OutStartStrings = { "[Config DOF]", "[Config outs]" };
@@ -219,6 +238,8 @@ namespace DirectOutput.LedControl.Loader
 
             //ResolveOutputNumbers();
             ResolveRGBColors();
+
+            this.LedControlIniFile = LedControlIniFile;
         }
 
         private List<string> GetSection(Dictionary<string, List<string>> Sections, IEnumerable<string> SectionStartStrings)

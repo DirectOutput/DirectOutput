@@ -249,9 +249,17 @@ namespace DirectOutput.LedControl.Loader
         public ShiftDirectionEnum? AreaDirection = null;
         public bool IsArea = false;
 
+        public bool IsBitmap = false;
+        public int AreaBitmapTop = 0;
+        public int AreaBitmapLeft = 0;
+        public int AreaBitmapWidth = -1;
+        public int AreaBitmapHeight = -1;
+        public int AreaBitmapFrame=0;
 
-
-
+        public int AreaBitmapAnimationStepSize = 1;
+        public int AreaBitmapAnimationStepCount = 0;
+        public int AreaBitmapAnimationFrameDuration = 30;
+        public RGBAMatrixAnimationDirection AreaBitmapAnimationDirection = RGBAMatrixAnimationDirection.Frame;
 
 
         /// <summary>
@@ -400,6 +408,62 @@ namespace DirectOutput.LedControl.Loader
                 {
                     NoBool = true;
                 }
+
+                else if (Parts[PartNr].Length > 3 && Parts[PartNr].Substring(0, 3).ToUpper() == "ABT" && Parts[PartNr].Substring(3).IsInteger())
+                {
+                    AreaBitmapTop = Parts[PartNr].Substring(3).ToInteger();
+                    IsArea = true;
+                    IsBitmap = true;
+                }
+                else if (Parts[PartNr].Length > 3 && Parts[PartNr].Substring(0, 3).ToUpper() == "ABL" && Parts[PartNr].Substring(3).IsInteger())
+                {
+                    AreaBitmapLeft = Parts[PartNr].Substring(3).ToInteger();
+                    IsArea = true;
+                    IsBitmap = true;
+                }
+                else if (Parts[PartNr].Length > 3 && Parts[PartNr].Substring(0, 3).ToUpper() == "ABW" && Parts[PartNr].Substring(3).IsInteger())
+                {
+                    AreaBitmapWidth = Parts[PartNr].Substring(3).ToInteger();
+                    IsArea = true;
+                    IsBitmap = true;
+                }
+                else if (Parts[PartNr].Length > 3 && Parts[PartNr].Substring(0, 3).ToUpper() == "ABH" && Parts[PartNr].Substring(3).IsInteger())
+                {
+                    AreaBitmapHeight = Parts[PartNr].Substring(3).ToInteger();
+                    IsArea = true;
+                    IsBitmap = true;
+                }
+                else if (Parts[PartNr].Length > 3 && Parts[PartNr].Substring(0, 3).ToUpper() == "ABF" && Parts[PartNr].Substring(3).IsInteger())
+                {
+                    AreaBitmapFrame = Parts[PartNr].Substring(3).ToInteger();
+                    IsArea = true;
+                    IsBitmap = true;
+                }
+                else if (Parts[PartNr].Length > 3 && Parts[PartNr].Substring(0, 3).ToUpper() == "AAS" && Parts[PartNr].Substring(3).IsInteger())
+                {
+                    AreaBitmapAnimationStepSize = Parts[PartNr].Substring(3).ToInteger();
+                    IsArea = true;
+                    IsBitmap = true;
+                }
+                else if (Parts[PartNr].Length > 3 && Parts[PartNr].Substring(0, 3).ToUpper() == "AAC" && Parts[PartNr].Substring(3).IsInteger())
+                {
+                    AreaBitmapAnimationStepCount = Parts[PartNr].Substring(3).ToInteger();
+                    IsArea = true;
+                    IsBitmap = true;
+                }
+                else if (Parts[PartNr].Length > 3 && Parts[PartNr].Substring(0, 3).ToUpper() == "AAF" && Parts[PartNr].Substring(3).IsInteger())
+                {
+                    AreaBitmapAnimationFrameDuration = 1000/Parts[PartNr].Substring(3).ToInteger().Limit(10,int.MaxValue);
+                    IsArea = true;
+                    IsBitmap = true;
+                }
+                else if (Parts[PartNr].Length == 4 && Parts[PartNr].Substring(0, 3).ToUpper() == "AAD" && Enum.IsDefined(typeof(RGBAMatrixAnimationDirection), (int)Parts[PartNr].Substring(3, 1).ToUpper()[0]))
+                {
+
+                    AreaBitmapAnimationDirection = (RGBAMatrixAnimationDirection)Parts[PartNr].Substring(3, 1).ToUpper()[0];
+                    IsArea = true;
+                    IsBitmap = true;
+                }                
                 else if (Parts[PartNr].Length > 5 && Parts[PartNr].Substring(0, 5).ToUpper() == "AFDEN" && Parts[PartNr].Substring(5).IsInteger())
                 {
                     AreaFlickerDensity = Parts[PartNr].Substring(5).ToInteger();

@@ -39,12 +39,22 @@ namespace DirectOutput.General.BitmapHandling
         /// <returns>PixelData for the specified pixel.</returns>
         public PixelData GetPixel(int X, int Y)
         {
-            try
+            if (X < Width && Y < Height)
             {
                 return Pixels[X, Y];
             }
-            catch { }
-            return new PixelData();
+            else
+            {
+                return new PixelData();
+            }
+
+
+            //try
+            //{
+            //    return Pixels[X, Y];
+            //}
+            //catch { }
+            //return new PixelData();
         }
 
 
@@ -63,15 +73,15 @@ namespace DirectOutput.General.BitmapHandling
         public FastBitmap GetClip(int ResultWidth, int ResultHeight, int SourceLeft = 0, int SourceTop = 0, int SourceWidth = -1, int SourceHeight = -1, FastBitmapDataExtractModeEnum DataExtractMode = FastBitmapDataExtractModeEnum.SinglePixelCenter)
         {
 
-            SourceLeft = SourceLeft.Limit(0, int.MaxValue);
-            SourceTop = SourceTop.Limit(0, int.MinValue);
+            SourceLeft = SourceLeft.Limit(0, Width - 1);
+            SourceTop = SourceTop.Limit(0, Height - 1);
             SourceWidth = (SourceWidth < 0 ? Width - SourceLeft : SourceWidth);
             SourceHeight = (SourceHeight < 0 ? Height - SourceTop : SourceHeight);
             ResultWidth = ResultWidth.Limit(0, int.MaxValue);
             ResultHeight = ResultHeight.Limit(0, int.MaxValue);
 
             FastBitmap F = new FastBitmap();
-            F.SetFrameSize(this.Width, this.Height);
+            F.SetFrameSize(ResultWidth, ResultHeight);
             PixelData[,] D = F.Pixels;
 
             switch (DataExtractMode)
@@ -84,19 +94,22 @@ namespace DirectOutput.General.BitmapHandling
                     float Alpha = 0;
                     float Weight = 0;
 
-                    float PixelSourceWidth = SourceWidth / ResultWidth;
-                    float PixelSourceHeight = SourceHeight / ResultHeight;
+                    float PixelSourceWidth = (float)SourceWidth / ResultWidth;
+                    float PixelSourceHeight = (float)SourceHeight / ResultHeight;
                     float PixelSourceCount = PixelSourceWidth * PixelSourceHeight;
 
 
                     for (int y = 0; y < ResultHeight; y++)
                     {
-                        float PixelSourceTop = y * PixelSourceHeight;
+                        float PixelSourceTop = SourceTop+ y * PixelSourceHeight;
                         float PixelSourceBottom = PixelSourceTop + PixelSourceHeight;
+    
 
                         for (int x = 0; x < ResultWidth; x++)
                         {
-                            float PixelSourceLeft = x * PixelSourceWidth;
+                            int PSR = 0;
+                            int PSB = 0;
+                            float PixelSourceLeft = SourceLeft+x * PixelSourceWidth;
                             float PixelSourceRight = PixelSourceLeft + PixelSourceWidth;
                             Red = 0;
                             Green = 0;
@@ -117,11 +130,11 @@ namespace DirectOutput.General.BitmapHandling
                                 }
 
                                 //Upper edge
-                                int PSR = (int)PixelSourceRight.Floor();
+                                PSR = (int)PixelSourceRight.Floor();
                                 Weight = (PixelSourceTop.Ceiling() - PixelSourceTop);
                                 for (int xs = (int)PixelSourceLeft.Ceiling(); xs < PSR; xs++)
                                 {
-                                    PixelData PD = GetPixel((int)PixelSourceLeft.Floor(), (int)PixelSourceTop.Floor());
+                                    PixelData PD = GetPixel(xs, (int)PixelSourceTop.Floor());
                                     Red += PD.Red * Weight;
                                     Green += PD.Green * Weight;
                                     Blue += PD.Blue * Weight;
@@ -140,7 +153,9 @@ namespace DirectOutput.General.BitmapHandling
                                 }
                             }
 
-                            for (int ys = (int)PixelSourceTop.Ceiling(); ys < PixelSourceBottom; ys++)
+                            PSB = (int)PixelSourceBottom.Floor();
+                            PSR = (int)PixelSourceRight.Floor();
+                            for (int ys = (int)PixelSourceTop.Ceiling(); ys < PSB; ys++)
                             {
                                 //Left edge
                                 if (!PixelSourceLeft.IsIntegral())
@@ -154,7 +169,7 @@ namespace DirectOutput.General.BitmapHandling
                                 }
 
                                 //full pixels
-                                for (int xs = (int)PixelSourceLeft.Ceiling(); xs < PixelSourceRight.Ceiling(); xs++)
+                                for (int xs = (int)PixelSourceLeft.Ceiling(); xs < PSR; xs++)
                                 {
                                     PixelData PD = GetPixel(xs, ys);
                                     Red += PD.Red;
@@ -166,8 +181,8 @@ namespace DirectOutput.General.BitmapHandling
                                 //Right edge
                                 if (!PixelSourceRight.IsIntegral())
                                 {
-                                    Weight = (PixelSourceRight - PixelSourceRight.Floor());
-                                    PixelData PD = GetPixel((int)PixelSourceRight.Floor(), ys);
+                                    Weight = (PixelSourceRight - PSR);
+                                    PixelData PD = GetPixel(PSR, ys);
                                     Red += PD.Red * Weight;
                                     Green += PD.Green * Weight;
                                     Blue += PD.Blue * Weight;
@@ -178,11 +193,14 @@ namespace DirectOutput.General.BitmapHandling
 
                             if (!PixelSourceBottom.IsIntegral())
                             {
+                                PSB = (int)PixelSourceBottom.Floor();
+                                PSR = (int)PixelSourceRight.Floor();
+
                                 //Lower left corner
                                 if (!PixelSourceLeft.IsIntegral())
                                 {
-                                    PixelData PD = GetPixel((int)PixelSourceLeft.Floor(), (int)PixelSourceBottom.Floor());
-                                    Weight = (PixelSourceBottom - PixelSourceBottom.Floor()) * (PixelSourceLeft.Ceiling() - PixelSourceLeft);
+                                    PixelData PD = GetPixel((int)PixelSourceLeft.Floor(), PSB);
+                                    Weight = (PixelSourceBottom - PSB) * (PixelSourceLeft.Ceiling() - PixelSourceLeft);
                                     Red += PD.Red * Weight;
                                     Green += PD.Green * Weight;
                                     Blue += PD.Blue * Weight;
@@ -190,11 +208,12 @@ namespace DirectOutput.General.BitmapHandling
                                 }
 
                                 //Lower edge
-                                int PSR = (int)PixelSourceRight.Floor();
-                                Weight = (PixelSourceBottom - PixelSourceBottom.Floor());
+                      
+
+                                Weight = (PixelSourceBottom - PSB);
                                 for (int xs = (int)PixelSourceLeft.Ceiling(); xs < PSR; xs++)
                                 {
-                                    PixelData PD = GetPixel((int)PixelSourceLeft.Floor(), (int)PixelSourceTop.Floor());
+                                    PixelData PD = GetPixel(xs, PSB);
                                     Red += PD.Red * Weight;
                                     Green += PD.Green * Weight;
                                     Blue += PD.Blue * Weight;
@@ -204,15 +223,15 @@ namespace DirectOutput.General.BitmapHandling
                                 //Lower right corner
                                 if (!PixelSourceRight.IsIntegral())
                                 {
-                                    Weight = (PixelSourceBottom - PixelSourceBottom.Floor()) * (PixelSourceRight - PixelSourceRight.Floor());
-                                    PixelData PD = GetPixel((int)PixelSourceRight.Floor(), (int)PixelSourceTop.Floor());
+                                    Weight = (PixelSourceBottom - PSB) * (PixelSourceRight - PSR);
+                                    PixelData PD = GetPixel(PSR, PSB);
                                     Red += PD.Red * Weight;
                                     Green += PD.Green * Weight;
                                     Blue += PD.Blue * Weight;
                                     Alpha += PD.Alpha * Weight;
                                 }
                             }
-                            D[x, y] = new PixelData((byte)(Red / PixelSourceCount), (byte)(Green / PixelSourceCount), (byte)(Blue / PixelSourceCount), (byte)(Alpha / PixelSourceCount));
+                            D[x, y] = new PixelData((byte)(Red / PixelSourceCount).Limit(0, 255), (byte)(Green / PixelSourceCount).Limit(0, 255), (byte)(Blue / PixelSourceCount).Limit(0, 255), (byte)(Alpha / PixelSourceCount).Limit(0, 255));
                         }
 
                     }
@@ -221,18 +240,21 @@ namespace DirectOutput.General.BitmapHandling
                 case FastBitmapDataExtractModeEnum.SinglePixelCenter:
                 default:
                     float XSource = 0;
+
+                    float XSourceBase = 0;
                     float YSource = 0;
                     float XStep = (float)SourceWidth / ResultWidth;
                     float YStep = (float)SourceHeight / ResultHeight;
 
                     if (DataExtractMode == FastBitmapDataExtractModeEnum.SinglePixelCenter)
                     {
-                        XSource = SourceWidth / 2;
-                        YSource = SourceHeight / 2;
+                        XSourceBase = XStep / 2;
+                        YSource = YStep / 2;
                     }
 
                     for (int y = 0; y < ResultHeight; y++)
                     {
+                        XSource = XSourceBase;
                         for (int x = 0; x < ResultWidth; x++)
                         {
                             D[x, y] = GetPixel(XSource.RoundToInt(), YSource.RoundToInt());
@@ -258,12 +280,16 @@ namespace DirectOutput.General.BitmapHandling
         public void SetFrameSize(int Width, int Height)
         {
             Pixels = new PixelData[Width.Limit(0, int.MaxValue), Height.Limit(0, int.MaxValue)];
+            _Width = Width;
+            _Height = Height;
         }
 
 
+
+        private int _Width = 0;
+        
         /// <summary>
         /// Gets the width of the frame.<br/>
-
         /// </summary>
         /// <value>
         /// The width of the frame.
@@ -272,10 +298,12 @@ namespace DirectOutput.General.BitmapHandling
         {
             get
             {
-                return Pixels.GetLength(0);
+                return _Width;
             }
         }
 
+
+        private int _Height = 0;
         /// <summary>
         /// Get the height of the frame.<br/>
         /// </summary>
