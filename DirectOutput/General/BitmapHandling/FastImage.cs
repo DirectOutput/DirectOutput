@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using DirectOutput.General.Generic;
 
-namespace DirectOutput.General.Bitmap
+namespace DirectOutput.General.BitmapHandling
 {
     public class FastImage:NamedItemBase
     {

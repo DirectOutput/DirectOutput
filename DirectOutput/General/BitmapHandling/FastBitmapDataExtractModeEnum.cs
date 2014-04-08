@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DirectOutput.General.Bitmap
+namespace DirectOutput.General.BitmapHandling
 {
     public enum FastBitmapDataExtractModeEnum
     {

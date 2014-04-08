@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DirectOutput.General.Bitmap
+namespace DirectOutput.General.BitmapHandling
 {
     public class FastBitmap
     {
@@ -49,7 +49,7 @@ namespace DirectOutput.General.Bitmap
 
 
         /// <summary>
-        /// Gets a FastBitmap with a specified size representing a defiable section of the current object.
+        /// Gets a FastBitmap with a specified size representing a defineable section of the current object.
         /// </summary>
         /// <param name="ResultWidth">Width of the resulting FastBitmap object.</param>
         /// <param name="ResultHeight">Height of the resulting FastBitmap object.</param>

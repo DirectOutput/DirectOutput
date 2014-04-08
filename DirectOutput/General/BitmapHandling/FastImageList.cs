@@ -5,7 +5,7 @@ using System.Text;
 using System.IO;
 using DirectOutput.General.Generic;
 
-namespace DirectOutput.General.Bitmap
+namespace DirectOutput.General.BitmapHandling
 {
     public class FastImageList : NamedItemList<FastImage>
     {

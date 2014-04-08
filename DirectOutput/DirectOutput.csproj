@@ -130,6 +130,7 @@
     <Compile Include="FX\ValueFX\ValueFX.cs" />
     <Compile Include="FX\ValueFX\ValueInvertEffect.cs" />
     <Compile Include="FX\ValueFX\ValueMapFullRangeEffect.cs" />
+    <Compile Include="General\BitmapHandling\UnsafeBitmap.cs" />
     <Compile Include="General\CurveList.cs" />
     <Compile Include="Cab\Toys\IToyUpdatable.cs" />
     <Compile Include="Cab\Toys\Layer\AlphaMappingTable.cs" />
@@ -244,11 +245,11 @@
     <Compile Include="FX\RGBAFX\RGBAEffectBase.cs" />
     <Compile Include="FX\NullFX\NullEffect.cs" />
     <Compile Include="FX\RGBAFX\RGBAFX.cs" />
-    <Compile Include="General\Bitmap\FastImage.cs" />
-    <Compile Include="General\Bitmap\FastBitmapDataExtractModeEnum.cs" />
-    <Compile Include="General\Bitmap\FastImageList.cs" />
-    <Compile Include="General\Bitmap\FastBitmap.cs" />
-    <Compile Include="General\Bitmap\PixelData.cs" />
+    <Compile Include="General\BitmapHandling\FastImage.cs" />
+    <Compile Include="General\BitmapHandling\FastBitmapDataExtractModeEnum.cs" />
+    <Compile Include="General\BitmapHandling\FastImageList.cs" />
+    <Compile Include="General\BitmapHandling\FastBitmap.cs" />
+    <Compile Include="General\BitmapHandling\PixelData.cs" />
     <Compile Include="General\Statistics\SimpleStatistics.cs" />
     <Compile Include="General\Statistics\TimeSpanStatisticsList.cs" />
     <Compile Include="General\ThreadInfo.cs" />

@@ -130,9 +130,9 @@ namespace DirectOutput.FX.RGBAMatrixFX
 
         private void DisplayBitmap(int FadeValue)
         {
-            if (FadeMode == FadeModeEnum.OnOff) FadeValue = (FadeValue < 1 ? 0 : 255); 
+            if (FadeMode == FadeModeEnum.OnOff) FadeValue = (FadeValue < 1 ? 0 : 255);
 
-            float AlphaWeight = 255 / FadeValue.Limit(0, 255);
+            float AlphaWeight = FadeValue.Limit(0, 255) / 255;
             for (int y = 0; y < AreaHeight; y++)
             {
                 int yd = y * AreaTop;
