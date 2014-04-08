@@ -17,9 +17,9 @@ namespace DirectOutput.LedControl.Loader
             foreach (string D in DataToParse)
             {
                 int P = D.IndexOf("=");
-                if (P > 1)
+                if (P > 0)
                 {
-                    Add(D.Substring(0,P),D.Substring(P+1));
+                    Add(D.Substring(0,P).Trim(),D.Substring(P+1).Trim());
                 }
                 else
                 {
