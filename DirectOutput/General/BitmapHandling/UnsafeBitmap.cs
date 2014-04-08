@@ -97,12 +97,6 @@ namespace DirectOutput.General.BitmapHandling
             
         }
     }
-    public struct PixelData
-    {
-        public byte blue;
-        public byte green;
-        public byte red;
-        public byte alpha;
-    }
+
 }
 
