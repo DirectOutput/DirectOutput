@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Drawing;
 
 namespace DirectOutput.General.BitmapHandling
 {
@@ -64,7 +65,7 @@ namespace DirectOutput.General.BitmapHandling
 
             SourceLeft = SourceLeft.Limit(0, int.MaxValue);
             SourceTop = SourceTop.Limit(0, int.MinValue);
-            SourceWidth=(SourceWidth<0?Width-SourceLeft:SourceWidth);
+            SourceWidth = (SourceWidth < 0 ? Width - SourceLeft : SourceWidth);
             SourceHeight = (SourceHeight < 0 ? Height - SourceTop : SourceHeight);
             ResultWidth = ResultWidth.Limit(0, int.MaxValue);
             ResultHeight = ResultHeight.Limit(0, int.MaxValue);
@@ -289,5 +290,69 @@ namespace DirectOutput.General.BitmapHandling
             }
         }
 
+
+        /// <summary>
+        /// Loads the currently active frame of the specified Image into the FastBitmap object.
+        /// </summary>
+        /// <param name="Bitmap">The bitmap.</param>
+        public void Load(Image Image)
+        {
+            Load(new Bitmap(Image));
+        }
+
+        /// <summary>
+        /// Loads the currently active frame of the specified bitmap into the FastBitmap object.
+        /// </summary>
+        /// <param name="Bitmap">The bitmap.</param>
+        public void Load(Bitmap Bitmap)
+        {
+
+            UnsafeBitmap UImg = new UnsafeBitmap(Bitmap);
+            UImg.LockBitmap();
+
+            SetFrameSize(Bitmap.Width, Bitmap.Height);
+
+            PixelData[,] P = Pixels;
+
+            int h = Bitmap.Height;
+            int w = Bitmap.Width;
+
+            for (int y = 0; y < h; y++)
+            {
+                for (int x = 0; x < w; x++)
+                {
+                    P[x, y] = UImg.GetPixel(x, y);
+                }
+            }
+            UImg.UnlockBitmap();
+            UImg = null;
+
+            GC.Collect();
+        }
+
+
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FastBitmap"/> class.
+        /// </summary>
+        public FastBitmap() { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FastBitmap"/> class and loads the currently active frame of the specified bitmap into the FastBitmap object.
+        /// </summary>
+        /// <param name="Bitmap">The bitmap.</param>
+        public FastBitmap(Bitmap Bitmap)
+        {
+            Load(Bitmap);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FastBitmap"/> class and loads the currently active frame of the specified image into the FastBitmap object..
+        /// </summary>
+        /// <param name="Image">The image.</param>
+        public FastBitmap(Image Image)
+        {
+            Load(Image);
+        }
     }
 }

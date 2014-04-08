@@ -4,6 +4,7 @@ using System.Text;
 using System.Xml.Serialization;
 using DirectOutput.FX;
 using DirectOutput.General.Bitmap;
+using DirectOutput.General.BitmapHandling;
 
 
 /// <summary>

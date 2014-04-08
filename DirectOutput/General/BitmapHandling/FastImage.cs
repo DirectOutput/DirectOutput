@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DirectOutput.General.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace DirectOutput.General.BitmapHandling
 {
@@ -21,9 +23,26 @@ namespace DirectOutput.General.BitmapHandling
             private set { _Frames = value; }
         }
 
-        public void LoadImageFile(string p)
+        public void LoadImageFile(string ImageFilePath)
         {
-            throw new NotImplementedException();
+            Frames = new Dictionary<int, FastBitmap>();
+
+            Image Img = Image.FromFile(ImageFilePath);
+
+            FrameDimension dimension = new FrameDimension(Img.FrameDimensionsList[0]);
+            // Number of frames
+            int FrameCount = Img.GetFrameCount(dimension);
+            // Return an Image at a certain index
+
+            for (int FrameNumber = 0; FrameNumber < FrameCount; FrameNumber++)
+            {
+                Img.SelectActiveFrame(dimension, FrameNumber);
+
+                FastBitmap F = new FastBitmap(Img);
+
+                Frames.Add(FrameNumber, F);
+            }
+
         }
 
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using DirectOutput.General;
 using DirectOutput.General.Bitmap;
+using DirectOutput.General.BitmapHandling;
 
 namespace DirectOutput.FX.RGBAMatrixFX
 {
