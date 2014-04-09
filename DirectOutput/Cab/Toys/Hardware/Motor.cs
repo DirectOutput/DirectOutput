@@ -95,7 +95,7 @@ namespace DirectOutput.Cab.Toys.Hardware
         {
             if (Output != null)
             {
-                int P = FadingCurve.MapValue(Layers.GetResultingValue()).Limit(0, 255);
+                int P = FadingCurve.MapValue(GetResultingValue()).Limit(0, 255);
 
                 if (P == 0)
                 {

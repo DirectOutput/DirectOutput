@@ -5,41 +5,15 @@ using System.Text;
 using DirectOutput.General.Color;
 using DirectOutput.Cab.Toys.Layer;
 
-namespace DirectOutput.FX.RGBAMatrixFX
+namespace DirectOutput.FX.MatrixFX
 {
-    public class RGBAMatrixColorShiftEffect : RGBAMatrixEffectBase
+    /// <summary>
+    /// Base class for effects shift values through a matrix of elements.
+    /// </summary>
+    /// <typeparam name="MatrixElementType">The type of the atrix element type.</typeparam>
+    public abstract class MatrixShiftEffectBase<MatrixElementType> : MatrixEffectBase<MatrixElementType>
     {
         private const int RefreshIntervalMs = 30;
-
-        private RGBAColor _ActiveColor = new RGBAColor(0xff, 0xff, 0xff, 0xff);
-
-        /// <summary>
-        /// Gets or sets the active color.
-        /// The FadeMode property defines how this value is used.
-        /// </summary>
-        /// <value>
-        /// The active color.
-        /// </value>
-        public RGBAColor ActiveColor
-        {
-            get { return _ActiveColor; }
-            set { _ActiveColor = value; }
-        }
-
-        private RGBAColor _InactiveColor = new RGBAColor(0, 0, 0, 0);
-
-        /// <summary>
-        /// Gets or sets the inactive color.
-        /// The FadeMode property defines how this value is used.
-        /// </summary>
-        /// <value>
-        /// The inactive color.
-        /// </value>
-        public RGBAColor InactiveColor
-        {
-            get { return _InactiveColor; }
-            set { _InactiveColor = value; }
-        }
 
 
         private FadeModeEnum _FadeMode = FadeModeEnum.Fade;
@@ -48,7 +22,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
         /// Gets or sets the fade mode.
         /// </summary>
         /// <value>
-        /// Fade (active and inactive color will fade depending on trigger value) or OnOff (actvice color is used for triger values >0, otherwise inactive color will be used).
+        /// Fade (output depends on the 0-255 range of the trigger value) or OnOff (output will be fully on if triggervalue is not equal 0, otherwise it will be off).
         /// </value>
         public FadeModeEnum FadeMode
         {
@@ -56,7 +30,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
             set { _FadeMode = value; }
         }
 
-        private ShiftDirectionEnum _ShiftDirection = ShiftDirectionEnum.Right;
+        private MatrixShiftDirectionEnum _ShiftDirection = MatrixShiftDirectionEnum.Right;
 
         /// <summary>
         /// Gets or sets the shift direction resp. the direction in which the color moves.
@@ -64,7 +38,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
         /// <value>
         /// The shift direction (Left, Right, Up, Down).
         /// </value>
-        public ShiftDirectionEnum ShiftDirection
+        public MatrixShiftDirectionEnum ShiftDirection
         {
             get { return _ShiftDirection; }
             set { _ShiftDirection = value; }
@@ -103,27 +77,27 @@ namespace DirectOutput.FX.RGBAMatrixFX
 
 
 
-        private void BuildStep2LedTable()
+        private void BuildStep2ElementTable()
         {
             List<float> L = new List<float>();
 
-            float NumberOfLeds = (ShiftDirection == ShiftDirectionEnum.Left || ShiftDirection == ShiftDirectionEnum.Right ? AreaWidth : AreaHeight);
+            float NumberOfElements = (ShiftDirection == MatrixShiftDirectionEnum.Left || ShiftDirection == MatrixShiftDirectionEnum.Right ? AreaWidth : AreaHeight);
             float Position = 0;
-            float Speed = NumberOfLeds/100*(ShiftSpeed / (1000 / RefreshIntervalMs));
-            float Acceleration = NumberOfLeds / 100 * (ShiftAcceleration / (1000 / RefreshIntervalMs));
-            while (Position <= NumberOfLeds)
+            float Speed = NumberOfElements/100*(ShiftSpeed / (1000 / RefreshIntervalMs));
+            float Acceleration = NumberOfElements / 100 * (ShiftAcceleration / (1000 / RefreshIntervalMs));
+            while (Position <= NumberOfElements)
             {
-                L.Add(Position.Limit(0,NumberOfLeds));
+                L.Add(Position.Limit(0,NumberOfElements));
                 Position += Speed ;
-                Speed = (Speed + Acceleration).Limit(NumberOfLeds / 100 * (1 / (1000 / RefreshIntervalMs)), 10000);
+                Speed = (Speed + Acceleration).Limit(NumberOfElements / 100 * (1 / (1000 / RefreshIntervalMs)), 10000);
             }
-            L.Add(Position.Limit(0, NumberOfLeds));
+            L.Add(Position.Limit(0, NumberOfElements));
 
 
-            Step2Led = L.ToArray();
+            Step2Element = L.ToArray();
         }
 
-        float[] Step2Led=null;
+        float[] Step2Element=null;
 
         private void DoStep()
         {
@@ -134,61 +108,61 @@ namespace DirectOutput.FX.RGBAMatrixFX
             }
 
 
-            int NumberOfLeds = (ShiftDirection == ShiftDirectionEnum.Left || ShiftDirection == ShiftDirectionEnum.Right ? AreaWidth : AreaHeight);
+            int NumberOfElements = (ShiftDirection == MatrixShiftDirectionEnum.Left || ShiftDirection == MatrixShiftDirectionEnum.Right ? AreaWidth : AreaHeight);
 
 
-            float FromLedNr = NumberOfLeds;
-            float ToLedNr = 0;
-            float[] Value = new float[NumberOfLeds+1];
+            float FromElementNr = NumberOfElements;
+            float ToElementNr = 0;
+            float[] Value = new float[NumberOfElements+1];
 
             int LastValue = LastDiscardedValue;
 
             int ToNr;
             foreach (KeyValuePair<int, int> KV in TriggerValueBuffer)
             {
-                ToLedNr = Step2Led[(CurrentStep-KV.Key)];
+                ToElementNr = Step2Element[(CurrentStep-KV.Key)];
 
-                if (FromLedNr.Floor() == ToLedNr.Floor())
+                if (FromElementNr.Floor() == ToElementNr.Floor())
                 {
-                    Value[(int)FromLedNr.Floor()] += (FromLedNr - ToLedNr) * LastValue;
+                    Value[(int)FromElementNr.Floor()] += (FromElementNr - ToElementNr) * LastValue;
                 }
                 else
                 {
-                    if (!FromLedNr.IsIntegral())
+                    if (!FromElementNr.IsIntegral())
                     {
-                        Value[(int)FromLedNr.Floor()] += (FromLedNr - FromLedNr.Floor()) * LastValue;
+                        Value[(int)FromElementNr.Floor()] += (FromElementNr - FromElementNr.Floor()) * LastValue;
                     }
 
-                     ToNr = (int)(ToLedNr.Ceiling());
-                    for (int i = (int)FromLedNr.Floor()-1; i >= ToNr; i--)
+                     ToNr = (int)(ToElementNr.Ceiling());
+                    for (int i = (int)FromElementNr.Floor()-1; i >= ToNr; i--)
                     {
                         Value[i] = LastValue;
                     }
-                    if (!ToLedNr.IsIntegral())
+                    if (!ToElementNr.IsIntegral())
                     {
-                        Value[(int)ToLedNr.Floor()] += (ToLedNr.Ceiling() - ToLedNr) * LastValue;
+                        Value[(int)ToElementNr.Floor()] += (ToElementNr.Ceiling() - ToElementNr) * LastValue;
                     }
 
                 }
-                FromLedNr=ToLedNr;
+                FromElementNr=ToElementNr;
                 LastValue = KV.Value;
             }
-            ToLedNr = 0;
-            if (FromLedNr != ToLedNr)
+            ToElementNr = 0;
+            if (FromElementNr != ToElementNr)
             {
-                if (!FromLedNr.IsIntegral() && FromLedNr.Floor() < Width - 1)
+                if (!FromElementNr.IsIntegral() && FromElementNr.Floor() < Width - 1)
                 {
-                    Value[(int)FromLedNr.Floor()] += (FromLedNr - FromLedNr.Floor()) * LastValue;
+                    Value[(int)FromElementNr.Floor()] += (FromElementNr - FromElementNr.Floor()) * LastValue;
                 }
 
-                ToNr = (int)(ToLedNr.Ceiling()).Limit(0, int.MaxValue);
-                for (int i = (int)FromLedNr.Floor()-1; i >= ToNr; i--)
+                ToNr = (int)(ToElementNr.Ceiling()).Limit(0, int.MaxValue);
+                for (int i = (int)FromElementNr.Floor()-1; i >= ToNr; i--)
                 {
                     Value[i] = LastValue;
                 }
-                if (!ToLedNr.IsIntegral())
+                if (!ToElementNr.IsIntegral())
                 {
-                    Value[(int)ToLedNr.Floor()] += (ToLedNr.Ceiling() - ToLedNr) * LastValue;
+                    Value[(int)ToElementNr.Floor()] += (ToElementNr.Ceiling() - ToElementNr) * LastValue;
                 }
             }
 
@@ -196,72 +170,56 @@ namespace DirectOutput.FX.RGBAMatrixFX
             #region Data ouput
             switch (ShiftDirection)
             {
-                case ShiftDirectionEnum.Right:
-                    for (int i = 0; i < NumberOfLeds; i++)
+                case MatrixShiftDirectionEnum.Right:
+                    for (int i = 0; i < NumberOfElements; i++)
                     {
                         int V = ((int)Value[i]).Limit(0, 255);
                         if (V > 0 && FadeMode == FadeModeEnum.OnOff) { V = 255; }
-                        RGBAData D;
-                        D.Red = InactiveColor.Red + (int)((float)(ActiveColor.Red - InactiveColor.Red) * V / 255).Limit(0, 255);
-                        D.Green = InactiveColor.Green + (int)((float)(ActiveColor.Green - InactiveColor.Green) * V / 255).Limit(0, 255);
-                        D.Blue = InactiveColor.Blue + (int)((float)(ActiveColor.Blue - InactiveColor.Blue) * V / 255).Limit(0, 255);
-                        D.Alpha = InactiveColor.Alpha + (int)((float)(ActiveColor.Alpha - InactiveColor.Alpha) * V / 255).Limit(0, 255);
+                        MatrixElementType D = GetEffectValue(V);
 
                         for (int y = AreaTop; y <= AreaBottom; y++)
                         {
-                            RGBAMatrixLayer[AreaLeft + i, y] = D;
+                            MatrixLayer[AreaLeft + i, y] = D;
                         }
                     }
                     break;
-                case ShiftDirectionEnum.Down:
-                    for (int i = 0; i < NumberOfLeds; i++)
+                case MatrixShiftDirectionEnum.Down:
+                    for (int i = 0; i < NumberOfElements; i++)
                     {
                         int V = ((int)Value[i]).Limit(0, 255);
                         if (V > 0 && FadeMode == FadeModeEnum.OnOff) { V = 255; }
-                        RGBAData D;
-                        D.Red = InactiveColor.Red + (int)((float)(ActiveColor.Red - InactiveColor.Red) * V / 255).Limit(0, 255);
-                        D.Green = InactiveColor.Green + (int)((float)(ActiveColor.Green - InactiveColor.Green) * V / 255).Limit(0, 255);
-                        D.Blue = InactiveColor.Blue + (int)((float)(ActiveColor.Blue - InactiveColor.Blue) * V / 255).Limit(0, 255);
-                        D.Alpha = InactiveColor.Alpha + (int)((float)(ActiveColor.Alpha - InactiveColor.Alpha) * V / 255).Limit(0, 255);
+                        MatrixElementType D = GetEffectValue(V);
 
                         for (int x = AreaLeft; x <= AreaRight; x++)
                         {
-                            RGBAMatrixLayer[x, AreaTop + i] = D;
+                            MatrixLayer[x, AreaTop + i] = D;
                         }
                     }
                     break;
-                case ShiftDirectionEnum.Up:
-                    for (int i = 0; i < NumberOfLeds; i++)
+                case MatrixShiftDirectionEnum.Up:
+                    for (int i = 0; i < NumberOfElements; i++)
                     {
                         int V = ((int)Value[i]).Limit(0, 255);
                         if (V > 0 && FadeMode == FadeModeEnum.OnOff) { V = 255; }
-                        RGBAData D;
-                        D.Red = InactiveColor.Red + (int)((float)(ActiveColor.Red - InactiveColor.Red) * V / 255).Limit(0, 255);
-                        D.Green = InactiveColor.Green + (int)((float)(ActiveColor.Green - InactiveColor.Green) * V / 255).Limit(0, 255);
-                        D.Blue = InactiveColor.Blue + (int)((float)(ActiveColor.Blue - InactiveColor.Blue) * V / 255).Limit(0, 255);
-                        D.Alpha = InactiveColor.Alpha + (int)((float)(ActiveColor.Alpha - InactiveColor.Alpha) * V / 255).Limit(0, 255);
+                        MatrixElementType D = GetEffectValue(V);
 
                         for (int x = AreaLeft; x <= AreaRight; x++)
                         {
-                            RGBAMatrixLayer[x, AreaBottom - i] = D;
+                            MatrixLayer[x, AreaBottom - i] = D;
                         }
                     }
                     break;
-                case ShiftDirectionEnum.Left:
+                case MatrixShiftDirectionEnum.Left:
                 default:
-                    for (int i = 0; i < NumberOfLeds; i++)
+                    for (int i = 0; i < NumberOfElements; i++)
                     {
                         int V = ((int)Value[i]).Limit(0, 255);
                         if (V > 0 && FadeMode == FadeModeEnum.OnOff) { V = 255; }
-                        RGBAData D;
-                        D.Red = InactiveColor.Red + (int)((float)(ActiveColor.Red - InactiveColor.Red) * V / 255).Limit(0, 255);
-                        D.Green = InactiveColor.Green + (int)((float)(ActiveColor.Green - InactiveColor.Green) * V / 255).Limit(0, 255);
-                        D.Blue = InactiveColor.Blue + (int)((float)(ActiveColor.Blue - InactiveColor.Blue) * V / 255).Limit(0, 255);
-                        D.Alpha = InactiveColor.Alpha + (int)((float)(ActiveColor.Alpha - InactiveColor.Alpha) * V / 255).Limit(0, 255);
+                        MatrixElementType D = GetEffectValue(V);
 
                         for (int y = AreaTop; y <= AreaBottom; y++)
                         {
-                            RGBAMatrixLayer[AreaRight - i, y] = D;
+                            MatrixLayer[AreaRight - i, y] = D;
                         }
                     }
                     break;
@@ -272,7 +230,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
 
 
             
-            int DropKey = CurrentStep - (Step2Led.Length-1);
+            int DropKey = CurrentStep - (Step2Element.Length-1);
             if (TriggerValueBuffer.ContainsKey(DropKey))
             {
                 LastDiscardedValue = TriggerValueBuffer[DropKey];
@@ -300,11 +258,21 @@ namespace DirectOutput.FX.RGBAMatrixFX
 
 
         int CurrentStep = 0;
-        
+
+
+
+        /// <summary>
+        /// Gets the value which is to be applied to all elements of the matrix area controlled by the effect.
+        /// This methed must be overwritten.
+        /// </summary>
+        /// <param name="TriggerValue">The trigger value.</param>
+        /// <returns>Returns a value which is to be applied to one or several matrix elements.</returns>
+        public abstract MatrixElementType GetEffectValue(int TriggerValue);
+
 
         public override void Trigger(Table.TableElementData TableElementData)
         {
-            if (LastTriggerValue != TableElementData.Value && RGBAMatrixLayer!=null)
+            if (LastTriggerValue != TableElementData.Value && MatrixLayer!=null)
             {
                 LastTriggerValue = TableElementData.Value;
 
@@ -335,7 +303,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
         public override void Init(Table.Table Table)
         {
             base.Init(Table);
-            BuildStep2LedTable();
+            BuildStep2ElementTable();
         }
 
         public override void Finish()

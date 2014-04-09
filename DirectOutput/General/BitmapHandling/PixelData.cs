@@ -16,7 +16,16 @@ namespace DirectOutput.General.BitmapHandling
         public byte Red;
         public byte Alpha;
 
-        
+        public DirectOutput.Cab.Toys.Layer.RGBAData GetRGBAData()
+        {
+            DirectOutput.Cab.Toys.Layer.RGBAData D;
+            D.Red = Red;
+            D.Green = Green;
+            D.Blue = Blue;
+            D.Alpha = Alpha;
+            return D;
+        }
+
 
         public PixelData(byte Red, byte Green, byte Blue, byte Alpha)
         {

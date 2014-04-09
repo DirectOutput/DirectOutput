@@ -7,21 +7,21 @@ using DirectOutput.General;
 using DirectOutput.General.BitmapHandling;
 using System.IO;
 
-namespace DirectOutput.FX.RGBAMatrixFX
+namespace DirectOutput.FX.MatrixFX
 {
     /// <summary>
-    /// Displays a defined part of a bitmap on a area of a ledstrip.
+    /// Outputs a defined part of a bitmap on a area of a matrix
     /// </summary>
-    public class RGBAMatrixBitmapEffect : RGBAMatrixEffectBase
+    public abstract class MatrixBitmapEffectBase<MatrixElementType> : MatrixEffectBase<MatrixElementType>
     {
 
         private int _BitmapFrameNumber = 0;
 
         /// <summary>
-        /// Gets or sets the number of the frame to be displayed.
+        /// Gets or sets the number of the frame to be used.
         /// </summary>
         /// <value>
-        /// The number of the frame to be displayed.
+        /// The number of the frame to be used.
         /// </value>
         public int BitmapFrameNumber
         {
@@ -32,10 +32,10 @@ namespace DirectOutput.FX.RGBAMatrixFX
         private int _BitmapTop = 0;
 
         /// <summary>
-        /// Gets or sets the top of the the part of the bitmap which is to be displayed.
+        /// Gets or sets the top of the the part of the bitmap which is to be used.
         /// </summary>
         /// <value>
-        /// The top of the the part of the bitmap which is to be displayed.
+        /// The top of the the part of the bitmap which is to be used.
         /// </value>
         public int BitmapTop
         {
@@ -46,10 +46,10 @@ namespace DirectOutput.FX.RGBAMatrixFX
         private int _BitmapLeft = 0;
 
         /// <summary>
-        /// Gets or sets the left boundary of the the part of the bitmap which is to be displayed.
+        /// Gets or sets the left boundary of the the part of the bitmap which is to be used.
         /// </summary>
         /// <value>
-        /// The left boundary of the the part of the bitmap which is to be displayed.
+        /// The left boundary of the the part of the bitmap which is to be used.
         /// </value>
         public int BitmapLeft
         {
@@ -60,10 +60,10 @@ namespace DirectOutput.FX.RGBAMatrixFX
         private int _BitmapWidth = -1;
 
         /// <summary>
-        /// Gets or sets the width of the the part of the bitmap which is to be displayed.
+        /// Gets or sets the width of the the part of the bitmap which is to be used.
         /// </summary>
         /// <value>
-        /// The width of the the part of the bitmap which is to be displayed.
+        /// The width of the the part of the bitmap which is to be used.
         /// </value>
         public int BitmapWidth
         {
@@ -74,10 +74,10 @@ namespace DirectOutput.FX.RGBAMatrixFX
         private int _BitmapHeight = -1;
 
         /// <summary>
-        /// Gets or sets the height of the the part of the bitmap which is to be displayed.
+        /// Gets or sets the height of the the part of the bitmap which is to be used.
         /// </summary>
         /// <value>
-        /// The height of the the part of the bitmap which is to be displayed.
+        /// The height of the the part of the bitmap which is to be used.
         /// </value>
         public int BitmapHeight
         {
@@ -106,7 +106,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
         /// Gets or sets the fade mode.
         /// </summary>
         /// <value>
-        /// Fade (active and inactive color will fade depending on trigger value) or OnOff (actvice color is used for triger values >0, otherwise inactive color will be used).
+        /// Fade (output depends on the 0-255 range of the trigger value) or OnOff (output will be fully on if triggervalue is not equal 0, otherwise it will be off).
         /// </value>
         public FadeModeEnum FadeMode
         {
@@ -130,28 +130,32 @@ namespace DirectOutput.FX.RGBAMatrixFX
 
         private PixelData[,] Pixels;
 
-        private void DisplayBitmap(int FadeValue)
+        private void OutputBitmap(int FadeValue)
         {
             if (FadeMode == FadeModeEnum.OnOff) FadeValue = (FadeValue < 1 ? 0 : 255);
 
-            float AlphaWeight = FadeValue.Limit(0, 255) / 255;
+
             for (int y = 0; y < AreaHeight; y++)
             {
                 int yd = y + AreaTop;
                 for (int x = 0; x < AreaWidth; x++)
                 {
                     int xd = x + AreaLeft;
-                    RGBAMatrixLayer[xd, yd].Red = Pixels[x, y].Red;
-                    RGBAMatrixLayer[xd, yd].Green = Pixels[x, y].Green;
-                    RGBAMatrixLayer[xd, yd].Blue = Pixels[x, y].Blue;
-                    RGBAMatrixLayer[xd, yd].Alpha = (int)(AlphaWeight * Pixels[x, y].Alpha);
+                    MatrixLayer[xd, yd] = GetEffectValue(FadeValue, Pixels[x, y]);
                 }
             }
 
 
         }
 
-
+        /// <summary>
+        /// Gets the value which is to be applied to all elements of the matrix area controlled by the effect.
+        /// This methed must be overwritten.
+        /// </summary>
+        /// <param name="TriggerValue">The trigger value.</param>
+        /// <param name="Pixel">The pixel to be applied to the matrix element.</param>
+        /// <returns>Returns the value which is to be applied to to elements of the matrix representing the Pixel.</returns>
+        public abstract MatrixElementType GetEffectValue(int TriggerValue, PixelData Pixel);
 
         /// <summary>
         /// Triggers the effect with the given data.
@@ -161,7 +165,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
         {
             if (InitOK)
             {
-                DisplayBitmap(TableElementData.Value);
+                OutputBitmap(TableElementData.Value);
             }
 
         }
@@ -193,7 +197,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
                     }
                     catch (Exception E)
                     {
-                        Log.Exception("LedStripBitmapEffect {0} cant initialize.  Could not load file {1}.".Build(Name, FI.FullName), E);
+                        Log.Exception("MatrixBitmapEffectBase {0} cant initialize.  Could not load file {1}.".Build(Name, FI.FullName), E);
                         return;
                     }
 
@@ -204,22 +208,22 @@ namespace DirectOutput.FX.RGBAMatrixFX
                     }
                     else
                     {
-                        Log.Warning("LedStripBitmapEffect {0} cant initialize. Frame {1} does not exist in source image {2}.".Build(Name, BitmapFrameNumber, FI.FullName));
+                        Log.Warning("MatrixBitmapEffectBase {0} cant initialize. Frame {1} does not exist in source image {2}.".Build(Name, BitmapFrameNumber, FI.FullName));
 
                     }
                 }
                 else
                 {
-                    Log.Warning("LedStripBitmapEffect {0} cant initialize. No file matches the BitmapFilePattern {1} is invalid".Build(Name, BitmapFilePattern.ToString()));
+                    Log.Warning("MatrixBitmapEffectBase {0} cant initialize. No file matches the BitmapFilePattern {1} is invalid".Build(Name, BitmapFilePattern.ToString()));
                 }
             }
             else
             {
-                Log.Warning("LedStripBitmapEffect {0} cant initialize. The BitmapFilePattern {1} is invalid".Build(Name, BitmapFilePattern.ToString()));
+                Log.Warning("MatrixBitmapEffectBase {0} cant initialize. The BitmapFilePattern {1} is invalid".Build(Name, BitmapFilePattern.ToString()));
             }
 
 
-            InitOK = (Pixels != null && RGBAMatrixLayer != null);
+            InitOK = (Pixels != null && MatrixLayer != null);
 
         }
 

@@ -33,14 +33,14 @@ namespace DirectOutput.FX.RGBAFX
                 {
                     _ToyName = value;
                     RGBAToy = null;
-                    Layer = null;
+                    Layer = new RGBAData();
                 }
             }
         }
 
 
         [XmlIgnoreAttribute]
-        protected RGBALayer Layer { get; private set; }
+        protected RGBAData Layer { get; private set; }
 
 
 

@@ -2,12 +2,12 @@
 using System.Xml.Serialization;
 using DirectOutput.Cab.Toys;
 
-namespace DirectOutput.FX.RGBAMatrixFX
+namespace DirectOutput.FX.MatrixFX
 {
     /// <summary>
-    /// Base class for effects targeting Ledstrip toys
+    /// Base class for effects targeting a matrix of toys (e.g. addressable ledstrip)
     /// </summary>
-    public abstract class RGBAMatrixEffectBase : EffectBase
+    public abstract class MatrixEffectBase<MatrixElementType> : EffectBase
     {
         #region Config properties
 
@@ -27,21 +27,21 @@ namespace DirectOutput.FX.RGBAMatrixFX
                 if (_ToyName != value)
                 {
                     _ToyName = value;
-                    RGBAMatrix = null;
-                    RGBAMatrixLayer = null;
+                    Matrix = null;
+                    MatrixLayer = null;
                 }
             }
         }
 
 
         /// <summary>
-        /// Gets the IRGBAMatrix object which is referenced by the ToyName property.
+        /// Gets the matrix toy which is referenced by the ToyName property.
         /// This property is initialized by the Init method.
         /// </summary>
         /// <value>
-        /// The IRGBAMatrix object which is referenced by the ToyName property.
+        /// The matrix toy which is referenced by the ToyName property.
         /// </value>
-        protected IRGBAMatrix RGBAMatrix { get; private set; }
+        protected IMatrixToy<MatrixElementType> Matrix { get; private set; }
 
 
 
@@ -183,7 +183,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
         /// A IRGBAMatrix object layer array.
         /// </value>
         [XmlIgnoreAttribute]
-        protected RGBAData[,] RGBAMatrixLayer;
+        protected MatrixElementType[,] MatrixLayer;
 
 
         /// <summary>
@@ -193,15 +193,15 @@ namespace DirectOutput.FX.RGBAMatrixFX
         /// <param name="Table">Table object containing the effect.</param>
         public override void Init(Table.Table Table)
         {
-            if (!ToyName.IsNullOrWhiteSpace() && Table.Pinball.Cabinet.Toys.Contains(ToyName) && Table.Pinball.Cabinet.Toys[ToyName] is IRGBAMatrix)
+            if (!ToyName.IsNullOrWhiteSpace() && Table.Pinball.Cabinet.Toys.Contains(ToyName) && Table.Pinball.Cabinet.Toys[ToyName] is IMatrixToy<MatrixElementType>)
             {
-                RGBAMatrix = (IRGBAMatrix)Table.Pinball.Cabinet.Toys[ToyName];
-                RGBAMatrixLayer = RGBAMatrix.GetLayer(LayerNr);
+                Matrix = (IMatrixToy<MatrixElementType>)Table.Pinball.Cabinet.Toys[ToyName];
+                MatrixLayer = Matrix.GetLayer(LayerNr);
 
-                AreaLeft = (int)((float)RGBAMatrix.Width / 100 * Left).Floor().Limit(0,RGBAMatrix.Width-1);
-                AreaTop = (int)((float)RGBAMatrix.Height / 100 * Top).Floor().Limit(0, RGBAMatrix.Height - 1);
-                AreaRight = (int)((float)RGBAMatrix.Width / 100 * (Left + Width).Limit(0, 100)).Floor().Limit(0, RGBAMatrix.Width - 1);
-                AreaBottom = (int)((float)RGBAMatrix.Height / 100 * (Top + Height).Limit(0, 100)).Floor().Limit(0, RGBAMatrix.Height - 1);
+                AreaLeft = (int)((float)Matrix.Width / 100 * Left).Floor().Limit(0,Matrix.Width-1);
+                AreaTop = (int)((float)Matrix.Height / 100 * Top).Floor().Limit(0, Matrix.Height - 1);
+                AreaRight = (int)((float)Matrix.Width / 100 * (Left + Width).Limit(0, 100)).Floor().Limit(0, Matrix.Width - 1);
+                AreaBottom = (int)((float)Matrix.Height / 100 * (Top + Height).Limit(0, 100)).Floor().Limit(0, Matrix.Height - 1);
 
                 int Tmp;
                 if (AreaLeft > AreaRight) { Tmp = AreaRight; AreaRight = AreaLeft; AreaLeft = AreaRight; }
@@ -220,8 +220,8 @@ namespace DirectOutput.FX.RGBAMatrixFX
         /// </summary>
         public override void Finish()
         {
-            RGBAMatrixLayer = null;
-            RGBAMatrix = null;
+            MatrixLayer = null;
+            Matrix = null;
             Table = null;
             base.Finish();
         }

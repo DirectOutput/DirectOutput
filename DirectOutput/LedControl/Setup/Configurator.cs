@@ -12,7 +12,7 @@ using DirectOutput.FX.TimmedFX;
 using DirectOutput.LedControl.Loader;
 using DirectOutput.General.Color;
 using DirectOutput.FX.ValueFX;
-using DirectOutput.FX.RGBAMatrixFX;
+using DirectOutput.FX.MatrixFX;
 using System;
 using DirectOutput.FX.ConditionFX;
 using DirectOutput.General;
@@ -207,8 +207,8 @@ namespace DirectOutput.LedControl.Setup
                                 }
                                 else if (Toy is IAnalogAlphaToy)
                                 {
-                                    AnalogAlphaValue ActiveValue = new AnalogAlphaValue(TCS.Intensity.Limit(0, 255), 255);
-                                    AnalogAlphaValue InactiveValue = ActiveValue.Clone();
+                                    AnalogAlpha ActiveValue = new AnalogAlpha(TCS.Intensity.Limit(0, 255), 255);
+                                    AnalogAlpha InactiveValue = ActiveValue.Clone();
                                     InactiveValue.Alpha = 0;
                                     Effect = new AnalogToyValueEffect() { ToyName = Toy.Name, LayerNr = Layer, ActiveValue = ActiveValue, InactiveValue = InactiveValue };
 

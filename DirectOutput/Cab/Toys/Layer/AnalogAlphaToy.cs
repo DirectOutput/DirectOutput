@@ -21,9 +21,34 @@ namespace DirectOutput.Cab.Toys.Layer
         /// The layers dictionary.
         /// </value>
         [XmlIgnore]
-        public AnalogLayerDictionary Layers { get; private set; }
+        public LayerDictionary<AnalogAlphaData> Layers { get; private set; }
 
+        /// <summary>
+        /// Gets the analog value which results from the analog values and alpha values in the dirctionary.
+        /// </summary>
+        /// <returns>A analog value.</returns>
+        protected int GetResultingValue()
+        {
+            if (Layers.Count > 0)
+            {
+                float Value = 0;
 
+                foreach (KeyValuePair<int, AnalogAlphaData> KV in Layers)
+                {
+                    int Alpha = KV.Value.Alpha;
+                    if (Alpha != 0)
+                    {
+                        Value = AlphaMappingTable.AlphaMapping[255 - Alpha, (int)Value] + AlphaMappingTable.AlphaMapping[Alpha, KV.Value.Value];
+                    }
+                }
+
+                return (int)Value;
+            }
+            else
+            {
+                return 0;
+            }
+        }
 
 
         #region Outputs
@@ -129,7 +154,7 @@ namespace DirectOutput.Cab.Toys.Layer
             if (Output != null)
             {
        
-                Output.Value = FadingCurve.MapValue(Layers.GetResultingValue());
+                Output.Value = FadingCurve.MapValue(GetResultingValue());
             }
         }
 
@@ -164,7 +189,7 @@ namespace DirectOutput.Cab.Toys.Layer
         /// </summary>
         public AnalogAlphaToy()
         {
-            Layers = new AnalogLayerDictionary();
+            Layers = new LayerDictionary<AnalogAlphaData>();
         }
     }
 }

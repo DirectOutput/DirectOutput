@@ -5,44 +5,16 @@ using System.Text;
 using DirectOutput.General.Color;
 using DirectOutput.Cab.Toys.Layer;
 
-namespace DirectOutput.FX.RGBAMatrixFX
+namespace DirectOutput.FX.MatrixFX
 {
     /// <summary>
-    /// Does create random flickering with a defineable density, durations and color within the spefied area of a ledstrip.
+    /// Does create random flickering with a defineable density, durations and value within the spefied area of a matrix toy.
     /// </summary>
-    public class RGBAMatrixColorFlickerEffect : RGBAMatrixEffectBase
+    public abstract class MatrixFlickerEffectBase<MatrixElementType> : MatrixEffectBase<MatrixElementType>
     {
         private const int RefreshIntervalMs = 30;
 
-        private RGBAColor _ActiveColor = new RGBAColor(0xff, 0xff, 0xff, 0xff);
 
-        /// <summary>
-        /// Gets or sets the active color.
-        /// The FadeMode property defines how this value is used.
-        /// </summary>
-        /// <value>
-        /// The active color.
-        /// </value>
-        public RGBAColor ActiveColor
-        {
-            get { return _ActiveColor; }
-            set { _ActiveColor = value; }
-        }
-
-        private RGBAColor _InactiveColor = new RGBAColor(0, 0, 0, 0);
-
-        /// <summary>
-        /// Gets or sets the inactive color.
-        /// The FadeMode property defines how this value is used.
-        /// </summary>
-        /// <value>
-        /// The inactive color.
-        /// </value>
-        public RGBAColor InactiveColor
-        {
-            get { return _InactiveColor; }
-            set { _InactiveColor = value; }
-        }
 
 
         private FadeModeEnum _FadeMode = FadeModeEnum.Fade;
@@ -51,7 +23,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
         /// Gets or sets the fade mode.
         /// </summary>
         /// <value>
-        /// Fade (active and inactive color will fade depending on trigger value) or OnOff (actvice color is used for triger values >0, otherwise inactive color will be used).
+        /// Fade (output depends on the 0-255 range of the trigger value) or OnOff (output will be fully on if triggervalue is not equal 0, otherwise it will be off).
         /// </value>
         public FadeModeEnum FadeMode
         {
@@ -60,11 +32,12 @@ namespace DirectOutput.FX.RGBAMatrixFX
         }
 
 
+
         private int _Density = 10;
 
         /// <summary>
         /// Gets or sets the density of the flickering in percent.
-        /// For 0 no leds of the defined area will will flicker, for 50 half of the leds will flicker, for 100 all leds will flicker.
+        /// For 0 no elements of the defined area will will flicker, for 50 half of the elements will flicker, for 100 all elements will flicker.
         /// </summary>
         /// <value>
         /// The density if the flickering in percent.
@@ -79,10 +52,10 @@ namespace DirectOutput.FX.RGBAMatrixFX
         private int _MinFlickerDurationMs = 60;
 
         /// <summary>
-        /// Gets or sets the min duration in milliseconds for a single flicker/blink of a led. 
+        /// Gets or sets the min duration in milliseconds for a single flicker/blink of a element. 
         /// </summary>
         /// <value>
-        /// The min duration in milliseconds for a single flicker/blink of a led.
+        /// The min duration in milliseconds for a single flicker/blink of a element.
         /// </value>
         public int MinFlickerDurationMs
         {
@@ -93,10 +66,10 @@ namespace DirectOutput.FX.RGBAMatrixFX
         private int _MaxFlickerDurationMs = 150;
 
         /// <summary>
-        /// Gets or sets the max duration in milliseconds for a single flicker/blink of a led. 
+        /// Gets or sets the max duration in milliseconds for a single flicker/blink of a element. 
         /// </summary>
         /// <value>
-        /// The max duration in milliseconds for a single flicker/blink of a led.
+        /// The max duration in milliseconds for a single flicker/blink of a element.
         /// </value>
 
         public int MaxFlickerDurationMs
@@ -106,7 +79,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
         }
 
         /// <summary>
-        /// Gets a value indicating whether this <see cref="RGBAMatrixColorFlickerEffect"/> is active.
+        /// Gets a value indicating whether this <see cref="MatrixFlickerEffectBase"/> is active.
         /// </summary>
         /// <value>
         ///   <c>true</c> if active; otherwise, <c>false</c>.
@@ -114,18 +87,17 @@ namespace DirectOutput.FX.RGBAMatrixFX
         private bool Active { get; set; }
 
 
-        private SortedDictionary<int, List<System.Drawing.Point>> PixelDictionary = new SortedDictionary<int, List<System.Drawing.Point>>();
+        private SortedDictionary<int, List<System.Drawing.Point>> ElementDictionary = new SortedDictionary<int, List<System.Drawing.Point>>();
         private int CurrentStep = 0;
         private int CurrentValue = 0;
-        private int CurrentFlickerLeds = 0;
+        private int CurrentFlickerElements = 0;
 
         private Random R = new Random();
 
         private void DoFlicker()
         {
-            RGBAData D;
-            RGBAData I = new RGBAData();
-            I.Set(InactiveColor);
+            MatrixElementType D;
+            MatrixElementType I = GetEffectValue(0);
 
             int V = CurrentValue.Limit(0, 255);
             if (V > 0)
@@ -140,10 +112,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
                 //Effect is active (V>0)
                 if (V > 0 && FadeMode == FadeModeEnum.OnOff) { V = 255; }
 
-                D.Red = InactiveColor.Red + (int)((float)(ActiveColor.Red - InactiveColor.Red) * V / 255).Limit(0, 255);
-                D.Green = InactiveColor.Green + (int)((float)(ActiveColor.Green - InactiveColor.Green) * V / 255).Limit(0, 255);
-                D.Blue = InactiveColor.Blue + (int)((float)(ActiveColor.Blue - InactiveColor.Blue) * V / 255).Limit(0, 255);
-                D.Alpha = InactiveColor.Alpha + (int)((float)(ActiveColor.Alpha - InactiveColor.Alpha) * V / 255).Limit(0, 255);
+                D = GetEffectValue(V);
 
                 int NumberOfLeds = AreaWidth * AreaHeight;
                 int FlickerLeds = ((int)((double)NumberOfLeds / 100 * Density)).Limit(1, NumberOfLeds);
@@ -154,29 +123,29 @@ namespace DirectOutput.FX.RGBAMatrixFX
                 {
                     int Tmp = Min; Min = Max; Max = Tmp;
                 }
-                while (CurrentFlickerLeds < FlickerLeds)
+                while (CurrentFlickerElements < FlickerLeds)
                 {
                     int S = CurrentStep + (int)((float)(R.Next(Min ,Max)) / RefreshIntervalMs);
-                    if (!PixelDictionary.ContainsKey(S))
+                    if (!ElementDictionary.ContainsKey(S))
                     {
-                        PixelDictionary.Add(S, new List<System.Drawing.Point>());
+                        ElementDictionary.Add(S, new List<System.Drawing.Point>());
                     }
-                    PixelDictionary[S].Add(new System.Drawing.Point(R.Next(AreaLeft, AreaRight+1), R.Next(AreaTop,AreaBottom+1)));
-                    CurrentFlickerLeds++;
+                    ElementDictionary[S].Add(new System.Drawing.Point(R.Next(AreaLeft, AreaRight+1), R.Next(AreaTop,AreaBottom+1)));
+                    CurrentFlickerElements++;
                 }
 
 
 
                 List<int> DropKeys = new List<int>();
 
-                foreach (KeyValuePair<int, List<System.Drawing.Point>> KV in PixelDictionary)
+                foreach (KeyValuePair<int, List<System.Drawing.Point>> KV in ElementDictionary)
                 {
                     if (KV.Key < CurrentStep)
                     {
                         foreach (System.Drawing.Point P in KV.Value)
                         {
-                            RGBAMatrixLayer[P.X, P.Y] = I;
-                            CurrentFlickerLeds--;
+                            MatrixLayer[P.X, P.Y] = I;
+                            CurrentFlickerElements--;
                         }
                         DropKeys.Add(KV.Key);
                     }
@@ -184,7 +153,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
                     {
                         foreach (System.Drawing.Point P in KV.Value)
                         {
-                            RGBAMatrixLayer[P.X, P.Y] = D;
+                            MatrixLayer[P.X, P.Y] = D;
                         }
                     }
                 }
@@ -192,7 +161,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
 
                 foreach (int S in DropKeys)
                 {
-                    PixelDictionary.Remove(S);
+                    ElementDictionary.Remove(S);
                 }
 
                 CurrentStep++;
@@ -204,16 +173,16 @@ namespace DirectOutput.FX.RGBAMatrixFX
             {
                 //Deactivate effect (V=0)
 
-                foreach (KeyValuePair<int, List<System.Drawing.Point>> KV in PixelDictionary)
+                foreach (KeyValuePair<int, List<System.Drawing.Point>> KV in ElementDictionary)
                 {
                     foreach (System.Drawing.Point P in KV.Value)
                     {
-                        RGBAMatrixLayer[P.X, P.Y] = I;
+                        MatrixLayer[P.X, P.Y] = I;
                     }
                 }
-                PixelDictionary.Clear();
+                ElementDictionary.Clear();
                 CurrentStep = 0;
-                CurrentFlickerLeds = 0;
+                CurrentFlickerElements = 0;
                 Table.Pinball.Alarms.UnregisterIntervalAlarm(DoFlicker);
                 Active = false;
 
@@ -231,7 +200,7 @@ namespace DirectOutput.FX.RGBAMatrixFX
         /// <param name="TableElementData">TableElementData for the TableElement which has triggered the effect.</param>
         public override void Trigger(Table.TableElementData TableElementData)
         {
-            if (RGBAMatrixLayer != null)
+            if (MatrixLayer != null)
             {
                 CurrentValue = TableElementData.Value;
                 if (CurrentValue > 0 && !Active)
@@ -241,29 +210,14 @@ namespace DirectOutput.FX.RGBAMatrixFX
             }
         }
 
-        /// <summary>
-        /// Initializes the effect.
-        /// </summary>
-        /// <param name="Table">Table object containing the effect.</param>
-        public override void Init(Table.Table Table)
-        {
-            base.Init(Table);
-
-            if (RGBAMatrix != null)
-            {
-
-
-            }
-        }
 
         /// <summary>
-        /// Finishes the effect.
+        /// Gets the value which is to be applied to all elements of the matrix area controlled by the effect.
+        /// This methed must be overwritten.
         /// </summary>
-        public override void Finish()
-        {
-            base.Finish();
-        }
-
+        /// <param name="TriggerValue">The trigger value.</param>
+        /// <returns>Returns a value which is to be applied to one or several matrix elements.</returns>
+        public abstract MatrixElementType GetEffectValue(int TriggerValue);
 
     }
 }

@@ -14,7 +14,7 @@ namespace DirectOutput.Cab.Toys.Hardware
     /// 
     /// The toy supports several layers and supports transparency/alpha channels for every single led.
     /// </summary>
-    public class LedStrip : ToyBaseUpdatable, IToy, IRGBAMatrix
+    public class LedStrip : ToyBaseUpdatable, IToy, IMatrixToy<RGBAData>
     {
         #region Config properties
         private int _Width = 1;
@@ -181,7 +181,7 @@ namespace DirectOutput.Cab.Toys.Hardware
         /// The layers dictionary of the toy.
         /// </value>
         [XmlIgnore]
-        public RGBAMatrixDictionary Layers { get; private set; }
+        public MatrixDictionaryBase<RGBAData> Layers { get; private set; }
 
 
         #region IToy methods
@@ -204,7 +204,7 @@ namespace DirectOutput.Cab.Toys.Hardware
             OutputData = new byte[NumberOfOutputs];
             InitFadingCurve(Cabinet);
 
-            Layers = new RGBAMatrixDictionary() { Width = Width, Height = Height };
+            Layers = new MatrixDictionaryBase<RGBAData>() { Width = Width, Height = Height };
         }
 
 
@@ -458,7 +458,7 @@ namespace DirectOutput.Cab.Toys.Hardware
         /// </summary>
         public LedStrip()
         {
-            Layers = new RGBAMatrixDictionary();
+            Layers = new MatrixDictionaryBase<RGBAData>();
 
 
         }

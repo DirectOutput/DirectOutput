@@ -5,7 +5,7 @@ namespace DirectOutput.Cab.Toys
     /// <summary>
     /// Common interface for toys supporting analog alpha layers.
     /// </summary>
-    public interface IAnalogAlphaToy
+    public interface IAnalogAlphaToy : IToy, ILayerToy<AnalogAlphaData>
     {
         /// <summary>
         /// Finishes the toy.
@@ -22,16 +22,9 @@ namespace DirectOutput.Cab.Toys
         /// <value>
         /// The layers dictionary.
         /// </value>
-        AnalogLayerDictionary Layers { get; }
+        LayerDictionary<AnalogAlphaData> Layers { get; }
 
-        /// <summary>
-        /// Gets or sets the name of the output of the toy.
-        /// </summary>
-        /// <value>
-        /// The name of the output.
-        /// </value>
-        //TODO: CHeck if this property should really be part of this interface.
-        string OutputName { get; set; }
+
         /// <summary>
         /// Resets the toy.
         /// </summary>

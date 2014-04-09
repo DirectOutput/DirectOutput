@@ -6,7 +6,7 @@ using DirectOutput.General.Color;
 
 namespace DirectOutput.Cab.Toys.Layer
 {
-    public struct RGBAData
+    public struct RGBAData 
     {
         /// <summary>
         /// The red color component.
@@ -24,6 +24,9 @@ namespace DirectOutput.Cab.Toys.Layer
         /// The alpha value for the color.
         /// </summary>
         public int Alpha;
+
+
+
 
         /// <summary>
         /// Sets the specified color for the layer.<br/>
