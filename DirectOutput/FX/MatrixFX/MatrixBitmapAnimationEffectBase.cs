@@ -212,7 +212,7 @@ namespace DirectOutput.FX.MatrixFX
         /// <param name="TriggerValue">The trigger value.</param>
         /// <param name="Pixel">The pixel to be applied to the matrix element.</param>
         /// <returns>Returns the value which is to be applied to to elements of the matrix representing the Pixel.</returns>
-        public abstract MatrixElementType GetEffectValue(int TriggerValue, PixelData Pixel);
+        protected abstract MatrixElementType GetEffectValue(int TriggerValue, PixelData Pixel);
 
 
         private void ControlAnimation(int FadeValue)

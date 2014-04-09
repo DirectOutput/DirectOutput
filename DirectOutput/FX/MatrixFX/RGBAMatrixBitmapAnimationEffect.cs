@@ -17,7 +17,7 @@ namespace DirectOutput.FX.MatrixFX
         /// <param name="TriggerValue">The trigger value.</param>
         /// <param name="Pixel">A pixel representing a element in the matrix.</param>
         /// <returns>The RGBAData for a element in the matrix</returns>
-        public override RGBAColor GetEffectValue(int TriggerValue, PixelData Pixel)
+        protected override RGBAColor GetEffectValue(int TriggerValue, PixelData Pixel)
         {
             RGBAColor D = Pixel.GetRGBAColor();
 
