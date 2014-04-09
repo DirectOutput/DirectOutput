@@ -16,7 +16,7 @@ namespace DirectOutput.Cab.Toys.Layer
     /// 
     /// \image html LayersRGBA.png "RGBA Layers"
     /// </summary>
-    public class RGBAToy : ToyBaseUpdatable, IRGBAToy
+    public class RGBAToy : ToyBaseUpdatable, IRGBOutputToy,IRGBAToy
     {
 
         #region Layers

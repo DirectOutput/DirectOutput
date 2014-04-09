@@ -122,6 +122,8 @@
     </Content>
     <Compile Include="Cab\Toys\Hardware\RGBLed.cs" />
     <Compile Include="Cab\Toys\IMatrixToy.cs" />
+    <Compile Include="Cab\Toys\IRGBOutputToy.cs" />
+    <Compile Include="Cab\Toys\ISingleOutputToy.cs" />
     <Compile Include="Cab\Toys\Layer\ILayerToy.cs" />
     <Compile Include="Cab\Toys\Layer\MatrixDictionaryBase.cs" />
     <Compile Include="Cab\Toys\Layer\Layer.cs" />

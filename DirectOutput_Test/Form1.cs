@@ -1,36 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using DirectOutput;
-using DirectOutput.GlobalConfiguration;
-using DirectOutput_Test.Properties;
-using System.Configuration;
 using System.IO;
-using DirectOutput.LedControl;
-using DirectOutput.Table;
-using DirectOutput.Cab;
-using DirectOutput.Cab.Out.DMX;
-using DirectOutput.Cab.Toys.Layer;
-using DirectOutput.FX.RGBAFX;
-using System.Xml.Serialization;
-using DirectOutput.FX.TimmedFX;
-using System.Reflection;
-
-using DirectOutput.Cab.Toys;
-using DirectOutput.Cab.Out.AdressableLedStrip;
-using DirectOutput.FX.RGBAMatrixFX;
-using System.Threading;
-using DirectOutput.FX;
-using DirectOutput.Cab.Out.LW;
-using DirectOutput.General.Color;
+using System.Windows.Forms;
 using System.Xml;
+using System.Xml.Serialization;
+using DirectOutput;
 using DirectOutput.Cab.Toys.Virtual;
-using DirectOutput.Cab.Toys.Hardware;
 using DirectOutput.General.BitmapHandling;
 
 
@@ -96,7 +71,7 @@ namespace DirectOutput_Test
                         R.Add("Toy " + x + "." + y);
                     }
                 }
-                G.RGBAToyNames.Add(R);
+                G.ToyNames.Add(R);
             }
 
 

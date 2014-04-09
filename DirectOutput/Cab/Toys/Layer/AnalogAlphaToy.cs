@@ -12,7 +12,7 @@ namespace DirectOutput.Cab.Toys.Layer
     /// <summary>
     /// This toy handles analog values (0-255) in a layer structure including alpha value (0=completely transparent, 255=fully opaque) and outputs the belended result of the layers on a single output.
     /// </summary>
-    public class AnalogAlphaToy : ToyBaseUpdatable, IAnalogAlphaToy
+    public class AnalogAlphaToy : ToyBaseUpdatable, IAnalogAlphaToy, ISingleOutputToy
     {
 
         /// <summary>

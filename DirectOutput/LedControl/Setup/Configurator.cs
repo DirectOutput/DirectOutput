@@ -85,85 +85,142 @@ namespace DirectOutput.LedControl.Setup
 
                                 int Layer = (TCS.Layer.HasValue ? TCS.Layer.Value : SettingNumber);
 
-                                if (Toy is IRGBAMatrix)
+                                if (Toy is IMatrixToy<RGBAColor> || Toy is IMatrixToy<AnalogAlpha>)
                                 {
 
                                     if (TCS.IsBitmap)
                                     {
-                                        FilePattern P = new FilePattern("{0}\\{1}.*".Build(IniFilePath,TC.ShortRomName));
+                                        FilePattern P = new FilePattern("{0}\\{1}.*".Build(IniFilePath, TC.ShortRomName));
 
                                         if (TCS.AreaBitmapAnimationStepCount > 1)
                                         {
                                             //it is a animation
-                                            Effect = new RGBAMatrixBitmapAnimationEffect() { BitmapFilePattern = P, BitmapLeft = TCS.AreaBitmapLeft, BitmapTop = TCS.AreaBitmapTop, BitmapHeight = TCS.AreaBitmapHeight, BitmapWidth = TCS.AreaBitmapWidth, BitmapFrameNumber = TCS.AreaBitmapFrame, AnimationDirection = TCS.AreaBitmapAnimationDirection, AnimationFrameDuration = TCS.AreaBitmapAnimationFrameDuration, AnimationStepCount = TCS.AreaBitmapAnimationStepCount, AnimationStepSize = TCS.AreaBitmapAnimationStepSize, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, LayerNr = Layer, ToyName = Toy.Name };
+                                            if (Toy is IMatrixToy<RGBAColor>)
+                                            {
+                                                Effect = new RGBAMatrixBitmapAnimationEffect() { BitmapFilePattern = P, BitmapLeft = TCS.AreaBitmapLeft, BitmapTop = TCS.AreaBitmapTop, BitmapHeight = TCS.AreaBitmapHeight, BitmapWidth = TCS.AreaBitmapWidth, BitmapFrameNumber = TCS.AreaBitmapFrame, AnimationDirection = TCS.AreaBitmapAnimationDirection, AnimationFrameDuration = TCS.AreaBitmapAnimationFrameDuration, AnimationStepCount = TCS.AreaBitmapAnimationStepCount, AnimationStepSize = TCS.AreaBitmapAnimationStepSize, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, LayerNr = Layer, ToyName = Toy.Name };
+                                            }
+                                            else
+                                            {
+                                                Effect = new AnalogAlphaMatrixBitmapAnimationEffect() { BitmapFilePattern = P, BitmapLeft = TCS.AreaBitmapLeft, BitmapTop = TCS.AreaBitmapTop, BitmapHeight = TCS.AreaBitmapHeight, BitmapWidth = TCS.AreaBitmapWidth, BitmapFrameNumber = TCS.AreaBitmapFrame, AnimationDirection = TCS.AreaBitmapAnimationDirection, AnimationFrameDuration = TCS.AreaBitmapAnimationFrameDuration, AnimationStepCount = TCS.AreaBitmapAnimationStepCount, AnimationStepSize = TCS.AreaBitmapAnimationStepSize, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, LayerNr = Layer, ToyName = Toy.Name };
+                                            }
                                         }
                                         else
                                         {
                                             //its a static bitmap
-                                            Effect = new RGBAMatrixBitmapEffect() { BitmapFilePattern = P, BitmapLeft = TCS.AreaBitmapLeft, BitmapTop = TCS.AreaBitmapTop, BitmapHeight = TCS.AreaBitmapHeight, BitmapWidth = TCS.AreaBitmapWidth, BitmapFrameNumber = TCS.AreaBitmapFrame, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, LayerNr = Layer, ToyName = Toy.Name };
+                                            if (Toy is IMatrixToy<RGBAColor>)
+                                            {
+                                                Effect = new RGBAMatrixBitmapEffect() { BitmapFilePattern = P, BitmapLeft = TCS.AreaBitmapLeft, BitmapTop = TCS.AreaBitmapTop, BitmapHeight = TCS.AreaBitmapHeight, BitmapWidth = TCS.AreaBitmapWidth, BitmapFrameNumber = TCS.AreaBitmapFrame, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, LayerNr = Layer, ToyName = Toy.Name };
+                                            }
+                                            else
+                                            {
+                                                Effect = new AnalogAlphaMatrixBitmapEffect() { BitmapFilePattern = P, BitmapLeft = TCS.AreaBitmapLeft, BitmapTop = TCS.AreaBitmapTop, BitmapHeight = TCS.AreaBitmapHeight, BitmapWidth = TCS.AreaBitmapWidth, BitmapFrameNumber = TCS.AreaBitmapFrame, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, LayerNr = Layer, ToyName = Toy.Name };
+                                            }
                                         }
                                     }
                                     else
                                     {
+                                        //Non bitmap area effects
+                                        if (Toy is IMatrixToy<RGBAColor>)
+                                        {
+                                            //RGBAMatrix toy
 
-                                        RGBAColor ActiveColor = null;
-                                        if (TCS.ColorConfig != null)
-                                        {
-                                            ActiveColor = TCS.ColorConfig.GetCabinetColor().GetRGBAColor();
-                                        }
-                                        else
-                                        {
-                                            if (!TCS.ColorName.IsNullOrWhiteSpace())
+                                            RGBAColor ActiveColor = null;
+                                            if (TCS.ColorConfig != null)
                                             {
-                                                if (TCS.ColorName.StartsWith("#"))
+                                                ActiveColor = TCS.ColorConfig.GetCabinetColor().GetRGBAColor();
+                                            }
+                                            else
+                                            {
+                                                if (!TCS.ColorName.IsNullOrWhiteSpace())
                                                 {
-                                                    ActiveColor = new RGBAColor();
-                                                    if (!ActiveColor.SetColor(TCS.ColorName))
+                                                    if (TCS.ColorName.StartsWith("#"))
                                                     {
-                                                        ActiveColor = null;
+                                                        ActiveColor = new RGBAColor();
+                                                        if (!ActiveColor.SetColor(TCS.ColorName))
+                                                        {
+                                                            ActiveColor = null;
+                                                        }
                                                     }
                                                 }
                                             }
-                                        }
 
-                                        if (ActiveColor != null)
+                                            if (ActiveColor != null)
+                                            {
+                                                RGBAColor InactiveColor = ActiveColor.Clone();
+                                                InactiveColor.Alpha = 0;
+                                                if (TCS.AreaDirection.HasValue)
+                                                {
+                                                    //shift effect
+                                                    Effect = new RGBAMatrixShiftEffect() { ShiftDirection = TCS.AreaDirection.Value, ShiftAcceleration = TCS.AreaAcceleration, ActiveColor = ActiveColor, InactiveColor = InactiveColor, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, LayerNr = Layer, ToyName = Toy.Name };
+                                                    if (TCS.AreaSpeed > 0)
+                                                    {
+                                                        ((RGBAMatrixShiftEffect)Effect).ShiftSpeed = TCS.AreaSpeed;
+                                                    }
+
+                                                }
+                                                else if (TCS.AreaFlickerDensity > 0)
+                                                {
+                                                    //flicker effect
+                                                    Effect = new RGBAMatrixFlickerEffect() { Density = TCS.AreaFlickerDensity.Limit(1, 99), ActiveColor = ActiveColor, InactiveColor = InactiveColor, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, LayerNr = Layer, ToyName = Toy.Name };
+                                                    if (TCS.AreaFlickerMinDurationMs > 0)
+                                                    {
+                                                        ((RGBAMatrixFlickerEffect)Effect).MinFlickerDurationMs = TCS.AreaFlickerMinDurationMs;
+                                                    }
+                                                    if (TCS.AreaFlickerMaxDurationMs > 0)
+                                                    {
+                                                        ((RGBAMatrixFlickerEffect)Effect).MaxFlickerDurationMs = TCS.AreaFlickerMaxDurationMs;
+                                                    }
+
+                                                }
+                                                else
+                                                {
+                                                    //Color effect
+                                                    Effect = new RGBAMatrixColorEffect() { ActiveColor = ActiveColor, InactiveColor = InactiveColor, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, LayerNr = Layer, ToyName = Toy.Name };
+                                                }
+
+                                            }
+                                            else
+                                            {
+                                                Log.Warning("No color valid color definition found for area effect. Skipped setting {0} in column {1} for LedWizEqivalent number {2}.".Build(SettingNumber, TCC.Number, LedWizNr));
+
+                                            }
+                                        }
+                                        else if (Toy is IMatrixToy<AnalogAlpha>)
                                         {
-                                            RGBAColor InactiveColor = ActiveColor.Clone();
-                                            InactiveColor.Alpha = 0;
+                                            AnalogAlpha ActiveValue = new AnalogAlpha(TCS.Intensity.Limit(0, 255), 255);
+                                            AnalogAlpha InactiveValue = ActiveValue.Clone();
+                                            InactiveValue.Alpha = 0;
+
+
                                             if (TCS.AreaDirection.HasValue)
                                             {
                                                 //shift effect
-                                                Effect = new RGBAMatrixShiftEffect() { ShiftDirection = TCS.AreaDirection.Value, ShiftAcceleration = TCS.AreaAcceleration, ActiveColor = ActiveColor, InactiveColor = InactiveColor, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, LayerNr = Layer, ToyName = Toy.Name };
+                                                Effect = new AnalogAlphaMatrixShiftEffect() { ShiftDirection = TCS.AreaDirection.Value, ShiftAcceleration = TCS.AreaAcceleration, ActiveValue = ActiveValue, InactiveValue = InactiveValue, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, LayerNr = Layer, ToyName = Toy.Name };
                                                 if (TCS.AreaSpeed > 0)
                                                 {
-                                                    ((RGBAMatrixShiftEffect)Effect).ShiftSpeed = TCS.AreaSpeed;
+                                                    ((AnalogAlphaMatrixShiftEffect)Effect).ShiftSpeed = TCS.AreaSpeed;
                                                 }
 
                                             }
                                             else if (TCS.AreaFlickerDensity > 0)
                                             {
                                                 //flicker effect
-                                                Effect = new RGBAMatrixFlickerEffect() { Density = TCS.AreaFlickerDensity.Limit(1, 99), ActiveColor = ActiveColor, InactiveColor = InactiveColor, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, LayerNr = Layer, ToyName = Toy.Name };
+                                                Effect = new AnalogAlphaMatrixFlickerEffect() { Density = TCS.AreaFlickerDensity.Limit(1, 99), ActiveValue = ActiveValue, InactiveValue = InactiveValue, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, LayerNr = Layer, ToyName = Toy.Name };
                                                 if (TCS.AreaFlickerMinDurationMs > 0)
                                                 {
-                                                    ((RGBAMatrixFlickerEffect)Effect).MinFlickerDurationMs = TCS.AreaFlickerMinDurationMs;
+                                                    ((AnalogAlphaMatrixFlickerEffect)Effect).MinFlickerDurationMs = TCS.AreaFlickerMinDurationMs;
                                                 }
                                                 if (TCS.AreaFlickerMaxDurationMs > 0)
                                                 {
-                                                    ((RGBAMatrixFlickerEffect)Effect).MaxFlickerDurationMs = TCS.AreaFlickerMaxDurationMs;
+                                                    ((AnalogAlphaMatrixFlickerEffect)Effect).MaxFlickerDurationMs = TCS.AreaFlickerMaxDurationMs;
                                                 }
 
                                             }
                                             else
                                             {
                                                 //Color effect
-                                                Effect = new RGBAMatrixColorEffect() { ActiveColor = ActiveColor, InactiveColor = InactiveColor, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, LayerNr = Layer, ToyName = Toy.Name };
+                                                Effect = new AnalogAlphaMatrixValueEffect() { ActiveValue = ActiveValue, InactiveValue = InactiveValue, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, LayerNr = Layer, ToyName = Toy.Name };
                                             }
-
-                                        }
-                                        else
-                                        {
-                                            Log.Warning("No color valid color definition found for area effect. Skipped setting {0} in column {1} for LedWizEqivalent number {2}.".Build(SettingNumber, TCC.Number, LedWizNr));
 
                                         }
                                     }
@@ -400,11 +457,11 @@ namespace DirectOutput.LedControl.Setup
                             if (LWE.Outputs.Any(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber))
                             {
                                 string OutputName = LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName;
-                                if (Cabinet.Toys.Any(O => O is IRGBAMatrix && O.Name == OutputName))
+                                if (Cabinet.Toys.Any(O => (O is IMatrixToy<RGBAColor> || O is IMatrixToy<AnalogAlpha>) && O.Name == OutputName))
                                 {
 
 
-                                    TargetToy = (IToy)Cabinet.Toys.FirstOrDefault(O => O is IRGBAMatrix && O.Name == OutputName);
+                                    TargetToy = (IToy)Cabinet.Toys.FirstOrDefault(O => (O is IMatrixToy<RGBAColor> || O is IMatrixToy<AnalogAlpha>) && O.Name == OutputName);
 
                                     if (TargetToy != null)
                                     {
@@ -430,7 +487,7 @@ namespace DirectOutput.LedControl.Setup
                                         try
                                         {
                                             //Toy does already exist
-                                            TargetToy = (IToy)Cabinet.Toys.First(Toy => Toy is IRGBAToy && ((IRGBAToy)Toy).OutputNameRed == LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName && ((IRGBAToy)Toy).OutputNameGreen == LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 1).OutputName && ((IRGBAToy)Toy).OutputNameBlue == LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 2).OutputName);
+                                            TargetToy = (IToy)Cabinet.Toys.First(Toy => Toy is IRGBOutputToy && ((IRGBOutputToy)Toy).OutputNameRed == LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName && ((IRGBOutputToy)Toy).OutputNameGreen == LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 1).OutputName && ((IRGBOutputToy)Toy).OutputNameBlue == LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 2).OutputName);
 
                                         }
                                         catch
@@ -462,7 +519,7 @@ namespace DirectOutput.LedControl.Setup
                                     {
                                         try
                                         {
-                                            TargetToy = Cabinet.Toys.First(Toy => Toy is IAnalogAlphaToy && ((IAnalogAlphaToy)Toy).OutputName == LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName);
+                                            TargetToy = Cabinet.Toys.First(Toy => Toy is ISingleOutputToy && ((ISingleOutputToy)Toy).OutputName == LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName);
                                         }
                                         catch
                                         {
