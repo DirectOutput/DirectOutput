@@ -5,6 +5,7 @@ using System.Text;
 using DirectOutput.Cab.Toys.Layer;
 using System.Xml.Serialization;
 using DirectOutput.Cab.Toys;
+using DirectOutput.General.Color;
 
 namespace DirectOutput.FX.RGBAFX
 {
@@ -33,14 +34,14 @@ namespace DirectOutput.FX.RGBAFX
                 {
                     _ToyName = value;
                     RGBAToy = null;
-                    Layer = new RGBAData();
+                    Layer = null;
                 }
             }
         }
 
 
         [XmlIgnoreAttribute]
-        protected RGBAData Layer { get; private set; }
+        protected RGBAColor Layer { get; private set; }
 
 
 

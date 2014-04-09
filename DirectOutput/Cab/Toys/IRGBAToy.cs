@@ -1,11 +1,12 @@
 ﻿using System;
 using DirectOutput.Cab.Toys.Layer;
+using DirectOutput.General.Color;
 namespace DirectOutput.Cab.Toys
 {
     /// <summary>
     /// Common interface for RGB toys supporting several layers of color with alpha value.
     /// </summary>
-    public interface IRGBAToy: ILayerToy<RGBAData>
+    public interface IRGBAToy: ILayerToy<RGBAColor>
     {
 
 
@@ -15,7 +16,7 @@ namespace DirectOutput.Cab.Toys
         /// <value>
         /// The layers dictionary.
         /// </value>
-        LayerDictionary<RGBAData> Layers { get; }
+        LayerDictionary<RGBAColor> Layers { get; }
         /// <summary>
         /// Gets or sets the output name for blue.
         /// </summary>

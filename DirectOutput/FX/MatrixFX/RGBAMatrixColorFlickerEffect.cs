@@ -10,7 +10,7 @@ namespace DirectOutput.FX.MatrixFX
     /// <summary>
     /// Does create random flickering with a defineable density, durations and color within the spefied area of a ledstrip.
     /// </summary>
-    public class RGBAMatrixColorFlickerEffect : MatrixFlickerEffectBase<RGBAData>
+    public class RGBAMatrixColorFlickerEffect : MatrixFlickerEffectBase<RGBAColor>
     {
         private const int RefreshIntervalMs = 30;
 
@@ -50,9 +50,9 @@ namespace DirectOutput.FX.MatrixFX
         /// </summary>
         /// <param name="TriggerValue">The trigger value.</param>
         /// <returns>RGBAColor representing a mix of InactiveColor and ActiveColor.</returns>
-        public override RGBAData GetEffectValue(int TriggerValue)
+        public override RGBAColor GetEffectValue(int TriggerValue)
         {
-            RGBAData D;
+            RGBAColor D = new RGBAColor();
 
             int V = TriggerValue.Limit(0, 255);
             D.Red = InactiveColor.Red + (int)((float)(ActiveColor.Red - InactiveColor.Red) * V / 255).Limit(0, 255);

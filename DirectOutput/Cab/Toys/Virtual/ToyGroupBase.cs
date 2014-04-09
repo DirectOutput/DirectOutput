@@ -13,7 +13,7 @@ namespace DirectOutput.Cab.Toys.Virtual
     /// \note: Be sure to define this toy in the cabinet config file before the toys, which are listed in the ToyNames array.
     /// </summary>
     public abstract class ToyGroupBase<MatrixElementType> : ToyBaseUpdatable, IToy, IMatrixToy<MatrixElementType>
-        where MatrixElementType:struct
+        where MatrixElementType:new()
     {
         private List<List<string>> _ToyNames = new List<List<string>>();
 

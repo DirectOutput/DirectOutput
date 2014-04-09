@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DirectOutput.General.Color;
 
 namespace DirectOutput.General.BitmapHandling
 {
@@ -24,6 +25,11 @@ namespace DirectOutput.General.BitmapHandling
             D.Blue = Blue;
             D.Alpha = Alpha;
             return D;
+        }
+
+        public RGBAColor GetRGBAColor()
+        {
+            return new RGBAColor(Red, Green, Blue, Alpha);
         }
 
 

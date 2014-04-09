@@ -5,6 +5,7 @@ using System.Text;
 using DirectOutput.Cab.Out;
 using DirectOutput.General;
 using System.Xml.Serialization;
+using DirectOutput.General.Analog;
 
 namespace DirectOutput.Cab.Toys.Layer
 {
@@ -21,7 +22,7 @@ namespace DirectOutput.Cab.Toys.Layer
         /// The layers dictionary.
         /// </value>
         [XmlIgnore]
-        public LayerDictionary<AnalogAlphaData> Layers { get; private set; }
+        public LayerDictionary<AnalogAlpha> Layers { get; private set; }
 
         /// <summary>
         /// Gets the analog value which results from the analog values and alpha values in the dirctionary.
@@ -33,7 +34,7 @@ namespace DirectOutput.Cab.Toys.Layer
             {
                 float Value = 0;
 
-                foreach (KeyValuePair<int, AnalogAlphaData> KV in Layers)
+                foreach (KeyValuePair<int, AnalogAlpha> KV in Layers)
                 {
                     int Alpha = KV.Value.Alpha;
                     if (Alpha != 0)
@@ -189,7 +190,7 @@ namespace DirectOutput.Cab.Toys.Layer
         /// </summary>
         public AnalogAlphaToy()
         {
-            Layers = new LayerDictionary<AnalogAlphaData>();
+            Layers = new LayerDictionary<AnalogAlpha>();
         }
     }
 }

@@ -2,7 +2,7 @@
 namespace DirectOutput.Cab.Toys.Layer
 {
     public interface ILayerToy<LayerElementType>
-        where LayerElementType:struct
+        where LayerElementType:new()
     {
         LayerDictionary<LayerElementType> Layers { get; }
     }

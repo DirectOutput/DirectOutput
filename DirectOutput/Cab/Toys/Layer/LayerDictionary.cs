@@ -10,7 +10,7 @@ namespace DirectOutput.Cab.Toys.Layer
     /// Dictionary for RGBALayer objects.
     /// </summary>
     public class LayerDictionary<LayerElementType> : SortedDictionary<int, LayerElementType>
-        where LayerElementType : struct
+        where LayerElementType : new()
     {
         /// <summary>
         /// Gets or sets the data for the specified layer nr.<br/>

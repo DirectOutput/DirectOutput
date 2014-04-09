@@ -1,11 +1,12 @@
 ﻿using System;
 using DirectOutput.Cab.Toys.Layer;
+using DirectOutput.General.Analog;
 namespace DirectOutput.Cab.Toys
 {
     /// <summary>
     /// Common interface for toys supporting analog alpha layers.
     /// </summary>
-    public interface IAnalogAlphaToy : IToy, ILayerToy<AnalogAlphaData>
+    public interface IAnalogAlphaToy : IToy, ILayerToy<AnalogAlpha>
     {
         /// <summary>
         /// Finishes the toy.
@@ -22,7 +23,7 @@ namespace DirectOutput.Cab.Toys
         /// <value>
         /// The layers dictionary.
         /// </value>
-        LayerDictionary<AnalogAlphaData> Layers { get; }
+        LayerDictionary<AnalogAlpha> Layers { get; }
 
 
         /// <summary>

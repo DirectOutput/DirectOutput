@@ -10,7 +10,7 @@ namespace DirectOutput.FX.MatrixFX
     /// <summary>
     /// Sets the spefied area of a ledstrip to a color depending on configured colors and the trigger value.
     /// </summary>
-    public class RGBAMatrixColorEffect : MatrixValueEffectBase<RGBAData>
+    public class RGBAMatrixColorEffect : MatrixValueEffectBase<RGBAColor>
     {
 
         private RGBAColor _ActiveColor = new RGBAColor(0xff, 0xff, 0xff, 0xff);
@@ -49,9 +49,9 @@ namespace DirectOutput.FX.MatrixFX
         /// </summary>
         /// <param name="TriggerValue">The trigger value.</param>
         /// <returns>RGBAColor representing a mix of InactiveColor and ActiveColor.</returns>
-        public override RGBAData GetEffectValue(int TriggerValue)
+        public override RGBAColor GetEffectValue(int TriggerValue)
         {
-            RGBAData D;
+            RGBAColor D=new RGBAColor();
 
             int V = TriggerValue.Limit(0, 255);
             D.Red = InactiveColor.Red + (int)((float)(ActiveColor.Red - InactiveColor.Red) * V / 255).Limit(0, 255);

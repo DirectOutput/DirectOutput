@@ -5,6 +5,7 @@ using System.Text;
 using DirectOutput.Cab.Toys.Layer;
 using System.Xml.Serialization;
 using DirectOutput.Cab.Toys;
+using DirectOutput.General.Analog;
 
 namespace DirectOutput.FX.AnalogToyFX
 {
@@ -36,11 +37,12 @@ namespace DirectOutput.FX.AnalogToyFX
                 {
                     _ToyName = value;
                     Toy = null;
+                    Layer = null;
                 }
             }
         }
 
-        protected AnalogAlphaData Layer { get; private set; }
+        protected AnalogAlpha Layer { get; private set; }
 
         private int _LayerNr = 0;
 

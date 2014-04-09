@@ -9,7 +9,7 @@ namespace DirectOutput.Cab.Toys.Layer
     /// Sorted dictionary of layers for the matrix toys.
     /// </summary>
     public class MatrixDictionaryBase<MatrixElementType> : SortedDictionary<int, MatrixElementType[,]>
-        where MatrixElementType:struct
+        where MatrixElementType:new()
     {
 
         /// <summary>
@@ -32,6 +32,14 @@ namespace DirectOutput.Cab.Toys.Layer
                 catch
                 {
                     MatrixElementType[,] L = new MatrixElementType[Width, Height];
+                    for (int y = 0; y < Height; y++)
+                    {
+                        for (int x = 0; x < Width; x++)
+                        {
+                            L[x, y] = new MatrixElementType();
+                        }
+                    }
+
 
                     Add(LayerNr, L);
                     return L;

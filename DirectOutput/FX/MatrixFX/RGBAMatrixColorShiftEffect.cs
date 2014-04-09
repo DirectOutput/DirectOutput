@@ -7,7 +7,7 @@ using DirectOutput.Cab.Toys.Layer;
 
 namespace DirectOutput.FX.MatrixFX
 {
-    public class RGBAMatrixColorShiftEffect : MatrixShiftEffectBase<RGBAData>
+    public class RGBAMatrixColorShiftEffect : MatrixShiftEffectBase<RGBAColor>
     {
         private const int RefreshIntervalMs = 30;
 
@@ -48,9 +48,9 @@ namespace DirectOutput.FX.MatrixFX
         /// </summary>
         /// <param name="TriggerValue">The trigger value.</param>
         /// <returns>RGBAColor representing a mix of InactiveColor and ActiveColor.</returns>
-        public override RGBAData GetEffectValue(int TriggerValue)
+        public override RGBAColor GetEffectValue(int TriggerValue)
         {
-            RGBAData D;
+            RGBAColor D = new RGBAColor();
 
             int V = TriggerValue.Limit(0, 255);
             D.Red = InactiveColor.Red + (int)((float)(ActiveColor.Red - InactiveColor.Red) * V / 255).Limit(0, 255);

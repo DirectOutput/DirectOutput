@@ -27,7 +27,7 @@ namespace DirectOutput.Cab.Toys.Layer
         /// The layers dictionary.
         /// </value>
         [System.Xml.Serialization.XmlIgnore]
-        public LayerDictionary<RGBAData> Layers { get; private set; }
+        public LayerDictionary<RGBAColor> Layers { get; private set; }
 
 
 
@@ -42,7 +42,7 @@ namespace DirectOutput.Cab.Toys.Layer
                 float Red = 0;
                 float Green = 0;
                 float Blue = 0;
-                foreach (KeyValuePair<int, RGBAData> KV in Layers)
+                foreach (KeyValuePair<int, RGBAColor> KV in Layers)
                 {
                     int Alpha = KV.Value.Alpha;
                     if (Alpha != 0)
@@ -240,7 +240,7 @@ namespace DirectOutput.Cab.Toys.Layer
         /// </summary>
         public RGBAToy()
         {
-            Layers = new LayerDictionary<RGBAData>();
+            Layers = new LayerDictionary<RGBAColor>();
         }
 
 
