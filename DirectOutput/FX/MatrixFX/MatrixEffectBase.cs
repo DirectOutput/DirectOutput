@@ -118,6 +118,23 @@ namespace DirectOutput.FX.MatrixFX
             get { return _LayerNr; }
             set { _LayerNr = value; }
         }
+
+
+        private FadeModeEnum _FadeMode = FadeModeEnum.Fade;
+
+        /// <summary>
+        /// Gets or sets the fade mode.
+        /// </summary>
+        /// <value>
+        /// Fade (active and inactive values/color will fade depending on trigger value) or OnOff (actvice value/color is used for trigger values >0, otherwise inactive value/color will be used).
+        /// </value>
+        public FadeModeEnum FadeMode
+        {
+            get { return _FadeMode; }
+            set { _FadeMode = value; }
+        }
+
+
         #endregion
 
         /// <summary>
@@ -173,6 +190,8 @@ namespace DirectOutput.FX.MatrixFX
         /// </value>
         [XmlIgnoreAttribute]
         protected Table.Table Table { get; private set; }
+
+
 
 
         /// <summary>

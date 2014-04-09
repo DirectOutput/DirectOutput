@@ -17,19 +17,6 @@ namespace DirectOutput.FX.MatrixFX
 
 
 
-        private FadeModeEnum _FadeMode = FadeModeEnum.Fade;
-
-        /// <summary>
-        /// Gets or sets the fade mode.
-        /// </summary>
-        /// <value>
-        /// Fade (output depends on the 0-255 range of the trigger value) or OnOff (output will be fully on if triggervalue is not equal 0, otherwise it will be off).
-        /// </value>
-        public FadeModeEnum FadeMode
-        {
-            get { return _FadeMode; }
-            set { _FadeMode = value; }
-        }
 
 
 

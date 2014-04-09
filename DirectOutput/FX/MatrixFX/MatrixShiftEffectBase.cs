@@ -16,21 +16,7 @@ namespace DirectOutput.FX.MatrixFX
         private const int RefreshIntervalMs = 30;
 
 
-        private FadeModeEnum _FadeMode = FadeModeEnum.Fade;
-
-        /// <summary>
-        /// Gets or sets the fade mode.
-        /// </summary>
-        /// <value>
-        /// Fade (output depends on the 0-255 range of the trigger value) or OnOff (output will be fully on if triggervalue is not equal 0, otherwise it will be off).
-        /// </value>
-        public FadeModeEnum FadeMode
-        {
-            get { return _FadeMode; }
-            set { _FadeMode = value; }
-        }
-
-        private MatrixShiftDirectionEnum _ShiftDirection = MatrixShiftDirectionEnum.Right;
+         private MatrixShiftDirectionEnum _ShiftDirection = MatrixShiftDirectionEnum.Right;
 
         /// <summary>
         /// Gets or sets the shift direction resp. the direction in which the color moves.

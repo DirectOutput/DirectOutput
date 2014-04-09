@@ -132,19 +132,7 @@ namespace DirectOutput.FX.MatrixFX
             set { _DataExtractMode = value; }
         }
 
-        private FadeModeEnum _FadeMode = FadeModeEnum.Fade;
 
-        /// <summary>
-        /// Gets or sets the fade mode.
-        /// </summary>
-        /// <value>
-        /// Fade (active and inactive color will fade depending on trigger value) or OnOff (actvice color is used for triger values >0, otherwise inactive color will be used).
-        /// </value>
-        public FadeModeEnum FadeMode
-        {
-            get { return _FadeMode; }
-            set { _FadeMode = value; }
-        }
 
         private FilePattern _BitmapFilePattern;
 
