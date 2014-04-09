@@ -131,6 +131,9 @@
     <Compile Include="Cab\Toys\Virtual\Virtual.cs" />
     <Compile Include="FX\ConditionFX\ConditionFX.cs" />
     <Compile Include="FX\ConditionFX\TableElementConditionEffect.cs" />
+    <Compile Include="FX\MatrixFX\AnalogAlphaMatrixValueEffect.cs" />
+    <Compile Include="FX\MatrixFX\AnalogAlphaMatrixFlickerEffect.cs" />
+    <Compile Include="FX\MatrixFX\AnalogAlphaMatrixShiftEffect.cs" />
     <Compile Include="FX\MatrixFX\MatrixBitmapAnimationEffectBase.cs" />
     <Compile Include="FX\MatrixFX\MatrixBitmapEffectBase.cs" />
     <Compile Include="FX\MatrixFX\MatrixShiftEffectBase.cs" />
@@ -138,7 +141,7 @@
     <Compile Include="FX\MatrixFX\MatrixValueEffectBase.cs" />
     <Compile Include="FX\MatrixFX\MatrixAnimationDirectionEnum.cs" />
     <Compile Include="FX\MatrixFX\RGBAMatrixBitmapAnimationEffect.cs" />
-    <Compile Include="FX\MatrixFX\RGBAMatrixColorFlickerEffect.cs" />
+    <Compile Include="FX\MatrixFX\RGBAMatrixFlickerEffect.cs" />
     <Compile Include="FX\TimmedFX\MaxDurationEffect.cs" />
     <Compile Include="FX\ValueFX\ValueFX.cs" />
     <Compile Include="FX\ValueFX\ValueInvertEffect.cs" />
@@ -235,7 +238,7 @@
     <Compile Include="FX\MatrixFX\RGBAMatrixBitmapEffect.cs" />
     <Compile Include="FX\MatrixFX\MatrixEffectBase.cs" />
     <Compile Include="FX\MatrixFX\RGBAMatrixColorEffect.cs" />
-    <Compile Include="FX\MatrixFX\RGBAMatrixColorShiftEffect.cs" />
+    <Compile Include="FX\MatrixFX\RGBAMatrixShiftEffect.cs" />
     <Compile Include="FX\MatrixFX\MatrixFX.cs" />
     <Compile Include="FX\MatrixFX\MatrixShiftDirectionEnum.cs" />
     <Compile Include="FX\RetriggerBehaviourEnum.cs" />
