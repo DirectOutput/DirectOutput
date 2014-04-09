@@ -7,7 +7,10 @@ using DirectOutput.Cab.Toys.Layer;
 
 namespace DirectOutput.FX.MatrixFX
 {
-    public class RGBAMatrixColorShiftEffect : MatrixShiftEffectBase<RGBAColor>
+    /// <summary>
+    /// Does create random flickering with a defineable density, durations and color within the spefied area of a ledstrip.
+    /// </summary>
+    public class RGBAMatrixFlickerEffect : MatrixFlickerEffectBase<RGBAColor>
     {
         private const int RefreshIntervalMs = 30;
 
@@ -42,13 +45,12 @@ namespace DirectOutput.FX.MatrixFX
         }
 
 
-
         /// <summary>
         /// Gets the effect color by mixinging Active and InactiveColor based on the TriggerValue.
         /// </summary>
         /// <param name="TriggerValue">The trigger value.</param>
         /// <returns>RGBAColor representing a mix of InactiveColor and ActiveColor.</returns>
-        public override RGBAColor GetEffectValue(int TriggerValue)
+        protected override RGBAColor GetEffectValue(int TriggerValue)
         {
             RGBAColor D = new RGBAColor();
 
@@ -59,7 +61,6 @@ namespace DirectOutput.FX.MatrixFX
             D.Alpha = InactiveColor.Alpha + (int)((float)(ActiveColor.Alpha - InactiveColor.Alpha) * V / 255).Limit(0, 255);
             return D;
         }
-
 
     }
 }
