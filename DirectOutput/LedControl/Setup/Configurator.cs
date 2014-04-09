@@ -463,10 +463,6 @@ namespace DirectOutput.LedControl.Setup
 
                                     TargetToy = (IToy)Cabinet.Toys.FirstOrDefault(O => (O is IMatrixToy<RGBAColor> || O is IMatrixToy<AnalogAlpha>) && O.Name == OutputName);
 
-                                    if (TargetToy != null)
-                                    {
-                                        ToyAssignments[LedWizNr].Add(TCC.Number, TargetToy);
-                                    }
 
                                 }
 
@@ -476,38 +472,50 @@ namespace DirectOutput.LedControl.Setup
                         }
                         else
                         {
+
                             switch (TCC.RequiredOutputCount)
                             {
                                 case 3:
                                     //RGB Led
 
-                                    if (LWE.Outputs.Any(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber) && LWE.Outputs.Any(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 1) && LWE.Outputs.Any(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 2))
+                                    if (LWE.Outputs.Any(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber))
                                     {
-                                        //Try to get the toy 
-                                        try
+                                        string OutputName = LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName;
+                                        if (Cabinet.Toys.Any(O => O is IRGBAToy && O.Name == OutputName))
                                         {
-                                            //Toy does already exist
-                                            TargetToy = (IToy)Cabinet.Toys.First(Toy => Toy is IRGBOutputToy && ((IRGBOutputToy)Toy).OutputNameRed == LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName && ((IRGBOutputToy)Toy).OutputNameGreen == LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 1).OutputName && ((IRGBOutputToy)Toy).OutputNameBlue == LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 2).OutputName);
-
+                                            TargetToy = (IToy)Cabinet.Toys.FirstOrDefault(O => O is IRGBAToy && O.Name == OutputName);
                                         }
-                                        catch
+                                    }
+                                    if (TargetToy == null)
+                                    {
+                                        if (LWE.Outputs.Any(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber) && LWE.Outputs.Any(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 1) && LWE.Outputs.Any(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 2))
                                         {
-                                            //Toy does not exist. Create toyname and toy
-                                            string ToyName = "LedWiz {0:00} Column {1:00}".Build(LedWizNr, TCC.Number);
-                                            if (Cabinet.Toys.Contains(ToyName))
+                                            //Try to get the toy 
+                                            try
                                             {
-                                                int Cnt = 1;
-                                                while (Cabinet.Toys.Contains("{0} {1}".Build(ToyName, Cnt)))
-                                                {
-                                                    Cnt++;
-                                                }
-                                                ToyName = "{0} {1}".Build(ToyName, Cnt);
-                                            }
-                                            TargetToy = (IToy)new RGBAToy() { Name = ToyName, OutputNameRed = LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName, OutputNameGreen = LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 1).OutputName, OutputNameBlue = LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 2).OutputName };
-                                            Cabinet.Toys.Add(TargetToy);
-                                        }
+                                                //Toy does already exist
+                                                TargetToy = (IToy)Cabinet.Toys.First(Toy => Toy is IRGBOutputToy && ((IRGBOutputToy)Toy).OutputNameRed == LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName && ((IRGBOutputToy)Toy).OutputNameGreen == LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 1).OutputName && ((IRGBOutputToy)Toy).OutputNameBlue == LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 2).OutputName);
 
-                                        ToyAssignments[LedWizNr].Add(TCC.Number, TargetToy);
+                                            }
+                                            catch
+                                            {
+                                                //Toy does not exist. Create toyname and toy
+                                                string ToyName = "LedWiz {0:00} Column {1:00}".Build(LedWizNr, TCC.Number);
+                                                if (Cabinet.Toys.Contains(ToyName))
+                                                {
+                                                    int Cnt = 1;
+                                                    while (Cabinet.Toys.Contains("{0} {1}".Build(ToyName, Cnt)))
+                                                    {
+                                                        Cnt++;
+                                                    }
+                                                    ToyName = "{0} {1}".Build(ToyName, Cnt);
+                                                }
+                                                TargetToy = (IToy)new RGBAToy() { Name = ToyName, OutputNameRed = LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName, OutputNameGreen = LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 1).OutputName, OutputNameBlue = LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 2).OutputName };
+                                                Cabinet.Toys.Add(TargetToy);
+                                            }
+
+
+                                        }
                                     }
 
                                     break;
@@ -515,33 +523,46 @@ namespace DirectOutput.LedControl.Setup
                                     //Single output
 
                                     //Analog output
+
                                     if (LWE.Outputs.Any(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber))
                                     {
-                                        try
+                                        string OutputName = LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName;
+                                        if (Cabinet.Toys.Any(O => O is IAnalogAlphaToy && O.Name == OutputName))
                                         {
-                                            TargetToy = Cabinet.Toys.First(Toy => Toy is ISingleOutputToy && ((ISingleOutputToy)Toy).OutputName == LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName);
+                                            TargetToy = (IToy)Cabinet.Toys.FirstOrDefault(O => O is IAnalogAlphaToy && O.Name == OutputName);
                                         }
-                                        catch
-                                        {
-                                            //Toy does not exist. Create toyname and toy
-                                            string ToyName = "LedWiz {0:00} Column {1:00}".Build(LedWizNr, TCC.Number);
-
-                                            if (Cabinet.Toys.Contains(ToyName))
-                                            {
-                                                int Cnt = 1;
-                                                while (Cabinet.Toys.Contains("{0} {1}".Build(ToyName, Cnt)))
-                                                {
-                                                    Cnt++;
-                                                }
-                                                ToyName = "{0} {1}".Build(ToyName, Cnt);
-                                            }
-                                            TargetToy = (IToy)new AnalogAlphaToy() { Name = ToyName, OutputName = LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName };
-                                            Cabinet.Toys.Add(TargetToy);
-                                        }
-                                        ToyAssignments[LedWizNr].Add(TCC.Number, TargetToy);
                                     }
+                                    if (TargetToy == null)
+                                    {
 
 
+                                        if (LWE.Outputs.Any(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber))
+                                        {
+                                            try
+                                            {
+                                                TargetToy = Cabinet.Toys.First(Toy => Toy is ISingleOutputToy && ((ISingleOutputToy)Toy).OutputName == LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName);
+                                            }
+                                            catch
+                                            {
+                                                //Toy does not exist. Create toyname and toy
+                                                string ToyName = "LedWiz {0:00} Column {1:00}".Build(LedWizNr, TCC.Number);
+
+                                                if (Cabinet.Toys.Contains(ToyName))
+                                                {
+                                                    int Cnt = 1;
+                                                    while (Cabinet.Toys.Contains("{0} {1}".Build(ToyName, Cnt)))
+                                                    {
+                                                        Cnt++;
+                                                    }
+                                                    ToyName = "{0} {1}".Build(ToyName, Cnt);
+                                                }
+                                                TargetToy = (IToy)new AnalogAlphaToy() { Name = ToyName, OutputName = LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName };
+                                                Cabinet.Toys.Add(TargetToy);
+                                            }
+
+                                        }
+
+                                    }
 
                                     break;
 
@@ -550,6 +571,11 @@ namespace DirectOutput.LedControl.Setup
                                     Log.Warning("A illegal number ({0}) of required outputs has been found in a table config colum {0} for ledcontrol nr. {2}. Cant configure toy.".Build(TCC.RequiredOutputCount, TCC.Number, LedWizNr));
                                     break;
                             }
+                        }
+
+                        if (TargetToy != null)
+                        {
+                            ToyAssignments[LedWizNr].Add(TCC.Number, TargetToy);
                         }
                     }
                 }
