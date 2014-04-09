@@ -16,6 +16,7 @@ using DirectOutput.FX.MatrixFX;
 using System;
 using DirectOutput.FX.ConditionFX;
 using DirectOutput.General;
+using DirectOutput.General.Analog;
 
 namespace DirectOutput.LedControl.Setup
 {

@@ -1,4 +1,5 @@
 ﻿using DirectOutput.Cab.Toys.Layer;
+using DirectOutput.General.Color;
 
 namespace DirectOutput.Cab.Toys.Virtual
 {
@@ -7,7 +8,7 @@ namespace DirectOutput.Cab.Toys.Virtual
     /// 
     /// \note: Be sure to define this toy in the config file before the toys, which are listed in the ToyNames array.
     /// </summary>
-    public class RGBAToyGroup :  ToyGroupBase<RGBAData>
+    public class RGBAToyGroup : ToyGroupBase<RGBAColor>
     {
 
     }

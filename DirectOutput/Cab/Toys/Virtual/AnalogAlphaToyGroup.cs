@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DirectOutput.Cab.Toys.Layer;
+using DirectOutput.General.Analog;
 
 namespace DirectOutput.Cab.Toys.Virtual
 {
@@ -11,7 +12,7 @@ namespace DirectOutput.Cab.Toys.Virtual
     /// 
     /// \note: Be sure to define this toy in the config file before the toys, which are listed in the ToyNames array.
     /// </summary>
-    public class AnalogAlphaToyGroup : ToyGroupBase<AnalogAlphaData>
+    public class AnalogAlphaToyGroup : ToyGroupBase<AnalogAlpha>
     {
 
     }

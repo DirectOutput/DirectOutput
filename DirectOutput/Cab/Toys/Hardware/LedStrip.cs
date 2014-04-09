@@ -6,6 +6,7 @@ using DirectOutput.Cab.Out;
 using System.Xml.Serialization;
 using DirectOutput.General;
 using DirectOutput.Cab.Toys.Layer;
+using DirectOutput.General.Color;
 
 namespace DirectOutput.Cab.Toys.Hardware
 {
@@ -14,7 +15,7 @@ namespace DirectOutput.Cab.Toys.Hardware
     /// 
     /// The toy supports several layers and supports transparency/alpha channels for every single led.
     /// </summary>
-    public class LedStrip : ToyBaseUpdatable, IToy, IMatrixToy<RGBAData>
+    public class LedStrip : ToyBaseUpdatable, IToy, IMatrixToy<RGBAColor>
     {
         #region Config properties
         private int _Width = 1;
@@ -181,7 +182,7 @@ namespace DirectOutput.Cab.Toys.Hardware
         /// The layers dictionary of the toy.
         /// </value>
         [XmlIgnore]
-        public MatrixDictionaryBase<RGBAData> Layers { get; private set; }
+        public MatrixDictionaryBase<RGBAColor> Layers { get; private set; }
 
 
         #region IToy methods
@@ -204,7 +205,7 @@ namespace DirectOutput.Cab.Toys.Hardware
             OutputData = new byte[NumberOfOutputs];
             InitFadingCurve(Cabinet);
 
-            Layers = new MatrixDictionaryBase<RGBAData>() { Width = Width, Height = Height };
+            Layers = new MatrixDictionaryBase<RGBAColor>() { Width = Width, Height = Height };
         }
 
 
@@ -233,7 +234,7 @@ namespace DirectOutput.Cab.Toys.Hardware
         #endregion
 
         /// <summary>
-        /// Gets the 2 dimensional RGBAData array for the specified layer.
+        /// Gets the 2 dimensional RGBAColor array for the specified layer.
         /// 
         /// Dimension 0 of the array represents the x resp. horizontal direction. Dimension 1 of the array repersent the y resp. vertical direction.
         /// Position 0,0 is the upper left corner of the ledarray.
@@ -241,8 +242,8 @@ namespace DirectOutput.Cab.Toys.Hardware
         /// If the specified layer does not exist, it will be created as a fully transparent layer where all positions are set to transparent black.
         /// </summary>
         /// <param name="LayerNr">The layer nr.</param>
-        /// <returns>The RGBAData array for the specified layer.</returns>
-        public RGBAData[,] GetLayer(int LayerNr)
+        /// <returns>The RGBAColor array for the specified layer.</returns>
+        public RGBAColor[,] GetLayer(int LayerNr)
         {
             return Layers[LayerNr];
         }
@@ -345,9 +346,9 @@ namespace DirectOutput.Cab.Toys.Hardware
                 //Blend layers
                 float[, ,] Value = new float[Width, Height, 3];
 
-                foreach (KeyValuePair<int, RGBAData[,]> KV in Layers)
+                foreach (KeyValuePair<int, RGBAColor[,]> KV in Layers)
                 {
-                    RGBAData[,] D = KV.Value;
+                    RGBAColor[,] D = KV.Value;
 
                     int Nr = 0;
                     for (int y = 0; y < Height; y++)
@@ -458,7 +459,7 @@ namespace DirectOutput.Cab.Toys.Hardware
         /// </summary>
         public LedStrip()
         {
-            Layers = new MatrixDictionaryBase<RGBAData>();
+            Layers = new MatrixDictionaryBase<RGBAColor>();
 
 
         }

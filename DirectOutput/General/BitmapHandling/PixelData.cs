@@ -12,20 +12,15 @@ namespace DirectOutput.General.BitmapHandling
     public struct PixelData
     {
         //TODO: Check order of bytes!
+
+        //Attention!
+        //The order of bytes is important. Dont change this without beeing sure that this wield yield the desired results.
         public byte Blue;
         public byte Green;
         public byte Red;
         public byte Alpha;
 
-        public DirectOutput.Cab.Toys.Layer.RGBAData GetRGBAData()
-        {
-            DirectOutput.Cab.Toys.Layer.RGBAData D;
-            D.Red = Red;
-            D.Green = Green;
-            D.Blue = Blue;
-            D.Alpha = Alpha;
-            return D;
-        }
+
 
         public RGBAColor GetRGBAColor()
         {
