@@ -217,7 +217,7 @@ namespace DirectOutput.FX.MatrixFX
         /// </summary>
         /// <param name="TriggerValue">The trigger value.</param>
         /// <returns>Returns a value which is to be applied to one or several matrix elements.</returns>
-        public abstract MatrixElementType GetEffectValue(int TriggerValue);
+        protected abstract MatrixElementType GetEffectValue(int TriggerValue);
 
     }
 }

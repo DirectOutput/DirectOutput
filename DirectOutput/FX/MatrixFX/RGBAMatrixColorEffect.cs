@@ -8,7 +8,7 @@ using DirectOutput.Cab.Toys.Layer;
 namespace DirectOutput.FX.MatrixFX
 {
     /// <summary>
-    /// Sets the spefied area of a ledstrip to a color depending on configured colors and the trigger value.
+    ///  Sets the spefied area of matrix to the specified colors depending on the trigger value.
     /// </summary>
     public class RGBAMatrixColorEffect : MatrixValueEffectBase<RGBAColor>
     {
@@ -49,7 +49,7 @@ namespace DirectOutput.FX.MatrixFX
         /// </summary>
         /// <param name="TriggerValue">The trigger value.</param>
         /// <returns>RGBAColor representing a mix of InactiveColor and ActiveColor.</returns>
-        public override RGBAColor GetEffectValue(int TriggerValue)
+        protected override RGBAColor GetEffectValue(int TriggerValue)
         {
             RGBAColor D=new RGBAColor();
 
