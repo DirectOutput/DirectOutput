@@ -48,7 +48,7 @@ namespace DirectOutput.FX.MatrixFX
         /// </summary>
         /// <param name="TriggerValue">The trigger value.</param>
         /// <returns>AnalogAlpha representing a mix of InactiveValue and ActiveValue.</returns>
-        public override AnalogAlpha GetEffectValue(int TriggerValue)
+        protected override AnalogAlpha GetEffectValue(int TriggerValue)
         {
             AnalogAlpha D = new AnalogAlpha();
 
