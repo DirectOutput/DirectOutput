@@ -156,18 +156,19 @@ The second and following parts can contain the following:
 * __Color name__ as specified in the colors section of the file. Only valid as the second value.
 * __Hex color definition__ (e.g. #ff0000ff for opaque red). Take note that these color definitions allow for values from 0-255 in contrast to the colors section which only support 0-48. Hex color definitions can contain 3 or 4 parts (without or with alpha value). Setting is only accepted as the second value.
 * __Blink__ defines blinking with a default interval of 500ms.
-* __I{Number}__ defines a intensity/level of the output. The number can either be specified as a decmail number between 0 (e.g. I0 for off) and 48 (e.g. I48 for fully on) or as a hexadecimal number between 00 (off) and FF (fully on) with a leading # (e.g. I#80 for 50% power). This settings does only have a effect for settings without a color definition.
+* __I{Number}__ defines a intensity/level of the output. The number can either be specified as a decmal number between 0 (e.g. I0 for off) and 48 (e.g. I48 for fully on) or as a hexadecimal number between 00 (off) and FF (fully on) with a leading # (e.g. I#80 for 50% power). This settings does only have a effect for settings without a color definition.
 * __L{Number}__ defines the layer on which the setting operates. In most cases the setting is not required, since DOF will assign ascending layer numbers to the settings for a column anyway.
 * __W{NumberOfMilliseconds}__ defines a wait period resp. delay before the effect executes after it has been triggered.
 * __M{NumberOfMilliseconds}__ defines the minimum duration for the effect in milliseconds.
 * __Max{NummberOfMilliseconds}__ defines the maximum duration for the effect in milliseconds.
 * __F{NumberOfMilliseconds}, FU{NumberOfMilliseconds}, FD{NumberOfMilliseconds}__ are used to specify the fading duration in milliseconds. _F_ sets the duration for both fading up and down, _FU_ controls fading up only and _FD_ fading down only.
 * __E{NumberOfMilliseconds}__ specifies a extended duration in milliseconds for the effect (after it has been turned off).
+* __BL{Number}__ specifies the value of the blink effect during the low period of the blinking (High value=trigger value of the effect, typicaly 255). 
 * __BPW{Percentage}__ defines the blink pulse width in percent of the blink interval. Valid values are 1-99, default value if not defined is 50.
 * __BNP{NumberOfMilliseconds}__ defines the interval (duration of one on/off period) for nested blinking. This allows to define a second level of blinking within the _on_ period of the normal blinking.
 * __BNPW{Percentage}__ defines the blink pulse width for nested blinking in percent of the blink interval.
 * __Invert__ inverts the effect, so the effect will be active when it is normaly inactive and vice versa.
-* __NoBool__ indicates that the trigger value off the effect is not to be treated as a boolean value resp. that the daufault mapping of the value to 0 or 255 (255 for all values which are not 0) should not take place.
+* __NoBool__ indicates that the trigger value off the effect is not to be treated as a boolean value resp. that the daufault mapping of the value to 0 or 255 (255 for all values which are not 0) should not take place. The number can either be specified as a decmal number between 0 and 48 (e.g. BL3) or as a hexadecimal number between 00 and FF with a leading # (e.g. BL#30).
 * __Numeric Values__ without any extra character can be used to specify the duration of the effect or the blinking behaviour. If blinking has been defined, one or two numeric values are parsed. Value 1 controls the blink interval in milliseconds, while value 2 defines the number of blinks. If no blinking has been defined, only one numeric values which is used to defined the duration of the effect in milliseconds is parsed.
 
 For adressable ledstrips and other toys which implement the IMatrixToy interface the following extra parameters can be used to control the hardware referenced by the matrix. For settings controlling a matrix you have to use at least one of these paras, so DOF realizes that a matrix/area is to be controlled.

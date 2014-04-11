@@ -586,13 +586,73 @@ The following nested propteries exist for Outputs:
 
 
 
+\section use_DirectOutput_Cab_Toys_Virtual_AnalogAlphaToyGroup AnalogAlphaToyGroup
+
+\subsection use_DirectOutput_Cab_Toys_Virtual_AnalogAlphaToyGroup_summary Summary
+
+This toys allows the grouping of several AnalogAlpha toys (e.g. <see cref="T:DirectOutput.Cab.Toys.Layer.AnalogAlphaToy" /> or <see cref="!:Lamp" />) into a matrix, which can be controlled by the matrix effects.
+
+\note: Be sure to define this toy in the config file before the toys, which are listed in the ToyNames array.
+
+
+
+\subsection use_DirectOutput_Cab_Toys_Virtual_AnalogAlphaToyGroup_samplexml Sample XML
+
+A configuration section for AnalogAlphaToyGroup might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<AnalogAlphaToyGroup>
+  <Name>Name of AnalogAlphaToyGroup</Name>
+  <ToyNames>
+    <Row>
+      <Column>Item</Column>
+      <Column>Item</Column>
+    </Row>
+    <Row>
+      <Column>Item</Column>
+      <Column>Item</Column>
+    </Row>
+    <Row>
+      <Column>Item</Column>
+      <Column>Item</Column>
+    </Row>
+  </ToyNames>
+  <LayerOffset>0</LayerOffset>
+</AnalogAlphaToyGroup>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_Cab_Toys_Virtual_AnalogAlphaToyGroup_properties Properties
+
+AnalogAlphaToyGroup has the following 3 configurable properties:
+
+\subsubsection DirectOutput_Cab_Toys_Virtual_AnalogAlphaToyGroup_LayerOffset LayerOffset
+
+The layer offset which defines a fixed positive or negative offset to the layers which are controlled on the target toy..
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Virtual_AnalogAlphaToyGroup_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Virtual_AnalogAlphaToyGroup_ToyNames ToyNames
+
+The 2 dimensional array of RGBA toy names.
+
+
+
+__Nested Properties__
+
+The following nested propteries exist for ToyNames:
+* __Capacity__<br/>* __Item__<br/>
 \section use_DirectOutput_Cab_Toys_Virtual_RGBAToyGroup RGBAToyGroup
 
 \subsection use_DirectOutput_Cab_Toys_Virtual_RGBAToyGroup_summary Summary
 
-This toys allows the grouping of several RGBA toys (e.g. <see cref="T:DirectOutput.Cab.Toys.Layer.RGBAToy" /> or <see cref="!:RGBLed" />) into a matrix, which can be controlled by the RGBAMatrix effects.
+This toys allows the grouping of several RGBA toys (e.g. <see cref="T:DirectOutput.Cab.Toys.Layer.RGBAToy" /> or <see cref="!:RGBLed" />) into a matrix, which can be controlled by the matrix effects.
 
-\note: Be sure to define this toy in the config file before the toys, which are listed in the RGBAToyNames array.
+\note: Be sure to define this toy in the config file before the toys, which are listed in the ToyNames array.
 
 
 
@@ -603,7 +663,7 @@ A configuration section for RGBAToyGroup might resemble the following structure:
 ~~~~~~~~~~~~~{.xml}
 <RGBAToyGroup>
   <Name>Name of RGBAToyGroup</Name>
-  <RGBAToyNames>
+  <ToyNames>
     <Row>
       <Column>Item</Column>
       <Column>Item</Column>
@@ -616,7 +676,7 @@ A configuration section for RGBAToyGroup might resemble the following structure:
       <Column>Item</Column>
       <Column>Item</Column>
     </Row>
-  </RGBAToyNames>
+  </ToyNames>
   <LayerOffset>0</LayerOffset>
 </RGBAToyGroup>
 ~~~~~~~~~~~~~
@@ -636,7 +696,7 @@ The name of the item.
 
 
 
-\subsubsection DirectOutput_Cab_Toys_Virtual_RGBAToyGroup_RGBAToyNames RGBAToyNames
+\subsubsection DirectOutput_Cab_Toys_Virtual_RGBAToyGroup_ToyNames ToyNames
 
 The 2 dimensional array of RGBA toy names.
 
@@ -644,5 +704,5 @@ The 2 dimensional array of RGBA toy names.
 
 __Nested Properties__
 
-The following nested propteries exist for RGBAToyNames:
+The following nested propteries exist for ToyNames:
 * __Capacity__<br/>* __Item__<br/>

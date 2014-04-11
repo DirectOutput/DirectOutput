@@ -18,10 +18,10 @@ namespace DirectOutput.FX.MatrixFX
         private int _BitmapFrameNumber = 0;
 
         /// <summary>
-        /// Gets or sets the number of the frame to be used.
+        /// Gets or sets the number of the frame to be used. This is usefull if you work with animated gifs.
         /// </summary>
         /// <value>
-        /// The number of the frame to be used.
+        /// The number of the frame to be used (for animated gifs).
         /// </value>
         public int BitmapFrameNumber
         {

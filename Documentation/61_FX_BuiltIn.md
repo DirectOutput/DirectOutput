@@ -177,6 +177,1484 @@ The name of the item.
 
 
 
+\section use_DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect AnalogAlphaMatrixBitmapAnimationEffect
+
+\subsection use_DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_samplexml Sample XML
+
+A configuration section for AnalogAlphaMatrixBitmapAnimationEffect might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<AnalogAlphaMatrixBitmapAnimationEffect>
+  <Name>Name of AnalogAlphaMatrixBitmapAnimationEffect</Name>
+  <ToyName>Name of Toy</ToyName>
+  <Width>100</Width>
+  <Height>100</Height>
+  <Left>0</Left>
+  <Top>0</Top>
+  <LayerNr>0</LayerNr>
+  <FadeMode>Fade</FadeMode>
+  <AnimationDirection>Frame</AnimationDirection>
+  <AnimationStepSize>1</AnimationStepSize>
+  <AnimationStepCount>1</AnimationStepCount>
+  <AnimationBehaviour>Loop</AnimationBehaviour>
+  <AnimationFrameDuration>30</AnimationFrameDuration>
+  <BitmapFrameNumber>0</BitmapFrameNumber>
+  <BitmapTop>0</BitmapTop>
+  <BitmapLeft>0</BitmapLeft>
+  <BitmapWidth>-1</BitmapWidth>
+  <BitmapHeight>-1</BitmapHeight>
+  <DataExtractMode>BlendPixels</DataExtractMode>
+  <BitmapFilePattern>Pattern string</BitmapFilePattern>
+</AnalogAlphaMatrixBitmapAnimationEffect>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_properties Properties
+
+AnalogAlphaMatrixBitmapAnimationEffect has the following 20 configurable properties:
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_AnimationBehaviour AnimationBehaviour
+
+The property AnimationBehaviour accepts the following values:
+
+* Continue
+* Loop
+* Once
+
+__Valid values__
+
+The property AnimationBehaviour accepts the following values:
+
+* Continue
+* Loop
+* Once
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_AnimationDirection AnimationDirection
+
+The property AnimationDirection accepts the following values:
+
+* Down
+* Frame
+* Right
+
+__Valid values__
+
+The property AnimationDirection accepts the following values:
+
+* Down
+* Frame
+* Right
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_AnimationFrameDuration AnimationFrameDuration
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_AnimationStepCount AnimationStepCount
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_AnimationStepSize AnimationStepSize
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_BitmapFilePattern BitmapFilePattern
+
+The bitmap file pattern which is used to load the bitmap file for the effect.
+
+
+
+__Nested Properties__
+
+The following nested propteries exist for BitmapFilePattern:
+* __Pattern__<br/>  The pattern used to look for files.
+
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_BitmapFrameNumber BitmapFrameNumber
+
+The number of the frame to be displayed.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_BitmapHeight BitmapHeight
+
+The height of the the part of the bitmap which is to be displayed.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_BitmapLeft BitmapLeft
+
+The left boundary of the the part of the bitmap which is to be displayed.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_BitmapTop BitmapTop
+
+The top of the the part of the bitmap which is to be displayed.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_BitmapWidth BitmapWidth
+
+The width of the the part of the bitmap which is to be displayed.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_DataExtractMode DataExtractMode
+
+The data extract mode which defines how the data is extracted from the source bitmap.
+
+
+
+The property DataExtractMode accepts the following values:
+
+* SinglePixelTopLeft
+* SinglePixelCenter
+* BlendPixels
+
+__Valid values__
+
+The property DataExtractMode accepts the following values:
+
+* SinglePixelTopLeft
+* SinglePixelCenter
+* BlendPixels
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_FadeMode FadeMode
+
+Fade (active and inactive values/color will fade depending on trigger value) or OnOff (actvice value/color is used for trigger values &gt;0, otherwise inactive value/color will be used).
+
+
+
+The property FadeMode accepts the following values:
+
+* Fade
+* OnOff
+
+__Valid values__
+
+The property FadeMode accepts the following values:
+
+* Fade
+* OnOff
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_Height Height
+
+The height in percent of the target area for the effect (0-100).
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_LayerNr LayerNr
+
+The number of the target layer for the effect.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_Left Left
+
+The left resp. X position of the upper left corner in percent of the target area for the effect (0-100).
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_Top Top
+
+The top resp. Y position of the upper left corner in percent of the target area for the effect (0-100).
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_ToyName ToyName
+
+The name of the toy which is controlled by the effect.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_Width Width
+
+The width in percent of the target area for the effect (0-100).
+
+
+
+\section use_DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapEffect AnalogAlphaMatrixBitmapEffect
+
+\subsection use_DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapEffect_summary Summary
+
+Displays a defined part of a bitmap on a area of a AnalogAlpha Matrix.
+
+
+
+\subsection use_DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapEffect_samplexml Sample XML
+
+A configuration section for AnalogAlphaMatrixBitmapEffect might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<AnalogAlphaMatrixBitmapEffect>
+  <Name>Name of AnalogAlphaMatrixBitmapEffect</Name>
+  <ToyName>Name of Toy</ToyName>
+  <Width>100</Width>
+  <Height>100</Height>
+  <Left>0</Left>
+  <Top>0</Top>
+  <LayerNr>0</LayerNr>
+  <FadeMode>Fade</FadeMode>
+  <BitmapFrameNumber>0</BitmapFrameNumber>
+  <BitmapTop>0</BitmapTop>
+  <BitmapLeft>0</BitmapLeft>
+  <BitmapWidth>-1</BitmapWidth>
+  <BitmapHeight>-1</BitmapHeight>
+  <DataExtractMode>BlendPixels</DataExtractMode>
+  <BitmapFilePattern>Pattern string</BitmapFilePattern>
+</AnalogAlphaMatrixBitmapEffect>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapEffect_properties Properties
+
+AnalogAlphaMatrixBitmapEffect has the following 15 configurable properties:
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapEffect_BitmapFilePattern BitmapFilePattern
+
+The bitmap file pattern which is used to load the bitmap file for the effect.
+
+
+
+__Nested Properties__
+
+The following nested propteries exist for BitmapFilePattern:
+* __Pattern__<br/>  The pattern used to look for files.
+
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapEffect_BitmapFrameNumber BitmapFrameNumber
+
+The number of the frame to be used (for animated gifs).
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapEffect_BitmapHeight BitmapHeight
+
+The height of the the part of the bitmap which is to be used.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapEffect_BitmapLeft BitmapLeft
+
+The left boundary of the the part of the bitmap which is to be used.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapEffect_BitmapTop BitmapTop
+
+The top of the the part of the bitmap which is to be used.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapEffect_BitmapWidth BitmapWidth
+
+The width of the the part of the bitmap which is to be used.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapEffect_DataExtractMode DataExtractMode
+
+The data extract mode which defines how the data is extracted from the source bitmap.
+
+
+
+The property DataExtractMode accepts the following values:
+
+* SinglePixelTopLeft
+* SinglePixelCenter
+* BlendPixels
+
+__Valid values__
+
+The property DataExtractMode accepts the following values:
+
+* SinglePixelTopLeft
+* SinglePixelCenter
+* BlendPixels
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapEffect_FadeMode FadeMode
+
+Fade (active and inactive values/color will fade depending on trigger value) or OnOff (actvice value/color is used for trigger values &gt;0, otherwise inactive value/color will be used).
+
+
+
+The property FadeMode accepts the following values:
+
+* Fade
+* OnOff
+
+__Valid values__
+
+The property FadeMode accepts the following values:
+
+* Fade
+* OnOff
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapEffect_Height Height
+
+The height in percent of the target area for the effect (0-100).
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapEffect_LayerNr LayerNr
+
+The number of the target layer for the effect.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapEffect_Left Left
+
+The left resp. X position of the upper left corner in percent of the target area for the effect (0-100).
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapEffect_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapEffect_Top Top
+
+The top resp. Y position of the upper left corner in percent of the target area for the effect (0-100).
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapEffect_ToyName ToyName
+
+The name of the toy which is controlled by the effect.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapEffect_Width Width
+
+The width in percent of the target area for the effect (0-100).
+
+
+
+\section use_DirectOutput_FX_MatrixFX_AnalogAlphaMatrixFlickerEffect AnalogAlphaMatrixFlickerEffect
+
+\subsection use_DirectOutput_FX_MatrixFX_AnalogAlphaMatrixFlickerEffect_summary Summary
+
+Does create random flickering with a defineable density, durations and value within the spefied area of a matrix.
+
+
+
+\subsection use_DirectOutput_FX_MatrixFX_AnalogAlphaMatrixFlickerEffect_samplexml Sample XML
+
+A configuration section for AnalogAlphaMatrixFlickerEffect might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<AnalogAlphaMatrixFlickerEffect>
+  <Name>Name of AnalogAlphaMatrixFlickerEffect</Name>
+  <ToyName>Name of Toy</ToyName>
+  <Width>100</Width>
+  <Height>100</Height>
+  <Left>0</Left>
+  <Top>0</Top>
+  <LayerNr>0</LayerNr>
+  <FadeMode>Fade</FadeMode>
+  <Density>10</Density>
+  <MinFlickerDurationMs>60</MinFlickerDurationMs>
+  <MaxFlickerDurationMs>150</MaxFlickerDurationMs>
+  <ActiveValue>
+    <Value>0</Value>
+    <Alpha>0</Alpha>
+  </ActiveValue>
+  <InactiveValue>
+    <Value>0</Value>
+    <Alpha>0</Alpha>
+  </InactiveValue>
+</AnalogAlphaMatrixFlickerEffect>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_FX_MatrixFX_AnalogAlphaMatrixFlickerEffect_properties Properties
+
+AnalogAlphaMatrixFlickerEffect has the following 13 configurable properties:
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixFlickerEffect_ActiveValue ActiveValue
+
+The active value.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixFlickerEffect_Density Density
+
+The density if the flickering in percent.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixFlickerEffect_FadeMode FadeMode
+
+Fade (active and inactive values/color will fade depending on trigger value) or OnOff (actvice value/color is used for trigger values &gt;0, otherwise inactive value/color will be used).
+
+
+
+The property FadeMode accepts the following values:
+
+* Fade
+* OnOff
+
+__Valid values__
+
+The property FadeMode accepts the following values:
+
+* Fade
+* OnOff
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixFlickerEffect_Height Height
+
+The height in percent of the target area for the effect (0-100).
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixFlickerEffect_InactiveValue InactiveValue
+
+The inactive value.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixFlickerEffect_LayerNr LayerNr
+
+The number of the target layer for the effect.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixFlickerEffect_Left Left
+
+The left resp. X position of the upper left corner in percent of the target area for the effect (0-100).
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixFlickerEffect_MaxFlickerDurationMs MaxFlickerDurationMs
+
+The max duration in milliseconds for a single flicker/blink of a element.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixFlickerEffect_MinFlickerDurationMs MinFlickerDurationMs
+
+The min duration in milliseconds for a single flicker/blink of a element.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixFlickerEffect_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixFlickerEffect_Top Top
+
+The top resp. Y position of the upper left corner in percent of the target area for the effect (0-100).
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixFlickerEffect_ToyName ToyName
+
+The name of the toy which is controlled by the effect.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixFlickerEffect_Width Width
+
+The width in percent of the target area for the effect (0-100).
+
+
+
+\section use_DirectOutput_FX_MatrixFX_AnalogAlphaMatrixShiftEffect AnalogAlphaMatrixShiftEffect
+
+\subsection use_DirectOutput_FX_MatrixFX_AnalogAlphaMatrixShiftEffect_samplexml Sample XML
+
+A configuration section for AnalogAlphaMatrixShiftEffect might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<AnalogAlphaMatrixShiftEffect>
+  <Name>Name of AnalogAlphaMatrixShiftEffect</Name>
+  <ToyName>Name of Toy</ToyName>
+  <Width>100</Width>
+  <Height>100</Height>
+  <Left>0</Left>
+  <Top>0</Top>
+  <LayerNr>0</LayerNr>
+  <FadeMode>Fade</FadeMode>
+  <ShiftDirection>Right</ShiftDirection>
+  <ShiftSpeed>200</ShiftSpeed>
+  <ShiftAcceleration>0</ShiftAcceleration>
+  <ActiveValue>
+    <Value>0</Value>
+    <Alpha>0</Alpha>
+  </ActiveValue>
+  <InactiveValue>
+    <Value>0</Value>
+    <Alpha>0</Alpha>
+  </InactiveValue>
+</AnalogAlphaMatrixShiftEffect>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_FX_MatrixFX_AnalogAlphaMatrixShiftEffect_properties Properties
+
+AnalogAlphaMatrixShiftEffect has the following 13 configurable properties:
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixShiftEffect_ActiveValue ActiveValue
+
+The active Value.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixShiftEffect_FadeMode FadeMode
+
+Fade (active and inactive values/color will fade depending on trigger value) or OnOff (actvice value/color is used for trigger values &gt;0, otherwise inactive value/color will be used).
+
+
+
+The property FadeMode accepts the following values:
+
+* Fade
+* OnOff
+
+__Valid values__
+
+The property FadeMode accepts the following values:
+
+* Fade
+* OnOff
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixShiftEffect_Height Height
+
+The height in percent of the target area for the effect (0-100).
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixShiftEffect_InactiveValue InactiveValue
+
+The inactive Value.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixShiftEffect_LayerNr LayerNr
+
+The number of the target layer for the effect.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixShiftEffect_Left Left
+
+The left resp. X position of the upper left corner in percent of the target area for the effect (0-100).
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixShiftEffect_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixShiftEffect_ShiftAcceleration ShiftAcceleration
+
+The acceleration for the shift speed in percent of the effect area per second.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixShiftEffect_ShiftDirection ShiftDirection
+
+The shift direction (Left, Right, Up, Down).
+
+
+
+The property ShiftDirection accepts the following values:
+
+* Down
+* Left
+* Right
+* Up
+
+__Valid values__
+
+The property ShiftDirection accepts the following values:
+
+* Down
+* Left
+* Right
+* Up
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixShiftEffect_ShiftSpeed ShiftSpeed
+
+The shift speed in percentage of the effect area (Left, Top, Width, Height properties) per second .
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixShiftEffect_Top Top
+
+The top resp. Y position of the upper left corner in percent of the target area for the effect (0-100).
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixShiftEffect_ToyName ToyName
+
+The name of the toy which is controlled by the effect.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixShiftEffect_Width Width
+
+The width in percent of the target area for the effect (0-100).
+
+
+
+\section use_DirectOutput_FX_MatrixFX_AnalogAlphaMatrixValueEffect AnalogAlphaMatrixValueEffect
+
+\subsection use_DirectOutput_FX_MatrixFX_AnalogAlphaMatrixValueEffect_summary Summary
+
+Sets the spefied area of matrix to the specified values depending on the trigger value.
+
+
+
+\subsection use_DirectOutput_FX_MatrixFX_AnalogAlphaMatrixValueEffect_samplexml Sample XML
+
+A configuration section for AnalogAlphaMatrixValueEffect might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<AnalogAlphaMatrixValueEffect>
+  <Name>Name of AnalogAlphaMatrixValueEffect</Name>
+  <ToyName>Name of Toy</ToyName>
+  <Width>100</Width>
+  <Height>100</Height>
+  <Left>0</Left>
+  <Top>0</Top>
+  <LayerNr>0</LayerNr>
+  <FadeMode>Fade</FadeMode>
+  <ActiveValue>
+    <Value>0</Value>
+    <Alpha>0</Alpha>
+  </ActiveValue>
+  <InactiveValue>
+    <Value>0</Value>
+    <Alpha>0</Alpha>
+  </InactiveValue>
+</AnalogAlphaMatrixValueEffect>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_FX_MatrixFX_AnalogAlphaMatrixValueEffect_properties Properties
+
+AnalogAlphaMatrixValueEffect has the following 10 configurable properties:
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixValueEffect_ActiveValue ActiveValue
+
+The active value.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixValueEffect_FadeMode FadeMode
+
+Fade (active and inactive values/color will fade depending on trigger value) or OnOff (actvice value/color is used for trigger values &gt;0, otherwise inactive value/color will be used).
+
+
+
+The property FadeMode accepts the following values:
+
+* Fade
+* OnOff
+
+__Valid values__
+
+The property FadeMode accepts the following values:
+
+* Fade
+* OnOff
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixValueEffect_Height Height
+
+The height in percent of the target area for the effect (0-100).
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixValueEffect_InactiveValue InactiveValue
+
+The inactive value.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixValueEffect_LayerNr LayerNr
+
+The number of the target layer for the effect.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixValueEffect_Left Left
+
+The left resp. X position of the upper left corner in percent of the target area for the effect (0-100).
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixValueEffect_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixValueEffect_Top Top
+
+The top resp. Y position of the upper left corner in percent of the target area for the effect (0-100).
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixValueEffect_ToyName ToyName
+
+The name of the toy which is controlled by the effect.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixValueEffect_Width Width
+
+The width in percent of the target area for the effect (0-100).
+
+
+
+\section use_DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect RGBAMatrixBitmapAnimationEffect
+
+\subsection use_DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect_samplexml Sample XML
+
+A configuration section for RGBAMatrixBitmapAnimationEffect might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<RGBAMatrixBitmapAnimationEffect>
+  <Name>Name of RGBAMatrixBitmapAnimationEffect</Name>
+  <ToyName>Name of Toy</ToyName>
+  <Width>100</Width>
+  <Height>100</Height>
+  <Left>0</Left>
+  <Top>0</Top>
+  <LayerNr>0</LayerNr>
+  <FadeMode>Fade</FadeMode>
+  <AnimationDirection>Frame</AnimationDirection>
+  <AnimationStepSize>1</AnimationStepSize>
+  <AnimationStepCount>1</AnimationStepCount>
+  <AnimationBehaviour>Loop</AnimationBehaviour>
+  <AnimationFrameDuration>30</AnimationFrameDuration>
+  <BitmapFrameNumber>0</BitmapFrameNumber>
+  <BitmapTop>0</BitmapTop>
+  <BitmapLeft>0</BitmapLeft>
+  <BitmapWidth>-1</BitmapWidth>
+  <BitmapHeight>-1</BitmapHeight>
+  <DataExtractMode>BlendPixels</DataExtractMode>
+  <BitmapFilePattern>Pattern string</BitmapFilePattern>
+</RGBAMatrixBitmapAnimationEffect>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect_properties Properties
+
+RGBAMatrixBitmapAnimationEffect has the following 20 configurable properties:
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect_AnimationBehaviour AnimationBehaviour
+
+The property AnimationBehaviour accepts the following values:
+
+* Continue
+* Loop
+* Once
+
+__Valid values__
+
+The property AnimationBehaviour accepts the following values:
+
+* Continue
+* Loop
+* Once
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect_AnimationDirection AnimationDirection
+
+The property AnimationDirection accepts the following values:
+
+* Down
+* Frame
+* Right
+
+__Valid values__
+
+The property AnimationDirection accepts the following values:
+
+* Down
+* Frame
+* Right
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect_AnimationFrameDuration AnimationFrameDuration
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect_AnimationStepCount AnimationStepCount
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect_AnimationStepSize AnimationStepSize
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect_BitmapFilePattern BitmapFilePattern
+
+The bitmap file pattern which is used to load the bitmap file for the effect.
+
+
+
+__Nested Properties__
+
+The following nested propteries exist for BitmapFilePattern:
+* __Pattern__<br/>  The pattern used to look for files.
+
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect_BitmapFrameNumber BitmapFrameNumber
+
+The number of the frame to be displayed.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect_BitmapHeight BitmapHeight
+
+The height of the the part of the bitmap which is to be displayed.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect_BitmapLeft BitmapLeft
+
+The left boundary of the the part of the bitmap which is to be displayed.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect_BitmapTop BitmapTop
+
+The top of the the part of the bitmap which is to be displayed.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect_BitmapWidth BitmapWidth
+
+The width of the the part of the bitmap which is to be displayed.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect_DataExtractMode DataExtractMode
+
+The data extract mode which defines how the data is extracted from the source bitmap.
+
+
+
+The property DataExtractMode accepts the following values:
+
+* SinglePixelTopLeft
+* SinglePixelCenter
+* BlendPixels
+
+__Valid values__
+
+The property DataExtractMode accepts the following values:
+
+* SinglePixelTopLeft
+* SinglePixelCenter
+* BlendPixels
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect_FadeMode FadeMode
+
+Fade (active and inactive values/color will fade depending on trigger value) or OnOff (actvice value/color is used for trigger values &gt;0, otherwise inactive value/color will be used).
+
+
+
+The property FadeMode accepts the following values:
+
+* Fade
+* OnOff
+
+__Valid values__
+
+The property FadeMode accepts the following values:
+
+* Fade
+* OnOff
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect_Height Height
+
+The height in percent of the target area for the effect (0-100).
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect_LayerNr LayerNr
+
+The number of the target layer for the effect.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect_Left Left
+
+The left resp. X position of the upper left corner in percent of the target area for the effect (0-100).
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect_Top Top
+
+The top resp. Y position of the upper left corner in percent of the target area for the effect (0-100).
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect_ToyName ToyName
+
+The name of the toy which is controlled by the effect.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect_Width Width
+
+The width in percent of the target area for the effect (0-100).
+
+
+
+\section use_DirectOutput_FX_MatrixFX_RGBAMatrixBitmapEffect RGBAMatrixBitmapEffect
+
+\subsection use_DirectOutput_FX_MatrixFX_RGBAMatrixBitmapEffect_summary Summary
+
+The RGBAMatrixBitmapEffect displays a defined part of a bitmap on a area of a RGBAtoy Matrix.
+
+The properties of the effect allow you to select the part of the bitmap to display as well as the area of the matrix on which the bitmap is displayed. Dempending on the size of your bitmap you might choose different modes for the image extraction.
+
+The effect supports numerous imahe formats, inluding png, gif (also animated) and jpg.
+
+The image extraction takes place upon initalization of the framework. While the framework is active, it only outputs the previously extracted and scaled data to allow for better performance.
+
+
+
+\subsection use_DirectOutput_FX_MatrixFX_RGBAMatrixBitmapEffect_samplexml Sample XML
+
+A configuration section for RGBAMatrixBitmapEffect might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<RGBAMatrixBitmapEffect>
+  <Name>Name of RGBAMatrixBitmapEffect</Name>
+  <ToyName>Name of Toy</ToyName>
+  <Width>100</Width>
+  <Height>100</Height>
+  <Left>0</Left>
+  <Top>0</Top>
+  <LayerNr>0</LayerNr>
+  <FadeMode>Fade</FadeMode>
+  <BitmapFrameNumber>0</BitmapFrameNumber>
+  <BitmapTop>0</BitmapTop>
+  <BitmapLeft>0</BitmapLeft>
+  <BitmapWidth>-1</BitmapWidth>
+  <BitmapHeight>-1</BitmapHeight>
+  <DataExtractMode>BlendPixels</DataExtractMode>
+  <BitmapFilePattern>Pattern string</BitmapFilePattern>
+</RGBAMatrixBitmapEffect>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_FX_MatrixFX_RGBAMatrixBitmapEffect_properties Properties
+
+RGBAMatrixBitmapEffect has the following 15 configurable properties:
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapEffect_BitmapFilePattern BitmapFilePattern
+
+The bitmap file pattern which is used to load the bitmap file for the effect.
+
+
+
+__Nested Properties__
+
+The following nested propteries exist for BitmapFilePattern:
+* __Pattern__<br/>  The pattern used to look for files.
+
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapEffect_BitmapFrameNumber BitmapFrameNumber
+
+The number of the frame to be used (for animated gifs).
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapEffect_BitmapHeight BitmapHeight
+
+The height of the the part of the bitmap which is to be used.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapEffect_BitmapLeft BitmapLeft
+
+The left boundary of the the part of the bitmap which is to be used.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapEffect_BitmapTop BitmapTop
+
+The top of the the part of the bitmap which is to be used.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapEffect_BitmapWidth BitmapWidth
+
+The width of the the part of the bitmap which is to be used.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapEffect_DataExtractMode DataExtractMode
+
+The data extract mode which defines how the data is extracted from the source bitmap.
+
+
+
+The property DataExtractMode accepts the following values:
+
+* SinglePixelTopLeft
+* SinglePixelCenter
+* BlendPixels
+
+__Valid values__
+
+The property DataExtractMode accepts the following values:
+
+* SinglePixelTopLeft
+* SinglePixelCenter
+* BlendPixels
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapEffect_FadeMode FadeMode
+
+Fade (active and inactive values/color will fade depending on trigger value) or OnOff (actvice value/color is used for trigger values &gt;0, otherwise inactive value/color will be used).
+
+
+
+The property FadeMode accepts the following values:
+
+* Fade
+* OnOff
+
+__Valid values__
+
+The property FadeMode accepts the following values:
+
+* Fade
+* OnOff
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapEffect_Height Height
+
+The height in percent of the target area for the effect (0-100).
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapEffect_LayerNr LayerNr
+
+The number of the target layer for the effect.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapEffect_Left Left
+
+The left resp. X position of the upper left corner in percent of the target area for the effect (0-100).
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapEffect_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapEffect_Top Top
+
+The top resp. Y position of the upper left corner in percent of the target area for the effect (0-100).
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapEffect_ToyName ToyName
+
+The name of the toy which is controlled by the effect.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapEffect_Width Width
+
+The width in percent of the target area for the effect (0-100).
+
+
+
+\section use_DirectOutput_FX_MatrixFX_RGBAMatrixColorEffect RGBAMatrixColorEffect
+
+\subsection use_DirectOutput_FX_MatrixFX_RGBAMatrixColorEffect_summary Summary
+
+Sets the spefied area of matrix to the specified colors depending on the trigger value.
+
+
+
+\subsection use_DirectOutput_FX_MatrixFX_RGBAMatrixColorEffect_samplexml Sample XML
+
+A configuration section for RGBAMatrixColorEffect might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<RGBAMatrixColorEffect>
+  <Name>Name of RGBAMatrixColorEffect</Name>
+  <ToyName>Name of Toy</ToyName>
+  <Width>100</Width>
+  <Height>100</Height>
+  <Left>0</Left>
+  <Top>0</Top>
+  <LayerNr>0</LayerNr>
+  <FadeMode>Fade</FadeMode>
+  <ActiveColor>
+    <HexColor>#00000000</HexColor>
+  </ActiveColor>
+  <InactiveColor>
+    <HexColor>#00000000</HexColor>
+  </InactiveColor>
+</RGBAMatrixColorEffect>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_FX_MatrixFX_RGBAMatrixColorEffect_properties Properties
+
+RGBAMatrixColorEffect has the following 10 configurable properties:
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixColorEffect_ActiveColor ActiveColor
+
+The active color.
+
+
+
+__Nested Properties__
+
+The following nested propteries exist for ActiveColor:
+* __HexColor__<br/>  6 digit hexadecimal color code with leading  #(e.g. #ff0000 for red).
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixColorEffect_FadeMode FadeMode
+
+Fade (active and inactive values/color will fade depending on trigger value) or OnOff (actvice value/color is used for trigger values &gt;0, otherwise inactive value/color will be used).
+
+
+
+The property FadeMode accepts the following values:
+
+* Fade
+* OnOff
+
+__Valid values__
+
+The property FadeMode accepts the following values:
+
+* Fade
+* OnOff
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixColorEffect_Height Height
+
+The height in percent of the target area for the effect (0-100).
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixColorEffect_InactiveColor InactiveColor
+
+The inactive color.
+
+
+
+__Nested Properties__
+
+The following nested propteries exist for InactiveColor:
+* __HexColor__<br/>  6 digit hexadecimal color code with leading  #(e.g. #ff0000 for red).
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixColorEffect_LayerNr LayerNr
+
+The number of the target layer for the effect.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixColorEffect_Left Left
+
+The left resp. X position of the upper left corner in percent of the target area for the effect (0-100).
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixColorEffect_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixColorEffect_Top Top
+
+The top resp. Y position of the upper left corner in percent of the target area for the effect (0-100).
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixColorEffect_ToyName ToyName
+
+The name of the toy which is controlled by the effect.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixColorEffect_Width Width
+
+The width in percent of the target area for the effect (0-100).
+
+
+
+\section use_DirectOutput_FX_MatrixFX_RGBAMatrixFlickerEffect RGBAMatrixFlickerEffect
+
+\subsection use_DirectOutput_FX_MatrixFX_RGBAMatrixFlickerEffect_summary Summary
+
+Does create random flickering with a defineable density, durations and color within the spefied area of a ledstrip.
+
+
+
+\subsection use_DirectOutput_FX_MatrixFX_RGBAMatrixFlickerEffect_samplexml Sample XML
+
+A configuration section for RGBAMatrixFlickerEffect might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<RGBAMatrixFlickerEffect>
+  <Name>Name of RGBAMatrixFlickerEffect</Name>
+  <ToyName>Name of Toy</ToyName>
+  <Width>100</Width>
+  <Height>100</Height>
+  <Left>0</Left>
+  <Top>0</Top>
+  <LayerNr>0</LayerNr>
+  <FadeMode>Fade</FadeMode>
+  <Density>10</Density>
+  <MinFlickerDurationMs>60</MinFlickerDurationMs>
+  <MaxFlickerDurationMs>150</MaxFlickerDurationMs>
+  <ActiveColor>
+    <HexColor>#00000000</HexColor>
+  </ActiveColor>
+  <InactiveColor>
+    <HexColor>#00000000</HexColor>
+  </InactiveColor>
+</RGBAMatrixFlickerEffect>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_FX_MatrixFX_RGBAMatrixFlickerEffect_properties Properties
+
+RGBAMatrixFlickerEffect has the following 13 configurable properties:
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixFlickerEffect_ActiveColor ActiveColor
+
+The active color.
+
+
+
+__Nested Properties__
+
+The following nested propteries exist for ActiveColor:
+* __HexColor__<br/>  6 digit hexadecimal color code with leading  #(e.g. #ff0000 for red).
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixFlickerEffect_Density Density
+
+The density if the flickering in percent.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixFlickerEffect_FadeMode FadeMode
+
+Fade (active and inactive values/color will fade depending on trigger value) or OnOff (actvice value/color is used for trigger values &gt;0, otherwise inactive value/color will be used).
+
+
+
+The property FadeMode accepts the following values:
+
+* Fade
+* OnOff
+
+__Valid values__
+
+The property FadeMode accepts the following values:
+
+* Fade
+* OnOff
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixFlickerEffect_Height Height
+
+The height in percent of the target area for the effect (0-100).
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixFlickerEffect_InactiveColor InactiveColor
+
+The inactive color.
+
+
+
+__Nested Properties__
+
+The following nested propteries exist for InactiveColor:
+* __HexColor__<br/>  6 digit hexadecimal color code with leading  #(e.g. #ff0000 for red).
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixFlickerEffect_LayerNr LayerNr
+
+The number of the target layer for the effect.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixFlickerEffect_Left Left
+
+The left resp. X position of the upper left corner in percent of the target area for the effect (0-100).
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixFlickerEffect_MaxFlickerDurationMs MaxFlickerDurationMs
+
+The max duration in milliseconds for a single flicker/blink of a element.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixFlickerEffect_MinFlickerDurationMs MinFlickerDurationMs
+
+The min duration in milliseconds for a single flicker/blink of a element.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixFlickerEffect_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixFlickerEffect_Top Top
+
+The top resp. Y position of the upper left corner in percent of the target area for the effect (0-100).
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixFlickerEffect_ToyName ToyName
+
+The name of the toy which is controlled by the effect.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixFlickerEffect_Width Width
+
+The width in percent of the target area for the effect (0-100).
+
+
+
+\section use_DirectOutput_FX_MatrixFX_RGBAMatrixShiftEffect RGBAMatrixShiftEffect
+
+\subsection use_DirectOutput_FX_MatrixFX_RGBAMatrixShiftEffect_samplexml Sample XML
+
+A configuration section for RGBAMatrixShiftEffect might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<RGBAMatrixShiftEffect>
+  <Name>Name of RGBAMatrixShiftEffect</Name>
+  <ToyName>Name of Toy</ToyName>
+  <Width>100</Width>
+  <Height>100</Height>
+  <Left>0</Left>
+  <Top>0</Top>
+  <LayerNr>0</LayerNr>
+  <FadeMode>Fade</FadeMode>
+  <ShiftDirection>Right</ShiftDirection>
+  <ShiftSpeed>200</ShiftSpeed>
+  <ShiftAcceleration>0</ShiftAcceleration>
+  <ActiveColor>
+    <HexColor>#00000000</HexColor>
+  </ActiveColor>
+  <InactiveColor>
+    <HexColor>#00000000</HexColor>
+  </InactiveColor>
+</RGBAMatrixShiftEffect>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_FX_MatrixFX_RGBAMatrixShiftEffect_properties Properties
+
+RGBAMatrixShiftEffect has the following 13 configurable properties:
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixShiftEffect_ActiveColor ActiveColor
+
+The active color.
+
+
+
+__Nested Properties__
+
+The following nested propteries exist for ActiveColor:
+* __HexColor__<br/>  6 digit hexadecimal color code with leading  #(e.g. #ff0000 for red).
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixShiftEffect_FadeMode FadeMode
+
+Fade (active and inactive values/color will fade depending on trigger value) or OnOff (actvice value/color is used for trigger values &gt;0, otherwise inactive value/color will be used).
+
+
+
+The property FadeMode accepts the following values:
+
+* Fade
+* OnOff
+
+__Valid values__
+
+The property FadeMode accepts the following values:
+
+* Fade
+* OnOff
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixShiftEffect_Height Height
+
+The height in percent of the target area for the effect (0-100).
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixShiftEffect_InactiveColor InactiveColor
+
+The inactive color.
+
+
+
+__Nested Properties__
+
+The following nested propteries exist for InactiveColor:
+* __HexColor__<br/>  6 digit hexadecimal color code with leading  #(e.g. #ff0000 for red).
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixShiftEffect_LayerNr LayerNr
+
+The number of the target layer for the effect.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixShiftEffect_Left Left
+
+The left resp. X position of the upper left corner in percent of the target area for the effect (0-100).
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixShiftEffect_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixShiftEffect_ShiftAcceleration ShiftAcceleration
+
+The acceleration for the shift speed in percent of the effect area per second.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixShiftEffect_ShiftDirection ShiftDirection
+
+The shift direction (Left, Right, Up, Down).
+
+
+
+The property ShiftDirection accepts the following values:
+
+* Down
+* Left
+* Right
+* Up
+
+__Valid values__
+
+The property ShiftDirection accepts the following values:
+
+* Down
+* Left
+* Right
+* Up
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixShiftEffect_ShiftSpeed ShiftSpeed
+
+The shift speed in percentage of the effect area (Left, Top, Width, Height properties) per second .
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixShiftEffect_Top Top
+
+The top resp. Y position of the upper left corner in percent of the target area for the effect (0-100).
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixShiftEffect_ToyName ToyName
+
+The name of the toy which is controlled by the effect.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixShiftEffect_Width Width
+
+The width in percent of the target area for the effect (0-100).
+
+
+
 \section use_DirectOutput_FX_NullFX_NullEffect NullEffect
 
 \subsection use_DirectOutput_FX_NullFX_NullEffect_summary Summary
@@ -292,565 +1770,6 @@ The name of the item.
 \subsubsection DirectOutput_FX_RGBAFX_RGBAColorEffect_ToyName ToyName
 
 The name of the RGBAToy.
-
-
-
-\section use_DirectOutput_FX_RGBAMatrixFX_RGBAMatrixBitmapEffect RGBAMatrixBitmapEffect
-
-\subsection use_DirectOutput_FX_RGBAMatrixFX_RGBAMatrixBitmapEffect_summary Summary
-
-Displays a defined part of a bitmap on a area of a ledstrip.
-
-
-
-\subsection use_DirectOutput_FX_RGBAMatrixFX_RGBAMatrixBitmapEffect_samplexml Sample XML
-
-A configuration section for RGBAMatrixBitmapEffect might resemble the following structure:
-
-~~~~~~~~~~~~~{.xml}
-<RGBAMatrixBitmapEffect>
-  <Name>Name of RGBAMatrixBitmapEffect</Name>
-  <ToyName>Name of Toy</ToyName>
-  <Width>100</Width>
-  <Height>100</Height>
-  <Left>0</Left>
-  <Top>0</Top>
-  <LayerNr>0</LayerNr>
-  <BitmapFrameNumber>0</BitmapFrameNumber>
-  <BitmapTop>0</BitmapTop>
-  <BitmapLeft>0</BitmapLeft>
-  <BitmapWidth>-1</BitmapWidth>
-  <BitmapHeight>-1</BitmapHeight>
-  <DataExtractMode>SinglePixelCenter</DataExtractMode>
-  <FadeMode>Fade</FadeMode>
-  <BitmapFilePattern>Pattern string</BitmapFilePattern>
-</RGBAMatrixBitmapEffect>
-~~~~~~~~~~~~~
-\subsection use_DirectOutput_FX_RGBAMatrixFX_RGBAMatrixBitmapEffect_properties Properties
-
-RGBAMatrixBitmapEffect has the following 15 configurable properties:
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixBitmapEffect_BitmapFilePattern BitmapFilePattern
-
-The bitmap file pattern which is used to load the bitmap file for the effect.
-
-
-
-__Nested Properties__
-
-The following nested propteries exist for BitmapFilePattern:
-* __Pattern__<br/>  The pattern used to look for files.
-
-
-
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixBitmapEffect_BitmapFrameNumber BitmapFrameNumber
-
-The number of the frame to be displayed.
-
-
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixBitmapEffect_BitmapHeight BitmapHeight
-
-The height of the the part of the bitmap which is to be displayed.
-
-
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixBitmapEffect_BitmapLeft BitmapLeft
-
-The left boundary of the the part of the bitmap which is to be displayed.
-
-
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixBitmapEffect_BitmapTop BitmapTop
-
-The top of the the part of the bitmap which is to be displayed.
-
-
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixBitmapEffect_BitmapWidth BitmapWidth
-
-The width of the the part of the bitmap which is to be displayed.
-
-
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixBitmapEffect_DataExtractMode DataExtractMode
-
-The data extract mode which defines how the data is extracted from the source bitmap.
-
-
-
-The property DataExtractMode accepts the following values:
-
-* SinglePixelTopLeft
-* SinglePixelCenter
-* BlendPixels
-
-__Valid values__
-
-The property DataExtractMode accepts the following values:
-
-* SinglePixelTopLeft
-* SinglePixelCenter
-* BlendPixels
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixBitmapEffect_FadeMode FadeMode
-
-Fade (active and inactive color will fade depending on trigger value) or OnOff (actvice color is used for triger values &gt;0, otherwise inactive color will be used).
-
-
-
-The property FadeMode accepts the following values:
-
-* Fade
-* OnOff
-
-__Valid values__
-
-The property FadeMode accepts the following values:
-
-* Fade
-* OnOff
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixBitmapEffect_Height Height
-
-The height in percent of the target area for the effect (0-100).
-
-
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixBitmapEffect_LayerNr LayerNr
-
-The number of the target layer for the effect.
-
-
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixBitmapEffect_Left Left
-
-The left resp. X position of the upper left corner in percent of the target area for the effect (0-100).
-
-
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixBitmapEffect_Name Name
-
-The name of the item.
-
-
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixBitmapEffect_Top Top
-
-The top resp. Y position of the upper left corner in percent of the target area for the effect (0-100).
-
-
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixBitmapEffect_ToyName ToyName
-
-The name of the toy which is controlled by the effect.
-
-
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixBitmapEffect_Width Width
-
-The width in percent of the target area for the effect (0-100).
-
-
-
-\section use_DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorEffect RGBAMatrixColorEffect
-
-\subsection use_DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorEffect_summary Summary
-
-Sets the spefied area of a ledstrip to a color depending on configured colors and the trigger value.
-
-
-
-\subsection use_DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorEffect_samplexml Sample XML
-
-A configuration section for RGBAMatrixColorEffect might resemble the following structure:
-
-~~~~~~~~~~~~~{.xml}
-<RGBAMatrixColorEffect>
-  <Name>Name of RGBAMatrixColorEffect</Name>
-  <ToyName>Name of Toy</ToyName>
-  <Width>100</Width>
-  <Height>100</Height>
-  <Left>0</Left>
-  <Top>0</Top>
-  <LayerNr>0</LayerNr>
-  <ActiveColor>
-    <HexColor>#00000000</HexColor>
-  </ActiveColor>
-  <InactiveColor>
-    <HexColor>#00000000</HexColor>
-  </InactiveColor>
-  <FadeMode>Fade</FadeMode>
-</RGBAMatrixColorEffect>
-~~~~~~~~~~~~~
-\subsection use_DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorEffect_properties Properties
-
-RGBAMatrixColorEffect has the following 10 configurable properties:
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorEffect_ActiveColor ActiveColor
-
-The active color.
-
-
-
-__Nested Properties__
-
-The following nested propteries exist for ActiveColor:
-* __HexColor__<br/>  6 digit hexadecimal color code with leading  #(e.g. #ff0000 for red).
-
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorEffect_FadeMode FadeMode
-
-Fade (active and inactive color will fade depending on trigger value) or OnOff (actvice color is used for triger values &gt;0, otherwise inactive color will be used).
-
-
-
-The property FadeMode accepts the following values:
-
-* Fade
-* OnOff
-
-__Valid values__
-
-The property FadeMode accepts the following values:
-
-* Fade
-* OnOff
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorEffect_Height Height
-
-The height in percent of the target area for the effect (0-100).
-
-
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorEffect_InactiveColor InactiveColor
-
-The inactive color.
-
-
-
-__Nested Properties__
-
-The following nested propteries exist for InactiveColor:
-* __HexColor__<br/>  6 digit hexadecimal color code with leading  #(e.g. #ff0000 for red).
-
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorEffect_LayerNr LayerNr
-
-The number of the target layer for the effect.
-
-
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorEffect_Left Left
-
-The left resp. X position of the upper left corner in percent of the target area for the effect (0-100).
-
-
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorEffect_Name Name
-
-The name of the item.
-
-
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorEffect_Top Top
-
-The top resp. Y position of the upper left corner in percent of the target area for the effect (0-100).
-
-
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorEffect_ToyName ToyName
-
-The name of the toy which is controlled by the effect.
-
-
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorEffect_Width Width
-
-The width in percent of the target area for the effect (0-100).
-
-
-
-\section use_DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorFlickerEffect RGBAMatrixColorFlickerEffect
-
-\subsection use_DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorFlickerEffect_summary Summary
-
-Does create random flickering with a defineable density, durations and color within the spefied area of a ledstrip.
-
-
-
-\subsection use_DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorFlickerEffect_samplexml Sample XML
-
-A configuration section for RGBAMatrixColorFlickerEffect might resemble the following structure:
-
-~~~~~~~~~~~~~{.xml}
-<RGBAMatrixColorFlickerEffect>
-  <Name>Name of RGBAMatrixColorFlickerEffect</Name>
-  <ToyName>Name of Toy</ToyName>
-  <Width>100</Width>
-  <Height>100</Height>
-  <Left>0</Left>
-  <Top>0</Top>
-  <LayerNr>0</LayerNr>
-  <ActiveColor>
-    <HexColor>#00000000</HexColor>
-  </ActiveColor>
-  <InactiveColor>
-    <HexColor>#00000000</HexColor>
-  </InactiveColor>
-  <FadeMode>Fade</FadeMode>
-  <Density>10</Density>
-  <MinFlickerDurationMs>60</MinFlickerDurationMs>
-  <MaxFlickerDurationMs>150</MaxFlickerDurationMs>
-</RGBAMatrixColorFlickerEffect>
-~~~~~~~~~~~~~
-\subsection use_DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorFlickerEffect_properties Properties
-
-RGBAMatrixColorFlickerEffect has the following 13 configurable properties:
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorFlickerEffect_ActiveColor ActiveColor
-
-The active color.
-
-
-
-__Nested Properties__
-
-The following nested propteries exist for ActiveColor:
-* __HexColor__<br/>  6 digit hexadecimal color code with leading  #(e.g. #ff0000 for red).
-
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorFlickerEffect_Density Density
-
-The density if the flickering in percent.
-
-
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorFlickerEffect_FadeMode FadeMode
-
-Fade (active and inactive color will fade depending on trigger value) or OnOff (actvice color is used for triger values &gt;0, otherwise inactive color will be used).
-
-
-
-The property FadeMode accepts the following values:
-
-* Fade
-* OnOff
-
-__Valid values__
-
-The property FadeMode accepts the following values:
-
-* Fade
-* OnOff
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorFlickerEffect_Height Height
-
-The height in percent of the target area for the effect (0-100).
-
-
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorFlickerEffect_InactiveColor InactiveColor
-
-The inactive color.
-
-
-
-__Nested Properties__
-
-The following nested propteries exist for InactiveColor:
-* __HexColor__<br/>  6 digit hexadecimal color code with leading  #(e.g. #ff0000 for red).
-
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorFlickerEffect_LayerNr LayerNr
-
-The number of the target layer for the effect.
-
-
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorFlickerEffect_Left Left
-
-The left resp. X position of the upper left corner in percent of the target area for the effect (0-100).
-
-
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorFlickerEffect_MaxFlickerDurationMs MaxFlickerDurationMs
-
-The max duration in milliseconds for a single flicker/blink of a led.
-
-
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorFlickerEffect_MinFlickerDurationMs MinFlickerDurationMs
-
-The min duration in milliseconds for a single flicker/blink of a led.
-
-
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorFlickerEffect_Name Name
-
-The name of the item.
-
-
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorFlickerEffect_Top Top
-
-The top resp. Y position of the upper left corner in percent of the target area for the effect (0-100).
-
-
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorFlickerEffect_ToyName ToyName
-
-The name of the toy which is controlled by the effect.
-
-
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorFlickerEffect_Width Width
-
-The width in percent of the target area for the effect (0-100).
-
-
-
-\section use_DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorShiftEffect RGBAMatrixColorShiftEffect
-
-\subsection use_DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorShiftEffect_samplexml Sample XML
-
-A configuration section for RGBAMatrixColorShiftEffect might resemble the following structure:
-
-~~~~~~~~~~~~~{.xml}
-<RGBAMatrixColorShiftEffect>
-  <Name>Name of RGBAMatrixColorShiftEffect</Name>
-  <ToyName>Name of Toy</ToyName>
-  <Width>100</Width>
-  <Height>100</Height>
-  <Left>0</Left>
-  <Top>0</Top>
-  <LayerNr>0</LayerNr>
-  <ActiveColor>
-    <HexColor>#00000000</HexColor>
-  </ActiveColor>
-  <InactiveColor>
-    <HexColor>#00000000</HexColor>
-  </InactiveColor>
-  <FadeMode>Fade</FadeMode>
-  <ShiftDirection>Right</ShiftDirection>
-  <ShiftSpeed>200</ShiftSpeed>
-  <ShiftAcceleration>0</ShiftAcceleration>
-</RGBAMatrixColorShiftEffect>
-~~~~~~~~~~~~~
-\subsection use_DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorShiftEffect_properties Properties
-
-RGBAMatrixColorShiftEffect has the following 13 configurable properties:
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorShiftEffect_ActiveColor ActiveColor
-
-The active color.
-
-
-
-__Nested Properties__
-
-The following nested propteries exist for ActiveColor:
-* __HexColor__<br/>  6 digit hexadecimal color code with leading  #(e.g. #ff0000 for red).
-
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorShiftEffect_FadeMode FadeMode
-
-Fade (active and inactive color will fade depending on trigger value) or OnOff (actvice color is used for triger values &gt;0, otherwise inactive color will be used).
-
-
-
-The property FadeMode accepts the following values:
-
-* Fade
-* OnOff
-
-__Valid values__
-
-The property FadeMode accepts the following values:
-
-* Fade
-* OnOff
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorShiftEffect_Height Height
-
-The height in percent of the target area for the effect (0-100).
-
-
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorShiftEffect_InactiveColor InactiveColor
-
-The inactive color.
-
-
-
-__Nested Properties__
-
-The following nested propteries exist for InactiveColor:
-* __HexColor__<br/>  6 digit hexadecimal color code with leading  #(e.g. #ff0000 for red).
-
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorShiftEffect_LayerNr LayerNr
-
-The number of the target layer for the effect.
-
-
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorShiftEffect_Left Left
-
-The left resp. X position of the upper left corner in percent of the target area for the effect (0-100).
-
-
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorShiftEffect_Name Name
-
-The name of the item.
-
-
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorShiftEffect_ShiftAcceleration ShiftAcceleration
-
-The acceleration for the shift speed in percent of the effect area per second.
-
-
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorShiftEffect_ShiftDirection ShiftDirection
-
-The shift direction (Left, Right, Up, Down).
-
-
-
-The property ShiftDirection accepts the following values:
-
-* Down
-* Left
-* Right
-* Up
-
-__Valid values__
-
-The property ShiftDirection accepts the following values:
-
-* Down
-* Left
-* Right
-* Up
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorShiftEffect_ShiftSpeed ShiftSpeed
-
-The shift speed in percentage of the effect area (Left, Top, Width, Height properties) per second .
-
-
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorShiftEffect_Top Top
-
-The top resp. Y position of the upper left corner in percent of the target area for the effect (0-100).
-
-
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorShiftEffect_ToyName ToyName
-
-The name of the toy which is controlled by the effect.
-
-
-
-\subsubsection DirectOutput_FX_RGBAMatrixFX_RGBAMatrixColorShiftEffect_Width Width
-
-The width in percent of the target area for the effect (0-100).
 
 
 

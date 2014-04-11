@@ -5,7 +5,13 @@ using DirectOutput.General.Color;
 namespace DirectOutput.FX.MatrixFX
 {
     /// <summary>
-    /// Displays a defined part of a bitmap on a area of a RGBAtoy Matrix.
+    /// The RGBAMatrixBitmapEffect displays a defined part of a bitmap on a area of a RGBAtoy Matrix.
+    /// 
+    /// The properties of the effect allow you to select the part of the bitmap to display as well as the area of the matrix on which the bitmap is displayed. Dempending on the size of your bitmap you might choose different modes for the image extraction.
+    /// 
+    /// The effect supports numerous imahe formats, inluding png, gif (also animated) and jpg.
+    /// 
+    /// The image extraction takes place upon initalization of the framework. While the framework is active, it only outputs the previously extracted and scaled data to allow for better performance. 
     /// </summary>
     public class RGBAMatrixBitmapEffect : MatrixBitmapEffectBase<RGBAColor>
     {

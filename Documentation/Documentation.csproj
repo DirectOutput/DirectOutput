@@ -67,6 +67,7 @@
     <Content Include="img\B2SServer_Settings.png" />
     <Content Include="img\B2SServer_Settings_ActivatePlugins.png" />
     <Content Include="img\B2SServer_Settings_NoBackglass.png" />
+    <Content Include="img\RGBAMatrixBitmapAnimationEffectWave.png" />
     <Content Include="img\CabinetArchitecture.png" />
     <Content Include="img\Config Overview.png" />
     <Content Include="img\DirectOutputIcon_32.ico" />
