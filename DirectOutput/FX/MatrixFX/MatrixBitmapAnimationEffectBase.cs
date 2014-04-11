@@ -10,16 +10,28 @@ namespace DirectOutput.FX.MatrixFX
 {
     public abstract class MatrixBitmapAnimationEffectBase<MatrixElementType> : MatrixEffectBase<MatrixElementType>
     {
-        private MatrixAnimationDirectionEnum _AnimationDirection = MatrixAnimationDirectionEnum.Frame;
+        private MatrixAnimationStepDirectionEnum _AnimationStepDirection = MatrixAnimationStepDirectionEnum.Frame;
 
-        public MatrixAnimationDirectionEnum AnimationDirection
+        /// <summary>
+        /// Gets or sets the animation direction.
+        /// </summary>
+        /// <value>
+        /// The direction in which the effect will step formward through the source image to get the next frame of the animation. 
+        /// </value>
+        public MatrixAnimationStepDirectionEnum AnimationStepDirection
         {
-            get { return _AnimationDirection; }
-            set { _AnimationDirection = value; }
+            get { return _AnimationStepDirection; }
+            set { _AnimationStepDirection = value; }
         }
 
         private int _AnimationStepSize = 1;
 
+        /// <summary>
+        /// Gets or sets the size of the step in pixels or frames (depending on the \ref AnimationStepDirection) to the next frame of the animation.
+        /// </summary>
+        /// <value>
+        /// Thesize of the step in pixels or frames (depending on the \ref AnimationStepDirection) to the next frame of the animation.
+        /// </value>
         public int AnimationStepSize
         {
             get { return _AnimationStepSize; }
@@ -27,16 +39,28 @@ namespace DirectOutput.FX.MatrixFX
         }
 
 
-        private int _AnimationStepCount = 1;
+        private int _AnimationFrameCount = 1;
 
-        public int AnimationStepCount
+        /// <summary>
+        /// Gets or sets the number of frames for the whole animation.
+        /// </summary>
+        /// <value>
+        /// The number of frames for the whole animation.
+        /// </value>
+        public int AnimationFrameCount
         {
-            get { return _AnimationStepCount; }
-            set { _AnimationStepCount = value.Limit(1, int.MaxValue); }
+            get { return _AnimationFrameCount; }
+            set { _AnimationFrameCount = value.Limit(1, int.MaxValue); }
         }
 
         private AnimationBehaviourEnum _AnimationBehaviour= AnimationBehaviourEnum.Loop;
 
+        /// <summary>
+        /// Gets or sets the animation behaviour.
+        /// </summary>
+        /// <value>
+        /// The animation behaviour defines if a animation should run only once, run in a loop or continue at its last position when triggered.
+        /// </value>
         public AnimationBehaviourEnum AnimationBehaviour
         {
             get { return _AnimationBehaviour; }
@@ -44,12 +68,18 @@ namespace DirectOutput.FX.MatrixFX
         }
         
 
-        private int _AnimationFrameDuration = 30;
+        private int _AnimationFrameDurationMs = 30;
 
-        public int AnimationFrameDuration
+        /// <summary>
+        /// Gets or sets the animation frame duration in ms.
+        /// </summary>
+        /// <value>
+        /// The animation frame duration in miliseconds. Defaults to 30ms if not set.
+        /// </value>
+        public int AnimationFrameDurationMs
         {
-            get { return _AnimationFrameDuration; }
-            set { _AnimationFrameDuration = value; }
+            get { return _AnimationFrameDurationMs; }
+            set { _AnimationFrameDurationMs = value.Limit(1,int.MaxValue); }
         }
 
 
@@ -79,7 +109,7 @@ namespace DirectOutput.FX.MatrixFX
         public int BitmapTop
         {
             get { return _BitmapTop; }
-            set { _BitmapTop = value; }
+            set { _BitmapTop = value.Limit(0,int.MaxValue); }
         }
 
         private int _BitmapLeft = 0;
@@ -88,12 +118,12 @@ namespace DirectOutput.FX.MatrixFX
         /// Gets or sets the left boundary of the the part of the bitmap which is to be displayed.
         /// </summary>
         /// <value>
-        /// The left boundary of the the part of the bitmap which is to be displayed.
+        /// The left boundary in pixels of the the part of the bitmap which is to be displayed.
         /// </value>
         public int BitmapLeft
         {
             get { return _BitmapLeft; }
-            set { _BitmapLeft = value; }
+            set { _BitmapLeft = value.Limit(0, int.MaxValue); }
         }
 
         private int _BitmapWidth = -1;
@@ -102,12 +132,12 @@ namespace DirectOutput.FX.MatrixFX
         /// Gets or sets the width of the the part of the bitmap which is to be displayed.
         /// </summary>
         /// <value>
-        /// The width of the the part of the bitmap which is to be displayed.
+        /// The width in pixels of the the part of the bitmap which is to be displayed. -1 selects the fully width resp. the remaining width from the BitMapLeft position.
         /// </value>
         public int BitmapWidth
         {
             get { return _BitmapWidth; }
-            set { _BitmapWidth = value; }
+            set { _BitmapWidth = value.Limit(-1, int.MaxValue); }
         }
 
         private int _BitmapHeight = -1;
@@ -116,12 +146,12 @@ namespace DirectOutput.FX.MatrixFX
         /// Gets or sets the height of the the part of the bitmap which is to be displayed.
         /// </summary>
         /// <value>
-        /// The height of the the part of the bitmap which is to be displayed.
+        /// The height of the the part of the bitmap which is to be displayed. -1 selects the fully height resp. the remaining height from the BitMapTop position.
         /// </value>
         public int BitmapHeight
         {
             get { return _BitmapHeight; }
-            set { _BitmapHeight = value; }
+            set { _BitmapHeight = value.Limit(-1, int.MaxValue); }
         }
 
 
@@ -229,7 +259,7 @@ namespace DirectOutput.FX.MatrixFX
                     {
                         AnimationStep = 0;
                     }
-                    Table.Pinball.Alarms.RegisterIntervalAlarm(AnimationFrameDuration, Animate);
+                    Table.Pinball.Alarms.RegisterIntervalAlarm(AnimationFrameDurationMs, Animate);
 
                     Animate();
                 }
@@ -310,10 +340,10 @@ namespace DirectOutput.FX.MatrixFX
 
                     if (BM.Frames.ContainsKey(BitmapFrameNumber))
                     {
-                        int StepCount = AnimationStepCount;
-                        switch (AnimationDirection)
+                        int StepCount = AnimationFrameCount;
+                        switch (AnimationStepDirection)
                         {
-                            case MatrixAnimationDirectionEnum.Frame:
+                            case MatrixAnimationStepDirectionEnum.Frame:
                                 if ((BitmapFrameNumber + (StepCount * AnimationStepSize)) > BM.Frames.Count)
                                 {
                                     StepCount = (BM.Frames.Count - BitmapFrameNumber) / AnimationStepSize;
@@ -329,7 +359,7 @@ namespace DirectOutput.FX.MatrixFX
 
 
                                 break;
-                            case MatrixAnimationDirectionEnum.Right:
+                            case MatrixAnimationStepDirectionEnum.Right:
                                 //TODO: Check if there should be a restriction of steps for this direction
 
 
@@ -341,7 +371,7 @@ namespace DirectOutput.FX.MatrixFX
                                 }
 
                                 break;
-                            case MatrixAnimationDirectionEnum.Down:
+                            case MatrixAnimationStepDirectionEnum.Down:
                                 //TODO: Check if there should be a restriction of steps for this direction
                                  Pixels = new PixelData[StepCount][,];
 

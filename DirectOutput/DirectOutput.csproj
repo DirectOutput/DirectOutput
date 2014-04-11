@@ -144,7 +144,7 @@
     <Compile Include="FX\MatrixFX\MatrixShiftEffectBase.cs" />
     <Compile Include="FX\MatrixFX\MatrixFlickerEffectBase.cs" />
     <Compile Include="FX\MatrixFX\MatrixValueEffectBase.cs" />
-    <Compile Include="FX\MatrixFX\MatrixAnimationDirectionEnum.cs" />
+    <Compile Include="FX\MatrixFX\MatrixAnimationStepDirectionEnum.cs" />
     <Compile Include="FX\MatrixFX\RGBAMatrixBitmapAnimationEffect.cs" />
     <Compile Include="FX\MatrixFX\RGBAMatrixFlickerEffect.cs" />
     <Compile Include="FX\TimmedFX\MaxDurationEffect.cs" />

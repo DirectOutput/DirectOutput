@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DirectOutput.FX.MatrixFX
 {
-    public enum MatrixAnimationDirectionEnum
+    public enum MatrixAnimationStepDirectionEnum
     {
 
         /// <summary>

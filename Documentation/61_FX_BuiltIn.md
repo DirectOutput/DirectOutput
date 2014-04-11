@@ -193,11 +193,11 @@ A configuration section for AnalogAlphaMatrixBitmapAnimationEffect might resembl
   <Top>0</Top>
   <LayerNr>0</LayerNr>
   <FadeMode>Fade</FadeMode>
-  <AnimationDirection>Frame</AnimationDirection>
+  <AnimationStepDirection>Frame</AnimationStepDirection>
   <AnimationStepSize>1</AnimationStepSize>
-  <AnimationStepCount>1</AnimationStepCount>
+  <AnimationFrameCount>1</AnimationFrameCount>
   <AnimationBehaviour>Loop</AnimationBehaviour>
-  <AnimationFrameDuration>30</AnimationFrameDuration>
+  <AnimationFrameDurationMs>30</AnimationFrameDurationMs>
   <BitmapFrameNumber>0</BitmapFrameNumber>
   <BitmapTop>0</BitmapTop>
   <BitmapLeft>0</BitmapLeft>
@@ -213,6 +213,10 @@ AnalogAlphaMatrixBitmapAnimationEffect has the following 20 configurable propert
 
 \subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_AnimationBehaviour AnimationBehaviour
 
+The animation behaviour defines if a animation should run only once, run in a loop or continue at its last position when triggered.
+
+
+
 The property AnimationBehaviour accepts the following values:
 
 * Continue
@@ -226,9 +230,25 @@ The property AnimationBehaviour accepts the following values:
 * Continue
 * Loop
 * Once
-\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_AnimationDirection AnimationDirection
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_AnimationFrameCount AnimationFrameCount
 
-The property AnimationDirection accepts the following values:
+The number of frames for the whole animation.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_AnimationFrameDurationMs AnimationFrameDurationMs
+
+The animation frame duration in miliseconds. Defaults to 30ms if not set.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_AnimationStepDirection AnimationStepDirection
+
+The direction in which the effect will step formward through the source image to get the next frame of the animation.
+
+
+
+The property AnimationStepDirection accepts the following values:
 
 * Down
 * Frame
@@ -236,16 +256,16 @@ The property AnimationDirection accepts the following values:
 
 __Valid values__
 
-The property AnimationDirection accepts the following values:
+The property AnimationStepDirection accepts the following values:
 
 * Down
 * Frame
 * Right
-\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_AnimationFrameDuration AnimationFrameDuration
-
-\subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_AnimationStepCount AnimationStepCount
-
 \subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_AnimationStepSize AnimationStepSize
+
+Thesize of the step in pixels or frames (depending on the \ref AnimationStepDirection) to the next frame of the animation.
+
+
 
 \subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_BitmapFilePattern BitmapFilePattern
 
@@ -269,13 +289,13 @@ The number of the frame to be displayed.
 
 \subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_BitmapHeight BitmapHeight
 
-The height of the the part of the bitmap which is to be displayed.
+The height of the the part of the bitmap which is to be displayed. -1 selects the fully height resp. the remaining height from the BitMapTop position.
 
 
 
 \subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_BitmapLeft BitmapLeft
 
-The left boundary of the the part of the bitmap which is to be displayed.
+The left boundary in pixels of the the part of the bitmap which is to be displayed.
 
 
 
@@ -287,7 +307,7 @@ The top of the the part of the bitmap which is to be displayed.
 
 \subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_BitmapWidth BitmapWidth
 
-The width of the the part of the bitmap which is to be displayed.
+The width in pixels of the the part of the bitmap which is to be displayed. -1 selects the fully width resp. the remaining width from the BitMapLeft position.
 
 
 
@@ -900,6 +920,23 @@ The width in percent of the target area for the effect (0-100).
 
 \section use_DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect RGBAMatrixBitmapAnimationEffect
 
+\subsection use_DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect_summary Summary
+
+The RGBAMatrixBitmapAnimationEffect displays a anmation which is based on a image file on the defineable part of a matrix of rgb toys (e.g. adressable ledstrip).
+
+The properties of the effect allow you to specify the position, frame and size of the first image part to be displayed on the matrix. In addition you can define how the effect steps forward through the source picture for the further animation frames.
+
+To get a better idea, have a look at the following video and the picture below it.
+
+\htmlinclude 61_FX_BuiltIn_RGBAMatrixBitmapAnimationVideo.html
+
+\image html RGBAMatrixBitmapAnimationEffectWave.png Source Image
+
+In this example DOF extracts a area of 10x100pixels for every frame of the animation. For every frame of the animation it steps 3 pixels to the right, so we slowly progress through the whole image.
+
+
+
+
 \subsection use_DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect_samplexml Sample XML
 
 A configuration section for RGBAMatrixBitmapAnimationEffect might resemble the following structure:
@@ -914,11 +951,11 @@ A configuration section for RGBAMatrixBitmapAnimationEffect might resemble the f
   <Top>0</Top>
   <LayerNr>0</LayerNr>
   <FadeMode>Fade</FadeMode>
-  <AnimationDirection>Frame</AnimationDirection>
+  <AnimationStepDirection>Frame</AnimationStepDirection>
   <AnimationStepSize>1</AnimationStepSize>
-  <AnimationStepCount>1</AnimationStepCount>
+  <AnimationFrameCount>1</AnimationFrameCount>
   <AnimationBehaviour>Loop</AnimationBehaviour>
-  <AnimationFrameDuration>30</AnimationFrameDuration>
+  <AnimationFrameDurationMs>30</AnimationFrameDurationMs>
   <BitmapFrameNumber>0</BitmapFrameNumber>
   <BitmapTop>0</BitmapTop>
   <BitmapLeft>0</BitmapLeft>
@@ -934,6 +971,10 @@ RGBAMatrixBitmapAnimationEffect has the following 20 configurable properties:
 
 \subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect_AnimationBehaviour AnimationBehaviour
 
+The animation behaviour defines if a animation should run only once, run in a loop or continue at its last position when triggered.
+
+
+
 The property AnimationBehaviour accepts the following values:
 
 * Continue
@@ -947,9 +988,25 @@ The property AnimationBehaviour accepts the following values:
 * Continue
 * Loop
 * Once
-\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect_AnimationDirection AnimationDirection
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect_AnimationFrameCount AnimationFrameCount
 
-The property AnimationDirection accepts the following values:
+The number of frames for the whole animation.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect_AnimationFrameDurationMs AnimationFrameDurationMs
+
+The animation frame duration in miliseconds. Defaults to 30ms if not set.
+
+
+
+\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect_AnimationStepDirection AnimationStepDirection
+
+The direction in which the effect will step formward through the source image to get the next frame of the animation.
+
+
+
+The property AnimationStepDirection accepts the following values:
 
 * Down
 * Frame
@@ -957,16 +1014,16 @@ The property AnimationDirection accepts the following values:
 
 __Valid values__
 
-The property AnimationDirection accepts the following values:
+The property AnimationStepDirection accepts the following values:
 
 * Down
 * Frame
 * Right
-\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect_AnimationFrameDuration AnimationFrameDuration
-
-\subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect_AnimationStepCount AnimationStepCount
-
 \subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect_AnimationStepSize AnimationStepSize
+
+Thesize of the step in pixels or frames (depending on the \ref AnimationStepDirection) to the next frame of the animation.
+
+
 
 \subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect_BitmapFilePattern BitmapFilePattern
 
@@ -990,13 +1047,13 @@ The number of the frame to be displayed.
 
 \subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect_BitmapHeight BitmapHeight
 
-The height of the the part of the bitmap which is to be displayed.
+The height of the the part of the bitmap which is to be displayed. -1 selects the fully height resp. the remaining height from the BitMapTop position.
 
 
 
 \subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect_BitmapLeft BitmapLeft
 
-The left boundary of the the part of the bitmap which is to be displayed.
+The left boundary in pixels of the the part of the bitmap which is to be displayed.
 
 
 
@@ -1008,7 +1065,7 @@ The top of the the part of the bitmap which is to be displayed.
 
 \subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect_BitmapWidth BitmapWidth
 
-The width of the the part of the bitmap which is to be displayed.
+The width in pixels of the the part of the bitmap which is to be displayed. -1 selects the fully width resp. the remaining width from the BitMapLeft position.
 
 
 

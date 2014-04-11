@@ -10,14 +10,13 @@ using DirectOutput.General.Color;
 namespace DirectOutput.FX.MatrixFX
 {
     /// <summary>
-    /// The RGBAMatrixBitmapAnimationEffect displays a anmation which is based on a image file on the defineable part of a mmatrix of rgb toys (e.g. adressable ledstrip).
+    /// The RGBAMatrixBitmapAnimationEffect displays a anmation which is based on a image file on the defineable part of a matrix of rgb toys (e.g. adressable ledstrip).
     /// 
     /// The properties of the effect allow you to specify the position, frame and size of the first image part to be displayed on the matrix. In addition you can define how the effect steps forward through the source picture for the further animation frames.
     /// 
     /// To get a better idea, have a look at the following video and the picture below it.
-    /// \htmlonly
-    /// <iframe width="853" height="480" src="//www.youtube.com/embed/rxRGvplv73k" frameborder="0" allowfullscreen></iframe>
-    /// \endhtmlonly
+    /// 
+    /// \htmlinclude 61_FX_BuiltIn_RGBAMatrixBitmapAnimationVideo.html
     /// 
     /// \image html RGBAMatrixBitmapAnimationEffectWave.png Source Image
     /// 

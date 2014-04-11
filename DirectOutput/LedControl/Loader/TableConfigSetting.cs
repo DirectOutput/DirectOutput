@@ -262,7 +262,7 @@ namespace DirectOutput.LedControl.Loader
         public int AreaBitmapAnimationStepSize = 1;
         public int AreaBitmapAnimationStepCount = 0;
         public int AreaBitmapAnimationFrameDuration = 30;
-        public MatrixAnimationDirectionEnum AreaBitmapAnimationDirection = MatrixAnimationDirectionEnum.Frame;
+        public MatrixAnimationStepDirectionEnum AreaBitmapAnimationDirection = MatrixAnimationStepDirectionEnum.Frame;
         public AnimationBehaviourEnum AreaBitmapAnimationBehaviour = AnimationBehaviourEnum.Loop;
 
         /// <summary>
@@ -460,10 +460,10 @@ namespace DirectOutput.LedControl.Loader
                     IsArea = true;
                     IsBitmap = true;
                 }
-                else if (Parts[PartNr].Length == 4 && Parts[PartNr].Substring(0, 3).ToUpper() == "AAD" && Enum.IsDefined(typeof(MatrixAnimationDirectionEnum), (int)Parts[PartNr].Substring(3, 1).ToUpper()[0]))
+                else if (Parts[PartNr].Length == 4 && Parts[PartNr].Substring(0, 3).ToUpper() == "AAD" && Enum.IsDefined(typeof(MatrixAnimationStepDirectionEnum), (int)Parts[PartNr].Substring(3, 1).ToUpper()[0]))
                 {
 
-                    AreaBitmapAnimationDirection = (MatrixAnimationDirectionEnum)Parts[PartNr].Substring(3, 1).ToUpper()[0];
+                    AreaBitmapAnimationDirection = (MatrixAnimationStepDirectionEnum)Parts[PartNr].Substring(3, 1).ToUpper()[0];
                     IsArea = true;
                     IsBitmap = true;
                 }            
