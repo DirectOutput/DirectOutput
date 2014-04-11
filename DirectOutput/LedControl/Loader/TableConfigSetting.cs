@@ -202,6 +202,9 @@ namespace DirectOutput.LedControl.Loader
             set { _BlinkPulseWidth = value.Limit(1, 99); }
         }
 
+
+        public int BlinkLow;
+
         /// <summary>
         /// Gets or sets a value indicating whether the trigger value for the effect is inverted.
         /// </summary>
@@ -540,6 +543,16 @@ namespace DirectOutput.LedControl.Loader
                 else if (Parts[PartNr].Length > 3 && Parts[PartNr].ToUpper().Substring(0, 3) == "BPW" && Parts[PartNr].Substring(3).IsInteger())
                 {
                     BlinkPulseWidth = Parts[PartNr].Substring(3).ToInteger().Limit(1, 99);
+                }
+                else if (Parts[PartNr].Length > 3 && Parts[PartNr].ToUpper().Substring(0, 3) == "BL#" && Parts[PartNr].Substring(3).IsHexString())
+                {
+                   
+                    BlinkLow = Parts[PartNr].Substring(3).HexToInt().Limit(0, 255);
+                }
+                else if (Parts[PartNr].Length > 1 && Parts[PartNr].ToUpper().Substring(0, 1) == "BL" && Parts[PartNr].Substring(1).IsInteger())
+                {
+
+                    BlinkLow = (int)(((double)Parts[PartNr].Substring(2).ToInteger().Limit(0, 48)) * 5.3125);
                 }
                 else if (Parts[PartNr].Length > 1 && Parts[PartNr].ToUpper().Substring(0, 1) == "E" && Parts[PartNr].Substring(1).IsInteger())
                 {

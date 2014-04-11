@@ -286,7 +286,7 @@ namespace DirectOutput.LedControl.Setup
                                     }
                                     if (TCS.Blink != 0 && TCS.BlinkIntervalMsNested > 0)
                                     {
-                                        Effect = new BlinkEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} BlinkEffect Inner".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name, DurationActiveMs = (int)((double)TCS.BlinkIntervalMsNested * (double)TCS.BlinkPulseWidthNested / 100), DurationInactiveMs = (int)((double)TCS.BlinkIntervalMsNested * (100 - (double)TCS.BlinkPulseWidthNested) / 100) };
+                                        Effect = new BlinkEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} BlinkEffect Inner".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name, LowValue=TCS.BlinkLow, DurationActiveMs = (int)((double)TCS.BlinkIntervalMsNested * (double)TCS.BlinkPulseWidthNested / 100), DurationInactiveMs = (int)((double)TCS.BlinkIntervalMsNested * (100 - (double)TCS.BlinkPulseWidthNested) / 100) };
                                         MakeEffectNameUnique(Effect, Table);
                                         Table.Effects.Add(Effect);
                                     }
@@ -295,6 +295,10 @@ namespace DirectOutput.LedControl.Setup
                                     if (TCS.Blink != 0)
                                     {
                                         Effect = new BlinkEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} BlinkEffect".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name, DurationActiveMs = (int)((double)TCS.BlinkIntervalMs * (double)TCS.BlinkPulseWidth / 100), DurationInactiveMs = (int)((double)TCS.BlinkIntervalMs * (100 - (double)TCS.BlinkPulseWidth) / 100) };
+                                        if (TCS.BlinkIntervalMsNested == 0)
+                                        {
+                                            ((BlinkEffect)Effect).LowValue = TCS.BlinkLow;
+                                        }
                                         MakeEffectNameUnique(Effect, Table);
                                         Table.Effects.Add(Effect);
                                     }
