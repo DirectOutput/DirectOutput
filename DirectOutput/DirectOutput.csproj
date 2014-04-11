@@ -138,6 +138,7 @@
     <Compile Include="FX\MatrixFX\AnalogAlphaMatrixShiftEffect.cs" />
     <Compile Include="FX\MatrixFX\AnalogAlphaMatrixBitmapEffect.cs" />
     <Compile Include="FX\MatrixFX\AnalogAlphaMatrixBitmapAnimationEffect.cs" />
+    <Compile Include="FX\MatrixFX\AnimationBehaviourEnum.cs" />
     <Compile Include="FX\MatrixFX\MatrixBitmapAnimationEffectBase.cs" />
     <Compile Include="FX\MatrixFX\MatrixBitmapEffectBase.cs" />
     <Compile Include="FX\MatrixFX\MatrixShiftEffectBase.cs" />

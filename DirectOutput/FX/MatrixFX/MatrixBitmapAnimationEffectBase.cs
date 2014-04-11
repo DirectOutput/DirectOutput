@@ -35,7 +35,14 @@ namespace DirectOutput.FX.MatrixFX
             set { _AnimationStepCount = value.Limit(1, int.MaxValue); }
         }
 
+        private AnimationBehaviourEnum _AnimationBehaviour= AnimationBehaviourEnum.Loop;
 
+        public AnimationBehaviourEnum AnimationBehaviour
+        {
+            get { return _AnimationBehaviour; }
+            set { _AnimationBehaviour = value; }
+        }
+        
 
         private int _AnimationFrameDuration = 30;
 
@@ -174,6 +181,10 @@ namespace DirectOutput.FX.MatrixFX
             if (AnimationStep >= Pixels.GetUpperBound(0))
             {
                 AnimationStep = 0;
+                if (AnimationBehaviour == AnimationBehaviourEnum.Once)
+                {
+                    StopAnimation();
+                }
             }
 
         }
@@ -213,7 +224,11 @@ namespace DirectOutput.FX.MatrixFX
                 if (!AnimationActive)
                 {
                     AnimationActive = true;
-                    AnimationStep = 0;
+
+                    if (AnimationBehaviour != AnimationBehaviourEnum.Continue)
+                    {
+                        AnimationStep = 0;
+                    }
                     Table.Pinball.Alarms.RegisterIntervalAlarm(AnimationFrameDuration, Animate);
 
                     Animate();
@@ -236,7 +251,7 @@ namespace DirectOutput.FX.MatrixFX
                 Table.Pinball.Alarms.UnregisterIntervalAlarm(Animate);
 
                 AnimationActive = false;
-                AnimationStep = 0;
+                
                 Clear();
             }
         }

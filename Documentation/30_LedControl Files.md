@@ -78,7 +78,7 @@ A cabinet config file can contain any number of LedWizEquivalent toys to control
 If active (typically if no cabinet config file exists), automatic cabinet configuration numbers the detected and created output controllers resp. their related LedWizEquivalent toys as follows:
 
 * For LedWiz unit 1-16, the framework creates one LedWizEquivalent per unit having the same number as the LedWiz (LedWiz nr. = LedWizEquivalent nr. = ini file number).
-* For PacLed64 units (max 4 supported), the framework creates 2 LedWizEquivalentToys per unit to cover all 64 outputs. The numbering for those LedWizEquivalent starts at 20, so PacLed64 id 1 can be accessed through LedWizEquivalents numbered 20, PacLed id 2 uses 21and so on.
+* For PacLed64 units (max 4 supported), the framework creates LedWizEquivalentToys with 64 outputs. The numbering for those LedWizEquivalent starts at 20, so PacLed64 id 1 can be accessed through LedWizEquivalent 20, PacLed id 2 uses 21 and so on.
 
 \subsection inifiles_manualcabinetconfig Manual cabinet configuration
 
@@ -88,13 +88,13 @@ To be usable for the ini file configration system of the framework, the list of 
 
 When ini file data is used for the Table configuration, the number of the LedWizEquivalent toy is used to match to the correct ini file. 
 
-If a cabinet config file exists, the framework normally no do any automatic detection of output controllers and will no create any LedWizEquivalent toys automatically.
+If a cabinet config file exists, the framework will normally no dot any automatic detection of output controllers and will not create any LedWizEquivalent toys automatically.
 
 \section inifiles_settings Settings in DirectOutputConfig/LedControl ini files
 
-The content opf the ini files is a bit hard to read and understand. The following paragraphs try to explain the most importants points.
+The content of the ini files is a bit hard to read and understand. The following paragraphs try to explain the most importants points.
 
-The ini files are also quite hard to edit manually. Therefore the best option to get your own settings, is to use the <a target="_blank" href="http://vpuniverse.com/ledwiz/login.php">LedWiz ConfigTool Website</a>. If you create your own settings, it is highly recommended that you use the \ref inifiles_testingapp "LedControlFileTester.exe" to check if your files can be parsed.
+The ini files are  quite hard to edit manually. Therefore the best option to get your own settings, is to use the <a target="_blank" href="http://vpuniverse.com/ledwiz/login.php">LedWiz ConfigTool Website</a>. If you create your own settings, it is highly recommended that you use the \ref inifiles_testingapp "LedControlFileTester.exe" to check if your files can be parsed.
 
 \image html LedWizConfigTool.jpg LedWiz ConfigTool 
 
@@ -126,7 +126,7 @@ Each line in this section contains the definition for a single table. The lines 
 
 Every column can contain any number of definitions how the framework should control the output. If more than one definition exists for a column, these definitions have to be separated by forward dashes (/).
 
-The following definitions can be used to specifiy the output behaviour of the physical outputs. Definitions can consist of up to three parts each containing one setting separated by a space.
+The following definitions are used to specifiy the output behaviour of the physical outputs. 
 
 
 \image html LedWizConfigTool.jpg LedWiz ConfigTool 
@@ -170,19 +170,45 @@ The second and following parts can contain the following:
 * __NoBool__ indicates that the trigger value off the effect is not to be treated as a boolean value resp. that the daufault mapping of the value to 0 or 255 (255 for all values which are not 0) should not take place.
 * __Numeric Values__ without any extra character can be used to specify the duration of the effect or the blinking behaviour. If blinking has been defined, one or two numeric values are parsed. Value 1 controls the blink interval in milliseconds, while value 2 defines the number of blinks. If no blinking has been defined, only one numeric values which is used to defined the duration of the effect in milliseconds is parsed.
 
-For adressable ledstrips and other toys which implement the IRGBAMatrix interface the following extra parameters can be used to control the RGBA hardware of the matrix. For settings controlling a matrix you have to use at least one of these paras, so DOF realizes that a matrix/area is to be controlled.
+For adressable ledstrips and other toys which implement the IMatrixToy interface the following extra parameters can be used to control the hardware referenced by the matrix. For settings controlling a matrix you have to use at least one of these paras, so DOF realizes that a matrix/area is to be controlled.
 
+__General Matrix Paras__
+The following 4 paramaters are specifying the area of a matrix which is to be influenced by a matrix effect:
 * __AL{LeftPosition}__ defines the left of the upper left corner of the area of the matrix which is to be controlled by the effect. Position is expressed in percent of the matrix width (0-100).
 * __AT{TopPosition}__ defines the upper part of the upper left corner of the area of the matrix which is to be controlled by the effect. Position is expressed in percent of the matrix height (0-100).
 * __AW{Width}__ defines the width of the area of the matrix which is to be controlled by the effect. Width is expressed in percent of the matrix width (0-100).
 * __AH{Height}__ defines the height of the area of the matrix which is to be controlled by the effect. Height is expressed in percent of the matrix height (0-100).
-* __AD{DirectionLetter}__ defines the direction for area effects having a direction parameter (e.g. the ColorShiftEffect). Valid directions are: R-Right, L-Left, U-Up, D-Down.
+
+__Shift Effect Paras__
+The matrix shift effect moves a color/value with a defineable direction, speed and acceleration through the matrix:
+* __AD{DirectionCharacter}__ defines the direction for area effects having a direction parameter (e.g. the ColorShiftEffect). Valid directions are: R-Right, L-Left, U-Up, D-Down.
 * __AS{Speed}__ defines the speed for matrix effects have a speed parameter (e.g. the ColorShiftEffect) expressed in percent of the effect area per second. 100 will shift through the effect area in one second, 400 will shift through the effect area in 1/4 second. Min. speed is 1, max. speed is 10000.
 * __AA{Acceleration}__ defines the acceleration of the speed for matrix effects (e.g. ColorShiftEffect), expressed in percent of the effect area per second. Acceleration can be positive (speed increases) or negative (speed decreases). Speed will never decrease below 1 and never increase above 10000.
+
+__Flicker Effect Paras__
+The flicker effect generates random flickering with a defineable density and duration for the single flickers:
 * __AFDEN{Percentage}__ defines the density for the flicker effect. Density is express in percent a has a valid value range of 1 to 99.
 * __AFMIN{DurationInMilliseconds}__ defines the min duration for the flicker of a single led in milliseconds.
 * __AFMAX{DurationInMilliseconds}__ defines the max duration for the flicker of a single led in milliseconds.
- 
+
+__Bitmap Effect Paras__
+DOF can display a part of a bitmap image on a matrix toy. The defined part of the bitmap is scaled to the size of the matrix, so the actual resolution of the matrix does not matter.
+If you specify a bitmap effect by using one of the following parameters, DOF will try to load a bitmap image (gif, png, jpg and more should all work) from the same directory as the ini file. The bitmap image has to be named like the short rom name in the first collumn of the ini file (e.g. mm.png for Medival Madness or afm.gif for Attack from Mars).
+* __ABL{LeftPostionInPixels}__ defines the left/horizontal part of the upper left corner of the part of the bitmap to be displayed. Defaults to 0 if not specified.
+* __ABW{WidthInPixels}__ defines the width of the part of the bitmap to be displayed. Defaults to the total width of the image if not specified.
+* __ABT{TopPositionInPixels}__ defines the upper/vertical part of the upper left corner of the part of the bitmap to be displayed. Defaults to 0 if not specified.
+* __ABH{HeightInPixels}__ specifies the height of the part of the bitmap to be displayed. Defaults to the total height of the image if not specified.
+* __ABF{FrameNumber}__ indicates the frame of the image to be displayed. This setting is only relevant if you use animated gif images. Defaults to the first frame of the animated gif if not specified.
+
+__Bitmap Animation Paras__
+The following extra paras can be used in addition to the bitmap paras to animate the bitmap display on the matrix:
+* __AAC{CountOfFrames}__
+* __AAF{FramesPerSecond}__
+* __AAD{FrameExtractionDirectionCharacter}__
+* __AAS{FrameExtrationStepSize}__
+* __AAB{AnimationBehaviourCharacter}__
+
+
 \subsection inifiles_settingsexamples Setting examples
 
 * __S48__ will turn the toy associated with the column on and off depending on the state of solenoid 48.

@@ -229,9 +229,18 @@ namespace DirectOutput.Cab.Toys.Layer
         public override void Reset()
         {
             Layers.Clear();
-            _OutputRed.Value = 0;
-            _OutputGreen.Value = 0;
-            _OutputBlue.Value = 0;
+            if (_OutputRed != null)
+            {
+                _OutputRed.Value = 0;
+            }
+            if (_OutputGreen != null)
+            {
+                _OutputGreen.Value = 0;
+            }
+            if (_OutputBlue != null)
+            {
+                _OutputBlue.Value = 0;
+            }
         }
 
 

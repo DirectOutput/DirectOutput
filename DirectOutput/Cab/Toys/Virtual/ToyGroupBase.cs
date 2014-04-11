@@ -80,9 +80,18 @@ namespace DirectOutput.Cab.Toys.Virtual
         /// <param name="Cabinet"><see cref="Cabinet" /> object  to which the <see cref="IToy" /> belongs.</param>
         public override void Init(Cabinet Cabinet)
         {
-            int RowCnt = ToyNames.Count.Limit(1,int.MaxValue);
-            int ColCnt = ToyNames.Max(X => X.Count).Limit(1, int.MaxValue);
-
+            int ColCnt = 0;
+            int RowCnt = ToyNames.Count;
+            if (RowCnt > 0)
+            {
+                ColCnt = ToyNames.Max(X => X.Count).Limit(1, int.MaxValue);
+            }
+            else
+            {
+                ToyNames.Add(new List<string>(new []{""}));
+                RowCnt = 1;
+                ColCnt = 1;
+            }
 
             Toys = new ILayerToy<MatrixElementType>[ColCnt, RowCnt];
 

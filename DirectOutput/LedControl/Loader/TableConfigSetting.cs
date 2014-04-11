@@ -260,7 +260,7 @@ namespace DirectOutput.LedControl.Loader
         public int AreaBitmapAnimationStepCount = 0;
         public int AreaBitmapAnimationFrameDuration = 30;
         public MatrixAnimationDirectionEnum AreaBitmapAnimationDirection = MatrixAnimationDirectionEnum.Frame;
-
+        public AnimationBehaviourEnum AreaBitmapAnimationBehaviour = AnimationBehaviourEnum.Loop;
 
         /// <summary>
         /// Parses the setting data. <br />
@@ -463,7 +463,15 @@ namespace DirectOutput.LedControl.Loader
                     AreaBitmapAnimationDirection = (MatrixAnimationDirectionEnum)Parts[PartNr].Substring(3, 1).ToUpper()[0];
                     IsArea = true;
                     IsBitmap = true;
-                }                
+                }            
+                    else if (Parts[PartNr].Length == 4 && Parts[PartNr].Substring(0, 3).ToUpper() == "AAB" && Enum.IsDefined(typeof(AnimationBehaviourEnum), (int)Parts[PartNr].Substring(3, 1).ToUpper()[0]))
+                {
+
+                    AreaBitmapAnimationBehaviour = (AnimationBehaviourEnum)Parts[PartNr].Substring(3, 1).ToUpper()[0];
+                    IsArea = true;
+                    IsBitmap = true;
+                } 
+
                 else if (Parts[PartNr].Length > 5 && Parts[PartNr].Substring(0, 5).ToUpper() == "AFDEN" && Parts[PartNr].Substring(5).IsInteger())
                 {
                     AreaFlickerDensity = Parts[PartNr].Substring(5).ToInteger();
