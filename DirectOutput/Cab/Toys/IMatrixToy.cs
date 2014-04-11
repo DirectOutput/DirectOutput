@@ -1,18 +1,22 @@
 ﻿using System;
-using DirectOutput.Cab.Toys.Layer;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
 namespace DirectOutput.Cab.Toys
 {
     /// <summary>
-    /// Common interface for toys controlling a matrix of RGB components (e.g. led strips)
+    /// Interface for toys having a matrix of elements (e.g. ledstrips)
     /// </summary>
-    public interface IRGBAMatrix:IToy
+    /// <typeparam name="MatrixElementType">The type of the matrix element type.</typeparam>
+    public interface IMatrixToy<MatrixElementType>:IToy
     {
         /// <summary>
-        /// Gets the specified layer of RGBA data of the toy.
+        /// Gets the specified layer of MatrixElementTypes of the toy.
         /// </summary>
         /// <param name="LayerNr">The layer nr.</param>
         /// <returns></returns>
-        RGBAData[,] GetLayer(int LayerNr);
+        MatrixElementType[,] GetLayer(int LayerNr);
 
         /// <summary>
         /// Gets the height resp. the y dimension of the toys matrix.
@@ -20,7 +24,7 @@ namespace DirectOutput.Cab.Toys
         /// <value>
         /// The height resp. the y dimension of the toys matrix.
         /// </value>
-        int Height { get;  }
+        int Height { get; }
 
         /// <summary>
         /// Gets the width resp. the x dimension of the toys matrix.
@@ -28,6 +32,7 @@ namespace DirectOutput.Cab.Toys
         /// <value>
         /// The width resp. the x dimension of the toys matrix.
         /// </value>
-        int Width { get;  }
+        int Width { get; }
     }
 }
+

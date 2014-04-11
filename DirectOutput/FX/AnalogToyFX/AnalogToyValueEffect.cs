@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DirectOutput.Cab.Toys.Layer;
+using DirectOutput.General.Analog;
 
 namespace DirectOutput.FX.AnalogToyFX
 {
@@ -11,10 +12,10 @@ namespace DirectOutput.FX.AnalogToyFX
     /// 
     /// Dependinging on the FadeMode property the effect sets the value of the target layer either to the active inactive value in OnOff mode or a mix of the value in Fade mode.
     /// </summary>
-    public class AnalogToyValueEffect : AnanlogToyEffectBase
+    public class AnalogToyValueEffect : AnalogToyEffectBase
     {
 
-        private AnalogAlphaValue _ActiveValue = new AnalogAlphaValue(255, 255);
+        private AnalogAlpha _ActiveValue = new AnalogAlpha(255, 255);
 
         /// <summary>
         /// Gets or sets the value which is set on the specified layer of the referenced AnalogToy object if this effect is triggered with a TableElementData instance having a Value which is not zero.
@@ -22,13 +23,13 @@ namespace DirectOutput.FX.AnalogToyFX
         /// <value>
         /// The active value and alpha channel between 0 and 255.
         /// </value>
-        public AnalogAlphaValue ActiveValue
+        public AnalogAlpha ActiveValue
         {
             get { return _ActiveValue; }
             set { _ActiveValue = value; }
         }
 
-        private AnalogAlphaValue _InactiveValue = new AnalogAlphaValue(0, 0);
+        private AnalogAlpha _InactiveValue = new AnalogAlpha(0, 0);
 
         /// <summary>
         /// Gets or sets the value which is set on the specified layer of the referenced AnalogToy object if this effect is triggered with a TableElementData instance having a Value which is zero.
@@ -36,7 +37,7 @@ namespace DirectOutput.FX.AnalogToyFX
         /// <value>
         /// The inactive value and alpha channel between 0 and 255.
         /// </value>
-        public AnalogAlphaValue InactiveValue
+        public AnalogAlpha InactiveValue
         {
             get { return _InactiveValue; }
             set { _InactiveValue = value; }

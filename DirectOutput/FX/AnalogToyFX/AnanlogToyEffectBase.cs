@@ -5,13 +5,14 @@ using System.Text;
 using DirectOutput.Cab.Toys.Layer;
 using System.Xml.Serialization;
 using DirectOutput.Cab.Toys;
+using DirectOutput.General.Analog;
 
 namespace DirectOutput.FX.AnalogToyFX
 {
     /// <summary>
     /// Base class for effects controlling a single AnalogToy object.
     /// </summary>
-    public abstract class AnanlogToyEffectBase : EffectBase
+    public abstract class AnalogToyEffectBase : EffectBase
     {
         /// <summary>
         /// The table which contains the effect.
@@ -36,11 +37,12 @@ namespace DirectOutput.FX.AnalogToyFX
                 {
                     _ToyName = value;
                     Toy = null;
+                    Layer = null;
                 }
             }
         }
 
-        protected AnalogAlphaLayer Layer { get; private set; }
+        protected AnalogAlpha Layer { get; private set; }
 
         private int _LayerNr = 0;
 
@@ -96,7 +98,7 @@ namespace DirectOutput.FX.AnalogToyFX
         /// </summary>
         public override void Finish()
         {
-            Layer = null;
+           
             Toy = null;
             this.Table = null;
             base.Finish();

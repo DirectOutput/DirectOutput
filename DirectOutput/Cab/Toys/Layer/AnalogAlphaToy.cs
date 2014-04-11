@@ -5,13 +5,14 @@ using System.Text;
 using DirectOutput.Cab.Out;
 using DirectOutput.General;
 using System.Xml.Serialization;
+using DirectOutput.General.Analog;
 
 namespace DirectOutput.Cab.Toys.Layer
 {
     /// <summary>
     /// This toy handles analog values (0-255) in a layer structure including alpha value (0=completely transparent, 255=fully opaque) and outputs the belended result of the layers on a single output.
     /// </summary>
-    public class AnalogAlphaToy : ToyBaseUpdatable, IAnalogAlphaToy
+    public class AnalogAlphaToy : ToyBaseUpdatable, IAnalogAlphaToy, ISingleOutputToy
     {
 
         /// <summary>
@@ -21,9 +22,34 @@ namespace DirectOutput.Cab.Toys.Layer
         /// The layers dictionary.
         /// </value>
         [XmlIgnore]
-        public AnalogLayerDictionary Layers { get; private set; }
+        public LayerDictionary<AnalogAlpha> Layers { get; private set; }
 
+        /// <summary>
+        /// Gets the analog value which results from the analog values and alpha values in the dirctionary.
+        /// </summary>
+        /// <returns>A analog value.</returns>
+        protected int GetResultingValue()
+        {
+            if (Layers.Count > 0)
+            {
+                float Value = 0;
 
+                foreach (KeyValuePair<int, AnalogAlpha> KV in Layers)
+                {
+                    int Alpha = KV.Value.Alpha;
+                    if (Alpha != 0)
+                    {
+                        Value = AlphaMappingTable.AlphaMapping[255 - Alpha, (int)Value] + AlphaMappingTable.AlphaMapping[Alpha, KV.Value.Value];
+                    }
+                }
+
+                return (int)Value;
+            }
+            else
+            {
+                return 0;
+            }
+        }
 
 
         #region Outputs
@@ -129,7 +155,7 @@ namespace DirectOutput.Cab.Toys.Layer
             if (Output != null)
             {
        
-                Output.Value = FadingCurve.MapValue(Layers.GetResultingValue());
+                Output.Value = FadingCurve.MapValue(GetResultingValue());
             }
         }
 
@@ -164,7 +190,7 @@ namespace DirectOutput.Cab.Toys.Layer
         /// </summary>
         public AnalogAlphaToy()
         {
-            Layers = new AnalogLayerDictionary();
+            Layers = new LayerDictionary<AnalogAlpha>();
         }
     }
 }

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DirectOutput.Cab.Toys.Layer
+namespace DirectOutput.General.Analog
 {
     /// <summary>
     /// Object containing a analog value (0-255) and a alpha value (0-255).
     /// </summary>
-    public class AnalogAlphaValue
+    public class AnalogAlpha
     {
         /// <summary>
         /// The analog value (0-255).
@@ -24,9 +24,9 @@ namespace DirectOutput.Cab.Toys.Layer
         /// Clones this instance.
         /// </summary>
         /// <returns>A clone of the AnalogAlphaValue instance.</returns>
-        public AnalogAlphaValue Clone()
+        public AnalogAlpha Clone()
         {
-            return new AnalogAlphaValue(Value, Alpha);
+            return new AnalogAlpha(Value, Alpha);
         }
 
         /// <summary>
@@ -52,31 +52,31 @@ namespace DirectOutput.Cab.Toys.Layer
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AnalogAlphaValue"/> class.
+        /// Initializes a new instance of the <see cref="AnalogAlpha"/> class.
         /// </summary>
         /// <param name="Value">The analog value.</param>
         /// <param name="Alpha">The alpha value.</param>
-        public AnalogAlphaValue(int Value, int Alpha)
+        public AnalogAlpha(int Value, int Alpha)
         {
             this.Value = Value;
             this.Alpha = Alpha;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AnalogAlphaValue"/> class.
+        /// Initializes a new instance of the <see cref="AnalogAlpha"/> class.
         /// If Value is 0, the alpha value will be set to 0, otherwise it will be set to 255.
         /// </summary>
         /// <param name="Value">The analog value.</param>
-        public AnalogAlphaValue(int Value)
+        public AnalogAlpha(int Value)
         {
             this.Value = Value;
             this.Alpha = (Value != 0 ? 255 : 0);
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AnalogAlphaValue"/> class.
+        /// Initializes a new instance of the <see cref="AnalogAlpha"/> class.
         /// </summary>
-        public AnalogAlphaValue() { }
+        public AnalogAlpha() { }
 
     }
 }

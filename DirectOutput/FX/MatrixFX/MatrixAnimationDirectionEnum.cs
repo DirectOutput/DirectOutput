@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DirectOutput.FX.RGBAMatrixFX
+namespace DirectOutput.FX.MatrixFX
 {
-    public enum RGBAMatrixAnimationDirection
+    public enum MatrixAnimationDirectionEnum
     {
 
         /// <summary>

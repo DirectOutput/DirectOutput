@@ -16,7 +16,7 @@ namespace DirectOutput.Cab.Toys.Layer
     /// 
     /// \image html LayersRGBA.png "RGBA Layers"
     /// </summary>
-    public class RGBAToy : ToyBaseUpdatable, IRGBAToy
+    public class RGBAToy : ToyBaseUpdatable, IRGBOutputToy,IRGBAToy
     {
 
         #region Layers
@@ -27,7 +27,40 @@ namespace DirectOutput.Cab.Toys.Layer
         /// The layers dictionary.
         /// </value>
         [System.Xml.Serialization.XmlIgnore]
-        public RGBALayerDictionary Layers { get; private set; }
+        public LayerDictionary<RGBAColor> Layers { get; private set; }
+
+
+
+        /// <summary>
+        /// Get the RGBColor resulting from the colors and alpha values in the layers.
+        /// </summary>
+        /// <returns></returns>
+        public  RGBColor GetResultingData()
+        {
+            if (Layers.Count > 0)
+            {
+                float Red = 0;
+                float Green = 0;
+                float Blue = 0;
+                foreach (KeyValuePair<int, RGBAColor> KV in Layers)
+                {
+                    int Alpha = KV.Value.Alpha;
+                    if (Alpha != 0)
+                    {
+                        int NegAlpha = 255 - Alpha;
+                        Red = AlphaMappingTable.AlphaMapping[NegAlpha, (int)Red] + AlphaMappingTable.AlphaMapping[Alpha, KV.Value.Red];
+                        Green = AlphaMappingTable.AlphaMapping[NegAlpha, (int)Green] + AlphaMappingTable.AlphaMapping[Alpha, KV.Value.Green];
+                        Blue = AlphaMappingTable.AlphaMapping[NegAlpha, (int)Blue] + AlphaMappingTable.AlphaMapping[Alpha, KV.Value.Blue];
+                    }
+                }
+
+                return new RGBColor((int)Red, (int)Green, (int)Blue);
+            }
+            else
+            {
+                return new RGBColor(0, 0, 0);
+            }
+        }
 
 
 
@@ -173,7 +206,8 @@ namespace DirectOutput.Cab.Toys.Layer
         /// </summary>
         public override void UpdateOutputs()
         {
-            RGBColor RGB = Layers.GetResultingColor();
+            RGBColor RGB = GetResultingData();
+
             if (_OutputRed != null)
             {
                 _OutputRed.Value = FadingCurve.MapValue(RGB.Red);
@@ -195,9 +229,18 @@ namespace DirectOutput.Cab.Toys.Layer
         public override void Reset()
         {
             Layers.Clear();
-            _OutputRed.Value = 0;
-            _OutputGreen.Value = 0;
-            _OutputBlue.Value = 0;
+            if (_OutputRed != null)
+            {
+                _OutputRed.Value = 0;
+            }
+            if (_OutputGreen != null)
+            {
+                _OutputGreen.Value = 0;
+            }
+            if (_OutputBlue != null)
+            {
+                _OutputBlue.Value = 0;
+            }
         }
 
 
@@ -206,7 +249,7 @@ namespace DirectOutput.Cab.Toys.Layer
         /// </summary>
         public RGBAToy()
         {
-            Layers = new RGBALayerDictionary();
+            Layers = new LayerDictionary<RGBAColor>();
         }
 
 

@@ -1,5 +1,5 @@
 ﻿using System;
-using DirectOutput.FX.RGBAMatrixFX;
+using DirectOutput.FX.MatrixFX;
 
 namespace DirectOutput.LedControl.Loader
 {
@@ -246,7 +246,7 @@ namespace DirectOutput.LedControl.Loader
         public int AreaFlickerDensity = 0;
         public int AreaFlickerMinDurationMs = 0;
         public int AreaFlickerMaxDurationMs = 0;
-        public ShiftDirectionEnum? AreaDirection = null;
+        public MatrixShiftDirectionEnum? AreaDirection = null;
         public bool IsArea = false;
 
         public bool IsBitmap = false;
@@ -259,8 +259,8 @@ namespace DirectOutput.LedControl.Loader
         public int AreaBitmapAnimationStepSize = 1;
         public int AreaBitmapAnimationStepCount = 0;
         public int AreaBitmapAnimationFrameDuration = 30;
-        public RGBAMatrixAnimationDirection AreaBitmapAnimationDirection = RGBAMatrixAnimationDirection.Frame;
-
+        public MatrixAnimationDirectionEnum AreaBitmapAnimationDirection = MatrixAnimationDirectionEnum.Frame;
+        public AnimationBehaviourEnum AreaBitmapAnimationBehaviour = AnimationBehaviourEnum.Loop;
 
         /// <summary>
         /// Parses the setting data. <br />
@@ -457,13 +457,21 @@ namespace DirectOutput.LedControl.Loader
                     IsArea = true;
                     IsBitmap = true;
                 }
-                else if (Parts[PartNr].Length == 4 && Parts[PartNr].Substring(0, 3).ToUpper() == "AAD" && Enum.IsDefined(typeof(RGBAMatrixAnimationDirection), (int)Parts[PartNr].Substring(3, 1).ToUpper()[0]))
+                else if (Parts[PartNr].Length == 4 && Parts[PartNr].Substring(0, 3).ToUpper() == "AAD" && Enum.IsDefined(typeof(MatrixAnimationDirectionEnum), (int)Parts[PartNr].Substring(3, 1).ToUpper()[0]))
                 {
 
-                    AreaBitmapAnimationDirection = (RGBAMatrixAnimationDirection)Parts[PartNr].Substring(3, 1).ToUpper()[0];
+                    AreaBitmapAnimationDirection = (MatrixAnimationDirectionEnum)Parts[PartNr].Substring(3, 1).ToUpper()[0];
                     IsArea = true;
                     IsBitmap = true;
-                }                
+                }            
+                    else if (Parts[PartNr].Length == 4 && Parts[PartNr].Substring(0, 3).ToUpper() == "AAB" && Enum.IsDefined(typeof(AnimationBehaviourEnum), (int)Parts[PartNr].Substring(3, 1).ToUpper()[0]))
+                {
+
+                    AreaBitmapAnimationBehaviour = (AnimationBehaviourEnum)Parts[PartNr].Substring(3, 1).ToUpper()[0];
+                    IsArea = true;
+                    IsBitmap = true;
+                } 
+
                 else if (Parts[PartNr].Length > 5 && Parts[PartNr].Substring(0, 5).ToUpper() == "AFDEN" && Parts[PartNr].Substring(5).IsInteger())
                 {
                     AreaFlickerDensity = Parts[PartNr].Substring(5).ToInteger();
@@ -510,10 +518,10 @@ namespace DirectOutput.LedControl.Loader
                     AreaSpeed = Parts[PartNr].Substring(2).ToInteger().Limit(1, 10000);
                     IsArea = true;
                 }
-                else if (Parts[PartNr].Length == 3 && Parts[PartNr].Substring(0, 2).ToUpper() == "AD" && Enum.IsDefined(typeof(ShiftDirectionEnum), (int)Parts[PartNr].Substring(2, 1).ToUpper()[0]))
+                else if (Parts[PartNr].Length == 3 && Parts[PartNr].Substring(0, 2).ToUpper() == "AD" && Enum.IsDefined(typeof(MatrixShiftDirectionEnum), (int)Parts[PartNr].Substring(2, 1).ToUpper()[0]))
                 {
 
-                    AreaDirection = (ShiftDirectionEnum)Parts[PartNr].Substring(2, 1).ToUpper()[0];
+                    AreaDirection = (MatrixShiftDirectionEnum)Parts[PartNr].Substring(2, 1).ToUpper()[0];
                     IsArea = true;
                 }
                 else if (Parts[PartNr].Length > 3 && Parts[PartNr].ToUpper().Substring(0, 3) == "MAX" && Parts[PartNr].Substring(3).IsInteger())
