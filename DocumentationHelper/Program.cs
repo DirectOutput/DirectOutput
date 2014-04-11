@@ -20,7 +20,7 @@ namespace DocumentationHelper
 
             string S = "Built in Toys  {#toy_builtin}\n";
             S += "==========\n";
-            foreach (Type T in Types)
+            foreach (Type T in Types.OrderBy(T=>T.Name))
             {
                 TypeDocuData I = new TypeDocuData();
 
@@ -39,7 +39,7 @@ namespace DocumentationHelper
 
              S = "Built in Effects  {#fx_builtin}\n";
             S += "==========\n";
-            foreach (Type T in Types)
+            foreach (Type T in Types.OrderBy(T=>T.Name))
             {
                 TypeDocuData I = new TypeDocuData();
 
@@ -55,7 +55,7 @@ namespace DocumentationHelper
 
             S = "Built in Output controllers  {#outputcontrollers_builtin}\n";
             S += "==========\n";
-            foreach (Type T in Types)
+            foreach (Type T in Types.OrderBy(T => T.Name))
             {
                 TypeDocuData I = new TypeDocuData();
 

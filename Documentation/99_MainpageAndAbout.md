@@ -37,13 +37,13 @@ Some key features of the DirectOutput framework are:
 * Multithreaded to ensure optimal performance and avoid stuttering issues.
 * \ref b2sserverplugin "B2S.Server integration".
 * \ref tableconfig_VPEM "EM table support".
-* Loads of new ref inifiles_settingspara "config options in ini files".
+* Loads of new \ref inifiles_settingspara "config options in ini files".
 * Extendable object oriented architecture.
 * Own more powerfull XML config file format.
 * Coded in C#.
-* Fully documented code (that what you're looking at).
+* Fully documented code (that is what you're looking at).
 
-If you are new to the DirectOutput framework the pages on \rel installation and \rel tableconfig are a good starting point.
+If you are new to the DirectOutput framework the pages on \ref installation "installation" and \ref tableconfig "tableconfig" are a good starting point.
 
 Enjoy (virtual) pinball and keep pinball alive!
 

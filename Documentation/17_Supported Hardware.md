@@ -9,9 +9,7 @@ The DirectOutput framework supports the use of several output controllers in par
 
 For the end user the output controllers and their drivers are hidden behind a abstraction layer which ensures, that all hardware can be accessed in a common way. For more information regarding the software side of of the output controller part of the framework, please read the page on \ref outputcontrollers
 
-Currently the framework supports only a small number of output controllers, but depending on requirements and hardware availability more controllers will be supported in the future.
-
-The following devices are fully supported by the framework.  
+The following devices are supported by the framework:
 
 \section hardware_ledwiz LedWiz (GroovyGameGear)
 

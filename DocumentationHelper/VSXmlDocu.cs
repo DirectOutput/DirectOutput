@@ -11,7 +11,7 @@ namespace DocumentationHelper
         public static Dictionary<string, string> TypeSummary = new Dictionary<string, string>();
         public static Dictionary<string, string> PropertySummary = new Dictionary<string, string>();
         public static Dictionary<string, string> PropertyValue = new Dictionary<string, string>();
-
+        public static Dictionary<string, string> EnumSummary = new Dictionary<string, string>();
 
          static VSXmlDocu()
         {
@@ -143,6 +143,24 @@ namespace DocumentationHelper
                                 case "exception":
                                 case "#text":
                                 case "note":
+                                    break;
+                                default:
+                                    break;
+                            }
+
+
+                        }
+                    }
+                    else if (Name.StartsWith("F:"))
+                    {
+                        Name = Name.Substring(2);
+                        //Enum
+                        foreach (XmlNode TChild in M.ChildNodes)
+                        {
+                            switch (TChild.Name)
+                            {
+                                case "summary":
+                                    EnumSummary.Add(Name, Unindent(TChild.InnerXml));
                                     break;
                                 default:
                                     break;

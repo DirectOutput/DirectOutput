@@ -174,6 +174,7 @@ The second and following parts can contain the following:
 For adressable ledstrips and other toys which implement the IMatrixToy interface the following extra parameters can be used to control the hardware referenced by the matrix. For settings controlling a matrix you have to use at least one of these paras, so DOF realizes that a matrix/area is to be controlled.
 
 __General Matrix Paras__
+
 The following 4 paramaters are specifying the area of a matrix which is to be influenced by a matrix effect:
 * __AL{LeftPosition}__ defines the left of the upper left corner of the area of the matrix which is to be controlled by the effect. Position is expressed in percent of the matrix width (0-100).
 * __AT{TopPosition}__ defines the upper part of the upper left corner of the area of the matrix which is to be controlled by the effect. Position is expressed in percent of the matrix height (0-100).
@@ -181,18 +182,21 @@ The following 4 paramaters are specifying the area of a matrix which is to be in
 * __AH{Height}__ defines the height of the area of the matrix which is to be controlled by the effect. Height is expressed in percent of the matrix height (0-100).
 
 __Shift Effect Paras__
+
 The matrix shift effect moves a color/value with a defineable direction, speed and acceleration through the matrix:
 * __AD{DirectionCharacter}__ defines the direction for area effects having a direction parameter (e.g. the ColorShiftEffect). Valid directions are: R-Right, L-Left, U-Up, D-Down.
 * __AS{Speed}__ defines the speed for matrix effects have a speed parameter (e.g. the ColorShiftEffect) expressed in percent of the effect area per second. 100 will shift through the effect area in one second, 400 will shift through the effect area in 1/4 second. Min. speed is 1, max. speed is 10000.
 * __AA{Acceleration}__ defines the acceleration of the speed for matrix effects (e.g. ColorShiftEffect), expressed in percent of the effect area per second. Acceleration can be positive (speed increases) or negative (speed decreases). Speed will never decrease below 1 and never increase above 10000.
 
 __Flicker Effect Paras__
+
 The flicker effect generates random flickering with a defineable density and duration for the single flickers:
 * __AFDEN{Percentage}__ defines the density for the flicker effect. Density is express in percent a has a valid value range of 1 to 99.
 * __AFMIN{DurationInMilliseconds}__ defines the min duration for the flicker of a single led in milliseconds.
 * __AFMAX{DurationInMilliseconds}__ defines the max duration for the flicker of a single led in milliseconds.
 
 __Bitmap Effect Paras__
+
 DOF can display a part of a bitmap image on a matrix toy. The defined part of the bitmap is scaled to the size of the matrix, so the actual resolution of the matrix does not matter.
 If you specify a bitmap effect by using one of the following parameters, DOF will try to load a bitmap image (gif, png, jpg and more should all work) from the same directory as the ini file. The bitmap image has to be named like the short rom name in the first collumn of the ini file (e.g. mm.png for Medival Madness or afm.gif for Attack from Mars).
 * __ABL{LeftPostionInPixels}__ defines the left/horizontal part of the upper left corner of the part of the bitmap to be displayed. Defaults to 0 if not specified.

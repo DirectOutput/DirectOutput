@@ -1,182 +1,5 @@
 Built in Effects  {#fx_builtin}
 ==========
-\section use_DirectOutput_FX_AnalogToyFX_AnalogToyValueEffect AnalogToyValueEffect
-
-\subsection use_DirectOutput_FX_AnalogToyFX_AnalogToyValueEffect_summary Summary
-
-This effect controlls sets the value and alpha channel of a analog alpha toy based on the trigger value.
-
-Dependinging on the FadeMode property the effect sets the value of the target layer either to the active inactive value in OnOff mode or a mix of the value in Fade mode.
-
-
-
-\subsection use_DirectOutput_FX_AnalogToyFX_AnalogToyValueEffect_samplexml Sample XML
-
-A configuration section for AnalogToyValueEffect might resemble the following structure:
-
-~~~~~~~~~~~~~{.xml}
-<AnalogToyValueEffect>
-  <Name>Name of AnalogToyValueEffect</Name>
-  <ToyName>Name of Toy</ToyName>
-  <LayerNr>0</LayerNr>
-  <ActiveValue>
-    <Value>0</Value>
-    <Alpha>0</Alpha>
-  </ActiveValue>
-  <InactiveValue>
-    <Value>0</Value>
-    <Alpha>0</Alpha>
-  </InactiveValue>
-  <FadeMode>Fade</FadeMode>
-</AnalogToyValueEffect>
-~~~~~~~~~~~~~
-\subsection use_DirectOutput_FX_AnalogToyFX_AnalogToyValueEffect_properties Properties
-
-AnalogToyValueEffect has the following 6 configurable properties:
-
-\subsubsection DirectOutput_FX_AnalogToyFX_AnalogToyValueEffect_ActiveValue ActiveValue
-
-The active value and alpha channel between 0 and 255.
-
-
-
-\subsubsection DirectOutput_FX_AnalogToyFX_AnalogToyValueEffect_FadeMode FadeMode
-
-Fade (active and inactive color will fade depending on trigger value) or OnOff (actvice color is used for triger values &gt;0, otherwise inactive color will be used).
-
-
-
-The property FadeMode accepts the following values:
-
-* Fade
-* OnOff
-
-__Valid values__
-
-The property FadeMode accepts the following values:
-
-* Fade
-* OnOff
-\subsubsection DirectOutput_FX_AnalogToyFX_AnalogToyValueEffect_InactiveValue InactiveValue
-
-The inactive value and alpha channel between 0 and 255.
-
-
-
-\subsubsection DirectOutput_FX_AnalogToyFX_AnalogToyValueEffect_LayerNr LayerNr
-
-The layer number.
-
-
-
-\subsubsection DirectOutput_FX_AnalogToyFX_AnalogToyValueEffect_Name Name
-
-The name of the item.
-
-
-
-\subsubsection DirectOutput_FX_AnalogToyFX_AnalogToyValueEffect_ToyName ToyName
-
-The name of the AnalogToy.
-
-
-
-\section use_DirectOutput_FX_ConditionFX_TableElementConditionEffect TableElementConditionEffect
-
-\subsection use_DirectOutput_FX_ConditionFX_TableElementConditionEffect_summary Summary
-
-This effect evaluates the condition specified in the Condition property.
-
-
-
-\subsection use_DirectOutput_FX_ConditionFX_TableElementConditionEffect_samplexml Sample XML
-
-A configuration section for TableElementConditionEffect might resemble the following structure:
-
-~~~~~~~~~~~~~{.xml}
-<TableElementConditionEffect>
-  <Name>Name of TableElementConditionEffect</Name>
-  <TargetEffectName>Name of TargetEffect</TargetEffectName>
-  <Condition>Condition string</Condition>
-</TableElementConditionEffect>
-~~~~~~~~~~~~~
-\subsection use_DirectOutput_FX_ConditionFX_TableElementConditionEffect_properties Properties
-
-TableElementConditionEffect has the following 3 configurable properties:
-
-\subsubsection DirectOutput_FX_ConditionFX_TableElementConditionEffect_Condition Condition
-
-The condition.
-
-
-
-\subsubsection DirectOutput_FX_ConditionFX_TableElementConditionEffect_Name Name
-
-The name of the item.
-
-
-
-\subsubsection DirectOutput_FX_ConditionFX_TableElementConditionEffect_TargetEffectName TargetEffectName
-
-Name of the target effect.<br />
-Triggers EffectNameChanged if value is changed.
-
-
-
-\section use_DirectOutput_FX_ListFX_ListEffect ListEffect
-
-\subsection use_DirectOutput_FX_ListFX_ListEffect_summary Summary
-
-This effect triggers a list of other effect when it is triggered.<br />
-
-\warning Be careful not to add ListEffect objects which finnaly contain a reference to the instance you're working with. This will create a recursive loop which never exit!.
-
-
-
-\subsection use_DirectOutput_FX_ListFX_ListEffect_samplexml Sample XML
-
-A configuration section for ListEffect might resemble the following structure:
-
-~~~~~~~~~~~~~{.xml}
-<ListEffect>
-  <Name>Name of ListEffect</Name>
-  <AssignedEffects>
-    <AssignedEffect>
-      <EffectName>Name of Effect</EffectName>
-    </AssignedEffect>
-    <AssignedEffect>
-      <EffectName>Name of Effect</EffectName>
-    </AssignedEffect>
-    <AssignedEffect>
-      <EffectName>Name of Effect</EffectName>
-    </AssignedEffect>
-  </AssignedEffects>
-</ListEffect>
-~~~~~~~~~~~~~
-\subsection use_DirectOutput_FX_ListFX_ListEffect_properties Properties
-
-ListEffect has the following 2 configurable properties:
-
-\subsubsection DirectOutput_FX_ListFX_ListEffect_AssignedEffects AssignedEffects
-
-The list of effects assigned to the ListEffect.
-
-
-
-__Nested Properties__
-
-The following nested propteries exist for AssignedEffects:
-* __EffectName__<br/>  The name of the assigned effect.
-
-
-
-
-\subsubsection DirectOutput_FX_ListFX_ListEffect_Name Name
-
-The name of the item.
-
-
-
 \section use_DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect AnalogAlphaMatrixBitmapAnimationEffect
 
 \subsection use_DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_samplexml Sample XML
@@ -219,17 +42,11 @@ The animation behaviour defines if a animation should run only once, run in a lo
 
 The property AnimationBehaviour accepts the following values:
 
-* Continue
-* Loop
-* Once
+* __Continue__: The animation continues with the next frame when triggered and is shown in a loop
+* __Loop__: The animation restarts when it is triggered and is shown in a loop
+* __Once__: The animation restarts when it is triggered, is shown once and stops after the last frame
 
-__Valid values__
 
-The property AnimationBehaviour accepts the following values:
-
-* Continue
-* Loop
-* Once
 \subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_AnimationFrameCount AnimationFrameCount
 
 The number of frames for the whole animation.
@@ -250,17 +67,11 @@ The direction in which the effect will step formward through the source image to
 
 The property AnimationStepDirection accepts the following values:
 
-* Down
-* Frame
-* Right
+* __Down__: Animation steps from top to bottom through the source image
+* __Frame__: Animation steps though frames of the source image.
+* __Right__: Animation steps from left to right through the source image
 
-__Valid values__
 
-The property AnimationStepDirection accepts the following values:
-
-* Down
-* Frame
-* Right
 \subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_AnimationStepSize AnimationStepSize
 
 Thesize of the step in pixels or frames (depending on the \ref AnimationStepDirection) to the next frame of the animation.
@@ -319,17 +130,11 @@ The data extract mode which defines how the data is extracted from the source bi
 
 The property DataExtractMode accepts the following values:
 
-* SinglePixelTopLeft
-* SinglePixelCenter
-* BlendPixels
+* __SinglePixelTopLeft__
+* __SinglePixelCenter__
+* __BlendPixels__
 
-__Valid values__
 
-The property DataExtractMode accepts the following values:
-
-* SinglePixelTopLeft
-* SinglePixelCenter
-* BlendPixels
 \subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_FadeMode FadeMode
 
 Fade (active and inactive values/color will fade depending on trigger value) or OnOff (actvice value/color is used for trigger values &gt;0, otherwise inactive value/color will be used).
@@ -338,15 +143,10 @@ Fade (active and inactive values/color will fade depending on trigger value) or 
 
 The property FadeMode accepts the following values:
 
-* Fade
-* OnOff
+* __Fade__: Fading is enabled.
+* __OnOff__: No fading. There will be a simple on/off behaviour depending on the triggering value.
 
-__Valid values__
 
-The property FadeMode accepts the following values:
-
-* Fade
-* OnOff
 \subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_Height Height
 
 The height in percent of the target area for the effect (0-100).
@@ -476,17 +276,11 @@ The data extract mode which defines how the data is extracted from the source bi
 
 The property DataExtractMode accepts the following values:
 
-* SinglePixelTopLeft
-* SinglePixelCenter
-* BlendPixels
+* __SinglePixelTopLeft__
+* __SinglePixelCenter__
+* __BlendPixels__
 
-__Valid values__
 
-The property DataExtractMode accepts the following values:
-
-* SinglePixelTopLeft
-* SinglePixelCenter
-* BlendPixels
 \subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapEffect_FadeMode FadeMode
 
 Fade (active and inactive values/color will fade depending on trigger value) or OnOff (actvice value/color is used for trigger values &gt;0, otherwise inactive value/color will be used).
@@ -495,15 +289,10 @@ Fade (active and inactive values/color will fade depending on trigger value) or 
 
 The property FadeMode accepts the following values:
 
-* Fade
-* OnOff
+* __Fade__: Fading is enabled.
+* __OnOff__: No fading. There will be a simple on/off behaviour depending on the triggering value.
 
-__Valid values__
 
-The property FadeMode accepts the following values:
-
-* Fade
-* OnOff
 \subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapEffect_Height Height
 
 The height in percent of the target area for the effect (0-100).
@@ -605,15 +394,10 @@ Fade (active and inactive values/color will fade depending on trigger value) or 
 
 The property FadeMode accepts the following values:
 
-* Fade
-* OnOff
+* __Fade__: Fading is enabled.
+* __OnOff__: No fading. There will be a simple on/off behaviour depending on the triggering value.
 
-__Valid values__
 
-The property FadeMode accepts the following values:
-
-* Fade
-* OnOff
 \subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixFlickerEffect_Height Height
 
 The height in percent of the target area for the effect (0-100).
@@ -721,15 +505,10 @@ Fade (active and inactive values/color will fade depending on trigger value) or 
 
 The property FadeMode accepts the following values:
 
-* Fade
-* OnOff
+* __Fade__: Fading is enabled.
+* __OnOff__: No fading. There will be a simple on/off behaviour depending on the triggering value.
 
-__Valid values__
 
-The property FadeMode accepts the following values:
-
-* Fade
-* OnOff
 \subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixShiftEffect_Height Height
 
 The height in percent of the target area for the effect (0-100).
@@ -774,19 +553,12 @@ The shift direction (Left, Right, Up, Down).
 
 The property ShiftDirection accepts the following values:
 
-* Down
-* Left
-* Right
-* Up
+* __Down__: Shift down
+* __Left__: Shift left
+* __Right__: Shift right
+* __Up__: Shift up
 
-__Valid values__
 
-The property ShiftDirection accepts the following values:
-
-* Down
-* Left
-* Right
-* Up
 \subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixShiftEffect_ShiftSpeed ShiftSpeed
 
 The shift speed in percentage of the effect area (Left, Top, Width, Height properties) per second .
@@ -861,15 +633,10 @@ Fade (active and inactive values/color will fade depending on trigger value) or 
 
 The property FadeMode accepts the following values:
 
-* Fade
-* OnOff
+* __Fade__: Fading is enabled.
+* __OnOff__: No fading. There will be a simple on/off behaviour depending on the triggering value.
 
-__Valid values__
 
-The property FadeMode accepts the following values:
-
-* Fade
-* OnOff
 \subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixValueEffect_Height Height
 
 The height in percent of the target area for the effect (0-100).
@@ -915,6 +682,648 @@ The name of the toy which is controlled by the effect.
 \subsubsection DirectOutput_FX_MatrixFX_AnalogAlphaMatrixValueEffect_Width Width
 
 The width in percent of the target area for the effect (0-100).
+
+
+
+\section use_DirectOutput_FX_AnalogToyFX_AnalogToyValueEffect AnalogToyValueEffect
+
+\subsection use_DirectOutput_FX_AnalogToyFX_AnalogToyValueEffect_summary Summary
+
+This effect controlls sets the value and alpha channel of a analog alpha toy based on the trigger value.
+
+Dependinging on the FadeMode property the effect sets the value of the target layer either to the active inactive value in OnOff mode or a mix of the value in Fade mode.
+
+
+
+\subsection use_DirectOutput_FX_AnalogToyFX_AnalogToyValueEffect_samplexml Sample XML
+
+A configuration section for AnalogToyValueEffect might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<AnalogToyValueEffect>
+  <Name>Name of AnalogToyValueEffect</Name>
+  <ToyName>Name of Toy</ToyName>
+  <LayerNr>0</LayerNr>
+  <ActiveValue>
+    <Value>0</Value>
+    <Alpha>0</Alpha>
+  </ActiveValue>
+  <InactiveValue>
+    <Value>0</Value>
+    <Alpha>0</Alpha>
+  </InactiveValue>
+  <FadeMode>Fade</FadeMode>
+</AnalogToyValueEffect>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_FX_AnalogToyFX_AnalogToyValueEffect_properties Properties
+
+AnalogToyValueEffect has the following 6 configurable properties:
+
+\subsubsection DirectOutput_FX_AnalogToyFX_AnalogToyValueEffect_ActiveValue ActiveValue
+
+The active value and alpha channel between 0 and 255.
+
+
+
+\subsubsection DirectOutput_FX_AnalogToyFX_AnalogToyValueEffect_FadeMode FadeMode
+
+Fade (active and inactive color will fade depending on trigger value) or OnOff (actvice color is used for triger values &gt;0, otherwise inactive color will be used).
+
+
+
+The property FadeMode accepts the following values:
+
+* __Fade__: Fading is enabled.
+* __OnOff__: No fading. There will be a simple on/off behaviour depending on the triggering value.
+
+
+\subsubsection DirectOutput_FX_AnalogToyFX_AnalogToyValueEffect_InactiveValue InactiveValue
+
+The inactive value and alpha channel between 0 and 255.
+
+
+
+\subsubsection DirectOutput_FX_AnalogToyFX_AnalogToyValueEffect_LayerNr LayerNr
+
+The layer number.
+
+
+
+\subsubsection DirectOutput_FX_AnalogToyFX_AnalogToyValueEffect_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_FX_AnalogToyFX_AnalogToyValueEffect_ToyName ToyName
+
+The name of the AnalogToy.
+
+
+
+\section use_DirectOutput_FX_TimmedFX_BlinkEffect BlinkEffect
+
+\subsection use_DirectOutput_FX_TimmedFX_BlinkEffect_summary Summary
+
+Blink effect which triggers a TargetEffect at specified intervalls with active (org value of TableElementData used in Trigger method is used to trigger the TargetEffect) and inactive (uses 0 as the Value of the TableElementData to trigger the TargetEffect) values.<br />
+\image html FX_Blink.png "Blink effect"
+
+
+
+\subsection use_DirectOutput_FX_TimmedFX_BlinkEffect_samplexml Sample XML
+
+A configuration section for BlinkEffect might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<BlinkEffect>
+  <Name>Name of BlinkEffect</Name>
+  <TargetEffectName>Name of TargetEffect</TargetEffectName>
+  <HighValue>-1</HighValue>
+  <LowValue>0</LowValue>
+  <DurationActiveMs>500</DurationActiveMs>
+  <DurationInactiveMs>500</DurationInactiveMs>
+  <UntriggerBehaviour>Immediate</UntriggerBehaviour>
+</BlinkEffect>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_FX_TimmedFX_BlinkEffect_properties Properties
+
+BlinkEffect has the following 7 configurable properties:
+
+\subsubsection DirectOutput_FX_TimmedFX_BlinkEffect_DurationActiveMs DurationActiveMs
+
+The active duration of the blinking in milliseconds.
+
+
+
+\subsubsection DirectOutput_FX_TimmedFX_BlinkEffect_DurationInactiveMs DurationInactiveMs
+
+The inactive duration of the blinking in milliseconds.
+
+
+
+\subsubsection DirectOutput_FX_TimmedFX_BlinkEffect_HighValue HighValue
+
+The high value for the blinking. Values between 0 and 255 define the actual values which have to be output during the on phase of the blinking. A value of -1 defines that the value which has been received by the trigger event is used.
+
+
+
+\subsubsection DirectOutput_FX_TimmedFX_BlinkEffect_LowValue LowValue
+
+The low value for the blinking (0-255).
+
+
+
+\subsubsection DirectOutput_FX_TimmedFX_BlinkEffect_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_FX_TimmedFX_BlinkEffect_TargetEffectName TargetEffectName
+
+Name of the target effect.<br />
+Triggers EffectNameChanged if value is changed.
+
+
+
+\subsubsection DirectOutput_FX_TimmedFX_BlinkEffect_UntriggerBehaviour UntriggerBehaviour
+
+The untrigger behaviour defines how the blinking stops.
+
+
+
+The property UntriggerBehaviour accepts the following values:
+
+* __Immediate__: Blinking stops immediately
+* __CompleteHigh__: Completes the high cycle of the blinking before stopping.
+
+
+\section use_DirectOutput_FX_TimmedFX_DelayEffect DelayEffect
+
+\subsection use_DirectOutput_FX_TimmedFX_DelayEffect_summary Summary
+
+The effect fires a assigned target effect after a specified delay.<br />
+The original values supplied when the effect is triggered are forwarded to the target effect.<br />
+\image html FX_Delay.png "Delay effect"
+
+
+
+\subsection use_DirectOutput_FX_TimmedFX_DelayEffect_samplexml Sample XML
+
+A configuration section for DelayEffect might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<DelayEffect>
+  <Name>Name of DelayEffect</Name>
+  <TargetEffectName>Name of TargetEffect</TargetEffectName>
+  <DelayMs>0</DelayMs>
+</DelayEffect>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_FX_TimmedFX_DelayEffect_properties Properties
+
+DelayEffect has the following 3 configurable properties:
+
+\subsubsection DirectOutput_FX_TimmedFX_DelayEffect_DelayMs DelayMs
+
+The delay in milliseconds.
+
+
+
+\subsubsection DirectOutput_FX_TimmedFX_DelayEffect_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_FX_TimmedFX_DelayEffect_TargetEffectName TargetEffectName
+
+Name of the target effect.<br />
+Triggers EffectNameChanged if value is changed.
+
+
+
+\section use_DirectOutput_FX_TimmedFX_DurationEffect DurationEffect
+
+\subsection use_DirectOutput_FX_TimmedFX_DurationEffect_summary Summary
+
+Duration effect which triggers a specified target effect for a specified duration.<br />
+When this effect is triggered it triggers the target effect immediately with the same data it has received. After the specified duration it calls trigger on the target effect again with data for the same table elmenet, but with the value changed to 0.<br />
+\image html FX_Duration.png "Duration effect"
+
+
+
+\subsection use_DirectOutput_FX_TimmedFX_DurationEffect_samplexml Sample XML
+
+A configuration section for DurationEffect might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<DurationEffect>
+  <Name>Name of DurationEffect</Name>
+  <TargetEffectName>Name of TargetEffect</TargetEffectName>
+  <RetriggerBehaviour>Restart</RetriggerBehaviour>
+  <DurationMs>500</DurationMs>
+</DurationEffect>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_FX_TimmedFX_DurationEffect_properties Properties
+
+DurationEffect has the following 4 configurable properties:
+
+\subsubsection DirectOutput_FX_TimmedFX_DurationEffect_DurationMs DurationMs
+
+The effect duration in milliseconds.
+
+
+
+\subsubsection DirectOutput_FX_TimmedFX_DurationEffect_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_FX_TimmedFX_DurationEffect_RetriggerBehaviour RetriggerBehaviour
+
+Valid values are Restart (Restarts the duration) or Ignore (keeps the org duration).
+
+
+
+The property RetriggerBehaviour accepts the following values:
+
+* __Restart__: The effect or its behaviour gets restarted in a retrigger situation.
+* __Ignore__: Retrigger calls are ignored. The effect or its behaviour is not being restarted.
+
+
+\subsubsection DirectOutput_FX_TimmedFX_DurationEffect_TargetEffectName TargetEffectName
+
+Name of the target effect.<br />
+Triggers EffectNameChanged if value is changed.
+
+
+
+\section use_DirectOutput_FX_TimmedFX_ExtendDurationEffect ExtendDurationEffect
+
+\subsection use_DirectOutput_FX_TimmedFX_ExtendDurationEffect_summary Summary
+
+The extend duration effect triggers another effect for a duration which is extebnded by the number of milliseconds specified in DurationMs.<br />
+This is done by forwarding triggers calls which are seting the effect to active directly to the target effect and delaying the forwarding of calls which set the effect to inactive by the number of milliseconds specified in DurationMs.<br />
+\image html FX_ExtendDuration.png "ExtendDuration effect"
+
+
+
+\subsection use_DirectOutput_FX_TimmedFX_ExtendDurationEffect_samplexml Sample XML
+
+A configuration section for ExtendDurationEffect might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<ExtendDurationEffect>
+  <Name>Name of ExtendDurationEffect</Name>
+  <TargetEffectName>Name of TargetEffect</TargetEffectName>
+  <DurationMs>500</DurationMs>
+</ExtendDurationEffect>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_FX_TimmedFX_ExtendDurationEffect_properties Properties
+
+ExtendDurationEffect has the following 3 configurable properties:
+
+\subsubsection DirectOutput_FX_TimmedFX_ExtendDurationEffect_DurationMs DurationMs
+
+The extended duration in milliseconds.
+
+
+
+\subsubsection DirectOutput_FX_TimmedFX_ExtendDurationEffect_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_FX_TimmedFX_ExtendDurationEffect_TargetEffectName TargetEffectName
+
+Name of the target effect.<br />
+Triggers EffectNameChanged if value is changed.
+
+
+
+\section use_DirectOutput_FX_TimmedFX_FadeEffect FadeEffect
+
+\subsection use_DirectOutput_FX_TimmedFX_FadeEffect_summary Summary
+
+This effect fades towards the value passed to the effect in the TableElementData of the trigger methods.
+It is calling the target effect repeatedly with the changing values.
+
+
+
+\subsection use_DirectOutput_FX_TimmedFX_FadeEffect_samplexml Sample XML
+
+A configuration section for FadeEffect might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<FadeEffect>
+  <Name>Name of FadeEffect</Name>
+  <TargetEffectName>Name of TargetEffect</TargetEffectName>
+  <FadeUpDuration>300</FadeUpDuration>
+  <FadeDownDuration>300</FadeDownDuration>
+  <FadeDurationMode>CurrentToTarget</FadeDurationMode>
+</FadeEffect>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_FX_TimmedFX_FadeEffect_properties Properties
+
+FadeEffect has the following 5 configurable properties:
+
+\subsubsection DirectOutput_FX_TimmedFX_FadeEffect_FadeDownDuration FadeDownDuration
+
+The duration for the fading down.
+
+
+
+\subsubsection DirectOutput_FX_TimmedFX_FadeEffect_FadeDurationMode FadeDurationMode
+
+The fade duration mode.<br />
+Depending on the FadeDurationMode the transition from the current to the target value will use one of the duration values directly or use the duration values to determine how long it would take to fade through the whole possible value range and the effective fading duration will depend on the defference between the current and the target value.
+
+
+
+The property FadeDurationMode accepts the following values:
+
+* __CurrentToTarget__: The duration(s) specify whoe long it will take to fade from the current value to the target value.
+* __FullValueRange__: The duration(s) specify how long it would take to fade through the whole possible value range (0-255) for the target value. The effective fading duration will depend on the difference between the current and the target value.
+
+
+\subsubsection DirectOutput_FX_TimmedFX_FadeEffect_FadeUpDuration FadeUpDuration
+
+The duration for fading up.
+
+
+
+\subsubsection DirectOutput_FX_TimmedFX_FadeEffect_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_FX_TimmedFX_FadeEffect_TargetEffectName TargetEffectName
+
+Name of the target effect.<br />
+Triggers EffectNameChanged if value is changed.
+
+
+
+\section use_DirectOutput_FX_ListFX_ListEffect ListEffect
+
+\subsection use_DirectOutput_FX_ListFX_ListEffect_summary Summary
+
+This effect triggers a list of other effect when it is triggered.<br />
+
+\warning Be careful not to add ListEffect objects which finnaly contain a reference to the instance you're working with. This will create a recursive loop which never exit!.
+
+
+
+\subsection use_DirectOutput_FX_ListFX_ListEffect_samplexml Sample XML
+
+A configuration section for ListEffect might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<ListEffect>
+  <Name>Name of ListEffect</Name>
+  <AssignedEffects>
+    <AssignedEffect>
+      <EffectName>Name of Effect</EffectName>
+    </AssignedEffect>
+    <AssignedEffect>
+      <EffectName>Name of Effect</EffectName>
+    </AssignedEffect>
+    <AssignedEffect>
+      <EffectName>Name of Effect</EffectName>
+    </AssignedEffect>
+  </AssignedEffects>
+</ListEffect>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_FX_ListFX_ListEffect_properties Properties
+
+ListEffect has the following 2 configurable properties:
+
+\subsubsection DirectOutput_FX_ListFX_ListEffect_AssignedEffects AssignedEffects
+
+The list of effects assigned to the ListEffect.
+
+
+
+__Nested Properties__
+
+The following nested propteries exist for AssignedEffects:
+* __EffectName__<br/>  The name of the assigned effect.
+
+
+
+
+\subsubsection DirectOutput_FX_ListFX_ListEffect_Name Name
+
+The name of the item.
+
+
+
+\section use_DirectOutput_FX_TimmedFX_MaxDurationEffect MaxDurationEffect
+
+\subsection use_DirectOutput_FX_TimmedFX_MaxDurationEffect_summary Summary
+
+Limits the max duration of the effect to the specified number of milliseconds.
+
+
+
+\subsection use_DirectOutput_FX_TimmedFX_MaxDurationEffect_samplexml Sample XML
+
+A configuration section for MaxDurationEffect might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<MaxDurationEffect>
+  <Name>Name of MaxDurationEffect</Name>
+  <TargetEffectName>Name of TargetEffect</TargetEffectName>
+  <RetriggerBehaviour>Restart</RetriggerBehaviour>
+  <MaxDurationMs>500</MaxDurationMs>
+</MaxDurationEffect>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_FX_TimmedFX_MaxDurationEffect_properties Properties
+
+MaxDurationEffect has the following 4 configurable properties:
+
+\subsubsection DirectOutput_FX_TimmedFX_MaxDurationEffect_MaxDurationMs MaxDurationMs
+
+The max effect duration in milliseconds.
+
+
+
+\subsubsection DirectOutput_FX_TimmedFX_MaxDurationEffect_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_FX_TimmedFX_MaxDurationEffect_RetriggerBehaviour RetriggerBehaviour
+
+Valid values are Restart (restarts the minimal duration) or Ignore (keeps the org duration).
+
+
+
+The property RetriggerBehaviour accepts the following values:
+
+* __Restart__: The effect or its behaviour gets restarted in a retrigger situation.
+* __Ignore__: Retrigger calls are ignored. The effect or its behaviour is not being restarted.
+
+
+\subsubsection DirectOutput_FX_TimmedFX_MaxDurationEffect_TargetEffectName TargetEffectName
+
+Name of the target effect.<br />
+Triggers EffectNameChanged if value is changed.
+
+
+
+\section use_DirectOutput_FX_TimmedFX_MinDurationEffect MinDurationEffect
+
+\subsection use_DirectOutput_FX_TimmedFX_MinDurationEffect_summary Summary
+
+This effect enforces a minimum duration on the effect calls.<br />
+Calls which are setting a effect to active (having a trigger value which is not equal 0 or null) are forwarded directly to the TargetEffect.<br />
+Calls setting the effect to inactive (having a trigger value of 0) are only forwarded to the TargetEffect after the specified minimum duration has expired.<br />
+\image html FX_MinDuration.png "MinDuration effect"
+
+
+
+\subsection use_DirectOutput_FX_TimmedFX_MinDurationEffect_samplexml Sample XML
+
+A configuration section for MinDurationEffect might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<MinDurationEffect>
+  <Name>Name of MinDurationEffect</Name>
+  <TargetEffectName>Name of TargetEffect</TargetEffectName>
+  <RetriggerBehaviour>Restart</RetriggerBehaviour>
+  <MinDurationMs>500</MinDurationMs>
+</MinDurationEffect>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_FX_TimmedFX_MinDurationEffect_properties Properties
+
+MinDurationEffect has the following 4 configurable properties:
+
+\subsubsection DirectOutput_FX_TimmedFX_MinDurationEffect_MinDurationMs MinDurationMs
+
+The minimal effect duration in milliseconds.
+
+
+
+\subsubsection DirectOutput_FX_TimmedFX_MinDurationEffect_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_FX_TimmedFX_MinDurationEffect_RetriggerBehaviour RetriggerBehaviour
+
+Valid values are Restart (restarts the minimal duration) or Ignore (keeps the org duration).
+
+
+
+The property RetriggerBehaviour accepts the following values:
+
+* __Restart__: The effect or its behaviour gets restarted in a retrigger situation.
+* __Ignore__: Retrigger calls are ignored. The effect or its behaviour is not being restarted.
+
+
+\subsubsection DirectOutput_FX_TimmedFX_MinDurationEffect_TargetEffectName TargetEffectName
+
+Name of the target effect.<br />
+Triggers EffectNameChanged if value is changed.
+
+
+
+\section use_DirectOutput_FX_NullFX_NullEffect NullEffect
+
+\subsection use_DirectOutput_FX_NullFX_NullEffect_summary Summary
+
+The NullEffect is a empty effect no doing anything.
+
+
+
+\subsection use_DirectOutput_FX_NullFX_NullEffect_samplexml Sample XML
+
+A configuration section for NullEffect might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<NullEffect>
+  <Name>Name of NullEffect</Name>
+</NullEffect>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_FX_NullFX_NullEffect_properties Properties
+
+NullEffect has the following 1 configurable properties:
+
+\subsubsection DirectOutput_FX_NullFX_NullEffect_Name Name
+
+The name of the item.
+
+
+
+\section use_DirectOutput_FX_RGBAFX_RGBAColorEffect RGBAColorEffect
+
+\subsection use_DirectOutput_FX_RGBAFX_RGBAColorEffect_summary Summary
+
+The effects sets the color of a RGBAToy based on the trigger value.
+
+Depending on the setting of the FadeMode property, the effect uses the active or inactive color or a mix of those colors.
+
+
+
+\subsection use_DirectOutput_FX_RGBAFX_RGBAColorEffect_samplexml Sample XML
+
+A configuration section for RGBAColorEffect might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<RGBAColorEffect>
+  <Name>Name of RGBAColorEffect</Name>
+  <ToyName>Name of Toy</ToyName>
+  <LayerNr>0</LayerNr>
+  <ActiveColor>
+    <HexColor>#00000000</HexColor>
+  </ActiveColor>
+  <InactiveColor>
+    <HexColor>#00000000</HexColor>
+  </InactiveColor>
+  <FadeMode>Fade</FadeMode>
+</RGBAColorEffect>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_FX_RGBAFX_RGBAColorEffect_properties Properties
+
+RGBAColorEffect has the following 6 configurable properties:
+
+\subsubsection DirectOutput_FX_RGBAFX_RGBAColorEffect_ActiveColor ActiveColor
+
+The active color.
+
+
+
+__Nested Properties__
+
+The following nested propteries exist for ActiveColor:
+* __HexColor__<br/>  6 digit hexadecimal color code with leading  #(e.g. #ff0000 for red).
+
+
+\subsubsection DirectOutput_FX_RGBAFX_RGBAColorEffect_FadeMode FadeMode
+
+Fade (active and inactive color will fade depending on trigger value) or OnOff (actvice color is used for triger values &gt;0, otherwise inactive color will be used).
+
+
+
+The property FadeMode accepts the following values:
+
+* __Fade__: Fading is enabled.
+* __OnOff__: No fading. There will be a simple on/off behaviour depending on the triggering value.
+
+
+\subsubsection DirectOutput_FX_RGBAFX_RGBAColorEffect_InactiveColor InactiveColor
+
+The inactive color.
+
+
+
+__Nested Properties__
+
+The following nested propteries exist for InactiveColor:
+* __HexColor__<br/>  6 digit hexadecimal color code with leading  #(e.g. #ff0000 for red).
+
+
+\subsubsection DirectOutput_FX_RGBAFX_RGBAColorEffect_LayerNr LayerNr
+
+The layer number.
+
+
+
+\subsubsection DirectOutput_FX_RGBAFX_RGBAColorEffect_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_FX_RGBAFX_RGBAColorEffect_ToyName ToyName
+
+The name of the RGBAToy.
 
 
 
@@ -977,17 +1386,11 @@ The animation behaviour defines if a animation should run only once, run in a lo
 
 The property AnimationBehaviour accepts the following values:
 
-* Continue
-* Loop
-* Once
+* __Continue__: The animation continues with the next frame when triggered and is shown in a loop
+* __Loop__: The animation restarts when it is triggered and is shown in a loop
+* __Once__: The animation restarts when it is triggered, is shown once and stops after the last frame
 
-__Valid values__
 
-The property AnimationBehaviour accepts the following values:
-
-* Continue
-* Loop
-* Once
 \subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect_AnimationFrameCount AnimationFrameCount
 
 The number of frames for the whole animation.
@@ -1008,17 +1411,11 @@ The direction in which the effect will step formward through the source image to
 
 The property AnimationStepDirection accepts the following values:
 
-* Down
-* Frame
-* Right
+* __Down__: Animation steps from top to bottom through the source image
+* __Frame__: Animation steps though frames of the source image.
+* __Right__: Animation steps from left to right through the source image
 
-__Valid values__
 
-The property AnimationStepDirection accepts the following values:
-
-* Down
-* Frame
-* Right
 \subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect_AnimationStepSize AnimationStepSize
 
 Thesize of the step in pixels or frames (depending on the \ref AnimationStepDirection) to the next frame of the animation.
@@ -1077,17 +1474,11 @@ The data extract mode which defines how the data is extracted from the source bi
 
 The property DataExtractMode accepts the following values:
 
-* SinglePixelTopLeft
-* SinglePixelCenter
-* BlendPixels
+* __SinglePixelTopLeft__
+* __SinglePixelCenter__
+* __BlendPixels__
 
-__Valid values__
 
-The property DataExtractMode accepts the following values:
-
-* SinglePixelTopLeft
-* SinglePixelCenter
-* BlendPixels
 \subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect_FadeMode FadeMode
 
 Fade (active and inactive values/color will fade depending on trigger value) or OnOff (actvice value/color is used for trigger values &gt;0, otherwise inactive value/color will be used).
@@ -1096,15 +1487,10 @@ Fade (active and inactive values/color will fade depending on trigger value) or 
 
 The property FadeMode accepts the following values:
 
-* Fade
-* OnOff
+* __Fade__: Fading is enabled.
+* __OnOff__: No fading. There will be a simple on/off behaviour depending on the triggering value.
 
-__Valid values__
 
-The property FadeMode accepts the following values:
-
-* Fade
-* OnOff
 \subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect_Height Height
 
 The height in percent of the target area for the effect (0-100).
@@ -1240,17 +1626,11 @@ The data extract mode which defines how the data is extracted from the source bi
 
 The property DataExtractMode accepts the following values:
 
-* SinglePixelTopLeft
-* SinglePixelCenter
-* BlendPixels
+* __SinglePixelTopLeft__
+* __SinglePixelCenter__
+* __BlendPixels__
 
-__Valid values__
 
-The property DataExtractMode accepts the following values:
-
-* SinglePixelTopLeft
-* SinglePixelCenter
-* BlendPixels
 \subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapEffect_FadeMode FadeMode
 
 Fade (active and inactive values/color will fade depending on trigger value) or OnOff (actvice value/color is used for trigger values &gt;0, otherwise inactive value/color will be used).
@@ -1259,15 +1639,10 @@ Fade (active and inactive values/color will fade depending on trigger value) or 
 
 The property FadeMode accepts the following values:
 
-* Fade
-* OnOff
+* __Fade__: Fading is enabled.
+* __OnOff__: No fading. There will be a simple on/off behaviour depending on the triggering value.
 
-__Valid values__
 
-The property FadeMode accepts the following values:
-
-* Fade
-* OnOff
 \subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixBitmapEffect_Height Height
 
 The height in percent of the target area for the effect (0-100).
@@ -1364,15 +1739,10 @@ Fade (active and inactive values/color will fade depending on trigger value) or 
 
 The property FadeMode accepts the following values:
 
-* Fade
-* OnOff
+* __Fade__: Fading is enabled.
+* __OnOff__: No fading. There will be a simple on/off behaviour depending on the triggering value.
 
-__Valid values__
 
-The property FadeMode accepts the following values:
-
-* Fade
-* OnOff
 \subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixColorEffect_Height Height
 
 The height in percent of the target area for the effect (0-100).
@@ -1490,15 +1860,10 @@ Fade (active and inactive values/color will fade depending on trigger value) or 
 
 The property FadeMode accepts the following values:
 
-* Fade
-* OnOff
+* __Fade__: Fading is enabled.
+* __OnOff__: No fading. There will be a simple on/off behaviour depending on the triggering value.
 
-__Valid values__
 
-The property FadeMode accepts the following values:
-
-* Fade
-* OnOff
 \subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixFlickerEffect_Height Height
 
 The height in percent of the target area for the effect (0-100).
@@ -1616,15 +1981,10 @@ Fade (active and inactive values/color will fade depending on trigger value) or 
 
 The property FadeMode accepts the following values:
 
-* Fade
-* OnOff
+* __Fade__: Fading is enabled.
+* __OnOff__: No fading. There will be a simple on/off behaviour depending on the triggering value.
 
-__Valid values__
 
-The property FadeMode accepts the following values:
-
-* Fade
-* OnOff
 \subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixShiftEffect_Height Height
 
 The height in percent of the target area for the effect (0-100).
@@ -1675,19 +2035,12 @@ The shift direction (Left, Right, Up, Down).
 
 The property ShiftDirection accepts the following values:
 
-* Down
-* Left
-* Right
-* Up
+* __Down__: Shift down
+* __Left__: Shift left
+* __Right__: Shift right
+* __Up__: Shift up
 
-__Valid values__
 
-The property ShiftDirection accepts the following values:
-
-* Down
-* Left
-* Right
-* Up
 \subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixShiftEffect_ShiftSpeed ShiftSpeed
 
 The shift speed in percentage of the effect area (Left, Top, Width, Height properties) per second .
@@ -1712,542 +2065,42 @@ The width in percent of the target area for the effect (0-100).
 
 
 
-\section use_DirectOutput_FX_NullFX_NullEffect NullEffect
+\section use_DirectOutput_FX_ConditionFX_TableElementConditionEffect TableElementConditionEffect
 
-\subsection use_DirectOutput_FX_NullFX_NullEffect_summary Summary
+\subsection use_DirectOutput_FX_ConditionFX_TableElementConditionEffect_summary Summary
 
-The NullEffect is a empty effect no doing anything.
-
-
-
-\subsection use_DirectOutput_FX_NullFX_NullEffect_samplexml Sample XML
-
-A configuration section for NullEffect might resemble the following structure:
-
-~~~~~~~~~~~~~{.xml}
-<NullEffect>
-  <Name>Name of NullEffect</Name>
-</NullEffect>
-~~~~~~~~~~~~~
-\subsection use_DirectOutput_FX_NullFX_NullEffect_properties Properties
-
-NullEffect has the following 1 configurable properties:
-
-\subsubsection DirectOutput_FX_NullFX_NullEffect_Name Name
-
-The name of the item.
+This effect evaluates the condition specified in the Condition property.
 
 
 
-\section use_DirectOutput_FX_RGBAFX_RGBAColorEffect RGBAColorEffect
+\subsection use_DirectOutput_FX_ConditionFX_TableElementConditionEffect_samplexml Sample XML
 
-\subsection use_DirectOutput_FX_RGBAFX_RGBAColorEffect_summary Summary
-
-The effects sets the color of a RGBAToy based on the trigger value.
-
-Depending on the setting of the FadeMode property, the effect uses the active or inactive color or a mix of those colors.
-
-
-
-\subsection use_DirectOutput_FX_RGBAFX_RGBAColorEffect_samplexml Sample XML
-
-A configuration section for RGBAColorEffect might resemble the following structure:
+A configuration section for TableElementConditionEffect might resemble the following structure:
 
 ~~~~~~~~~~~~~{.xml}
-<RGBAColorEffect>
-  <Name>Name of RGBAColorEffect</Name>
-  <ToyName>Name of Toy</ToyName>
-  <LayerNr>0</LayerNr>
-  <ActiveColor>
-    <HexColor>#00000000</HexColor>
-  </ActiveColor>
-  <InactiveColor>
-    <HexColor>#00000000</HexColor>
-  </InactiveColor>
-  <FadeMode>Fade</FadeMode>
-</RGBAColorEffect>
-~~~~~~~~~~~~~
-\subsection use_DirectOutput_FX_RGBAFX_RGBAColorEffect_properties Properties
-
-RGBAColorEffect has the following 6 configurable properties:
-
-\subsubsection DirectOutput_FX_RGBAFX_RGBAColorEffect_ActiveColor ActiveColor
-
-The active color.
-
-
-
-__Nested Properties__
-
-The following nested propteries exist for ActiveColor:
-* __HexColor__<br/>  6 digit hexadecimal color code with leading  #(e.g. #ff0000 for red).
-
-
-\subsubsection DirectOutput_FX_RGBAFX_RGBAColorEffect_FadeMode FadeMode
-
-Fade (active and inactive color will fade depending on trigger value) or OnOff (actvice color is used for triger values &gt;0, otherwise inactive color will be used).
-
-
-
-The property FadeMode accepts the following values:
-
-* Fade
-* OnOff
-
-__Valid values__
-
-The property FadeMode accepts the following values:
-
-* Fade
-* OnOff
-\subsubsection DirectOutput_FX_RGBAFX_RGBAColorEffect_InactiveColor InactiveColor
-
-The inactive color.
-
-
-
-__Nested Properties__
-
-The following nested propteries exist for InactiveColor:
-* __HexColor__<br/>  6 digit hexadecimal color code with leading  #(e.g. #ff0000 for red).
-
-
-\subsubsection DirectOutput_FX_RGBAFX_RGBAColorEffect_LayerNr LayerNr
-
-The layer number.
-
-
-
-\subsubsection DirectOutput_FX_RGBAFX_RGBAColorEffect_Name Name
-
-The name of the item.
-
-
-
-\subsubsection DirectOutput_FX_RGBAFX_RGBAColorEffect_ToyName ToyName
-
-The name of the RGBAToy.
-
-
-
-\section use_DirectOutput_FX_TimmedFX_BlinkEffect BlinkEffect
-
-\subsection use_DirectOutput_FX_TimmedFX_BlinkEffect_summary Summary
-
-Blink effect which triggers a TargetEffect at specified intervalls with active (org value of TableElementData used in Trigger method is used to trigger the TargetEffect) and inactive (uses 0 as the Value of the TableElementData to trigger the TargetEffect) values.<br />
-\image html FX_Blink.png "Blink effect"
-
-
-
-\subsection use_DirectOutput_FX_TimmedFX_BlinkEffect_samplexml Sample XML
-
-A configuration section for BlinkEffect might resemble the following structure:
-
-~~~~~~~~~~~~~{.xml}
-<BlinkEffect>
-  <Name>Name of BlinkEffect</Name>
+<TableElementConditionEffect>
+  <Name>Name of TableElementConditionEffect</Name>
   <TargetEffectName>Name of TargetEffect</TargetEffectName>
-  <HighValue>-1</HighValue>
-  <LowValue>0</LowValue>
-  <DurationActiveMs>500</DurationActiveMs>
-  <DurationInactiveMs>500</DurationInactiveMs>
-  <UntriggerBehaviour>Immediate</UntriggerBehaviour>
-</BlinkEffect>
+  <Condition>Condition string</Condition>
+</TableElementConditionEffect>
 ~~~~~~~~~~~~~
-\subsection use_DirectOutput_FX_TimmedFX_BlinkEffect_properties Properties
+\subsection use_DirectOutput_FX_ConditionFX_TableElementConditionEffect_properties Properties
 
-BlinkEffect has the following 7 configurable properties:
+TableElementConditionEffect has the following 3 configurable properties:
 
-\subsubsection DirectOutput_FX_TimmedFX_BlinkEffect_DurationActiveMs DurationActiveMs
+\subsubsection DirectOutput_FX_ConditionFX_TableElementConditionEffect_Condition Condition
 
-The active duration of the blinking in milliseconds.
-
-
-
-\subsubsection DirectOutput_FX_TimmedFX_BlinkEffect_DurationInactiveMs DurationInactiveMs
-
-The inactive duration of the blinking in milliseconds.
+The condition.
 
 
 
-\subsubsection DirectOutput_FX_TimmedFX_BlinkEffect_HighValue HighValue
-
-The high value for the blinking. Values between 0 and 255 define the actual values which have to be output during the on phase of the blinking. A value of -1 defines that the value which has been received by the trigger event is used.
-
-
-
-\subsubsection DirectOutput_FX_TimmedFX_BlinkEffect_LowValue LowValue
-
-The low value for the blinking (0-255).
-
-
-
-\subsubsection DirectOutput_FX_TimmedFX_BlinkEffect_Name Name
+\subsubsection DirectOutput_FX_ConditionFX_TableElementConditionEffect_Name Name
 
 The name of the item.
 
 
 
-\subsubsection DirectOutput_FX_TimmedFX_BlinkEffect_TargetEffectName TargetEffectName
-
-Name of the target effect.<br />
-Triggers EffectNameChanged if value is changed.
-
-
-
-\subsubsection DirectOutput_FX_TimmedFX_BlinkEffect_UntriggerBehaviour UntriggerBehaviour
-
-The untrigger behaviour defines how the blinking stops.
-
-
-
-The property UntriggerBehaviour accepts the following values:
-
-* Immediate
-* CompleteHigh
-
-__Valid values__
-
-The property UntriggerBehaviour accepts the following values:
-
-* Immediate
-* CompleteHigh
-\section use_DirectOutput_FX_TimmedFX_DelayEffect DelayEffect
-
-\subsection use_DirectOutput_FX_TimmedFX_DelayEffect_summary Summary
-
-The effect fires a assigned target effect after a specified delay.<br />
-The original values supplied when the effect is triggered are forwarded to the target effect.<br />
-\image html FX_Delay.png "Delay effect"
-
-
-
-\subsection use_DirectOutput_FX_TimmedFX_DelayEffect_samplexml Sample XML
-
-A configuration section for DelayEffect might resemble the following structure:
-
-~~~~~~~~~~~~~{.xml}
-<DelayEffect>
-  <Name>Name of DelayEffect</Name>
-  <TargetEffectName>Name of TargetEffect</TargetEffectName>
-  <DelayMs>0</DelayMs>
-</DelayEffect>
-~~~~~~~~~~~~~
-\subsection use_DirectOutput_FX_TimmedFX_DelayEffect_properties Properties
-
-DelayEffect has the following 3 configurable properties:
-
-\subsubsection DirectOutput_FX_TimmedFX_DelayEffect_DelayMs DelayMs
-
-The delay in milliseconds.
-
-
-
-\subsubsection DirectOutput_FX_TimmedFX_DelayEffect_Name Name
-
-The name of the item.
-
-
-
-\subsubsection DirectOutput_FX_TimmedFX_DelayEffect_TargetEffectName TargetEffectName
-
-Name of the target effect.<br />
-Triggers EffectNameChanged if value is changed.
-
-
-
-\section use_DirectOutput_FX_TimmedFX_DurationEffect DurationEffect
-
-\subsection use_DirectOutput_FX_TimmedFX_DurationEffect_summary Summary
-
-Duration effect which triggers a specified target effect for a specified duration.<br />
-When this effect is triggered it triggers the target effect immediately with the same data it has received. After the specified duration it calls trigger on the target effect again with data for the same table elmenet, but with the value changed to 0.<br />
-\image html FX_Duration.png "Duration effect"
-
-
-
-\subsection use_DirectOutput_FX_TimmedFX_DurationEffect_samplexml Sample XML
-
-A configuration section for DurationEffect might resemble the following structure:
-
-~~~~~~~~~~~~~{.xml}
-<DurationEffect>
-  <Name>Name of DurationEffect</Name>
-  <TargetEffectName>Name of TargetEffect</TargetEffectName>
-  <RetriggerBehaviour>Restart</RetriggerBehaviour>
-  <DurationMs>500</DurationMs>
-</DurationEffect>
-~~~~~~~~~~~~~
-\subsection use_DirectOutput_FX_TimmedFX_DurationEffect_properties Properties
-
-DurationEffect has the following 4 configurable properties:
-
-\subsubsection DirectOutput_FX_TimmedFX_DurationEffect_DurationMs DurationMs
-
-The effect duration in milliseconds.
-
-
-
-\subsubsection DirectOutput_FX_TimmedFX_DurationEffect_Name Name
-
-The name of the item.
-
-
-
-\subsubsection DirectOutput_FX_TimmedFX_DurationEffect_RetriggerBehaviour RetriggerBehaviour
-
-Valid values are Restart (Restarts the duration) or Ignore (keeps the org duration).
-
-
-
-The property RetriggerBehaviour accepts the following values:
-
-* Restart
-* Ignore
-
-__Valid values__
-
-The property RetriggerBehaviour accepts the following values:
-
-* Restart
-* Ignore
-\subsubsection DirectOutput_FX_TimmedFX_DurationEffect_TargetEffectName TargetEffectName
-
-Name of the target effect.<br />
-Triggers EffectNameChanged if value is changed.
-
-
-
-\section use_DirectOutput_FX_TimmedFX_ExtendDurationEffect ExtendDurationEffect
-
-\subsection use_DirectOutput_FX_TimmedFX_ExtendDurationEffect_summary Summary
-
-The extend duration effect triggers another effect for a duration which is extebnded by the number of milliseconds specified in DurationMs.<br />
-This is done by forwarding triggers calls which are seting the effect to active directly to the target effect and delaying the forwarding of calls which set the effect to inactive by the number of milliseconds specified in DurationMs.<br />
-\image html FX_ExtendDuration.png "ExtendDuration effect"
-
-
-
-\subsection use_DirectOutput_FX_TimmedFX_ExtendDurationEffect_samplexml Sample XML
-
-A configuration section for ExtendDurationEffect might resemble the following structure:
-
-~~~~~~~~~~~~~{.xml}
-<ExtendDurationEffect>
-  <Name>Name of ExtendDurationEffect</Name>
-  <TargetEffectName>Name of TargetEffect</TargetEffectName>
-  <DurationMs>500</DurationMs>
-</ExtendDurationEffect>
-~~~~~~~~~~~~~
-\subsection use_DirectOutput_FX_TimmedFX_ExtendDurationEffect_properties Properties
-
-ExtendDurationEffect has the following 3 configurable properties:
-
-\subsubsection DirectOutput_FX_TimmedFX_ExtendDurationEffect_DurationMs DurationMs
-
-The extended duration in milliseconds.
-
-
-
-\subsubsection DirectOutput_FX_TimmedFX_ExtendDurationEffect_Name Name
-
-The name of the item.
-
-
-
-\subsubsection DirectOutput_FX_TimmedFX_ExtendDurationEffect_TargetEffectName TargetEffectName
-
-Name of the target effect.<br />
-Triggers EffectNameChanged if value is changed.
-
-
-
-\section use_DirectOutput_FX_TimmedFX_FadeEffect FadeEffect
-
-\subsection use_DirectOutput_FX_TimmedFX_FadeEffect_summary Summary
-
-This effect fades towards the value passed to the effect in the TableElementData of the trigger methods.
-It is calling the target effect repeatedly with the changing values.
-
-
-
-\subsection use_DirectOutput_FX_TimmedFX_FadeEffect_samplexml Sample XML
-
-A configuration section for FadeEffect might resemble the following structure:
-
-~~~~~~~~~~~~~{.xml}
-<FadeEffect>
-  <Name>Name of FadeEffect</Name>
-  <TargetEffectName>Name of TargetEffect</TargetEffectName>
-  <FadeUpDuration>300</FadeUpDuration>
-  <FadeDownDuration>300</FadeDownDuration>
-  <FadeDurationMode>CurrentToTarget</FadeDurationMode>
-</FadeEffect>
-~~~~~~~~~~~~~
-\subsection use_DirectOutput_FX_TimmedFX_FadeEffect_properties Properties
-
-FadeEffect has the following 5 configurable properties:
-
-\subsubsection DirectOutput_FX_TimmedFX_FadeEffect_FadeDownDuration FadeDownDuration
-
-The duration for the fading down.
-
-
-
-\subsubsection DirectOutput_FX_TimmedFX_FadeEffect_FadeDurationMode FadeDurationMode
-
-The fade duration mode.<br />
-Depending on the FadeDurationMode the transition from the current to the target value will use one of the duration values directly or use the duration values to determine how long it would take to fade through the whole possible value range and the effective fading duration will depend on the defference between the current and the target value.
-
-
-
-The property FadeDurationMode accepts the following values:
-
-* CurrentToTarget
-* FullValueRange
-
-__Valid values__
-
-The property FadeDurationMode accepts the following values:
-
-* CurrentToTarget
-* FullValueRange
-\subsubsection DirectOutput_FX_TimmedFX_FadeEffect_FadeUpDuration FadeUpDuration
-
-The duration for fading up.
-
-
-
-\subsubsection DirectOutput_FX_TimmedFX_FadeEffect_Name Name
-
-The name of the item.
-
-
-
-\subsubsection DirectOutput_FX_TimmedFX_FadeEffect_TargetEffectName TargetEffectName
-
-Name of the target effect.<br />
-Triggers EffectNameChanged if value is changed.
-
-
-
-\section use_DirectOutput_FX_TimmedFX_MaxDurationEffect MaxDurationEffect
-
-\subsection use_DirectOutput_FX_TimmedFX_MaxDurationEffect_summary Summary
-
-Limits the max duration of the effect to the specified number of milliseconds.
-
-
-
-\subsection use_DirectOutput_FX_TimmedFX_MaxDurationEffect_samplexml Sample XML
-
-A configuration section for MaxDurationEffect might resemble the following structure:
-
-~~~~~~~~~~~~~{.xml}
-<MaxDurationEffect>
-  <Name>Name of MaxDurationEffect</Name>
-  <TargetEffectName>Name of TargetEffect</TargetEffectName>
-  <RetriggerBehaviour>Restart</RetriggerBehaviour>
-  <MaxDurationMs>500</MaxDurationMs>
-</MaxDurationEffect>
-~~~~~~~~~~~~~
-\subsection use_DirectOutput_FX_TimmedFX_MaxDurationEffect_properties Properties
-
-MaxDurationEffect has the following 4 configurable properties:
-
-\subsubsection DirectOutput_FX_TimmedFX_MaxDurationEffect_MaxDurationMs MaxDurationMs
-
-The max effect duration in milliseconds.
-
-
-
-\subsubsection DirectOutput_FX_TimmedFX_MaxDurationEffect_Name Name
-
-The name of the item.
-
-
-
-\subsubsection DirectOutput_FX_TimmedFX_MaxDurationEffect_RetriggerBehaviour RetriggerBehaviour
-
-Valid values are Restart (restarts the minimal duration) or Ignore (keeps the org duration).
-
-
-
-The property RetriggerBehaviour accepts the following values:
-
-* Restart
-* Ignore
-
-__Valid values__
-
-The property RetriggerBehaviour accepts the following values:
-
-* Restart
-* Ignore
-\subsubsection DirectOutput_FX_TimmedFX_MaxDurationEffect_TargetEffectName TargetEffectName
-
-Name of the target effect.<br />
-Triggers EffectNameChanged if value is changed.
-
-
-
-\section use_DirectOutput_FX_TimmedFX_MinDurationEffect MinDurationEffect
-
-\subsection use_DirectOutput_FX_TimmedFX_MinDurationEffect_summary Summary
-
-This effect enforces a minimum duration on the effect calls.<br />
-Calls which are setting a effect to active (having a trigger value which is not equal 0 or null) are forwarded directly to the TargetEffect.<br />
-Calls setting the effect to inactive (having a trigger value of 0) are only forwarded to the TargetEffect after the specified minimum duration has expired.<br />
-\image html FX_MinDuration.png "MinDuration effect"
-
-
-
-\subsection use_DirectOutput_FX_TimmedFX_MinDurationEffect_samplexml Sample XML
-
-A configuration section for MinDurationEffect might resemble the following structure:
-
-~~~~~~~~~~~~~{.xml}
-<MinDurationEffect>
-  <Name>Name of MinDurationEffect</Name>
-  <TargetEffectName>Name of TargetEffect</TargetEffectName>
-  <RetriggerBehaviour>Restart</RetriggerBehaviour>
-  <MinDurationMs>500</MinDurationMs>
-</MinDurationEffect>
-~~~~~~~~~~~~~
-\subsection use_DirectOutput_FX_TimmedFX_MinDurationEffect_properties Properties
-
-MinDurationEffect has the following 4 configurable properties:
-
-\subsubsection DirectOutput_FX_TimmedFX_MinDurationEffect_MinDurationMs MinDurationMs
-
-The minimal effect duration in milliseconds.
-
-
-
-\subsubsection DirectOutput_FX_TimmedFX_MinDurationEffect_Name Name
-
-The name of the item.
-
-
-
-\subsubsection DirectOutput_FX_TimmedFX_MinDurationEffect_RetriggerBehaviour RetriggerBehaviour
-
-Valid values are Restart (restarts the minimal duration) or Ignore (keeps the org duration).
-
-
-
-The property RetriggerBehaviour accepts the following values:
-
-* Restart
-* Ignore
-
-__Valid values__
-
-The property RetriggerBehaviour accepts the following values:
-
-* Restart
-* Ignore
-\subsubsection DirectOutput_FX_TimmedFX_MinDurationEffect_TargetEffectName TargetEffectName
+\subsubsection DirectOutput_FX_ConditionFX_TableElementConditionEffect_TargetEffectName TargetEffectName
 
 Name of the target effect.<br />
 Triggers EffectNameChanged if value is changed.

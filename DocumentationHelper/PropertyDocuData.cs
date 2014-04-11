@@ -82,12 +82,6 @@ namespace DocumentationHelper
                 S += "\n";
             }
 
-            if (!ValidValuesDescription.IsNullOrWhiteSpace())
-            {
-                S += "__Valid values__\n\n";
-                S += ValidValuesDescription + "\n";
-
-            }
 
 
             return S.ToString();
@@ -169,7 +163,20 @@ namespace DocumentationHelper
                 if (PropertyInfo.PropertyType.IsEnum)
                 {
                     S = "The property {0} accepts the following values:\n\n".Build(Name);
-                    S += "* " + string.Join("\n* ", Enum.GetNames(PropertyInfo.PropertyType));
+                    foreach (string N in Enum.GetNames(PropertyInfo.PropertyType))
+                    {
+                        S += "* __" + N + "__";
+
+
+                        string SN = "{0}.{1}.{2}".Build(PropertyInfo.PropertyType.Namespace, PropertyInfo.PropertyType.Name, N);
+                        if (VSXmlDocu.EnumSummary.ContainsKey(SN))
+                        {
+                            S += ": " + VSXmlDocu.EnumSummary[SN].Replace("\n","");
+                        }
+                        
+                        S += "\n";
+                    }
+                
 
 
                 }
