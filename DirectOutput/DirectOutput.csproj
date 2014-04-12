@@ -345,8 +345,6 @@
     <Compile Include="LedControl\Loader\TableConfigSetting.cs" />
     <Compile Include="Table\TableElementData.cs" />
     <Compile Include="Cab\Toys\Hardware\Shaker.cs" />
-    <Compile Include="Scripting\Script.cs" />
-    <Compile Include="Scripting\ScriptList.cs" />
     <Compile Include="FX\AssignedEffectList.cs" />
     <Compile Include="Table\TableElementTypeEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -401,7 +399,6 @@
     <None Include="Properties\DataSources\DirectOutput.GlobalConfig.FilePatternList.datasource" />
     <None Include="Properties\DataSources\DirectOutput.GlobalConfig.GlobalConfigEditor.datasource" />
     <None Include="Properties\DataSources\DirectOutput.GlobalConfig.LedControlIniFileList.datasource" />
-    <None Include="Scripting\Script.cd" />
     <None Include="Table\Table.cd" />
   </ItemGroup>
   <ItemGroup>
