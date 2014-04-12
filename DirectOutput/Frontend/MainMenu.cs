@@ -131,21 +131,7 @@ namespace DirectOutput.Frontend
             CI.Show(this);
         }
 
-        private void ShowLoadedScripts_Click(object sender, EventArgs e)
-        {
-            foreach (Form F in Application.OpenForms)
-            {
-                if (F.GetType() == typeof(ScriptInfo))
-                {
-                    F.BringToFront();
-                    F.Focus();
-                    return;
-                }
-            }
-            ScriptInfo CI = new ScriptInfo(Pinball);
-            CI.StartPosition = FormStartPosition.CenterParent;
-            CI.Show(this);
-        }
+
 
         private void button1_Click(object sender, EventArgs e)
         {

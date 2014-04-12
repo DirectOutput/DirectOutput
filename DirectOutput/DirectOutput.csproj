@@ -75,9 +75,6 @@
     <Reference Include="Ciloci.Flee">
       <HintPath>..\packages\fleesharp.0.9.27-pre\lib\net40\Ciloci.Flee.dll</HintPath>
     </Reference>
-    <Reference Include="CSScriptLibrary">
-      <HintPath>..\..\..\..\Downloads\CSScript\cs-script\cs-script\Lib\Bin\NET 4.0\CSScriptLibrary.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -210,12 +207,6 @@
     </Compile>
     <Compile Include="Frontend\MainMenu.Designer.cs">
       <DependentUpon>MainMenu.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Frontend\ScriptInfo.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Frontend\ScriptInfo.Designer.cs">
-      <DependentUpon>ScriptInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="Frontend\SystemMonitor.cs">
       <SubType>Form</SubType>
@@ -416,9 +407,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Frontend\MainMenu.resx">
       <DependentUpon>MainMenu.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Frontend\ScriptInfo.resx">
-      <DependentUpon>ScriptInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Frontend\SystemMonitor.resx">
       <DependentUpon>SystemMonitor.cs</DependentUpon>

@@ -9,7 +9,7 @@ using DirectOutput.General;
 using DirectOutput.GlobalConfiguration;
 using DirectOutput.LedControl.Loader;
 using DirectOutput.PinballSupport;
-using DirectOutput.Scripting;
+
 using DirectOutput.Table;
 using DirectOutput.General.Statistics;
 
@@ -27,20 +27,6 @@ namespace DirectOutput
 
         public ThreadInfoList ThreadInfoList { get; private set; }
         public TimeSpanStatisticsList TimeSpanStatistics { get; private set; }
-
-
-        private ScriptList _Scripts = new ScriptList();
-        /// <summary>
-        /// Gets the list of loaded scripts.
-        /// </summary>
-        /// <value>
-        /// The list of loaded scripts.
-        /// </value>
-        public ScriptList Scripts
-        {
-            get { return _Scripts; }
-            private set { _Scripts = value; }
-        }
 
 
 
@@ -190,21 +176,6 @@ namespace DirectOutput
 
                 Log.Write("Loading Pinball parts");
 
-
-
-                //Load global script files
-                Log.Write("Loading script files");
-                Scripts.LoadAndAddScripts(GlobalConfig.GetGlobalScriptFiles());
-
-
-
-
-                //Load table script files
-                if (!TableFilename.IsNullOrWhiteSpace())
-                {
-                    Scripts.LoadAndAddScripts(GlobalConfig.GetTableScriptFiles(new FileInfo(TableFilename).FullName));
-                }
-                Log.Write("Script files loaded");
 
 
                 Log.Write("Loading cabinet");
