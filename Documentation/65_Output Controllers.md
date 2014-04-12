@@ -17,9 +17,6 @@ By providing interfaces for the outputcontroller itself (IOutputController) and 
 A list of supported output controllers, including configuration examples and details, can be found on the following page: \ref outputcontrollers_builtin "Built in OutputControllers".
 
 
-\section outputcontrollers_custom Custom output controllers 
-
-The DirectOutput framework allows for the implementation of custom output controllers. This can be done trough scripting (see chapter on scripting) or the classes required for a custom outputcontroller can be integrated in the DirectOutput project. 
 
 \subsection outputcontrollers_interfaces Interfaces for output controllers
 
