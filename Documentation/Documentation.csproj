@@ -38,7 +38,6 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="10_Installation and configuration.md" />
-    <None Include="20_GlobalConfig.md" />
     <None Include="25_CabinetConfig.md" />
     <None Include="27_TableConfig.md" />
     <None Include="30_LedControl Files.md" />
@@ -59,6 +58,7 @@
     <None Include="77_Source Code.md" />
     <None Include="15_Table configuration.md" />
     <None Include="17_Supported Hardware.md" />
+    <None Include="20_GlobalConfig.md" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="html\61_FX_BuiltIn_RGBAMatrixBitmapAnimationVideo.html" />
@@ -67,6 +67,10 @@
     <Content Include="img\B2SServer_Settings.png" />
     <Content Include="img\B2SServer_Settings_ActivatePlugins.png" />
     <Content Include="img\B2SServer_Settings_NoBackglass.png" />
+    <Content Include="img\GlobalConfigEditor_Cabinet.png" />
+    <Content Include="img\GlobalConfigEditor_IniFiles.png" />
+    <Content Include="img\GlobalConfigEditor_Logging.png" />
+    <Content Include="img\GlobalConfigEditor_Menu.png" />
     <Content Include="img\RGBAMatrixBitmapAnimationEffectWave.png" />
     <Content Include="img\CabinetArchitecture.png" />
     <Content Include="img\Config Overview.png" />

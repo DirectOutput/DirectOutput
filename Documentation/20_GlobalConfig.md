@@ -1,144 +1,70 @@
-﻿Global Configuration {#globalconfig}
+﻿Global Configuration {#globalconfig2}
 ====================
 
 \section globalconfig_introduction Introduction
 
-The global configuration of the DirectOutput framework defines which files the system loads for the \ref cabinetconfig "Cabinet" and \ref tableconfig "Table" configuration. In addition the global conguration specifies which C#-script files containing extensions for the framework to load and compile. The global configuration information is valid for the whole framework no matter what cabinet or table config is loaded.
+\note Global config settings have changed for release 2 of the DirectOutput framework. If you are upgrading to the new version, be sure to create a new global config file using the global config editor.
 
-Depending on the interface used to communicate with the framework, different global configuration files are loaded. 
+The global configuration of the DirectOutput framework defines which files the system loads for the Cabinet and Table configuration as well as the options for logging.
+
+Depending on the interface used to communicate with the framework, different global configuration files are loaded.
 
 For the B2S.Server Plugin the configuration file "GlobalConfig_B2SServer.xml" is loaded. The framework is searching for this file in the following locations:
 
-- A directory named -config- withing the directory of the DirectOutput.dll.
-- A shortcut named -config- to a directory. 
+- A directory named _config_ withing the directory of the DirectOutput.dll.
+- A shortcut to a directory withing the directory of the DirectOutput.dll named _config_.
 - Table directory.
 - Directory of the DirectOutput.dll.
 
-\section globalconfig_settings Global configuration file sections
 
-\subsection globalconfig_tablescriptsfilepattern GlobalScriptFilePatterns
+\section globalconfig_editor Global config editor
 
-GlobalScriptsFilePatterns defines the search patterns for global script files. The script files are loaded and compiled before the cabinet and table configs or any other scripts are loaded. 
-This setting supports wildcards (* represents any number of characters, ? represents one character). In addition the following placeholders are supported:
+In the directory where you have installed the DirectOutput framework, you can also find the global configuration editor (GlobalConfigEditor.exe).
 
-* {DllDir} represents the directory of the DirectOutput.dll.
-* {GlobalConfigDir} represents the global config directory.
+This tool allows you to define the settings for the global configuration.
 
-A GlobalScriptsFilePatterns section could contain the following content:
+In the file menu you find the usual commands for loading and saving.
 
-~~~~~~~~~~~~~{.xml}
-<GlobalScriptFilePatterns>
-  <FilePattern>{GlobalConfigDir}\cabinet*.cs</FilePattern>
-</GlobalScriptFilePatterns>
-~~~~~~~~~~~~~
+The editor has several tabs for the different aspects of the gobal config settings.
 
 
-\subsection globalconfig_cabinetconfigfilepattern CabinetConfigFilePatterns
+\subsection globalconfig_inifiles Ini Files tab
 
-CabinetConfigFilePatterns defines the patterns for the \ref cabinetconfig "cabinet configuration file". If the patterns are matching more than one file, only the first matching file is loaded for the cabinet configuration.
+\image html GlobalConfigEditor_IniFiles.png "Ini Files tab"
+
+The ini files table contains the settings for ini files.
+
+Usually DOF will try to find the ini files with the table configurations in one of the following directories:
+
+- Directory of the table file
+- Global config directory
+- Directory where the DirectOutput.dll is located
+
+If you prefer to store your ini files in another directory, you'll have to enter the path to this directory in Ini Files Path textbox.
+
+\subsection globalconfig_cabinetconfig Cabinet Config tab
+
+\image html GlobalConfigEditor_Cabinet.png "Cabinet Config tab"
+
+The cabinet config tab allows you to specify the cabinet config file to be used.
+
+If you use no cabinet config file (not needed if you just use one or several LedWiz, PacDrive or Pacled64 devices) keep this setting empty.
+If you have defined a cabinet config file, specify the name and path of your cabinet config file.
+
 This setting supports wildcards (* represents any number of characters, ? represents one character). In addition the following placeholders are supported:
 
 * {DllDir} represents the directory of the DirectOutput.dll.
 * {GlobalConfigDir} represents the default global config directory.
 
-A typical CabinetConfigFilePattern sections might looks as follows:
+\subsection globalconfig_logging Logging tab
 
-~~~~~~~~~~~~~{.xml}
-<CabinetConfigFilePatterns>
-  <FilePattern>{GlobalConfigDir}\cabinet.xml</FilePattern>
-</CabinetConfigFilePatterns>
-~~~~~~~~~~~~~
+\image html GlobalConfigEditor_Logging.png "Logging tab"
 
-\subsection globalconfig_cabinetscriptsfilepattern CabinetScriptsFilePattern
+DOF can write a log file in which information about the initialization and operation of the framework is recorded.
 
-CabinetScriptsFilePattern defines the search patterns for cabinet script files. The script files are loaded an compiled before the cabinet config is loaded. This settings supports the same wildcards and placeholders as the _CabinetConfigFilePatterns_ setting.
+This tab allows you to turn on and off the logging, specify the name and path for your log file and whether you want to discard the logfile for every session (good to keep the log file small).
 
-A CabinetScriptsFilePattern section could contain the following content:
-
-~~~~~~~~~~~~~{.xml}
-<CabinetScriptFilePatterns>
-  <FilePattern>{GlobalConfigDir}\cabinet*.cs</FilePattern>
-</CabinetScriptFilePatterns>
-~~~~~~~~~~~~~
-
-
-\subsection globalconfig_tableconfigfilepatterns TableConfigFilePatterns
-
-TableConfigFilePatterns define the search patterns which are used to lookup the table configuration file. If more than one file matches the search patterns, only the first matching file is loaded for the table configuration.
-This setting supports wildcards (* represents any number of characters, ? represents one character). In addition the following placeholders are supported:
-
-* {TableDir} represents the full path to the directory of the table.
-* {TableDirName} represents the name of the table directory (last part of {TableDir}).
-* {TableName} represents the name of the table without extensions.
-* {DllDir} represents the directory of the DirectOutput.dll.
-* {GlobalConfigDir} represents the default global config directory.
-
-A typical TableConfigFilePattern section looks as follows:
-
-~~~~~~~~~~~~~{.xml}
-<TableScriptFilePatterns>
-  <FilePattern>{GlobalConfigDir}\\{TableName}.xml</FilePattern>
-</TableScripsFilePatterns>
-~~~~~~~~~~~~~
-
-
-\subsection globalconfig_tablescriptsfilepattern TableScriptFilePatterns
-
-TableScriptsFilePatterns define the search patterns for table specific script files. The script files are loaded and compiled before the table config is loaded. This settings supports the same wildcards and placeholders as the _TableConfigFilePatterns_ setting.
-
-A typical TableScriptsFilePattern section might looks as follows:
-
-~~~~~~~~~~~~~{.xml}
-<TableScriptFilePatterns>
-  <FilePattern>{GlobalConfigDir}\\{TableName}*.cs</FilePattern>
-</TableScriptFilePatterns>
-~~~~~~~~~~~~~
-
-\subsubsection globalconfig_ledcontrol LedControl options
-
-\subsubsection globalconfig_ledcontrolinifiles LedControlIniFiles
-
-LedControlIniFiles holds the paths to LedControl.ini files as well as the LedWiz number assiociated with the ledcontrol.ini files. LedControl.ini files can be used as a fallback solution if no cabinet and/or cabinet config is loaded. The LedControlIniFiles section can contain up to 16 LedControlIniFile sections.
-
-A LedControlIniFile section defines a single LedControl.ini file and the associated LedWiz number.
-
-* _FileName_ contains the full filename of the LedControl.ini file.
-* _LedWizNumber_ contains the LedWiz number associated with the file defined in _FileName_.
-
-Please read the chapter \ref ledcontrolfiles for more information on this topic.
-
-A typical LedControlIniFiles section looks as follows:
-
-~~~~~~~~~~~~~{.xml}
-  <LedControlIniFiles>
-    <LedControlIniFile>
-      <Filename>c:\Ledcontrol\LedControl.ini</Filename>
-      <LedWizNumber>1</LedWizNumber>
-    </LedControlIniFile>
-  </LedControlIniFiles>
-~~~~~~~~~~~~~
-
-\subsubsection globalconfig_ledcontrolsettings LedControl settings
-
-In addition to the LedControl.ini files you can specify a few more options for LedControl use:
-
-* _LedControlMinimumEffectDurationMs_ specifies the minimum duration for LedControl effects which control only one output (e.g. contactors, start button light).  
-* _LedControlMinimumRGBEffectDurationMs_ specifies the minimum duration for LedControl effects control RGBleds. 
-
-Both settings have no effect if the effect setting in the LedControl file specifies a duration.
-
-Under normal circumstances these settings look like this:
-
-~~~~~~~~~~~~~{.xml}
-  <LedControlMinimumEffectDurationMs>60</LedControlMinimumEffectDurationMs>
-  <LedControlMinimumRGBEffectDurationMs>120</LedControlMinimumRGBEffectDurationMs>
-~~~~~~~~~~~~~
-
-\subsection globalconfig_logging Logging
-
-EnableLogging does whats its name says. It enables log output to the file specified in the LogFilePattern.
-
-The LogFilePattern can defines a filename for the log file and can include the following placeholders:
+The following placeholders can be used in the path and filename for the logfile:
 
 * {DllDir} represents the directory of the DirectOutput.dll.
 * {GlobalConfigDir} represents the default global config directory.
@@ -150,57 +76,21 @@ The LogFilePattern can defines a filename for the log file and can include the f
 * {Date} is the current date in the following form: yyyymmdd.
 * {Time} is the current time in the following form: hhmmss
 
-Typical entries for the loggin configuration might look as follows:
+\section globalconfig_fileformat File format
 
-~~~~~~~~~~~~~{.xml}
-  <EnableLogging>true</EnableLogging>
-  <LogFilePattern>.\{TableName}_{DateTime}.log</LogFilePattern>
-~~~~~~~~~~~~~
-
-\section globalconfig_example Example
-
+Global config files are save in xml format. A typical global config file might looks like this:
 
 ~~~~~~~~~~~~~{.xml}
 <?xml version="1.0" encoding="utf-8"?>
-<!--Global configuration for the DirectOutput framework-->
+<!--Global configuration for the DirectOutput framework.-->
+<!--Saved by DirectOutput Version 0.6.5218.23775: 2014-04-15 14-32-46-->
 <GlobalConfig>
   <LedControlMinimumEffectDurationMs>60</LedControlMinimumEffectDurationMs>
   <LedControlMinimumRGBEffectDurationMs>120</LedControlMinimumRGBEffectDurationMs>
-  <LedControlIniFiles>
-    <LedControlIniFile>
-      <Filename>c:\Ledcontrol\LedControl.ini</Filename>
-      <LedWizNumber>1</LedWizNumber>
-    <LedControlIniFile>
-      <Filename>c:\Ledcontrol\LedControl2.ini</Filename>
-      <LedWizNumber>2</LedWizNumber>
-    </LedControlIniFile>
-  </LedControlIniFiles>
-  
-  <CabinetConfigFilePatterns>
-    <FilePattern>{GlobalConfigDir}\cabinet.xml</FilePattern>
-  </CabinetConfigFilePatterns>
-  
-  <CabinetScriptFilePatterns>
-    <FilePattern>{GlobalConfigDir}\cabinet*.cs</FilePattern>
-  </CabinetScriptFilePatterns>
-  
-  <TableScriptFilePatterns>
-    <FilePattern>{GlobalConfigDir}\\{TableName}*.cs</FilePattern>
-  </TableScriptFilePatterns>
-  
-  <TableConfigFilePatterns>
-    <FilePattern>{GlobalConfigDir}\\{TableName}.xml</FilePattern>
-  </TableConfigFilePatterns>
-  
-  <GlobalScriptFilePatterns>
-    <FilePattern>{GlobalConfigDir}\cabinet*.cs</FilePattern>
-  </GlobalScriptFilePatterns>
-
-  
-  <EnableLogging>false</EnableLogging>
-  <LogFilePattern>.\DirectOutput.log</LogFilePattern>
-
+  <IniFilesPath>{DllDir}\config</IniFilesPath>
+  <CabinetConfigFilePattern>{DllDir}\config\cabinet.xml</CabinetConfigFilePattern>
+  <EnableLogging>true</EnableLogging>
+  <ClearLogOnSessionStart>false</ClearLogOnSessionStart>
+  <LogFilePattern>{DllDir}\DirectOutput.log</LogFilePattern>
 </GlobalConfig>
-
 ~~~~~~~~~~~~~
-
