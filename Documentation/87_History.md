@@ -1,11 +1,14 @@
 ﻿History  {#History}
 ========
 
+__2013.4__
 
-
-
-\section history History
-
+- More matrix effects added.
+- Grouping/matrix toys added for rgb and single channel toys.
+- More ini file config options.
+- Global config changed.
+- Global config editor created .
+- Some bugs squashed.
 
 __2014.3__
 
