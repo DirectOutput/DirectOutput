@@ -41,7 +41,7 @@ namespace DirectOutput
         public Table.Table Table
         {
             get { return _Table; }
-             set { _Table = value; }
+            set { _Table = value; }
         }
         private Cabinet _Cabinet = new Cabinet();
 
@@ -54,7 +54,7 @@ namespace DirectOutput
         public Cabinet Cabinet
         {
             get { return _Cabinet; }
-             set { _Cabinet = value; }
+            set { _Cabinet = value; }
         }
 
 
@@ -139,6 +139,19 @@ namespace DirectOutput
 
             if (GlobalConfig.EnableLogging)
             {
+                if (GlobalConfig.ClearLogOnSessionStart)
+                {
+                    try
+                    {
+
+                        FileInfo LF = new FileInfo(GlobalConfig.GetLogFilename((!TableFilename.IsNullOrWhiteSpace() ? new FileInfo(TableFilename).FullName : ""), RomName));
+                        if (LF.Exists)
+                        {
+                            LF.Delete();
+                        }
+                    }
+                    catch { }
+                }
                 try
                 {
 
@@ -184,31 +197,38 @@ namespace DirectOutput
                 FileInfo CCF = GlobalConfig.GetCabinetConfigFile();
                 if (CCF != null)
                 {
-                    Log.Write("Will load cabinet config file: {0}".Build(CCF.FullName));
-                    try
+                    if (CCF.Exists)
                     {
-                        Cabinet = Cabinet.GetCabinetFromConfigXmlFile(CCF);
-                        Cabinet.CabinetConfigurationFilename = CCF.FullName;
-                        if (Cabinet.AutoConfigEnabled)
+                        Log.Write("Will load cabinet config file: {0}".Build(CCF.FullName));
+                        try
                         {
-                            Log.Write("Cabinet config file has AutoConfig feature enabled. Calling AutoConfig.");
-                            try
+                            Cabinet = Cabinet.GetCabinetFromConfigXmlFile(CCF);
+                            Cabinet.CabinetConfigurationFilename = CCF.FullName;
+                            if (Cabinet.AutoConfigEnabled)
                             {
-                                Cabinet.AutoConfig();
+                                Log.Write("Cabinet config file has AutoConfig feature enabled. Calling AutoConfig.");
+                                try
+                                {
+                                    Cabinet.AutoConfig();
+                                }
+                                catch (Exception E)
+                                {
+                                    Log.Exception("A eception occured during cabinet auto configuration", E);
+                                }
+                                Log.Write("Autoconfig complete.");
                             }
-                            catch (Exception E)
-                            {
-                                Log.Exception("A eception occured during cabinet auto configuration", E);
-                            }
-                            Log.Write("Autoconfig complete.");
-                            }
-                        Log.Write("Cabinet config loaded successfully from {0}".Build(CCF.FullName));
+                            Log.Write("Cabinet config loaded successfully from {0}".Build(CCF.FullName));
+                        }
+                        catch (Exception E)
+                        {
+                            Log.Exception("A exception occured when loading cabinet config file: {0}".Build(CCF.FullName), E);
+
+
+                        }
                     }
-                    catch (Exception E)
+                    else
                     {
-                        Log.Exception("A exception occured when loading cabinet config file: {0}".Build(CCF.FullName), E);
-
-
+                        Log.Warning("Cabinet config file {0} does not exist.".Build(CCF.FullName));
                     }
                 }
                 if (Cabinet == null)
@@ -270,16 +290,16 @@ namespace DirectOutput
 
 
                         LedControlConfigList L = new LedControlConfigList();
-                        if (LedControlIniFiles.Count>0)
-                            {
-                                L.LoadLedControlFiles(LedControlIniFiles, false);
-                                Log.Write("{0} directoutputconfig.ini or ledcontrol.ini files loaded.".Build(LedControlIniFiles.Count));
-                            }
-                            else
-                            {
-                                Log.Write("No directoutputconfig.ini or ledcontrol.ini files found.");
-                            }
-                        
+                        if (LedControlIniFiles.Count > 0)
+                        {
+                            L.LoadLedControlFiles(LedControlIniFiles, false);
+                            Log.Write("{0} directoutputconfig.ini or ledcontrol.ini files loaded.".Build(LedControlIniFiles.Count));
+                        }
+                        else
+                        {
+                            Log.Write("No directoutputconfig.ini or ledcontrol.ini files found.");
+                        }
+
                         if (!L.ContainsConfig(RomName))
                         {
                             Log.Write("No config for table found in LedControl data for RomName {0}.".Build(RomName));
@@ -680,9 +700,9 @@ namespace DirectOutput
         /// <param name="Value">The value of the TableElement.</param>
         public void ReceiveData(char TableElementTypeChar, int Number, int Value)
         {
-                InputQueue.Enqueue(TableElementTypeChar, Number, Value);
-                MainThreadSignal();
-                ThreadInfoList.HeartBeat("Data delivery");
+            InputQueue.Enqueue(TableElementTypeChar, Number, Value);
+            MainThreadSignal();
+            ThreadInfoList.HeartBeat("Data delivery");
 
         }
 

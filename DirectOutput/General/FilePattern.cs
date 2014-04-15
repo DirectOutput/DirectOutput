@@ -68,7 +68,7 @@ namespace DirectOutput.General
 
         #endregion
 
-        private string _Pattern;
+        private string _Pattern="";
 
         /// <summary>
         /// Gets or sets the pattern used to look for files.

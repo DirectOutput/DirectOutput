@@ -17,6 +17,8 @@ namespace DirectOutput.GlobalConfiguration
     public class GlobalConfig
     {
 
+        
+
         #region IniFiles
 
 
@@ -54,7 +56,7 @@ namespace DirectOutput.GlobalConfiguration
 
 
 
-        private string _IniFilesPath;
+        private string _IniFilesPath="";
 
         /// <summary>
         /// Gets or sets the path to the ini files used for table configurations
@@ -191,20 +193,23 @@ namespace DirectOutput.GlobalConfiguration
         #region Cabinet
 
         #region Cabinet config file
-        private FilePatternList _CabinetConfigFilePatterns = new FilePatternList();
 
+
+        private FilePattern _CabinetConfigFilePattern=new FilePattern();
 
         /// <summary>
-        /// Gets or sets the cabinet config file pattern.
+        /// Gets or sets the path and name of the cabinet config file.
         /// </summary>
         /// <value>
-        /// The cabinet config file pattern.
+        /// The path and name of the cabinet config file.
         /// </value>
-        public FilePatternList CabinetConfigFilePatterns
+        public FilePattern CabinetConfigFilePattern
         {
-            get { return _CabinetConfigFilePatterns; }
-            set { _CabinetConfigFilePatterns = value; }
+            get { return _CabinetConfigFilePattern; }
+            set { _CabinetConfigFilePattern = value; }
         }
+        
+
 
 
         /// <summary>
@@ -213,10 +218,11 @@ namespace DirectOutput.GlobalConfiguration
         /// <returns>FileInfo object for the file containing the configuration of the cabinet or null if no file has been specified.</returns>
         public FileInfo GetCabinetConfigFile()
         {
-            if (CabinetConfigFilePatterns != null)
+            if (!CabinetConfigFilePattern.Pattern.IsNullOrWhiteSpace() && CabinetConfigFilePattern.IsValid)
             {
-                return CabinetConfigFilePatterns.GetFirstMatchingFile(GetReplaceValuesDictionary());
+                return CabinetConfigFilePattern.GetFirstMatchingFile(GetReplaceValuesDictionary());
             }
+   
             return null;
         }
 
@@ -296,6 +302,23 @@ namespace DirectOutput.GlobalConfiguration
             get { return _EnableLog; }
             set { _EnableLog = value; }
         }
+
+        private bool _ClearLogOnSessionStart=false;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether DOF clears the log file on session start.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if DOF should clear the log file on session start; otherwise, <c>false</c>.
+        /// </value>
+        public bool ClearLogOnSessionStart
+        {
+            get { return _ClearLogOnSessionStart; }
+            set { _ClearLogOnSessionStart = value; }
+        }
+        
+
+
 
         private FilePattern _LogFilePattern = new FilePattern(".\\DirectOutput.log");
 
