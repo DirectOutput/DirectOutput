@@ -115,21 +115,6 @@ namespace DirectOutput.Frontend
             CI.Show(this);
         }
 
-        private void EditGlobalConfiguration_Click(object sender, EventArgs e)
-        {
-            foreach (Form F in Application.OpenForms)
-            {
-                if (F.GetType() == typeof(GlobalConfigEdit))
-                {
-                    F.BringToFront();
-                    F.Focus();
-                    return;
-                }
-            }
-            GlobalConfigEdit CI = new GlobalConfigEdit();
-            CI.StartPosition = FormStartPosition.CenterParent;
-            CI.Show(this);
-        }
 
 
 

@@ -40,7 +40,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.EditGlobalConfiguration = new System.Windows.Forms.Button();
             this.TableName = new System.Windows.Forms.TextBox();
             this.TableFilename = new System.Windows.Forms.TextBox();
             this.TableRomname = new System.Windows.Forms.TextBox();
@@ -159,16 +158,6 @@
             this.label7.TabIndex = 10;
             this.label7.Text = "Global configuration file:";
             // 
-            // EditGlobalConfiguration
-            // 
-            this.EditGlobalConfiguration.Location = new System.Drawing.Point(15, 387);
-            this.EditGlobalConfiguration.Name = "EditGlobalConfiguration";
-            this.EditGlobalConfiguration.Size = new System.Drawing.Size(157, 23);
-            this.EditGlobalConfiguration.TabIndex = 11;
-            this.EditGlobalConfiguration.Text = "Edit global configuration";
-            this.EditGlobalConfiguration.UseVisualStyleBackColor = true;
-            this.EditGlobalConfiguration.Click += new System.EventHandler(this.EditGlobalConfiguration_Click);
-            // 
             // TableName
             // 
             this.TableName.Location = new System.Drawing.Point(148, 211);
@@ -282,7 +271,6 @@
             this.Controls.Add(this.TableRomname);
             this.Controls.Add(this.TableFilename);
             this.Controls.Add(this.TableName);
-            this.Controls.Add(this.EditGlobalConfiguration);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -319,7 +307,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Button EditGlobalConfiguration;
         private System.Windows.Forms.TextBox TableName;
         private System.Windows.Forms.TextBox TableFilename;
         private System.Windows.Forms.TextBox TableRomname;
