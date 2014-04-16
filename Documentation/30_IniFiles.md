@@ -13,7 +13,7 @@ If you dont have a directoutputconfig.ini file for your cabinet, it is best if y
 
 LedControl.ini files which worked for the legacy ledcontrol.vbs solution are working in DOF too and will generally create the same effects as the ledcontrol.vbs, but you might notice some small differences since the timing implementation of DOF is completely different from the old solution (DOF is much, much faster).
 
-section inifiles_howitworks How it works
+\section inifiles_howitworks How it works
 
 Since both types of supported ini files, do only specify the effects which are to be applied on certain outputs, but contain no information on the toys to be used, the DirectOutput framework uses a special type of toy to map the output definitions in the ini files to outputs resp. to the connected toys. 
 This special type of toy is called LedWizEquivalent. It is basically a list of outputs, which typically all belong to the same output controller, and a number specifying the number of the ini file to be applied to the LedWizEquivalent toy. If necessary it is also possible to mix outputs of several output controllers in one LedwizEquivalent toy.
@@ -23,9 +23,8 @@ When configurations from ini files are to be used, the framework is matching the
 Once the toy to be used have been determined the DirectOutput framework will setup the effects for those toys based on the settings found in the columns of the ini file. Deppending on the settings one or several effects are used to create the desired results. Please read the paragraph on \ref inifiles_triggerpara "Setting parameters" and the page on \ref fx "Effects"  for more information.
 
 
-\section inifiles_configloading Configuration loading
 
-\subsection inifiles_directories File locations
+\section inifiles_directories File locations
 
 DOF will try to locate ini files in the following locations:
 
@@ -40,7 +39,7 @@ DOF will check each of these directories for ini files containing configurations
 * __ledcontrol.ini__ resp. __ledcontrol{Number}.ini__ are the names the framework is looking for if no files named _directoutputconfig.ini__ can be found.
 
 
-\subsection inifiles_autoconfignumbering LedControl file numbering
+\section inifiles_filenumbering LedControl file numbering
 
 Some types of output controllers support automatic discovery and configuration (e.g. LedWiz, PacLed64 and PacDrive). For those output controllers it is not necessary to have a cabinet config file and/or LedWizEquivalent toys configured.
 
