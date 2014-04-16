@@ -58,11 +58,17 @@
             this.SelectLogFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.SaveGlobalConfigDialog = new System.Windows.Forms.SaveFileDialog();
             this.OpenGlobalConfigDialog = new System.Windows.Forms.OpenFileDialog();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.Menu.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.SuspendLayout();
             // 
             // Menu
@@ -137,6 +143,7 @@
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.Transparent;
+            this.tabPage1.Controls.Add(this.pictureBox1);
             this.tabPage1.Controls.Add(this.label3);
             this.tabPage1.Controls.Add(this.SelectIniFilePathButton);
             this.tabPage1.Controls.Add(this.label1);
@@ -154,14 +161,14 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.Location = new System.Drawing.Point(8, 3);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(562, 95);
+            this.label3.Size = new System.Drawing.Size(417, 143);
             this.label3.TabIndex = 3;
             this.label3.Text = resources.GetString("label3.Text");
             // 
             // SelectIniFilePathButton
             // 
             this.SelectIniFilePathButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.SelectIniFilePathButton.Location = new System.Drawing.Point(449, 99);
+            this.SelectIniFilePathButton.Location = new System.Drawing.Point(449, 147);
             this.SelectIniFilePathButton.Name = "SelectIniFilePathButton";
             this.SelectIniFilePathButton.Size = new System.Drawing.Size(121, 23);
             this.SelectIniFilePathButton.TabIndex = 2;
@@ -172,7 +179,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(8, 104);
+            this.label1.Location = new System.Drawing.Point(8, 152);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(70, 13);
             this.label1.TabIndex = 1;
@@ -182,7 +189,7 @@
             // 
             this.IniFilesPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.IniFilesPath.Location = new System.Drawing.Point(75, 101);
+            this.IniFilesPath.Location = new System.Drawing.Point(75, 149);
             this.IniFilesPath.Name = "IniFilesPath";
             this.IniFilesPath.Size = new System.Drawing.Size(368, 20);
             this.IniFilesPath.TabIndex = 0;
@@ -190,6 +197,7 @@
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.Color.Transparent;
+            this.tabPage2.Controls.Add(this.pictureBox2);
             this.tabPage2.Controls.Add(this.SelectCabinetConfigFileButton);
             this.tabPage2.Controls.Add(this.label5);
             this.tabPage2.Controls.Add(this.CabinetFilename);
@@ -203,7 +211,7 @@
             // SelectCabinetConfigFileButton
             // 
             this.SelectCabinetConfigFileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.SelectCabinetConfigFileButton.Location = new System.Drawing.Point(501, 17);
+            this.SelectCabinetConfigFileButton.Location = new System.Drawing.Point(502, 72);
             this.SelectCabinetConfigFileButton.Name = "SelectCabinetConfigFileButton";
             this.SelectCabinetConfigFileButton.Size = new System.Drawing.Size(69, 23);
             this.SelectCabinetConfigFileButton.TabIndex = 8;
@@ -214,7 +222,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 22);
+            this.label5.Location = new System.Drawing.Point(7, 77);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(94, 13);
             this.label5.TabIndex = 7;
@@ -224,7 +232,7 @@
             // 
             this.CabinetFilename.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.CabinetFilename.Location = new System.Drawing.Point(99, 19);
+            this.CabinetFilename.Location = new System.Drawing.Point(100, 74);
             this.CabinetFilename.Name = "CabinetFilename";
             this.CabinetFilename.Size = new System.Drawing.Size(396, 20);
             this.CabinetFilename.TabIndex = 6;
@@ -232,6 +240,7 @@
             // tabPage3
             // 
             this.tabPage3.BackColor = System.Drawing.Color.Transparent;
+            this.tabPage3.Controls.Add(this.pictureBox3);
             this.tabPage3.Controls.Add(this.label4);
             this.tabPage3.Controls.Add(this.ClearLogOnSessionStart);
             this.tabPage3.Controls.Add(this.LoggingEnabled);
@@ -249,7 +258,7 @@
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label4.Location = new System.Drawing.Point(12, 102);
+            this.label4.Location = new System.Drawing.Point(12, 123);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(556, 40);
             this.label4.TabIndex = 8;
@@ -259,7 +268,7 @@
             // ClearLogOnSessionStart
             // 
             this.ClearLogOnSessionStart.AutoSize = true;
-            this.ClearLogOnSessionStart.Location = new System.Drawing.Point(12, 82);
+            this.ClearLogOnSessionStart.Location = new System.Drawing.Point(12, 103);
             this.ClearLogOnSessionStart.Name = "ClearLogOnSessionStart";
             this.ClearLogOnSessionStart.Size = new System.Drawing.Size(143, 17);
             this.ClearLogOnSessionStart.TabIndex = 7;
@@ -279,7 +288,7 @@
             // SelectLogFileButton
             // 
             this.SelectLogFileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.SelectLogFileButton.Location = new System.Drawing.Point(452, 39);
+            this.SelectLogFileButton.Location = new System.Drawing.Point(452, 60);
             this.SelectLogFileButton.Name = "SelectLogFileButton";
             this.SelectLogFileButton.Size = new System.Drawing.Size(121, 23);
             this.SelectLogFileButton.TabIndex = 5;
@@ -290,7 +299,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(9, 44);
+            this.label2.Location = new System.Drawing.Point(9, 65);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(47, 13);
             this.label2.TabIndex = 4;
@@ -300,7 +309,7 @@
             // 
             this.LogFilename.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.LogFilename.Location = new System.Drawing.Point(76, 41);
+            this.LogFilename.Location = new System.Drawing.Point(76, 62);
             this.LogFilename.Name = "LogFilename";
             this.LogFilename.Size = new System.Drawing.Size(368, 20);
             this.LogFilename.TabIndex = 3;
@@ -336,6 +345,39 @@
     "l|All files (*.*)|*.*";
             this.OpenGlobalConfigDialog.Title = "Select the global config file to open";
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(431, 6);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(139, 45);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 6;
+            this.pictureBox1.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox2.Location = new System.Drawing.Point(431, 6);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(139, 45);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox2.TabIndex = 9;
+            this.pictureBox2.TabStop = false;
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
+            this.pictureBox3.Location = new System.Drawing.Point(431, 6);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(139, 45);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox3.TabIndex = 9;
+            this.pictureBox3.TabStop = false;
+            // 
             // GlobalConfigEdit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -359,6 +401,9 @@
             this.tabPage2.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -395,6 +440,9 @@
         private System.Windows.Forms.SaveFileDialog SelectLogFileDialog;
         private System.Windows.Forms.SaveFileDialog SaveGlobalConfigDialog;
         private System.Windows.Forms.OpenFileDialog OpenGlobalConfigDialog;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.PictureBox pictureBox3;
     }
 }
 
