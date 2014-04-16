@@ -25,7 +25,7 @@ Once the toy to be used have been determined the DirectOutput framework will set
 
 \section inifiles_configloading Configuration loading
 
-\subsubsection inifiles_directories File locations
+\subsection inifiles_directories File locations
 
 DOF will try to locate ini files in the following locations:
 
@@ -40,7 +40,7 @@ DOF will check each of these directories for ini files containing configurations
 * __ledcontrol.ini__ resp. __ledcontrol{Number}.ini__ are the names the framework is looking for if no files named _directoutputconfig.ini__ can be found.
 
 
-\subsubsection inifiles_autoconfignumbering LedControl file numbering
+\subsection inifiles_autoconfignumbering LedControl file numbering
 
 Some types of output controllers support automatic discovery and configuration (e.g. LedWiz, PacLed64 and PacDrive). For those output controllers it is not necessary to have a cabinet config file and/or LedWizEquivalent toys configured.
 
@@ -67,7 +67,7 @@ The ini files are  quite hard to edit manually. Therefore the best option to get
 
 \image html LedWizConfigTool.jpg LedWiz ConfigTool 
 
-\subsection inifiles_settingscolors Colors Section
+\section inifiles_settingscolors Colors Section
 
 The first section in a directoutputconfig.ini file is the Colors section. It starts with the header [Colors_DOF] and a empty line following the header. After the header one or several colors are specified by a name and the brighness of 3 color components (red, green, blue) or 4 color components (red, green, blue, alpha). The values of the components have a range of 0 (off resp. fully transparent for alpha) to 48 (max brightness resp. fully opaque for alpha). For color specifications without a alpha component, alpha will be set to 0 (transparent) if all components are set to 0 (resulting in black). All other definitions will have a alpha value of 255 (fully opaque).
 In addition it is also possible to specify the value for the 3 or 4 color components as hexvalues with a leading # (like color definition for html). When using hex values, the value range is 0-255 resp. 00 to FF in hexcode (e.g. #ff0000 is red or #00ff0080 is semitransparent blue).
@@ -138,13 +138,13 @@ The second and following parts of a setting can contain one or several of the fo
 * __NoBool__ indicates that the trigger value off the effect is not to be treated as a boolean value resp. that the daufault mapping of the value to 0 or 255 (255 for all values which are not 0) should not take place. The number can either be specified as a decmal number between 0 and 48 (e.g. BL3) or as a hexadecimal number between 00 and FF with a leading # (e.g. BL#30).
 * __Numeric Values__ without any extra character can be used to specify the duration of the effect or the blinking behaviour. If blinking has been defined, one or two numeric values are parsed. Value 1 controls the blink interval in milliseconds, while value 2 defines the number of blinks. If no blinking has been defined, only one numeric values which is used to defined the duration of the effect in milliseconds is parsed.
 
-\section inifiles_matrix Matrix/area effects
+\section inifiles_matrix Matrix/area effect parameters
 
 For adressable ledstrips and other toys which implement the IMatrixToy interface the following extra parameters can be used to control the hardware referenced by the matrix. For settings controlling a matrix you have to use at least one of these paras, so DOF realizes that a matrix/area is to be controlled.
 
 The matrix effects and parameters can be combined with the general paras mentioned above.
 
-\subsection inifiles_matrixeffectpara _General Matrix Paras
+\subsection inifiles_matrixeffectpara General Matrix Paras
 
 The following 4 paramaters are specifying the area of a matrix which is to be influenced by a matrix effect:
 * __AL{LeftPosition}__ defines the left of the upper left corner of the area of the matrix which is to be controlled by the effect. Position is expressed in percent of the matrix width (0-100).
@@ -176,7 +176,7 @@ If you specify a bitmap effect by using one of the following parameters, DOF wil
 * __ABH{HeightInPixels}__ specifies the height of the part of the bitmap to be displayed. Defaults to the total height of the image if not specified.
 * __ABF{FrameNumber}__ indicates the frame of the image to be displayed. This setting is only relevant if you use animated gif images. Defaults to the first frame of the animated gif if not specified.
 
-\subsubsection inifiles_bitmapanimationpara Bitmap Animation Paras
+\subsection inifiles_bitmapanimationpara Bitmap Animation Paras
 The following extra paras can be used in addition to the bitmap paras to animate the bitmap display on the matrix:
 * __AAC{CountOfFrames}__ specifies the total number of frames of the animation.
 * __AAF{FramesPerSecond}__ specifies the number of frames per second. 
