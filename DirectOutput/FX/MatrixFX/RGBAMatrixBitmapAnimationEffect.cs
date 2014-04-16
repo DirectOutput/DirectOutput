@@ -18,9 +18,21 @@ namespace DirectOutput.FX.MatrixFX
     /// 
     /// \htmlinclude 61_FX_BuiltIn_RGBAMatrixBitmapAnimationVideo.html
     /// 
-    /// \image html RGBAMatrixBitmapAnimationEffectWave.png Source Image
+    /// \image html RGBAMatrixBitmapAnimationEffectExample.png 
+    /// The image above shows what DOF does for the following settings: 
     /// 
-    /// In this example DOF extracts a area of 10x100pixels for every frame of the animation. For every frame of the animation it steps 3 pixels to the right, so we slowly progress through the whole image.
+    /// * AnimationStepDirection: Down
+    /// * AnimationStepSize:5
+    /// * AnimationFrameCount:116
+    /// * AnimationBehaviour:Loop
+    /// * AnimationFrameDurationMs:30
+    /// * BitmapTop:10
+    /// * BitmapLeft:0
+    /// * BitmapWidth:100
+    /// * BitmapHeight:20
+    /// * DataExtractMode:BlendPixels
+    /// 
+    /// In this example DOF extracts a area of 20x100pixels for every frame of the animation. For every frame of the animation it steps 5 pixels down, so we slowly progress through the whole image.
     ///  
     /// </summary>
     public class RGBAMatrixBitmapAnimationEffect : MatrixBitmapAnimationEffectBase<RGBAColor>

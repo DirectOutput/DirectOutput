@@ -11,13 +11,12 @@ To facilitate the use of the framework, the auto config function will automatica
 If you dont have a directoutputconfig.ini file for your cabinet, it is best if you go to the <a target="_blank" href="http://vpuniverse.com/ledwiz/login.php">LedWiz ConfigTool Website</a> and create a file matching your cabinet. 
 
 
-LedControl.ini files which worked for the legacy ledcontrol.vbs solution are working in DOF too and will generally create the same effects as the ledcontrol.vbs, but you might notice some small differences since the timeing behaviour of DOF is completely different from the old solution (DOF is much, much faster).
+LedControl.ini files which worked for the legacy ledcontrol.vbs solution are working in DOF too and will generally create the same effects as the ledcontrol.vbs, but you might notice some small differences since the timing implementation of DOF is completely different from the old solution (DOF is much, much faster).
 
 section inifiles_howitworks How it works
 
 Since both types of supported ini files, do only specify the effects which are to be applied on certain outputs, but contain no information on the toys to be used, the DirectOutput framework uses a special type of toy to map the output definitions in the ini files to outputs resp. to the connected toys. 
-This special type of toy is called LedWizEquivalent. It is basically a list of 32 outputs, which typically all belong to the same output controller, and a number specifying a the number of the virtual output controller. If necessary it is also possible to mix outputs of several output controllers in one LedwizEquivalent toy.
-
+This special type of toy is called LedWizEquivalent. It is basically a list of outputs, which typically all belong to the same output controller, and a number specifying the number of the ini file to be applied to the LedWizEquivalent toy. If necessary it is also possible to mix outputs of several output controllers in one LedwizEquivalent toy.
 
 When configurations from ini files are to be used, the framework is matching the ini files against the LedWizEquivalentToys by their numbers and uses the output definitions of the toy, to determine which outputs are to be used for which column in the ini file. For these outputs the frameworks checks next if a matching toy has already been configured for those outputs. If a matching toy does already exist, it will be used, if no toy is found DOF will automatically create a toy of a matching type (RGBAToy or AnalogaAlphaToy). These toys are then used as targets for the effects specified in the columns of the ini files.
 
@@ -26,18 +25,11 @@ Once the toy to be used have been determined the DirectOutput framework will set
 
 \section inifiles_configloading Configuration loading
 
-Depending on the settings in the global config file, the framework will either load the ini files specified in the global configuration or it will try to detect the ini files automatically.
+\subsubsection inifiles_directories File locations
 
-If entries for ledcontrol files exist in the global config (see \ref globalconfig "global config documentation"), the framework will use those files for configuration and check only these files for table settings.
+DOF will try to locate ini files in the following locations:
 
-If the global config doesn't specify any ini files, the system will go into automatic configuration mode, in which it tries to detect and load global config files automatically.
-
-\subsection inifiles_auto Automatic configuration
-
-\subsubsection inifiles_autolocations File locations and names
-
-In auto config mode the DirectOutput framework tries to locate the files in the following locations:
-
+* __Ini File Directory of Global Config__ if specified in the global configuration.
 * __Table directory__ as specified in the table name para when the framework is initialized.
 * __Global config directory__ which is usualy a subdirectory named config within the installation directory of the framework.
 * __Installation directory__ which is the directory containg the DirectOutput.dll.
@@ -47,48 +39,25 @@ DOF will check each of these directories for ini files containing configurations
 * __directoutputconfig.ini__ resp. __directoutputconfig{Number}.ini__ are the files for which the framework is looking first.
 * __ledcontrol.ini__ resp. __ledcontrol{Number}.ini__ are the names the framework is looking for if no files named _directoutputconfig.ini__ can be found.
 
-Based on the loaded files, the system will configure the DirectOutput framework.
 
 \subsubsection inifiles_autoconfignumbering LedControl file numbering
 
-If auto configuration is used (typical if no table config file is available), the framework requires the ini files to match as specific naming and numbering system so they can be detected and used automatically. If more than one ini file is used, the files have to be numbered. Valid names are DirectOutputConfig.ini resp. DirectOutputConfig{Number}.ini or LedControl.ini resp. LedControl{Number}.ini. Using DirectOutputConfig.ini is the recommanded naming schema.  
+Some types of output controllers support automatic discovery and configuration (e.g. LedWiz, PacLed64 and PacDrive). For those output controllers it is not necessary to have a cabinet config file and/or LedWizEquivalent toys configured.
 
-The numbers in the filenames (1 is assumed if no number exists) are used to match the files with the LedWizEquivalentToys, which are in turn used to determine the outputs resp. toys to be configured by the ini files.
+When DOF doesn't find a entry in the cabinet config for a controller which support auto configuration it will add the necessary entries for the controller and the needed LedWizEquivalent toy to the config. The automatically created LedWizEquivalent toy all have a specific number which will be used to match a ini file with the same number. The following numbers are automatcally assign if a matching controller is found:
+
+* __1-16__ is used for LedWiz units 1-16
+* __19__ is used for the PacDrive
+* __20-23__ is used for PacLed64 units 1-4
+
+Output controllers which dont support auto config have to be defined in the cabinet config together with a matching LedWizEquivalent toy, to allow ini files to be applied to them. There is no forced number scheme for these, but it is recommend to use the following numbers since the config tool creates ini files with those numbers as well:
+
+* __30-39__ for WS2811/WS2812 ledstrip controllers 1-10
+* __40-49__ for SainSmart and other FT245RBitbang controllers.
+* __100 and above__ for Artnet.
 
 Files having a number, which does not match any LedWizEquivalent toy are ignored in the configuration process.
 
-
-\subsection inifiles_manual Manual configuration
-
-Instead of using the automatic detection of ini files, it is also possible to specify the ini files to be used in the global configuration of the framework. Each entry for a ini file consists of the path and name of the file and a number specifying which LedWizEquivalent toy should be configured by the ini file.
-
-If at least one ini file is specifiy in the global config, the framework will no do any automatic ini file detection.
-
-For ini files specified in the global config any filename can be used. The restriction on filesnames which exists for automatic config does not exist here.
-
-\section inifiles_cabinetconfig Cabinet configuration
-
-The DirectOutput framework is not capable of doing anything without a cabinet config. For detailed information on this topic please read the page on \ref cabinetconfig "Cabinet Configuration", since the following paragraphs only contain a few details which are relevant when it come to config through ini files.
-
-
-\subsection inifiles_autocabinetconfig Automatic cabinet configuration
-
-A cabinet config file can contain any number of LedWizEquivalent toys to control any number of output controllers. If cabinet auto configuration is used, the framework will automatically generate LedWizEquivalent toys for the output controllers which are automatically detected. 
-
-If active (typically if no cabinet config file exists), automatic cabinet configuration numbers the detected and created output controllers resp. their related LedWizEquivalent toys as follows:
-
-* For LedWiz unit 1-16, the framework creates one LedWizEquivalent per unit having the same number as the LedWiz (LedWiz nr. = LedWizEquivalent nr. = ini file number).
-* For PacLed64 units (max 4 supported), the framework creates LedWizEquivalentToys with 64 outputs. The numbering for those LedWizEquivalent starts at 20, so PacLed64 id 1 can be accessed through LedWizEquivalent 20, PacLed id 2 uses 21 and so on.
-
-\subsection inifiles_manualcabinetconfig Manual cabinet configuration
-
-Instead of relying on the automatic cabinet configuration, you can also specifiy your own cabinet config for the use with ini files.
-
-To be usable for the ini file configration system of the framework, the list of toys in the cabinet must contain one or several LedWizEquivalent toy objects. Normaly the outputs of a LedWizEquivalent toys will point to the outputs of a single output controller, but you are free to point them to any other output of any output controller configured in your system (e.g. you could use outputs of 2 different LedWiz controllers in one LedWizEquivalent toy).
-
-When ini file data is used for the Table configuration, the number of the LedWizEquivalent toy is used to match to the correct ini file. 
-
-If a cabinet config file exists, the framework will normally no dot any automatic detection of output controllers and will not create any LedWizEquivalent toys automatically.
 
 \section inifiles_settings Settings in DirectOutputConfig/LedControl ini files
 
@@ -118,18 +87,13 @@ Brown=24,12,0
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-\subsection inifiles_settingsconfigouts Config DOF Section
+\section inifiles_settingsconfigouts Config DOF Section
 
 The most important section in a directoutputconfig.ini file is the [Config DOF] section. It contains the effect definitions for the various tables.
 
-Each line in this section contains the definition for a single table. The lines start with a short version of the romname of the table or a fake romname for EM tables. After the romname, there can be up to 32 columns (separated by commas) containing the settings for every output of a ledwiz resp. the internal representation of a ledwiz (Column 1 is output 1, column 2 is output 2 and so on).
+Each line in this section contains the definition for a single table. The lines start with a short version of the romname of the table or a fake romname for EM tables. After the romname, there can be any number of columns (separated by commas) containing the settings for every output of a ledwizequivalent toy resp. the toys which use the outputs defined there.
 
 Every column can contain any number of definitions how the framework should control the output. If more than one definition exists for a column, these definitions have to be separated by forward dashes (/).
-
-The following definitions are used to specifiy the output behaviour of the physical outputs. 
-
-
-\image html LedWizConfigTool.jpg LedWiz ConfigTool 
 
 The config section of a ini file might looks like this:
 ~~~~~~~~~~~~~~~~~~~~~~~~~{.ini}
@@ -142,9 +106,9 @@ atlantis,S48,S7,0,S2/S9/W1 60/W2 60/W3 60/W4 60,S4/S11,S12/S14/S46,S8,0,S1/S5,S6
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-\subsection inifiles_settingspara Setting parameters
+\section inifiles_triggerpara Trigger parameters
 
-The first part of a setting for a column must always be one of the following:
+The first part of a setting defines how the setting/effect is triggered and must always be one of the following:
 
 * __TableElementTypeChar plus Number__ (e.g. S48 for solenoid 48) determines which table element is controlling the specified effect.
 * __List of TableElementTypeChars plus Numbers__ delimited by @ (e.g. S48@W12@L59). This setting assigns the same effect to all table elements in the list. 
@@ -152,8 +116,11 @@ The first part of a setting for a column must always be one of the following:
 * __On__ resp. __1__ turns the specified effect constantly on.
 * __B__ defines a static (not externaly controlled) blinking.
 
-The second and following parts can contain the following:
-* __Color name__ as specified in the colors section of the file. Only valid as the second value.
+\section inifiles_generalpara General parameters
+
+The second and following parts of a setting can contain one or several of the following paramaters:
+
+* __Color name__ as specified in the colors section of the file. Only valid as the second value (e.g. S48 Blue).
 * __Hex color definition__ (e.g. #ff0000ff for opaque red). Take note that these color definitions allow for values from 0-255 in contrast to the colors section which only support 0-48. Hex color definitions can contain 3 or 4 parts (without or with alpha value). Setting is only accepted as the second value.
 * __Blink__ defines blinking with a default interval of 500ms.
 * __I{Number}__ defines a intensity/level of the output. The number can either be specified as a decmal number between 0 (e.g. I0 for off) and 48 (e.g. I48 for fully on) or as a hexadecimal number between 00 (off) and FF (fully on) with a leading # (e.g. I#80 for 50% power). This settings does only have a effect for settings without a color definition.
@@ -171,9 +138,13 @@ The second and following parts can contain the following:
 * __NoBool__ indicates that the trigger value off the effect is not to be treated as a boolean value resp. that the daufault mapping of the value to 0 or 255 (255 for all values which are not 0) should not take place. The number can either be specified as a decmal number between 0 and 48 (e.g. BL3) or as a hexadecimal number between 00 and FF with a leading # (e.g. BL#30).
 * __Numeric Values__ without any extra character can be used to specify the duration of the effect or the blinking behaviour. If blinking has been defined, one or two numeric values are parsed. Value 1 controls the blink interval in milliseconds, while value 2 defines the number of blinks. If no blinking has been defined, only one numeric values which is used to defined the duration of the effect in milliseconds is parsed.
 
+\section inifiles_matrix Matrix/area effects
+
 For adressable ledstrips and other toys which implement the IMatrixToy interface the following extra parameters can be used to control the hardware referenced by the matrix. For settings controlling a matrix you have to use at least one of these paras, so DOF realizes that a matrix/area is to be controlled.
 
-__General Matrix Paras__
+The matrix effects and parameters can be combined with the general paras mentioned above.
+
+\subsection inifiles_matrixeffectpara _General Matrix Paras
 
 The following 4 paramaters are specifying the area of a matrix which is to be influenced by a matrix effect:
 * __AL{LeftPosition}__ defines the left of the upper left corner of the area of the matrix which is to be controlled by the effect. Position is expressed in percent of the matrix width (0-100).
@@ -181,21 +152,21 @@ The following 4 paramaters are specifying the area of a matrix which is to be in
 * __AW{Width}__ defines the width of the area of the matrix which is to be controlled by the effect. Width is expressed in percent of the matrix width (0-100).
 * __AH{Height}__ defines the height of the area of the matrix which is to be controlled by the effect. Height is expressed in percent of the matrix height (0-100).
 
-__Shift Effect Paras__
+\subsection inifiles_shifteffectpara Shift Effect Paras
 
 The matrix shift effect moves a color/value with a defineable direction, speed and acceleration through the matrix:
 * __AD{DirectionCharacter}__ defines the direction for area effects having a direction parameter (e.g. the ColorShiftEffect). Valid directions are: R-Right, L-Left, U-Up, D-Down.
 * __AS{Speed}__ defines the speed for matrix effects have a speed parameter (e.g. the ColorShiftEffect) expressed in percent of the effect area per second. 100 will shift through the effect area in one second, 400 will shift through the effect area in 1/4 second. Min. speed is 1, max. speed is 10000.
 * __AA{Acceleration}__ defines the acceleration of the speed for matrix effects (e.g. ColorShiftEffect), expressed in percent of the effect area per second. Acceleration can be positive (speed increases) or negative (speed decreases). Speed will never decrease below 1 and never increase above 10000.
 
-__Flicker Effect Paras__
+\subsection inifiles_flickereffectpara Flicker Effect Paras
 
 The flicker effect generates random flickering with a defineable density and duration for the single flickers:
 * __AFDEN{Percentage}__ defines the density for the flicker effect. Density is express in percent a has a valid value range of 1 to 99.
 * __AFMIN{DurationInMilliseconds}__ defines the min duration for the flicker of a single led in milliseconds.
 * __AFMAX{DurationInMilliseconds}__ defines the max duration for the flicker of a single led in milliseconds.
 
-__Bitmap Effect Paras__
+\subsection inifiles_bitmapeffectpara Bitmap Effect Paras
 
 DOF can display a part of a bitmap image on a matrix toy. The defined part of the bitmap is scaled to the size of the matrix, so the actual resolution of the matrix does not matter.
 If you specify a bitmap effect by using one of the following parameters, DOF will try to load a bitmap image (gif, png, jpg and more should all work) from the same directory as the ini file. The bitmap image has to be named like the short rom name in the first collumn of the ini file (e.g. mm.png for Medival Madness or afm.gif for Attack from Mars).
@@ -205,16 +176,22 @@ If you specify a bitmap effect by using one of the following parameters, DOF wil
 * __ABH{HeightInPixels}__ specifies the height of the part of the bitmap to be displayed. Defaults to the total height of the image if not specified.
 * __ABF{FrameNumber}__ indicates the frame of the image to be displayed. This setting is only relevant if you use animated gif images. Defaults to the first frame of the animated gif if not specified.
 
-__Bitmap Animation Paras__
+\subsubsection inifiles_bitmapanimationpara Bitmap Animation Paras
 The following extra paras can be used in addition to the bitmap paras to animate the bitmap display on the matrix:
-* __AAC{CountOfFrames}__
-* __AAF{FramesPerSecond}__
-* __AAD{FrameExtractionDirectionCharacter}__
-* __AAS{FrameExtrationStepSize}__
-* __AAB{AnimationBehaviourCharacter}__
+* __AAC{CountOfFrames}__ specifies the total number of frames of the animation.
+* __AAF{FramesPerSecond}__ specifies the number of frames per second. 
+* __AAD{FrameExtractionDirectionCharacter}__ defines the direction in which DOF moves through the source image to generate the animation. Valid values for the direction character are L=Left, D=Down, F=Frame (for animated gifs)
+* __AAS{FrameExtrationStepSize}__ defines the size of the steps DOF takes to move through the source image to generate the animation. The step size is either in pixels or in frames.
+* __AAB{AnimationBehaviourCharacter}__ defines the behaviour when the animation is triggered. Valid values are O=show animation once, L=Start at beginning and show animation in a loop (default), C=Continue at last position and show animation in a loop
+
+The following image might give a a better idea what these parameters do. It shows the behaviour for a setting like S48 AL0 AT10 AW100 AH20 AAC116 AADD AAS5 AAF30 AABL.
+
+\image html RGBAMatrixBitmapAnimationEffectExample.png 
 
 
-\subsection inifiles_settingsexamples Setting examples
+\section inifiles_settingsexamples Setting examples
+
+Here are a few typical settings which are used for toys like solenoids or RGB leds:
 
 * __S48__ will turn the toy associated with the column on and off depending on the state of solenoid 48.
 * __S48 Green__ will set the rgb led associated with the column of the file to green depending on the state of solenoid 48.
