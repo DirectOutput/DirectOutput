@@ -113,11 +113,6 @@ namespace DirectOutput.FX.ConditionFX
                 return;
             };
 
-            #region Find valid variables in condition string
-
-
-            #endregion
-
 
             ExpressionContext Context = new ExpressionContext();
 
