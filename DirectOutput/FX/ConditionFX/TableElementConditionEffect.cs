@@ -122,7 +122,19 @@ namespace DirectOutput.FX.ConditionFX
 
                 foreach (string V in Variables)
                 {
-                    C = C.Replace(V, "{0}.Value".Build(V), StringComparison.OrdinalIgnoreCase);
+                    int P = 0;
+                    while (P<C.Length && P>=0)
+                    {
+                        P = C.IndexOf(V, P + 1, StringComparison.OrdinalIgnoreCase);
+                        if (P < 0) break;
+                        if (!C.Substring(P, V.Length + 1).Equals(V + ".", StringComparison.OrdinalIgnoreCase))
+                        {
+                            C = C.Substring(0, P) + "{0}.Value".Build(V) + C.Substring(P + V.Length);
+                        }
+                    }
+//                    C = C.Replace(V, "{0}.Value".Build(V), StringComparison.OrdinalIgnoreCase);
+
+
                     if (Table.TableElements.Contains((TableElementTypeEnum)V[0], V.Substring(1).ToInteger()))
                     {
                         Table.TableElements.UpdateState((TableElementTypeEnum)V[0], V.Substring(1).ToInteger(), 0);
