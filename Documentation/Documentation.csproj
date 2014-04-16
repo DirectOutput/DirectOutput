@@ -40,7 +40,7 @@
     <None Include="10_Installation and configuration.md" />
     <None Include="25_CabinetConfig.md" />
     <None Include="27_TableConfig.md" />
-    <None Include="30_LedControl Files.md" />
+    <None Include="30_IniFiles.md" />
     <None Include="50_Architecture.md" />
     <None Include="60_FX.md" />
     <None Include="55_B2SServerPlugin.md" />
@@ -71,6 +71,7 @@
     <Content Include="img\GlobalConfigEditor_IniFiles.png" />
     <Content Include="img\GlobalConfigEditor_Logging.png" />
     <Content Include="img\GlobalConfigEditor_Menu.png" />
+    <Content Include="img\RGBAMatrixBitmapAnimationEffectExample.png" />
     <Content Include="img\RGBAMatrixBitmapAnimationEffectWave.png" />
     <Content Include="img\CabinetArchitecture.png" />
     <Content Include="img\Config Overview.png" />

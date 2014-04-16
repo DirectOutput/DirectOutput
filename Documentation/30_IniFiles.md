@@ -20,7 +20,7 @@ This special type of toy is called LedWizEquivalent. It is basically a list of o
 
 When configurations from ini files are to be used, the framework is matching the ini files against the LedWizEquivalentToys by their numbers and uses the output definitions of the toy, to determine which outputs are to be used for which column in the ini file. For these outputs the frameworks checks next if a matching toy has already been configured for those outputs. If a matching toy does already exist, it will be used, if no toy is found DOF will automatically create a toy of a matching type (RGBAToy or AnalogaAlphaToy). These toys are then used as targets for the effects specified in the columns of the ini files.
 
-Once the toy to be used have been determined the DirectOutput framework will setup the effects for those toys based on the settings found in the columns of the ini file. Deppending on the settings one or several effects are used to create the desired results. Please read the paragraph on \ref inifiles_settingspara "Setting parameters" and the page on \ref fx "Effects"  for more information.
+Once the toy to be used have been determined the DirectOutput framework will setup the effects for those toys based on the settings found in the columns of the ini file. Deppending on the settings one or several effects are used to create the desired results. Please read the paragraph on \ref inifiles_triggerpara "Setting parameters" and the page on \ref fx "Effects"  for more information.
 
 
 \section inifiles_configloading Configuration loading
