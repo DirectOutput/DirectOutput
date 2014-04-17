@@ -103,7 +103,7 @@ namespace DirectOutput.LedControl.Loader
         public bool ParseColumnData(string ColumnData, bool ThrowExceptions = false)
         {
             bool ExceptionOccured = false;
-            List<string> ColumnConfigs = new List<string>(ColumnData.Split(new char[] { '/' }, StringSplitOptions.None));
+            List<string> ColumnConfigs = new List<string>(SplitSettings(ColumnData));
 
             foreach (string CC in ColumnConfigs)
             {
@@ -130,6 +130,43 @@ namespace DirectOutput.LedControl.Loader
             }
             return !ExceptionOccured;
         }
+
+
+        private string[] SplitSettings(string ConfigData)
+        {
+            List<string> L = new List<string>();
+
+            int BracketCount = 0;
+
+            int LP = 0;
+
+            for (int P = 0; P < ConfigData.Length; P++)
+            {
+                if (ConfigData[P] == '(')
+                {
+                    BracketCount++;
+                }
+                else if (ConfigData[P] == ')')
+                {
+                    BracketCount--;
+                } if (ConfigData[P] == '/' && BracketCount <= 0)
+                {
+                    L.Add(ConfigData.Substring(LP, P - LP));
+                    LP = P + 1;
+                    BracketCount = 0;
+                }
+
+            }
+
+            if (LP < ConfigData.Length)
+            {
+                L.Add(ConfigData.Substring(LP));
+            }
+
+            return L.ToArray();
+        }
+
+
         #endregion
 
 
