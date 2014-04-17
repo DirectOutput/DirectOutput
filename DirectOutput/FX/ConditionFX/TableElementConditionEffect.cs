@@ -115,7 +115,7 @@ namespace DirectOutput.FX.ConditionFX
 
 
             ExpressionContext Context = new ExpressionContext();
-
+            Context.Options.ParseCulture = System.Globalization.CultureInfo.InvariantCulture;
             try
             {
                 Context.Imports.AddType(typeof(Math));
