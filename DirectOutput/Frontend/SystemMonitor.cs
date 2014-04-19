@@ -78,7 +78,7 @@ namespace DirectOutput.Frontend
                     ThreadDisplay[ThreadLastHeartBeat.Name, RowIndex].Style.BackColor = System.Drawing.Color.FromArgb(0, 255, 0);
                 }
                 ThreadDisplay[ThreadExceptions.Name, RowIndex].Value = TI.Exceptions.Count;
-                ThreadDisplay[ThreadProcessorNumber.Name, RowIndex].Value = TI.ProcessorNumber;
+
             }
 
 
