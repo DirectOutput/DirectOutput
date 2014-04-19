@@ -282,6 +282,9 @@ namespace DirectOutput.Cab.Out.DMX
                 }
 
             }
+            Engine.SendDMX(BroadcastAddress, Universe, new byte[512], 512);
+
+
             if (Engine != null)
             {
                
