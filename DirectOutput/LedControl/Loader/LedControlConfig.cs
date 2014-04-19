@@ -228,10 +228,6 @@ namespace DirectOutput.LedControl.Loader
                 ResolveVariables(OutData, VariableData);
             }
 
-
-
-
-
             ColorConfigurations.ParseLedControlData(ColorData, ThrowExceptions);
 
             TableConfigurations.ParseLedcontrolData(OutData, ThrowExceptions);
