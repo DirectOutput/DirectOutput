@@ -119,10 +119,12 @@ namespace DirectOutput.General
 
             string P = ReplacePlaceholders(ReplaceValues);
 
+
             try
             {
 
                 DirectoryInfo FilesDirectory = new DirectoryInfo((Path.GetDirectoryName(P).IsNullOrWhiteSpace() ? "." : Path.GetDirectoryName(P)));
+
                 if (FilesDirectory.Exists)
                 {
                     return FilesDirectory.GetFiles(Path.GetFileName(P)).ToList<FileInfo>();

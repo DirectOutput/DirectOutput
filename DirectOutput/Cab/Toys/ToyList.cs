@@ -63,6 +63,7 @@ namespace DirectOutput.Cab.Toys
                 }
                 else
                 {
+                    Log.Warning("Toy type {0} not found during deserialization of cabinet data.".Build(reader.LocalName));
                     reader.Skip();
                 }
                 

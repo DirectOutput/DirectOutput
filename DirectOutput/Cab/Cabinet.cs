@@ -58,7 +58,7 @@ namespace DirectOutput.Cab
         /// <summary>
         /// Name of the Cabinet.
         /// </summary>
-        [XmlElementAttribute(Order = 1)]
+
         public string Name { get; set; }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace DirectOutput.Cab
         /// <summary>
         /// List of IToy objects describing the toys in the cabinet.
         /// </summary>
-        [XmlElementAttribute(Order = 3)]
+
         public DirectOutput.Cab.Toys.ToyList Toys
         {
             get { return _Toys; }
@@ -93,7 +93,7 @@ namespace DirectOutput.Cab
         /// <summary>
         /// List of Color objects used to set colors for toys. 
         /// </summary>
-        [XmlElementAttribute(Order = 4)]
+
         public ColorList Colors
         {
             get { return _Colors; }
@@ -105,7 +105,7 @@ namespace DirectOutput.Cab
         /// <summary>
         /// List of named curve objects used to set Curves for toys. 
         /// </summary>
-        [XmlElementAttribute(Order = 5)]
+
         public CurveList Curves
         {
             get { return _Curves; }
@@ -120,7 +120,7 @@ namespace DirectOutput.Cab
         /// <value>
         ///   <c>true</c> enables auto config, <c>false</c> disables auto config.
         /// </value>
-        [XmlElementAttribute(Order = 6)]
+
         public bool AutoConfigEnabled
         {
             get { return _AutoConfigEnabled; }
@@ -147,7 +147,7 @@ namespace DirectOutput.Cab
         /// <summary>
         /// List of IOutputController objects representing the output controllers in the cabinet.
         /// </summary>
-        [XmlElementAttribute(Order = 2)]
+
         public Out.OutputControllerList OutputControllers
         {
             get { return _OutputControllers; }

@@ -341,6 +341,7 @@ namespace DirectOutput.LedControl.Loader
                         OutputControl = OutputControlEnum.FixedOff;
                         break;
                     case "B":
+                    case "BLINK":
                         OutputControl = OutputControlEnum.FixedOn;
                         Blink = -1;
                         BlinkIntervalMs = 1000;

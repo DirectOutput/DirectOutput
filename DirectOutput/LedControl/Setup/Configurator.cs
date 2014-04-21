@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DirectOutput.Cab;
 using DirectOutput.Cab.Out;
@@ -7,16 +8,15 @@ using DirectOutput.Cab.Toys.Layer;
 using DirectOutput.Cab.Toys.LWEquivalent;
 using DirectOutput.FX;
 using DirectOutput.FX.AnalogToyFX;
+using DirectOutput.FX.ConditionFX;
+using DirectOutput.FX.MatrixFX;
 using DirectOutput.FX.RGBAFX;
 using DirectOutput.FX.TimmedFX;
-using DirectOutput.LedControl.Loader;
-using DirectOutput.General.Color;
 using DirectOutput.FX.ValueFX;
-using DirectOutput.FX.MatrixFX;
-using System;
-using DirectOutput.FX.ConditionFX;
 using DirectOutput.General;
 using DirectOutput.General.Analog;
+using DirectOutput.General.Color;
+using DirectOutput.LedControl.Loader;
 
 namespace DirectOutput.LedControl.Setup
 {
@@ -439,7 +439,15 @@ namespace DirectOutput.LedControl.Setup
             Dictionary<int, LedWizEquivalent> LedWizEquivalentDict = new Dictionary<int, LedWizEquivalent>();
             foreach (IToy T in Cabinet.Toys.Where(Toy => Toy is LedWizEquivalent).ToList())
             {
-                LedWizEquivalentDict.Add(((LedWizEquivalent)T).LedWizNumber, (LedWizEquivalent)T);
+                if (!LedWizEquivalentDict.Keys.Any(K => K == ((LedWizEquivalent)T).LedWizNumber))
+                {
+                    LedWizEquivalentDict.Add(((LedWizEquivalent)T).LedWizNumber, (LedWizEquivalent)T);
+                }
+                else
+                {
+                    Log.Warning("Found more than one ledwiz with number {0}.".Build(((LedWizEquivalent)T).LedWizNumber));          
+
+                }
             }
 
             foreach (KeyValuePair<int, TableConfig> KV in TableConfigDict)

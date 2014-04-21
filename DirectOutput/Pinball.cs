@@ -203,6 +203,10 @@ namespace DirectOutput
                         try
                         {
                             Cabinet = Cabinet.GetCabinetFromConfigXmlFile(CCF);
+
+                            Log.Write("{0} output controller defnitions and {1} toy definitions loaded from cabinet config.".Build(Cabinet.OutputControllers.Count,Cabinet.Toys.Count));
+
+
                             Cabinet.CabinetConfigurationFilename = CCF.FullName;
                             if (Cabinet.AutoConfigEnabled)
                             {
