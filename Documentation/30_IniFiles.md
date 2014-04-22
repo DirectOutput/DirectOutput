@@ -110,7 +110,7 @@ atlantis,S48,S7,0,S2/S9/W1 60/W2 60/W3 60/W4 60,S4/S11,S12/S14/S46,S8,0,S1/S5,S6
 The first part of a setting defines how the setting/effect is triggered and must always be one of the following:
 
 * __TableElementTypeChar plus Number__ (e.g. S48 for solenoid 48) determines which table element is controlling the specified effect.
-* __List of TableElementTypeChars plus Numbers__ delimited by @ (e.g. S48@W12@L59). This setting assigns the same effect to all table elements in the list. 
+* __List of TableElementTypeChars plus Numbers__ delimited by | (e.g. S48|W12|L59). This setting assigns the same effect to all table elements in the list. 
 * __Condition__ which controlles wether the effect is triggered or not. Conditions must always be in brackets. Example: (S48=1 and W29=0 and (L59=1 or L43<>0)).
 * __On__ resp. __1__ turns the specified effect constantly on.
 * __B__ defines a static (not externaly controlled) blinking.
