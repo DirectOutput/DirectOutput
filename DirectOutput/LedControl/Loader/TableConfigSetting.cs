@@ -351,7 +351,7 @@ namespace DirectOutput.LedControl.Loader
                         {
                             //This seems to be a variable
 
-                            string[] ATE = P[0].Split(new char[] { '@' }, StringSplitOptions.RemoveEmptyEntries );
+                            string[] ATE = P[0].Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries );
                             foreach (string E in ATE)
                             {
                                 if (E.Length < 2 || !Enum.IsDefined(typeof(TableElementTypeEnum), (int)E[0]) || !E.Substring(1).IsInteger())
