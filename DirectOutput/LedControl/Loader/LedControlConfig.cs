@@ -259,8 +259,8 @@ namespace DirectOutput.LedControl.Loader
             foreach (KeyValuePair<string, string> KV in VD)
             {
                 string N = KV.Key;
-                if (!N.StartsWith("$")) N = "$" + N;
-                if (!N.EndsWith("$")) N += "$";
+                if (!N.StartsWith("@")) N = "@" + N;
+                if (!N.EndsWith("@")) N += "@";
 
                 for (int i = 0; i < DataToResolve.Count-1; i++)
                 {
