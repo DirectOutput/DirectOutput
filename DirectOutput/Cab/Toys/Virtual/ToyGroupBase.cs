@@ -10,7 +10,7 @@ namespace DirectOutput.Cab.Toys.Virtual
     /// <summary>
     /// This toys allows the grouping of several toys  into a matrix, which can be controlled by matrix effects.
     /// 
-    /// \note: Be sure to define this toy in the cabinet config file before the toys, which are listed in the ToyNames array.
+    /// \note Be sure to define this toy in the cabinet config file before the toys, which are listed in the ToyNames array.
     /// </summary>
     public abstract class ToyGroupBase<MatrixElementType> : ToyBaseUpdatable, IToy, IMatrixToy<MatrixElementType>
         where MatrixElementType:new()
