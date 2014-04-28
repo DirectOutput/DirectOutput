@@ -47,7 +47,7 @@ The name of the output.
 
 This toys allows the grouping of several AnalogAlpha toys (e.g. <see cref="T:DirectOutput.Cab.Toys.Layer.AnalogAlphaToy" /> or <see cref="!:Lamp" />) into a matrix, which can be controlled by the matrix effects.
 
-\note: Be sure to define this toy in the config file before the toys, which are listed in the ToyNames array.
+\note Be sure to define this toy in the config file before the toys, which are listed in the ToyNames array.
 
 
 
@@ -118,13 +118,15 @@ A configuration section for GearMotor might resemble the following structure:
   <OutputName>Name of Output</OutputName>
   <FadingCurveName>Linear</FadingCurveName>
   <MaxRunTimeMs>300000</MaxRunTimeMs>
-  <KickstartPower>128</KickstartPower>
+  <KickstartPower>255</KickstartPower>
   <KickstartDurationMs>100</KickstartDurationMs>
+  <MinPower>1</MinPower>
+  <MaxPower>255</MaxPower>
 </GearMotor>
 ~~~~~~~~~~~~~
 \subsection use_DirectOutput_Cab_Toys_Hardware_GearMotor_properties Properties
 
-GearMotor has the following 6 configurable properties:
+GearMotor has the following 8 configurable properties:
 
 \subsubsection DirectOutput_Cab_Toys_Hardware_GearMotor_FadingCurveName FadingCurveName
 
@@ -144,9 +146,21 @@ The kickstart power for the motor.
 
 
 
+\subsubsection DirectOutput_Cab_Toys_Hardware_GearMotor_MaxPower MaxPower
+
+The max power for the toy.
+
+
+
 \subsubsection DirectOutput_Cab_Toys_Hardware_GearMotor_MaxRunTimeMs MaxRunTimeMs
 
 The max run time in milliseconds.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_GearMotor_MinPower MinPower
+
+The minimal power for the toy. This property can be used to ensure that the motor will allways rotate when it is active and not getting stuck due to low power.
 
 
 
@@ -377,8 +391,6 @@ The following nested propteries exist for Outputs:
 
 \subsection use_DirectOutput_Cab_Toys_Hardware_Motor_summary Summary
 
-\deprecated The use of this toy is depreceated. A new version of this toy will be available later.
-
 Motor toy supporting max. and min. power, max. runtime and kickstart settings.<br />
 Inherits from GenericAnalogToy, implements IToy.
 
@@ -394,13 +406,15 @@ A configuration section for Motor might resemble the following structure:
   <OutputName>Name of Output</OutputName>
   <FadingCurveName>Linear</FadingCurveName>
   <MaxRunTimeMs>300000</MaxRunTimeMs>
-  <KickstartPower>128</KickstartPower>
+  <KickstartPower>255</KickstartPower>
   <KickstartDurationMs>100</KickstartDurationMs>
+  <MinPower>1</MinPower>
+  <MaxPower>255</MaxPower>
 </Motor>
 ~~~~~~~~~~~~~
 \subsection use_DirectOutput_Cab_Toys_Hardware_Motor_properties Properties
 
-Motor has the following 6 configurable properties:
+Motor has the following 8 configurable properties:
 
 \subsubsection DirectOutput_Cab_Toys_Hardware_Motor_FadingCurveName FadingCurveName
 
@@ -420,9 +434,21 @@ The kickstart power for the motor.
 
 
 
+\subsubsection DirectOutput_Cab_Toys_Hardware_Motor_MaxPower MaxPower
+
+The max power for the toy.
+
+
+
 \subsubsection DirectOutput_Cab_Toys_Hardware_Motor_MaxRunTimeMs MaxRunTimeMs
 
 The max run time in milliseconds.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_Motor_MinPower MinPower
+
+The minimal power for the toy. This property can be used to ensure that the motor will allways rotate when it is active and not getting stuck due to low power.
 
 
 
@@ -504,7 +530,7 @@ Name of the IOutput for red.
 
 This toys allows the grouping of several RGBA toys (e.g. <see cref="T:DirectOutput.Cab.Toys.Layer.RGBAToy" /> or <see cref="!:RGBLed" />) into a matrix, which can be controlled by the matrix effects.
 
-\note: Be sure to define this toy in the config file before the toys, which are listed in the ToyNames array.
+\note Be sure to define this toy in the config file before the toys, which are listed in the ToyNames array.
 
 
 
@@ -633,13 +659,15 @@ A configuration section for Shaker might resemble the following structure:
   <OutputName>Name of Output</OutputName>
   <FadingCurveName>Linear</FadingCurveName>
   <MaxRunTimeMs>300000</MaxRunTimeMs>
-  <KickstartPower>128</KickstartPower>
+  <KickstartPower>255</KickstartPower>
   <KickstartDurationMs>100</KickstartDurationMs>
+  <MinPower>1</MinPower>
+  <MaxPower>255</MaxPower>
 </Shaker>
 ~~~~~~~~~~~~~
 \subsection use_DirectOutput_Cab_Toys_Hardware_Shaker_properties Properties
 
-Shaker has the following 6 configurable properties:
+Shaker has the following 8 configurable properties:
 
 \subsubsection DirectOutput_Cab_Toys_Hardware_Shaker_FadingCurveName FadingCurveName
 
@@ -659,9 +687,21 @@ The kickstart power for the motor.
 
 
 
+\subsubsection DirectOutput_Cab_Toys_Hardware_Shaker_MaxPower MaxPower
+
+The max power for the toy.
+
+
+
 \subsubsection DirectOutput_Cab_Toys_Hardware_Shaker_MaxRunTimeMs MaxRunTimeMs
 
 The max run time in milliseconds.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_Shaker_MinPower MinPower
+
+The minimal power for the toy. This property can be used to ensure that the motor will allways rotate when it is active and not getting stuck due to low power.
 
 
 
