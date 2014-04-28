@@ -30,13 +30,13 @@ namespace DirectOutput.Cab.Toys.Hardware
 
 
 
-        private int _KickstartPower = 128;
+        private int _KickstartPower = 255;
 
         /// <summary>
         /// Gets or sets the kickstart power for the motor.<br/>
         /// If motor are run with low power they might not start to rotate without some initial kickstart.
         /// KickstartPower will only be applied if the motor is started with a power setting below the defined KickstartPower.<br/>
-        /// Default value of this setting is 128.<br/>
+        /// Default value of this setting is 255.<br/>
         /// Set value to 0 to skip kickstart.
         /// </summary>
         /// <value>
@@ -64,6 +64,35 @@ namespace DirectOutput.Cab.Toys.Hardware
             set { _KickstartDurationMs = value.Limit(0, 5000); }
         }
 
+        private int _MinPower=1;
+
+        /// <summary>
+        /// Gets or sets the minimal power for the toy when it is active.
+        /// </summary>
+        /// <value>
+        /// The minimal power for the toy. This property can be used to ensure that the motor will allways rotate when it is active and not getting stuck due to low power.
+        /// </value>
+        public int MinPower
+        {
+            get { return _MinPower; }
+            set { _MinPower = value.Limit(0,255); }
+        }
+
+
+        private int _MaxPower=255;
+
+        /// <summary>
+        /// Gets or sets the max power for the toy. 
+        /// </summary>
+        /// <value>
+        /// The max power for the toy. 
+        /// </value>
+        public int MaxPower
+        {
+            get { return _MaxPower; }
+            set { _MaxPower = value.Limit(0,255); }
+        }
+        
 
 
         /// <summary>
@@ -93,7 +122,15 @@ namespace DirectOutput.Cab.Toys.Hardware
         {
             if (Output != null)
             {
-                int P = FadingCurve.MapValue(GetResultingValue()).Limit(0, 255);
+                int P = FadingCurve.MapValue(GetResultingValue().Limit(0, 255));
+
+                if (P != 0)
+                {
+                    P=((int)((double)(MaxPower>=MinPower?MaxPower-MinPower:MinPower-MaxPower)/255*P)+MinPower).Limit(MinPower,MaxPower);
+                }
+
+
+
 
                 if (P == 0)
                 {
@@ -109,7 +146,7 @@ namespace DirectOutput.Cab.Toys.Hardware
                         {
                             //need to turn the motor on
 
-                            if (KickstartDurationMs > 0 && KickstartPower > 0)
+                            if (KickstartDurationMs > 0 && KickstartPower > 0 && P<=KickstartPower)
                             {
                                 //Kickstart is defined, start with kickstart
 
@@ -145,13 +182,34 @@ namespace DirectOutput.Cab.Toys.Hardware
                     else if (KickstartActive)
                     {
                         //Motor is in kickstart phase
-                        TargetMotorPower = P;
-
+                        if (P > 0)
+                        {
+                            //Need to change the motor power
+                            TargetMotorPower = P;
+                        }
+                        else
+                        {
+                            //Turn off motor
+                            AlarmHandler.UnregisterAlarm(KickStartEnd);
+                            AlarmHandler.UnregisterAlarm(MaxRunTimeMotorStop);
+                            TargetMotorPower = 0;
+                            CurrentMotorPower = 0;
+                            Output.Value = 0;
+                        }
                     }
                     else
                     {
                         //Motor is on
-                        if (P != CurrentMotorPower)
+                        if (P == 0)
+                        {
+                            //Turn of motor
+                            AlarmHandler.UnregisterAlarm(KickStartEnd);
+                            AlarmHandler.UnregisterAlarm(MaxRunTimeMotorStop);
+                            TargetMotorPower = 0;
+                            CurrentMotorPower = 0;
+                            Output.Value = 0;
+                        }
+                        else if (P != CurrentMotorPower)
                         {
                             //Power has changed
                             CurrentMotorPower = P;
