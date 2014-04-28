@@ -385,7 +385,7 @@ namespace DirectOutput.LedControl.Setup
                                             break;
                                         case OutputControlEnum.Controlled:
 
-                                            string[] ATE = TCS.TableElement.Split(new char[] { '@' }, StringSplitOptions.RemoveEmptyEntries);
+                                            string[] ATE = TCS.TableElement.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
                                             foreach (string TE in ATE)
                                             {
                                                 TableElementTypeEnum TET = (TableElementTypeEnum)TE[0];
