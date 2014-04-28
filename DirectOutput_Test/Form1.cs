@@ -7,6 +7,9 @@ using System.Xml.Serialization;
 using DirectOutput;
 using DirectOutput.Cab.Toys.Virtual;
 using DirectOutput.General.BitmapHandling;
+using DirectOutput.Cab;
+using DirectOutput.Cab.Out.LW;
+using DirectOutput.Cab.Toys.Hardware;
 
 
 namespace DirectOutput_Test
@@ -35,16 +38,17 @@ namespace DirectOutput_Test
 
         Pinball P;
 
+
+
+        Cabinet C;
         private void button1_Click(object sender, EventArgs e)
         {
 
 
-            FastImageList L = new FastImageList();
+            C = Cabinet.GetCabinetFromConfigXmlFile("config\\cabinet.xml");
+            C.Init(new Pinball());
 
-            FastImage I = L[@"C:\Users\Tom\Desktop\pleasewait.gif"];
 
-
-            I = L[@"D:\Hochzeit Nani und Eflam\IMG_1708.JPG"];
 
         }
 
@@ -55,8 +59,8 @@ namespace DirectOutput_Test
         {
             RGBAToyGroup G = new RGBAToyGroup() { Name = "Test", LayerOffset = -10 };
 
-           
-            for (int y = 1 ; y < 4; y++)
+
+            for (int y = 1; y < 4; y++)
             {
                 List<string> R = new List<string>();
 
@@ -77,7 +81,7 @@ namespace DirectOutput_Test
 
 
             XmlSerializer xsSubmit = new XmlSerializer(G.GetType());
-           
+
             StringWriter sww = new StringWriter();
             XmlWriter writer = XmlWriter.Create(sww);
             xsSubmit.Serialize(writer, G);
@@ -89,7 +93,15 @@ namespace DirectOutput_Test
         private void button3_Click(object sender, EventArgs e)
         {
 
-           
+
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            ((Shaker)C.Toys["Shaker"]).Layers[0].Alpha = 255;
+            ((Shaker)C.Toys["Shaker"]).Layers[0].Value = trackBar1.Value;
+            C.Update();
+            ShakerPowerLabel.Text = trackBar1.Value.ToString();
         }
     }
 }
