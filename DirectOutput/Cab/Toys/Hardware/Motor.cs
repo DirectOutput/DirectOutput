@@ -6,8 +6,6 @@ namespace DirectOutput.Cab.Toys.Hardware
 {
 
     /// <summary>
-    /// \deprecated The use of this toy is depreceated. A new version of this toy will be available later.
-    /// 
     /// Motor toy supporting max. and min. power, max. runtime and kickstart settings.<br/>
     /// Inherits from GenericAnalogToy, implements IToy.
     /// </summary>
