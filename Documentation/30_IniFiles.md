@@ -129,12 +129,12 @@ The second and following parts of a setting can contain one or several of the fo
 * __Max{NummberOfMilliseconds}__ defines the maximum duration for the effect in milliseconds.
 * __F{NumberOfMilliseconds}, FU{NumberOfMilliseconds}, FD{NumberOfMilliseconds}__ are used to specify the fading duration in milliseconds. _F_ sets the duration for both fading up and down, _FU_ controls fading up only and _FD_ fading down only.
 * __E{NumberOfMilliseconds}__ specifies a extended duration in milliseconds for the effect (after it has been turned off).
-* __BL{Number}__ specifies the value of the blink effect during the low period of the blinking (High value=trigger value of the effect, typicaly 255). 
+* __BL{Number}__ specifies the value of the blink effect during the low period of the blinking (High value=trigger value of the effect, typicaly 255).  The number can either be specified as a decmal number between 0 and 48 (e.g. BL3) or as a hexadecimal number between 00 and FF with a leading # (e.g. BL#30).
 * __BPW{Percentage}__ defines the blink pulse width in percent of the blink interval. Valid values are 1-99, default value if not defined is 50.
 * __BNP{NumberOfMilliseconds}__ defines the interval (duration of one on/off period) for nested blinking. This allows to define a second level of blinking within the _on_ period of the normal blinking.
 * __BNPW{Percentage}__ defines the blink pulse width for nested blinking in percent of the blink interval.
 * __Invert__ inverts the effect, so the effect will be active when it is normaly inactive and vice versa.
-* __NoBool__ indicates that the trigger value off the effect is not to be treated as a boolean value resp. that the daufault mapping of the value to 0 or 255 (255 for all values which are not 0) should not take place. The number can either be specified as a decmal number between 0 and 48 (e.g. BL3) or as a hexadecimal number between 00 and FF with a leading # (e.g. BL#30).
+* __NoBool__ indicates that the trigger value off the effect is not to be treated as a boolean value resp. that the daufault mapping of the value to 0 or 255 (255 for all values which are not 0) should not take place.
 * __Numeric Values__ without any extra character can be used to specify the duration of the effect or the blinking behaviour. If blinking has been defined, one or two numeric values are parsed. Value 1 controls the blink interval in milliseconds, while value 2 defines the number of blinks. If no blinking has been defined, only one numeric values which is used to defined the duration of the effect in milliseconds is parsed.
 
 \section inifiles_matrix Matrix/area effect parameters
