@@ -25,7 +25,7 @@ namespace DirectOutput
         #region Properties
 
 
-        public ThreadInfoList ThreadInfoList { get; private set; }
+        //public ThreadInfoList ThreadInfoList { get; private set; }
         public TimeSpanStatisticsList TimeSpanStatistics { get; private set; }
 
 
@@ -382,7 +382,7 @@ namespace DirectOutput
                 TI.HeartBeatTimeOutMs = 10000;
                 TI.HostName = "External caller";
                 TI.HeartBeat();
-                ThreadInfoList.Add(TI);
+                //ThreadInfoList.Add(TI);
 
 
 
@@ -416,7 +416,7 @@ namespace DirectOutput
 
                 //         WriteStatisticsToLog();
 
-                ThreadInfoList.ThreadTerminates();
+                //ThreadInfoList.ThreadTerminates();
 
                 Log.Write("DirectOutput framework finished.");
                 Log.Write("Bye and thanks for using!");
@@ -537,7 +537,7 @@ namespace DirectOutput
         private void MainThreadDoIt()
         {
 
-            ThreadInfoList.HeartBeat("DirectOutput");
+            //ThreadInfoList.HeartBeat("DirectOutput");
             try
             {
                 while (KeepMainThreadAlive)
@@ -561,7 +561,7 @@ namespace DirectOutput
                         catch (Exception E)
                         {
                             Log.Exception("A unhandled exception occured while processing data for table element {0} {1} with value {2}".Build(D.TableElementType, D.Number, D.Value), E);
-                            ThreadInfoList.RecordException(E);
+                            //ThreadInfoList.RecordException(E);
 
                         }
                     }
@@ -576,7 +576,7 @@ namespace DirectOutput
                         catch (Exception E)
                         {
                             Log.Exception("A unhandled exception occured while executing timer events.", E);
-                            ThreadInfoList.RecordException(E);
+                            //ThreadInfoList.RecordException(E);
                         }
                     }
 
@@ -591,13 +591,13 @@ namespace DirectOutput
                         catch (Exception E)
                         {
                             Log.Exception("A unhandled exception occured while updating the output controllers", E);
-                            ThreadInfoList.RecordException(E);
+                            //ThreadInfoList.RecordException(E);
                         }
                     }
 
                     if (KeepMainThreadAlive)
                     {
-                        ThreadInfoList.HeartBeat();
+                        //ThreadInfoList.HeartBeat();
                         //Sleep until we get more input data and/or a timer expires.
                         DateTime NextAlarm = Alarms.GetNextAlarmTime();
 
@@ -608,7 +608,7 @@ namespace DirectOutput
                                 int TimeOut = ((int)(NextAlarm - DateTime.Now).TotalMilliseconds).Limit(1, 50);
 
                                 Monitor.Wait(MainThreadLocker, TimeOut);  // Lock is released while we’re waiting
-                                ThreadInfoList.HeartBeat();
+                                //ThreadInfoList.HeartBeat();
                             }
                         }
                         MainThreadDoWork = false;
@@ -620,10 +620,10 @@ namespace DirectOutput
             catch (Exception E)
             {
                 Log.Exception("A unexpected exception occured in the DirectOutput MainThread", E);
-                ThreadInfoList.RecordException(E);
+                //ThreadInfoList.RecordException(E);
             }
 
-            ThreadInfoList.ThreadTerminates();
+            //ThreadInfoList.ThreadTerminates();
         }
         #endregion
 
@@ -706,7 +706,7 @@ namespace DirectOutput
         {
             InputQueue.Enqueue(TableElementTypeChar, Number, Value);
             MainThreadSignal();
-            ThreadInfoList.HeartBeat("Data delivery");
+            //ThreadInfoList.HeartBeat("Data delivery");
 
         }
 
@@ -719,7 +719,7 @@ namespace DirectOutput
         {
             InputQueue.Enqueue(TableElementData);
             MainThreadSignal();
-            ThreadInfoList.HeartBeat("Data delivery");
+            //ThreadInfoList.HeartBeat("Data delivery");
         }
 
 
@@ -766,7 +766,7 @@ namespace DirectOutput
         public Pinball()
         {
 
-            ThreadInfoList = new ThreadInfoList();
+          //  ThreadInfoList = new ThreadInfoList();
             TimeSpanStatistics = new TimeSpanStatisticsList();
 
         }

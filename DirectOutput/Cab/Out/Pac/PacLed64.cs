@@ -438,7 +438,7 @@ namespace DirectOutput.Cab.Out.Pac
             //TODO: Check if thread should really terminate on failed updates
             private void PacLed64UpdaterDoIt()
             {
-                Pinball.ThreadInfoList.HeartBeat("PacLed64 {0:0}".Build(Id));
+                //Pinball.ThreadInfoList.HeartBeat("PacLed64 {0:0}".Build(Id));
 
 
                 int FailCnt = 0;
@@ -457,7 +457,7 @@ namespace DirectOutput.Cab.Out.Pac
                     catch (Exception E)
                     {
                         Log.Exception("A error occured when updating PacLed64 {0}".Build(Id), E);
-                        Pinball.ThreadInfoList.RecordException(E);
+                        //Pinball.ThreadInfoList.RecordException(E);
                         FailCnt++;
 
                         if (FailCnt > MaxUpdateFailCount)
@@ -466,7 +466,7 @@ namespace DirectOutput.Cab.Out.Pac
                             KeepPacLed64UpdaterAlive = false;
                         }
                     }
-                    Pinball.ThreadInfoList.HeartBeat();
+                    //Pinball.ThreadInfoList.HeartBeat();
                     if (KeepPacLed64UpdaterAlive)
                     {
                         lock (PacLed64UpdaterThreadLocker)
@@ -474,7 +474,7 @@ namespace DirectOutput.Cab.Out.Pac
                             while (!TriggerUpdate && KeepPacLed64UpdaterAlive)
                             {
                                 Monitor.Wait(PacLed64UpdaterThreadLocker, 50);  // Lock is released while we’re waiting
-                                Pinball.ThreadInfoList.HeartBeat();
+                                //Pinball.ThreadInfoList.HeartBeat();
                             }
 
                         }
@@ -482,7 +482,7 @@ namespace DirectOutput.Cab.Out.Pac
                     }
                     TriggerUpdate = false;
                 }
-                Pinball.ThreadInfoList.ThreadTerminates();
+                //Pinball.ThreadInfoList.ThreadTerminates();
             }
 
 

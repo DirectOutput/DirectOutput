@@ -25,7 +25,7 @@ namespace DirectOutput.Frontend
 
         public void RefreshData()
         {
-            RefreshThreads();
+            //RefreshThreads();
             RefreshDurationStatistics();
         }
 
@@ -52,40 +52,40 @@ namespace DirectOutput.Frontend
         }
 
 
-        private void RefreshThreads() {
+        //private void RefreshThreads() {
 
-            ThreadDisplay.Rows.Clear();
+        //    ThreadDisplay.Rows.Clear();
 
-            foreach (ThreadInfo TI in Pinball.ThreadInfoList)
-            {
-                int RowIndex = ThreadDisplay.Rows.Add();
-                ThreadDisplay[ThreadName.Name, RowIndex].Value = TI.ThreadName;
-                ThreadDisplay[ThreadHostObject.Name, RowIndex].Value = (!TI.HostName.IsNullOrEmpty() ? TI.HostName : "");
-                ThreadDisplay[ThreadIsAlive.Name, RowIndex].Value = TI.IsAlive;
-                ThreadDisplay[ThreadLastHeartBeat.Name, RowIndex].Value = TI.LastHeartBeat.ToString("HH:mm:ss");
-                int Ms=(int)(DateTime.Now-TI.LastHeartBeat).TotalMilliseconds;
-                if(Ms>TI.HeartBeatTimeOutMs) {
-                    ThreadDisplay[ThreadLastHeartBeat.Name, RowIndex].Style.BackColor = System.Drawing.Color.FromArgb(255, 0, 0);
-                }
-                else if (Ms > TI.HeartBeatTimeOutMs / 2)
-                {
-                    int Red = ((65536 / (TI.HeartBeatTimeOutMs / 2) * (Ms - (TI.HeartBeatTimeOutMs / 2))) / 256).Limit(0, 255);
-                    int Green = 255 - Red; 
-                    ThreadDisplay[ThreadLastHeartBeat.Name, RowIndex].Style.BackColor = System.Drawing.Color.FromArgb(Red, Green, 0);
-                }
-                else
-                {
-                    ThreadDisplay[ThreadLastHeartBeat.Name, RowIndex].Style.BackColor = System.Drawing.Color.FromArgb(0, 255, 0);
-                }
-                ThreadDisplay[ThreadExceptions.Name, RowIndex].Value = TI.Exceptions.Count;
+        //    foreach (ThreadInfo TI in Pinball.ThreadInfoList)
+        //    {
+        //        int RowIndex = ThreadDisplay.Rows.Add();
+        //        ThreadDisplay[ThreadName.Name, RowIndex].Value = TI.ThreadName;
+        //        ThreadDisplay[ThreadHostObject.Name, RowIndex].Value = (!TI.HostName.IsNullOrEmpty() ? TI.HostName : "");
+        //        ThreadDisplay[ThreadIsAlive.Name, RowIndex].Value = TI.IsAlive;
+        //        ThreadDisplay[ThreadLastHeartBeat.Name, RowIndex].Value = TI.LastHeartBeat.ToString("HH:mm:ss");
+        //        int Ms=(int)(DateTime.Now-TI.LastHeartBeat).TotalMilliseconds;
+        //        if(Ms>TI.HeartBeatTimeOutMs) {
+        //            ThreadDisplay[ThreadLastHeartBeat.Name, RowIndex].Style.BackColor = System.Drawing.Color.FromArgb(255, 0, 0);
+        //        }
+        //        else if (Ms > TI.HeartBeatTimeOutMs / 2)
+        //        {
+        //            int Red = ((65536 / (TI.HeartBeatTimeOutMs / 2) * (Ms - (TI.HeartBeatTimeOutMs / 2))) / 256).Limit(0, 255);
+        //            int Green = 255 - Red; 
+        //            ThreadDisplay[ThreadLastHeartBeat.Name, RowIndex].Style.BackColor = System.Drawing.Color.FromArgb(Red, Green, 0);
+        //        }
+        //        else
+        //        {
+        //            ThreadDisplay[ThreadLastHeartBeat.Name, RowIndex].Style.BackColor = System.Drawing.Color.FromArgb(0, 255, 0);
+        //        }
+        //        ThreadDisplay[ThreadExceptions.Name, RowIndex].Value = TI.Exceptions.Count;
 
-            }
+        //    }
 
 
-            ThreadDisplay.ClearSelection();
-            ThreadDisplay.Refresh();
+        //    ThreadDisplay.ClearSelection();
+        //    ThreadDisplay.Refresh();
 
-        }
+        //}
 
         private void RefreshButton_Click(object sender, EventArgs e)
         {

@@ -150,21 +150,21 @@ namespace DirectOutput.Frontend
             CI.Show(this);
         }
 
-        private void ShowSystemMonitor_Click(object sender, EventArgs e)
-        {
-            foreach (Form F in Application.OpenForms)
-            {
-                if (F.GetType() == typeof(SystemMonitor))
-                {
-                    F.BringToFront();
-                    F.Focus();
-                    return;
-                }
-            }
-            SystemMonitor CI = new SystemMonitor(Pinball);
-            CI.StartPosition = FormStartPosition.CenterParent;
-            CI.Show(this);
-        }
+        //private void ShowSystemMonitor_Click(object sender, EventArgs e)
+        //{
+        //    foreach (Form F in Application.OpenForms)
+        //    {
+        //        if (F.GetType() == typeof(SystemMonitor))
+        //        {
+        //            F.BringToFront();
+        //            F.Focus();
+        //            return;
+        //        }
+        //    }
+        //    SystemMonitor CI = new SystemMonitor(Pinball);
+        //    CI.StartPosition = FormStartPosition.CenterParent;
+        //    CI.Show(this);
+        //}
 
 
 

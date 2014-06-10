@@ -687,7 +687,7 @@ namespace DirectOutput.Cab.Out.LW
             private void LedWizUpdaterDoIt()
             {
                 Log.Write("Updater thread for LedWiz {0:00} started.".Build(Number));
-                Pinball.ThreadInfoList.HeartBeat("LedWiz {0:00}".Build(Number));
+                //Pinball.ThreadInfoList.HeartBeat("LedWiz {0:00}".Build(Number));
 
 
                 int FailCnt = 0;
@@ -706,7 +706,7 @@ namespace DirectOutput.Cab.Out.LW
                     catch (Exception E)
                     {
                         Log.Exception("A error occured when updating LedWiz Nr. {0}".Build(Number), E);
-                        Pinball.ThreadInfoList.RecordException(E);
+                        //Pinball.ThreadInfoList.RecordException(E);
                         FailCnt++;
 
                         if (FailCnt > MaxUpdateFailCount)
@@ -715,7 +715,7 @@ namespace DirectOutput.Cab.Out.LW
                             KeepLedWizUpdaterAlive = false;
                         }
                     }
-                    Pinball.ThreadInfoList.HeartBeat();
+                    //Pinball.ThreadInfoList.HeartBeat();
                     if (KeepLedWizUpdaterAlive)
                     {
                         lock (LedWizUpdaterThreadLocker)
@@ -723,7 +723,7 @@ namespace DirectOutput.Cab.Out.LW
                             while (!TriggerUpdate && KeepLedWizUpdaterAlive)
                             {
                                 Monitor.Wait(LedWizUpdaterThreadLocker, 50);  // Lock is released while we’re waiting
-                                Pinball.ThreadInfoList.HeartBeat();
+                                //Pinball.ThreadInfoList.HeartBeat();
                             }
 
                         }
@@ -731,7 +731,7 @@ namespace DirectOutput.Cab.Out.LW
                     }
                     TriggerUpdate = false;
                 }
-               Pinball.ThreadInfoList.ThreadTerminates();
+               //Pinball.ThreadInfoList.ThreadTerminates();
                Log.Write("Updater thread for LedWiz {0:00} terminated.".Build(Number));
             }
 

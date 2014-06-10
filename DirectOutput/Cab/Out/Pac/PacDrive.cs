@@ -353,7 +353,7 @@ namespace DirectOutput.Cab.Out.Pac
             //TODO: Check if thread should really terminate on failed updates
             private void PacDriveUpdaterDoIt()
             {
-                Pinball.ThreadInfoList.HeartBeat("PacDrive");
+                //Pinball.ThreadInfoList.HeartBeat("PacDrive");
 
 
                 int FailCnt = 0;
@@ -372,7 +372,7 @@ namespace DirectOutput.Cab.Out.Pac
                     catch (Exception E)
                     {
                         Log.Exception("A error occured when updating PacDrive", E);
-                        Pinball.ThreadInfoList.RecordException(E);
+                        //Pinball.ThreadInfoList.RecordException(E);
                         FailCnt++;
 
                         if (FailCnt > MaxUpdateFailCount)
@@ -381,7 +381,7 @@ namespace DirectOutput.Cab.Out.Pac
                             KeepPacDriveUpdaterAlive = false;
                         }
                     }
-                    Pinball.ThreadInfoList.HeartBeat();
+                    //Pinball.ThreadInfoList.HeartBeat();
                     if (KeepPacDriveUpdaterAlive)
                     {
                         lock (PacDriveUpdaterThreadLocker)
@@ -389,7 +389,7 @@ namespace DirectOutput.Cab.Out.Pac
                             while (!TriggerUpdate && KeepPacDriveUpdaterAlive)
                             {
                                 Monitor.Wait(PacDriveUpdaterThreadLocker, 50);  // Lock is released while we’re waiting
-                                Pinball.ThreadInfoList.HeartBeat();
+                                //Pinball.ThreadInfoList.HeartBeat();
                             }
 
                         }
@@ -400,7 +400,7 @@ namespace DirectOutput.Cab.Out.Pac
 
                 ShutdownLighting();
 
-                Pinball.ThreadInfoList.ThreadTerminates();
+                //Pinball.ThreadInfoList.ThreadTerminates();
             }
 
 
