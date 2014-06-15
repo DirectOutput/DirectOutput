@@ -69,7 +69,7 @@ namespace DirectOutput.LedControl.Loader
             get { return _LedControlIniFile; }
             private set { _LedControlIniFile = value; }
         }
-        
+
 
 
 
@@ -90,11 +90,11 @@ namespace DirectOutput.LedControl.Loader
         /// Section {0} of file {1} does not have the same number of columns in all lines.
         /// </exception>
         private void ParseLedControlIni(FileInfo LedControlIniFile, bool ThrowExceptions = false)
-        
         {
             string[] ColorStartStrings = { "[Colors DOF]", "[Colors LedWiz]" };
             string[] OutStartStrings = { "[Config DOF]", "[Config outs]" };
             string[] VariableStartStrings = { "[Variables DOF]" };
+            string[] VersionStartStrings = { "[version]" };
 
             string FileData = "";
 
@@ -184,6 +184,45 @@ namespace DirectOutput.LedControl.Loader
             List<string> ColorData = GetSection(Sections, ColorStartStrings);
             List<string> OutData = GetSection(Sections, OutStartStrings);
             List<string> VariableData = GetSection(Sections, VariableStartStrings);
+            List<string> VersionData = GetSection(Sections, VersionStartStrings);
+
+            if (VersionData != null && VersionData.Count > 0)
+            {
+                Version MinDofVersion = null;
+
+                string MinDofVersionLine = VersionData.FirstOrDefault(S => S.ToLowerInvariant().StartsWith("mindofversion="));
+
+                if (MinDofVersionLine != null)
+                {
+                    string MinDofVersionString = MinDofVersionLine.Substring("mindofversion=".Length);
+
+                    try
+                    {
+                        MinDofVersion = new Version(MinDofVersionString);
+                    }
+                    catch (Exception E)
+                    {
+                        Log.Exception("Could not parse line {1} from file {0}".Build(LedControlIniFile, MinDofVersionLine));
+                        MinDofVersion = null;
+                    }
+                    Version DOFVersion = typeof(Pinball).Assembly.GetName().Version;
+                    if (MinDofVersion != null && MinDofVersion.CompareTo(DOFVersion) < 0)
+                    {
+                        Log.Warning("UPDATE DIRECT OUTPUT FRAMEWORK!");
+                        Log.Warning("Current DOF version is {1}, but DOF version {2} or later is required by the config file {0}.".Build(LedControlIniFile, DOFVersion, MinDofVersion));
+
+                    }
+                }
+                else
+                {
+                    Log.Warning("No DOF version information found in file {0}.".Build(LedControlIniFile));
+                }
+
+            }
+            else
+            {
+                Log.Warning("No Version section found in file {0}.".Build(LedControlIniFile));
+            }
 
             if (ColorData == null)
             {
@@ -262,7 +301,7 @@ namespace DirectOutput.LedControl.Loader
                 if (!N.StartsWith("@")) N = "@" + N;
                 if (!N.EndsWith("@")) N += "@";
 
-                for (int i = 0; i < DataToResolve.Count-1; i++)
+                for (int i = 0; i < DataToResolve.Count - 1; i++)
                 {
                     DataToResolve[i] = DataToResolve[i].Replace(N, KV.Value);
                 }
