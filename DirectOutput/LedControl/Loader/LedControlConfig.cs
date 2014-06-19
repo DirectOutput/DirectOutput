@@ -25,6 +25,8 @@ namespace DirectOutput.LedControl.Loader
             set { _LedWizNumber = value; }
         }
 
+        public Version MinDOFVersion { get; set; }
+
 
 
         private TableConfigList _TableConfigurations;
@@ -188,7 +190,7 @@ namespace DirectOutput.LedControl.Loader
 
             if (VersionData != null && VersionData.Count > 0)
             {
-                Version MinDofVersion = null;
+                MinDOFVersion = null;
 
                 string MinDofVersionLine = VersionData.FirstOrDefault(S => S.ToLowerInvariant().StartsWith("mindofversion="));
 
@@ -198,20 +200,14 @@ namespace DirectOutput.LedControl.Loader
 
                     try
                     {
-                        MinDofVersion = new Version(MinDofVersionString);
+                        MinDOFVersion = new Version(MinDofVersionString);
                     }
                     catch (Exception E)
                     {
                         Log.Exception("Could not parse line {1} from file {0}".Build(LedControlIniFile, MinDofVersionLine));
-                        MinDofVersion = null;
+                        MinDOFVersion = null;
                     }
-                    Version DOFVersion = typeof(Pinball).Assembly.GetName().Version;
-                    if (MinDofVersion != null && MinDofVersion.CompareTo(DOFVersion) < 0)
-                    {
-                        Log.Warning("UPDATE DIRECT OUTPUT FRAMEWORK!");
-                        Log.Warning("Current DOF version is {1}, but DOF version {2} or later is required by the config file {0}.".Build(LedControlIniFile, DOFVersion, MinDofVersion));
 
-                    }
                 }
                 else
                 {
@@ -221,7 +217,7 @@ namespace DirectOutput.LedControl.Loader
             }
             else
             {
-                Log.Warning("No Version section found in file {0}.".Build(LedControlIniFile));
+                Log.Warning("No version section found in file {0}.".Build(LedControlIniFile));
             }
 
             if (ColorData == null)

@@ -45,8 +45,9 @@ namespace DirectOutput_Test
         {
 
 
-            C = Cabinet.GetCabinetFromConfigXmlFile("config\\cabinet.xml");
-            C.Init(new Pinball());
+           // Form F = new DirectOutput.Frontend.UserNotification();
+           // F.Show();
+
 
 
 

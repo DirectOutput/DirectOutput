@@ -9,7 +9,7 @@ using DirectOutput.General;
 using DirectOutput.GlobalConfiguration;
 using DirectOutput.LedControl.Loader;
 using DirectOutput.PinballSupport;
-
+using System.Linq;
 using DirectOutput.Table;
 using DirectOutput.General.Statistics;
 
@@ -318,6 +318,32 @@ namespace DirectOutput
                             C.Setup(L, Table, Cabinet, RomName);
                             C = null;
                             //                        L.UpdateTableConfig(Table, RomName, Cabinet);
+
+                            //Check DOF Version
+                            Version DOFVersion = typeof(Pinball).Assembly.GetName().Version;
+                            
+                            if(L.Any(LC=>LC.MinDOFVersion!=null && LC.MinDOFVersion.CompareTo(DOFVersion)>0)) {
+
+                                Version MaxVersion = null;
+                                foreach (LedControlConfig LC in L)
+                                {
+                                    if(LC.MinDOFVersion!=null && (MaxVersion==null || MaxVersion.CompareTo(LC.MinDOFVersion)>0)) {
+                                        MaxVersion = LC.MinDOFVersion;
+                                    }
+                                }
+
+
+                                Log.Warning("UPDATE DIRECT OUTPUT FRAMEWORK!");
+                                if (MaxVersion != null)
+                                {
+                                    Log.Warning("Current DOF version is {0}, but DOF version {1} or later is required by one or several config files.".Build(DOFVersion, MaxVersion));
+                                }
+                                Frontend.UpdateNotfication.ShowNotification();
+                            }
+
+
+
+
                         }
                         L = null;
                     }
