@@ -7,11 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace DirectOutput.Frontend
+namespace UpdateNotification
 {
-    public partial class UpdateNotfication : Form
+    public partial class Notification : Form
     {
-        public UpdateNotfication()
+        public Notification()
         {
             InitializeComponent();
         }
@@ -20,7 +20,7 @@ namespace DirectOutput.Frontend
 
         static public void ShowNotification()
         {
-            UpdateNotfication U = new UpdateNotfication();
+            Notification U = new Notification();
             U.CenterToScreen();
             U.Show();
 

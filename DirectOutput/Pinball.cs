@@ -12,6 +12,7 @@ using DirectOutput.PinballSupport;
 using System.Linq;
 using DirectOutput.Table;
 using DirectOutput.General.Statistics;
+using System.Diagnostics;
 
 namespace DirectOutput
 {
@@ -338,7 +339,15 @@ namespace DirectOutput
                                 {
                                     Log.Warning("Current DOF version is {0}, but DOF version {1} or later is required by one or several config files.".Build(DOFVersion, MaxVersion));
                                 }
-                                Frontend.UpdateNotfication.ShowNotification();
+                                try
+                                {
+                                    
+                                    Process.Start(Path.Combine(Path.GetDirectoryName( System.Reflection.Assembly.GetExecutingAssembly().Location),"UpdateNotification.exe"));
+                                }
+                                catch (Exception E)
+                                {
+                                    Log.Exception("A exception occured when displaying the update notification", E);
+                                }
                             }
 
 

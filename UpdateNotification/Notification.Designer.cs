@@ -1,6 +1,6 @@
-﻿namespace DirectOutput.Frontend
+﻿namespace UpdateNotification
 {
-    partial class UpdateNotfication
+    partial class Notification
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UpdateNotfication));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Notification));
             this.NoticficationRotated = new System.Windows.Forms.PictureBox();
             this.NotificationNormal = new System.Windows.Forms.PictureBox();
             this.CloseTimer = new System.Windows.Forms.Timer(this.components);
@@ -63,7 +63,7 @@
             // 
             // CloseTimer
             // 
-            this.CloseTimer.Interval = 8000;
+            this.CloseTimer.Interval = 6000;
             this.CloseTimer.Tick += new System.EventHandler(this.CloseTimer_Tick);
             // 
             // TopTimer
@@ -71,7 +71,7 @@
             this.TopTimer.Interval = 2000;
             this.TopTimer.Tick += new System.EventHandler(this.TopTimer_Tick);
             // 
-            // UpdateNotfication
+            // Notification
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -82,7 +82,7 @@
             this.Controls.Add(this.NoticficationRotated);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "UpdateNotfication";
+            this.Name = "Notification";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "UpdateNotfication";
             this.TopMost = true;
