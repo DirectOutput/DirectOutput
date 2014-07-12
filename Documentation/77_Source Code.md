@@ -54,11 +54,11 @@ The DirectOutput project contains the actual Directoutput framework. The main ar
 - <b>FrontEnd</b> is the place where the forms of the front are stored.
 - <b>FX</b> contains everything which is related to effects.
 - <b>FX/BasicFX</b> contains a bunch of basic effects.
-- <b>FX/LedControlFX</b> holds the effects which is used to make LedControl.ini files work with the framework.
+- <b>FX/LedControlFX</b> holds the effects which is used to make directoutputconfig.ini files work with the framework.
 - <b>FX/ListFX</b> is home to the ListEffect, providing functiality to trigger several effects in a list.
 - <b>General</b> contains classes which are of general use (e.g. a filereader).
 - <b>GlobalConfig</b> contains all classes required for the global configuration of the system.
-- <b>LedControl</b> is home to everthing required to load the classical LedControl.ini files. I think the code is a bit messy, since it had to be created on some kind of trial and error basis.
+- <b>LedControl</b> is home to everthing required to load the classical directoutputconfig.ini files. I think the code is a bit messy, since it had to be created on some kind of trial and error basis.
 - <b>InputHandling</b> is the place where the data received from the outside world is processed and queued. 
 - <b>Scripting</b> contaings the logic to load and compile external script files using CSScript.
 - <b>Table</b> contains classes related to the table which is currently played (e.g. status of the table elements).

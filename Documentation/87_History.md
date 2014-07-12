@@ -1,7 +1,32 @@
 ﻿History  {#History}
 ========
 
-__2013.4__
+__2014.7.12__
+
+After a lot of testing the second version of DOF is released.
+
+What is new in DOF2:
+- Support for addressable ledstrips 
+- Support for Sainsmart and other FT244R based controllers 
+- Pacled64 problems fixed 
+- LedWiz uses now the whole value range from 0 to 49 (instead of only 48 before)
+- Better toy objects for Shaker and GearMotor. New settings for MinPower, MaxPower, KickstartPower and KickStartDuration.
+- LedStrip toy which allows for the support of addressable ledstrips. The toy support simple strips, but also two dimensional arrays of ledstrips. 
+- RGBAToyGroup and AnalogAlphaToyGroup toys support the grouping of RGB toys (e.g. RGBLeds) resp. AnalogAlpha toys (e.g. single color lamps) in arrays, so they can be controlled be the same effects as the ledstrips.
+- Most toys do now support fading curves (either predefined curves or your own curves can be used) to fine tune the fading behaviour for the toys.
+- New general use effects (e.g. ValueInvertEffect) have been added.
+- Special effects for LedStrips and toy groups, including a bitmap animation effect, have been added.
+- Loads of new config options for the config ini files are available as well.
+- Color in ini files can now also be specified as hex colors (#ff0000 for red).
+- Conditions for effect triggering in ini files, e.g. (S48<>0 and S49=0) will only trigger the effect of solenoid 48 is active and solenoid 49 is inactive.
+- Lists of table elements can also be used to trigger effects, e.g. S48|S49 will trigger the effect if either solenoid 48 or 49 is activated.
+- Variables can be used in ini files (Sorry, docu not yet written)..
+- A update notification has been added, which will ask you to update DOF if you are using ini files which require a new DOF version to support all settings.
+- The global config system has been changed to make it a bit easier to understand. There is even a small tool to edit your global configs: GlobalConfigEditor.exe
+- Many small changes behind the scenes and some bugs fixed as well.
+
+
+__2014.4__
 
 - More matrix effects added.
 - Grouping/matrix toys added for rgb and single channel toys.

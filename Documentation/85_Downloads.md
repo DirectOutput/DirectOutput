@@ -18,3 +18,8 @@ The latest documentation is available at <a target="_blank" href="http://directo
 
 The documentation can also be downloaded as a zip file: <a target="_blank" href="https://github.com/DirectOutput/DirectOutput/archive/gh-pages.zip">Documentation Zip-File</a>
 
+\section downloads_config Table config files
+
+DOF needs config files which define the effects for the table youe play. Instead of creating your own config files you might go to the <a target="_blank" href="http://vpuniverse.com/ledwiz/login.php">DOF ConfigTool Website</a> and just download the config for hundereds of tables.
+
+\image html DOFConfigTool.png DOF ConfigTool 

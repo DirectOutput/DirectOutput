@@ -25,9 +25,10 @@ In addition I would like to thank everyone involded in the beta testing for thei
 
 Table configuration and config tool
 -----------------------------------
-<a target="_blank" href="http://vpuniverse.com/forums/user/7-deegor/">Degoor</a> has updated his <a target="_blank" href="http://vpuniverse.com/ledwiz/login.php">config tool</a> with some new options and functionality so the DirectOutput framework can be configured easily.
+<a target="_blank" href="http://vpuniverse.com/forums/user/100-arngrim">Arngrim</a> is the master of table configurations and of the config tool. He has also added a lot of new functionality to the org config tool of Deegor.
 
-<a target="_blank" href="http://vpuniverse.com/forums/user/100-arngrim">Arngrim</a> has put a lot effort into updating the table config for the framework. The new configs make a huge difference.
+<a target="_blank" href="http://vpuniverse.com/forums/user/7-deegor/">Degoor</a> has created the original config tool.
+
 
 
 GroovyGameGear/LedWiz

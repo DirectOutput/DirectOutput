@@ -27,7 +27,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LedControlFileTester", "Led
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bat Files", "Bat Files", "{C03A8BBC-F8F7-4A6B-9F4C-86866CC854E1}"
 	ProjectSection(SolutionItems) = preProject
-		betarelease.bat = betarelease.bat
 		BuildGithubDocu.bat = BuildGithubDocu.bat
 		BuildLocalWIPDocu.bat = BuildLocalWIPDocu.bat
 		copy2cab.bat = copy2cab.bat

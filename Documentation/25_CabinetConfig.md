@@ -1,7 +1,7 @@
 ﻿Cabinet Configuration {#cabinetconfig}
 =====================
 
-\warning This page is not fully up to date! 
+\warning This page is not fully up to date and needs to be updated! 
 
 \section cabinetconfig_introduction Introduction
 
@@ -105,7 +105,7 @@ In addition to the minimal tags in the example above, a typical toy will have at
 \section cabinetconfig_example Example cabinet configuration
 
 The following xml is the config for a cabinet with 1 LedWiz unis, 10 contactors, 1 replay knocker, 5 lamps, 5 RGB-leds and one shaker installed.
-In addition 1 LedWizEquivalent toy is configured to allow the system, to use legacy ledcontrol.ini files.
+In addition 1 LedWizEquivalent toy is configured to allow the system, to use legacy directoutputconfig.ini files.
 
 ~~~~~~~~~~~~~{.xml}
   
@@ -222,7 +222,7 @@ In addition 1 LedWizEquivalent toy is configured to allow the system, to use leg
       <OutputName>LedWiz 01.31</OutputName>
     </Shaker>
 
-	  <!-- The LedWizEquivalent toy is used when a legacy LedControl.ini file is loaded.   -->
+	  <!-- The LedWizEquivalent toy is used when a legacy directoutputconfig.ini file is loaded.   -->
     <LEDWizEquivalent>
       <Name>LedWizEquivalent 1</Name>
       <Outputs>

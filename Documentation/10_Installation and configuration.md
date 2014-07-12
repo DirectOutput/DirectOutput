@@ -130,28 +130,30 @@ Please read the page on \ref tableconfig for more detailed information on this t
 
 The DirectOutput framework supports several configuration options:
 
-* __Auto configuration__ which tries to detect the connected hardware and the files containing the table definitions automatically. Auto configuration is using the legacy ledcontrol.ini file(s) for the table definitions if available.
+* __Auto configuration__ which tries to detect the connected hardware and the files containing the table definitions automatically. Auto configuration is using the legacy directoutputconfig.ini file(s) for the table definitions if available.
 * __XML config files__ are the best way to configure the framework. They allow to configure every detail of the framework in detail.
 
 \subsection installation_autoconfiguration Using Auto configuration
 
 If correctly installed the DirectOutput framework can configure itself automatically. This means that you dont need to create any of the config files mentioned in the sections below to get started.
 
-Auto configuration will automatically detect the LedWiz units connected to your system and try to lookup the ledcontrol.ini file(s) with table configurations in the following locations:
+Auto configuration will automatically detect the LedWiz units connected to your system and try to lookup the directoutputconfig.ini file(s) with table configurations in the following locations:
 
 - Table directory
 - Config directory of DirectOutput
 - Directory containing the DirectOutput.dll
 
-Up to 16 LedWiz units are supported, which can be controlled by numbered ledcontrol.ini files. For LedWiz nr. 1 the file ledcontrol.ini will be loaded, for LedWiz numbers 2-16 files ledcontrol{LedWizNumber}.ini (e.g. ledcontrol2.ini) will be loaded.
+Up to 16 LedWiz units are supported, which can be controlled by numbered directoutputconfig.ini files. For LedWiz nr. 1 the file directoutputconfig.ini will be loaded, for LedWiz numbers 2-16 files ledcontrol{LedWizNumber}.ini (e.g. ledcontrol2.ini) will be loaded.
 
-To create your own lecontrol.ini files it is best to use the <a target="_blank" href="http://vpuniverse.com/ledwiz/login.php">LedWiz Config Tool</a>.
+To create your own directoutputconfig.ini files it is best to use the <a target="_blank" href="http://vpuniverse.com/ledwiz/login.php">DOF Config Tool</a>.
+
+\image html DOFConfigTool.png DOF ConfigTool 
 
 At the moment only LedWiz units are automatically detected. If you are using other output controllers you will have to create a cabinet configuration file, specifying the output controllers and some matching LedWizEquivalent toys, to allow the use of ledcontrol files.
 
-\subsection installation_ledcontrolini Using LedControl.ini files
+\subsection installation_ledcontrolini Using directoutputconfig.ini files
 
-The DirectOutput framework can use one or several classical LedControl.ini files to configure tables. If no other table config files are found, the framework will try to load the ledcontrol.ini file(s). By deafult the framework tries to find the ledcontrol files specified in the Global Config file. If global config does not specify ledcontrol file(s) the framework will search for ledcontrol file(s) in the following directories:
+The DirectOutput framework can use one or several classical directoutputconfig.ini files to configure tables. If no other table config files are found, the framework will try to load the directoutputconfig.ini file(s). By default the framework tries to find the ledcontrol files specified in the Global Config file. If global config does not specify ledcontrol file(s) the framework will search for ledcontrol file(s) in the following directories:
 
 - Table directory
 - Config directory of DirectOutput
@@ -173,7 +175,7 @@ If the framework is called through the B2S.Server Plugin it will search for a fi
 - Table directory.
 - Directory of the DirectOutput.dll.
 
-If no global configuration file can be found, the framework tries to configure itself by detecting LedWiz units and searching ledcontrol.ini file in the table directory, the config directory of the DirectOutput framework or the dll directory of the framework (see section on auto configuration above). In this mode, the framework behaves like the vbscript solution.
+If no global configuration file can be found, the framework tries to configure itself by detecting LedWiz units and searching directoutputconfig.ini file in the table directory, the config directory of the DirectOutput framework or the dll directory of the framework (see section on auto configuration above). In this mode, the framework behaves like the vbscript solution.
 
 To create your own global configuration, you can either use the built in global configuration editor or write a XML-file with the necessary information yourself.
 

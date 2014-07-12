@@ -37,12 +37,6 @@ Found a bug in the code and know how to write code? Great! Help the project be s
 Some users might have problems installing, configuring and using the framwork. If you already feel familiar with the framework, please consider helping other users by ansering their questions in the various virtual pinball forums. This will free up resources on the development side!
 
 
-\section contribute_scripting Create scripts
-
-The DirectOutput framework can be extended using C# script files. Using scripts you can create new effects, toys and output controllers. 
-
-General information on scripting for the DirectOutput framework can be found on the following page: \rel scripting
-
 Create more effects
 --
 
@@ -57,7 +51,6 @@ Add more output controllers
 --
 
 If you are using a output controller which is not yet supported by the framework, it would be great if you add support for it. You can find more information on the page on \rel outputcontrollers.
-
 
 \section contribute_docu Contribute the to documentation
 

@@ -64,10 +64,12 @@
   <ItemGroup>
     <Content Include="html\61_FX_BuiltIn_RGBAMatrixBitmapAnimationVideo.html" />
     <Content Include="docu_todo.txt" />
+    <Content Include="html\99_Mainpage_DOFVideo.html" />
     <Content Include="img\B2SServer_PluginWindow.png" />
     <Content Include="img\B2SServer_Settings.png" />
     <Content Include="img\B2SServer_Settings_ActivatePlugins.png" />
     <Content Include="img\B2SServer_Settings_NoBackglass.png" />
+    <Content Include="img\DOFConfigTool.png" />
     <Content Include="img\GlobalConfigEditor_Cabinet.png" />
     <Content Include="img\GlobalConfigEditor_IniFiles.png" />
     <Content Include="img\GlobalConfigEditor_Logging.png" />

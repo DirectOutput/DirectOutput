@@ -7,7 +7,7 @@ The table configuration defines the table elements (e.g. solenoids or lamps), th
 
 In addition there is also a collection of static effects which are triggered when the framework is starting up. Use the static effects to control toys which dont have to change their state during game play (e.g. set illuminated flipper button to a specific color).
 
-The framework does also allow to mix the configuration in a table config file with configurations loaded from ledcontrol files. This will allow you to use configurations from the <a href="http://vpuniverse.com/ledwiz/login.php">LedWiz Config Tool</a> for commonly used gadgets and to supplement this with your own config. 
+The framework does also allow to mix the configuration in a table config file with configurations loaded from ledcontrol files. This will allow you to use configurations from the <a href="http://vpuniverse.com/ledwiz/login.php">DOF Config Tool</a> for commonly used gadgets and to supplement this with your own config. 
 
 \section tableconfigfile_configfilestructure Table config file 
 
