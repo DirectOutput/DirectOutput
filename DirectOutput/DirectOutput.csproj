@@ -266,11 +266,6 @@
     <Compile Include="LedControl\Loader\LedControl.cs" />
     <Compile Include="Pinball.cs" />
     <Compile Include="PinballSupport\PinballSupport.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Table\TableConfigSourceEnum.cs" />
     <Compile Include="PinballSupport\AlarmHandler.cs" />
     <Compile Include="Cab\Cab.cs" />
@@ -405,10 +400,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Frontend\TimeSpanStatisticsDetails.resx">
       <DependentUpon>TimeSpanStatisticsDetails.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
