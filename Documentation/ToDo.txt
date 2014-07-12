@@ -1,5 +1,0 @@
-﻿
-Test:
-S46 Red Blink 200,S48 Red f500 influece each other
- S48 Red Blink 200,S46 Red
-

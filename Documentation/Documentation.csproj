@@ -62,7 +62,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="html\61_FX_BuiltIn_RGBAMatrixBitmapAnimationVideo.html" />
-    <Content Include="docu_todo.txt" />
     <Content Include="html\99_Mainpage_DOFVideo.html" />
     <Content Include="img\B2SServer_PluginWindow.png" />
     <Content Include="img\B2SServer_Settings.png" />
@@ -119,7 +118,6 @@
     <Content Include="img\ToyEffect.png" />
     <Content Include="img\WS2811Controller.jpg" />
     <Content Include="img\you-re-the-best.gif" />
-    <Content Include="ToDo.txt" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
