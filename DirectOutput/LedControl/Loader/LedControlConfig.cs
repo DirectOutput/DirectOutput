@@ -97,7 +97,7 @@ namespace DirectOutput.LedControl.Loader
             string[] OutStartStrings = { "[Config DOF]", "[Config outs]" };
             string[] VariableStartStrings = { "[Variables DOF]" };
             string[] VersionStartStrings = { "[version]" };
-
+            string[] TableVariableStartStrings = { "[TableVariables]" }; ;
             string FileData = "";
 
             #region Read file
@@ -187,6 +187,7 @@ namespace DirectOutput.LedControl.Loader
             List<string> OutData = GetSection(Sections, OutStartStrings);
             List<string> VariableData = GetSection(Sections, VariableStartStrings);
             List<string> VersionData = GetSection(Sections, VersionStartStrings);
+            List<string> TableVariableData = GetSection(Sections, TableVariableStartStrings);
 
             if (VersionData != null && VersionData.Count > 0)
             {
@@ -263,6 +264,13 @@ namespace DirectOutput.LedControl.Loader
                 ResolveVariables(OutData, VariableData);
             }
 
+            if (TableVariableData != null)
+            {
+                ResolveTableVariables(OutData, TableVariableData);
+            }
+
+
+
             ColorConfigurations.ParseLedControlData(ColorData, ThrowExceptions);
 
             TableConfigurations.ParseLedcontrolData(OutData, ThrowExceptions);
@@ -286,6 +294,45 @@ namespace DirectOutput.LedControl.Loader
             return null;
         }
 
+
+        private void ResolveTableVariables(List<String> DataToResolve, List<string> VariableData)
+        {
+
+            TableVariablesDictionary VD = new TableVariablesDictionary(VariableData);
+
+
+            for (int i = 0; i < DataToResolve.Count - 1; i++)
+            {
+                string D = DataToResolve[i].Trim();
+                bool Updated = false;
+                if (!D.IsNullOrWhiteSpace())
+                {
+                    int TP = D.IndexOf(",");
+                    if (TP > 0)
+                    {
+                        string TableName = D.Substring(0, TP).Trim();
+                        if (VD.ContainsKey(TableName))
+                        {
+                            foreach (KeyValuePair<string, string> KV in VD[TableName])
+                            {
+                                string N = KV.Key;
+                                if (!N.StartsWith("@")) N = "@" + N;
+                                if (!N.EndsWith("@")) N += "@";
+                                D = D.Replace(N, KV.Value);
+                                Updated = true;
+                            }
+                        }
+                    }
+
+                }
+                if (Updated)
+                {
+                    DataToResolve[i] = D;
+                    Log.Write(D);
+                }
+            }
+
+        }
 
 
         private void ResolveVariables(List<String> DataToResolve, List<string> VariableData)
