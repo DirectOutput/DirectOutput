@@ -17,7 +17,7 @@ Welcome to the DirectOutput framework R2 for virtual pinball cabinets
 
 \note Please take note that this documentation is not yet complete (will probably never be) and that some parts of it might change in the future. 
 
-This is the documentation for the second release (R2) of the Direct Output framework which has been released in july 2014. Check the \ref History "History" for the list of changes in R2. This software will help you to connect all kinds of fun gadgets which you might have connected to your virtual pinball cabinet. 
+This is the documentation for the second release (R2) of the Direct Output framework which has been released in july 2014. Check the \ref DOFHistory "History" for the list of changes in R2. This software will help you to connect all kinds of fun gadgets which you might have connected to your virtual pinball cabinet. 
 
 For a start, here is a small video showing some of the possibilities of the Direct Output framework.
 
