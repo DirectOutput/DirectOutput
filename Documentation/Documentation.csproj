@@ -41,7 +41,6 @@
     <None Include="25_CabinetConfig.md" />
     <None Include="27_TableConfig.md" />
     <None Include="30_IniFiles.md" />
-    <None Include="40_Details.md" />
     <None Include="50_Architecture.md" />
     <None Include="60_FX.md" />
     <None Include="55_B2SServerPlugin.md" />
