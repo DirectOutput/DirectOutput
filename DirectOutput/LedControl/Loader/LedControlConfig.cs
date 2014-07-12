@@ -328,7 +328,7 @@ namespace DirectOutput.LedControl.Loader
                 if (Updated)
                 {
                     DataToResolve[i] = D;
-                    Log.Write(D);
+                   
                 }
             }
 
