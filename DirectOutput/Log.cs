@@ -4,6 +4,7 @@
 using System;
 using System.IO;
 using System.Diagnostics;
+using System.Threading;
 
 namespace DirectOutput
 {
@@ -55,7 +56,7 @@ namespace DirectOutput
 
                         IsOk = true;
 
-                        Debug("Writting of debug log messages is enabled");
+                     
 
 
 
@@ -148,9 +149,10 @@ namespace DirectOutput
                 {
                     Write("EXCEPTION: {0}".Build(Message));
                 }
+                Write("EXCEPTION: Thread: {0}".Build(Thread.CurrentThread.Name));
                 if (E != null)
                 {
-                    Write("EXCEPTION: {0}".Build(E.Message));
+                    Write("EXCEPTION: Message: {0}".Build(E.Message));
 
                     foreach (string S in E.StackTrace.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
                     {

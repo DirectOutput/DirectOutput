@@ -4,13 +4,15 @@ using System.Linq;
 using System.Text;
 using DirectOutput.Cab.Toys.Layer;
 using System.Xml.Serialization;
+using DirectOutput.Cab.Toys;
+using DirectOutput.General.Analog;
 
 namespace DirectOutput.FX.AnalogToyFX
 {
     /// <summary>
     /// Base class for effects controlling a single AnalogToy object.
     /// </summary>
-    public abstract class AnanlogToyEffectBase : EffectBase
+    public abstract class AnalogToyEffectBase : EffectBase
     {
         /// <summary>
         /// The table which contains the effect.
@@ -35,12 +37,14 @@ namespace DirectOutput.FX.AnalogToyFX
                 {
                     _ToyName = value;
                     Toy = null;
+                    Layer = null;
                 }
             }
         }
 
+        protected AnalogAlpha Layer { get; private set; }
 
-        private int _Layer = 0;
+        private int _LayerNr = 0;
 
         /// <summary>
         /// Gets or sets the number of the layer for the AnalogToy effect (Default=0).
@@ -48,10 +52,10 @@ namespace DirectOutput.FX.AnalogToyFX
         /// <value>
         /// The layer number.
         /// </value>
-        public int Layer
+        public int LayerNr
         {
-            get { return _Layer; }
-            set { _Layer = value; }
+            get { return _LayerNr; }
+            set { _LayerNr = value; }
         }
 
 
@@ -62,19 +66,12 @@ namespace DirectOutput.FX.AnalogToyFX
         /// If the ToyName property is empty or contains a unknown name or the name of a toy which is not a AnalogToy this property will return null.
         /// </summary>
         [XmlIgnoreAttribute]
-        public IAnalogAlphaToy Toy{get;protected set;}
+        protected IAnalogAlphaToy Toy{get;private set;}
 
         private void ResolveName(Table.Table Table)
         {
 
-            if (!ToyName.IsNullOrWhiteSpace() && Table.Pinball.Cabinet.Toys.Contains(ToyName))
-            {
-                if (Table.Pinball.Cabinet.Toys[ToyName] is IAnalogAlphaToy)
-                {
-                    Toy = (IAnalogAlphaToy)Table.Pinball.Cabinet.Toys[ToyName];
-                }
 
-            }
         }
 
         /// <summary>
@@ -83,6 +80,15 @@ namespace DirectOutput.FX.AnalogToyFX
         /// <param name="Table">Table object containing the effect.</param>
         public override void Init(Table.Table Table)
         {
+            if (!ToyName.IsNullOrWhiteSpace() && Table.Pinball.Cabinet.Toys.Contains(ToyName))
+            {
+                if (Table.Pinball.Cabinet.Toys[ToyName] is IAnalogAlphaToy)
+                {
+                    Toy = (IAnalogAlphaToy)Table.Pinball.Cabinet.Toys[ToyName];
+                    Layer = Toy.Layers[LayerNr];
+                }
+
+            }
             this.Table = Table;
             ResolveName(Table);
         }
@@ -92,9 +98,10 @@ namespace DirectOutput.FX.AnalogToyFX
         /// </summary>
         public override void Finish()
         {
-            base.Finish();
+           
             Toy = null;
             this.Table = null;
+            base.Finish();
         }
     
     }

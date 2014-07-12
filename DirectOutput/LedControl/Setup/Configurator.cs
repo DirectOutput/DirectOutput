@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DirectOutput.Cab;
 using DirectOutput.Cab.Out;
@@ -7,10 +8,15 @@ using DirectOutput.Cab.Toys.Layer;
 using DirectOutput.Cab.Toys.LWEquivalent;
 using DirectOutput.FX;
 using DirectOutput.FX.AnalogToyFX;
+using DirectOutput.FX.ConditionFX;
+using DirectOutput.FX.MatrixFX;
 using DirectOutput.FX.RGBAFX;
 using DirectOutput.FX.TimmedFX;
+using DirectOutput.FX.ValueFX;
+using DirectOutput.General;
+using DirectOutput.General.Analog;
+using DirectOutput.General.Color;
 using DirectOutput.LedControl.Loader;
-using DirectOutput.Cab.Color;
 
 namespace DirectOutput.LedControl.Setup
 {
@@ -39,14 +45,22 @@ namespace DirectOutput.LedControl.Setup
         {
             Dictionary<int, TableConfig> TableConfigDict = LedControlConfigList.GetTableConfigDictonary(RomName);
 
+            string IniFilePath = "";
+            if (LedControlConfigList.Count > 0)
+            {
+                IniFilePath = LedControlConfigList[0].LedControlIniFile.Directory.FullName;
+            }
+
             Dictionary<int, Dictionary<int, IToy>> ToyAssignments = SetupCabinet(TableConfigDict, Cabinet);
 
-            SetupTable(Table, TableConfigDict, ToyAssignments);
+
+
+            SetupTable(Table, TableConfigDict, ToyAssignments, IniFilePath);
 
 
         }
 
-        private void SetupTable(Table.Table Table, Dictionary<int, TableConfig> TableConfigDict, Dictionary<int, Dictionary<int, IToy>> ToyAssignments)
+        private void SetupTable(Table.Table Table, Dictionary<int, TableConfig> TableConfigDict, Dictionary<int, Dictionary<int, IToy>> ToyAssignments, string IniFilePath)
         {
             foreach (KeyValuePair<int, TableConfig> KV in TableConfigDict)
             {
@@ -71,126 +85,328 @@ namespace DirectOutput.LedControl.Setup
 
                                 int Layer = (TCS.Layer.HasValue ? TCS.Layer.Value : SettingNumber);
 
-                                if (Toy is IRGBAToy || Toy is IAnalogAlphaToy)
+                                if (Toy is IMatrixToy<RGBAColor> || Toy is IMatrixToy<AnalogAlpha>)
                                 {
-                                    if (Toy is IRGBAToy)
+
+                                    if (TCS.IsBitmap)
                                     {
-                                        RGBAColor ActiveColor = null;
-                                        if (TCS.ColorConfig != null)
+                                        FilePattern P = new FilePattern("{0}\\{1}.*".Build(IniFilePath, TC.ShortRomName));
+
+                                        if (TCS.AreaBitmapAnimationStepCount > 1)
                                         {
-                                            ActiveColor = TCS.ColorConfig.GetCabinetColor().GetRGBAColor();
+                                            //it is a animation
+                                            if (Toy is IMatrixToy<RGBAColor>)
+                                            {
+                                                Effect = new RGBAMatrixBitmapAnimationEffect() { BitmapFilePattern = P, BitmapLeft = TCS.AreaBitmapLeft, BitmapTop = TCS.AreaBitmapTop, BitmapHeight = TCS.AreaBitmapHeight, BitmapWidth = TCS.AreaBitmapWidth, BitmapFrameNumber = TCS.AreaBitmapFrame, AnimationStepDirection = TCS.AreaBitmapAnimationDirection, AnimationFrameDurationMs = TCS.AreaBitmapAnimationFrameDuration, AnimationFrameCount = TCS.AreaBitmapAnimationStepCount, AnimationStepSize = TCS.AreaBitmapAnimationStepSize, AnimationBehaviour=TCS.AreaBitmapAnimationBehaviour, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, LayerNr = Layer, ToyName = Toy.Name };
+                                            }
+                                            else
+                                            {
+                                                Effect = new AnalogAlphaMatrixBitmapAnimationEffect() { BitmapFilePattern = P, BitmapLeft = TCS.AreaBitmapLeft, BitmapTop = TCS.AreaBitmapTop, BitmapHeight = TCS.AreaBitmapHeight, BitmapWidth = TCS.AreaBitmapWidth, BitmapFrameNumber = TCS.AreaBitmapFrame, AnimationStepDirection = TCS.AreaBitmapAnimationDirection, AnimationFrameDurationMs = TCS.AreaBitmapAnimationFrameDuration, AnimationFrameCount = TCS.AreaBitmapAnimationStepCount, AnimationStepSize = TCS.AreaBitmapAnimationStepSize, AnimationBehaviour = TCS.AreaBitmapAnimationBehaviour, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, LayerNr = Layer, ToyName = Toy.Name };
+                                            }
                                         }
                                         else
                                         {
-                                            if (!TCS.ColorName.IsNullOrWhiteSpace())
+                                            //its a static bitmap
+                                            if (Toy is IMatrixToy<RGBAColor>)
                                             {
-                                                if (TCS.ColorName.StartsWith("#"))
+                                                Effect = new RGBAMatrixBitmapEffect() { BitmapFilePattern = P, BitmapLeft = TCS.AreaBitmapLeft, BitmapTop = TCS.AreaBitmapTop, BitmapHeight = TCS.AreaBitmapHeight, BitmapWidth = TCS.AreaBitmapWidth, BitmapFrameNumber = TCS.AreaBitmapFrame, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, LayerNr = Layer, ToyName = Toy.Name };
+                                            }
+                                            else
+                                            {
+                                                Effect = new AnalogAlphaMatrixBitmapEffect() { BitmapFilePattern = P, BitmapLeft = TCS.AreaBitmapLeft, BitmapTop = TCS.AreaBitmapTop, BitmapHeight = TCS.AreaBitmapHeight, BitmapWidth = TCS.AreaBitmapWidth, BitmapFrameNumber = TCS.AreaBitmapFrame, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, LayerNr = Layer, ToyName = Toy.Name };
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        //Non bitmap area effects
+                                        if (Toy is IMatrixToy<RGBAColor>)
+                                        {
+                                            //RGBAMatrix toy
+
+                                            RGBAColor ActiveColor = null;
+                                            if (TCS.ColorConfig != null)
+                                            {
+                                                ActiveColor = TCS.ColorConfig.GetCabinetColor().GetRGBAColor();
+                                            }
+                                            else
+                                            {
+                                                if (!TCS.ColorName.IsNullOrWhiteSpace())
                                                 {
-                                                    ActiveColor = new RGBAColor();
-                                                    if (!ActiveColor.SetColor(TCS.ColorName))
+                                                    if (TCS.ColorName.StartsWith("#"))
                                                     {
-                                                        ActiveColor = null;
-                                                        Log.Warning("Skipped setting {0} in column {1} for LedWizEqivalent number {2} since {3} is not a valid color specification.".Build(new object[] { SettingNumber, TCC.Number, LedWizNr, TCS.ColorName }));
+                                                        ActiveColor = new RGBAColor();
+                                                        if (!ActiveColor.SetColor(TCS.ColorName))
+                                                        {
+                                                            ActiveColor = null;
+                                                        }
                                                     }
+                                                }
+                                            }
+
+                                            if (ActiveColor != null)
+                                            {
+                                                RGBAColor InactiveColor = ActiveColor.Clone();
+                                                InactiveColor.Alpha = 0;
+                                                if (TCS.AreaDirection.HasValue)
+                                                {
+                                                    //shift effect
+                                                    Effect = new RGBAMatrixShiftEffect() { ShiftDirection = TCS.AreaDirection.Value, ShiftAcceleration = TCS.AreaAcceleration, ActiveColor = ActiveColor, InactiveColor = InactiveColor, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, LayerNr = Layer, ToyName = Toy.Name };
+                                                    if (TCS.AreaSpeed > 0)
+                                                    {
+                                                        ((RGBAMatrixShiftEffect)Effect).ShiftSpeed = TCS.AreaSpeed;
+                                                    }
+
+                                                }
+                                                else if (TCS.AreaFlickerDensity > 0)
+                                                {
+                                                    //flicker effect
+                                                    Effect = new RGBAMatrixFlickerEffect() { Density = TCS.AreaFlickerDensity.Limit(1, 99), ActiveColor = ActiveColor, InactiveColor = InactiveColor, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, LayerNr = Layer, ToyName = Toy.Name };
+                                                    if (TCS.AreaFlickerMinDurationMs > 0)
+                                                    {
+                                                        ((RGBAMatrixFlickerEffect)Effect).MinFlickerDurationMs = TCS.AreaFlickerMinDurationMs;
+                                                    }
+                                                    if (TCS.AreaFlickerMaxDurationMs > 0)
+                                                    {
+                                                        ((RGBAMatrixFlickerEffect)Effect).MaxFlickerDurationMs = TCS.AreaFlickerMaxDurationMs;
+                                                    }
+
                                                 }
                                                 else
                                                 {
+                                                    //Color effect
+                                                    Effect = new RGBAMatrixColorEffect() { ActiveColor = ActiveColor, InactiveColor = InactiveColor, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, LayerNr = Layer, ToyName = Toy.Name };
+                                                }
+
+                                            }
+                                            else
+                                            {
+                                                Log.Warning("No color valid color definition found for area effect. Skipped setting {0} in column {1} for LedWizEqivalent number {2}.".Build(SettingNumber, TCC.Number, LedWizNr));
+
+                                            }
+                                        }
+                                        else if (Toy is IMatrixToy<AnalogAlpha>)
+                                        {
+                                            AnalogAlpha ActiveValue = new AnalogAlpha(TCS.Intensity.Limit(0, 255), 255);
+                                            AnalogAlpha InactiveValue = ActiveValue.Clone();
+                                            InactiveValue.Alpha = 0;
+
+
+                                            if (TCS.AreaDirection.HasValue)
+                                            {
+                                                //shift effect
+                                                Effect = new AnalogAlphaMatrixShiftEffect() { ShiftDirection = TCS.AreaDirection.Value, ShiftAcceleration = TCS.AreaAcceleration, ActiveValue = ActiveValue, InactiveValue = InactiveValue, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, LayerNr = Layer, ToyName = Toy.Name };
+                                                if (TCS.AreaSpeed > 0)
+                                                {
+                                                    ((AnalogAlphaMatrixShiftEffect)Effect).ShiftSpeed = TCS.AreaSpeed;
+                                                }
+
+                                            }
+                                            else if (TCS.AreaFlickerDensity > 0)
+                                            {
+                                                //flicker effect
+                                                Effect = new AnalogAlphaMatrixFlickerEffect() { Density = TCS.AreaFlickerDensity.Limit(1, 99), ActiveValue = ActiveValue, InactiveValue = InactiveValue, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, LayerNr = Layer, ToyName = Toy.Name };
+                                                if (TCS.AreaFlickerMinDurationMs > 0)
+                                                {
+                                                    ((AnalogAlphaMatrixFlickerEffect)Effect).MinFlickerDurationMs = TCS.AreaFlickerMinDurationMs;
+                                                }
+                                                if (TCS.AreaFlickerMaxDurationMs > 0)
+                                                {
+                                                    ((AnalogAlphaMatrixFlickerEffect)Effect).MaxFlickerDurationMs = TCS.AreaFlickerMaxDurationMs;
+                                                }
+
+                                            }
+                                            else
+                                            {
+                                                //Color effect
+                                                Effect = new AnalogAlphaMatrixValueEffect() { ActiveValue = ActiveValue, InactiveValue = InactiveValue, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, LayerNr = Layer, ToyName = Toy.Name };
+                                            }
+
+                                        }
+                                    }
+                                }
+                                else if (Toy is IRGBAToy)
+                                {
+                                    RGBAColor ActiveColor = null;
+                                    if (TCS.ColorConfig != null)
+                                    {
+                                        ActiveColor = TCS.ColorConfig.GetCabinetColor().GetRGBAColor();
+                                    }
+                                    else
+                                    {
+                                        if (!TCS.ColorName.IsNullOrWhiteSpace())
+                                        {
+                                            if (TCS.ColorName.StartsWith("#"))
+                                            {
+                                                ActiveColor = new RGBAColor();
+                                                if (!ActiveColor.SetColor(TCS.ColorName))
+                                                {
+                                                    ActiveColor = null;
                                                     Log.Warning("Skipped setting {0} in column {1} for LedWizEqivalent number {2} since {3} is not a valid color specification.".Build(new object[] { SettingNumber, TCC.Number, LedWizNr, TCS.ColorName }));
                                                 }
                                             }
                                             else
                                             {
-                                                Log.Warning("Skipped setting {0} in column {1} for LedWizEqivalent number {2} since it does not contain a color specification.".Build(SettingNumber, TCC.Number, LedWizNr));
+                                                Log.Warning("Skipped setting {0} in column {1} for LedWizEqivalent number {2} since {3} is not a valid color specification.".Build(new object[] { SettingNumber, TCC.Number, LedWizNr, TCS.ColorName }));
                                             }
-                                        }
-                                        if (ActiveColor != null)
-                                        {
-                                            if (TCS.FadingDownDurationMs > 0 || TCS.FadingUpDurationMs > 0)
-                                            {
-                                                //Must fade, use fadeeffect
-                                                Effect = new RGBAFadeOnOffEffect() { ToyName = Toy.Name, Layer = Layer, FadeActiveDurationMs = TCS.FadingUpDurationMs, FadeInactiveDurationMs = TCS.FadingDownDurationMs, RetriggerBehaviour = RetriggerBehaviourEnum.IgnoreRetrigger, FadeMode = FadeModeEnum.CurrentToDefined, ActiveColor = ActiveColor, InactiveColor = new RGBAColor(0, 0, 0, 0) };
-
-                                            }
-                                            else
-                                            {
-                                                //No fadinging, set color directly
-                                                Effect = new RGBAOnOffEffect() { ToyName = Toy.Name, Layer = Layer, ActiveColor = ActiveColor, InactiveColor = new RGBAColor(0, 0, 0, 0) };
-                                            }
-
-
-                                        }
-                                    }
-                                    else if (Toy is IAnalogAlphaToy)
-                                    {
-                                        AnalogAlphaValue AAV = new AnalogAlphaValue(((int)((double)TCS.Intensity * 5.3125)).Limit(0, 255));
-                                        if (TCS.FadingDownDurationMs > 0 || TCS.FadingUpDurationMs > 0)
-                                        {
-                                            Effect = new AnalogToyFadeOnOffEffect() { ToyName = Toy.Name, Layer = Layer, FadeActiveDurationMs = TCS.FadingUpDurationMs, FadeInactiveDurationMs = TCS.FadingDownDurationMs, RetriggerBehaviour = RetriggerBehaviourEnum.IgnoreRetrigger, FadeMode = FadeModeEnum.CurrentToDefined, ActiveValue = AAV, InactiveValue = new AnalogAlphaValue(0, 0) };
                                         }
                                         else
                                         {
-                                            Effect = new AnalogToyOnOffEffect() { ToyName = Toy.Name, Layer = Layer, ActiveValue = AAV, InactiveValue = new AnalogAlphaValue(0, 0) };
+                                            Log.Warning("Skipped setting {0} in column {1} for LedWizEqivalent number {2} since it does not contain a color specification.".Build(SettingNumber, TCC.Number, LedWizNr));
                                         }
-
                                     }
-                                    if (Effect != null)
+                                    if (ActiveColor != null)
                                     {
-                                        Effect.Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} {3}".Build(new object[] { LedWizNr, TCC.Number, SettingNumber, Effect.GetType().Name });
-                                        MakeEffectNameUnique(Effect, Table);
+                                        RGBAColor InactiveColor = ActiveColor.Clone();
+                                        InactiveColor.Alpha = 0;
+                                        Effect = new RGBAColorEffect() { ToyName = Toy.Name, LayerNr = Layer, ActiveColor = ActiveColor, InactiveColor = InactiveColor };
+                                    }
 
+                                }
+                                else if (Toy is IAnalogAlphaToy)
+                                {
+                                    AnalogAlpha ActiveValue = new AnalogAlpha(TCS.Intensity.Limit(0, 255), 255);
+                                    AnalogAlpha InactiveValue = ActiveValue.Clone();
+                                    InactiveValue.Alpha = 0;
+                                    Effect = new AnalogToyValueEffect() { ToyName = Toy.Name, LayerNr = Layer, ActiveValue = ActiveValue, InactiveValue = InactiveValue };
+
+                                }
+                                if (Effect != null)
+                                {
+                                    Effect.Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} {3}".Build(new object[] { LedWizNr, TCC.Number, SettingNumber, Effect.GetType().Name });
+                                    MakeEffectNameUnique(Effect, Table);
+
+                                    Table.Effects.Add(Effect);
+
+                                    if (TCS.FadingUpDurationMs > 0 || TCS.FadingDownDurationMs > 0)
+                                    {
+                                        Effect = new FadeEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} FadeEffect".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name, FadeDownDuration = TCS.FadingDownDurationMs, FadeUpDuration = TCS.FadingUpDurationMs };
+                                        MakeEffectNameUnique(Effect, Table);
+                                        Table.Effects.Add(Effect);
+                                    }
+                                    if (TCS.Blink != 0 && TCS.BlinkIntervalMsNested > 0)
+                                    {
+                                        Effect = new BlinkEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} BlinkEffect Inner".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name, LowValue=TCS.BlinkLow, DurationActiveMs = (int)((double)TCS.BlinkIntervalMsNested * (double)TCS.BlinkPulseWidthNested / 100), DurationInactiveMs = (int)((double)TCS.BlinkIntervalMsNested * (100 - (double)TCS.BlinkPulseWidthNested) / 100) };
+                                        MakeEffectNameUnique(Effect, Table);
+                                        Table.Effects.Add(Effect);
+                                    }
+
+
+                                    if (TCS.Blink != 0)
+                                    {
+                                        Effect = new BlinkEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} BlinkEffect".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name, DurationActiveMs = (int)((double)TCS.BlinkIntervalMs * (double)TCS.BlinkPulseWidth / 100), DurationInactiveMs = (int)((double)TCS.BlinkIntervalMs * (100 - (double)TCS.BlinkPulseWidth) / 100) };
+                                        if (TCS.BlinkIntervalMsNested == 0)
+                                        {
+                                            ((BlinkEffect)Effect).LowValue = TCS.BlinkLow;
+                                        }
+                                        MakeEffectNameUnique(Effect, Table);
+                                        Table.Effects.Add(Effect);
+                                    }
+
+                                    if (TCS.DurationMs > 0 || TCS.Blink > 0)
+                                    {
+                                        int Duration = (TCS.DurationMs > 0 ? TCS.DurationMs : (TCS.Blink * 2 - 1) * TCS.BlinkIntervalMs / 2 + 1);
+                                        Effect = new DurationEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} DurationEffect".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name, DurationMs = Duration, RetriggerBehaviour = RetriggerBehaviourEnum.Restart };
+                                        MakeEffectNameUnique(Effect, Table);
+                                        Table.Effects.Add(Effect);
+                                    }
+                                    if (TCS.MaxDurationMs > 0)
+                                    {
+
+                                        Effect = new MaxDurationEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} MaxDurationEffect".Build(new object[] { LedWizNr, TCC.Number, SettingNumber }), TargetEffectName = Effect.Name, MaxDurationMs = TCS.MaxDurationMs };
+                                        MakeEffectNameUnique(Effect, Table);
+                                        Table.Effects.Add(Effect);
+                                    }
+
+
+                                    if (TCS.MinDurationMs > 0 || (Toy is IRGBAToy && EffectRGBMinDurationMs > 0) || (!(Toy is IRGBAToy) && EffectMinDurationMs > 0))
+                                    {
+                                        string N = (TCS.MinDurationMs > 0 ? "MinDuratonEffect" : "DefaultMinDurationEffect");
+                                        int Min = (TCS.MinDurationMs > 0 ? TCS.MinDurationMs : (Toy is IRGBAToy ? EffectRGBMinDurationMs : EffectMinDurationMs));
+                                        Effect = new MinDurationEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} {3}".Build(new object[] { LedWizNr, TCC.Number, SettingNumber, N }), TargetEffectName = Effect.Name, MinDurationMs = Min };
+                                        MakeEffectNameUnique(Effect, Table);
+                                        Table.Effects.Add(Effect);
+                                    }
+
+                                    if (TCS.ExtDurationMs > 0)
+                                    {
+                                        Effect = new ExtendDurationEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} ExtDurationEffect".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name, DurationMs = TCS.ExtDurationMs };
+                                        MakeEffectNameUnique(Effect, Table);
                                         Table.Effects.Add(Effect);
 
-                                        if (TCS.Blink != 0)
-                                        {
-                                            Effect = new BlinkEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} BlinkEffect".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name, DurationActiveMs = TCS.BlinkIntervalMs, DurationInactiveMs = TCS.BlinkIntervalMs };
+                                    }
+
+                                    if (TCS.WaitDurationMs > 0)
+                                    {
+                                        Effect = new DelayEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} DelayEffect".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name, DelayMs = TCS.WaitDurationMs };
+                                        MakeEffectNameUnique(Effect, Table);
+                                        Table.Effects.Add(Effect);
+                                    }
+
+                                    if (TCS.Invert)
+                                    {
+                                        Effect = new ValueInvertEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} ValueInvertEffect".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name };
+                                        MakeEffectNameUnique(Effect, Table);
+                                        Table.Effects.Add(Effect);
+                                    }
+                                    if (!TCS.NoBool)
+                                    {
+
+                                        Effect = new ValueMapFullRangeEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} FullRangeEffect".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name };
+                                        MakeEffectNameUnique(Effect, Table);
+                                        Table.Effects.Add(Effect);
+
+
+                                    }
+                                    switch (TCS.OutputControl)
+                                    {
+                                        case OutputControlEnum.Condition:
+
+                                            Effect = new TableElementConditionEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} TableElementConditionEffect".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name, Condition = TCS.Condition };
                                             MakeEffectNameUnique(Effect, Table);
                                             Table.Effects.Add(Effect);
-                                        }
 
-                                        if (TCS.DurationMs > 0 || TCS.Blink > 0)
-                                        {
-                                            int Duration = (TCS.DurationMs > 0 ? TCS.DurationMs : (TCS.Blink * 2 - 1) * TCS.BlinkIntervalMs + 1);
-                                            Effect = new DurationEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} DurationEffect".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name, DurationMs = Duration, RetriggerBehaviour = RetriggerBehaviourEnum.RestartEffect };
-                                            MakeEffectNameUnique(Effect, Table);
-                                            Table.Effects.Add(Effect);
-                                        }
-                                        if (TCS.MinDurationMs > 0 || (Toy is IRGBAToy && EffectRGBMinDurationMs > 0) || (!(Toy is IRGBAToy) && EffectMinDurationMs > 0))
-                                        {
-                                            string N = (TCS.MinDurationMs > 0 ? "MinDuratonEffect" : "DefaultMinDurationEffect");
-                                            int Min = (TCS.MinDurationMs > 0 ? TCS.MinDurationMs : (Toy is IRGBAToy ? EffectRGBMinDurationMs : EffectMinDurationMs));
-                                            Effect = new MinDurationEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} {3}".Build(new object[] { LedWizNr, TCC.Number, SettingNumber, N }), TargetEffectName = Effect.Name, MinDurationMs = Min };
-                                            MakeEffectNameUnique(Effect, Table);
-                                            Table.Effects.Add(Effect);
-                                        }
-
-
-                                        if (TCS.WaitDurationMs > 0)
-                                        {
-                                            Effect = new DelayEffect() { Name = "Ledwiz {0:00} Column {1:00} Setting {2:00} DelayEffect".Build(LedWizNr, TCC.Number, SettingNumber), TargetEffectName = Effect.Name, DelayMs = TCS.WaitDurationMs };
-                                            MakeEffectNameUnique(Effect, Table);
-                                            Table.Effects.Add(Effect);
-                                        }
-
-                                        switch (TCS.OutputControl)
-                                        {
-                                            case OutputControlEnum.FixedOn:
-                                                Table.AssignedStaticEffects.Add(new AssignedEffect(Effect.Name));
-                                                break;
-                                            case OutputControlEnum.Controlled:
-                                                if (!Table.TableElements.Contains(TCS.TableElementType, TCS.TableElementNumber))
+                                            foreach (string Variable in ((TableElementConditionEffect)Effect).GetVariables())
+                                            {
+                                                TableElementTypeEnum TET = (TableElementTypeEnum)Variable[0];
+                                                int TEN = Variable.Substring(1).ToInteger();
+                                                if (!Table.TableElements.Contains(TET, TEN))
                                                 {
-                                                    Table.TableElements.UpdateState(TCS.TableElementType, TCS.TableElementNumber, 0);
+                                                    Table.TableElements.UpdateState(TET, TEN, 0);
                                                 }
-                                                Table.TableElements[TCS.TableElementType, TCS.TableElementNumber].AssignedEffects.Add(new AssignedEffect(Effect.Name));
-                                                break;
-                                            case OutputControlEnum.FixedOff:
-                                            default:
-                                                break;
-                                        }
+                                                Table.TableElements[TET, TEN].AssignedEffects.Add(new AssignedEffect(Effect.Name));
+                                            }
+
+                                            break;
+
+
+                                        case OutputControlEnum.FixedOn:
+                                            Table.AssignedStaticEffects.Add(new AssignedEffect(Effect.Name));
+                                            break;
+                                        case OutputControlEnum.Controlled:
+
+                                            string[] ATE = TCS.TableElement.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                                            foreach (string TE in ATE)
+                                            {
+                                                TableElementTypeEnum TET = (TableElementTypeEnum)TE[0];
+                                                int TEN = TE.Substring(1).ToInteger();
+                                                if (!Table.TableElements.Contains(TET, TEN))
+                                                {
+                                                    Table.TableElements.UpdateState(TET, TEN, 0);
+                                                }
+                                                Table.TableElements[TET, TEN].AssignedEffects.Add(new AssignedEffect(Effect.Name));
+                                            }
+
+
+                                            break;
+                                        case OutputControlEnum.FixedOff:
+                                        default:
+                                            break;
                                     }
                                 }
-
                             }
+
+
                         }
                     }
                 }
@@ -223,7 +439,15 @@ namespace DirectOutput.LedControl.Setup
             Dictionary<int, LedWizEquivalent> LedWizEquivalentDict = new Dictionary<int, LedWizEquivalent>();
             foreach (IToy T in Cabinet.Toys.Where(Toy => Toy is LedWizEquivalent).ToList())
             {
-                LedWizEquivalentDict.Add(((LedWizEquivalent)T).LedWizNumber, (LedWizEquivalent)T);
+                if (!LedWizEquivalentDict.Keys.Any(K => K == ((LedWizEquivalent)T).LedWizNumber))
+                {
+                    LedWizEquivalentDict.Add(((LedWizEquivalent)T).LedWizNumber, (LedWizEquivalent)T);
+                }
+                else
+                {
+                    Log.Warning("Found more than one ledwiz with number {0}.".Build(((LedWizEquivalent)T).LedWizNumber));          
+
+                }
             }
 
             foreach (KeyValuePair<int, TableConfig> KV in TableConfigDict)
@@ -239,82 +463,133 @@ namespace DirectOutput.LedControl.Setup
                     foreach (TableConfigColumn TCC in TC.Columns)
                     {
                         IToy TargetToy = null;
-                        switch (TCC.RequiredOutputCount)
+
+                        if (TCC.IsArea)
                         {
-                            case 3:
-                                //RGB Led
-
-                                if (LWE.Outputs.Any(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber) && LWE.Outputs.Any(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 1) && LWE.Outputs.Any(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 2))
+                            if (LWE.Outputs.Any(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber))
+                            {
+                                string OutputName = LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName;
+                                if (Cabinet.Toys.Any(O => (O is IMatrixToy<RGBAColor> || O is IMatrixToy<AnalogAlpha>) && O.Name == OutputName))
                                 {
-                                    //Try to get the toy 
-                                    try
-                                    {
-                                        //Toy does already exist
-                                        TargetToy = (IToy)Cabinet.Toys.First(Toy => Toy is IRGBAToy && ((IRGBAToy)Toy).OutputNameRed == LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName && ((IRGBAToy)Toy).OutputNameGreen == LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 1).OutputName && ((IRGBAToy)Toy).OutputNameBlue == LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 2).OutputName);
 
-                                    }
-                                    catch
-                                    {
-                                        //Toy does not exist. Create toyname and toy
-                                        string ToyName = "LedWiz {0:00} Column {1:00}".Build(LedWizNr, TCC.Number);
-                                        if (Cabinet.Toys.Contains(ToyName))
-                                        {
-                                            int Cnt = 1;
-                                            while (Cabinet.Toys.Contains("{0} {1}".Build(ToyName, Cnt)))
-                                            {
-                                                Cnt++;
-                                            }
-                                            ToyName = "{0} {1}".Build(ToyName, Cnt);
-                                        }
-                                        TargetToy = (IToy)new RGBAToy() { Name = ToyName, OutputNameRed = LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName, OutputNameGreen = LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 1).OutputName, OutputNameBlue = LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 2).OutputName };
-                                        Cabinet.Toys.Add(TargetToy);
-                                    }
 
-                                    ToyAssignments[LedWizNr].Add(TCC.Number, TargetToy);
-                                }
+                                    TargetToy = (IToy)Cabinet.Toys.FirstOrDefault(O => (O is IMatrixToy<RGBAColor> || O is IMatrixToy<AnalogAlpha>) && O.Name == OutputName);
 
-                                break;
-                            case 1:
-                                //Single output
 
-                                //Analog output
-                                if (LWE.Outputs.Any(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber))
-                                {
-                                    try
-                                    {
-                                        TargetToy = Cabinet.Toys.First(Toy => Toy is IAnalogAlphaToy && ((IAnalogAlphaToy)Toy).OutputName == LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName);
-                                    }
-                                    catch
-                                    {
-                                        //Toy does not exist. Create toyname and toy
-                                        string ToyName = "LedWiz {0:00} Column {1:00}".Build(LedWizNr, TCC.Number);
-
-                                        if (Cabinet.Toys.Contains(ToyName))
-                                        {
-                                            int Cnt = 1;
-                                            while (Cabinet.Toys.Contains("{0} {1}".Build(ToyName, Cnt)))
-                                            {
-                                                Cnt++;
-                                            }
-                                            ToyName = "{0} {1}".Build(ToyName, Cnt);
-                                        }
-                                        TargetToy = (IToy)new AnalogAlphaToy() { Name = ToyName, OutputName = LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName };
-                                        Cabinet.Toys.Add(TargetToy);
-                                    }
-                                    ToyAssignments[LedWizNr].Add(TCC.Number, TargetToy);
                                 }
 
 
 
-                                break;
+                            }
+                        }
+                        else
+                        {
 
-                            default:
-                                //Unknow value
-                                Log.Warning("A illegal number ({0}) of required outputs has been found in a table config colum {0} for ledcontrol nr. {2}. Cant configure toy.".Build(TCC.RequiredOutputCount, TCC.Number, LedWizNr));
-                                break;
+                            switch (TCC.RequiredOutputCount)
+                            {
+                                case 3:
+                                    //RGB Led
+
+                                    if (LWE.Outputs.Any(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber))
+                                    {
+                                        string OutputName = LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName;
+                                        if (Cabinet.Toys.Any(O => O is IRGBAToy && O.Name == OutputName))
+                                        {
+                                            TargetToy = (IToy)Cabinet.Toys.FirstOrDefault(O => O is IRGBAToy && O.Name == OutputName);
+                                        }
+                                    }
+                                    if (TargetToy == null)
+                                    {
+                                        if (LWE.Outputs.Any(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber) && LWE.Outputs.Any(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 1) && LWE.Outputs.Any(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 2))
+                                        {
+                                            //Try to get the toy 
+                                            try
+                                            {
+                                                //Toy does already exist
+                                                TargetToy = (IToy)Cabinet.Toys.First(Toy => Toy is IRGBOutputToy && ((IRGBOutputToy)Toy).OutputNameRed == LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName && ((IRGBOutputToy)Toy).OutputNameGreen == LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 1).OutputName && ((IRGBOutputToy)Toy).OutputNameBlue == LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 2).OutputName);
+
+                                            }
+                                            catch
+                                            {
+                                                //Toy does not exist. Create toyname and toy
+                                                string ToyName = "LedWiz {0:00} Column {1:00}".Build(LedWizNr, TCC.Number);
+                                                if (Cabinet.Toys.Contains(ToyName))
+                                                {
+                                                    int Cnt = 1;
+                                                    while (Cabinet.Toys.Contains("{0} {1}".Build(ToyName, Cnt)))
+                                                    {
+                                                        Cnt++;
+                                                    }
+                                                    ToyName = "{0} {1}".Build(ToyName, Cnt);
+                                                }
+                                                TargetToy = (IToy)new RGBAToy() { Name = ToyName, OutputNameRed = LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName, OutputNameGreen = LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 1).OutputName, OutputNameBlue = LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 2).OutputName };
+                                                Cabinet.Toys.Add(TargetToy);
+                                            }
+
+
+                                        }
+                                    }
+
+                                    break;
+                                case 1:
+                                    //Single output
+
+                                    //Analog output
+
+                                    if (LWE.Outputs.Any(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber))
+                                    {
+                                        string OutputName = LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName;
+                                        if (Cabinet.Toys.Any(O => O is IAnalogAlphaToy && O.Name == OutputName))
+                                        {
+                                            TargetToy = (IToy)Cabinet.Toys.FirstOrDefault(O => O is IAnalogAlphaToy && O.Name == OutputName);
+                                        }
+                                    }
+                                    if (TargetToy == null)
+                                    {
+
+
+                                        if (LWE.Outputs.Any(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber))
+                                        {
+                                            try
+                                            {
+                                                TargetToy = Cabinet.Toys.First(Toy => Toy is ISingleOutputToy && ((ISingleOutputToy)Toy).OutputName == LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName);
+                                            }
+                                            catch
+                                            {
+                                                //Toy does not exist. Create toyname and toy
+                                                string ToyName = "LedWiz {0:00} Column {1:00}".Build(LedWizNr, TCC.Number);
+
+                                                if (Cabinet.Toys.Contains(ToyName))
+                                                {
+                                                    int Cnt = 1;
+                                                    while (Cabinet.Toys.Contains("{0} {1}".Build(ToyName, Cnt)))
+                                                    {
+                                                        Cnt++;
+                                                    }
+                                                    ToyName = "{0} {1}".Build(ToyName, Cnt);
+                                                }
+                                                TargetToy = (IToy)new AnalogAlphaToy() { Name = ToyName, OutputName = LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName };
+                                                Cabinet.Toys.Add(TargetToy);
+                                            }
+
+                                        }
+
+                                    }
+
+                                    break;
+
+                                default:
+                                    //Unknow value
+                                    Log.Warning("A illegal number ({0}) of required outputs has been found in a table config colum {0} for ledcontrol nr. {2}. Cant configure toy.".Build(TCC.RequiredOutputCount, TCC.Number, LedWizNr));
+                                    break;
+                            }
+                        }
+
+                        if (TargetToy != null)
+                        {
+                            ToyAssignments[LedWizNr].Add(TCC.Number, TargetToy);
                         }
                     }
-
                 }
             }
             return ToyAssignments;

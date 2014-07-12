@@ -11,13 +11,13 @@ using DirectOutput.General.Statistics;
 namespace DirectOutput.Cab.Out.Pac
 {
     /// <summary>
-    /// The PacLed64 is a output controller with 64 outputs all supporting 256 <a target="_blank" href="https://en.wikipedia.org/wiki/Pulse-width_modulation">pwm</a> levels. Since the outputs of the unit are constant current drivers providing 20ma each, smaller leds can be connected directly to the outputs, but booster circuits might be used to driver higher loads (e.g. Cree leds). Up to 4 PacLed64 controllers can be used with the DirectOutput framework.
+    /// The PacLed64 is a output controller with 64 outputs all supporting 256 <a target="_blank" href="https://en.wikipedia.org/wiki/Pulse-width_modulation">pwm</a> levels with a PWM frequency of 100khz. Since the outputs of the unit are constant current drivers providing 20ma each, leds can be connected directly to the outputs (no resistor needed), but booster circuits must be used to driver higher loads (e.g. Cree leds). Up to 4 PacLed64 controllers can be used with the DirectOutput framework.
     /// 
-    /// The framework supports auto detection and configuration of these units.
+    /// The framework supports auto detection and configuration of these units. If auto config is used, two LedWizEquivalent toys are added for each connected PacLed64. The numbers of the LedWizEquivalents are based on the Id of the PacLed64. Id1=LedwizEquivalent 20+21, Id2=LedwizEquivalent 22+23, Id3=LedwizEquivalent 24+25, Id4=LedwizEquivalent 26+27. If the numbers of ini files used for the configuration match these numbers, they will be used to set up the effects for the table.
     /// 
     /// This unit is made and sold by <a target="_blank" href="http://www.ultimarc.com">Ultimarc</a>.
     /// 
-    /// The implemention of the PacLed64 driver uses a separate thred per connected unit to ensure max. performance.
+    /// The implemention of the PacLed64 driver uses a separate thread per connected unit to ensure max. performance.
     /// 
     /// \image html PacLed64Logo.png 
     /// </summary>
@@ -140,7 +140,7 @@ namespace DirectOutput.Cab.Out.Pac
         /// or<br/>
         /// PacLed64 output numbers must be in the range of 1-64. The supplied output number {0} is out of range.
         /// </exception>
-        public override void OnOutputValueChanged(IOutput Output)
+        protected override void OnOutputValueChanged(IOutput Output)
         {
 
             if (!(Output is OutputNumbered))
@@ -225,11 +225,14 @@ namespace DirectOutput.Cab.Out.Pac
         /// </summary>
         static PacLed64()
         {
+           
             PacLed64Units = new Dictionary<int, PacLed64Unit>();
             for (int i = 1; i <= 4; i++)
             {
                 PacLed64Units.Add(i, new PacLed64Unit(i));
+
             }
+  
         }
 
         /// <summary>
@@ -237,6 +240,7 @@ namespace DirectOutput.Cab.Out.Pac
         /// </summary>
         public PacLed64()
         {
+       
             Outputs = new OutputList();
 
         }
@@ -434,7 +438,7 @@ namespace DirectOutput.Cab.Out.Pac
             //TODO: Check if thread should really terminate on failed updates
             private void PacLed64UpdaterDoIt()
             {
-                Pinball.ThreadInfoList.HeartBeat("PacLed64 {0:0}".Build(Id));
+                //Pinball.ThreadInfoList.HeartBeat("PacLed64 {0:0}".Build(Id));
 
 
                 int FailCnt = 0;
@@ -453,7 +457,7 @@ namespace DirectOutput.Cab.Out.Pac
                     catch (Exception E)
                     {
                         Log.Exception("A error occured when updating PacLed64 {0}".Build(Id), E);
-                        Pinball.ThreadInfoList.RecordException(E);
+                        //Pinball.ThreadInfoList.RecordException(E);
                         FailCnt++;
 
                         if (FailCnt > MaxUpdateFailCount)
@@ -462,7 +466,7 @@ namespace DirectOutput.Cab.Out.Pac
                             KeepPacLed64UpdaterAlive = false;
                         }
                     }
-                    Pinball.ThreadInfoList.HeartBeat();
+                    //Pinball.ThreadInfoList.HeartBeat();
                     if (KeepPacLed64UpdaterAlive)
                     {
                         lock (PacLed64UpdaterThreadLocker)
@@ -470,7 +474,7 @@ namespace DirectOutput.Cab.Out.Pac
                             while (!TriggerUpdate && KeepPacLed64UpdaterAlive)
                             {
                                 Monitor.Wait(PacLed64UpdaterThreadLocker, 50);  // Lock is released while we’re waiting
-                                Pinball.ThreadInfoList.HeartBeat();
+                                //Pinball.ThreadInfoList.HeartBeat();
                             }
 
                         }
@@ -478,7 +482,7 @@ namespace DirectOutput.Cab.Out.Pac
                     }
                     TriggerUpdate = false;
                 }
-                Pinball.ThreadInfoList.ThreadTerminates();
+                //Pinball.ThreadInfoList.ThreadTerminates();
             }
 
 
@@ -533,7 +537,7 @@ namespace DirectOutput.Cab.Out.Pac
                                 StateUpdateRequired = false;
                             }
                         }
-                        if (ForceFullUpdate || (IntensityUpdatesRequired + StateUpdatesRequired) > 30)
+                        if ( ForceFullUpdate || (IntensityUpdatesRequired + StateUpdatesRequired) > 30)
                         {
                             //more than 30 update calls required. Will send intensity updates for all outputs.
                             PDSingleton.PacLed64SetLEDIntensities(Index, CurrentValue);
@@ -572,6 +576,7 @@ namespace DirectOutput.Cab.Out.Pac
                                     {
                                         StateUpdateRequired = true;
                                         LastStateSent[o] = false;
+                                        LastValueSent[o] = 0;
                                     }
 
                                 }
@@ -628,23 +633,31 @@ namespace DirectOutput.Cab.Out.Pac
 
             private void InitUnit()
             {
-                LastValueSent.Fill((byte)0);
-                PDSingleton.PacLed64SetLEDIntensities(Index, LastValueSent);
-                LastStateSent.Fill(false);
-                LastValueSent.Fill((byte)0);
+                if (Index >= 0)
+                {
+                    LastValueSent.Fill((byte)0);
+                   
+                    PDSingleton.PacLed64SetLEDIntensities(Index, LastValueSent);
+                    LastStateSent.Fill(false);
+                    LastValueSent.Fill((byte)0);
+                }
             }
 
 
             public PacLed64Unit(int Id)
             {
                 this.Id = Id;
+               
                 PDSingleton = PacDriveSingleton.Instance;
                 PDSingleton.OnPacAttached += new PacDriveSingleton.PacAttachedDelegate(Instance_OnPacAttached);
                 PDSingleton.OnPacRemoved += new PacDriveSingleton.PacRemovedDelegate(Instance_OnPacRemoved);
+              
                 this.Index = PacDriveSingleton.Instance.PacLed64GetIndexForDeviceId(Id);
+            
                 NewValue.Fill((byte)0);
+               
                 InitUnit();
-
+     
 
             }
 

@@ -5,43 +5,24 @@ namespace DirectOutput.Table
     /// <summary>
     /// Data representing the state of a table emlement
     /// </summary>
-    public class TableElementData
+    public struct TableElementData
     {
+
         /// <summary>
-        /// Gets or sets the type of the table element.
-        /// </summary>
-        /// <value>
         /// The type of the table element.
-        /// </value>
-        public TableElementTypeEnum TableElementType { get; set; }
-        /// <summary>
-        /// Gets or sets the number of the table element.
         /// </summary>
-        /// <value>
+        public TableElementTypeEnum TableElementType;
+
+        /// <summary>
         /// The number of the table element.
-        /// </value>
-        public int Number { get; set; }
-        /// <summary>
-        /// Gets or sets the value of the table element.
         /// </summary>
-        /// <value>
+        public int Number;
+
+        /// <summary>
         /// The value of the table element.
-        /// </value>
-        public int Value { get; set; }
-
-        /// <summary>
-        /// Clones this instance.
         /// </summary>
-        /// <returns>A new TableElementData object containg the same values as the instance on which the methods was called.</returns>
-        public TableElementData Clone()
-        {
-            return new TableElementData(TableElementType, Number, Value);
-        }
+        public int Value;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TableElementData"/> class.
-        /// </summary>
-        public TableElementData() { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TableElementData"/> class.

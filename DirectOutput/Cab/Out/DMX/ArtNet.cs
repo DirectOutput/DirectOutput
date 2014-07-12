@@ -7,7 +7,7 @@ using System.Linq;
 namespace DirectOutput.Cab.Out.DMX
 {
     /// <summary>
-    /// Artnet is a industry standard protocol used to control <a target="_blank" href="https://en.wikipedia.org/wiki/DMX512">DMX</a> lighting effects over othernet. Using <a target="_blank" href="https://en.wikipedia.org/wiki/Art-Net">Art-Net</a> it is possible to connect a very wide range of lighting effects like <a target="_blank" href="https://www.google.ch/search?q=dmx+strobe">strobes</a> or <a target="_blank" href="https://www.google.ch/search?q=dmx+dimmer">dimmer packs</a>. There are tons of DMX controlled effects available on the market (from very cheap and small to very expensive and big). It might sounds a bit crazy, but with Art-net and DMX you could at least in theory control a whole stage lighting system (this would likely make you feel like Tommy in the movie).
+    /// Artnet is a industry standard protocol used to control <a target="_blank" href="https://en.wikipedia.org/wiki/DMX512">DMX</a> lighting effects over ethernet. Using <a target="_blank" href="https://en.wikipedia.org/wiki/Art-Net">Art-Net</a> it is possible to connect a very wide range of lighting effects like <a target="_blank" href="https://www.google.ch/search?q=dmx+strobe">strobes</a> or <a target="_blank" href="https://www.google.ch/search?q=dmx+dimmer">dimmer packs</a>. There are tons of DMX controlled effects available on the market (from very cheap and small to very expensive and big). It might sounds a bit crazy, but with Art-net and DMX you could at least in theory control a whole stage lighting system (this would likely make you feel like Tommy in the movie).
     /// 
     /// To use Art-Net you will need a Art-Net node (unit that converts from ethernet to DMX protocol) and also some DMX controlled lighting effect. There are quite a few different Art-Net nodes available on the market and most of them should be compatible with the DirectOutput framework. For testing the Art-Net node <a target="_blank" href="http://www.ulrichradig.de/home/index.php/avr/dmx-avr-artnetnode">sold by Ulrich Radig</a> as a DIY kit was used. 
     /// 
@@ -47,7 +47,8 @@ namespace DirectOutput.Cab.Out.DMX
         /// If no BroadcastAddress is set, the default address (255.255.255.255) will be used.
         /// </summary>
         /// <value>
-        /// String containing broadcast address.
+        /// String containing broadcast address. If this parameter is not set the default broadcast address (255.255.255.255) will be used.
+        /// Valid values are any IP adresses (e.g. 192.168.1.53).
         /// </value>
         public string BroadcastAddress
         {
@@ -78,7 +79,7 @@ namespace DirectOutput.Cab.Out.DMX
         /// <param name="Output">The output.</param>
         /// <exception cref="System.Exception">The OutputValueChanged event handler for ArtNet node {0} (controlling Dmx universe {1}) has been called by a sender which is not a DmxOutput..Build(Name, Universe)</exception>
         /// <exception cref="System.ArgumentOutOfRangeException">ArtNet node {0} has received a update for a illegal dmx channel number ({1})..Build(Name, O.DmxChannel)</exception>
-        public override void OnOutputValueChanged(IOutput Output)
+        protected override void OnOutputValueChanged(IOutput Output)
         {
             if (!(Output is DMXOutput))
             {
@@ -264,7 +265,7 @@ namespace DirectOutput.Cab.Out.DMX
                     lock (UpdateLocker)
                     {
                         UpdateRequired = false;
-                        Engine.SendDMX(BroadcastAddress, Universe, DMXData, ((LastDMXChannel | 1) + 1).Limit(2, 512));
+                        Engine.SendDMX(BroadcastAddress, Universe, DMXData, 512);// ((LastDMXChannel | 1) + 1).Limit(2, 512));
                     }
 
                 }
@@ -281,6 +282,9 @@ namespace DirectOutput.Cab.Out.DMX
                 }
 
             }
+            Engine.SendDMX(BroadcastAddress, Universe, new byte[512], 512);
+
+
             if (Engine != null)
             {
                

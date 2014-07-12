@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
+using DirectOutput.General;
 
 
 namespace DirectOutput.GlobalConfiguration
@@ -16,7 +17,9 @@ namespace DirectOutput.GlobalConfiguration
     public class GlobalConfig
     {
 
-        #region Led Control 
+        
+
+        #region IniFiles
 
 
         private int _LedControlMinimumEffectDurationMs = 60;
@@ -52,19 +55,137 @@ namespace DirectOutput.GlobalConfiguration
         }
 
 
-        private LedControlIniFileList _LedControlIniFiles = new LedControlIniFileList();
 
-        /// TODO: Check serialization of the property.
+        private string _IniFilesPath="";
+
         /// <summary>
-        /// Gets or sets the list of LedControl.ini files.<br/>
+        /// Gets or sets the path to the ini files used for table configurations
         /// </summary>
-        /// <value>The list of LedControl.ini files.
+        /// <value>
+        /// The path to the directory containing the ini files used for table configurations.
         /// </value>
-        public LedControlIniFileList LedControlIniFiles
+        public string IniFilesPath
         {
-            get { return _LedControlIniFiles; }
-            set { _LedControlIniFiles = value; }
+            get { return _IniFilesPath; }
+            set { _IniFilesPath = value; }
         }
+
+
+        /// <summary>
+        /// Gets the a dictionary containing all ini files (file) and their number (key).
+        /// </summary>
+        /// <param name="TableFilename">The table filename.</param>
+        /// <returns>Dictionary of ini files. Key is the ini file number, value is the ini file.</returns>
+        public Dictionary<int, FileInfo> GetIniFilesDictionary(string TableFilename = "")
+        {
+           //Build the array of possible paths for the ini files
+
+            List<string> LookupPaths = new List<string>();
+
+            if (!IniFilesPath.IsNullOrWhiteSpace())
+            {
+                try
+                {
+                    DirectoryInfo DI = new DirectoryInfo(IniFilesPath);
+                    if (DI.Exists)
+                    {
+                        LookupPaths.Add(DI.FullName);
+                    }
+                } catch (Exception E) {
+                    Log.Exception("The specified IniFilesPath {0} could not be used due to a exception.".Build(IniFilesPath),E);
+                } ;
+            }
+
+
+            if (!TableFilename.IsNullOrWhiteSpace())
+            {
+                try
+                {
+                    if (new FileInfo(TableFilename).Directory.Exists)
+                    {
+                        LookupPaths.Add(new FileInfo(TableFilename).Directory.FullName);
+                    }
+                }
+                catch { }
+            }
+
+
+            LookupPaths.AddRange(new string[] { GetGlobalConfigDirectory().FullName, Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) });
+
+            //Build the dictionary of ini files
+
+            Dictionary<int, FileInfo> IniFiles = new Dictionary<int, FileInfo>();
+
+            bool FoundIt = false;
+            string[] LedControlFilenames = { "directoutputconfig", "ledcontrol" };
+
+            foreach (string LedControlFilename in LedControlFilenames)
+            {
+                foreach (string P in LookupPaths) 
+                {
+                    DirectoryInfo DI = new DirectoryInfo(P);
+
+                    List<FileInfo> Files = new List<FileInfo>();
+                    foreach (FileInfo FI in DI.EnumerateFiles())
+                    {
+                        if (FI.Name.ToLower().StartsWith(LedControlFilename.ToLower()) && FI.Name.ToLower().EndsWith(".ini"))
+                        {
+                            Files.Add(FI);
+                        }
+                    }
+
+
+                    foreach (FileInfo FI in Files)
+                    {
+                        if (string.Equals(FI.Name, "{0}.ini".Build(LedControlFilename), StringComparison.OrdinalIgnoreCase))
+                        {
+                            if (!IniFiles.ContainsKey(1))
+                            {
+                                IniFiles.Add(1, FI);
+                                FoundIt = true;
+                            }
+                            else
+                            {
+                                Log.Warning("Found more than one ini file with for number 1. Likely you have a ini file without a number and and a second one with number 1.");
+                            }
+                        }
+                        else
+                        {
+                            string F = FI.Name.Substring(LedControlFilename.Length, FI.Name.Length - LedControlFilename.Length - 4);
+                            if (F.IsInteger())
+                            {
+                                int LedWizNr = -1;
+                                if (int.TryParse(F, out LedWizNr))
+                                {
+                                    if (!IniFiles.ContainsKey(LedWizNr))
+                                    {
+                                        IniFiles.Add(LedWizNr, FI);
+                                        FoundIt = true;
+                                    }
+                                    else
+                                    {
+                                        Log.Warning("Found more than one ini file with number {0}.".Build(LedWizNr));
+                                    }
+ 
+                                }
+
+                            }
+
+                        }
+                    };
+                    if (FoundIt) break;
+                }
+                if (FoundIt) break;
+            }
+
+
+
+            return IniFiles;
+
+        }
+
+
+
 
         #endregion
 
@@ -72,20 +193,23 @@ namespace DirectOutput.GlobalConfiguration
         #region Cabinet
 
         #region Cabinet config file
-        private FilePatternList _CabinetConfigFilePatterns = new FilePatternList();
 
+
+        private FilePattern _CabinetConfigFilePattern=new FilePattern();
 
         /// <summary>
-        /// Gets or sets the cabinet config file pattern.
+        /// Gets or sets the path and name of the cabinet config file.
         /// </summary>
         /// <value>
-        /// The cabinet config file pattern.
+        /// The path and name of the cabinet config file.
         /// </value>
-        public FilePatternList CabinetConfigFilePatterns
+        public FilePattern CabinetConfigFilePattern
         {
-            get { return _CabinetConfigFilePatterns; }
-            set { _CabinetConfigFilePatterns = value; }
+            get { return _CabinetConfigFilePattern; }
+            set { _CabinetConfigFilePattern = value; }
         }
+        
+
 
 
         /// <summary>
@@ -94,10 +218,11 @@ namespace DirectOutput.GlobalConfiguration
         /// <returns>FileInfo object for the file containing the configuration of the cabinet or null if no file has been specified.</returns>
         public FileInfo GetCabinetConfigFile()
         {
-            if (CabinetConfigFilePatterns != null)
+            if (!CabinetConfigFilePattern.Pattern.IsNullOrWhiteSpace() && CabinetConfigFilePattern.IsValid)
             {
-                return CabinetConfigFilePatterns.GetFirstMatchingFile(GetReplaceValuesDictionary());
+                return CabinetConfigFilePattern.GetFirstMatchingFile(GetReplaceValuesDictionary());
             }
+   
             return null;
         }
 
@@ -125,37 +250,7 @@ namespace DirectOutput.GlobalConfiguration
 
 
 
-        #region Table script files
-        private FilePatternList _TableScriptFilePatterns = new FilePatternList();
 
-        /// <summary>
-        /// Gets or sets the table script file patterns.
-        /// </summary> 
-        /// <value>
-        /// The table script file patterns.
-        /// </value>
-        public FilePatternList TableScriptFilePatterns
-        {
-            get { return _TableScriptFilePatterns; }
-            set { _TableScriptFilePatterns = value; }
-        }
-
-        /// <summary>
-        /// Gets the list of table script files.
-        /// </summary>
-        /// <param name="FullTableFilename">The filename, inckuding path, to the table.</param>
-        /// <returns>
-        /// The list of table script files or a empty list if no table script files have been found.
-        /// </returns>
-        public List<FileInfo> GetTableScriptFiles(string FullTableFilename)
-        {
-            if (TableScriptFilePatterns != null)
-            {
-                return TableScriptFilePatterns.GetMatchingFiles(GetReplaceValuesDictionary(FullTableFilename));
-            }
-            return new List<FileInfo>();
-        }
-        #endregion
 
 
         #region Table Config
@@ -207,6 +302,23 @@ namespace DirectOutput.GlobalConfiguration
             get { return _EnableLog; }
             set { _EnableLog = value; }
         }
+
+        private bool _ClearLogOnSessionStart=false;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether DOF clears the log file on session start.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if DOF should clear the log file on session start; otherwise, <c>false</c>.
+        /// </value>
+        public bool ClearLogOnSessionStart
+        {
+            get { return _ClearLogOnSessionStart; }
+            set { _ClearLogOnSessionStart = value; }
+        }
+        
+
+
 
         private FilePattern _LogFilePattern = new FilePattern(".\\DirectOutput.log");
 
@@ -294,31 +406,7 @@ namespace DirectOutput.GlobalConfiguration
 
 
         #region Global config properties
-        /// <summary>
-        /// Gets an list of FileInfo objects for the global script files.<br/>
-        /// If no script files are found or if a error occurs when looking for the script files a empty list is returned.<br/>
-        /// The script files are looked up using the value of the property GlobalScriptFilePatterns.
-        /// </summary>
-        /// <returns>List of FileInfo objects for the global script files.</returns>
-        public List<FileInfo> GetGlobalScriptFiles()
-        {
-            return GlobalScriptFilePatterns.GetMatchingFiles();
-        }
 
-
-        private FilePatternList _GlobalScriptFilePatterns = new FilePatternList();
-
-        /// <summary>
-        /// Gets or sets the script file patterns used to lookup the global scripts.
-        /// </summary>
-        /// <value>
-        /// The global script file patterns.
-        /// </value>
-        public FilePatternList GlobalScriptFilePatterns
-        {
-            get { return _GlobalScriptFilePatterns; }
-            set { _GlobalScriptFilePatterns = value; }
-        }
 
         /// <summary>
         /// Path to the directory where the global config is stored (readonly).

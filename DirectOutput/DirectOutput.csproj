@@ -25,6 +25,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <DocumentationFile>..\bin\\Docu\DirectOutput.XML</DocumentationFile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -71,8 +72,8 @@
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CSScriptLibrary">
-      <HintPath>..\..\..\..\Downloads\CSScript\cs-script\cs-script\Lib\Bin\NET 4.0\CSScriptLibrary.dll</HintPath>
+    <Reference Include="Ciloci.Flee">
+      <HintPath>..\packages\fleesharp.0.9.27-pre\lib\net40\Ciloci.Flee.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -85,10 +86,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cab\Out\AdressableLedStrip\AdressableLedStrip.cs" />
+    <Compile Include="Cab\Out\AdressableLedStrip\LedStripOutput.cs" />
+    <Compile Include="Cab\Out\AdressableLedStrip\WS2811StripController.cs" />
     <Compile Include="Cab\Out\DMX\ArtNet.cs" />
     <Compile Include="Cab\Out\DMX\ArtnetEngine\ArtnetEngine.cs" />
+    <Compile Include="Cab\Out\FTDIChip\FT245RBitbangController.cs" />
+    <Compile Include="Cab\Out\FTDIChip\FTDIChip.cs" />
     <Compile Include="Cab\Out\IAutoConfigOutputController.cs" />
     <Compile Include="Cab\Out\IOutputNumbered.cs" />
+    <Compile Include="Cab\Out\ISupportsSetValues.cs" />
     <Compile Include="Cab\Out\LW\LedWizAutoConfigurator.cs" />
     <Compile Include="Cab\Out\DMX\ArtnetEngine\Engine.cs" />
     <Compile Include="Cab\Out\DMX\DMX.cs" />
@@ -96,30 +103,67 @@
     <Compile Include="Cab\Out\LW\LW.cs" />
     <Compile Include="Cab\Out\NullOutputController\NullOutputController.cs" />
     <Compile Include="Cab\Out\OutputNumbered.cs" />
+    <Compile Include="Cab\Out\Pac\PacDrive.cs" />
+    <Compile Include="Cab\Out\Pac\PacDriveAutoConfigurator.cs" />
     <Compile Include="Cab\Out\Pac\PacDriveSingleton.cs" />
     <Compile Include="Cab\Out\Pac\PacLed64.cs" />
     <Compile Include="Cab\Out\Pac\Pac.cs" />
     <Compile Include="Cab\Out\Pac\PacLed64AutoConfigurator.cs" />
-    <Compile Include="Cab\Toys\Basic\Basic.cs" />
-    <Compile Include="Cab\Toys\Basic\GearMotor.cs" />
-    <Compile Include="Cab\Toys\Basic\IRGBToy.cs" />
+    <Compile Include="Cab\Out\FTDIChip\FTD2XX_NET.cs" />
+    <Compile Include="Cab\Out\AdressableLedStrip\WS2811StripControllerApi.cs" />
+    <Compile Include="Cab\Toys\Hardware\Hardware.cs" />
+    <Compile Include="Cab\Toys\Hardware\GearMotor.cs" />
     <Content Include="Config\GlobalConfig_B2SServer.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
-    <Compile Include="Cab\Toys\Basic\ILampToy.cs" />
+    <Compile Include="Cab\Toys\Hardware\RGBLed.cs" />
+    <Compile Include="Cab\Toys\IMatrixToy.cs" />
+    <Compile Include="Cab\Toys\IRGBOutputToy.cs" />
+    <Compile Include="Cab\Toys\ISingleOutputToy.cs" />
+    <Compile Include="Cab\Toys\Layer\ILayerToy.cs" />
+    <Compile Include="Cab\Toys\Layer\MatrixDictionaryBase.cs" />
+    <Compile Include="Cab\Toys\Layer\Layer.cs" />
+    <Compile Include="Cab\Toys\Virtual\AnalogAlphaToyGroup.cs" />
+    <Compile Include="Cab\Toys\Virtual\ToyGroupBase.cs" />
+    <Compile Include="Cab\Toys\Virtual\RGBAToyGroup.cs" />
+    <Compile Include="Cab\Toys\Virtual\Virtual.cs" />
+    <Compile Include="FX\ConditionFX\ConditionFX.cs" />
+    <Compile Include="FX\ConditionFX\TableElementConditionEffect.cs" />
+    <Compile Include="FX\MatrixFX\AnalogAlphaMatrixValueEffect.cs" />
+    <Compile Include="FX\MatrixFX\AnalogAlphaMatrixFlickerEffect.cs" />
+    <Compile Include="FX\MatrixFX\AnalogAlphaMatrixShiftEffect.cs" />
+    <Compile Include="FX\MatrixFX\AnalogAlphaMatrixBitmapEffect.cs" />
+    <Compile Include="FX\MatrixFX\AnalogAlphaMatrixBitmapAnimationEffect.cs" />
+    <Compile Include="FX\MatrixFX\AnimationBehaviourEnum.cs" />
+    <Compile Include="FX\MatrixFX\MatrixBitmapAnimationEffectBase.cs" />
+    <Compile Include="FX\MatrixFX\MatrixBitmapEffectBase.cs" />
+    <Compile Include="FX\MatrixFX\MatrixShiftEffectBase.cs" />
+    <Compile Include="FX\MatrixFX\MatrixFlickerEffectBase.cs" />
+    <Compile Include="FX\MatrixFX\MatrixValueEffectBase.cs" />
+    <Compile Include="FX\MatrixFX\MatrixAnimationStepDirectionEnum.cs" />
+    <Compile Include="FX\MatrixFX\RGBAMatrixBitmapAnimationEffect.cs" />
+    <Compile Include="FX\MatrixFX\RGBAMatrixFlickerEffect.cs" />
+    <Compile Include="FX\TimmedFX\MaxDurationEffect.cs" />
+    <Compile Include="FX\ValueFX\ValueFX.cs" />
+    <Compile Include="FX\ValueFX\ValueInvertEffect.cs" />
+    <Compile Include="FX\ValueFX\ValueMapFullRangeEffect.cs" />
+    <Compile Include="General\Analog\AnalogAlpha.cs" />
+    <Compile Include="General\BitmapHandling\UnsafeBitmap.cs" />
+    <Compile Include="General\CurveList.cs" />
     <Compile Include="Cab\Toys\IToyUpdatable.cs" />
     <Compile Include="Cab\Toys\Layer\AlphaMappingTable.cs" />
-    <Compile Include="Cab\Toys\Layer\AnalogAlphaValue.cs" />
-    <Compile Include="Cab\Toys\Layer\AnalogAlphaLayer.cs" />
-    <Compile Include="Cab\Toys\Layer\AnalogLayerDictionary.cs" />
     <Compile Include="Cab\Toys\Layer\AnalogAlphaToy.cs" />
-    <Compile Include="Cab\Color\RGBAColorNamed.cs" />
-    <Compile Include="Cab\Color\RGBAColor.cs" />
-    <Compile Include="Cab\Toys\Layer\IAnalogAlphaToy.cs" />
-    <Compile Include="Cab\Toys\Layer\IRGBAToy.cs" />
-    <Compile Include="Cab\Toys\Layer\RGBALayer.cs" />
-    <Compile Include="Cab\Toys\Layer\RGBALayerDictionary.cs" />
-    <Compile Include="Cab\Color\RGBColorNamed.cs" />
+    <Compile Include="General\Color\RGBAColorNamed.cs" />
+    <Compile Include="General\Color\RGBAColor.cs" />
+    <Compile Include="Cab\Toys\IAnalogAlphaToy.cs" />
+    <Compile Include="Cab\Toys\IRGBAToy.cs" />
+    <Compile Include="Cab\Toys\Hardware\LedStrip.cs" />
+    <Compile Include="Cab\Toys\Layer\LayerDictionary.cs" />
+    <Compile Include="General\Color\RGBColorNamed.cs" />
+    <Compile Include="Cab\Toys\Layer\RGBOrderEnum.cs" />
+    <Compile Include="Cab\Toys\Layer\StripArrangementEnum.cs" />
+    <Compile Include="General\Curve.cs" />
     <Compile Include="Cab\Toys\ToyBaseUpdatable.cs" />
     <Compile Include="Cab\Toys\Layer\RGBAToy.cs" />
     <Compile Include="DirectOutput.cs" />
@@ -152,23 +196,11 @@
     <Compile Include="Frontend\AvailableEffectsInfo.Designer.cs">
       <DependentUpon>AvailableEffectsInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="Frontend\GlobalConfigEdit.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Frontend\GlobalConfigEdit.Designer.cs">
-      <DependentUpon>GlobalConfigEdit.cs</DependentUpon>
-    </Compile>
     <Compile Include="Frontend\MainMenu.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Frontend\MainMenu.Designer.cs">
       <DependentUpon>MainMenu.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Frontend\ScriptInfo.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Frontend\ScriptInfo.Designer.cs">
-      <DependentUpon>ScriptInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="Frontend\SystemMonitor.cs">
       <SubType>Form</SubType>
@@ -189,45 +221,51 @@
       <DependentUpon>TimeSpanStatisticsDetails.cs</DependentUpon>
     </Compile>
     <Compile Include="FX\AnalogToyFX\AnalogToyFX.cs" />
-    <Compile Include="FX\AnalogToyFX\AnalogToyOnOffEffect.cs" />
+    <Compile Include="FX\AnalogToyFX\AnalogToyValueEffect.cs" />
     <Compile Include="FX\AnalogToyFX\AnanlogToyEffectBase.cs" />
-    <Compile Include="FX\AnalogToyFX\AnalogToyFadeOnOffEffect.cs" />
+    <Compile Include="FX\RGBAFX\RGBAColorEffect.cs" />
     <Compile Include="FX\FadeModeEnum.cs" />
+    <Compile Include="FX\MatrixFX\RGBAMatrixBitmapEffect.cs" />
+    <Compile Include="FX\MatrixFX\MatrixEffectBase.cs" />
+    <Compile Include="FX\MatrixFX\RGBAMatrixColorEffect.cs" />
+    <Compile Include="FX\MatrixFX\RGBAMatrixShiftEffect.cs" />
+    <Compile Include="FX\MatrixFX\MatrixFX.cs" />
+    <Compile Include="FX\MatrixFX\MatrixShiftDirectionEnum.cs" />
     <Compile Include="FX\RetriggerBehaviourEnum.cs" />
     <Compile Include="FX\TimmedFX\BlinkEffect.cs" />
+    <Compile Include="FX\TimmedFX\BlinkEffectUntriggerBehaviourEnum.cs" />
     <Compile Include="FX\TimmedFX\DelayEffect.cs" />
     <Compile Include="FX\TimmedFX\DurationEffect.cs" />
     <Compile Include="FX\TimmedFX\ExtendDurationEffect.cs" />
+    <Compile Include="FX\TimmedFX\FadeEffectDurationModeEnum.cs" />
+    <Compile Include="FX\TimmedFX\FadeEffect.cs" />
     <Compile Include="FX\TimmedFX\MinDurationEffect.cs" />
     <Compile Include="FX\TimmedFX\TimmedFX.cs" />
     <Compile Include="FX\EffectEffectBase.cs" />
     <Compile Include="FX\RGBAFX\RGBAEffectBase.cs" />
-    <Compile Include="FX\RGBAFX\RGBAFadeOnOffEffect.cs" />
-    <Compile Include="FX\RGBAFX\RGBAOnOffEffect.cs" />
     <Compile Include="FX\NullFX\NullEffect.cs" />
     <Compile Include="FX\RGBAFX\RGBAFX.cs" />
+    <Compile Include="General\BitmapHandling\FastImage.cs" />
+    <Compile Include="General\BitmapHandling\FastBitmapDataExtractModeEnum.cs" />
+    <Compile Include="General\BitmapHandling\FastImageList.cs" />
+    <Compile Include="General\BitmapHandling\FastBitmap.cs" />
+    <Compile Include="General\BitmapHandling\PixelData.cs" />
     <Compile Include="General\Statistics\SimpleStatistics.cs" />
     <Compile Include="General\Statistics\TimeSpanStatisticsList.cs" />
     <Compile Include="General\ThreadInfo.cs" />
     <Compile Include="General\ThreadInfoList.cs" />
     <Compile Include="General\Kernel32Imports.cs" />
     <Compile Include="General\Statistics\TimeSpanStatisticsItem.cs" />
+    <Compile Include="LedControl\Loader\VariablesDictionary.cs" />
     <Compile Include="LedControl\Setup\Configurator.cs" />
     <Compile Include="PinballSupport\InputQueue.cs" />
     <Compile Include="Log.cs" />
-    <Compile Include="GlobalConfiguration\FilePattern.cs" />
-    <Compile Include="GlobalConfiguration\FilePatternList.cs" />
+    <Compile Include="General\FilePattern.cs" />
+    <Compile Include="General\FilePatternList.cs" />
     <Compile Include="General\Generic\SortableBindingList.cs" />
-    <Compile Include="GlobalConfiguration\LedControlIniFile.cs" />
-    <Compile Include="GlobalConfiguration\LedControlIniFileList.cs" />
     <Compile Include="LedControl\Loader\LedControl.cs" />
     <Compile Include="Pinball.cs" />
     <Compile Include="PinballSupport\PinballSupport.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Table\TableConfigSourceEnum.cs" />
     <Compile Include="PinballSupport\AlarmHandler.cs" />
     <Compile Include="Cab\Cab.cs" />
@@ -239,11 +277,8 @@
     <Compile Include="Cab\Out\OutputEventArgs.cs" />
     <Compile Include="Cab\Out\OutputControllerBase.cs" />
     <Compile Include="Cab\CabinetOutputList.cs" />
-    <Compile Include="Cab\Color\RGBColor.cs" />
-    <Compile Include="Cab\Color\ColorList.cs" />
-    <Compile Include="Cab\Toys\Basic\Contactor.cs" />
-    <Compile Include="Cab\Toys\Basic\IAnalogToy.cs" />
-    <Compile Include="Cab\Toys\Basic\IDigitalToy.cs" />
+    <Compile Include="General\Color\RGBColor.cs" />
+    <Compile Include="General\Color\ColorList.cs" />
     <Compile Include="Cab\Toys\IToy.cs" />
     <Compile Include="Cab\Toys\LWEquivalent\LedWizEquivalent.cs" />
     <Compile Include="Cab\Toys\LWEquivalent\LedWizEquivalentOutput.cs" />
@@ -257,10 +292,8 @@
     <Compile Include="FX\FX.cs" />
     <Compile Include="Cab\Out\LW\LEDWizOutput.cs" />
     <Compile Include="Cab\Out\Output.cs" />
-    <Compile Include="Cab\Toys\Basic\Motor.cs" />
-    <Compile Include="Cab\Toys\Basic\AnalogToy.cs" />
-    <Compile Include="Cab\Toys\Basic\DigitalToy.cs" />
-    <Compile Include="Cab\Toys\Basic\Lamp.cs" />
+    <Compile Include="Cab\Toys\Hardware\Motor.cs" />
+    <Compile Include="Cab\Toys\Hardware\Lamp.cs" />
     <Compile Include="Cab\Out\OutputControllerList.cs" />
     <Compile Include="Cab\Out\OutputList.cs" />
     <Compile Include="FX\IEffect.cs" />
@@ -289,10 +322,7 @@
     <Compile Include="LedControl\Loader\TableConfigList.cs" />
     <Compile Include="LedControl\Loader\TableConfigSetting.cs" />
     <Compile Include="Table\TableElementData.cs" />
-    <Compile Include="Cab\Toys\Basic\RGBLed.cs" />
-    <Compile Include="Cab\Toys\Basic\Shaker.cs" />
-    <Compile Include="Scripting\Script.cs" />
-    <Compile Include="Scripting\ScriptList.cs" />
+    <Compile Include="Cab\Toys\Hardware\Shaker.cs" />
     <Compile Include="FX\AssignedEffectList.cs" />
     <Compile Include="Table\TableElementTypeEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -303,6 +333,9 @@
     <Compile Include="Table\TableElementValueChangedEventArgs.cs" />
     <Compile Include="Cab\Toys\ToyBase.cs" />
     <Compile Include="Cab\Toys\ToyList.cs" />
+    <Content Include="ftd2xx.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="PacDrive.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -339,11 +372,11 @@
     <None Include="FX\FX.cd" />
     <None Include="LedControl\Loader\LedControl.cd" />
     <None Include="Main.cd" />
+    <None Include="packages.config" />
     <None Include="Properties\DataSources\DirectOutput.GlobalConfig.Config.datasource" />
     <None Include="Properties\DataSources\DirectOutput.GlobalConfig.FilePatternList.datasource" />
     <None Include="Properties\DataSources\DirectOutput.GlobalConfig.GlobalConfigEditor.datasource" />
     <None Include="Properties\DataSources\DirectOutput.GlobalConfig.LedControlIniFileList.datasource" />
-    <None Include="Scripting\Script.cd" />
     <None Include="Table\Table.cd" />
   </ItemGroup>
   <ItemGroup>
@@ -356,14 +389,8 @@
     <EmbeddedResource Include="Frontend\AvailableEffectsInfo.resx">
       <DependentUpon>AvailableEffectsInfo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Frontend\GlobalConfigEdit.resx">
-      <DependentUpon>GlobalConfigEdit.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Frontend\MainMenu.resx">
       <DependentUpon>MainMenu.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Frontend\ScriptInfo.resx">
-      <DependentUpon>ScriptInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Frontend\SystemMonitor.resx">
       <DependentUpon>SystemMonitor.cs</DependentUpon>
@@ -373,10 +400,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Frontend\TimeSpanStatisticsDetails.resx">
       <DependentUpon>TimeSpanStatisticsDetails.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

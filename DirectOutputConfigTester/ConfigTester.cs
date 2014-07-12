@@ -39,8 +39,8 @@ namespace DirectOutputConfigTester
 
 
                 Pinball = new Pinball();
-                Pinball.Init(OCD.GlobalConfigFilename, OCD.TableFilename, OCD.RomName);
-
+                Pinball.Setup(OCD.GlobalConfigFilename, OCD.TableFilename, OCD.RomName);
+                Pinball.Init();
                 DisplayTableElements();
 
 

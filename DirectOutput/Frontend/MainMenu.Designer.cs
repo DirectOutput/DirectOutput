@@ -40,19 +40,16 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.EditGlobalConfiguration = new System.Windows.Forms.Button();
             this.TableName = new System.Windows.Forms.TextBox();
             this.TableFilename = new System.Windows.Forms.TextBox();
             this.TableRomname = new System.Windows.Forms.TextBox();
             this.GlobalConfigFilename = new System.Windows.Forms.TextBox();
             this.TableConfigFilename = new System.Windows.Forms.TextBox();
             this.CabinetConfigFilename = new System.Windows.Forms.TextBox();
-            this.ShowLoadedScripts = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.ShowSystemMonitor = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
@@ -160,16 +157,6 @@
             this.label7.TabIndex = 10;
             this.label7.Text = "Global configuration file:";
             // 
-            // EditGlobalConfiguration
-            // 
-            this.EditGlobalConfiguration.Location = new System.Drawing.Point(15, 387);
-            this.EditGlobalConfiguration.Name = "EditGlobalConfiguration";
-            this.EditGlobalConfiguration.Size = new System.Drawing.Size(157, 23);
-            this.EditGlobalConfiguration.TabIndex = 11;
-            this.EditGlobalConfiguration.Text = "Edit global configuration";
-            this.EditGlobalConfiguration.UseVisualStyleBackColor = true;
-            this.EditGlobalConfiguration.Click += new System.EventHandler(this.EditGlobalConfiguration_Click);
-            // 
             // TableName
             // 
             this.TableName.Location = new System.Drawing.Point(148, 211);
@@ -218,16 +205,6 @@
             this.CabinetConfigFilename.Size = new System.Drawing.Size(565, 20);
             this.CabinetConfigFilename.TabIndex = 17;
             // 
-            // ShowLoadedScripts
-            // 
-            this.ShowLoadedScripts.Location = new System.Drawing.Point(504, 387);
-            this.ShowLoadedScripts.Name = "ShowLoadedScripts";
-            this.ShowLoadedScripts.Size = new System.Drawing.Size(157, 23);
-            this.ShowLoadedScripts.TabIndex = 18;
-            this.ShowLoadedScripts.Text = "Show loaded scripts";
-            this.ShowLoadedScripts.UseVisualStyleBackColor = true;
-            this.ShowLoadedScripts.Click += new System.EventHandler(this.ShowLoadedScripts_Click);
-            // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(178, 416);
@@ -268,33 +245,20 @@
             this.label8.TabIndex = 22;
             this.label8.Text = "by SwissLizard";
             // 
-            // ShowSystemMonitor
-            // 
-            this.ShowSystemMonitor.Location = new System.Drawing.Point(505, 416);
-            this.ShowSystemMonitor.Name = "ShowSystemMonitor";
-            this.ShowSystemMonitor.Size = new System.Drawing.Size(156, 23);
-            this.ShowSystemMonitor.TabIndex = 23;
-            this.ShowSystemMonitor.Text = "Show system monitor";
-            this.ShowSystemMonitor.UseVisualStyleBackColor = true;
-            this.ShowSystemMonitor.Click += new System.EventHandler(this.ShowSystemMonitor_Click);
-            // 
             // MainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(734, 454);
-            this.Controls.Add(this.ShowSystemMonitor);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.ShowLoadedScripts);
             this.Controls.Add(this.CabinetConfigFilename);
             this.Controls.Add(this.TableConfigFilename);
             this.Controls.Add(this.GlobalConfigFilename);
             this.Controls.Add(this.TableRomname);
             this.Controls.Add(this.TableFilename);
             this.Controls.Add(this.TableName);
-            this.Controls.Add(this.EditGlobalConfiguration);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -331,18 +295,15 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Button EditGlobalConfiguration;
         private System.Windows.Forms.TextBox TableName;
         private System.Windows.Forms.TextBox TableFilename;
         private System.Windows.Forms.TextBox TableRomname;
         private System.Windows.Forms.TextBox GlobalConfigFilename;
         private System.Windows.Forms.TextBox TableConfigFilename;
         private System.Windows.Forms.TextBox CabinetConfigFilename;
-        private System.Windows.Forms.Button ShowLoadedScripts;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Button ShowSystemMonitor;
     }
 }

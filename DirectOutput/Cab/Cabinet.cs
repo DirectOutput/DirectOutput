@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
-using System.Reflection;
-using System.IO;
-using DirectOutput.FX;
-using DirectOutput.Cab.Out.LW;
-using DirectOutput.Cab.Toys;
 using DirectOutput.Cab.Out;
-using DirectOutput.Cab.Toys.LWEquivalent;
-using DirectOutput.Cab.Color;
+using DirectOutput.General;
+using DirectOutput.General.Color;
 
 
 namespace DirectOutput.Cab
@@ -30,8 +25,17 @@ namespace DirectOutput.Cab
             General.TypeList Types = new General.TypeList(AppDomain.CurrentDomain.GetAssemblies().ToList().SelectMany(s => s.GetTypes()).Where(p => typeof(IAutoConfigOutputController).IsAssignableFrom(p) && !p.IsAbstract));
             foreach (Type T in Types)
             {
-                IAutoConfigOutputController AutoConfig = (IAutoConfigOutputController)Activator.CreateInstance(T);
-                AutoConfig.AutoConfig(this);
+
+                try
+                {
+                    IAutoConfigOutputController AutoConfig = (IAutoConfigOutputController)Activator.CreateInstance(T);
+                    AutoConfig.AutoConfig(this);
+
+                }
+                catch (Exception E)
+                {
+                    Log.Exception("A exception occured during auto configuration for output controller(s) of type {0}.".Build(T.Name), E);                    
+                }
             }
 
 
@@ -54,7 +58,7 @@ namespace DirectOutput.Cab
         /// <summary>
         /// Name of the Cabinet.
         /// </summary>
-        [XmlElementAttribute(Order = 1)]
+
         public string Name { get; set; }
 
         /// <summary>
@@ -71,7 +75,7 @@ namespace DirectOutput.Cab
         /// <summary>
         /// List of IToy objects describing the toys in the cabinet.
         /// </summary>
-        [XmlElementAttribute(Order = 3)]
+
         public DirectOutput.Cab.Toys.ToyList Toys
         {
             get { return _Toys; }
@@ -84,18 +88,29 @@ namespace DirectOutput.Cab
 
 
 
-        private DirectOutput.Cab.Color.ColorList _Colors;
+        private ColorList _Colors = new ColorList();
 
         /// <summary>
         /// List of Color objects used to set colors for toys. 
         /// </summary>
-        [XmlElementAttribute(Order = 4)]
-        public DirectOutput.Cab.Color.ColorList Colors
+
+        public ColorList Colors
         {
             get { return _Colors; }
             set { _Colors = value; }
         }
 
+        private CurveList _Curves=new CurveList();
+
+        /// <summary>
+        /// List of named curve objects used to set Curves for toys. 
+        /// </summary>
+
+        public CurveList Curves
+        {
+            get { return _Curves; }
+            set { _Curves = value; }
+        }
 
         private bool _AutoConfigEnabled=true;
         /// <summary>
@@ -105,7 +120,7 @@ namespace DirectOutput.Cab
         /// <value>
         ///   <c>true</c> enables auto config, <c>false</c> disables auto config.
         /// </value>
-        [XmlElementAttribute(Order = 5)]
+
         public bool AutoConfigEnabled
         {
             get { return _AutoConfigEnabled; }
@@ -132,7 +147,7 @@ namespace DirectOutput.Cab
         /// <summary>
         /// List of IOutputController objects representing the output controllers in the cabinet.
         /// </summary>
-        [XmlElementAttribute(Order = 2)]
+
         public Out.OutputControllerList OutputControllers
         {
             get { return _OutputControllers; }

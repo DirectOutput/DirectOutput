@@ -1,4 +1,5 @@
 ﻿using System;
+using DirectOutput.FX.MatrixFX;
 
 namespace DirectOutput.LedControl.Loader
 {
@@ -36,21 +37,17 @@ namespace DirectOutput.LedControl.Loader
         /// </value>
         public ColorConfig ColorConfig { get; set; }
 
-        /// <summary>
-        /// Gets or sets the type of the table element controlling a output.
-        /// </summary>
-        /// <value>
-        /// The type of the table element.
-        /// </value>
-        public TableElementTypeEnum TableElementType { get; set; }
-        /// <summary>
-        /// Gets or sets the number of the table element controlling a output.
-        /// </summary>
-        /// <value>
-        /// The table element number.
-        /// </value>
-        public int TableElementNumber { get; set; }
 
+        /// <summary>
+        /// The table element triggering the effect (if available)
+        /// </summary>
+        public string TableElement = null;
+
+
+        /// <summary>
+        /// The condition if available.
+        /// </summary>
+        public string Condition = null;
 
 
         /// <summary>
@@ -76,7 +73,7 @@ namespace DirectOutput.LedControl.Loader
         /// </value>
         public int DurationMs { get; set; }
 
-        private int _MinDurationMs=0;
+        private int _MinDurationMs = 0;
 
         /// <summary>
         /// Gets or sets the minimum duration in milliseconds.
@@ -87,10 +84,25 @@ namespace DirectOutput.LedControl.Loader
         public int MinDurationMs
         {
             get { return _MinDurationMs; }
-                set { _MinDurationMs = value; }
+            set { _MinDurationMs = value; }
         }
-        
 
+
+        /// <summary>
+        /// Gets or sets the max duration for the effect in milliseconds.
+        /// </summary>
+        /// <value>
+        /// The max duration of the effect in milliseconds.
+        /// </value>
+        public int MaxDurationMs { get; set; }
+
+        /// <summary>
+        /// Gets or sets the extended duration for the effect in milliseconds.
+        /// </summary>
+        /// <value>
+        /// The extended duration of the effect in milliseconds.
+        /// </value>
+        public int ExtDurationMs { get; set; }
 
         private int _Intensity;
         /// <summary>
@@ -151,6 +163,65 @@ namespace DirectOutput.LedControl.Loader
         /// </value>
         public int BlinkIntervalMs { get; set; }
 
+
+        /// <summary>
+        /// Gets or sets the blink interval in milliseconds for nested blinking.
+        /// </summary>
+        /// <value>
+        /// The blink interval in milliseconds for nested blinking.
+        /// </value>
+        public int BlinkIntervalMsNested { get; set; }
+
+        private int _BlinkPulseWidthNested = 50;
+
+        /// <summary>
+        /// Gets or sets the width of the blink pulse for nested blinking.
+        /// Value must be between 1 and 99 (defaults to 50).
+        /// </summary>
+        /// <value>
+        /// The width of the blink pulse for nested blinking.
+        /// </value>
+        public int BlinkPulseWidthNested
+        {
+            get { return _BlinkPulseWidthNested; }
+            set { _BlinkPulseWidthNested = value.Limit(1, 99); }
+        }
+
+        private int _BlinkPulseWidth = 50;
+
+        /// <summary>
+        /// Gets or sets the width of the blink pulse.
+        /// Value must be between 1 and 99 (defaults to 50).
+        /// </summary>
+        /// <value>
+        /// The width of the blink pulse.
+        /// </value>
+        public int BlinkPulseWidth
+        {
+            get { return _BlinkPulseWidth; }
+            set { _BlinkPulseWidth = value.Limit(1, 99); }
+        }
+
+
+        public int BlinkLow;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the trigger value for the effect is inverted.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if invert; otherwise, <c>false</c>.
+        /// </value>
+        public bool Invert { get; set; }
+
+        /// <summary>
+        /// Indicates the the trigger value of the effect is not to be treated as a boolean value resp. that the value should not be mapped to 0 or 255 (255 for all values which are not 0).
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [no bool]; otherwise, <c>false</c>.
+        /// </value>
+        public bool NoBool { get; set; }
+
+
         /// <summary>
         /// Gets or sets the wait duration before the effect is triggered.
         /// </summary>
@@ -166,7 +237,33 @@ namespace DirectOutput.LedControl.Loader
         /// <value>
         /// The layer for the settings.
         /// </value>
-        public int? Layer{get;set;}
+        public int? Layer { get; set; }
+
+
+        public int AreaLeft = 0;
+        public int AreaTop = 0;
+        public int AreaWidth = 100;
+        public int AreaHeight = 100;
+        public int AreaSpeed = 100;
+        public int AreaAcceleration = 0;
+        public int AreaFlickerDensity = 0;
+        public int AreaFlickerMinDurationMs = 0;
+        public int AreaFlickerMaxDurationMs = 0;
+        public MatrixShiftDirectionEnum? AreaDirection = null;
+        public bool IsArea = false;
+
+        public bool IsBitmap = false;
+        public int AreaBitmapTop = 0;
+        public int AreaBitmapLeft = 0;
+        public int AreaBitmapWidth = -1;
+        public int AreaBitmapHeight = -1;
+        public int AreaBitmapFrame=0;
+
+        public int AreaBitmapAnimationStepSize = 1;
+        public int AreaBitmapAnimationStepCount = 0;
+        public int AreaBitmapAnimationFrameDuration = 30;
+        public MatrixAnimationStepDirectionEnum AreaBitmapAnimationDirection = MatrixAnimationStepDirectionEnum.Frame;
+        public AnimationBehaviourEnum AreaBitmapAnimationBehaviour = AnimationBehaviourEnum.Loop;
 
         /// <summary>
         /// Parses the setting data. <br />
@@ -179,77 +276,299 @@ namespace DirectOutput.LedControl.Loader
         /// </exception>
         public void ParseSettingData(string SettingData)
         {
+            string S = SettingData.Trim();
 
-            string[] Parts = SettingData.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            if (Parts.Length == 0)
+            if (S.StartsWith("("))
             {
-                Log.Warning("No data to parse.");
+                //It is a condition
 
-                throw new Exception("No data to parse.");
+                int BracketCnt = 1;
+                int ClosingBracketPos = -1;
+                for (int i = 1; i < S.Length; i++)
+                {
+                    if (S[i] == '(') { BracketCnt++; }
+                    else if (S[i] == ')') { BracketCnt--; }
+
+                    if (BracketCnt == 0)
+                    {
+                        ClosingBracketPos = i;
+                        break;
+                    }
+                }
+
+
+                if (ClosingBracketPos > 0)
+                {
+                    Condition = S.Substring(0, ClosingBracketPos + 1);
+                    OutputControl = OutputControlEnum.Condition;
+                    S = S.Substring(Condition.Length).Trim();
+                    //TODO: Maybe add a check for the condition validity
+
+                }
+                else
+                {
+                    Log.Warning("No closing bracket found for condition in setting {0}.".Build(S));
+
+                    throw new Exception("No closing bracket found for condition in setting {0}.".Build(S));
+                }
+
+
+
 
             }
-            //Get output state and table element (if applicable)
-            bool ParseOK = true;
-            switch (Parts[0].ToUpper())
+            else
             {
-                case "ON":
-                case "1":
-                    OutputControl = OutputControlEnum.FixedOn;
-                    break;
-                case "OFF":
-                case "0":
-                    OutputControl = OutputControlEnum.FixedOff;
-                    break;
-                case "B":
-                    OutputControl = OutputControlEnum.FixedOn;
-                    Blink = -1;
-                    BlinkIntervalMs = 500;
-                    break;
-                default:
-                    if (Parts[0].Length > 1 && Parts[0].Substring(1).IsInteger())
-                    {
-                        OutputControl = OutputControlEnum.Controlled;
-                        Char C = Parts[0].ToUpper().ToCharArray()[0];
-                        if (Enum.IsDefined(typeof(TableElementTypeEnum), (int)C))
+                //not a condition
+
+                string[] P = SettingData.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                if (P.Length == 0)
+                {
+                    Log.Warning("No data to parse.");
+
+                    throw new Exception("No data to parse.");
+                }
+
+                //Get output state and table element (if applicable)
+                bool ParseOK = true;
+                switch (P[0].ToUpper())
+                {
+                    case "ON":
+                    case "1":
+                        OutputControl = OutputControlEnum.FixedOn;
+                        break;
+                    case "OFF":
+                    case "0":
+                        OutputControl = OutputControlEnum.FixedOff;
+                        break;
+                    case "B":
+                    case "BLINK":
+                        OutputControl = OutputControlEnum.FixedOn;
+                        Blink = -1;
+                        BlinkIntervalMs = 1000;
+                        break;
+                    default:
+                        if (Enum.IsDefined(typeof(TableElementTypeEnum), (int)P[0][0]))
                         {
-                            TableElementType = (TableElementTypeEnum)C;
+                            //This seems to be a variable
+
+                            string[] ATE = P[0].Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries );
+                            foreach (string E in ATE)
+                            {
+                                if (E.Length < 2 || !Enum.IsDefined(typeof(TableElementTypeEnum), (int)E[0]) || !E.Substring(1).IsInteger())
+                                {
+                                    ParseOK = false;
+                                    break;
+                                }
+                            }
+
+                            if (ParseOK)
+                            {
+                                TableElement = P[0];
+
+                                OutputControl = OutputControlEnum.Controlled;
+                            }
                         }
                         else
                         {
                             ParseOK = false;
                         }
 
-                        TableElementNumber = Parts[0].Substring(1).ToInteger();
-                    }
-                    else
-                    {
-                        ParseOK = false;
-                    }
 
-                    break;
+
+                        break;
+                }
+                if (!ParseOK)
+                {
+                    Log.Warning("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(P[0], SettingData));
+
+                    throw new Exception("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(P[0], SettingData));
+                }
+
+                //Remove first part
+                S = S.Substring(S.IndexOf(P[0]) + P[0].Length).Trim();
+
             }
-            if (!ParseOK)
-            {
-                Log.Warning("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(Parts[0], SettingData));
 
-                throw new Exception("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(Parts[0], SettingData));
 
-            }
+            string[] Parts = S.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
 
             int IntegerCnt = 0;
-            int PartNr = 1;
+            int PartNr = 0;
+
             while (Parts.Length > PartNr)
             {
 
                 if (Parts[PartNr].ToUpper() == "BLINK")
                 {
                     Blink = -1;
-                    BlinkIntervalMs = 500;
+                    BlinkIntervalMs = 1000;
+                }
+                else if (Parts[PartNr].ToUpper() == "INVERT")
+                {
+                    Invert = true;
+                }
+                else if (Parts[PartNr].ToUpper() == "NOBOOL")
+                {
+                    NoBool = true;
+                }
+
+                else if (Parts[PartNr].Length > 3 && Parts[PartNr].Substring(0, 3).ToUpper() == "ABT" && Parts[PartNr].Substring(3).IsInteger())
+                {
+                    AreaBitmapTop = Parts[PartNr].Substring(3).ToInteger();
+                    IsArea = true;
+                    IsBitmap = true;
+                }
+                else if (Parts[PartNr].Length > 3 && Parts[PartNr].Substring(0, 3).ToUpper() == "ABL" && Parts[PartNr].Substring(3).IsInteger())
+                {
+                    AreaBitmapLeft = Parts[PartNr].Substring(3).ToInteger();
+                    IsArea = true;
+                    IsBitmap = true;
+                }
+                else if (Parts[PartNr].Length > 3 && Parts[PartNr].Substring(0, 3).ToUpper() == "ABW" && Parts[PartNr].Substring(3).IsInteger())
+                {
+                    AreaBitmapWidth = Parts[PartNr].Substring(3).ToInteger();
+                    IsArea = true;
+                    IsBitmap = true;
+                }
+                else if (Parts[PartNr].Length > 3 && Parts[PartNr].Substring(0, 3).ToUpper() == "ABH" && Parts[PartNr].Substring(3).IsInteger())
+                {
+                    AreaBitmapHeight = Parts[PartNr].Substring(3).ToInteger();
+                    IsArea = true;
+                    IsBitmap = true;
+                }
+                else if (Parts[PartNr].Length > 3 && Parts[PartNr].Substring(0, 3).ToUpper() == "ABF" && Parts[PartNr].Substring(3).IsInteger())
+                {
+                    AreaBitmapFrame = Parts[PartNr].Substring(3).ToInteger();
+                    IsArea = true;
+                    IsBitmap = true;
+                }
+                else if (Parts[PartNr].Length > 3 && Parts[PartNr].Substring(0, 3).ToUpper() == "AAS" && Parts[PartNr].Substring(3).IsInteger())
+                {
+                    AreaBitmapAnimationStepSize = Parts[PartNr].Substring(3).ToInteger();
+                    IsArea = true;
+                    IsBitmap = true;
+                }
+                else if (Parts[PartNr].Length > 3 && Parts[PartNr].Substring(0, 3).ToUpper() == "AAC" && Parts[PartNr].Substring(3).IsInteger())
+                {
+                    AreaBitmapAnimationStepCount = Parts[PartNr].Substring(3).ToInteger();
+                    IsArea = true;
+                    IsBitmap = true;
+                }
+                else if (Parts[PartNr].Length > 3 && Parts[PartNr].Substring(0, 3).ToUpper() == "AAF" && Parts[PartNr].Substring(3).IsInteger())
+                {
+                    AreaBitmapAnimationFrameDuration = 1000/Parts[PartNr].Substring(3).ToInteger().Limit(10,int.MaxValue);
+                    IsArea = true;
+                    IsBitmap = true;
+                }
+                else if (Parts[PartNr].Length == 4 && Parts[PartNr].Substring(0, 3).ToUpper() == "AAD" && Enum.IsDefined(typeof(MatrixAnimationStepDirectionEnum), (int)Parts[PartNr].Substring(3, 1).ToUpper()[0]))
+                {
+
+                    AreaBitmapAnimationDirection = (MatrixAnimationStepDirectionEnum)Parts[PartNr].Substring(3, 1).ToUpper()[0];
+                    IsArea = true;
+                    IsBitmap = true;
+                }            
+                    else if (Parts[PartNr].Length == 4 && Parts[PartNr].Substring(0, 3).ToUpper() == "AAB" && Enum.IsDefined(typeof(AnimationBehaviourEnum), (int)Parts[PartNr].Substring(3, 1).ToUpper()[0]))
+                {
+
+                    AreaBitmapAnimationBehaviour = (AnimationBehaviourEnum)Parts[PartNr].Substring(3, 1).ToUpper()[0];
+                    IsArea = true;
+                    IsBitmap = true;
+                } 
+
+                else if (Parts[PartNr].Length > 5 && Parts[PartNr].Substring(0, 5).ToUpper() == "AFDEN" && Parts[PartNr].Substring(5).IsInteger())
+                {
+                    AreaFlickerDensity = Parts[PartNr].Substring(5).ToInteger();
+                    IsArea = true;
+                }
+                else if (Parts[PartNr].Length > 5 && Parts[PartNr].Substring(0, 5).ToUpper() == "AFMIN" && Parts[PartNr].Substring(5).IsInteger())
+                {
+                    AreaFlickerMinDurationMs = Parts[PartNr].Substring(5).ToInteger();
+                    IsArea = true;
+                }
+                else if (Parts[PartNr].Length > 5 && Parts[PartNr].Substring(0, 5).ToUpper() == "AFMAX" && Parts[PartNr].Substring(5).IsInteger())
+                {
+                    AreaFlickerMaxDurationMs = Parts[PartNr].Substring(5).ToInteger();
+                    IsArea = true;
+                }
+                else if (Parts[PartNr].Length > 2 && Parts[PartNr].Substring(0, 2).ToUpper() == "AA" && Parts[PartNr].Substring(2).IsInteger())
+                {
+                    AreaAcceleration = Parts[PartNr].Substring(2).ToInteger();
+                    IsArea = true;
+                }
+
+                else if (Parts[PartNr].Length > 2 && Parts[PartNr].Substring(0, 2).ToUpper() == "AT" && Parts[PartNr].Substring(2).IsInteger())
+                {
+                    AreaTop = Parts[PartNr].Substring(2).ToInteger().Limit(0, 100);
+                    IsArea = true;
+                }
+                else if (Parts[PartNr].Length > 2 && Parts[PartNr].Substring(0, 2).ToUpper() == "AL" && Parts[PartNr].Substring(2).IsInteger())
+                {
+                    AreaLeft = Parts[PartNr].Substring(2).ToInteger().Limit(0, 100);
+                    IsArea = true;
+                }
+                else if (Parts[PartNr].Length > 2 && Parts[PartNr].Substring(0, 2).ToUpper() == "AW" && Parts[PartNr].Substring(2).IsInteger())
+                {
+                    AreaWidth = Parts[PartNr].Substring(2).ToInteger().Limit(0, 100);
+                    IsArea = true;
+                }
+                else if (Parts[PartNr].Length > 2 && Parts[PartNr].Substring(0, 2).ToUpper() == "AH" && Parts[PartNr].Substring(2).IsInteger())
+                {
+                    AreaHeight = Parts[PartNr].Substring(2).ToInteger().Limit(0, 100);
+                    IsArea = true;
+                }
+                else if (Parts[PartNr].Length > 2 && Parts[PartNr].Substring(0, 2).ToUpper() == "AS" && Parts[PartNr].Substring(2).IsInteger())
+                {
+                    AreaSpeed = Parts[PartNr].Substring(2).ToInteger().Limit(1, 10000);
+                    IsArea = true;
+                }
+                else if (Parts[PartNr].Length == 3 && Parts[PartNr].Substring(0, 2).ToUpper() == "AD" && Enum.IsDefined(typeof(MatrixShiftDirectionEnum), (int)Parts[PartNr].Substring(2, 1).ToUpper()[0]))
+                {
+
+                    AreaDirection = (MatrixShiftDirectionEnum)Parts[PartNr].Substring(2, 1).ToUpper()[0];
+                    IsArea = true;
+                }
+                else if (Parts[PartNr].Length > 3 && Parts[PartNr].ToUpper().Substring(0, 3) == "MAX" && Parts[PartNr].Substring(3).IsInteger())
+                {
+                    MaxDurationMs = Parts[PartNr].Substring(3).ToInteger().Limit(0, int.MaxValue);
+                }
+                else if (Parts[PartNr].Length > 3 && Parts[PartNr].ToUpper().Substring(0, 3) == "BNP" && Parts[PartNr].Substring(3).IsInteger())
+                {
+                    BlinkIntervalMsNested = Parts[PartNr].Substring(3).ToInteger().Limit(0, int.MaxValue);
+                }
+                else if (Parts[PartNr].Length > 4 && Parts[PartNr].ToUpper().Substring(0, 4) == "BNPW" && Parts[PartNr].Substring(4).IsInteger())
+                {
+                    BlinkPulseWidthNested = Parts[PartNr].Substring(4).ToInteger().Limit(1, 99);
+                }
+
+                else if (Parts[PartNr].Length > 3 && Parts[PartNr].ToUpper().Substring(0, 3) == "BPW" && Parts[PartNr].Substring(3).IsInteger())
+                {
+                    BlinkPulseWidth = Parts[PartNr].Substring(3).ToInteger().Limit(1, 99);
+                }
+                else if (Parts[PartNr].Length > 3 && Parts[PartNr].ToUpper().Substring(0, 3) == "BL#" && Parts[PartNr].Substring(3).IsHexString())
+                {
+                   
+                    BlinkLow = Parts[PartNr].Substring(3).HexToInt().Limit(0, 255);
+                }
+                else if (Parts[PartNr].Length > 1 && Parts[PartNr].ToUpper().Substring(0, 1) == "BL" && Parts[PartNr].Substring(1).IsInteger())
+                {
+
+                    BlinkLow = (int)(((double)Parts[PartNr].Substring(2).ToInteger().Limit(0, 48)) * 5.3125);
+                }
+                else if (Parts[PartNr].Length > 1 && Parts[PartNr].ToUpper().Substring(0, 1) == "E" && Parts[PartNr].Substring(1).IsInteger())
+                {
+
+                    ExtDurationMs = Parts[PartNr].Substring(1).ToInteger().Limit(0, int.MaxValue);
+                }
+                else if (Parts[PartNr].Length > 2 && Parts[PartNr].ToUpper().Substring(0, 2) == "I#" && Parts[PartNr].Substring(2).IsHexString())
+                {
+                    //Intensity setting
+                    Intensity = Parts[PartNr].Substring(2).HexToInt().Limit(0, 255);
                 }
                 else if (Parts[PartNr].Length > 1 && Parts[PartNr].ToUpper().Substring(0, 1) == "I" && Parts[PartNr].Substring(1).IsInteger())
                 {
                     //Intensity setting
-                    Intensity = Parts[PartNr].Substring(1).ToInteger().Limit(0, 48);
+                    Intensity = (int)(((double)Parts[PartNr].Substring(1).ToInteger().Limit(0, 48)) * 5.3125);
                 }
                 else if (Parts[PartNr].Length > 1 && Parts[PartNr].ToUpper().Substring(0, 1) == "L" && Parts[PartNr].Substring(1).IsInteger())
                 {
@@ -273,12 +592,12 @@ namespace DirectOutput.LedControl.Loader
                     FadingUpDurationMs = Parts[PartNr].Substring(1).ToInteger().Limit(0, int.MaxValue);
                     FadingDownDurationMs = FadingUpDurationMs;
                 }
-                else if (Parts[PartNr].Length>2 && Parts[PartNr].ToUpper().Substring(0, 2) == "FU" && Parts[PartNr].Substring(2).IsInteger())
+                else if (Parts[PartNr].Length > 2 && Parts[PartNr].ToUpper().Substring(0, 2) == "FU" && Parts[PartNr].Substring(2).IsInteger())
                 {
-                    
+
                     //Dimming up duration
                     FadingUpDurationMs = Parts[PartNr].Substring(2).ToInteger().Limit(0, int.MaxValue);
-                    
+
                 }
                 else if (Parts[PartNr].Length > 2 && Parts[PartNr].ToUpper().Substring(0, 2) == "FD" && Parts[PartNr].Substring(2).IsInteger())
                 {
@@ -294,7 +613,7 @@ namespace DirectOutput.LedControl.Loader
                             if (Blink == -1)
                             {
                                 //Its a blink interval
-                                BlinkIntervalMs = (Parts[PartNr].ToInteger()/2).Limit(1, int.MaxValue);
+                                BlinkIntervalMs = (Parts[PartNr].ToInteger()).Limit(1, int.MaxValue);
                                 DurationMs = 0;
                             }
                             else
@@ -303,27 +622,27 @@ namespace DirectOutput.LedControl.Loader
 
                                 DurationMs = Parts[PartNr].ToInteger().Limit(1, int.MaxValue);
                             }
-                                break;
+                            break;
                         case 1:
-                                if (Blink != -1)
+                            if (Blink != -1)
+                            {
+                                Blink = Parts[PartNr].ToInteger().Limit(1, int.MaxValue);
+                                if (DurationMs > 0 & Blink >= 1)
                                 {
-                                    Blink = Parts[PartNr].ToInteger().Limit(1, int.MaxValue);
-                                    if (DurationMs > 0 & Blink >= 1)
-                                    {
-                                        BlinkIntervalMs = (DurationMs / Blink / 2).Limit(1, int.MaxValue);
-                                        DurationMs = 0;
+                                    BlinkIntervalMs = (DurationMs / Blink).Limit(1, int.MaxValue);
+                                    DurationMs = 0;
 
-                                    }
                                 }
+                            }
                             break;
                         default:
                             Log.Warning("The ledcontrol table config setting {0} contains more than 2 numeric values without a type definition.".Build(SettingData));
                             throw new Exception("The ledcontrol table config setting {0} contains more than 2 numeric values without a type definition.".Build(SettingData));
-                            
+
                     }
                     IntegerCnt++;
                 }
-                else if (PartNr == 1)
+                else if (PartNr == 0)
                 {
                     //This should be a color
                     ColorName = Parts[PartNr];
@@ -368,7 +687,7 @@ namespace DirectOutput.LedControl.Loader
         /// </summary>
         public TableConfigSetting()
         {
-            this.Intensity = 48;
+            this.Intensity = 255;
             this.Blink = 0;
             this.DurationMs = -1;
 

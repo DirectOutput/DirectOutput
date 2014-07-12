@@ -220,7 +220,7 @@ namespace DirectOutput.Cab.Out.Pac
                 if (Data[i]) dataSend |= (ushort)(1 << i);
 
             return PacSetLEDStates(Index, dataSend);
-        } 
+        }
         #endregion
 
         #region PacLed64 methods
@@ -235,11 +235,12 @@ namespace DirectOutput.Cab.Out.Pac
         }
 
 
-        public bool PacLed64SetLEDStates(int Index, byte[] Data) {
-            bool OK=true;
+        public bool PacLed64SetLEDStates(int Index, byte[] Data)
+        {
+            bool OK = true;
             for (int i = 0; i < 8; i++)
             {
-              OK&=Pac64SetLEDStates(Index,i+1,Data[i]);
+                OK &= Pac64SetLEDStates(Index, i + 1, Data[i]);
             }
             return OK;
         }
@@ -320,18 +321,24 @@ namespace DirectOutput.Cab.Out.Pac
             //\\?\hid#vid_d209&pid_1402#7&f3bb0d5&0&0000#{4d1e55b2-f16f-11cf-88cb-001111000030}
 
             int IdPos = S.IndexOf("&pid_140");
-            if (IdPos >= 0)
+  
+            if (IdPos <=0)
             {
-                IdPos += 8;
+                return -1;
             }
+            IdPos += 8;
             int Id = 0;
-            int.TryParse(S.Substring(IdPos,1), out Id);
-            return Id;
+            if (int.TryParse(S.Substring(IdPos, 1), out Id))
+            {
+                return Id;
+            }
+            return -1;
         }
 
 
         public int PacLed64GetIndexForDeviceId(int Id)
         {
+
             for (int i = 0; i < NumDevices; i++)
             {
                 if (PacLed64GetDeviceId(i) == Id)
@@ -343,7 +350,7 @@ namespace DirectOutput.Cab.Out.Pac
         }
 
         #endregion
-        
+
         public DeviceType GetDeviceType(int Index)
         {
             return (DeviceType)PacGetDeviceType(Index);
@@ -408,7 +415,7 @@ namespace DirectOutput.Cab.Out.Pac
         {
             List<int> L = new List<int>();
 
-            
+
             for (int i = 0; i < NumDevices; i++)
             {
                 if (GetDeviceType(i) == DeviceType.PacLED64)
@@ -420,6 +427,29 @@ namespace DirectOutput.Cab.Out.Pac
 
             return L;
         }
+
+
+        /// <summary>
+        /// Gets the Ids of the first PacDrive controller which is connected to the system.
+        /// </summary>
+        /// <returns>List of PacDrive Ids</returns>
+        public int PacDriveGetIndex()
+        {
+            List<int> L = new List<int>();
+
+
+            for (int i = 0; i < NumDevices; i++)
+            {
+                if (GetDeviceType(i) == DeviceType.PacDrive)
+                {
+                    return i;
+                }
+            }
+
+
+            return -1;
+        }
+
 
 
         /// <summary>

@@ -115,37 +115,8 @@ namespace DirectOutput.Frontend
             CI.Show(this);
         }
 
-        private void EditGlobalConfiguration_Click(object sender, EventArgs e)
-        {
-            foreach (Form F in Application.OpenForms)
-            {
-                if (F.GetType() == typeof(GlobalConfigEdit))
-                {
-                    F.BringToFront();
-                    F.Focus();
-                    return;
-                }
-            }
-            GlobalConfigEdit CI = new GlobalConfigEdit();
-            CI.StartPosition = FormStartPosition.CenterParent;
-            CI.Show(this);
-        }
 
-        private void ShowLoadedScripts_Click(object sender, EventArgs e)
-        {
-            foreach (Form F in Application.OpenForms)
-            {
-                if (F.GetType() == typeof(ScriptInfo))
-                {
-                    F.BringToFront();
-                    F.Focus();
-                    return;
-                }
-            }
-            ScriptInfo CI = new ScriptInfo(Pinball);
-            CI.StartPosition = FormStartPosition.CenterParent;
-            CI.Show(this);
-        }
+
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -179,21 +150,21 @@ namespace DirectOutput.Frontend
             CI.Show(this);
         }
 
-        private void ShowSystemMonitor_Click(object sender, EventArgs e)
-        {
-            foreach (Form F in Application.OpenForms)
-            {
-                if (F.GetType() == typeof(SystemMonitor))
-                {
-                    F.BringToFront();
-                    F.Focus();
-                    return;
-                }
-            }
-            SystemMonitor CI = new SystemMonitor(Pinball);
-            CI.StartPosition = FormStartPosition.CenterParent;
-            CI.Show(this);
-        }
+        //private void ShowSystemMonitor_Click(object sender, EventArgs e)
+        //{
+        //    foreach (Form F in Application.OpenForms)
+        //    {
+        //        if (F.GetType() == typeof(SystemMonitor))
+        //        {
+        //            F.BringToFront();
+        //            F.Focus();
+        //            return;
+        //        }
+        //    }
+        //    SystemMonitor CI = new SystemMonitor(Pinball);
+        //    CI.StartPosition = FormStartPosition.CenterParent;
+        //    CI.Show(this);
+        //}
 
 
 

@@ -63,6 +63,7 @@ namespace DirectOutput.Cab.Out
                 }
                 else
                 {
+                    Log.Warning("Output controller type {0} not found during deserialization of data.".Build(reader.LocalName));
                     reader.Skip();
                 }
             }

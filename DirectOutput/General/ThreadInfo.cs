@@ -99,7 +99,6 @@ namespace DirectOutput.General
         public void HeartBeat()
         {
             LastHeartBeat = DateTime.Now;
-            SetProcessorNumber();
         }
 
         private int _HeartBeatTimeOutMs=1000;
@@ -117,27 +116,7 @@ namespace DirectOutput.General
         }
         
 
-        /// <summary>
-        /// Gets the number of the logical processor executing the thread.
-        /// \note The processor number returned by this property represents the logical processor number of the thread which has been calling the HaertBeat method last.
-        /// </summary>
-        /// <value>
-        /// The logical number of the processor executing the thread.
-        /// </value>
-        public int ProcessorNumber
-        {
-            get;
-            private set;
-        }
-
-        private bool GetCurrentProcessorNumberIsAvailable = false;
-        private void SetProcessorNumber()
-        {
-            if (GetCurrentProcessorNumberIsAvailable)
-            {
-                ProcessorNumber = Kernel32Imports.GetCurrentProcessorNumber();
-            }
-        }
+       
 
 
 
@@ -174,7 +153,7 @@ namespace DirectOutput.General
         public ThreadInfo(Thread Thread)
         {
             this.Thread = Thread;
-            GetCurrentProcessorNumberIsAvailable = Kernel32Imports.GetCurrentProcessorNumberIsAvailable;
+            
  
             HeartBeat();
 

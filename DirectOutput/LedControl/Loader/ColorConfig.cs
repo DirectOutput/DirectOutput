@@ -1,6 +1,6 @@
 ﻿using System;
 using DirectOutput.Cab.Toys.Layer;
-using DirectOutput.Cab.Color;
+using DirectOutput.General.Color;
 
 
 namespace DirectOutput.LedControl.Loader
@@ -17,7 +17,7 @@ namespace DirectOutput.LedControl.Loader
         /// <returns>RGBAColorNamed object for the content of the ColorConfig.</returns>
         public RGBAColorNamed GetCabinetColor()
         {
-            return new RGBAColorNamed(Name,(int)(Red * 5.3125), (int)(Green * 5.3125), (int)(Blue * 5.3125), (int)(Alpha * 5.3125));
+            return new RGBAColorNamed(Name,Red, Green,Blue,Alpha);
         }
 
         /// <summary>
@@ -84,20 +84,34 @@ namespace DirectOutput.LedControl.Loader
                 if (Values.Length == 3 && Values[0].IsInteger() && Values[1].IsInteger() && Values[2].IsInteger())
                 {
                     Name = NameValues[0];
-                    Red = Values[0].ToInteger();
-                    Green = Values[1].ToInteger();
-                    Blue = Values[2].ToInteger();
-                    Alpha = (Red + Green + Blue == 0 ? 0 : 48);
+                    Red = (int)(Values[0].ToInteger().Limit(0, 48) * 5.3125);
+                    Green = (int)(Values[1].ToInteger().Limit(0, 48) * 5.3125);
+                    Blue = (int)(Values[2].ToInteger().Limit(0, 48) * 5.3125);
+                    Alpha = (Red + Green + Blue == 0 ? 0 : 255);
                     return;
                 }
                 else if (Values.Length == 4 && Values[0].IsInteger() && Values[1].IsInteger() && Values[2].IsInteger() && Values[3].IsInteger())
                 {
                     Name = NameValues[0];
-                    Red = Values[0].ToInteger();
-                    Green = Values[1].ToInteger();
-                    Blue = Values[2].ToInteger();
-                    Alpha = Values[2].ToInteger();
+                    Red = (int)(Values[0].ToInteger().Limit(0, 48)* 5.3125);
+                    Green = (int)(Values[1].ToInteger().Limit(0, 48)* 5.3125);
+                    Blue = (int)(Values[2].ToInteger().Limit(0, 48)* 5.3125);
+                    Alpha = (int)(Values[2].ToInteger().Limit(0, 48) * 5.3125);
                     return;
+
+                }
+                else if (NameValues[1].StartsWith("#") && (NameValues[1].Length==7 || NameValues[1].Length==9) && NameValues[1].Substring(1).IsHexString())
+                {
+                    RGBAColor C = new RGBAColor();
+                    if(C.SetColor(NameValues[1])) {
+                        Name = NameValues[0];
+                        Red=C.Red;
+                        Green=C.Green;
+                        Blue=C.Blue;
+                        Alpha=C.Alpha;
+                        return;
+                    } 
+                    C=null;
 
                 }
             }

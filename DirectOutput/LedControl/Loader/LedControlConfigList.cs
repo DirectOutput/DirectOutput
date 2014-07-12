@@ -5,6 +5,7 @@ using DirectOutput.Cab.Toys;
 using DirectOutput.GlobalConfiguration;
 using DirectOutput.Table;
 using DirectOutput.Cab.Toys.LWEquivalent;
+using System.IO;
 namespace DirectOutput.LedControl.Loader
 {
 
@@ -102,13 +103,13 @@ namespace DirectOutput.LedControl.Loader
         /// <summary>
         /// Loads a list of ledcontrol.ini files.
         /// </summary>
-        /// <param name="LedControlIniFiles">The list of ini files to be loaded.</param>
+        /// <param name="LedControlIniFiles">The sixtionary of ini files to be loaded.</param>
         /// <param name="ThrowExceptions">if set to <c>true</c> throw exceptions on errors.</param>
-        public void LoadLedControlFiles(LedControlIniFileList LedControlIniFiles, bool ThrowExceptions = false)
+        public void LoadLedControlFiles(Dictionary<int, FileInfo> LedControlIniFiles, bool ThrowExceptions = false)
         {
-            foreach (LedControlIniFile F in LedControlIniFiles)
+            foreach (KeyValuePair<int,FileInfo> F in LedControlIniFiles)
             {
-                LoadLedControlFile(F.Filename, F.LedWizNumber, ThrowExceptions);
+                LoadLedControlFile(F.Value.FullName, F.Key, ThrowExceptions);
             }
         }
 
@@ -143,16 +144,7 @@ namespace DirectOutput.LedControl.Loader
             LoadLedControlFiles(LedControlFilenames, ThrowExceptions);
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="LedControlConfigList"/> class.
-        /// </summary>
-        /// <param name="LedControlIniFiles">The list of ini files to be loaded.</param>
-        /// <param name="ThrowExceptions">if set to <c>true</c> exceptions on loading the files are shown.</param>
-        public LedControlConfigList(LedControlIniFileList LedControlIniFiles, bool ThrowExceptions = false)
-            : this()
-        {
-            LoadLedControlFiles(LedControlIniFiles, ThrowExceptions);
-        }
+
 
     }
 }

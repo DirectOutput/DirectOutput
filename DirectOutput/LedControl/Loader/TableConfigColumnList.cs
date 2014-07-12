@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace DirectOutput.LedControl.Loader
 {
@@ -19,12 +20,10 @@ namespace DirectOutput.LedControl.Loader
         /// No data to parse found in LedControlData: {0}
         /// or
         /// Exception(s) accorud when parsing {0}
-        /// or
-        /// To many outputs (>32) are configured in the following line {1}
         /// </exception>
         public void ParseControlData(string LedControlData, bool ThrowExceptions = false)
         {
-            string[] Cols = LedControlData.Split(new char[] { ',' });
+            string[] Cols = SplitColumns(LedControlData);
             if (Cols.Length < 2)
             {
                 Log.Warning("No data to parse found in LedControlData: {0}".Build(LedControlData));
@@ -54,19 +53,11 @@ namespace DirectOutput.LedControl.Loader
                     Log.Warning("Previous exceptions occured in the line {0} of the ledcontrol file".Build(LedControlData));
                     if (ThrowExceptions)
                     {
-                        throw new Exception("Exception(s) accorud when parsing {0}".Build(LedControlData));
+                        throw new Exception("Exception(s) occured when parsing {0}".Build(LedControlData));
                     }
                 }
 
-                if (FirstOutputNumber + C.RequiredOutputCount > 33)
-                {
-                    Log.Warning("To many outputs (>32) are configured in the following line {0}".Build(LedControlData));
-                    if (ThrowExceptions)
-                    {
-                        throw new Exception("To many outputs (>32) are configured in the following line {0}".Build(LedControlData));
-                    }
-                    return;
-                }
+
 
                 Add(C);
 
@@ -75,6 +66,42 @@ namespace DirectOutput.LedControl.Loader
             }
             
         }
+
+
+        private string[] SplitColumns(string ConfigData)
+        {
+            List<string> L = new List<string>();
+
+            int BracketCount = 0;
+
+            int LP = 0;
+
+            for (int P = 0; P < ConfigData.Length; P++)
+            {
+                if (ConfigData[P] == '(')
+                {
+                    BracketCount++;
+                }
+                else if (ConfigData[P] == ')')
+                {
+                    BracketCount--;
+                } if (ConfigData[P] == ',' && BracketCount <= 0)
+                {
+                    L.Add(ConfigData.Substring(LP, P - LP));
+                    LP = P + 1;
+                    BracketCount = 0;
+                }
+
+            }
+
+            if (LP < ConfigData.Length)
+            {
+                L.Add(ConfigData.Substring(LP));
+            }
+
+            return L.ToArray();
+        }
+
 
         /// <summary>
         /// Sorts the elements in the list on the column number.

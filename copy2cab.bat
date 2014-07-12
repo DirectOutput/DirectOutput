@@ -1,12 +1,12 @@
 cd bin\debug
 
 timeout /t 1
-dir "X:\Visual Pinball\Tables\plugin\DirectOutput" >nul 2>nul
+dir "X:\DirectOutput" >nul 2>nul
 if not errorlevel 1 (
 
-  copy *.exe "X:\Visual Pinball\Tables\plugin\DirectOutput"
-  copy *.dll "X:\Visual Pinball\Tables\plugin\DirectOutput"
-  copy *.pdb "X:\Visual Pinball\Tables\plugin\DirectOutput"
+  copy *.exe "X:\DirectOutput"
+  copy *.dll "X:\DirectOutput"
+  copy *.pdb "X:\DirectOutput"
 )
 
 pause

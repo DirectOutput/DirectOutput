@@ -28,24 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SystemMonitor));
             this.SystemMonitorTabs = new System.Windows.Forms.TabControl();
             this.ThreadsTab = new System.Windows.Forms.TabPage();
             this.ThreadDisplay = new System.Windows.Forms.DataGridView();
-            this.ThreadName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ThreadHostObject = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ThreadProcessorNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ThreadIsAlive = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.ThreadLastHeartBeat = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ThreadExceptions = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StatisticsTab = new System.Windows.Forms.TabPage();
             this.DurationStatistics = new System.Windows.Forms.DataGridView();
             this.StatGroup = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -57,6 +50,11 @@
             this.StatMaxDuration = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.RefreshButton = new System.Windows.Forms.Button();
+            this.ThreadName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ThreadHostObject = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ThreadIsAlive = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.ThreadLastHeartBeat = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ThreadExceptions = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SystemMonitorTabs.SuspendLayout();
             this.ThreadsTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ThreadDisplay)).BeginInit();
@@ -99,7 +97,6 @@
             this.ThreadDisplay.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ThreadName,
             this.ThreadHostObject,
-            this.ThreadProcessorNumber,
             this.ThreadIsAlive,
             this.ThreadLastHeartBeat,
             this.ThreadExceptions});
@@ -114,57 +111,6 @@
             this.ThreadDisplay.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.ThreadDisplay.Size = new System.Drawing.Size(752, 453);
             this.ThreadDisplay.TabIndex = 0;
-            // 
-            // ThreadName
-            // 
-            this.ThreadName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ThreadName.HeaderText = "Thread Name";
-            this.ThreadName.Name = "ThreadName";
-            this.ThreadName.ReadOnly = true;
-            // 
-            // ThreadHostObject
-            // 
-            this.ThreadHostObject.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ThreadHostObject.HeaderText = "Host Object";
-            this.ThreadHostObject.Name = "ThreadHostObject";
-            this.ThreadHostObject.ReadOnly = true;
-            // 
-            // ThreadProcessorNumber
-            // 
-            this.ThreadProcessorNumber.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.ThreadProcessorNumber.DefaultCellStyle = dataGridViewCellStyle1;
-            this.ThreadProcessorNumber.FillWeight = 60F;
-            this.ThreadProcessorNumber.HeaderText = "Processor Number";
-            this.ThreadProcessorNumber.Name = "ThreadProcessorNumber";
-            this.ThreadProcessorNumber.ReadOnly = true;
-            // 
-            // ThreadIsAlive
-            // 
-            this.ThreadIsAlive.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.ThreadIsAlive.HeaderText = "Alive";
-            this.ThreadIsAlive.MinimumWidth = 30;
-            this.ThreadIsAlive.Name = "ThreadIsAlive";
-            this.ThreadIsAlive.ReadOnly = true;
-            this.ThreadIsAlive.Width = 36;
-            // 
-            // ThreadLastHeartBeat
-            // 
-            this.ThreadLastHeartBeat.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ThreadLastHeartBeat.FillWeight = 50F;
-            this.ThreadLastHeartBeat.HeaderText = "Last Heartbeat";
-            this.ThreadLastHeartBeat.Name = "ThreadLastHeartBeat";
-            this.ThreadLastHeartBeat.ReadOnly = true;
-            // 
-            // ThreadExceptions
-            // 
-            this.ThreadExceptions.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.ThreadExceptions.DefaultCellStyle = dataGridViewCellStyle2;
-            this.ThreadExceptions.FillWeight = 30F;
-            this.ThreadExceptions.HeaderText = "Exceptions";
-            this.ThreadExceptions.Name = "ThreadExceptions";
-            this.ThreadExceptions.ReadOnly = true;
             // 
             // StatisticsTab
             // 
@@ -182,14 +128,14 @@
             this.DurationStatistics.AllowUserToAddRows = false;
             this.DurationStatistics.AllowUserToDeleteRows = false;
             this.DurationStatistics.AllowUserToOrderColumns = true;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.DurationStatistics.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.DurationStatistics.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.DurationStatistics.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DurationStatistics.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.StatGroup,
@@ -229,8 +175,8 @@
             // StatCallsCount
             // 
             this.StatCallsCount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.StatCallsCount.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.StatCallsCount.DefaultCellStyle = dataGridViewCellStyle3;
             this.StatCallsCount.FillWeight = 10F;
             this.StatCallsCount.HeaderText = "Calls";
             this.StatCallsCount.Name = "StatCallsCount";
@@ -239,8 +185,8 @@
             // StatTotalDuration
             // 
             this.StatTotalDuration.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.StatTotalDuration.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.StatTotalDuration.DefaultCellStyle = dataGridViewCellStyle4;
             this.StatTotalDuration.FillWeight = 10F;
             this.StatTotalDuration.HeaderText = "Total duration";
             this.StatTotalDuration.Name = "StatTotalDuration";
@@ -249,8 +195,8 @@
             // StatAvgDuration
             // 
             this.StatAvgDuration.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.StatAvgDuration.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.StatAvgDuration.DefaultCellStyle = dataGridViewCellStyle5;
             this.StatAvgDuration.FillWeight = 10F;
             this.StatAvgDuration.HeaderText = "Average duration";
             this.StatAvgDuration.Name = "StatAvgDuration";
@@ -259,8 +205,8 @@
             // StatMinDuration
             // 
             this.StatMinDuration.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.StatMinDuration.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.StatMinDuration.DefaultCellStyle = dataGridViewCellStyle6;
             this.StatMinDuration.FillWeight = 10F;
             this.StatMinDuration.HeaderText = "Min. duration";
             this.StatMinDuration.Name = "StatMinDuration";
@@ -269,8 +215,8 @@
             // StatMaxDuration
             // 
             this.StatMaxDuration.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.StatMaxDuration.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.StatMaxDuration.DefaultCellStyle = dataGridViewCellStyle7;
             this.StatMaxDuration.FillWeight = 10F;
             this.StatMaxDuration.HeaderText = "Max. duration";
             this.StatMaxDuration.Name = "StatMaxDuration";
@@ -307,6 +253,47 @@
             this.RefreshButton.UseVisualStyleBackColor = true;
             this.RefreshButton.Click += new System.EventHandler(this.RefreshButton_Click);
             // 
+            // ThreadName
+            // 
+            this.ThreadName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ThreadName.HeaderText = "Thread Name";
+            this.ThreadName.Name = "ThreadName";
+            this.ThreadName.ReadOnly = true;
+            // 
+            // ThreadHostObject
+            // 
+            this.ThreadHostObject.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ThreadHostObject.HeaderText = "Host Object";
+            this.ThreadHostObject.Name = "ThreadHostObject";
+            this.ThreadHostObject.ReadOnly = true;
+            // 
+            // ThreadIsAlive
+            // 
+            this.ThreadIsAlive.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.ThreadIsAlive.HeaderText = "Alive";
+            this.ThreadIsAlive.MinimumWidth = 30;
+            this.ThreadIsAlive.Name = "ThreadIsAlive";
+            this.ThreadIsAlive.ReadOnly = true;
+            this.ThreadIsAlive.Width = 36;
+            // 
+            // ThreadLastHeartBeat
+            // 
+            this.ThreadLastHeartBeat.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ThreadLastHeartBeat.FillWeight = 50F;
+            this.ThreadLastHeartBeat.HeaderText = "Last Heartbeat";
+            this.ThreadLastHeartBeat.Name = "ThreadLastHeartBeat";
+            this.ThreadLastHeartBeat.ReadOnly = true;
+            // 
+            // ThreadExceptions
+            // 
+            this.ThreadExceptions.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.ThreadExceptions.DefaultCellStyle = dataGridViewCellStyle1;
+            this.ThreadExceptions.FillWeight = 30F;
+            this.ThreadExceptions.HeaderText = "Exceptions";
+            this.ThreadExceptions.Name = "ThreadExceptions";
+            this.ThreadExceptions.ReadOnly = true;
+            // 
             // SystemMonitor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -337,12 +324,6 @@
         private System.Windows.Forms.DataGridView ThreadDisplay;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Button RefreshButton;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ThreadName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ThreadHostObject;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ThreadProcessorNumber;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn ThreadIsAlive;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ThreadLastHeartBeat;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ThreadExceptions;
         private System.Windows.Forms.DataGridView DurationStatistics;
         private System.Windows.Forms.DataGridViewTextBoxColumn StatGroup;
         private System.Windows.Forms.DataGridViewTextBoxColumn StatName;
@@ -351,5 +332,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn StatAvgDuration;
         private System.Windows.Forms.DataGridViewTextBoxColumn StatMinDuration;
         private System.Windows.Forms.DataGridViewTextBoxColumn StatMaxDuration;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ThreadName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ThreadHostObject;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn ThreadIsAlive;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ThreadLastHeartBeat;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ThreadExceptions;
     }
 }

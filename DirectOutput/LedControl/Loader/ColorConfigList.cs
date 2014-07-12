@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using DirectOutput.Cab.Toys;
-using DirectOutput.Cab.Color;
+using DirectOutput.General.Color;
 
 namespace DirectOutput.LedControl.Loader
 {

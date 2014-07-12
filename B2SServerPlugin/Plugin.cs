@@ -129,10 +129,10 @@ namespace B2SServerPlugin
                 }
             }
 
-            Pinball.Init(F.FullName, TableFilename, RomName);
+            Pinball.Setup(F.FullName, TableFilename, RomName);
+            Pinball.Init();
 
-
-           //PluginShowFrontend();
+          // PluginShowFrontend();
 
 
         }

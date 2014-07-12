@@ -1,11 +1,13 @@
 ﻿using System.Xml.Serialization;
+using DirectOutput.Table;
+using System;
 
 namespace DirectOutput.FX
 {
     /// <summary>
     /// Base class for effects targeting another effect.
     /// </summary>
-    public abstract class EffectEffectBase: EffectBase
+    public abstract class EffectEffectBase : EffectBase
     {
         #region EffectName
         private string _TargetEffectName;
@@ -22,7 +24,7 @@ namespace DirectOutput.FX
                 {
                     _TargetEffectName = value;
                     TargetEffect = null;
-                    
+
                 }
             }
         }
@@ -41,17 +43,40 @@ namespace DirectOutput.FX
         /// The property is resolved from the TargetEffectName. If TargetEffectName is empty or unknown this property will return null.
         /// </summary>
         [XmlIgnoreAttribute]
-        public IEffect TargetEffect
+        protected IEffect TargetEffect
         {
             get
             {
                 return _TargetEffect;
             }
-            protected set
+            private set
             {
                 _TargetEffect = value;
             }
         }
+
+        /// <summary>
+        /// Triggers the target effect.<br/>
+        /// The method will deactivate the target effect if it throws a exception.
+        /// </summary>
+        /// <param name="TriggerData">The trigger data for the target effect.</param>
+        protected void TriggerTargetEffect(TableElementData TriggerData)
+        {
+            if (TargetEffect != null)
+            {
+                try
+                {
+                    TargetEffect.Trigger(TriggerData);
+                }
+                catch (Exception E)
+                {
+                    Log.Exception("The target effect {0} of the {1} {2} has thrown a exception. Disabling further calls of the target effect.".Build(TargetEffectName, GetType().Name, Name), E);
+                    TargetEffect = null;
+                }
+            }
+
+        }
+
 
         private void ResolveEffectName(Table.Table Table)
         {
@@ -64,7 +89,13 @@ namespace DirectOutput.FX
 
         #endregion
 
-        protected Table.Table Table;
+        /// <summary>
+        /// Gets the table object which is hosting the effect.
+        /// </summary>
+        /// <value>
+        /// The table object which is hosting the effect.
+        /// </value>
+        protected Table.Table Table { get; private set; }
 
         /// <summary>
         /// Initializes the EffectEffect. <br/>
@@ -87,6 +118,6 @@ namespace DirectOutput.FX
             Table = null;
             base.Finish();
         }
-    
+
     }
 }

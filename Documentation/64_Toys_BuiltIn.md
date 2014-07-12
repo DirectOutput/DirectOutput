@@ -1,421 +1,5 @@
 Built in Toys  {#toy_builtin}
 ==========
-\section use_DirectOutput_Cab_Toys_Basic_AnalogToy AnalogToy
-
-\subsection use_DirectOutput_Cab_Toys_Basic_AnalogToy_summary Summary
-
-\deprecated The use of this toy is depreceated. Use the new AnalogAlphaToy instead.
-
-Implementation of a generic analog toy.
-Implements IToy.
-
-
-
-\subsection use_DirectOutput_Cab_Toys_Basic_AnalogToy_samplexml Sample XML
-
-A configuration section for AnalogToy might resemble the following structure:
-
-~~~~~~~~~~~~~{.xml}
-<AnalogToy>
-  <Name>Name of AnalogToy</Name>
-  <OutputName>Name of Output</OutputName>
-</AnalogToy>
-~~~~~~~~~~~~~
-\subsection use_DirectOutput_Cab_Toys_Basic_AnalogToy_properties Properties
-
-AnalogToy has the following 2 configurable properties:
-
-\subsubsection DirectOutput_Cab_Toys_Basic_AnalogToy_Name Name
-
-The name of the item.
-
-
-
-\subsubsection DirectOutput_Cab_Toys_Basic_AnalogToy_OutputName OutputName
-
-Name of the Output for the GenericAnalogToy.
-
-
-
-\section use_DirectOutput_Cab_Toys_Basic_Contactor Contactor
-
-\subsection use_DirectOutput_Cab_Toys_Basic_Contactor_summary Summary
-
-\deprecated The use of this toy is depreceated.
-
-Contactor toy.
-Basicaly just a more descriptive name for a GenericDigitalToy.
-Implements IToy, inherits GenericDigitalToy
-
-
-
-\subsection use_DirectOutput_Cab_Toys_Basic_Contactor_samplexml Sample XML
-
-A configuration section for Contactor might resemble the following structure:
-
-~~~~~~~~~~~~~{.xml}
-<Contactor>
-  <Name>Name of Contactor</Name>
-  <OutputName>Name of Output</OutputName>
-</Contactor>
-~~~~~~~~~~~~~
-\subsection use_DirectOutput_Cab_Toys_Basic_Contactor_properties Properties
-
-Contactor has the following 2 configurable properties:
-
-\subsubsection DirectOutput_Cab_Toys_Basic_Contactor_Name Name
-
-The name of the item.
-
-
-
-\subsubsection DirectOutput_Cab_Toys_Basic_Contactor_OutputName OutputName
-
-Name of the Output for the GenericDigitalToy
-
-
-
-\section use_DirectOutput_Cab_Toys_Basic_DigitalToy DigitalToy
-
-\subsection use_DirectOutput_Cab_Toys_Basic_DigitalToy_summary Summary
-
-\deprecated The use of this toy is depreceated.
-
-Implementation of a generic digital toy.
-Implements IToy.
-
-
-
-\subsection use_DirectOutput_Cab_Toys_Basic_DigitalToy_samplexml Sample XML
-
-A configuration section for DigitalToy might resemble the following structure:
-
-~~~~~~~~~~~~~{.xml}
-<DigitalToy>
-  <Name>Name of DigitalToy</Name>
-  <OutputName>Name of Output</OutputName>
-</DigitalToy>
-~~~~~~~~~~~~~
-\subsection use_DirectOutput_Cab_Toys_Basic_DigitalToy_properties Properties
-
-DigitalToy has the following 2 configurable properties:
-
-\subsubsection DirectOutput_Cab_Toys_Basic_DigitalToy_Name Name
-
-The name of the item.
-
-
-
-\subsubsection DirectOutput_Cab_Toys_Basic_DigitalToy_OutputName OutputName
-
-Name of the Output for the GenericDigitalToy
-
-
-
-\section use_DirectOutput_Cab_Toys_Basic_GearMotor GearMotor
-
-\subsection use_DirectOutput_Cab_Toys_Basic_GearMotor_summary Summary
-
-\deprecated The use of this toy is depreceated.
-
-GearMotor toy is just a simple wrapper around the Motor toy.
-
-
-
-\subsection use_DirectOutput_Cab_Toys_Basic_GearMotor_samplexml Sample XML
-
-A configuration section for GearMotor might resemble the following structure:
-
-~~~~~~~~~~~~~{.xml}
-<GearMotor>
-  <Name>Name of GearMotor</Name>
-  <OutputName>Name of Output</OutputName>
-  <MaxRunTimeMs>300000</MaxRunTimeMs>
-  <MinPower>10</MinPower>
-  <MaxPower>255</MaxPower>
-  <KickstartPower>128</KickstartPower>
-  <KickstartDurationMs>100</KickstartDurationMs>
-</GearMotor>
-~~~~~~~~~~~~~
-\subsection use_DirectOutput_Cab_Toys_Basic_GearMotor_properties Properties
-
-GearMotor has the following 7 configurable properties:
-
-\subsubsection DirectOutput_Cab_Toys_Basic_GearMotor_KickstartDurationMs KickstartDurationMs
-
-The kickstart duration in milliseconds.
-
-
-
-\subsubsection DirectOutput_Cab_Toys_Basic_GearMotor_KickstartPower KickstartPower
-
-The kickstart power for the motor.
-
-
-
-\subsubsection DirectOutput_Cab_Toys_Basic_GearMotor_MaxPower MaxPower
-
-The maximum power for the motor.
-
-
-
-\subsubsection DirectOutput_Cab_Toys_Basic_GearMotor_MaxRunTimeMs MaxRunTimeMs
-
-The max run time in milliseconds.
-
-
-
-\subsubsection DirectOutput_Cab_Toys_Basic_GearMotor_MinPower MinPower
-
-The minimal power for the motor.
-
-
-
-\subsubsection DirectOutput_Cab_Toys_Basic_GearMotor_Name Name
-
-The name of the item.
-
-
-
-\subsubsection DirectOutput_Cab_Toys_Basic_GearMotor_OutputName OutputName
-
-Name of the Output for the GenericAnalogToy.
-
-
-
-\section use_DirectOutput_Cab_Toys_Basic_Lamp Lamp
-
-\subsection use_DirectOutput_Cab_Toys_Basic_Lamp_summary Summary
-
-\deprecated The use of this toy is depreceated. Use the AnalogAlphaToy instead.
-
-Lamp toy.<br />
-Inherits from <see cref="T:DirectOutput.Cab.Toys.Basic.AnalogToy" />, implements <see cref="T:DirectOutput.Cab.Toys.IToy" />.
-
-
-
-\subsection use_DirectOutput_Cab_Toys_Basic_Lamp_samplexml Sample XML
-
-A configuration section for Lamp might resemble the following structure:
-
-~~~~~~~~~~~~~{.xml}
-<Lamp>
-  <Name>Name of Lamp</Name>
-  <OutputName>Name of Output</OutputName>
-</Lamp>
-~~~~~~~~~~~~~
-\subsection use_DirectOutput_Cab_Toys_Basic_Lamp_properties Properties
-
-Lamp has the following 2 configurable properties:
-
-\subsubsection DirectOutput_Cab_Toys_Basic_Lamp_Name Name
-
-The name of the item.
-
-
-
-\subsubsection DirectOutput_Cab_Toys_Basic_Lamp_OutputName OutputName
-
-Name of the Output for the GenericAnalogToy.
-
-
-
-\section use_DirectOutput_Cab_Toys_Basic_Motor Motor
-
-\subsection use_DirectOutput_Cab_Toys_Basic_Motor_summary Summary
-
-\deprecated The use of this toy is depreceated. A new version of this toy will be available later.
-
-Motor toy supporting max. and min. power, max. runtime and kickstart settings.<br />
-Inherits from GenericAnalogToy, implements IToy.
-
-
-
-\subsection use_DirectOutput_Cab_Toys_Basic_Motor_samplexml Sample XML
-
-A configuration section for Motor might resemble the following structure:
-
-~~~~~~~~~~~~~{.xml}
-<Motor>
-  <Name>Name of Motor</Name>
-  <OutputName>Name of Output</OutputName>
-  <MaxRunTimeMs>300000</MaxRunTimeMs>
-  <MinPower>10</MinPower>
-  <MaxPower>255</MaxPower>
-  <KickstartPower>128</KickstartPower>
-  <KickstartDurationMs>100</KickstartDurationMs>
-</Motor>
-~~~~~~~~~~~~~
-\subsection use_DirectOutput_Cab_Toys_Basic_Motor_properties Properties
-
-Motor has the following 7 configurable properties:
-
-\subsubsection DirectOutput_Cab_Toys_Basic_Motor_KickstartDurationMs KickstartDurationMs
-
-The kickstart duration in milliseconds.
-
-
-
-\subsubsection DirectOutput_Cab_Toys_Basic_Motor_KickstartPower KickstartPower
-
-The kickstart power for the motor.
-
-
-
-\subsubsection DirectOutput_Cab_Toys_Basic_Motor_MaxPower MaxPower
-
-The maximum power for the motor.
-
-
-
-\subsubsection DirectOutput_Cab_Toys_Basic_Motor_MaxRunTimeMs MaxRunTimeMs
-
-The max run time in milliseconds.
-
-
-
-\subsubsection DirectOutput_Cab_Toys_Basic_Motor_MinPower MinPower
-
-The minimal power for the motor.
-
-
-
-\subsubsection DirectOutput_Cab_Toys_Basic_Motor_Name Name
-
-The name of the item.
-
-
-
-\subsubsection DirectOutput_Cab_Toys_Basic_Motor_OutputName OutputName
-
-Name of the Output for the GenericAnalogToy.
-
-
-
-\section use_DirectOutput_Cab_Toys_Basic_RGBLed RGBLed
-
-\subsection use_DirectOutput_Cab_Toys_Basic_RGBLed_summary Summary
-
-\deprecated The use of this toy is depreceated. Use the new RGBAToy instead.
-
-RGB led toy controlls a multicolor led.
-Implement IToy, inherits Toy.
-
-
-
-\subsection use_DirectOutput_Cab_Toys_Basic_RGBLed_samplexml Sample XML
-
-A configuration section for RGBLed might resemble the following structure:
-
-~~~~~~~~~~~~~{.xml}
-<RGBLed>
-  <Name>Name of RGBLed</Name>
-  <OutputNameRed>OutputNameRed string</OutputNameRed>
-  <OutputNameGreen>OutputNameGreen string</OutputNameGreen>
-  <OutputNameBlue>OutputNameBlue string</OutputNameBlue>
-</RGBLed>
-~~~~~~~~~~~~~
-\subsection use_DirectOutput_Cab_Toys_Basic_RGBLed_properties Properties
-
-RGBLed has the following 4 configurable properties:
-
-\subsubsection DirectOutput_Cab_Toys_Basic_RGBLed_Name Name
-
-The name of the item.
-
-
-
-\subsubsection DirectOutput_Cab_Toys_Basic_RGBLed_OutputNameBlue OutputNameBlue
-
-Name of the IOutput for blue.
-
-
-
-\subsubsection DirectOutput_Cab_Toys_Basic_RGBLed_OutputNameGreen OutputNameGreen
-
-Name of the IOutput for green.
-
-
-
-\subsubsection DirectOutput_Cab_Toys_Basic_RGBLed_OutputNameRed OutputNameRed
-
-Name of the IOutput for red.
-
-
-
-\section use_DirectOutput_Cab_Toys_Basic_Shaker Shaker
-
-\subsection use_DirectOutput_Cab_Toys_Basic_Shaker_summary Summary
-
-\deprecated The use of this toy is depreceated.
-
-Shaker toy.<br />
-This is just a simple wrapper around the motor toy.<br />
-Inherits from GenericAnalogToy, implements IToy.
-
-
-
-\subsection use_DirectOutput_Cab_Toys_Basic_Shaker_samplexml Sample XML
-
-A configuration section for Shaker might resemble the following structure:
-
-~~~~~~~~~~~~~{.xml}
-<Shaker>
-  <Name>Name of Shaker</Name>
-  <OutputName>Name of Output</OutputName>
-  <MaxRunTimeMs>300000</MaxRunTimeMs>
-  <MinPower>10</MinPower>
-  <MaxPower>255</MaxPower>
-  <KickstartPower>128</KickstartPower>
-  <KickstartDurationMs>100</KickstartDurationMs>
-</Shaker>
-~~~~~~~~~~~~~
-\subsection use_DirectOutput_Cab_Toys_Basic_Shaker_properties Properties
-
-Shaker has the following 7 configurable properties:
-
-\subsubsection DirectOutput_Cab_Toys_Basic_Shaker_KickstartDurationMs KickstartDurationMs
-
-The kickstart duration in milliseconds.
-
-
-
-\subsubsection DirectOutput_Cab_Toys_Basic_Shaker_KickstartPower KickstartPower
-
-The kickstart power for the motor.
-
-
-
-\subsubsection DirectOutput_Cab_Toys_Basic_Shaker_MaxPower MaxPower
-
-The maximum power for the motor.
-
-
-
-\subsubsection DirectOutput_Cab_Toys_Basic_Shaker_MaxRunTimeMs MaxRunTimeMs
-
-The max run time in milliseconds.
-
-
-
-\subsubsection DirectOutput_Cab_Toys_Basic_Shaker_MinPower MinPower
-
-The minimal power for the motor.
-
-
-
-\subsubsection DirectOutput_Cab_Toys_Basic_Shaker_Name Name
-
-The name of the item.
-
-
-
-\subsubsection DirectOutput_Cab_Toys_Basic_Shaker_OutputName OutputName
-
-Name of the Output for the GenericAnalogToy.
-
-
-
 \section use_DirectOutput_Cab_Toys_Layer_AnalogAlphaToy AnalogAlphaToy
 
 \subsection use_DirectOutput_Cab_Toys_Layer_AnalogAlphaToy_summary Summary
@@ -432,11 +16,18 @@ A configuration section for AnalogAlphaToy might resemble the following structur
 <AnalogAlphaToy>
   <Name>Name of AnalogAlphaToy</Name>
   <OutputName>Name of Output</OutputName>
+  <FadingCurveName>Linear</FadingCurveName>
 </AnalogAlphaToy>
 ~~~~~~~~~~~~~
 \subsection use_DirectOutput_Cab_Toys_Layer_AnalogAlphaToy_properties Properties
 
-AnalogAlphaToy has the following 2 configurable properties:
+AnalogAlphaToy has the following 3 configurable properties:
+
+\subsubsection DirectOutput_Cab_Toys_Layer_AnalogAlphaToy_FadingCurveName FadingCurveName
+
+The name of the fading curve.
+
+
 
 \subsubsection DirectOutput_Cab_Toys_Layer_AnalogAlphaToy_Name Name
 
@@ -450,56 +41,289 @@ The name of the output.
 
 
 
-\section use_DirectOutput_Cab_Toys_Layer_RGBAToy RGBAToy
+\section use_DirectOutput_Cab_Toys_Virtual_AnalogAlphaToyGroup AnalogAlphaToyGroup
 
-\subsection use_DirectOutput_Cab_Toys_Layer_RGBAToy_summary Summary
+\subsection use_DirectOutput_Cab_Toys_Virtual_AnalogAlphaToyGroup_summary Summary
 
-Thie RGBAToy controls RGB leds and other gadgets displaying RGB colors.<br /><br />
-The RGBAToy has multilayer support with alpha channels. This allows the effects targeting RGBAToys to send their data to different layers.
-Values in a layer do also have a alpha/transparency channel which will allow us to blend the colors/values in the various layers (e.g. if  a bottom layer is blue and top is a semi transparent red, you will get some mix of both or if one of the two blinks you get changing colors).<br />
-The following picture might give you a clearer idea how the layers with their alpha channels work:
+This toys allows the grouping of several AnalogAlpha toys (e.g. <see cref="T:DirectOutput.Cab.Toys.Layer.AnalogAlphaToy" /> or <see cref="!:Lamp" />) into a matrix, which can be controlled by the matrix effects.
 
-\image html LayersRGBA.png "RGBA Layers"
+\note Be sure to define this toy in the config file before the toys, which are listed in the ToyNames array.
 
 
 
-\subsection use_DirectOutput_Cab_Toys_Layer_RGBAToy_samplexml Sample XML
+\subsection use_DirectOutput_Cab_Toys_Virtual_AnalogAlphaToyGroup_samplexml Sample XML
 
-A configuration section for RGBAToy might resemble the following structure:
+A configuration section for AnalogAlphaToyGroup might resemble the following structure:
 
 ~~~~~~~~~~~~~{.xml}
-<RGBAToy>
-  <Name>Name of RGBAToy</Name>
-  <OutputNameRed>OutputNameRed string</OutputNameRed>
-  <OutputNameGreen>OutputNameGreen string</OutputNameGreen>
-  <OutputNameBlue>OutputNameBlue string</OutputNameBlue>
-</RGBAToy>
+<AnalogAlphaToyGroup>
+  <Name>Name of AnalogAlphaToyGroup</Name>
+  <ToyNames>
+    <Row>
+      <Column>Item</Column>
+      <Column>Item</Column>
+    </Row>
+    <Row>
+      <Column>Item</Column>
+      <Column>Item</Column>
+    </Row>
+    <Row>
+      <Column>Item</Column>
+      <Column>Item</Column>
+    </Row>
+  </ToyNames>
+  <LayerOffset>0</LayerOffset>
+</AnalogAlphaToyGroup>
 ~~~~~~~~~~~~~
-\subsection use_DirectOutput_Cab_Toys_Layer_RGBAToy_properties Properties
+\subsection use_DirectOutput_Cab_Toys_Virtual_AnalogAlphaToyGroup_properties Properties
 
-RGBAToy has the following 4 configurable properties:
+AnalogAlphaToyGroup has the following 3 configurable properties:
 
-\subsubsection DirectOutput_Cab_Toys_Layer_RGBAToy_Name Name
+\subsubsection DirectOutput_Cab_Toys_Virtual_AnalogAlphaToyGroup_LayerOffset LayerOffset
+
+The layer offset which defines a fixed positive or negative offset to the layers which are controlled on the target toy..
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Virtual_AnalogAlphaToyGroup_Name Name
 
 The name of the item.
 
 
 
-\subsubsection DirectOutput_Cab_Toys_Layer_RGBAToy_OutputNameBlue OutputNameBlue
+\subsubsection DirectOutput_Cab_Toys_Virtual_AnalogAlphaToyGroup_ToyNames ToyNames
 
-Name of the IOutput for blue.
-
-
-
-\subsubsection DirectOutput_Cab_Toys_Layer_RGBAToy_OutputNameGreen OutputNameGreen
-
-Name of the IOutput for green.
+The 2 dimensional array of RGBA toy names.
 
 
 
-\subsubsection DirectOutput_Cab_Toys_Layer_RGBAToy_OutputNameRed OutputNameRed
+__Nested Properties__
 
-Name of the IOutput for red.
+The following nested propteries exist for ToyNames:
+* __Capacity__<br/>* __Item__<br/>
+\section use_DirectOutput_Cab_Toys_Hardware_GearMotor GearMotor
+
+\subsection use_DirectOutput_Cab_Toys_Hardware_GearMotor_summary Summary
+
+GearMotor toy supporting max. and min. power, max. runtime and kickstart settings.<br />
+The settings of this toy allow for a detailed definition of the behaviour of the connected motor.
+
+* The KickstartPower and the KickstartDurationMs property allow you to define a initial stronger impulse for the start of the motor. Some hardware, e.g. like the Wolfsoft shaker in my cab, do not start to rotate when they are started with low power, giving them a initial pulse and the reducing to the lower power on the other hand is no problem. These properties allow you to define this behaviour.
+* The MinPower and MaxPower properties allow you to define the range of values which are allowed for the motor power. As a example, the shaker in my cab doesn't rotate with powers lower than 50 and starts to rattle and shake my cab appart with powers above 100. The normal value range for motor powers (0-255) is scaled to the range defined by the MinPower and MaxPower properties, so a value of 1 will result the shaker to operate on MinPower and 255 will result in MaxPower.
+* The FadingCurveName property can be used to specify the name of a predefined or user defined fading curve. This allows for even better fine tuning of the shaker power for different input values. It is recommended to use either the fading curve __Linear__ (default) and the MinPower/MaxPower settings or to use a fading curve and keep the MinPower/MaxPower settings on their defaults. If MinPower/MaxPower and a Fading Curve are combined, the power value for the motor will first be adjusted by the fading curve and the be scaled into the range of the MinPower/MaxPower settings.
+* MaxRunTimeMs allows you to define a maximum runtime for the motor before it is automatically turned off. To get reactivated after a runtime timeout the motor toy must first receive a power off (value=0), before it is reactivated.
+
+
+
+\subsection use_DirectOutput_Cab_Toys_Hardware_GearMotor_samplexml Sample XML
+
+A configuration section for GearMotor might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<GearMotor>
+  <Name>Name of GearMotor</Name>
+  <OutputName>Name of Output</OutputName>
+  <FadingCurveName>Linear</FadingCurveName>
+  <MaxRunTimeMs>300000</MaxRunTimeMs>
+  <KickstartPower>255</KickstartPower>
+  <KickstartDurationMs>100</KickstartDurationMs>
+  <MinPower>1</MinPower>
+  <MaxPower>255</MaxPower>
+</GearMotor>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_Cab_Toys_Hardware_GearMotor_properties Properties
+
+GearMotor has the following 8 configurable properties:
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_GearMotor_FadingCurveName FadingCurveName
+
+The name of the fading curve.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_GearMotor_KickstartDurationMs KickstartDurationMs
+
+The kickstart duration in milliseconds.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_GearMotor_KickstartPower KickstartPower
+
+The kickstart power for the motor.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_GearMotor_MaxPower MaxPower
+
+The max power for the toy.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_GearMotor_MaxRunTimeMs MaxRunTimeMs
+
+The max run time in milliseconds.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_GearMotor_MinPower MinPower
+
+The minimal power for the toy. This property can be used to ensure that the motor will allways rotate when it is active and not getting stuck due to low power.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_GearMotor_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_GearMotor_OutputName OutputName
+
+The name of the output.
+
+
+
+\section use_DirectOutput_Cab_Toys_Hardware_Lamp Lamp
+
+\subsection use_DirectOutput_Cab_Toys_Hardware_Lamp_samplexml Sample XML
+
+A configuration section for Lamp might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<Lamp>
+  <Name>Name of Lamp</Name>
+  <OutputName>Name of Output</OutputName>
+  <FadingCurveName>Linear</FadingCurveName>
+</Lamp>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_Cab_Toys_Hardware_Lamp_properties Properties
+
+Lamp has the following 3 configurable properties:
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_Lamp_FadingCurveName FadingCurveName
+
+The name of the fading curve.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_Lamp_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_Lamp_OutputName OutputName
+
+The name of the output.
+
+
+
+\section use_DirectOutput_Cab_Toys_Hardware_LedStrip LedStrip
+
+\subsection use_DirectOutput_Cab_Toys_Hardware_LedStrip_summary Summary
+
+Represents a adressable led strip.
+
+The toy supports several layers and supports transparency/alpha channels for every single led.
+
+
+
+\subsection use_DirectOutput_Cab_Toys_Hardware_LedStrip_samplexml Sample XML
+
+A configuration section for LedStrip might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<LedStrip>
+  <Name>Name of LedStrip</Name>
+  <Width>1</Width>
+  <Height>1</Height>
+  <LedStripArrangement>LeftRightTopDown</LedStripArrangement>
+  <ColorOrder>RBG</ColorOrder>
+  <FirstLedNumber>1</FirstLedNumber>
+  <FadingCurveName>Linear</FadingCurveName>
+  <OutputControllerName>Name of OutputController</OutputControllerName>
+</LedStrip>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_Cab_Toys_Hardware_LedStrip_properties Properties
+
+LedStrip has the following 8 configurable properties:
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_LedStrip_ColorOrder ColorOrder
+
+The color order of the leds on the strip.
+
+
+
+The property ColorOrder accepts the following values:
+
+* __RGB__: Red-Green-Blue (usual color order)
+* __RBG__: Red - Blue - Green
+* __GRB__: Green - Red - Blue (WS2812 led chips are using the scheme)
+* __WS2812__: WS2812 led chip (uses green - red - blue color order)
+* __GBR__: Green - Blue - Red
+* __BRG__: Green - Blue - Red
+* __BGR__: Blue - Green - Red
+
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_LedStrip_FadingCurveName FadingCurveName
+
+The name of the fading curve.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_LedStrip_FirstLedNumber FirstLedNumber
+
+The number of the first led of the strip.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_LedStrip_Height Height
+
+The height of the led stripe.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_LedStrip_LedStripArrangement LedStripArrangement
+
+The strip arrangement value as defined in the LedStripArrangementEnum.
+
+
+
+The property LedStripArrangement accepts the following values:
+
+* __LeftRightTopDown__
+* __LeftRightBottomUp__
+* __RightLeftTopDown__
+* __RightLeftBottomUp__
+* __TopDownLeftRight__
+* __TopDownRightLeft__
+* __BottomUpLeftRight__
+* __BottomUpRightLeft__
+* __LeftRightAlternateTopDown__
+* __LeftRightAlternateBottomUp__
+* __RightLeftAlternateTopDown__
+* __RightLeftAlternateBottomUp__
+* __TopDownAlternateLeftRight__
+* __TopDownAlternateRightLeft__
+* __BottomUpAlternateLeftRight__
+* __BottomUpAlternateRightLeft__
+
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_LedStrip_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_LedStrip_OutputControllerName OutputControllerName
+
+The name of the output controller.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_LedStrip_Width Width
+
+The width of the led stripe.
 
 
 
@@ -567,6 +391,350 @@ The following nested propteries exist for Outputs:
 
 * __OutputName__<br/>  The name of the IOutput object beeing controlled by the LedWizEquivalenOutput.
 
+
+
+
+\section use_DirectOutput_Cab_Toys_Hardware_Motor Motor
+
+\subsection use_DirectOutput_Cab_Toys_Hardware_Motor_summary Summary
+
+Motor toy supporting max. and min. power, max. runtime and kickstart settings.<br />
+The settings of this toy allow for a detailed definition of the behaviour of the connected motor.
+
+* The KickstartPower and the KickstartDurationMs property allow you to define a initial stronger impulse for the start of the motor. Some hardware, e.g. like the Wolfsoft shaker in my cab, do not start to rotate when they are started with low power, giving them a initial pulse and the reducing to the lower power on the other hand is no problem. These properties allow you to define this behaviour.
+* The MinPower and MaxPower properties allow you to define the range of values which are allowed for the motor power. As a example, the shaker in my cab doesn't rotate with powers lower than 50 and starts to rattle and shake my cab appart with powers above 100. The normal value range for motor powers (0-255) is scaled to the range defined by the MinPower and MaxPower properties, so a value of 1 will result the shaker to operate on MinPower and 255 will result in MaxPower.
+* The FadingCurveName property can be used to specify the name of a predefined or user defined fading curve. This allows for even better fine tuning of the shaker power for different input values. It is recommended to use either the fading curve __Linear__ (default) and the MinPower/MaxPower settings or to use a fading curve and keep the MinPower/MaxPower settings on their defaults. If MinPower/MaxPower and a Fading Curve are combined, the power value for the motor will first be adjusted by the fading curve and the be scaled into the range of the MinPower/MaxPower settings.
+* MaxRunTimeMs allows you to define a maximum runtime for the motor before it is automatically turned off. To get reactivated after a runtime timeout the motor toy must first receive a power off (value=0), before it is reactivated.
+
+
+
+\subsection use_DirectOutput_Cab_Toys_Hardware_Motor_samplexml Sample XML
+
+A configuration section for Motor might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<Motor>
+  <Name>Name of Motor</Name>
+  <OutputName>Name of Output</OutputName>
+  <FadingCurveName>Linear</FadingCurveName>
+  <MaxRunTimeMs>300000</MaxRunTimeMs>
+  <KickstartPower>255</KickstartPower>
+  <KickstartDurationMs>100</KickstartDurationMs>
+  <MinPower>1</MinPower>
+  <MaxPower>255</MaxPower>
+</Motor>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_Cab_Toys_Hardware_Motor_properties Properties
+
+Motor has the following 8 configurable properties:
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_Motor_FadingCurveName FadingCurveName
+
+The name of the fading curve.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_Motor_KickstartDurationMs KickstartDurationMs
+
+The kickstart duration in milliseconds.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_Motor_KickstartPower KickstartPower
+
+The kickstart power for the motor.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_Motor_MaxPower MaxPower
+
+The max power for the toy.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_Motor_MaxRunTimeMs MaxRunTimeMs
+
+The max run time in milliseconds.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_Motor_MinPower MinPower
+
+The minimal power for the toy. This property can be used to ensure that the motor will allways rotate when it is active and not getting stuck due to low power.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_Motor_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_Motor_OutputName OutputName
+
+The name of the output.
+
+
+
+\section use_DirectOutput_Cab_Toys_Layer_RGBAToy RGBAToy
+
+\subsection use_DirectOutput_Cab_Toys_Layer_RGBAToy_summary Summary
+
+Thie RGBAToy controls RGB leds and other gadgets displaying RGB colors.<br /><br />
+The RGBAToy has multilayer support with alpha channels. This allows the effects targeting RGBAToys to send their data to different layers.
+Values in a layer do also have a alpha/transparency channel which will allow us to blend the colors/values in the various layers (e.g. if  a bottom layer is blue and top is a semi transparent red, you will get some mix of both or if one of the two blinks you get changing colors).<br />
+The following picture might give you a clearer idea how the layers with their alpha channels work:
+
+\image html LayersRGBA.png "RGBA Layers"
+
+
+
+\subsection use_DirectOutput_Cab_Toys_Layer_RGBAToy_samplexml Sample XML
+
+A configuration section for RGBAToy might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<RGBAToy>
+  <Name>Name of RGBAToy</Name>
+  <OutputNameRed>OutputNameRed string</OutputNameRed>
+  <OutputNameGreen>OutputNameGreen string</OutputNameGreen>
+  <OutputNameBlue>OutputNameBlue string</OutputNameBlue>
+  <FadingCurveName>Linear</FadingCurveName>
+</RGBAToy>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_Cab_Toys_Layer_RGBAToy_properties Properties
+
+RGBAToy has the following 5 configurable properties:
+
+\subsubsection DirectOutput_Cab_Toys_Layer_RGBAToy_FadingCurveName FadingCurveName
+
+The name of the fading curve.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Layer_RGBAToy_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Layer_RGBAToy_OutputNameBlue OutputNameBlue
+
+Name of the IOutput for blue.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Layer_RGBAToy_OutputNameGreen OutputNameGreen
+
+Name of the IOutput for green.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Layer_RGBAToy_OutputNameRed OutputNameRed
+
+Name of the IOutput for red.
+
+
+
+\section use_DirectOutput_Cab_Toys_Virtual_RGBAToyGroup RGBAToyGroup
+
+\subsection use_DirectOutput_Cab_Toys_Virtual_RGBAToyGroup_summary Summary
+
+This toys allows the grouping of several RGBA toys (e.g. <see cref="T:DirectOutput.Cab.Toys.Layer.RGBAToy" /> or <see cref="!:RGBLed" />) into a matrix, which can be controlled by the matrix effects.
+
+\note Be sure to define this toy in the config file before the toys, which are listed in the ToyNames array.
+
+
+
+\subsection use_DirectOutput_Cab_Toys_Virtual_RGBAToyGroup_samplexml Sample XML
+
+A configuration section for RGBAToyGroup might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<RGBAToyGroup>
+  <Name>Name of RGBAToyGroup</Name>
+  <ToyNames>
+    <Row>
+      <Column>Item</Column>
+      <Column>Item</Column>
+    </Row>
+    <Row>
+      <Column>Item</Column>
+      <Column>Item</Column>
+    </Row>
+    <Row>
+      <Column>Item</Column>
+      <Column>Item</Column>
+    </Row>
+  </ToyNames>
+  <LayerOffset>0</LayerOffset>
+</RGBAToyGroup>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_Cab_Toys_Virtual_RGBAToyGroup_properties Properties
+
+RGBAToyGroup has the following 3 configurable properties:
+
+\subsubsection DirectOutput_Cab_Toys_Virtual_RGBAToyGroup_LayerOffset LayerOffset
+
+The layer offset which defines a fixed positive or negative offset to the layers which are controlled on the target toy..
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Virtual_RGBAToyGroup_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Virtual_RGBAToyGroup_ToyNames ToyNames
+
+The 2 dimensional array of RGBA toy names.
+
+
+
+__Nested Properties__
+
+The following nested propteries exist for ToyNames:
+* __Capacity__<br/>* __Item__<br/>
+\section use_DirectOutput_Cab_Toys_Hardware_RGBLed RGBLed
+
+\subsection use_DirectOutput_Cab_Toys_Hardware_RGBLed_summary Summary
+
+Toy controlling a RGB led.<br />
+This is just a simple wrapper around the <see cref="T:DirectOutput.Cab.Toys.Layer.RGBAToy" />.<br />
+
+
+\subsection use_DirectOutput_Cab_Toys_Hardware_RGBLed_samplexml Sample XML
+
+A configuration section for RGBLed might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<RGBLed>
+  <Name>Name of RGBLed</Name>
+  <OutputNameRed>OutputNameRed string</OutputNameRed>
+  <OutputNameGreen>OutputNameGreen string</OutputNameGreen>
+  <OutputNameBlue>OutputNameBlue string</OutputNameBlue>
+  <FadingCurveName>Linear</FadingCurveName>
+</RGBLed>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_Cab_Toys_Hardware_RGBLed_properties Properties
+
+RGBLed has the following 5 configurable properties:
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_RGBLed_FadingCurveName FadingCurveName
+
+The name of the fading curve.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_RGBLed_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_RGBLed_OutputNameBlue OutputNameBlue
+
+Name of the IOutput for blue.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_RGBLed_OutputNameGreen OutputNameGreen
+
+Name of the IOutput for green.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_RGBLed_OutputNameRed OutputNameRed
+
+Name of the IOutput for red.
+
+
+
+\section use_DirectOutput_Cab_Toys_Hardware_Shaker Shaker
+
+\subsection use_DirectOutput_Cab_Toys_Hardware_Shaker_summary Summary
+
+Shaker toy with settings for minimum and maximum power, fading curves, max runtime and kickstart.
+
+\image html Shaker.jpg
+
+The shaker toy is a simple wrapper around the Motor toy, so you can define your toy with the precise type.
+
+The settings of this toy allow for a detailed definition of the behaviour of the connected motor.
+
+* The KickstartPower and the KickstartDurationMs property allow you to define a initial stronger impulse for the start of the motor. Some hardware, e.g. like the Wolfsoft shaker in my cab, do not start to rotate when they are started with low power, giving them a initial pulse and the reducing to the lower power on the other hand is no problem. These properties allow you to define this behaviour.
+* The MinPower and MaxPower properties allow you to define the range of values which are allowed for the motor power. As a example, the shaker in my cab doesn't rotate with powers lower than 50 and starts to rattle and shake my cab appart with powers above 100. The normal value range for motor powers (0-255) is scaled to the range defined by the MinPower and MaxPower properties, so a value of 1 will result the shaker to operate on MinPower and 255 will result in MaxPower.
+* The FadingCurveName property can be used to specify the name of a predefined or user defined fading curve. This allows for even better fine tuning of the shaker power for different input values. It is recommended to use either the fading curve __Linear__ (default) and the MinPower/MaxPower settings or to use a fading curve and keep the MinPower/MaxPower settings on their defaults. If MinPower/MaxPower and a Fading Curve are combined, the power value for the motor will first be adjusted by the fading curve and the be scaled into the range of the MinPower/MaxPower settings.
+* MaxRunTimeMs allows you to define a maximum runtime for the motor before it is automatically turned off. To get reactivated after a runtime timeout the motor toy must first receive a power off (value=0), before it is reactivated.
+
+
+
+\subsection use_DirectOutput_Cab_Toys_Hardware_Shaker_samplexml Sample XML
+
+A configuration section for Shaker might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<Shaker>
+  <Name>Name of Shaker</Name>
+  <OutputName>Name of Output</OutputName>
+  <FadingCurveName>Linear</FadingCurveName>
+  <MaxRunTimeMs>300000</MaxRunTimeMs>
+  <KickstartPower>255</KickstartPower>
+  <KickstartDurationMs>100</KickstartDurationMs>
+  <MinPower>1</MinPower>
+  <MaxPower>255</MaxPower>
+</Shaker>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_Cab_Toys_Hardware_Shaker_properties Properties
+
+Shaker has the following 8 configurable properties:
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_Shaker_FadingCurveName FadingCurveName
+
+The name of the fading curve.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_Shaker_KickstartDurationMs KickstartDurationMs
+
+The kickstart duration in milliseconds.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_Shaker_KickstartPower KickstartPower
+
+The kickstart power for the motor.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_Shaker_MaxPower MaxPower
+
+The max power for the toy.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_Shaker_MaxRunTimeMs MaxRunTimeMs
+
+The max run time in milliseconds.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_Shaker_MinPower MinPower
+
+The minimal power for the toy. This property can be used to ensure that the motor will allways rotate when it is active and not getting stuck due to low power.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_Shaker_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_Shaker_OutputName OutputName
+
+The name of the output.
 
 
 

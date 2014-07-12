@@ -8,13 +8,13 @@ namespace DirectOutput.FX
     public enum RetriggerBehaviourEnum
     {
         /// <summary>
-        /// The effect gets restarted in a retrigger situation.
+        /// The effect or its behaviour gets restarted in a retrigger situation.
         /// </summary>
-        RestartEffect,
+        Restart,
 
         /// <summary>
-        /// Retrigger calls are ignored. The effect is not being restarted.
+        /// Retrigger calls are ignored. The effect or its behaviour is not being restarted.
         /// </summary>
-        IgnoreRetrigger
+        Ignore
     }
 }

@@ -8,11 +8,13 @@ using DirectOutput.General.Statistics;
 namespace DirectOutput.Cab.Out.LW
 {
     /// <summary>
-    /// The LedWiz is a easy to use outputcontroller with 32 outputs which all support 49 <a target="_blank" href="https://en.wikipedia.org/wiki/Pulse-width_modulation">pwm</a> levels. The LedWiz is able to drive leds and smaller loads directly, but will require some kind of booster for power hungery gadgets like big contactors or motors.
+    /// The LedWiz is a easy to use outputcontroller with 32 outputs which all support 49 <a target="_blank" href="https://en.wikipedia.org/wiki/Pulse-width_modulation">pwm</a> levels with a PWM frequency of approx. 50hz. The LedWiz is able to drive leds and smaller loads directly, but will require some kind of booster for power hungery gadgets like big contactors or motors.
     ///
     /// \image html LedWizboard.jpg
     /// 
-    /// The DirectOutput framework does fully support the LedWiz and can control up to 16 LedWiz units. The framework can automatically detect connected LedWiz units and configure them for use with the framework.
+    /// The DirectOutput framework does fully support the LedWiz and can control up to 16 LedWiz units. 
+    /// 
+    /// The framework can automatically detect connected LedWiz units and configure them for use with the framework. 
     /// 
     /// The LedWiz is made by <a href="http://groovygamegear.com/">GroovyGameGear</a> and can by ordered directly on GroovyGamegears website, but also from some other vendors.
     /// 
@@ -143,7 +145,7 @@ namespace DirectOutput.Cab.Out.LW
         /// or<br/>
         /// LedWiz output numbers must be in the range of 1-32. The supplied output number {0} is out of range.
         /// </exception>
-        public override void OnOutputValueChanged(IOutput Output)
+        protected override void OnOutputValueChanged(IOutput Output)
         {
             if (!(Output is LedWizOutput))
             {
@@ -454,13 +456,13 @@ namespace DirectOutput.Cab.Out.LW
             //Used to convert the 0-255 range of output values to LedWiz values in the range of 0-48.
 //            private static readonly byte[] ByteToLedWizValue = { 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 9, 10, 10, 10, 10, 10, 11, 11, 11, 11, 11, 12, 12, 12, 12, 12, 13, 13, 13, 13, 13, 14, 14, 14, 14, 14, 14, 15, 15, 15, 15, 15, 16, 16, 16, 16, 16, 17, 17, 17, 17, 17, 18, 18, 18, 18, 18, 19, 19, 19, 19, 19, 19, 20, 20, 20, 20, 20, 21, 21, 21, 21, 21, 22, 22, 22, 22, 22, 23, 23, 23, 23, 23, 24, 24, 24, 24, 24, 24, 25, 25, 25, 25, 25, 26, 26, 26, 26, 26, 27, 27, 27, 27, 27, 28, 28, 28, 28, 28, 29, 29, 29, 29, 29, 29, 30, 30, 30, 30, 30, 31, 31, 31, 31, 31, 32, 32, 32, 32, 32, 33, 33, 33, 33, 33, 34, 34, 34, 34, 34, 34, 35, 35, 35, 35, 35, 36, 36, 36, 36, 36, 37, 37, 37, 37, 37, 38, 38, 38, 38, 38, 39, 39, 39, 39, 39, 39, 40, 40, 40, 40, 40, 41, 41, 41, 41, 41, 42, 42, 42, 42, 42, 43, 43, 43, 43, 43, 44, 44, 44, 44, 44, 44, 45, 45, 45, 45, 45, 46, 46, 46, 46, 46, 47, 47, 47, 47, 47, 48, 48, 48, 48, 48 };
 
-            private static readonly byte[] ByteToLedWizValue = { 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 10, 10, 10, 10, 10, 10, 11, 11, 11, 11, 11, 12, 12, 12, 12, 12, 13, 13, 13, 13, 13, 13, 14, 14, 14, 14, 14, 15, 15, 15, 15, 15, 16, 16, 16, 16, 16, 16, 17, 17, 17, 17, 17, 18, 18, 18, 18, 18, 19, 19, 19, 19, 19, 20, 20, 20, 20, 20, 20, 21, 21, 21, 21, 21, 22, 22, 22, 22, 22, 23, 23, 23, 23, 23, 23, 24, 24, 24, 24, 24, 25, 25, 25, 25, 25, 26, 26, 26, 26, 26, 26, 27, 27, 27, 27, 27, 28, 28, 28, 28, 28, 29, 29, 29, 29, 29, 29, 30, 30, 30, 30, 30, 31, 31, 31, 31, 31, 32, 32, 32, 32, 32, 32, 33, 33, 33, 33, 33, 34, 34, 34, 34, 34, 35, 35, 35, 35, 35, 36, 36, 36, 36, 36, 36, 37, 37, 37, 37, 37, 38, 38, 38, 38, 38, 39, 39, 39, 39, 39, 39, 40, 40, 40, 40, 40, 41, 41, 41, 41, 41, 42, 42, 42, 42, 42, 42, 43, 43, 43, 43, 43, 44, 44, 44, 44, 44, 45, 45, 45, 45, 45, 45, 46, 46, 46, 46, 46, 47, 47, 47, 47, 47, 48, 48, 48, 48, 48, 48 };
+            private static readonly byte[] ByteToLedWizValue = { 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 10, 10, 10, 10, 10, 10, 11, 11, 11, 11, 11, 12, 12, 12, 12, 12, 13, 13, 13, 13, 13, 13, 14, 14, 14, 14, 14, 15, 15, 15, 15, 15, 16, 16, 16, 16, 16, 16, 17, 17, 17, 17, 17, 18, 18, 18, 18, 18, 19, 19, 19, 19, 19, 20, 20, 20, 20, 20, 20, 21, 21, 21, 21, 21, 22, 22, 22, 22, 22, 23, 23, 23, 23, 23, 23, 24, 24, 24, 24, 24, 25, 25, 25, 25, 25, 26, 26, 26, 26, 26, 26, 27, 27, 27, 27, 27, 28, 28, 28, 28, 28, 29, 29, 29, 29, 29, 29, 30, 30, 30, 30, 30, 31, 31, 31, 31, 31, 32, 32, 32, 32, 32, 32, 33, 33, 33, 33, 33, 34, 34, 34, 34, 34, 35, 35, 35, 35, 35, 36, 36, 36, 36, 36, 36, 37, 37, 37, 37, 37, 38, 38, 38, 38, 38, 39, 39, 39, 39, 39, 39, 40, 40, 40, 40, 40, 41, 41, 41, 41, 41, 42, 42, 42, 42, 42, 42, 43, 43, 43, 43, 43, 44, 44, 44, 44, 44, 45, 45, 45, 45, 45, 45, 46, 46, 46, 46, 46, 47, 47, 47, 47, 47, 48, 48, 48, 48, 48, 49 };
             private const int MaxUpdateFailCount = 5;
 
 
             public int Number { get; private set; }
 
-            public byte[] NewOutputValues = new byte[32] { 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48 };
+            public byte[] NewOutputValues = new byte[32] { 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49 };
             public byte[] CurrentOuputValues = new byte[32];
             public byte[] NewAfterValueSwitches = new byte[4];
             public byte[] NewBeforeValueSwitches = new byte[4];
@@ -685,7 +687,7 @@ namespace DirectOutput.Cab.Out.LW
             private void LedWizUpdaterDoIt()
             {
                 Log.Write("Updater thread for LedWiz {0:00} started.".Build(Number));
-                Pinball.ThreadInfoList.HeartBeat("LedWiz {0:00}".Build(Number));
+                //Pinball.ThreadInfoList.HeartBeat("LedWiz {0:00}".Build(Number));
 
 
                 int FailCnt = 0;
@@ -704,7 +706,7 @@ namespace DirectOutput.Cab.Out.LW
                     catch (Exception E)
                     {
                         Log.Exception("A error occured when updating LedWiz Nr. {0}".Build(Number), E);
-                        Pinball.ThreadInfoList.RecordException(E);
+                        //Pinball.ThreadInfoList.RecordException(E);
                         FailCnt++;
 
                         if (FailCnt > MaxUpdateFailCount)
@@ -713,7 +715,7 @@ namespace DirectOutput.Cab.Out.LW
                             KeepLedWizUpdaterAlive = false;
                         }
                     }
-                    Pinball.ThreadInfoList.HeartBeat();
+                    //Pinball.ThreadInfoList.HeartBeat();
                     if (KeepLedWizUpdaterAlive)
                     {
                         lock (LedWizUpdaterThreadLocker)
@@ -721,7 +723,7 @@ namespace DirectOutput.Cab.Out.LW
                             while (!TriggerUpdate && KeepLedWizUpdaterAlive)
                             {
                                 Monitor.Wait(LedWizUpdaterThreadLocker, 50);  // Lock is released while we’re waiting
-                                Pinball.ThreadInfoList.HeartBeat();
+                                //Pinball.ThreadInfoList.HeartBeat();
                             }
 
                         }
@@ -729,7 +731,7 @@ namespace DirectOutput.Cab.Out.LW
                     }
                     TriggerUpdate = false;
                 }
-               Pinball.ThreadInfoList.ThreadTerminates();
+               //Pinball.ThreadInfoList.ThreadTerminates();
                Log.Write("Updater thread for LedWiz {0:00} terminated.".Build(Number));
             }
 
@@ -784,7 +786,7 @@ namespace DirectOutput.Cab.Out.LW
                         {
                             UpdateDelay();
                             OnOffUpdateTimeStatistics.MeasurementStart();
-                            SBA(CurrentAfterValueSwitches[0], CurrentAfterValueSwitches[1], CurrentAfterValueSwitches[2], CurrentAfterValueSwitches[3], 2);
+                            SBA(CurrentAfterValueSwitches[0], CurrentAfterValueSwitches[1], CurrentAfterValueSwitches[2], CurrentAfterValueSwitches[3],2);
                             OnOffUpdateTimeStatistics.MeasurementStop();
                         }
                         

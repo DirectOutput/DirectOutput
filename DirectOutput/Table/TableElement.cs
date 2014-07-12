@@ -84,7 +84,7 @@ namespace DirectOutput.Table
         #endregion
 
         #region  Value
-        private int _Value = -1;
+        private int _Value = int.MinValue;
         /// <summary>
         /// Value of the TableElement.<br/>
         /// Triggers ValueChanged if the value is changed.
@@ -98,6 +98,8 @@ namespace DirectOutput.Table
                 if (_Value != value)
                 {
                     _Value = value;
+                    StorePastValue(value);
+
                     if (ValueChanged != null)
                     {
                         ValueChanged(this, new TableElementValueChangedEventArgs(this));
@@ -106,6 +108,60 @@ namespace DirectOutput.Table
                 }
             }
         }
+
+        const int PastValuesCount=100;
+        private int[] PastValues =new int[PastValuesCount];
+        private DateTime[] PastValueTimestamp = new DateTime[PastValuesCount];
+        private int PastValuesPosition = 0;
+
+        private void StorePastValue(int Value)
+        {
+            PastValuesPosition++;
+            if (PastValuesPosition >= PastValuesCount) { PastValuesPosition = 0; }
+
+            PastValues[PastValuesPosition] = Value;
+            PastValueTimestamp[PastValuesPosition] = DateTime.Now;
+
+        }
+
+        /// <summary>
+        /// Indicates wether the table element had a specific valu during the specified nmber of milliseconds.
+        /// </summary>
+        /// <param name="Value">The value to check for.</param>
+        /// <param name="DuringLastMilliseconds">The number of milliseconds to check.</param>
+        /// <returns></returns>
+        public bool ValueHasBeen(int Value, int DuringLastMilliseconds)
+        {
+            DateTime EarliestTime = DateTime.Now.AddMilliseconds(-DuringLastMilliseconds);
+
+            int P = PastValuesPosition;
+            int Cnt = 0;
+
+            while (PastValueTimestamp[P] > EarliestTime && Cnt < PastValuesCount)
+            {
+                if (PastValues[P] == Value) { return true; }
+                P--;
+                if (P < 0) { P = PastValuesCount - 1; }
+                Cnt++;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Indicates whether the value of the table element has changed during the specified number of milliseconds.
+        /// </summary>
+        /// <param name="DuringLastMilliseconds">The number of milliseconds to check.</param>
+        /// <returns></returns>
+        public bool ValueHasChanged(int DuringLastMilliseconds)
+        {
+            DateTime EarliestTime = DateTime.Now.AddMilliseconds(-DuringLastMilliseconds);
+
+            if (PastValueTimestamp[PastValuesPosition] >= EarliestTime) return true;
+
+            return false;
+
+        }
+
         /// <summary>
         /// Event is fired if the value of the property State is changed.
         /// </summary>
@@ -114,7 +170,7 @@ namespace DirectOutput.Table
 
         void TableElement_ValueChanged(object sender, TableElementValueChangedEventArgs e)
         {
-
+       
             AssignedEffects.Trigger(GetTableElementData());
         }
         #endregion
@@ -131,11 +187,8 @@ namespace DirectOutput.Table
             get { return _TableElementEffectList; }
             set
             {
-                if (_TableElementEffectList != value)
-                {
                     _TableElementEffectList = value;
-                 
-                }
+                            
             }
         }
 

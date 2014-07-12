@@ -13,6 +13,7 @@ namespace DirectOutput.Cab.Toys.Layer
         /// <summary>
         /// The alpha mapping table.
         /// </summary>
+        /// TODO: Check if alpha mapping could use int instead of float.
         public static float[,] AlphaMapping = new float[256, 256];
 
 

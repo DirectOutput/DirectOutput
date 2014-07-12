@@ -125,6 +125,34 @@ namespace DirectOutput.Table
         }
 
 
+        /// <summary>
+        /// Gets the <see cref="TableElement"/> with the specified descriptor (e.g. S48, W14, L59).
+        /// </summary>
+        /// <value>
+        /// The <see cref="TableElement"/> for the specified descriptor.
+        /// </value>
+        /// <param name="TableElementDescriptor">The table element descriptor (e.g. S48, W14, L59).</param>
+        /// <returns></returns>
+        public TableElement this[string TableElementDescriptor]
+        {
+            get
+            {
+
+                try
+                {
+                    return _TableElementsDictionary[(TableElementTypeEnum)TableElementDescriptor[0]][TableElementDescriptor.Substring(1).ToInteger()];
+
+                }
+                catch 
+                {
+
+                    return null;
+                }
+            }
+
+        }
+
+
         #endregion
 
         #region UpdateState()
@@ -138,6 +166,7 @@ namespace DirectOutput.Table
         /// <param name="State">State of entry to update</param>
         public void UpdateState(TableElementTypeEnum TableElementType, int Number, int State)
         {
+
             if (Contains(TableElementType, Number))
             {
                 _TableElementsDictionary[TableElementType][Number].Value = State;

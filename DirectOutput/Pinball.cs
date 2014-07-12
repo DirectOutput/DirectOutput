@@ -9,9 +9,10 @@ using DirectOutput.General;
 using DirectOutput.GlobalConfiguration;
 using DirectOutput.LedControl.Loader;
 using DirectOutput.PinballSupport;
-using DirectOutput.Scripting;
+using System.Linq;
 using DirectOutput.Table;
 using DirectOutput.General.Statistics;
+using System.Diagnostics;
 
 namespace DirectOutput
 {
@@ -25,29 +26,15 @@ namespace DirectOutput
         #region Properties
 
 
-        public ThreadInfoList ThreadInfoList { get; private set; }
+        //public ThreadInfoList ThreadInfoList { get; private set; }
         public TimeSpanStatisticsList TimeSpanStatistics { get; private set; }
-
-
-        private ScriptList _Scripts = new ScriptList();
-        /// <summary>
-        /// Gets the list of loaded scripts.
-        /// </summary>
-        /// <value>
-        /// The list of loaded scripts.
-        /// </value>
-        public ScriptList Scripts
-        {
-            get { return _Scripts; }
-            private set { _Scripts = value; }
-        }
 
 
 
         private Table.Table _Table = new Table.Table();
 
         /// <summary>
-        /// Gets the table object for the Pinball object.
+        /// Gets or sets the table object for the Pinball object.
         /// </summary>
         /// <value>
         /// The table object for the Pinball object.
@@ -55,12 +42,12 @@ namespace DirectOutput
         public Table.Table Table
         {
             get { return _Table; }
-            private set { _Table = value; }
+            set { _Table = value; }
         }
         private Cabinet _Cabinet = new Cabinet();
 
         /// <summary>
-        /// Gets the Cabinet object for the Pinball object.
+        /// Gets or sets the Cabinet object for the Pinball object.
         /// </summary>
         /// <value>
         /// The cabinet object for the Pinball object.
@@ -68,7 +55,7 @@ namespace DirectOutput
         public Cabinet Cabinet
         {
             get { return _Cabinet; }
-            private set { _Cabinet = value; }
+            set { _Cabinet = value; }
         }
 
 
@@ -107,15 +94,16 @@ namespace DirectOutput
 
 
         #region Init & Finish
+
         /// <summary>
-        /// Configures and initializes/starts and configures the Pinball object
+        /// Configures the Pinball object.<br/>
+        /// Loads the global config, table config and cabinet config
         /// </summary>
         /// <param name="GlobalConfigFilename">The global config filename.</param>
         /// <param name="TableFilename">The table filename.</param>
         /// <param name="RomName">Name of the rom.</param>
-        public void Init(string GlobalConfigFilename = "", string TableFilename = "", string RomName = "")
+        public void Setup(string GlobalConfigFilename = "", string TableFilename = "", string RomName = "")
         {
-
             bool GlobalConfigLoaded = true;
             //Load the global config
 
@@ -147,11 +135,24 @@ namespace DirectOutput
             catch (Exception E)
             {
 
-                throw new Exception("DirectOutput framework could initialize global config.\n Inner exception: {0}".Build(E.Message), E);
+                throw new Exception("DirectOutput framework could not initialize global config.\n Inner exception: {0}".Build(E.Message), E);
             }
 
             if (GlobalConfig.EnableLogging)
             {
+                if (GlobalConfig.ClearLogOnSessionStart)
+                {
+                    try
+                    {
+
+                        FileInfo LF = new FileInfo(GlobalConfig.GetLogFilename((!TableFilename.IsNullOrWhiteSpace() ? new FileInfo(TableFilename).FullName : ""), RomName));
+                        if (LF.Exists)
+                        {
+                            LF.Delete();
+                        }
+                    }
+                    catch { }
+                }
                 try
                 {
 
@@ -191,44 +192,48 @@ namespace DirectOutput
 
 
 
-                //Load global script files
-                Log.Write("Loading script files");
-                Scripts.LoadAndAddScripts(GlobalConfig.GetGlobalScriptFiles());
-
-
-
-
-                //Load table script files
-                if (!TableFilename.IsNullOrWhiteSpace())
-                {
-                    Scripts.LoadAndAddScripts(GlobalConfig.GetTableScriptFiles(new FileInfo(TableFilename).FullName));
-                }
-                Log.Write("Script files loaded");
-
-
                 Log.Write("Loading cabinet");
                 //Load cabinet config
                 Cabinet = null;
                 FileInfo CCF = GlobalConfig.GetCabinetConfigFile();
                 if (CCF != null)
                 {
-                    Log.Write("Will load cabinet config file: {0}".Build(CCF.FullName));
-                    try
+                    if (CCF.Exists)
                     {
-                        Cabinet = Cabinet.GetCabinetFromConfigXmlFile(CCF);
-                        Cabinet.CabinetConfigurationFilename = CCF.FullName;
-                        if (Cabinet.AutoConfigEnabled)
+                        Log.Write("Will load cabinet config file: {0}".Build(CCF.FullName));
+                        try
                         {
-                            Log.Write("Cabinet config file has AutoConfig feature enable. Calling AutoConfig.");
-                            Cabinet.AutoConfig();
+                            Cabinet = Cabinet.GetCabinetFromConfigXmlFile(CCF);
+
+                            Log.Write("{0} output controller defnitions and {1} toy definitions loaded from cabinet config.".Build(Cabinet.OutputControllers.Count,Cabinet.Toys.Count));
+
+
+                            Cabinet.CabinetConfigurationFilename = CCF.FullName;
+                            if (Cabinet.AutoConfigEnabled)
+                            {
+                                Log.Write("Cabinet config file has AutoConfig feature enabled. Calling AutoConfig.");
+                                try
+                                {
+                                    Cabinet.AutoConfig();
+                                }
+                                catch (Exception E)
+                                {
+                                    Log.Exception("A eception occured during cabinet auto configuration", E);
+                                }
+                                Log.Write("Autoconfig complete.");
+                            }
+                            Log.Write("Cabinet config loaded successfully from {0}".Build(CCF.FullName));
                         }
-                        Log.Write("Cabinet config loaded successfully from {0}".Build(CCF.FullName));
+                        catch (Exception E)
+                        {
+                            Log.Exception("A exception occured when loading cabinet config file: {0}".Build(CCF.FullName), E);
+
+
+                        }
                     }
-                    catch (Exception E)
+                    else
                     {
-                        Log.Exception("A exception occured when load cabinet config file: {0}".Build(CCF.FullName), E);
-
-
+                        Log.Warning("Cabinet config file {0} does not exist.".Build(CCF.FullName));
                     }
                 }
                 if (Cabinet == null)
@@ -285,89 +290,21 @@ namespace DirectOutput
                     {
                         Log.Write("Will try to load configs from DirectOutput.ini or LedControl.ini file(s) for RomName {0}".Build(RomName));
                         //Load ledcontrol
+
+                        Dictionary<int, FileInfo> LedControlIniFiles = GlobalConfig.GetIniFilesDictionary(TableFilename);
+
+
                         LedControlConfigList L = new LedControlConfigList();
-                        if (GlobalConfig.LedControlIniFiles.Count > 0)
+                        if (LedControlIniFiles.Count > 0)
                         {
-                            Log.Write("Will try to load table config from LedControl  file(s) specified in global config.");
-                            L.LoadLedControlFiles(GlobalConfig.LedControlIniFiles, false);
+                            L.LoadLedControlFiles(LedControlIniFiles, false);
+                            Log.Write("{0} directoutputconfig.ini or ledcontrol.ini files loaded.".Build(LedControlIniFiles.Count));
                         }
                         else
                         {
-                            bool FoundIt = false;
-                            List<string> LookupPaths = new List<string>();
-                            if (!TableFilename.IsNullOrWhiteSpace())
-                            {
-                                if (new FileInfo(TableFilename).Directory.Exists)
-                                {
-                                    LookupPaths.Add(new FileInfo(TableFilename).Directory.FullName);
-                                }
-                            }
-                            LookupPaths.AddRange(new string[] { GlobalConfig.GetGlobalConfigDirectory().FullName, Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) });
-
-                            LedControlIniFileList LedControlIniFiles = new LedControlIniFileList();
-
-                            string[] LedControlFilenames = { "directoutputconfig", "ledcontrol" };
-
-                            foreach (string LedControlFilename in LedControlFilenames)
-                            {
-                                foreach (string P in LookupPaths)
-                                {
-                                    DirectoryInfo DI = new DirectoryInfo(P);
-
-                                    List<FileInfo> Files = new List<FileInfo>();
-                                    foreach (FileInfo FI in DI.EnumerateFiles())
-                                    {
-                                        if (FI.Name.ToLower().StartsWith(LedControlFilename.ToLower()) && FI.Name.ToLower().EndsWith(".ini"))
-                                        {
-                                            Files.Add(FI);
-                                        }
-                                    }
-
-
-                                    foreach (FileInfo FI in Files)
-                                    {
-                                        if (string.Equals(FI.Name, "{0}.ini".Build(LedControlFilename), StringComparison.OrdinalIgnoreCase))
-                                        {
-                                            LedControlIniFiles.Add(FI.FullName, 1);
-                                            FoundIt = true;
-                                        }
-                                        else
-                                        {
-                                            string F = FI.Name.Substring(LedControlFilename.Length, FI.Name.Length - LedControlFilename.Length - 4);
-                                            if (F.IsInteger())
-                                            {
-                                                int LedWizNr = -1;
-                                                if (int.TryParse(F, out LedWizNr))
-                                                {
-                                                    if (!LedControlIniFiles.Contains(LedWizNr))
-                                                    {
-                                                        LedControlIniFiles.Add(FI.FullName, LedWizNr);
-                                                        FoundIt = true;
-                                                    }
-
-                                                }
-
-                                            }
-
-                                        }
-                                    };
-                                    if (FoundIt) break;
-                                }
-                                if (FoundIt) break;
-                            }
-
-        
-
-                            if (FoundIt)
-                            {
-                                L.LoadLedControlFiles(LedControlIniFiles, false);
-                                Log.Write("{0} directoutput.ini or ledcontrol.ini files loaded.".Build(LedControlIniFiles.Count));
-                            }
-                            else
-                            {
-                                Log.Write("No directoutput.ini or ledcontrol.ini files found. No directoutput.ini or ledcontrol.ini configs will be loaded.");
-                            }
+                            Log.Write("No directoutputconfig.ini or ledcontrol.ini files found.");
                         }
+
                         if (!L.ContainsConfig(RomName))
                         {
                             Log.Write("No config for table found in LedControl data for RomName {0}.".Build(RomName));
@@ -382,6 +319,40 @@ namespace DirectOutput
                             C.Setup(L, Table, Cabinet, RomName);
                             C = null;
                             //                        L.UpdateTableConfig(Table, RomName, Cabinet);
+
+                            //Check DOF Version
+                            Version DOFVersion = typeof(Pinball).Assembly.GetName().Version;
+                            
+                            if(L.Any(LC=>LC.MinDOFVersion!=null && LC.MinDOFVersion.CompareTo(DOFVersion)>0)) {
+
+                                Version MaxVersion = null;
+                                foreach (LedControlConfig LC in L)
+                                {
+                                    if(LC.MinDOFVersion!=null && (MaxVersion==null || MaxVersion.CompareTo(LC.MinDOFVersion)>0)) {
+                                        MaxVersion = LC.MinDOFVersion;
+                                    }
+                                }
+
+
+                                Log.Warning("UPDATE DIRECT OUTPUT FRAMEWORK!");
+                                if (MaxVersion != null)
+                                {
+                                    Log.Warning("Current DOF version is {0}, but DOF version {1} or later is required by one or several config files.".Build(DOFVersion, MaxVersion));
+                                }
+                                try
+                                {
+                                    
+                                    Process.Start(Path.Combine(Path.GetDirectoryName( System.Reflection.Assembly.GetExecutingAssembly().Location),"UpdateNotification.exe"));
+                                }
+                                catch (Exception E)
+                                {
+                                    Log.Exception("A exception occured when displaying the update notification", E);
+                                }
+                            }
+
+
+
+
                         }
                         L = null;
                     }
@@ -416,6 +387,22 @@ namespace DirectOutput
 
 
                 Log.Write("Pinball parts loaded");
+            }
+            catch (Exception E)
+            {
+                Log.Exception("DirectOutput framework has encountered a exception during setup.", E);
+                throw new Exception("DirectOutput framework has encountered a exception during setup.\n Inner exception: {0}".Build(E.Message), E);
+            }
+        }
+
+        /// <summary>
+        /// Initializes/starts the Pinball object
+        /// </summary>
+        public void Init()
+        {
+
+            try
+            {
 
                 Log.Write("Starting processes");
                 InitStatistics();
@@ -430,7 +417,7 @@ namespace DirectOutput
                 TI.HeartBeatTimeOutMs = 10000;
                 TI.HostName = "External caller";
                 TI.HeartBeat();
-                ThreadInfoList.Add(TI);
+                //ThreadInfoList.Add(TI);
 
 
 
@@ -442,7 +429,7 @@ namespace DirectOutput
             }
             catch (Exception E)
             {
-                Log.Exception("A eception occured during initialization", E);
+                Log.Exception("DirectOutput framework has encountered a exception during initialization.", E);
                 throw new Exception("DirectOutput framework has encountered a exception during initialization.\n Inner exception: {0}".Build(E.Message), E);
             }
         }
@@ -462,9 +449,9 @@ namespace DirectOutput
                 Cabinet.Finish();
 
 
-       //         WriteStatisticsToLog();
+                //         WriteStatisticsToLog();
 
-                ThreadInfoList.ThreadTerminates();
+                //ThreadInfoList.ThreadTerminates();
 
                 Log.Write("DirectOutput framework finished.");
                 Log.Write("Bye and thanks for using!");
@@ -559,10 +546,11 @@ namespace DirectOutput
         /// <summary>
         /// Signals the main thread to continue its work (if currently sleeping).
         /// </summary>
-        private void MainThreadSignal()
+        public void MainThreadSignal()
         {
             lock (MainThreadLocker)
             {
+                MainThreadDoWork = true;
                 Monitor.Pulse(MainThreadLocker);
             }
         }
@@ -571,7 +559,7 @@ namespace DirectOutput
         private Thread MainThread { get; set; }
         private object MainThreadLocker = new object();
         private bool KeepMainThreadAlive = true;
-
+        private bool MainThreadDoWork = false;
         //TODO: Maybe this should be a config option
         const int MaxInputDataProcessingTimeMs = 10;
 
@@ -584,7 +572,7 @@ namespace DirectOutput
         private void MainThreadDoIt()
         {
 
-            ThreadInfoList.HeartBeat("DirectOutput");
+            //ThreadInfoList.HeartBeat("DirectOutput");
             try
             {
                 while (KeepMainThreadAlive)
@@ -608,7 +596,7 @@ namespace DirectOutput
                         catch (Exception E)
                         {
                             Log.Exception("A unhandled exception occured while processing data for table element {0} {1} with value {2}".Build(D.TableElementType, D.Number, D.Value), E);
-                            ThreadInfoList.RecordException(E);
+                            //ThreadInfoList.RecordException(E);
 
                         }
                     }
@@ -623,7 +611,7 @@ namespace DirectOutput
                         catch (Exception E)
                         {
                             Log.Exception("A unhandled exception occured while executing timer events.", E);
-                            ThreadInfoList.RecordException(E);
+                            //ThreadInfoList.RecordException(E);
                         }
                     }
 
@@ -638,26 +626,27 @@ namespace DirectOutput
                         catch (Exception E)
                         {
                             Log.Exception("A unhandled exception occured while updating the output controllers", E);
-                            ThreadInfoList.RecordException(E);
+                            //ThreadInfoList.RecordException(E);
                         }
                     }
 
                     if (KeepMainThreadAlive)
                     {
-                        ThreadInfoList.HeartBeat();
+                        //ThreadInfoList.HeartBeat();
                         //Sleep until we get more input data and/or a timer expires.
                         DateTime NextAlarm = Alarms.GetNextAlarmTime();
 
                         lock (MainThreadLocker)
                         {
-                            while (InputQueue.Count == 0 && NextAlarm > DateTime.Now && KeepMainThreadAlive)
+                            while (InputQueue.Count == 0 && NextAlarm > DateTime.Now && !MainThreadDoWork && KeepMainThreadAlive)
                             {
                                 int TimeOut = ((int)(NextAlarm - DateTime.Now).TotalMilliseconds).Limit(1, 50);
 
                                 Monitor.Wait(MainThreadLocker, TimeOut);  // Lock is released while we’re waiting
-                                ThreadInfoList.HeartBeat();
+                                //ThreadInfoList.HeartBeat();
                             }
                         }
+                        MainThreadDoWork = false;
                     }
 
 
@@ -666,10 +655,10 @@ namespace DirectOutput
             catch (Exception E)
             {
                 Log.Exception("A unexpected exception occured in the DirectOutput MainThread", E);
-                ThreadInfoList.RecordException(E);
+                //ThreadInfoList.RecordException(E);
             }
 
-            ThreadInfoList.ThreadTerminates();
+            //ThreadInfoList.ThreadTerminates();
         }
         #endregion
 
@@ -752,7 +741,8 @@ namespace DirectOutput
         {
             InputQueue.Enqueue(TableElementTypeChar, Number, Value);
             MainThreadSignal();
-            ThreadInfoList.HeartBeat("Data delivery");
+            //ThreadInfoList.HeartBeat("Data delivery");
+
         }
 
         /// <summary>
@@ -764,7 +754,7 @@ namespace DirectOutput
         {
             InputQueue.Enqueue(TableElementData);
             MainThreadSignal();
-            ThreadInfoList.HeartBeat("Data delivery");
+            //ThreadInfoList.HeartBeat("Data delivery");
         }
 
 
@@ -811,7 +801,7 @@ namespace DirectOutput
         public Pinball()
         {
 
-            ThreadInfoList = new ThreadInfoList();
+          //  ThreadInfoList = new ThreadInfoList();
             TimeSpanStatistics = new TimeSpanStatisticsList();
 
         }

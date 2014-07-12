@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using DirectOutput.Cab.Toys.Layer;
 using System.Xml.Serialization;
+using DirectOutput.Cab.Toys;
+using DirectOutput.General.Color;
 
 namespace DirectOutput.FX.RGBAFX
 {
@@ -31,13 +33,19 @@ namespace DirectOutput.FX.RGBAFX
                 if (_ToyName != value)
                 {
                     _ToyName = value;
-                    _RGBAToy = null;
+                    RGBAToy = null;
+                    Layer = null;
                 }
             }
         }
 
 
-        private int _Layer=0;
+        [XmlIgnoreAttribute]
+        protected RGBAColor Layer { get; private set; }
+
+
+
+        private int _LayerNr=0;
 
         /// <summary>
         /// Gets or sets the number of the layer for the RGBA effect (Default=0).
@@ -45,10 +53,10 @@ namespace DirectOutput.FX.RGBAFX
         /// <value>
         /// The layer number.
         /// </value>
-        public int Layer
+        public int LayerNr
         {
-            get { return _Layer; }
-            set { _Layer = value; }
+            get { return _LayerNr; }
+            set { _LayerNr = value; }
         }
         
 
@@ -66,20 +74,12 @@ namespace DirectOutput.FX.RGBAFX
             {
                 return _RGBAToy;
             }
-        }
-
-        private void ResolveName(Table.Table Table)
-        {
-
-            if (!ToyName.IsNullOrWhiteSpace() && Table.Pinball.Cabinet.Toys.Contains(ToyName))
+            private set
             {
-                if (Table.Pinball.Cabinet.Toys[ToyName] is IRGBAToy)
-                {
-                    _RGBAToy = (IRGBAToy)Table.Pinball.Cabinet.Toys[ToyName];
-                }
-
+                _RGBAToy = value;
             }
         }
+
 
         /// <summary>
         /// Initializes the RGBA effect.<br/>
@@ -89,7 +89,15 @@ namespace DirectOutput.FX.RGBAFX
         public override void Init(Table.Table Table)
         {
             this.Table = Table;
-            ResolveName(Table);
+            if (!ToyName.IsNullOrWhiteSpace() && Table.Pinball.Cabinet.Toys.Contains(ToyName))
+            {
+                if (Table.Pinball.Cabinet.Toys[ToyName] is IRGBAToy)
+                {
+                    RGBAToy = (IRGBAToy)Table.Pinball.Cabinet.Toys[ToyName];
+                    Layer = RGBAToy.Layers[LayerNr];
+                }
+
+            }
         }
 
         /// <summary>
@@ -97,8 +105,11 @@ namespace DirectOutput.FX.RGBAFX
         /// </summary>
         public override void Finish()
         {
-            base.Finish();
+            this.Layer = null;
+            this.RGBAToy = null;
             this.Table = null;
+            
+            base.Finish();
         }
     
     }

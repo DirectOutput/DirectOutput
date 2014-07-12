@@ -16,11 +16,6 @@ namespace DirectOutput.Cab.Out
     public abstract class OutputControllerBase : NamedItemBase, IOutputController
     {
 
- 
-
-
-
-
         private OutputList _Outputs=null;
         /// <summary>
         /// Contains the OutputList object for the outputs of the output controller.<br/>
@@ -55,10 +50,10 @@ namespace DirectOutput.Cab.Out
 
         /// <summary>
         /// This method is called whenever the value of a output in the Outputs property changes its value.<br/>
-        /// It doesn't do anything in this base class, but it can be overwritten (user override) in classes inherting the base class.
+        /// It doesn't do anything in this base class, but it can be overwritten (use override) in classes inherting the base class.
         /// </summary>
         /// <param name="Output">The output.</param>
-        public virtual void OnOutputValueChanged(IOutput Output)
+        protected virtual void OnOutputValueChanged(IOutput Output)
         {
 
         }
