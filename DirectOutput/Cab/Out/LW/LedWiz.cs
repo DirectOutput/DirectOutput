@@ -738,7 +738,7 @@ namespace DirectOutput.Cab.Out.LW
 
 
             private DateTime LastUpdate = DateTime.Now;
-            const int MinUpdateIntervalMilliseconds = 1;
+            const int MinUpdateIntervalMilliseconds = 3;
             private void UpdateDelay()
             {
                 int Ms = (int)DateTime.Now.Subtract(LastUpdate).TotalMilliseconds;
