@@ -117,11 +117,21 @@ A configuration section for LedWiz might resemble the following structure:
 <LedWiz>
   <Name>Name of LedWiz</Name>
   <Number>-1</Number>
+  <MinCommandIntervalMs>1</MinCommandIntervalMs>
 </LedWiz>
 ~~~~~~~~~~~~~
 \subsection use_DirectOutput_Cab_Out_LW_LedWiz_properties Properties
 
-LedWiz has the following 2 configurable properties:
+LedWiz has the following 3 configurable properties:
+
+\subsubsection DirectOutput_Cab_Out_LW_LedWiz_MinCommandIntervalMs MinCommandIntervalMs
+
+The mininimal interval between command in miliseconds (Default: 1ms).
+Depending on the mainboard, usb hardware on the board, usb drivers and other factors the LedWiz does sometime tend to loose or misunderstand commands received if the are sent in to short intervals.
+The settings allows to increase the default minmal interval between commands from 1ms to a higher value. Higher values will make problems less likely, but decreases the number of possible updates of the ledwiz outputs in a given time frame.
+It is recommended to use the default interval of 1 ms and only to increase this interval if problems occur (Toys which are sometimes not reacting, random knocks of replay knocker or solenoids).
+
+
 
 \subsubsection DirectOutput_Cab_Out_LW_LedWiz_Name Name
 

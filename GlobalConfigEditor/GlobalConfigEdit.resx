@@ -1257,6 +1257,11 @@ If your ini files are store in another directory, you can set the path to the in
         0ngeIYn/A37i8pEuIffAAAAAAElFTkSuQmCC
 </value>
   </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>Use this setting to increase/decrease the intervals betweens commands sent to LedWiz units.
+Typically 1ms should be fine, but depending on hardware, USB drivers, OS and other factors a higher value might be required to avoid random firing of the replay knocker, solenoids or other gadgets.
+</value>
+  </data>
   <data name="pictureBox4.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAPoAAABRCAYAAAD7N7sQAAAABGdBTUEAALGOfPtRkwAAACBjSFJNAACH

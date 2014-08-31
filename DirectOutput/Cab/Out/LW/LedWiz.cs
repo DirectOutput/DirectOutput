@@ -72,6 +72,32 @@ namespace DirectOutput.Cab.Out.LW
         #endregion
 
 
+        private int _MinCommandIntervalMs = 1;
+        private bool MinCommandIntervalMsSet = false;
+        /// <summary>
+        /// Gets or sets the mininimal interval between command in miliseconds (Default: 1ms).
+        /// Depending on the mainboard, usb hardware on the board, usb drivers and other factors the LedWiz does sometime tend to loose or misunderstand commands received if the are sent in to short intervals.
+        /// The settings allows to increase the default minmal interval between commands from 1ms to a higher value. Higher values will make problems less likely, but decreases the number of possible updates of the ledwiz outputs in a given time frame.
+        /// It is recommended to use the default interval of 1 ms and only to increase this interval if problems occur (Toys which are sometimes not reacting, random knocks of replay knocker or solenoids).
+        /// </summary>
+        /// <value>
+        /// The mininimal interval between command in miliseconds (Default: 1ms).
+        /// Depending on the mainboard, usb hardware on the board, usb drivers and other factors the LedWiz does sometime tend to loose or misunderstand commands received if the are sent in to short intervals.
+        /// The settings allows to increase the default minmal interval between commands from 1ms to a higher value. Higher values will make problems less likely, but decreases the number of possible updates of the ledwiz outputs in a given time frame.
+        /// It is recommended to use the default interval of 1 ms and only to increase this interval if problems occur (Toys which are sometimes not reacting, random knocks of replay knocker or solenoids).
+        /// </value>
+        public int MinCommandIntervalMs
+        {
+            get { return _MinCommandIntervalMs; }
+            set
+            {
+                _MinCommandIntervalMs = value.Limit(0, 1000);
+                MinCommandIntervalMsSet = true;
+            }
+        }
+
+
+
 
         #region IOutputcontroller implementation
         /// <summary>
@@ -94,7 +120,13 @@ namespace DirectOutput.Cab.Out.LW
         {
             Log.Debug("Initializing LedWiz Nr. {0:00}".Build(Number));
             AddOutputs();
-            LedWizUnits[Number].Init(Cabinet);
+            if (!MinCommandIntervalMsSet)
+            {
+                MinCommandIntervalMs = Cabinet.Pinball.GlobalConfig.LedWizDefaultMinCommandIntervalMs;
+            }
+
+            LedWizUnits[Number].Init(Cabinet, MinCommandIntervalMs);
+
             Log.Write("LedWiz Nr. {0:00} initialized and updater thread initialized.".Build(Number));
 
         }
@@ -117,7 +149,7 @@ namespace DirectOutput.Cab.Out.LW
 
         #region Outputs
 
-        
+
 
         /// <summary>
         /// Adds the outputs for a LedWiz.<br/>
@@ -335,7 +367,7 @@ namespace DirectOutput.Cab.Out.LW
         /// </summary>
         ~LedWiz()
         {
-  
+
             Dispose(false);
         }
 
@@ -365,7 +397,7 @@ namespace DirectOutput.Cab.Out.LW
                 {
                     Log.Debug("Disposing LedWiz instance {0:00}.".Build(Number));
                 }
-                catch 
+                catch
                 {
                 }
                 // If disposing equals true, dispose all managed
@@ -454,7 +486,7 @@ namespace DirectOutput.Cab.Out.LW
             private TimeSpanStatisticsItem OnOffUpdateTimeStatistics;
 
             //Used to convert the 0-255 range of output values to LedWiz values in the range of 0-48.
-//            private static readonly byte[] ByteToLedWizValue = { 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 9, 10, 10, 10, 10, 10, 11, 11, 11, 11, 11, 12, 12, 12, 12, 12, 13, 13, 13, 13, 13, 14, 14, 14, 14, 14, 14, 15, 15, 15, 15, 15, 16, 16, 16, 16, 16, 17, 17, 17, 17, 17, 18, 18, 18, 18, 18, 19, 19, 19, 19, 19, 19, 20, 20, 20, 20, 20, 21, 21, 21, 21, 21, 22, 22, 22, 22, 22, 23, 23, 23, 23, 23, 24, 24, 24, 24, 24, 24, 25, 25, 25, 25, 25, 26, 26, 26, 26, 26, 27, 27, 27, 27, 27, 28, 28, 28, 28, 28, 29, 29, 29, 29, 29, 29, 30, 30, 30, 30, 30, 31, 31, 31, 31, 31, 32, 32, 32, 32, 32, 33, 33, 33, 33, 33, 34, 34, 34, 34, 34, 34, 35, 35, 35, 35, 35, 36, 36, 36, 36, 36, 37, 37, 37, 37, 37, 38, 38, 38, 38, 38, 39, 39, 39, 39, 39, 39, 40, 40, 40, 40, 40, 41, 41, 41, 41, 41, 42, 42, 42, 42, 42, 43, 43, 43, 43, 43, 44, 44, 44, 44, 44, 44, 45, 45, 45, 45, 45, 46, 46, 46, 46, 46, 47, 47, 47, 47, 47, 48, 48, 48, 48, 48 };
+            //            private static readonly byte[] ByteToLedWizValue = { 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 9, 10, 10, 10, 10, 10, 11, 11, 11, 11, 11, 12, 12, 12, 12, 12, 13, 13, 13, 13, 13, 14, 14, 14, 14, 14, 14, 15, 15, 15, 15, 15, 16, 16, 16, 16, 16, 17, 17, 17, 17, 17, 18, 18, 18, 18, 18, 19, 19, 19, 19, 19, 19, 20, 20, 20, 20, 20, 21, 21, 21, 21, 21, 22, 22, 22, 22, 22, 23, 23, 23, 23, 23, 24, 24, 24, 24, 24, 24, 25, 25, 25, 25, 25, 26, 26, 26, 26, 26, 27, 27, 27, 27, 27, 28, 28, 28, 28, 28, 29, 29, 29, 29, 29, 29, 30, 30, 30, 30, 30, 31, 31, 31, 31, 31, 32, 32, 32, 32, 32, 33, 33, 33, 33, 33, 34, 34, 34, 34, 34, 34, 35, 35, 35, 35, 35, 36, 36, 36, 36, 36, 37, 37, 37, 37, 37, 38, 38, 38, 38, 38, 39, 39, 39, 39, 39, 39, 40, 40, 40, 40, 40, 41, 41, 41, 41, 41, 42, 42, 42, 42, 42, 43, 43, 43, 43, 43, 44, 44, 44, 44, 44, 44, 45, 45, 45, 45, 45, 46, 46, 46, 46, 46, 47, 47, 47, 47, 47, 48, 48, 48, 48, 48 };
 
             private static readonly byte[] ByteToLedWizValue = { 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 10, 10, 10, 10, 10, 10, 11, 11, 11, 11, 11, 12, 12, 12, 12, 12, 13, 13, 13, 13, 13, 13, 14, 14, 14, 14, 14, 15, 15, 15, 15, 15, 16, 16, 16, 16, 16, 16, 17, 17, 17, 17, 17, 18, 18, 18, 18, 18, 19, 19, 19, 19, 19, 20, 20, 20, 20, 20, 20, 21, 21, 21, 21, 21, 22, 22, 22, 22, 22, 23, 23, 23, 23, 23, 23, 24, 24, 24, 24, 24, 25, 25, 25, 25, 25, 26, 26, 26, 26, 26, 26, 27, 27, 27, 27, 27, 28, 28, 28, 28, 28, 29, 29, 29, 29, 29, 29, 30, 30, 30, 30, 30, 31, 31, 31, 31, 31, 32, 32, 32, 32, 32, 32, 33, 33, 33, 33, 33, 34, 34, 34, 34, 34, 35, 35, 35, 35, 35, 36, 36, 36, 36, 36, 36, 37, 37, 37, 37, 37, 38, 38, 38, 38, 38, 39, 39, 39, 39, 39, 39, 40, 40, 40, 40, 40, 41, 41, 41, 41, 41, 42, 42, 42, 42, 42, 42, 43, 43, 43, 43, 43, 44, 44, 44, 44, 44, 45, 45, 45, 45, 45, 45, 46, 46, 46, 46, 46, 47, 47, 47, 47, 47, 48, 48, 48, 48, 48, 49 };
             private const int MaxUpdateFailCount = 5;
@@ -485,7 +517,7 @@ namespace DirectOutput.Cab.Out.LW
             public object LedWizUpdaterThreadLocker = new object();
 
 
-            public void Init(Cabinet Cabinet)
+            public void Init(Cabinet Cabinet, int MinCommandIntervalMs)
             {
                 this.Pinball = Cabinet.Pinball;
                 if (!Pinball.TimeSpanStatistics.Contains("LedWiz {0:00} update calls".Build(Number)))
@@ -514,7 +546,8 @@ namespace DirectOutput.Cab.Out.LW
                 else
                 {
                     OnOffUpdateTimeStatistics = Pinball.TimeSpanStatistics["LedWiz {0:00} OnOff updates".Build(Number)];
-                }   
+                }
+                this.MinCommandIntervalMs = MinCommandIntervalMs;
                 StartLedWizUpdaterThread();
             }
 
@@ -731,20 +764,20 @@ namespace DirectOutput.Cab.Out.LW
                     }
                     TriggerUpdate = false;
                 }
-               //Pinball.ThreadInfoList.ThreadTerminates();
-               Log.Write("Updater thread for LedWiz {0:00} terminated.".Build(Number));
+                //Pinball.ThreadInfoList.ThreadTerminates();
+                Log.Write("Updater thread for LedWiz {0:00} terminated.".Build(Number));
             }
 
 
 
             private DateTime LastUpdate = DateTime.Now;
-            const int MinUpdateIntervalMilliseconds = 3;
+            public int MinCommandIntervalMs = 1;
             private void UpdateDelay()
             {
                 int Ms = (int)DateTime.Now.Subtract(LastUpdate).TotalMilliseconds;
-                if (Ms < MinUpdateIntervalMilliseconds)
+                if (Ms < MinCommandIntervalMs)
                 {
-                    Thread.Sleep((MinUpdateIntervalMilliseconds - Ms).Limit(0,MinUpdateIntervalMilliseconds));
+                    Thread.Sleep((MinCommandIntervalMs - Ms).Limit(0, MinCommandIntervalMs));
                 }
                 LastUpdate = DateTime.Now;
             }
@@ -760,7 +793,7 @@ namespace DirectOutput.Cab.Out.LW
                         {
                             if (!UpdateRequired) return;
 
-                           
+
                             CopyNewToCurrent();
 
                             UpdateRequired = false;
@@ -786,10 +819,10 @@ namespace DirectOutput.Cab.Out.LW
                         {
                             UpdateDelay();
                             OnOffUpdateTimeStatistics.MeasurementStart();
-                            SBA(CurrentAfterValueSwitches[0], CurrentAfterValueSwitches[1], CurrentAfterValueSwitches[2], CurrentAfterValueSwitches[3],2);
+                            SBA(CurrentAfterValueSwitches[0], CurrentAfterValueSwitches[1], CurrentAfterValueSwitches[2], CurrentAfterValueSwitches[3], 2);
                             OnOffUpdateTimeStatistics.MeasurementStop();
                         }
-                        
+
                     }
                 }
             }
@@ -835,7 +868,7 @@ namespace DirectOutput.Cab.Out.LW
                 this.Number = Number;
 
 
-                
+
             }
 
         }

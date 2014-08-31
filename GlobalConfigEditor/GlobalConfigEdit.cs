@@ -37,7 +37,7 @@ namespace GlobalConfigEditor
             Config.LogFilePattern.Pattern = LogFilename.Text;
             Config.EnableLogging = LoggingEnabled.Checked;
             Config.ClearLogOnSessionStart = ClearLogOnSessionStart.Checked;
-
+            Config.LedWizDefaultMinCommandIntervalMs = (int)LedWizDefaultMinCommandIntervalMs.Value;
             try
             {
                 Config.SaveGlobalConfig(Filename);
@@ -85,6 +85,7 @@ namespace GlobalConfigEditor
             LogFilename.Text = Config.LogFilePattern.Pattern;
 
             CabinetFilename.Text = Config.CabinetConfigFilePattern.Pattern;
+            LedWizDefaultMinCommandIntervalMs.Value = Config.LedWizDefaultMinCommandIntervalMs;
 
         }
 

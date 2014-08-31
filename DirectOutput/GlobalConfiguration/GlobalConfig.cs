@@ -22,6 +22,26 @@ namespace DirectOutput.GlobalConfiguration
         #region IniFiles
 
 
+
+        private int _LedWizDefaultMinCommandIntervalMs = 1;
+
+        /// <summary>
+        /// Gets or sets the mininimal interval between command for LedWiz units in miliseconds (Default: 1ms).
+        /// Depending on the mainboard, usb hardware on the board, usb drivers, OS and other factors the LedWiz does sometime tend to loose or misunderstand commands received if the are sent in to short intervals.
+        /// The settings allows to increase the default minmal interval between commands from 1ms to a higher value. Higher values will make problems less likely, but decreases the number of possible updates of the ledwiz outputs in a given time frame.
+        /// It is recommended to use the default interval of 1 ms and only to increase this interval if problems occur (Toys which are sometimes not reacting, random knocks of replay knocker or solenoids).
+        /// This is only a default value. The min command interval can also be set on a per LedWiz base in the cabinet config.
+        /// </summary>
+        /// <value>
+        /// The min interval between commands sent to LedWiz units in milliseconds.
+        /// </value>
+        public int LedWizDefaultMinCommandIntervalMs
+        {
+            get { return _LedWizDefaultMinCommandIntervalMs; }
+            set { _LedWizDefaultMinCommandIntervalMs = value.Limit(0, 1000); }
+        }
+
+
         private int _LedControlMinimumEffectDurationMs = 60;
 
         /// <summary>
