@@ -76,6 +76,16 @@ The following placeholders can be used in the path and filename for the logfile:
 * {Date} is the current date in the following form: yyyymmdd.
 * {Time} is the current time in the following form: hhmmss
 
+
+\subsection globalconfig_misc Misc tab
+
+\image html GlobalConfigEditor_misc.png "Misc tab"
+
+In the Misc tab you can change the default intervall between commands which are sent to LedWiz units. For most installations 1ms should be just fine, but depending on the mainboard, usb hardware on the board, usb drivers and other factors the LedWiz does sometime tend to loose or misunderstand commands received if the are sent in to short intervals.
+This settings allows to increase the default minmal interval between commands from 1ms to a higher value. Higher values will make problems less likely, but decreases the number of possible updates of the ledwiz outputs in a given time frame.
+It is recommended to use the default interval of 1 ms and only to increase this interval if problems occur (Toys which are sometimes not reacting, random knocks of replay knocker or solenoids).
+
+
 \section globalconfig_fileformat File format
 
 Global config files are save in xml format. A typical global config file might looks like this:
