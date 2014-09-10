@@ -583,7 +583,7 @@ namespace DirectOutput.LedControl.Setup
                                                 }
                                                 else
                                                 {
-                                                    Log.Warning("Unknow ToyName or OutputName {0} defined for column {1} of LedwizEquivalent {2}.".Build(LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName, TCC.FirstOutputNumber, LWE.Name);
+                                                    Log.Warning("Unknow ToyName or OutputName {0} defined for column {1} of LedwizEquivalent {2}.".Build(LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName, TCC.FirstOutputNumber, LWE.Name));
                                                 }
                                             }
 
