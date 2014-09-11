@@ -8,9 +8,9 @@ using DirectOutput.Cab.Out.FTDIChip;
 
 namespace DirectOutput.Cab.Out.AdressableLedStrip
 {
-    public class WS2811StripControllerApi
+    public class DirectStripControllerApi
     {
-        const string[] ControllerNameBase = { "WS2811 Strip Controller ", "Direct Strip Controller" };
+        private static readonly string[] ControllerNameBase = { "WS2811 Strip Controller ", "Direct Strip Controller" };
 
 
         public void ClearData()
@@ -78,9 +78,9 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             }
         }
 
-        public WS2811StripControllerApi() { }
+        public DirectStripControllerApi() { }
 
-        public WS2811StripControllerApi(int ControllerNumber)
+        public DirectStripControllerApi(int ControllerNumber)
         {
             Open(ControllerNumber);
 

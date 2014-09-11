@@ -88,6 +88,7 @@
   <ItemGroup>
     <Compile Include="Cab\Out\AdressableLedStrip\AdressableLedStrip.cs" />
     <Compile Include="Cab\Out\AdressableLedStrip\LedStripOutput.cs" />
+    <Compile Include="Cab\Out\AdressableLedStrip\DirectStripController.cs" />
     <Compile Include="Cab\Out\AdressableLedStrip\WS2811StripController.cs" />
     <Compile Include="Cab\Out\DMX\ArtNet.cs" />
     <Compile Include="Cab\Out\DMX\ArtnetEngine\ArtnetEngine.cs" />
@@ -110,7 +111,7 @@
     <Compile Include="Cab\Out\Pac\Pac.cs" />
     <Compile Include="Cab\Out\Pac\PacLed64AutoConfigurator.cs" />
     <Compile Include="Cab\Out\FTDIChip\FTD2XX_NET.cs" />
-    <Compile Include="Cab\Out\AdressableLedStrip\WS2811StripControllerApi.cs" />
+    <Compile Include="Cab\Out\AdressableLedStrip\DirectStripControllerApi.cs" />
     <Compile Include="Cab\Toys\Hardware\Hardware.cs" />
     <Compile Include="Cab\Toys\Hardware\GearMotor.cs" />
     <Content Include="Config\GlobalConfig_B2SServer.xml">
