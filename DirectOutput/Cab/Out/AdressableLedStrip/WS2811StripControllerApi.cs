@@ -10,7 +10,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
 {
     public class WS2811StripControllerApi
     {
-        const string ControllerNameBase = "WS2811 Strip Controller ";
+        const string[] ControllerNameBase = { "WS2811 Strip Controller ", "Direct Strip Controller" };
 
 
         public void ClearData()
@@ -145,7 +145,8 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                             {
                                 FTStatus = FT245R.Close();
                                 Log.Write("Close {i}: Result: {1}".Build(i, FTStatus.ToString()));
-                            } catch {}
+                            }
+                            catch { }
                         }
 
                     }
@@ -162,7 +163,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                         {
                             if (DI != null && DI.Type == FTDI.FT_DEVICE.FT_DEVICE_232R)
                             {
-                                if (DI.Description == ControllerNameBase + ControllerNumber)
+                                if (ControllerNameBase.Any(N => DI.Description == N + ControllerNumber))
                                 {
 
                                     FT245R.CharReceived += new EventHandler<EventArgs>(FT245R_CharReceived);
@@ -296,8 +297,9 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                     {
                         if (DI != null && DI.Type == FTDI.FT_DEVICE.FT_DEVICE_232R)
                         {
+                            string B = ControllerNameBase.FirstOrDefault(N => DI.Description.StartsWith(N));
                             int ControllerNr = 0;
-                            if (DI.Description.StartsWith(ControllerNameBase) && int.TryParse(DI.Description.Substring(ControllerNameBase.Length), out ControllerNr))
+                            if (B != null && int.TryParse(DI.Description.Substring(B.Length), out ControllerNr))
                             {
                                 if (ControllerNr > 0)
                                 {
