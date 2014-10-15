@@ -523,15 +523,15 @@ namespace DirectOutput.LedControl.Setup
                                                     }
                                                     ToyName = "{0} {1}".Build(ToyName, Cnt);
                                                 }
-                                                if (Cabinet.Outputs.Contains(LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName) && Cabinet.Outputs.Contains(LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 1).OutputName) && Cabinet.Outputs.Contains(LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 2).OutputName))
-                                                {
+                                              //  if (Cabinet.Outputs.Contains(LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName) && Cabinet.Outputs.Contains(LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 1).OutputName) && Cabinet.Outputs.Contains(LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 2).OutputName))
+                                              //  {
                                                     TargetToy = (IToy)new RGBAToy() { Name = ToyName, OutputNameRed = LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName, OutputNameGreen = LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 1).OutputName, OutputNameBlue = LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber + 2).OutputName };
                                                     Cabinet.Toys.Add(TargetToy);
-                                                }
-                                                else
-                                                {
-                                                    Log.Warning("Unknown OutputName or ToyName defined for columns {0}-{1} (at least one of the 3) of LedWizEquivalent {2}.".Build(TCC.FirstOutputNumber, TCC.FirstOutputNumber + 3, LWE.Name));
-                                                }
+                                              //  }
+                                              //  else
+                                              //  {
+                                              //      Log.Warning("Unknown OutputName or ToyName defined for columns {0}-{1} (at least one of the 3) of LedWizEquivalent {2}.".Build(TCC.FirstOutputNumber, TCC.FirstOutputNumber + 3, LWE.Name));
+                                              //  }
                                             }
 
 
@@ -576,15 +576,15 @@ namespace DirectOutput.LedControl.Setup
                                                     }
                                                     ToyName = "{0} {1}".Build(ToyName, Cnt);
                                                 }
-                                                if (Cabinet.Outputs.Contains(LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName))
-                                                {
+                                               // if (Cabinet.Outputs.Contains(LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName))
+                                               // {
                                                     TargetToy = (IToy)new AnalogAlphaToy() { Name = ToyName, OutputName = LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName };
                                                     Cabinet.Toys.Add(TargetToy);
-                                                }
-                                                else
-                                                {
-                                                    Log.Warning("Unknow ToyName or OutputName {0} defined for column {1} of LedwizEquivalent {2}.".Build(LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName, TCC.FirstOutputNumber, LWE.Name));
-                                                }
+                                               // }
+                                               // else
+                                               // {
+                                               //     Log.Warning("Unknow ToyName or OutputName {0} defined for column {1} of LedwizEquivalent {2}.".Build(LWE.Outputs.First(Output => Output.LedWizEquivalentOutputNumber == TCC.FirstOutputNumber).OutputName, TCC.FirstOutputNumber, LWE.Name));
+                                               // }
                                             }
 
                                         }

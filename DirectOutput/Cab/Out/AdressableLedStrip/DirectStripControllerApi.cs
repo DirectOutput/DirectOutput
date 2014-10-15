@@ -10,7 +10,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
 {
     public class DirectStripControllerApi
     {
-        private static readonly string[] ControllerNameBase = { "WS2811 Strip Controller ", "Direct Strip Controller" };
+        private static readonly string[] ControllerNameBase = { "WS2811 Strip Controller", "Direct Strip Controller" };
 
 
         public void ClearData()
@@ -67,11 +67,6 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                         uint Dummy = 0;
                         FT245R.Write(Header, 3, ref Dummy);
                         FT245R.Write(Data, Data.Length, ref Dummy);
-                        if (Dummy != Data.Length)
-                        {
-                            Console.WriteLine("Stop");
-
-                        }
                     }
                     catch { Close(); }
                 }
@@ -118,6 +113,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
 
                 bool OK = false;
 
+                string Desc = "";
                 this.ControllerNumber = ControllerNumber;
 
                 FT245R = new FTDI();
@@ -132,40 +128,39 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                 {
                     FTDI.FT_DEVICE_INFO_NODE[] Devices = new FTDI.FT_DEVICE_INFO_NODE[DeviceCnt];
 
-                    for (uint i = 0; i < DeviceCnt; i++)
-                    {
-                        FTStatus = FT245R.OpenByIndex(i);
-                        Log.Write("Open {0}: Result: {1}".Build(i, FTStatus.ToString()));
-                        if (FT245R.IsOpen)
-                        {
-                            string D = "";
-                            FT245R.GetDescription(out D);
-                            Log.Write("Desc: {0}".Build(D));
-                            try
-                            {
-                                FTStatus = FT245R.Close();
-                                Log.Write("Close {i}: Result: {1}".Build(i, FTStatus.ToString()));
-                            }
-                            catch { }
-                        }
+                    //for (uint i = 0; i < DeviceCnt; i++)
+                    //{
+                    //    FTStatus = FT245R.OpenByIndex(i);
+                    // //   Log.Write("Open {0}: Result: {1}".Build(i, FTStatus.ToString()));
+                    //    if (FT245R.IsOpen)
+                    //    {
+                    //        string D = "";
+                    //        FT245R.GetDescription(out D);
+                    //        Log.Write("Desc: {0}".Build(D));
+                    //        try
+                    //        {
+                    //            FTStatus = FT245R.Close();
+                    //            Log.Write("Close {i}: Result: {1}".Build(i, FTStatus.ToString()));
+                    //        }
+                    //        catch { }
+                    //    }
 
-                    }
-                    Log.Write("All listed");
+                    //}
+                    //Log.Write("All listed");
 
                     FTStatus = FT245R.GetDeviceList(Devices);
                     if (FTStatus == FTDI.FT_STATUS.FT_OK)
                     {
-                        foreach (FTDI.FT_DEVICE_INFO_NODE DI in Devices)
-                        {
-                            Log.Write("Found {0}".Build(DI.Description));
-                        }
+
+
                         foreach (FTDI.FT_DEVICE_INFO_NODE DI in Devices)
                         {
                             if (DI != null && DI.Type == FTDI.FT_DEVICE.FT_DEVICE_232R)
                             {
-                                if (ControllerNameBase.Any(N => DI.Description == N + ControllerNumber))
+                                if (ControllerNameBase.Any(N => DI.Description == N.Trim() + " " + ControllerNumber))
                                 {
 
+                                    Desc = DI.Description;
                                     FT245R.CharReceived += new EventHandler<EventArgs>(FT245R_CharReceived);
 
                                     FTStatus = FT245R.OpenByLocation(DI.LocId);
@@ -179,7 +174,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                                         }
                                         else
                                         {
-                                            Log.Exception("Purge failed for WS2811StripController {0} Error: {1}".Build(ControllerNumber, FTStatus.ToString()));
+                                            Log.Exception("Purge failed for WS2811StripController {0}. Error: {1}".Build(ControllerNumber, FTStatus.ToString()));
                                         }
                                     }
                                     else
@@ -200,10 +195,26 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
 
                 if (!OK)
                 {
+                    if (!Desc.IsNullOrWhiteSpace())
+                    {
+                        Log.Warning("{0} detected, but could not open connection.".Build(Desc));
+                    }
+                    else
+                    {
+                        Log.Warning("Direct Strip Controller with number {0} not found.".Build(ControllerNumber));
+                    }
                     Close();
+
+                }
+                else
+                {
+                    Log.Write("{0} detected and connection opend.".Build(Desc));
                 }
             }
         }
+
+
+        private int ErrorCorrectionCnt = 0;
 
         void FT245R_CharReceived(object sender, EventArgs e)
         {
@@ -230,6 +241,16 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                 {
                     lock (FT245RLocker)
                     {
+                        ErrorCorrectionCnt++;
+                        if (ErrorCorrectionCnt <= 30)
+                        {
+                            Log.Warning("Received unexpected answer from Direct Strip Controller with number {0}. Will try to fix problem.".Build(ControllerNumber));
+                            if (ErrorCorrectionCnt == 30)
+                            {
+                                Log.Write("No further warnings will be recorded for unexpected answers from this unit.");
+                            }
+                        }
+                        FT245R.CharReceived -= new EventHandler<EventArgs>(FT245R_CharReceived);
                         uint Dummy = 0;
                         for (int i = 0; i < 2000; i++)
                         {
@@ -238,7 +259,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                             FT245R.GetRxBytesAvailable(ref CharsToRead);
                             if (CharsToRead > 0)
                             {
-                                Thread.Sleep(100);
+                                Thread.Sleep(10);
                                 CharsToRead = 0;
                                 FT245R.GetRxBytesAvailable(ref CharsToRead);
                                 Response = new Byte[CharsToRead];
@@ -249,6 +270,8 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
 
 
                         }
+                        FT245R.CharReceived += new EventHandler<EventArgs>(FT245R_CharReceived);
+
                     }
 
 
@@ -266,8 +289,14 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                     if (FT245R.IsOpen)
                     {
                         FT245R.Close();
+
+                    }
+                    try
+                    {
                         FT245R.CharReceived -= new EventHandler<EventArgs>(FT245R_CharReceived);
                     }
+                    catch { }
+
                     FT245R = null;
                 }
             }
@@ -297,7 +326,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                     {
                         if (DI != null && DI.Type == FTDI.FT_DEVICE.FT_DEVICE_232R)
                         {
-                            string B = ControllerNameBase.FirstOrDefault(N => DI.Description.StartsWith(N));
+                            string B = ControllerNameBase.FirstOrDefault(N => DI.Description.StartsWith(N.Trim() + " "));
                             int ControllerNr = 0;
                             if (B != null && int.TryParse(DI.Description.Substring(B.Length), out ControllerNr))
                             {
