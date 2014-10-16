@@ -30,81 +30,67 @@ namespace DirectOutput.FX.ConditionFX
         [XmlIgnore]
         IGenericExpression<bool> ConditionExpression = null;
 
-
-        public List<string> GetVariables()
+        private List<string> GetVariablesInternal()
         {
             List<string> Variables = new List<string>();
-
             string C = Condition;
             if (C.IsNullOrWhiteSpace()) return Variables;
 
+
+            ExpressionContext Context = new ExpressionContext();
+            Context.Options.ParseCulture = System.Globalization.CultureInfo.InvariantCulture;
+            Context.Imports.AddType(typeof(Math));
+
+            VariableCollection VC = Context.Variables;
+            VC.ResolveVariableType += new EventHandler<ResolveVariableTypeEventArgs>(GetVariablesInternal_ResolveVariableType);
+            VC.ResolveVariableValue += new EventHandler<ResolveVariableValueEventArgs>(GetVariablesInternal_ResolveVariableValue);
+
+            IGenericExpression<bool> Exp = null;
             try
             {
-
-                int VariableStart = -1;
-                for (int i = 0; i < C.Length - 1; i++)
-                {
-                    if (Enum.IsDefined(typeof(TableElementTypeEnum), (int)C[i]))
-                    {
-                        //Found a possible variable start letter
-                        if (VariableStart >= 0)
-                        {
-                            //We're already inside a variable. A second letter is not allowed here.
-                            VariableStart = -1;
-                        }
-                        else
-                        {
-                            //Register the start pos of the variable
-                            VariableStart = i;
-                        }
-                    }
-                    else if (VariableStart >= 0)
-                    {
-                        if (C.Substring(i, 1).IsInteger())
-                        {
-                            //Still inside the variable
-                        }
-                        else if (C.Substring(i, 1) == "-" && (i - VariableStart) == 1)
-                        {
-                            //Variable has a negative number
-                        }
-                        else if ((i - VariableStart) > 1 && C.Substring(VariableStart + 1, i - VariableStart - 1).IsInteger())
-                        {
-                            //Outside the variable and variable is ok
-                            if (!Variables.Contains(C.Substring(VariableStart, i - VariableStart).ToUpper()))
-                            {
-                                Variables.Add(C.Substring(VariableStart, i - VariableStart).ToUpper());
-                            }
-                            VariableStart = -1;
-                        }
-                        else
-                        {
-                            //outside the variable and no valid variable spec found
-                            VariableStart = -1;
-                        }
-
-
-                    }
-                    else
-                    {
-                        //This is not variable content
-                        VariableStart = -1;
-                    }
-                }
+                Exp = Context.CompileGeneric<bool>(Condition.Replace(((char)TableElementTypeEnum.NamedElement).ToString(),"NamedElement_"));
             }
-            catch (Exception E)
+            catch {
+              Log.Warning("Cant extract variables from condition {0}.".Build(Condition));
+              Exp = null;
+            }
+            VC.ResolveVariableType -= new EventHandler<ResolveVariableTypeEventArgs>(GetVariablesInternal_ResolveVariableType);
+            VC.ResolveVariableValue -= new EventHandler<ResolveVariableValueEventArgs>(GetVariablesInternal_ResolveVariableValue);
+
+
+            if (Exp != null && Exp.Info != null)
             {
-                Log.Exception("A exception occured while trying to extract variable names from the condition {0}.".Build(Condition), E);
+                Variables = Exp.Info.GetReferencedVariables().ToList();
             }
 
             return Variables;
         }
 
+        void GetVariablesInternal_ResolveVariableValue(object sender, ResolveVariableValueEventArgs e)
+        {
+            e.VariableValue = 0;
+        }
+
+        void GetVariablesInternal_ResolveVariableType(object sender, ResolveVariableTypeEventArgs e)
+        {
+            e.VariableType = typeof(double);
+        }
+
+
+        /// <summary>
+        /// Gets a list of all variables in the condition.
+        /// </summary>
+        /// <returns></returns>
+        public List<string> GetVariables()
+        {
+            return GetVariablesInternal().Select(Va => (Va.StartsWith("NamedElement_") ? ((char)TableElementTypeEnum.NamedElement).ToString() + Va.Substring("NamedElement_".Length) : Va)).ToList();
+        }
+
+
 
         private void InitCondition()
         {
-            List<string> Variables = GetVariables();
-            string C = Condition;
+            string C = Condition.Replace(((char)TableElementTypeEnum.NamedElement).ToString(), "NamedElement_");
             ConditionExpression = null;
 
             if (C.IsNullOrWhiteSpace())
@@ -113,6 +99,7 @@ namespace DirectOutput.FX.ConditionFX
                 return;
             };
 
+            List<string> Variables = GetVariablesInternal();
 
             ExpressionContext Context = new ExpressionContext();
             Context.Options.ParseCulture = System.Globalization.CultureInfo.InvariantCulture;
@@ -123,7 +110,7 @@ namespace DirectOutput.FX.ConditionFX
                 foreach (string V in Variables)
                 {
                     int P = 0;
-                    while (P<C.Length && P>=0)
+                    while (P < C.Length && P >= 0)
                     {
                         P = C.IndexOf(V, P + 1, StringComparison.OrdinalIgnoreCase);
                         if (P < 0) break;
@@ -132,16 +119,22 @@ namespace DirectOutput.FX.ConditionFX
                             C = C.Substring(0, P) + "{0}.Value".Build(V) + C.Substring(P + V.Length);
                         }
                     }
-//                    C = C.Replace(V, "{0}.Value".Build(V), StringComparison.OrdinalIgnoreCase);
+                    //                    C = C.Replace(V, "{0}.Value".Build(V), StringComparison.OrdinalIgnoreCase);
 
+                    TableElement TE = null;
 
-                    if (Table.TableElements.Contains((TableElementTypeEnum)V[0], V.Substring(1).ToInteger()))
+                    if (V.StartsWith("NamedElement_"))
                     {
-                        Table.TableElements.UpdateState((TableElementTypeEnum)V[0], V.Substring(1).ToInteger(), 0);
+                        Table.TableElements.UpdateState(new TableElementData(V.Substring("NamedElement_".Length),0));
+                        TE = Table.TableElements[V.Substring("NamedElement_".Length)];
+                    }
+                    else
+                    {
+
+                        Table.TableElements.UpdateState(new TableElementData((TableElementTypeEnum)V[0], V.Substring(1).ToInteger(), 0));
+                        TE = Table.TableElements[(TableElementTypeEnum)V[0], V.Substring(1).ToInteger()];
                     }
 
-
-                    TableElement TE = Table.TableElements[(TableElementTypeEnum)V[0], V.Substring(1).ToInteger()];
 
                     Context.Variables[V] = TE;
                 }

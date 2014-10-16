@@ -227,6 +227,20 @@ namespace DirectOutput.Table
             this.Value = Value;
 
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TableElement"/> class.
+        /// </summary>
+        /// <param name="TableElementName">Name of the table element.</param>
+        /// <param name="Value">The value of the table element.</param>
+        public TableElement(string TableElementName, int Value)
+            : this()
+        {
+            this.TableElementType = TableElementTypeEnum.NamedElement;
+            this.Number = int.MinValue;
+            this.Value = Value;
+            this.Name = TableElementName;
+        }
         #endregion
 
     }

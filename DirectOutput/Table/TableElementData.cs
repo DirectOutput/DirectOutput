@@ -23,6 +23,12 @@ namespace DirectOutput.Table
         /// </summary>
         public int Value;
 
+        /// <summary>
+        /// The name of the table element
+        /// </summary>
+        public string Name;
+
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TableElementData"/> class.
@@ -35,6 +41,7 @@ namespace DirectOutput.Table
             this.TableElementType = TableElementType;
             this.Number = Number;
             this.Value = Value;
+            this.Name = null;
         }
 
 
@@ -58,6 +65,7 @@ namespace DirectOutput.Table
             }
             this.Number = Number;
             this.Value = Value;
+            this.Name = null;
         }
 
         /// <summary>
@@ -69,6 +77,28 @@ namespace DirectOutput.Table
             this.Number = TableElement.Number;
             this.TableElementType = TableElement.TableElementType;
             this.Value = TableElement.Value;
+            this.Name = null;
+        }
+
+        public TableElementData(string TableElementName, int Value)
+        {
+            if (TableElementName.Length > 1 && Enum.IsDefined(typeof(TableElementTypeEnum), (int)TableElementName[0]) && TableElementName[0]!=(char)TableElementTypeEnum.NamedElement && TableElementName.Substring(1).IsInteger())
+            {
+                //It is a normal table element. 
+                this.TableElementType = (TableElementTypeEnum)TableElementName[0];
+                this.Number = TableElementName.Substring(1).ToInteger();
+                this.Name = null;
+            }
+            else
+            {
+                //Named table element
+                this.TableElementType = TableElementTypeEnum.NamedElement;
+                this.Name = (TableElementName[0] != (char)TableElementTypeEnum.NamedElement?TableElementName:TableElementName.Substring(1));
+                this.Number = int.MinValue;
+            }
+
+           
+            this.Value = Value;
         }
 
     }

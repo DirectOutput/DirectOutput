@@ -95,6 +95,29 @@ Public Class ComObject
 
 
     ''' <summary>
+    ''' Send data for named table elements to the DirectOutput framework.
+    ''' </summary>
+    ''' <param name="TableElementName">Name of the table element.</param>
+    ''' <param name="Value">The value of the table element.</param>
+    ''' <exception cref="System.ArgumentException">The TableElementName cant be null or empty.</exception>
+    ''' <exception cref="System.Exception">You must call Init before sending data.</exception>
+    Public Sub DataReceive(TableElementName As String, Value As Integer)
+
+        If TableElementName.IsNullOrWhiteSpace() Then
+            Throw New ArgumentException("The TableElementName cant be null or empty.", "TableElementName")
+        End If
+        If Pinball IsNot Nothing Then
+            Pinball.ReceiveData(TableElementName, Value)
+        Else
+            Throw New Exception("You must call Init before sending data.")
+        End If
+
+
+    End Sub
+
+
+
+    ''' <summary>
     ''' Initializes the DirectOutput framework.<br/>
     ''' \remark: The DirectOutput framework uses the HostingApplicationName parameter to construct the name of the global config file. The name of the global config file is GlobalConfig_{HostingApplicationName}.xml<br/>
     ''' For more information on global configuration check the page on this topic in the documentation.

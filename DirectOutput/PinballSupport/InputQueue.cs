@@ -38,6 +38,21 @@ namespace DirectOutput.PinballSupport
             }
         }
 
+
+        public void Enqueue(string TableElementName, int Value)
+        {
+            if (TableElementName.IsNullOrWhiteSpace()) return;
+
+            Enqueue(new TableElementData(TableElementName, Value));
+
+
+
+
+
+        }
+
+
+
         /// <summary>
         /// Dequeues the TableElementData object at the front of the queue.
         /// </summary>
@@ -92,6 +107,8 @@ namespace DirectOutput.PinballSupport
                 base.Clear();
             }
         }
+
+
 
     }
 }

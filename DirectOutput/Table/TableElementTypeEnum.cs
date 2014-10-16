@@ -49,7 +49,11 @@ namespace DirectOutput
         /// <summary>
         /// Score digit
         /// </summary>
-        ScoreDigit='B'
+        ScoreDigit='B',
+        /// <summary>
+        /// Named table element
+        /// </summary>
+        NamedElement='$'
 
 
     }
