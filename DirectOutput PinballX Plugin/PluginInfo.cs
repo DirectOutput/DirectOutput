@@ -6,11 +6,11 @@ namespace PinballX
 {
     public struct PluginInfo
     {
-        public const string Name = "PinballX C# Plugin Template";
+        public const string Name = "DirectOutput PinballX Plugin";
         public const string Version = "1";
         public const string Author = "Swisslizard";
 
-        public const string Description = "PinballX C# Plugin Template Description";
+        public const string Description = "DirectOutput PinballX Plugin";
         public const string PluginVersion = "1.0";
 
         public string Dummy;

@@ -68,7 +68,7 @@ Public Class ComObject
     End Sub
 
     ''' <summary>
-    ''' Sends data to the DirectOutput framwork.
+    ''' Updates the data of a table element
     ''' </summary>
     ''' <param name="TableElementTypeChar">The table element type char.<br/>Only the first letter/character of this para is passed on to the destination.</param>
     ''' <param name="Number">The number of the table element.</param>
@@ -78,7 +78,7 @@ Public Class ComObject
     ''' or
     ''' You must call Init before sending data.
     ''' </exception>
-    Public Sub DataReceive(TableElementTypeChar As String, Number As Integer, Value As Integer)
+    Public Sub UpdateTableElement(TableElementTypeChar As String, Number As Integer, Value As Integer)
         Dim C As Char
         Try
             C = TableElementTypeChar.Substring(0, 1)
@@ -95,13 +95,13 @@ Public Class ComObject
 
 
     ''' <summary>
-    ''' Send data for named table elements to the DirectOutput framework.
+    ''' Updates a named table element.
     ''' </summary>
     ''' <param name="TableElementName">Name of the table element.</param>
     ''' <param name="Value">The value of the table element.</param>
     ''' <exception cref="System.ArgumentException">The TableElementName cant be null or empty.</exception>
     ''' <exception cref="System.Exception">You must call Init before sending data.</exception>
-    Public Sub DataReceive(TableElementName As String, Value As Integer)
+    Public Sub UpdateNamedTableElement(TableElementName As String, Value As Integer)
 
         If TableElementName.IsNullOrWhiteSpace() Then
             Throw New ArgumentException("The TableElementName cant be null or empty.", "TableElementName")
