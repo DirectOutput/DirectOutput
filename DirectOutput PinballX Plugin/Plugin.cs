@@ -15,47 +15,7 @@ namespace PinballX
         DOFManager DM = new DOFManager();
 
 
-        private void InitDOF()
-        {
-            if (!DM.Linked)
-            {
-                try
-                {
-                    DM.LinkDOF();
-                    DM.Init("PinballX", "", "PinballX");
-                }
-                catch (Exception E)
-                {
-                    System.Windows.Forms.MessageBox.Show("DOF init exception: " + E.Message);
 
-                    DM.UnlinkDOF();
-                }
-                System.Windows.Forms.MessageBox.Show("DOF Initialized");
-            }
-
-        }
-
-        private void FinishDOF()
-        {
-            try
-            {
-                LastGameSelect = "";
-                DM.Finish();
-                DM.UnlinkDOF();
-            }
-            catch
-            { }
-        }
-
-
-        private void UpdateDOF(string TableElementName, int Value)
-        {
-            if (DM.Linked)
-            {
-                System.Windows.Forms.MessageBox.Show("DOF update: " + TableElementName + " " + Value.ToString());
-                DM.UpdateNamedTableElement(TableElementName, Value);
-            }
-        }
 
         /// <summary>
         /// Initializes the plugin.
@@ -68,7 +28,7 @@ namespace PinballX
         {
             PinballXInfo Info = (PinballXInfo)Marshal.PtrToStructure(InfoPtr, typeof(PinballXInfo));
 
-            InitDOF();
+            DM.Load();
 
             return true;
         }
@@ -89,7 +49,7 @@ namespace PinballX
         public void Event_App_Exit()
         {
 
-            FinishDOF();
+            DM.Finish();
             DM = null;
         }
 
@@ -106,9 +66,9 @@ namespace PinballX
             GameInfo Info = (GameInfo)Marshal.PtrToStructure(InfoPtr, typeof(GameInfo));
             if (!string.IsNullOrEmpty(LastGameSelect))
             {
-                UpdateDOF(LastGameSelect, 0);
+               DM.UpdateNamedTableElement(LastGameSelect, 0);
             }
-            UpdateDOF(Info.GameShortDescription, 1);
+            DM.UpdateNamedTableElement(Info.GameShortDescription, 1);
             LastGameSelect = Info.GameShortDescription;
         }
 
@@ -123,7 +83,7 @@ namespace PinballX
         {
             GameInfo Info = (GameInfo)Marshal.PtrToStructure(InfoPtr, typeof(GameInfo));
 
-            FinishDOF();
+            DM.Finish();
 
             return true;
         }
@@ -157,7 +117,7 @@ namespace PinballX
         {
             GameInfo Info = (GameInfo)Marshal.PtrToStructure(InfoPtr, typeof(GameInfo));
 
-            InitDOF();
+            DM.Init();
         }
 
         /// <summary>
