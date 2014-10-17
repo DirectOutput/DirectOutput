@@ -21,7 +21,7 @@ namespace PinballX
         private delegate void ShowFrontendDelegate();
 
         Type DOFType;
-        object DOF;
+       // object DOF;
         private GetVersionDelegate GetVersionDel;
   //      private GetNameDelegate GetNameDel;
     //    private GetDllPathDelegate GetDllPathDel;
