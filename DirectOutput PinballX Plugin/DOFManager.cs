@@ -4,6 +4,7 @@ using System.Text;
 using System.Reflection;
 using System.Windows.Forms;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace PinballX
 {
@@ -11,76 +12,85 @@ namespace PinballX
     {
 
 
-        private delegate string GetVersionDelegate();
-      //  private delegate string GetNameDelegate();
-      //  private delegate string GetDllPathDelegate();
-        private delegate void FinishDelegate();
-        private delegate void UpdateTableElementDelegate(string TableElementTypeChar, int Number, int Value);
-        private delegate void UpdateNamedTableElementDelegate(string TableElementName, int Value);
-        private delegate void InitDelegate(string HostingApplicationName, string TableFileName, string GameName);
-        private delegate void ShowFrontendDelegate();
-
         Type DOFType;
-       // object DOF;
-        private GetVersionDelegate GetVersionDel;
-  //      private GetNameDelegate GetNameDel;
-    //    private GetDllPathDelegate GetDllPathDel;
-        private FinishDelegate FinishDel;
-        private UpdateTableElementDelegate UpdateTableElementDel;
-        private UpdateNamedTableElementDelegate UpdateNamedTableElementDel;
-        private InitDelegate InitDel;
-        private ShowFrontendDelegate ShowFrontendDel;
-
-        private Config Config = null;
-
-        Assembly DOFAssembly = null;
-
+        object DOF;
+        object DOFLocker = new object();
 
         public void Load()
         {
-            FileInfo PluginAssemblyFileInfo = new FileInfo(Assembly.GetExecutingAssembly().Location);
-            string ConfigFilename = PluginAssemblyFileInfo.FullName.Substring(0, PluginAssemblyFileInfo.FullName.Length - PluginAssemblyFileInfo.Extension.Length - 1) + ".xml";
+
+            lock (DOFLocker)
+            {
+                if (DOF == null)
+                {
+                    try
+                    {
+                        DOFType = Type.GetTypeFromProgID("DirectOutput.ComObject", true);
+
+                    }
+                    catch (Exception E)
+                    {
+
+                        throw new Exception("Could not find the DirectOutput.ComObject. Please check if the DirectOutputComObject is registered.", E);
+                    }
 
 
-            Config = Config.GetConfigFromXmlFile(ConfigFilename);
+                    try
+                    {
+                        DOF = Activator.CreateInstance(DOFType);
 
+                    }
+                    catch (Exception E)
+                    {
 
-            DOFAssembly = Assembly.LoadFrom(Config.DirectOutputPath);
+                        throw new Exception("Could not create a instance of the DirectOutput framework. " + E.Message);
+                    }
 
-            DOFType = Type.GetTypeFromProgID("DirectOutput.DirectOutputHandler");
-
-            MessageBox.Show(DOFType.FullName);
-
-
-            //try
-            //{
-            GetVersionDel = (GetVersionDelegate)Delegate.CreateDelegate(typeof(GetVersionDelegate), DOFType, "GetVersion");
-      //      GetNameDel = (GetNameDelegate)Delegate.CreateDelegate(typeof(GetNameDelegate), DOFType, "GetName");
-//            GetDllPathDel = (GetDllPathDelegate)Delegate.CreateDelegate(typeof(GetDllPathDelegate), DOFType, "GetDllPath");
-            FinishDel = (FinishDelegate)Delegate.CreateDelegate(typeof(FinishDelegate), DOFType, "Finish");
-            UpdateTableElementDel = (UpdateTableElementDelegate)Delegate.CreateDelegate(typeof(UpdateTableElementDelegate), DOFType, "UpdateTableElement");
-            UpdateNamedTableElementDel = (UpdateNamedTableElementDelegate)Delegate.CreateDelegate(typeof(UpdateNamedTableElementDelegate), DOFType, "UpdateNamedTableElement");
-            InitDel = (InitDelegate)Delegate.CreateDelegate(typeof(InitDelegate), DOFType, "Init");
-            ShowFrontendDel = (ShowFrontendDelegate)Delegate.CreateDelegate(typeof(ShowFrontendDelegate), DOFType, "ShowFrontend");
-
-            //}
-            //catch (Exception E)
-            //{
-            //    UnlinkDOF();
-            //    throw new Exception("Could not create delegates for the functions of the DirectOutput.ComObject. " + E.Message);
-            //}
+                }
+            }
         }
+
+
+        public void Unload()
+        {
+            lock (DOFLocker)
+            {
+                Finish();
+                if (DOF != null)
+                {
+                   // Marshal.ReleaseComObject(DOF);
+                    DOF = null;
+                    DOFType = null;
+                }
+            }
+        }
+
 
 
         public bool IsInitialized { get; private set; }
 
         public string GetVersion()
         {
-            if (GetVersionDel != null)
+            lock (DOFLocker)
             {
-                return GetVersionDel();
+                if (DOF != null)
+                {
+                    return (string)DOFType.InvokeMember("GetVersion", BindingFlags.InvokeMethod, null, DOF, null);
+                }
+                return "";
             }
-            return "";
+        }
+
+        public string GetDllPath()
+        {
+            lock (DOFLocker)
+            {
+                if (DOF != null)
+                {
+                    return (string)DOFType.InvokeMember("GetDllPath", BindingFlags.InvokeMethod, null, DOF, null);
+                }
+                return "";
+            }
         }
 
         //public string GetName()
@@ -101,42 +111,55 @@ namespace PinballX
         //}
         public void Finish()
         {
-            if (FinishDel != null && IsInitialized)
+            lock (DOFLocker)
             {
-                FinishDel();
-                IsInitialized = false;
+                if (DOF != null && IsInitialized)
+                {
+                    DOFType.InvokeMember("Finish", BindingFlags.InvokeMethod, null, DOF, null);
+                    IsInitialized = false;
+                }
+                Unload();
             }
         }
         public void UpdateTableElement(string TableElementTypeChar, int Number, int Value)
         {
-            if (UpdateTableElementDel != null && IsInitialized)
+           lock (DOFLocker)
             {
-                UpdateTableElementDel(TableElementTypeChar, Number, Value);
+                if (DOF != null && IsInitialized)
+                {
+                    object[] Args = new object[] { TableElementTypeChar, Number, Value };
+                    DOFType.InvokeMember("UpdateTableElement", BindingFlags.InvokeMethod, null, DOF, Args);
+
+                }
             }
         }
         public void UpdateNamedTableElement(string TableElementName, int Value)
         {
-            if (UpdateNamedTableElementDel != null & IsInitialized)
+            lock (DOFLocker)
             {
-                UpdateNamedTableElementDel(TableElementName, Value);
+                if (DOF != null & IsInitialized)
+                {
+                    object[] Args = new object[] { TableElementName, Value };
+                    DOFType.InvokeMember("UpdateNamedTableElement", BindingFlags.InvokeMethod, null, DOF, Args);
+                }
             }
         }
         public void Init()
         {
-            if (InitDel != null && !IsInitialized)
+            lock (DOFLocker)
             {
-                InitDel("PinballX", "", "PinballX");
-                IsInitialized = true;
-            }
+                Load();
+                if (DOF != null && !IsInitialized)
+                {
+ 
+                    object[] Args = new object[] { "PinballX", "", "PinballX" };
+                    DOFType.InvokeMember("Init", BindingFlags.InvokeMethod, null, DOF, Args);
 
-        }
-        public void ShowFrontend()
-        {
-            if (ShowFrontendDel != null)
-            {
-                ShowFrontendDel();
+                    IsInitialized = true;
+                }
             }
         }
+
 
     }
 }

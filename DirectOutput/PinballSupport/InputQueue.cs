@@ -43,12 +43,7 @@ namespace DirectOutput.PinballSupport
         {
             if (TableElementName.IsNullOrWhiteSpace()) return;
 
-            Enqueue(new TableElementData(TableElementName, Value));
-
-
-
-
-
+            Enqueue(new TableElementData(TableElementName.Replace(" ","_"), Value));
         }
 
 

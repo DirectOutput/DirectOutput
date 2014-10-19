@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Xml.Serialization;
+using System.Reflection;
 
 namespace PinballX
 {
@@ -11,7 +12,16 @@ namespace PinballX
 
     public class Config
     {
-        public string DirectOutputPath { get; set; }
+        public static string ConfigFileName
+        {
+            get
+            {
+                FileInfo PluginAssemblyFileInfo = new FileInfo(Assembly.GetExecutingAssembly().Location);
+                return PluginAssemblyFileInfo.FullName.Substring(0, PluginAssemblyFileInfo.FullName.Length - PluginAssemblyFileInfo.Extension.Length ) + ".xml";
+            }
+        }
+
+
 
 
 
@@ -43,8 +53,8 @@ namespace PinballX
         /// <summary>
         /// Serializes the configuration to a XML file.
         /// </summary>
-        /// <param name="FileName">Name of the XML file.</param>
-        public void SaveConfigXmlFile(string FileName)
+        /// <param name="FileName">Name of the XML file or null to use the default config filename.</param>
+        public void SaveConfigXmlFile(string FileName=null)
         {
 
             string C = GetConfigXml();
@@ -52,7 +62,7 @@ namespace PinballX
             TextWriter tw = null;
             try
             {
-                tw = new StreamWriter(FileName, false);
+                tw = new StreamWriter((FileName == null ? ConfigFileName : FileName), false);
                 tw.Write(C);
                 tw.Close();
             }
@@ -63,7 +73,7 @@ namespace PinballX
                 {
                     tw.Close();
                 }
-                throw new Exception("Could not save PinballX DirectOutput Plugin config to " + FileName, e);
+                throw new Exception("Could not save PinballX DirectOutput Plugin config to " + (FileName == null ? ConfigFileName : FileName), e);
             }
 
             tw = null;
@@ -74,18 +84,15 @@ namespace PinballX
         /// <summary>
         /// Instanciates a config object from a cabinet configuration in a XML file.
         /// </summary>
-        /// <param name="FileName">Name of the XML file.</param>
+        /// <param name="FileName">Name of the XML file or null to use the default config filename.</param>
         /// <returns>Config object</returns>
-        public static Config GetConfigFromXmlFile(string FileName)
+        public static Config GetConfigFromXmlFile(string FileName=null)
         {
             string Xml;
 
-
-
-
             try
             {
-                using (StreamReader streamReader = new StreamReader(FileName))
+                using (StreamReader streamReader = new StreamReader((FileName==null?ConfigFileName:FileName)))
                 {
                     Xml = streamReader.ReadToEnd();
                     streamReader.Close();
@@ -93,24 +100,13 @@ namespace PinballX
             }
             catch (Exception E)
             {
-                throw new Exception("Could not read PinballX DirectOutput Plugin config file"+FileName, E);
+                throw new Exception("Could not read PinballX DirectOutput Plugin config file" + (FileName == null ? ConfigFileName : FileName), E);
             }
 
             return GetConfigFromXml(Xml);
         }
 
 
-
-
-        /// <summary>
-        /// Instanciates a config object from a XML file.
-        /// </summary>
-        /// <param name="ConfigFile">FileInfo object for the config file.</param>
-        /// <returns>Cabinet object</returns>
-        public static Config GetConfigFromXmlFile(FileInfo ConfigFile)
-        {
-            return GetConfigFromXmlFile(ConfigFile.FullName);
-        }
 
         /// <summary>
         /// Instanciates a Cabinet object from a cabinet configuration in a XML string.

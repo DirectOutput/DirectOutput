@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace PinballX
 {
@@ -14,7 +15,16 @@ namespace PinballX
 
         DOFManager DM = new DOFManager();
 
+        private string CleanGameName(string GameName)
+        {
+            Regex rgx = new Regex("[^a-zA-Z0-9 ]");
+            RegexOptions options = RegexOptions.None;
+            Regex regex = new Regex(@"[ ]{2,}", options);
 
+
+            return regex.Replace(rgx.Replace(GameName, ""), @" ").Replace(" ", "_");
+
+        }
 
 
         /// <summary>
@@ -28,7 +38,7 @@ namespace PinballX
         {
             PinballXInfo Info = (PinballXInfo)Marshal.PtrToStructure(InfoPtr, typeof(PinballXInfo));
 
-            DM.Load();
+            DM.Init();
 
             return true;
         }
@@ -39,6 +49,26 @@ namespace PinballX
         /// </summary>
         public void Configure()
         {
+            Config CO = null;
+            try
+            {
+                CO = Config.GetConfigFromXmlFile();
+      
+
+            }
+            catch
+            {
+                CO = new Config();
+            }
+
+
+
+            Configure C = new Configure(CO);
+            if (C.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+             //   C.Config.SaveConfigXmlFile();
+            }
+
 
         }
 
@@ -48,7 +78,10 @@ namespace PinballX
         /// </summary>
         public void Event_App_Exit()
         {
-
+            if (!string.IsNullOrEmpty(LastGameSelect))
+            {
+                DM.UpdateNamedTableElement(LastGameSelect, 0);
+            }
             DM.Finish();
             DM = null;
         }
@@ -64,12 +97,15 @@ namespace PinballX
         public void Event_GameSelect(IntPtr InfoPtr)
         {
             GameInfo Info = (GameInfo)Marshal.PtrToStructure(InfoPtr, typeof(GameInfo));
+
+            DM.UpdateNamedTableElement("GameSelect", 1);
+            DM.UpdateNamedTableElement("GameSelect", 0);
             if (!string.IsNullOrEmpty(LastGameSelect))
             {
                DM.UpdateNamedTableElement(LastGameSelect, 0);
             }
-            DM.UpdateNamedTableElement(Info.GameShortDescription, 1);
-            LastGameSelect = Info.GameShortDescription;
+            DM.UpdateNamedTableElement(CleanGameName(Info.GameShortDescription), 1);
+            LastGameSelect = CleanGameName(Info.GameShortDescription);
         }
 
         /// <summary>
@@ -82,7 +118,10 @@ namespace PinballX
         public bool Event_GameRun(IntPtr InfoPtr)
         {
             GameInfo Info = (GameInfo)Marshal.PtrToStructure(InfoPtr, typeof(GameInfo));
-
+            if (!string.IsNullOrEmpty(LastGameSelect))
+            {
+                DM.UpdateNamedTableElement(LastGameSelect, 0);
+            }
             DM.Finish();
 
             return true;
@@ -117,6 +156,8 @@ namespace PinballX
         {
             GameInfo Info = (GameInfo)Marshal.PtrToStructure(InfoPtr, typeof(GameInfo));
 
+            System.Windows.Forms.MessageBox.Show("GameExit " + DateTime.Now);
+
             DM.Init();
         }
 
@@ -139,6 +180,16 @@ namespace PinballX
             //{
             //    // Gamepad buttton 1 down
             //}
+
+            //string X = "";
+            //foreach (bool K in Input_Keys)
+            //{
+            //    X += (K ? "1" : "0");
+            //}
+
+
+            //System.Windows.Forms.MessageBox.Show(X);
+
             return true;
         }
 
