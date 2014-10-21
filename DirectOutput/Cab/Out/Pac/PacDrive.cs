@@ -317,10 +317,7 @@ namespace DirectOutput.Cab.Out.Pac
                         try
                         {
                             KeepPacDriveUpdaterAlive = false;
-                            lock (PacDriveUpdater)
-                            {
-                                Monitor.Pulse(PacDriveUpdater);
-                            }
+                            TriggerPacDriveUpdaterThread();
                             if (!PacDriveUpdater.Join(1000))
                             {
                                 PacDriveUpdater.Abort();

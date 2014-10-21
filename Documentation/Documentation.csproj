@@ -38,6 +38,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="10_Installation and configuration.md" />
+    <None Include="16_Pinballx.md" />
     <None Include="25_CabinetConfig.md" />
     <None Include="27_TableConfig.md" />
     <None Include="30_IniFiles.md" />

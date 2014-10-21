@@ -404,10 +404,7 @@ namespace DirectOutput.Cab.Out.Pac
                         try
                         {
                             KeepPacLed64UpdaterAlive = false;
-                            lock (PacLed64Updater)
-                            {
-                                Monitor.Pulse(PacLed64Updater);
-                            }
+                            TriggerPacLed64UpdaterThread();
                             if (!PacLed64Updater.Join(1000))
                             {
                                 PacLed64Updater.Abort();

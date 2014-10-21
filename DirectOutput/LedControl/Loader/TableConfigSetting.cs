@@ -277,7 +277,7 @@ namespace DirectOutput.LedControl.Loader
         /// </exception>
         public void ParseSettingData(string SettingData)
         {
-            string S = SettingData.Trim();
+            string S = SettingData.Trim().ToUpper();
 
             if (S.StartsWith("("))
             {
@@ -372,7 +372,7 @@ namespace DirectOutput.LedControl.Loader
                         {
                             if (E.Length > 1)
                             {
-                                if (E[0] == (char)TableElementTypeEnum.NamedElement && E.Substring(1).All(char.IsLetterOrDigit))
+                                if (E[0] == (char)TableElementTypeEnum.NamedElement && E.Substring(1).All(C=>char.IsLetterOrDigit(C) || C=='_'))
                                 {
                                     //Named element
                                 }
@@ -382,6 +382,7 @@ namespace DirectOutput.LedControl.Loader
                                 }
                                 else
                                 {
+                                    Log.Write("Failed: " + E);
                                     ParseOK = false;
                                     break;
                                 }

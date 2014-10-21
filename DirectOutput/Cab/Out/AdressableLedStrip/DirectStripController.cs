@@ -217,10 +217,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                 try
                 {
                     KeepUpdaterThreadAlive = false;
-                    lock (UpdaterThreadLocker)
-                    {
-                        Monitor.Pulse(UpdaterThreadLocker);
-                    }
+                    UpdaterThreadSignal();
                     if (!UpdaterThread.Join(1000))
                     {
                         UpdaterThread.Abort();

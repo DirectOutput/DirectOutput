@@ -685,10 +685,7 @@ namespace DirectOutput.Cab.Out.LW
                         try
                         {
                             KeepLedWizUpdaterAlive = false;
-                            lock (LedWizUpdater)
-                            {
-                                Monitor.Pulse(LedWizUpdater);
-                            }
+                            TriggerLedWizUpdaterThread();
                             if (!LedWizUpdater.Join(1000))
                             {
                                 LedWizUpdater.Abort();

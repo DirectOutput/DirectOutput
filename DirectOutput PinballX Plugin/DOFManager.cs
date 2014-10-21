@@ -55,10 +55,10 @@ namespace PinballX
         {
             lock (DOFLocker)
             {
-                Finish();
+               
                 if (DOF != null)
                 {
-                   // Marshal.ReleaseComObject(DOF);
+                    // Marshal.ReleaseComObject(DOF);
                     DOF = null;
                     DOFType = null;
                 }
@@ -123,7 +123,7 @@ namespace PinballX
         }
         public void UpdateTableElement(string TableElementTypeChar, int Number, int Value)
         {
-           lock (DOFLocker)
+            lock (DOFLocker)
             {
                 if (DOF != null && IsInitialized)
                 {
@@ -144,6 +144,21 @@ namespace PinballX
                 }
             }
         }
+
+        public void SignalNamedTableElement(string TableElementName)
+        {
+            lock (DOFLocker)
+            {
+                if (DOF != null & IsInitialized)
+                {
+                    object[] Args = new object[] { TableElementName, 1 };
+                    DOFType.InvokeMember("UpdateNamedTableElement", BindingFlags.InvokeMethod, null, DOF, Args);
+                    Args = new object[] { TableElementName, 0 };
+                    DOFType.InvokeMember("UpdateNamedTableElement", BindingFlags.InvokeMethod, null, DOF, Args);
+                }
+            }
+        }
+
         public void Init()
         {
             lock (DOFLocker)
@@ -151,7 +166,7 @@ namespace PinballX
                 Load();
                 if (DOF != null && !IsInitialized)
                 {
- 
+
                     object[] Args = new object[] { "PinballX", "", "PinballX" };
                     DOFType.InvokeMember("Init", BindingFlags.InvokeMethod, null, DOF, Args);
 
@@ -161,5 +176,19 @@ namespace PinballX
         }
 
 
+
+        public string[] GetConfiguredTableElmentDescriptors()
+        {
+            lock (DOFLocker)
+            {
+                Load();
+                if (DOF != null && IsInitialized)
+                {
+
+                    return (string[])DOFType.InvokeMember("GetConfiguredTableElmentDescriptors", BindingFlags.InvokeMethod, null, DOF, null);
+                }
+                return new string[0];
+            }
+        }
     }
 }

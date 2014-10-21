@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using DirectOutput.General.Generic;
-
+using System.Linq;
 
 namespace DirectOutput.Table
 {
@@ -175,6 +175,7 @@ namespace DirectOutput.Table
             else
             {
                 //Update named element
+                Log.Write("Update element: " + Data.Name);
                 if (Contains(Data.Name))
                 {
                     _NamedTableElementsDictionary[Data.Name].Value = Data.Value;
@@ -216,6 +217,13 @@ namespace DirectOutput.Table
             }
             else
             {
+                Log.Write("Adding element 2: " + TableElement.Name);
+
+                if (TableElement.Name.IsNullOrWhiteSpace())
+                {
+                    throw new Exception("Named TableElements cant have a empty name when they are added to the list.");
+                }
+
                 if (Contains(TableElement))
                 {
                     throw new Exception("The TableElement named {0} cant be added to the list. Another entry with the same name does already exist.".Build(TableElement.Name));
@@ -245,6 +253,7 @@ namespace DirectOutput.Table
 
         public void Add(string TableElementName, int State)
         {
+            Log.Write("Adding element 1: " + TableElementName);
             Add(new TableElement(TableElementName, State));
         }
 
@@ -361,6 +370,19 @@ namespace DirectOutput.Table
 
         #endregion
 
+        /// <summary>
+        /// Gets the table element descriptors.
+        /// NamedElements are returned as $Name.
+        /// Numbered elemenst are returned with the first char describing the type of the table element (S=Solenoid,W=Switch,L=Lamp and so on) plus its number (e.g. S48 for solenoid 48) 
+        /// </summary>
+        /// <returns>Array of table element descriptors</returns>
+        public string[] GetTableElementDescriptors()
+        {
+
+            string[] X = this.Select(TE => "{0}{1}".Build(((char)TE.TableElementType).ToString(), (TE.TableElementType == TableElementTypeEnum.NamedElement ? TE.Name : TE.Number.ToString()))).ToArray();
+            return X;
+
+        }
 
         #region Events & Event handling
 

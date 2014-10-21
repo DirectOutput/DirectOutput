@@ -393,6 +393,8 @@ namespace DirectOutput
                 Log.Exception("DirectOutput framework has encountered a exception during setup.", E);
                 throw new Exception("DirectOutput framework has encountered a exception during setup.\n Inner exception: {0}".Build(E.Message), E);
             }
+
+            
         }
 
         /// <summary>

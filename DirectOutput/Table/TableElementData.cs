@@ -64,8 +64,8 @@ namespace DirectOutput.Table
                 this.TableElementType = (TableElementTypeEnum)TableElementTypeChar;
             }
             this.Number = Number;
-            this.Value = Value;
             this.Name = null;
+            this.Value = Value;
         }
 
         /// <summary>
@@ -76,8 +76,8 @@ namespace DirectOutput.Table
         {
             this.Number = TableElement.Number;
             this.TableElementType = TableElement.TableElementType;
+            this.Name = TableElement.Name;
             this.Value = TableElement.Value;
-            this.Name = null;
         }
 
         public TableElementData(string TableElementName, int Value)

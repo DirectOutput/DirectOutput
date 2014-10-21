@@ -361,9 +361,9 @@ namespace DirectOutput.LedControl.Loader
                 {
                     foreach (TableConfigSetting S in C)
                     {
-                        if (ColorConfigurations.Contains(S.ColorName))
+                        if (ColorConfigurations.Any(CC=>CC.Name.Equals(S.ColorName,StringComparison.InvariantCultureIgnoreCase)))
                         {
-                            S.ColorConfig = ColorConfigurations[S.ColorName];
+                            S.ColorConfig = ColorConfigurations.First(CC=>CC.Name.Equals(S.ColorName,StringComparison.InvariantCultureIgnoreCase));
 
                         }
                     }

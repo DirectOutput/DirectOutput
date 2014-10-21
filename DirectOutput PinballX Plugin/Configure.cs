@@ -32,6 +32,9 @@ namespace PinballX
         private void Populate()
         {
 
+              EnableLogCheckBox.Checked=Config.EnableLogging;
+
+
             PopulateDOFState();
 
 
@@ -81,6 +84,11 @@ namespace PinballX
             DOFStateText.Text = (DOFLoaded ? "OK. DirectOutput framework found" : "Error! DirectOutput framework not found. Make sure the DOF com object is registered.");
 
 
+        }
+
+        private void EnableLogCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            Config.EnableLogging = EnableLogCheckBox.Checked;
         }
 
 

@@ -41,6 +41,7 @@
             this.DOFPathText = new System.Windows.Forms.TextBox();
             this.DOFVersionText = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.EnableLogCheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
@@ -164,11 +165,23 @@
             this.label4.TabIndex = 30;
             this.label4.Text = "Version:";
             // 
+            // EnableLogCheckBox
+            // 
+            this.EnableLogCheckBox.AutoSize = true;
+            this.EnableLogCheckBox.Location = new System.Drawing.Point(23, 290);
+            this.EnableLogCheckBox.Name = "EnableLogCheckBox";
+            this.EnableLogCheckBox.Size = new System.Drawing.Size(76, 17);
+            this.EnableLogCheckBox.TabIndex = 32;
+            this.EnableLogCheckBox.Text = "Enable log";
+            this.EnableLogCheckBox.UseVisualStyleBackColor = true;
+            this.EnableLogCheckBox.CheckedChanged += new System.EventHandler(this.EnableLogCheckBox_CheckedChanged);
+            // 
             // Configure
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(736, 428);
+            this.Controls.Add(this.EnableLogCheckBox);
             this.Controls.Add(this.DOFVersionText);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.DOFPathText);
@@ -205,5 +218,6 @@
         private System.Windows.Forms.TextBox DOFPathText;
         private System.Windows.Forms.TextBox DOFVersionText;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.CheckBox EnableLogCheckBox;
     }
 }

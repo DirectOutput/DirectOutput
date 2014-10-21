@@ -402,6 +402,7 @@ namespace DirectOutput.LedControl.Setup
                 TableElement TE = null;
                 if (D[0] == (char)TableElementTypeEnum.NamedElement)
                 {
+                    Log.Write("Adding table element: " + D);
                     Table.TableElements.UpdateState(new Table.TableElementData(D.Substring(1), 0));
                     TE = Table.TableElements[D.Substring(1)];
                 }
@@ -603,6 +604,7 @@ namespace DirectOutput.LedControl.Setup
 
                         if (TargetToy != null)
                         {
+                            
                             ToyAssignments[LedWizNr].Add(TCC.Number, TargetToy);
                         }
                     }

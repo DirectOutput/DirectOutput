@@ -220,6 +220,18 @@ Public Class ComObject
     End Sub
 
 
+    ''' <summary>
+    ''' Gets the descriptors for configured table elments.
+    ''' </summary>
+    ''' <returns>Array of tabler element descriptors</returns>
+    Public Function GetConfiguredTableElmentDescriptors()
+        If Pinball IsNot Nothing Then
+            Return Pinball.Table.TableElements.GetTableElementDescriptors()
+        End If
+        Return {}
+    End Function
+
+
 
     Private Property Pinball As Pinball
 

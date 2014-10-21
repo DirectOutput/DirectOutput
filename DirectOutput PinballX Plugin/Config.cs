@@ -12,21 +12,24 @@ namespace PinballX
 
     public class Config
     {
-        public static string ConfigFileName
-        {
-            get
-            {
-                FileInfo PluginAssemblyFileInfo = new FileInfo(Assembly.GetExecutingAssembly().Location);
-                return PluginAssemblyFileInfo.FullName.Substring(0, PluginAssemblyFileInfo.FullName.Length - PluginAssemblyFileInfo.Extension.Length ) + ".xml";
-            }
-        }
 
+        public bool EnableLogging { get; set; }
 
 
 
 
 
         #region Serialization
+
+
+        public static string ConfigFileName
+        {
+            get
+            {
+                FileInfo PluginAssemblyFileInfo = new FileInfo(Assembly.GetExecutingAssembly().Location);
+                return PluginAssemblyFileInfo.FullName.Substring(0, PluginAssemblyFileInfo.FullName.Length - PluginAssemblyFileInfo.Extension.Length) + ".xml";
+            }
+        }
 
         /// <summary>
         /// Returns a serialized XML representation of the configuration.
