@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using DirectOutput.FX.MatrixFX;
 
 namespace DirectOutput.LedControl.Loader
@@ -257,7 +258,7 @@ namespace DirectOutput.LedControl.Loader
         public int AreaBitmapLeft = 0;
         public int AreaBitmapWidth = -1;
         public int AreaBitmapHeight = -1;
-        public int AreaBitmapFrame=0;
+        public int AreaBitmapFrame = 0;
 
         public int AreaBitmapAnimationStepSize = 1;
         public int AreaBitmapAnimationStepCount = 0;
@@ -276,7 +277,7 @@ namespace DirectOutput.LedControl.Loader
         /// </exception>
         public void ParseSettingData(string SettingData)
         {
-            string S = SettingData.Trim();
+            string S = SettingData.Trim().ToUpper();
 
             if (S.StartsWith("("))
             {
@@ -320,17 +321,36 @@ namespace DirectOutput.LedControl.Loader
             {
                 //not a condition
 
-                string[] P = SettingData.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                if (P.Length == 0)
+                if (S.Length == 0)
                 {
                     Log.Warning("No data to parse.");
 
                     throw new Exception("No data to parse.");
                 }
 
+                int TriggerEndPos = -1;
+                char LastChar = (char)0;
+                for (int i = 0; i < S.Length - 1; i++)
+                {
+                    if (S[i] == ' ' && LastChar != '|' && LastChar != (char)0)
+                    {
+                        TriggerEndPos = i;
+                        break;
+                    }
+                    if (S[i] != ' ')
+                    {
+                        LastChar = S[i];
+                    }
+                }
+                if (TriggerEndPos == -1) TriggerEndPos = S.Length;
+
+                string Trigger = S.Substring(0, TriggerEndPos).Trim();
+
+
+
                 //Get output state and table element (if applicable)
                 bool ParseOK = true;
-                switch (P[0].ToUpper())
+                switch (Trigger.ToUpper())
                 {
                     case "ON":
                     case "1":
@@ -347,30 +367,38 @@ namespace DirectOutput.LedControl.Loader
                         BlinkIntervalMs = 1000;
                         break;
                     default:
-                        if (Enum.IsDefined(typeof(TableElementTypeEnum), (int)P[0][0]))
+                        string[] ATE = Trigger.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries).Select(Tr => Tr.Trim()).ToArray();
+                        foreach (string E in ATE)
                         {
-                            //This seems to be a variable
-
-                            string[] ATE = P[0].Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries );
-                            foreach (string E in ATE)
+                            if (E.Length > 1)
                             {
-                                if (E.Length < 2 || !Enum.IsDefined(typeof(TableElementTypeEnum), (int)E[0]) || !E.Substring(1).IsInteger())
+                                if (E[0] == (char)TableElementTypeEnum.NamedElement && E.Substring(1).All(C => char.IsLetterOrDigit(C) || C == '_'))
                                 {
+                                    //Named element
+                                }
+                                else if (Enum.IsDefined(typeof(TableElementTypeEnum), (int)E[0]) && E.Substring(1).IsInteger())
+                                {
+                                    //Normal table element
+                                }
+                                else
+                                {
+                                    Log.Write("Failed: " + E);
                                     ParseOK = false;
                                     break;
                                 }
                             }
-
-                            if (ParseOK)
+                            else
                             {
-                                TableElement = P[0];
-
-                                OutputControl = OutputControlEnum.Controlled;
+                                ParseOK = false;
+                                break;
                             }
+
+
                         }
-                        else
+                        if (ParseOK)
                         {
-                            ParseOK = false;
+                            OutputControl = OutputControlEnum.Controlled;
+                            TableElement = Trigger;
                         }
 
 
@@ -379,13 +407,13 @@ namespace DirectOutput.LedControl.Loader
                 }
                 if (!ParseOK)
                 {
-                    Log.Warning("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(P[0], SettingData));
+                    Log.Warning("Cant parse the trigger part {0} of the ledcontrol table config setting {1}.".Build(Trigger, SettingData));
 
-                    throw new Exception("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(P[0], SettingData));
+                    throw new Exception("Cant parse the part {0} of the ledcontrol table config setting {1}.".Build(Trigger, SettingData));
                 }
 
                 //Remove first part
-                S = S.Substring(S.IndexOf(P[0]) + P[0].Length).Trim();
+                S = S.Substring(Trigger.Length).Trim();
 
             }
 
@@ -457,7 +485,7 @@ namespace DirectOutput.LedControl.Loader
                 }
                 else if (Parts[PartNr].Length > 3 && Parts[PartNr].Substring(0, 3).ToUpper() == "AAF" && Parts[PartNr].Substring(3).IsInteger())
                 {
-                    AreaBitmapAnimationFrameDuration = 1000/Parts[PartNr].Substring(3).ToInteger().Limit(10,int.MaxValue);
+                    AreaBitmapAnimationFrameDuration = 1000 / Parts[PartNr].Substring(3).ToInteger().Limit(10, int.MaxValue);
                     IsArea = true;
                     IsBitmap = true;
                 }
@@ -467,14 +495,14 @@ namespace DirectOutput.LedControl.Loader
                     AreaBitmapAnimationDirection = (MatrixAnimationStepDirectionEnum)Parts[PartNr].Substring(3, 1).ToUpper()[0];
                     IsArea = true;
                     IsBitmap = true;
-                }            
-                    else if (Parts[PartNr].Length == 4 && Parts[PartNr].Substring(0, 3).ToUpper() == "AAB" && Enum.IsDefined(typeof(AnimationBehaviourEnum), (int)Parts[PartNr].Substring(3, 1).ToUpper()[0]))
+                }
+                else if (Parts[PartNr].Length == 4 && Parts[PartNr].Substring(0, 3).ToUpper() == "AAB" && Enum.IsDefined(typeof(AnimationBehaviourEnum), (int)Parts[PartNr].Substring(3, 1).ToUpper()[0]))
                 {
 
                     AreaBitmapAnimationBehaviour = (AnimationBehaviourEnum)Parts[PartNr].Substring(3, 1).ToUpper()[0];
                     IsArea = true;
                     IsBitmap = true;
-                } 
+                }
 
                 else if (Parts[PartNr].Length > 5 && Parts[PartNr].Substring(0, 5).ToUpper() == "AFDEN" && Parts[PartNr].Substring(5).IsInteger())
                 {
@@ -489,11 +517,6 @@ namespace DirectOutput.LedControl.Loader
                 else if (Parts[PartNr].Length > 5 && Parts[PartNr].Substring(0, 5).ToUpper() == "AFMAX" && Parts[PartNr].Substring(5).IsInteger())
                 {
                     AreaFlickerMaxDurationMs = Parts[PartNr].Substring(5).ToInteger();
-                    IsArea = true;
-                }
-                else if (Parts[PartNr].Length > 2 && Parts[PartNr].Substring(0, 2).ToUpper() == "AA" && Parts[PartNr].Substring(2).IsInteger())
-                {
-                    AreaAcceleration = Parts[PartNr].Substring(2).ToInteger();
                     IsArea = true;
                 }
 
@@ -517,15 +540,46 @@ namespace DirectOutput.LedControl.Loader
                     AreaHeight = Parts[PartNr].Substring(2).ToInteger().Limit(0, 100);
                     IsArea = true;
                 }
+                //TODO: Remove parameter AA
+                else if (Parts[PartNr].Length > 2 && Parts[PartNr].Substring(0, 2).ToUpper() == "AA" && Parts[PartNr].Substring(2).IsInteger())
+                {
+                    AreaAcceleration = Parts[PartNr].Substring(2).ToInteger();
+                    IsArea = true;
+                }
+                else if (Parts[PartNr].Length > 3 && Parts[PartNr].Substring(0, 3).ToUpper() == "ASA" && Parts[PartNr].Substring(3).IsInteger())
+                {
+                    AreaAcceleration = Parts[PartNr].Substring(3).ToInteger();
+                    IsArea = true;
+                }
+
+                    //TODO:Remove AS para
                 else if (Parts[PartNr].Length > 2 && Parts[PartNr].Substring(0, 2).ToUpper() == "AS" && Parts[PartNr].Substring(2).IsInteger())
                 {
                     AreaSpeed = Parts[PartNr].Substring(2).ToInteger().Limit(1, 10000);
                     IsArea = true;
                 }
+                else if (Parts[PartNr].Length > 3 && Parts[PartNr].Substring(0, 3).ToUpper() == "ASS" && Parts[PartNr].Substring(3).IsInteger())
+                {
+                    AreaSpeed = Parts[PartNr].Substring(3).ToInteger().Limit(1, 10000);
+                    IsArea = true;
+                }
+                else if (Parts[PartNr].Length > 5 && Parts[PartNr].Substring(0, 3).ToUpper() == "ASS" && Parts[PartNr].ToUpper().Right(2)=="MS" && Parts[PartNr].Substring(3,Parts[PartNr].Length-5).IsInteger())
+                {
+                    AreaSpeed = (int)((double)100000/ Parts[PartNr].Substring(3, Parts[PartNr].Length - 5).ToInteger()).Limit(10, 100000);
+                    IsArea = true;
+                }
+
+                    //TODO:Remove AD para
                 else if (Parts[PartNr].Length == 3 && Parts[PartNr].Substring(0, 2).ToUpper() == "AD" && Enum.IsDefined(typeof(MatrixShiftDirectionEnum), (int)Parts[PartNr].Substring(2, 1).ToUpper()[0]))
                 {
 
                     AreaDirection = (MatrixShiftDirectionEnum)Parts[PartNr].Substring(2, 1).ToUpper()[0];
+                    IsArea = true;
+                }
+                else if (Parts[PartNr].Length == 4 && Parts[PartNr].Substring(0, 3).ToUpper() == "ASD" && Enum.IsDefined(typeof(MatrixShiftDirectionEnum), (int)Parts[PartNr].Substring(3, 1).ToUpper()[0]))
+                {
+
+                    AreaDirection = (MatrixShiftDirectionEnum)Parts[PartNr].Substring(3, 1).ToUpper()[0];
                     IsArea = true;
                 }
                 else if (Parts[PartNr].Length > 3 && Parts[PartNr].ToUpper().Substring(0, 3) == "MAX" && Parts[PartNr].Substring(3).IsInteger())
@@ -547,7 +601,7 @@ namespace DirectOutput.LedControl.Loader
                 }
                 else if (Parts[PartNr].Length > 3 && Parts[PartNr].ToUpper().Substring(0, 3) == "BL#" && Parts[PartNr].Substring(3).IsHexString())
                 {
-                   
+
                     BlinkLow = Parts[PartNr].Substring(3).HexToInt().Limit(0, 255);
                 }
                 else if (Parts[PartNr].Length > 1 && Parts[PartNr].ToUpper().Substring(0, 1) == "BL" && Parts[PartNr].Substring(1).IsInteger())

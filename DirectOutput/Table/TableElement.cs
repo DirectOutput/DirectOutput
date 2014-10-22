@@ -66,9 +66,9 @@ namespace DirectOutput.Table
             get { return _Name; }
             set
             {
-                if (_Name != value)
+                if (_Name != value.ToUpperInvariant())
                 {
-                    _Name = value;
+                    _Name = value.ToUpperInvariant();
                     if (NameChanged != null)
                     {
                         NameChanged(this, new EventArgs());
@@ -98,7 +98,7 @@ namespace DirectOutput.Table
                 if (_Value != value)
                 {
                     _Value = value;
-                    StorePastValue(value);
+                    //StorePastValue(value);
 
                     if (ValueChanged != null)
                     {
@@ -109,58 +109,58 @@ namespace DirectOutput.Table
             }
         }
 
-        const int PastValuesCount=100;
-        private int[] PastValues =new int[PastValuesCount];
-        private DateTime[] PastValueTimestamp = new DateTime[PastValuesCount];
-        private int PastValuesPosition = 0;
+        //const int PastValuesCount=100;
+        //private int[] PastValues =new int[PastValuesCount];
+        //private DateTime[] PastValueTimestamp = new DateTime[PastValuesCount];
+        //private int PastValuesPosition = 0;
 
-        private void StorePastValue(int Value)
-        {
-            PastValuesPosition++;
-            if (PastValuesPosition >= PastValuesCount) { PastValuesPosition = 0; }
+        //private void StorePastValue(int Value)
+        //{
+        //    PastValuesPosition++;
+        //    if (PastValuesPosition >= PastValuesCount) { PastValuesPosition = 0; }
 
-            PastValues[PastValuesPosition] = Value;
-            PastValueTimestamp[PastValuesPosition] = DateTime.Now;
+        //    PastValues[PastValuesPosition] = Value;
+        //    PastValueTimestamp[PastValuesPosition] = DateTime.Now;
 
-        }
+        //}
 
-        /// <summary>
-        /// Indicates wether the table element had a specific valu during the specified nmber of milliseconds.
-        /// </summary>
-        /// <param name="Value">The value to check for.</param>
-        /// <param name="DuringLastMilliseconds">The number of milliseconds to check.</param>
-        /// <returns></returns>
-        public bool ValueHasBeen(int Value, int DuringLastMilliseconds)
-        {
-            DateTime EarliestTime = DateTime.Now.AddMilliseconds(-DuringLastMilliseconds);
+        ///// <summary>
+        ///// Indicates wether the table element had a specific valu during the specified nmber of milliseconds.
+        ///// </summary>
+        ///// <param name="Value">The value to check for.</param>
+        ///// <param name="DuringLastMilliseconds">The number of milliseconds to check.</param>
+        ///// <returns></returns>
+        //public bool ValueHasBeen(int Value, int DuringLastMilliseconds)
+        //{
+        //    DateTime EarliestTime = DateTime.Now.AddMilliseconds(-DuringLastMilliseconds);
 
-            int P = PastValuesPosition;
-            int Cnt = 0;
+        //    int P = PastValuesPosition;
+        //    int Cnt = 0;
 
-            while (PastValueTimestamp[P] > EarliestTime && Cnt < PastValuesCount)
-            {
-                if (PastValues[P] == Value) { return true; }
-                P--;
-                if (P < 0) { P = PastValuesCount - 1; }
-                Cnt++;
-            }
-            return false;
-        }
+        //    while (PastValueTimestamp[P] > EarliestTime && Cnt < PastValuesCount)
+        //    {
+        //        if (PastValues[P] == Value) { return true; }
+        //        P--;
+        //        if (P < 0) { P = PastValuesCount - 1; }
+        //        Cnt++;
+        //    }
+        //    return false;
+        //}
 
-        /// <summary>
-        /// Indicates whether the value of the table element has changed during the specified number of milliseconds.
-        /// </summary>
-        /// <param name="DuringLastMilliseconds">The number of milliseconds to check.</param>
-        /// <returns></returns>
-        public bool ValueHasChanged(int DuringLastMilliseconds)
-        {
-            DateTime EarliestTime = DateTime.Now.AddMilliseconds(-DuringLastMilliseconds);
+        ///// <summary>
+        ///// Indicates whether the value of the table element has changed during the specified number of milliseconds.
+        ///// </summary>
+        ///// <param name="DuringLastMilliseconds">The number of milliseconds to check.</param>
+        ///// <returns></returns>
+        //public bool ValueHasChanged(int DuringLastMilliseconds)
+        //{
+        //    DateTime EarliestTime = DateTime.Now.AddMilliseconds(-DuringLastMilliseconds);
 
-            if (PastValueTimestamp[PastValuesPosition] >= EarliestTime) return true;
+        //    if (PastValueTimestamp[PastValuesPosition] >= EarliestTime) return true;
 
-            return false;
+        //    return false;
 
-        }
+        //}
 
         /// <summary>
         /// Event is fired if the value of the property State is changed.
@@ -170,7 +170,7 @@ namespace DirectOutput.Table
 
         void TableElement_ValueChanged(object sender, TableElementValueChangedEventArgs e)
         {
-       
+            //Log.Write("Updating :" + TableElementType + " " + Number + " " + Name);
             AssignedEffects.Trigger(GetTableElementData());
         }
         #endregion
@@ -226,6 +226,20 @@ namespace DirectOutput.Table
             this.Number = Number;
             this.Value = Value;
 
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TableElement"/> class.
+        /// </summary>
+        /// <param name="TableElementName">Name of the table element.</param>
+        /// <param name="Value">The value of the table element.</param>
+        public TableElement(string TableElementName, int Value)
+            : this()
+        {
+            this.TableElementType = TableElementTypeEnum.NamedElement;
+            this.Number = int.MinValue;
+            this.Name = TableElementName;
+            this.Value = Value;
         }
         #endregion
 

@@ -1,6 +1,15 @@
 ﻿DOF History  {#dofhistory}
 ========
 
+__2014.10__
+
+- Plugin for Pinballx implemented
+- New ini file para for matrix effects
+
+__2014.09__
+
+- Fix for random outputs/random knocks on LedWiz units implemented.
+
 __2014.7.12__
 
 After a lot of testing the second version of DOF is released.

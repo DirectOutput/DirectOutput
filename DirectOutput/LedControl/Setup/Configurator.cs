@@ -17,6 +17,7 @@ using DirectOutput.General;
 using DirectOutput.General.Analog;
 using DirectOutput.General.Color;
 using DirectOutput.LedControl.Loader;
+using DirectOutput.Table;
 
 namespace DirectOutput.LedControl.Setup
 {
@@ -366,16 +367,7 @@ namespace DirectOutput.LedControl.Setup
                                             MakeEffectNameUnique(Effect, Table);
                                             Table.Effects.Add(Effect);
 
-                                            foreach (string Variable in ((TableElementConditionEffect)Effect).GetVariables())
-                                            {
-                                                TableElementTypeEnum TET = (TableElementTypeEnum)Variable[0];
-                                                int TEN = Variable.Substring(1).ToInteger();
-                                                if (!Table.TableElements.Contains(TET, TEN))
-                                                {
-                                                    Table.TableElements.UpdateState(TET, TEN, 0);
-                                                }
-                                                Table.TableElements[TET, TEN].AssignedEffects.Add(new AssignedEffect(Effect.Name));
-                                            }
+                                            AssignEffectToTableElements(Table,((TableElementConditionEffect)Effect).GetVariables().ToArray(),Effect);
 
                                             break;
 
@@ -385,19 +377,9 @@ namespace DirectOutput.LedControl.Setup
                                             break;
                                         case OutputControlEnum.Controlled:
 
-                                            string[] ATE = TCS.TableElement.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
-                                            foreach (string TE in ATE)
-                                            {
-                                                TableElementTypeEnum TET = (TableElementTypeEnum)TE[0];
-                                                int TEN = TE.Substring(1).ToInteger();
-                                                if (!Table.TableElements.Contains(TET, TEN))
-                                                {
-                                                    Table.TableElements.UpdateState(TET, TEN, 0);
-                                                }
-                                                Table.TableElements[TET, TEN].AssignedEffects.Add(new AssignedEffect(Effect.Name));
-                                            }
-
-
+                                            string[] ATE = TCS.TableElement.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries).Select(A=>A.Trim()).ToArray();
+                                            AssignEffectToTableElements(Table, ATE, Effect);
+                                            
                                             break;
                                         case OutputControlEnum.FixedOff:
                                         default:
@@ -410,6 +392,26 @@ namespace DirectOutput.LedControl.Setup
                         }
                     }
                 }
+            }
+        }
+
+
+        private void AssignEffectToTableElements(Table.Table Table,string[] TableElementDescriptors, IEffect Effect) {
+            foreach (string D in TableElementDescriptors)
+            {
+                TableElement TE = null;
+                if (D[0] == (char)TableElementTypeEnum.NamedElement)
+                {
+                    //Log.Write("Adding table element: " + D);
+                    Table.TableElements.UpdateState(new Table.TableElementData(D.Substring(1), 0));
+                    TE = Table.TableElements[D.Substring(1)];
+                }
+                else if (Enum.IsDefined(typeof(TableElementTypeEnum), (int)D[0]) && D.Substring(1).IsInteger())
+                {
+                    Table.TableElements.UpdateState(new Table.TableElementData((TableElementTypeEnum)D[0],D.Substring(1).ToInteger(),0));
+                    TE = Table.TableElements[(TableElementTypeEnum)D[0], D.Substring(1).ToInteger()];
+                }
+                TE.AssignedEffects.Add(new AssignedEffect(Effect.Name));
             }
         }
 
@@ -602,6 +604,7 @@ namespace DirectOutput.LedControl.Setup
 
                         if (TargetToy != null)
                         {
+                            
                             ToyAssignments[LedWizNr].Add(TCC.Number, TargetToy);
                         }
                     }

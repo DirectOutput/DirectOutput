@@ -195,7 +195,8 @@ namespace DirectOutput.Table
         /// <param name="Data">Data received from Pinmame and handled by the PinMameInputManger</param>
         public void UpdateTableElement(TableElementData Data)
         {
-            TableElements.UpdateState(Data.TableElementType, Data.Number, Data.Value);
+
+            TableElements.UpdateState(Data);
         }
 
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using DirectOutput.General.Generic;
-
+using System.Linq;
 
 namespace DirectOutput.Table
 {
@@ -11,8 +11,8 @@ namespace DirectOutput.Table
     public class TableElementList : ExtList<TableElement>
     {
         //Dictionary for fast lookups
-        private Dictionary<TableElementTypeEnum, Dictionary<int, TableElement>> _TableElementsDictionary;
-
+        private Dictionary<TableElementTypeEnum, Dictionary<int, TableElement>> _NumberedTableElementsDictionary;
+        private Dictionary<string, TableElement> _NamedTableElementsDictionary;
 
         /// <summary>
         /// Initializes the AssignedEffects for all TableElements in this list.
@@ -43,7 +43,7 @@ namespace DirectOutput.Table
         /// </summary>
         public Dictionary<int, TableElement> GetTableElementDictonaryForType(TableElementTypeEnum Type)
         {
-            return _TableElementsDictionary[Type];
+            return _NumberedTableElementsDictionary[Type];
         }
 
 
@@ -53,7 +53,7 @@ namespace DirectOutput.Table
         /// </summary>
         public List<TableElement> GetTableElementListForType(TableElementTypeEnum Type)
         {
-            return new List<TableElement> (_TableElementsDictionary[Type].Values);
+            return new List<TableElement>(_NumberedTableElementsDictionary[Type].Values);
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace DirectOutput.Table
         {
             get
             {
-                return _TableElementsDictionary[TableElementTypeEnum.Switch];
+                return _NumberedTableElementsDictionary[TableElementTypeEnum.Switch];
             }
         }
         /// <summary>
@@ -73,7 +73,7 @@ namespace DirectOutput.Table
         {
             get
             {
-                return _TableElementsDictionary[TableElementTypeEnum.Solenoid];
+                return _NumberedTableElementsDictionary[TableElementTypeEnum.Solenoid];
             }
         }
         /// <summary>
@@ -83,7 +83,7 @@ namespace DirectOutput.Table
         {
             get
             {
-                return _TableElementsDictionary[TableElementTypeEnum.Lamp];
+                return _NumberedTableElementsDictionary[TableElementTypeEnum.Lamp];
             }
         }
         /// <summary>
@@ -93,7 +93,7 @@ namespace DirectOutput.Table
         {
             get
             {
-                return _TableElementsDictionary[TableElementTypeEnum.GIString];
+                return _NumberedTableElementsDictionary[TableElementTypeEnum.GIString];
             }
         }
 
@@ -104,7 +104,7 @@ namespace DirectOutput.Table
         {
             get
             {
-                return _TableElementsDictionary[TableElementTypeEnum.Mech];
+                return _NumberedTableElementsDictionary[TableElementTypeEnum.Mech];
             }
         }
         #endregion
@@ -120,36 +120,32 @@ namespace DirectOutput.Table
         {
             get
             {
-                return _TableElementsDictionary[TableElementType][Number];
+                if (TableElementType == TableElementTypeEnum.NamedElement)
+                {
+                    throw new IndexOutOfRangeException("Table element type NamedElement cant be retrieved by number.");
+                }
+                return _NumberedTableElementsDictionary[TableElementType][Number];
             }
         }
 
 
+
+
         /// <summary>
-        /// Gets the <see cref="TableElement"/> with the specified descriptor (e.g. S48, W14, L59).
+        /// Gets the <see cref="TableElement"/> with the specified table element name.
         /// </summary>
         /// <value>
-        /// The <see cref="TableElement"/> for the specified descriptor.
+        /// The <see cref="TableElement"/>.
         /// </value>
-        /// <param name="TableElementDescriptor">The table element descriptor (e.g. S48, W14, L59).</param>
+        /// <param name="TableElementName">Name of the table element.</param>
         /// <returns></returns>
-        public TableElement this[string TableElementDescriptor]
+        public TableElement this[string TableElementName]
         {
             get
             {
 
-                try
-                {
-                    return _TableElementsDictionary[(TableElementTypeEnum)TableElementDescriptor[0]][TableElementDescriptor.Substring(1).ToInteger()];
-
-                }
-                catch 
-                {
-
-                    return null;
-                }
+                return _NamedTableElementsDictionary[TableElementName];
             }
-
         }
 
 
@@ -161,20 +157,33 @@ namespace DirectOutput.Table
         /// <summary>
         /// Method to update the state and/or add a entry to the list
         /// </summary>
-        /// <param name="TableElementType">Type of entry to update</param>
-        /// <param name="Number">Number of entry to update</param>
-        /// <param name="State">State of entry to update</param>
-        public void UpdateState(TableElementTypeEnum TableElementType, int Number, int State)
+        /// <param name="Data">Table elemtn data for the update.</param>
+        public void UpdateState(TableElementData Data)
         {
-
-            if (Contains(TableElementType, Number))
+            if (Data.TableElementType != TableElementTypeEnum.NamedElement)
             {
-                _TableElementsDictionary[TableElementType][Number].Value = State;
+                if (Contains(Data.TableElementType, Data.Number))
+                {
+                    _NumberedTableElementsDictionary[Data.TableElementType][Data.Number].Value = Data.Value;
 
+                }
+                else
+                {
+                    Add(Data.TableElementType, Data.Number, Data.Value);
+                }
             }
             else
             {
-                Add(TableElementType, Number, State);
+                //Update named element
+                //Log.Write("Update element: " + Data.Name);
+                if (Contains(Data.Name))
+                {
+                    _NamedTableElementsDictionary[Data.Name.ToUpperInvariant()].Value = Data.Value;
+                }
+                else
+                {
+                    Add(Data.Name.ToUpperInvariant(), Data.Value);
+                }
             }
 
         }
@@ -187,21 +196,41 @@ namespace DirectOutput.Table
         /// Adds a TableElement to the list.
         /// </summary>
         /// <param name="TableElement">The table element to add.</param>
-        /// <exception cref="System.Exception">
-        /// Cant add null to the list of table elements
+        /// <exception cref="System.Exception">Cant add null to the list of table elements
         /// or
         /// The TableElement {Type} {Number} cant be added to the list. Another entry with the same type and number does already exist.</exception>
         public new void Add(TableElement TableElement)
         {
-            if (TableElement==null)
+            if (TableElement == null)
             {
                 throw new Exception("Cant add null to the list of table elements.");
             }
-            if (Contains(TableElement))
+
+            if (TableElement.TableElementType != TableElementTypeEnum.NamedElement)
             {
-                throw new Exception("The TableElement {0} {1} cant be added to the list. Another entry with the same type and number does already exist.".Build(TableElement.TableElementType, TableElement.Number));
+                if (Contains(TableElement))
+                {
+                    throw new Exception("The TableElement {0} {1} cant be added to the list. Another entry with the same type and number does already exist.".Build(TableElement.TableElementType, TableElement.Number));
+                }
+
+                _NumberedTableElementsDictionary[TableElement.TableElementType].Add(TableElement.Number, TableElement);
             }
-            _TableElementsDictionary[TableElement.TableElementType].Add(TableElement.Number, TableElement);
+            else
+            {
+                //Log.Write("Adding element 2: " + TableElement.Name);
+
+                if (TableElement.Name.IsNullOrWhiteSpace())
+                {
+                    throw new Exception("Named TableElements cant have a empty name when they are added to the list.");
+                }
+
+                if (Contains(TableElement))
+                {
+                    throw new Exception("The TableElement named {0} cant be added to the list. Another entry with the same name does already exist.".Build(TableElement.Name));
+                }
+                _NamedTableElementsDictionary.Add(TableElement.Name, TableElement);
+            }
+
             base.Add(TableElement);
         }
 
@@ -222,7 +251,11 @@ namespace DirectOutput.Table
             Add(new TableElement(TableElementType, Number, State));
         }
 
-
+        public void Add(string TableElementName, int State)
+        {
+            //Log.Write("Adding element 1: " + TableElementName);
+            Add(new TableElement(TableElementName, State));
+        }
 
 
 
@@ -237,7 +270,14 @@ namespace DirectOutput.Table
         /// <returns>true/false</returns>
         public new bool Contains(TableElement TableElement)
         {
-            return _TableElementsDictionary[TableElement.TableElementType].ContainsKey(TableElement.Number) || base.Contains(TableElement);
+            if (TableElement.TableElementType != TableElementTypeEnum.NamedElement)
+            {
+                return _NumberedTableElementsDictionary[TableElement.TableElementType].ContainsKey(TableElement.Number) || base.Contains(TableElement);
+            }
+            else
+            {
+                return _NamedTableElementsDictionary.ContainsKey(TableElement.Name.ToUpperInvariant()) || base.Contains(TableElement); ;
+            }
         }
 
         /// <summary>
@@ -248,7 +288,19 @@ namespace DirectOutput.Table
         /// <returns>true/false</returns>
         public bool Contains(TableElementTypeEnum TableElementType, int Number)
         {
-            return _TableElementsDictionary[TableElementType].ContainsKey(Number);
+            return _NumberedTableElementsDictionary[TableElementType].ContainsKey(Number);
+        }
+
+        /// <summary>
+        /// Determines whether a table element with the specified name is contained in the list.
+        /// </summary>
+        /// <param name="TableElementName">Name of the table element.</param>
+        /// <returns>
+        ///   <c>true</c> table element is contained in list; otherwise, <c>false</c>.
+        /// </returns>
+        public bool Contains(string TableElementName)
+        {
+            return _NamedTableElementsDictionary.ContainsKey(TableElementName.ToUpperInvariant());
         }
 
 
@@ -264,8 +316,19 @@ namespace DirectOutput.Table
         /// <returns>true if TableElement has been removed, otherwise false.</returns>
         public new bool Remove(TableElement TableElement)
         {
+            if (TableElement == null) return false;
 
-            _TableElementsDictionary[TableElement.TableElementType].Remove(TableElement.Number);
+            if (!Contains(TableElement)) return false;
+
+            if (TableElement.TableElementType != TableElementTypeEnum.NamedElement)
+            {
+                _NumberedTableElementsDictionary[TableElement.TableElementType].Remove(TableElement.Number);
+            }
+            else
+            {
+                _NamedTableElementsDictionary.Remove(TableElement.Name);
+            }
+
             return base.Remove(TableElement);
 
         }
@@ -275,29 +338,68 @@ namespace DirectOutput.Table
         /// </summary>
         /// <param name="TableElementType">TableElementType of the TableElement to remove.</param>
         /// <param name="Number">Number of the TableElement to remove.</param>
+        /// <returns>true if TableElement has been removed, otherwise false.</returns>
         public bool Remove(TableElementTypeEnum TableElementType, int Number)
         {
             if (!Contains(TableElementType, Number)) return false;
-            Remove(_TableElementsDictionary[TableElementType][Number]);
-            _TableElementsDictionary[TableElementType].Remove(Number);
+
+            Remove(_NumberedTableElementsDictionary[TableElementType][Number]);
+
+            _NumberedTableElementsDictionary[TableElementType].Remove(Number);
 
             return true;
 
         }
+
+
+        /// <summary>
+        /// Removes the table element with the specified name.
+        /// </summary>
+        /// <param name="TableElementName">Name of the table element.</param>
+        /// <returns>true if TableElement has been removed, otherwise false.</returns>
+        public bool Remove(string TableElementName)
+        {
+            if (!Contains(TableElementName)) return false;
+
+            Remove(_NamedTableElementsDictionary[TableElementName]);
+
+            _NamedTableElementsDictionary.Remove(TableElementName);
+
+            return true;
+        }
+
         #endregion
 
+        /// <summary>
+        /// Gets the table element descriptors.
+        /// NamedElements are returned as $Name.
+        /// Numbered elemenst are returned with the first char describing the type of the table element (S=Solenoid,W=Switch,L=Lamp and so on) plus its number (e.g. S48 for solenoid 48) 
+        /// </summary>
+        /// <returns>Array of table element descriptors</returns>
+        public string[] GetTableElementDescriptors()
+        {
+
+            string[] X = this.Select(TE => "{0}{1}".Build(((char)TE.TableElementType).ToString(), (TE.TableElementType == TableElementTypeEnum.NamedElement ? TE.Name : TE.Number.ToString()))).ToArray();
+            return X;
+
+        }
 
         #region Events & Event handling
+
+
+        //TODO: Review set event code. Disable set (throw error) or make sure all updates work as needed.
         void TableElementList_AfterSet(object sender, SetEventArgs<TableElement> e)
         {
-            _TableElementsDictionary[e.OldItem.TableElementType].Remove(e.OldItem.Number);
+            _NumberedTableElementsDictionary[e.OldItem.TableElementType].Remove(e.OldItem.Number);
             e.OldItem.ValueChanged -= new EventHandler<TableElementValueChangedEventArgs>(Item_ValueChanged);
-            _TableElementsDictionary[e.NewItem.TableElementType].Add(e.NewItem.Number, e.NewItem);
+            _NumberedTableElementsDictionary[e.NewItem.TableElementType].Add(e.NewItem.Number, e.NewItem);
             e.NewItem.ValueChanged += new EventHandler<TableElementValueChangedEventArgs>(Item_ValueChanged);
         }
 
         void TableElementList_BeforeSet(object sender, SetEventArgs<TableElement> e)
         {
+
+
             if (!Contains(e.NewItem.TableElementType, e.NewItem.Number) || (e.NewItem.TableElementType == e.OldItem.TableElementType && e.NewItem.Number == e.OldItem.Number))
             {
 
@@ -324,7 +426,7 @@ namespace DirectOutput.Table
             OnTableElementValueChanged(e);
         }
 
-        #region "ableElement Value Changed Event
+        #region "TableElement Value Changed Event
 
 
         private void OnTableElementValueChanged(TableElementValueChangedEventArgs e)
@@ -362,11 +464,15 @@ namespace DirectOutput.Table
         public TableElementList()
         {
             //Init internal dictionary
-            _TableElementsDictionary = new Dictionary<TableElementTypeEnum, Dictionary<int, TableElement>>();
+            _NumberedTableElementsDictionary = new Dictionary<TableElementTypeEnum, Dictionary<int, TableElement>>();
             foreach (TableElementTypeEnum T in Enum.GetValues(typeof(TableElementTypeEnum)))
             {
-                _TableElementsDictionary.Add(T, new Dictionary<int, TableElement>());
+                if (T != TableElementTypeEnum.NamedElement)
+                {
+                    _NumberedTableElementsDictionary.Add(T, new Dictionary<int, TableElement>());
+                }
             }
+            _NamedTableElementsDictionary = new Dictionary<string, TableElement>();
             this.AfterInsert += new EventHandler<InsertEventArgs<TableElement>>(TableElementList_AfterInsert);
             this.AfterRemove += new EventHandler<RemoveEventArgs<TableElement>>(TableElementList_AfterRemove);
             this.BeforeSet += new EventHandler<SetEventArgs<TableElement>>(TableElementList_BeforeSet);

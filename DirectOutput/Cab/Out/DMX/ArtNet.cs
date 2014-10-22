@@ -186,10 +186,7 @@ namespace DirectOutput.Cab.Out.DMX
                 try
                 {
                     KeepUpdaterThreadAlive = false;
-                    lock (UpdaterThreadLocker)
-                    {
-                        Monitor.Pulse(UpdaterThreadLocker);
-                    }
+                    UpdaterThreadSignal();
                     if (!UpdaterThread.Join(1000))
                     {
                         UpdaterThread.Abort();

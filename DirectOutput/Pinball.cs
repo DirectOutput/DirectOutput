@@ -393,6 +393,8 @@ namespace DirectOutput
                 Log.Exception("DirectOutput framework has encountered a exception during setup.", E);
                 throw new Exception("DirectOutput framework has encountered a exception during setup.\n Inner exception: {0}".Build(E.Message), E);
             }
+
+            
         }
 
         /// <summary>
@@ -745,6 +747,23 @@ namespace DirectOutput
 
         }
 
+
+        /// <summary>
+        /// Receives  data for named table elements.
+        /// The received data is put in a queue and the internal thread of the framework is notified about the availability of new data.
+        /// </summary>
+        /// <param name="TableElementName">Name of the table element.</param>
+        /// <param name="Value">The value of the table element.</param>
+        public void ReceiveData(string TableElementName, int Value)
+        {
+            //Log.Write("TableName:"+TableElementName);
+            //Log.Write("Update {0}: {1}".Build(TableElementName, Value));
+            InputQueue.Enqueue(TableElementName, Value);
+            MainThreadSignal();
+
+        }
+
+
         /// <summary>
         /// Receives the table element data from the calling app.<br />
         /// The received data is put in a queue and the internal thread of the framework is notified about the availability of new data.
@@ -756,6 +775,9 @@ namespace DirectOutput
             MainThreadSignal();
             //ThreadInfoList.HeartBeat("Data delivery");
         }
+
+
+
 
 
 

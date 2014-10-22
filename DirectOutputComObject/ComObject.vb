@@ -68,7 +68,7 @@ Public Class ComObject
     End Sub
 
     ''' <summary>
-    ''' Sends data to the DirectOutput framwork.
+    ''' Updates the data of a table element
     ''' </summary>
     ''' <param name="TableElementTypeChar">The table element type char.<br/>Only the first letter/character of this para is passed on to the destination.</param>
     ''' <param name="Number">The number of the table element.</param>
@@ -78,7 +78,7 @@ Public Class ComObject
     ''' or
     ''' You must call Init before sending data.
     ''' </exception>
-    Public Sub DataReceive(TableElementTypeChar As String, Number As Integer, Value As Integer)
+    Public Sub UpdateTableElement(TableElementTypeChar As String, Number As Integer, Value As Integer)
         Dim C As Char
         Try
             C = TableElementTypeChar.Substring(0, 1)
@@ -92,6 +92,29 @@ Public Class ComObject
         End If
 
     End Sub
+
+
+    ''' <summary>
+    ''' Updates a named table element.
+    ''' </summary>
+    ''' <param name="TableElementName">Name of the table element.</param>
+    ''' <param name="Value">The value of the table element.</param>
+    ''' <exception cref="System.ArgumentException">The TableElementName cant be null or empty.</exception>
+    ''' <exception cref="System.Exception">You must call Init before sending data.</exception>
+    Public Sub UpdateNamedTableElement(TableElementName As String, Value As Integer)
+
+        If TableElementName.IsNullOrWhiteSpace() Then
+            Throw New ArgumentException("The TableElementName cant be null or empty.", "TableElementName")
+        End If
+        If Pinball IsNot Nothing Then
+            Pinball.ReceiveData(TableElementName, Value)
+        Else
+            Throw New Exception("You must call Init before sending data.")
+        End If
+
+
+    End Sub
+
 
 
     ''' <summary>
@@ -195,6 +218,18 @@ Public Class ComObject
         End If
 
     End Sub
+
+
+    ''' <summary>
+    ''' Gets the descriptors for configured table elments.
+    ''' </summary>
+    ''' <returns>Array of tabler element descriptors</returns>
+    Public Function GetConfiguredTableElmentDescriptors()
+        If Pinball IsNot Nothing Then
+            Return Pinball.Table.TableElements.GetTableElementDescriptors()
+        End If
+        Return {}
+    End Function
 
 
 

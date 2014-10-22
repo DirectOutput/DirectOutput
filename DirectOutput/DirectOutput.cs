@@ -38,7 +38,7 @@ namespace DirectOutput
         /// or
         /// A exception occured when passing in data (TableElementTypeChar: {0}, Number: {1}, Value: {2})
         /// </exception>
-        public static void DataReceive(string TableElementTypeChar, int Number, int Value)
+        public static void UpdateTableElement(string TableElementTypeChar, int Number, int Value)
         {
             char C;
             try
@@ -66,6 +66,40 @@ namespace DirectOutput
                 }
             }
         }
+
+
+        /// <summary>
+        /// Receives  data for named table elements.
+        /// The received data is put in a queue and the internal thread of the framework is notified about the availability of new data.
+        /// </summary>
+        /// <param name="TableElementName">Name of the table element.</param>
+        /// <param name="Value">The value of the table element.</param>
+        /// <exception cref="System.Exception">
+        /// You must call Init before passing data to the DirectOutput framework
+        /// or
+        /// A exception occured when passing in data (TableElementName: {0}, Value: {1}).Build(TableElementName, Value)
+        /// </exception>
+        public static void UpdateNamedTableElement(string TableElementName, int Value)
+        {
+            try
+            {
+                Pinball.ReceiveData(TableElementName, Value);
+            }
+            catch (Exception E)
+            {
+                if (Pinball == null)
+                {
+                    throw new Exception("You must call Init before passing data to the DirectOutput framework");
+                }
+                else
+                {
+                    throw new Exception("A exception occured when passing in data (TableElementName: {0}, Value: {1})".Build(TableElementName, Value), E);
+                }
+            }
+
+        }
+
+
 
 
         /// <summary>
@@ -229,6 +263,20 @@ namespace DirectOutput
 
         #region Properties
 
+
+        /// <summary>
+        /// Gets a value indicating whether DOF is initialized.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if DOF is initialized; otherwise, <c>false</c>.
+        /// </value>
+        public static bool IsInitialized
+        {
+            get
+            {
+                return Pinball != null;
+            }
+        }
 
 
         private static Pinball _Pinball;
