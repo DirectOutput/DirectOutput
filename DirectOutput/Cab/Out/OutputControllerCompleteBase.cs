@@ -38,7 +38,8 @@ namespace DirectOutput.Cab.Out
                 }
             }
 
-            OutputValues = Outputs.Select(O => O.Value).ToArray();
+            
+            OutputValues = Outputs.OrderBy(O=>O.Number).Select(O => O.Value).ToArray();
         }
 
         private void RenameOutputs()
@@ -65,7 +66,7 @@ namespace DirectOutput.Cab.Out
         public OutputList Outputs
         {
             get { return _Outputs; }
-            protected set
+             set
             {
                 if (_Outputs != null)
                 {

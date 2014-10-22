@@ -678,8 +678,8 @@ namespace DirectOutput.Cab.Out.LW
             }
             public void TerminateLedWizUpdaterThread()
             {
-                lock (LedWizUpdaterThreadLocker)
-                {
+              //  lock (LedWizUpdaterThreadLocker)
+              //  {
                     if (LedWizUpdater != null)
                     {
                         try
@@ -699,7 +699,7 @@ namespace DirectOutput.Cab.Out.LW
                         }
                         LedWizUpdater = null;
                     }
-                }
+               // }
             }
 
             bool TriggerUpdate = false;
