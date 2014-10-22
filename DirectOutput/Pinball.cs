@@ -408,7 +408,12 @@ namespace DirectOutput
 
                 Log.Write("Starting processes");
                 InitStatistics();
-                Cabinet.Init(this);
+
+                CabinetOwner CO = new CabinetOwner();
+                CO.Alarms = this.Alarms;
+                CO.ConfigurationSettings.Add("LedControlMinimumEffectDurationMs",GlobalConfig.LedControlMinimumEffectDurationMs);
+                Cabinet.Init(CO);
+
                 Table.Init(this);
                 Alarms.Init(this);
                 Table.TriggerStaticEffects();

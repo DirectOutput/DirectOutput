@@ -14,7 +14,7 @@ namespace DirectOutput.Cab.Out.NullOutputController
     /// It is mainly thought as a sample how to implement a simple output controller.<br/>
     /// <remarks>Be sure to check the abstract OutputControllerBase class and the IOutputController interface for a better understanding.</remarks>
     /// </summary>
-    public class NullOutputController: OutputControllerBase, IOutputController
+    public class NullOutputController : OutputControllerBase, IOutputController
     {
 
 
@@ -22,8 +22,9 @@ namespace DirectOutput.Cab.Out.NullOutputController
         /// Init initializes the ouput controller.<br />
         /// This method is called after the objects haven been instanciated.
         /// </summary>
-        /// <param name="Cabinet">The Cabinet object which is using the NullOutputController instance.</param>
-        public override  void Init(Cabinet Cabinet) {
+        /// <param name="Cabinet">The cabinet object which is using the output controller instance.</param>
+        public override void Init(Cabinet Cabinet)
+        {
         }
 
         /// <summary>
@@ -32,7 +33,7 @@ namespace DirectOutput.Cab.Out.NullOutputController
         /// </summary>
         public override void Finish()
         {
-            
+
         }
 
         /// <summary>
@@ -40,7 +41,7 @@ namespace DirectOutput.Cab.Out.NullOutputController
         /// </summary>
         public override void Update()
         {
-            
+
         }
 
         /// <summary>
@@ -51,5 +52,15 @@ namespace DirectOutput.Cab.Out.NullOutputController
             Outputs = new OutputList();
         }
 
+
+        /// <summary>
+        /// This method is called whenever the value of a output in the Outputs property changes its value.<br />
+        /// This method must implement the logic to trigger the update the physical outputs.
+        /// </summary>
+        /// <param name="Output">The output.</param>
+        protected override void OnOutputValueChanged(IOutput Output)
+        {
+
+        }
     }
 }

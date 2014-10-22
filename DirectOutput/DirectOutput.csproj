@@ -86,6 +86,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cab\CabinetOwner.cs" />
+    <Compile Include="Cab\ICabinetOwner.cs" />
     <Compile Include="Cab\Out\AdressableLedStrip\AdressableLedStrip.cs" />
     <Compile Include="Cab\Out\AdressableLedStrip\LedStripOutput.cs" />
     <Compile Include="Cab\Out\AdressableLedStrip\DirectStripController.cs" />
@@ -95,7 +97,6 @@
     <Compile Include="Cab\Out\FTDIChip\FT245RBitbangController.cs" />
     <Compile Include="Cab\Out\FTDIChip\FTDIChip.cs" />
     <Compile Include="Cab\Out\IAutoConfigOutputController.cs" />
-    <Compile Include="Cab\Out\IOutputNumbered.cs" />
     <Compile Include="Cab\Out\ISupportsSetValues.cs" />
     <Compile Include="Cab\Out\LW\LedWizAutoConfigurator.cs" />
     <Compile Include="Cab\Out\DMX\ArtnetEngine\Engine.cs" />
@@ -103,7 +104,6 @@
     <Compile Include="Cab\Out\DMX\DMXOutput.cs" />
     <Compile Include="Cab\Out\LW\LW.cs" />
     <Compile Include="Cab\Out\NullOutputController\NullOutputController.cs" />
-    <Compile Include="Cab\Out\OutputNumbered.cs" />
     <Compile Include="Cab\Out\Pac\PacDrive.cs" />
     <Compile Include="Cab\Out\Pac\PacDriveAutoConfigurator.cs" />
     <Compile Include="Cab\Out\Pac\PacDriveSingleton.cs" />

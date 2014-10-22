@@ -258,7 +258,7 @@ namespace DirectOutput.Cab.Toys.Hardware
         public override void Init(Cabinet Cabinet)
         {
             base.Init(Cabinet);
-            AlarmHandler = Cabinet.Pinball.Alarms;
+            AlarmHandler = Cabinet.Alarms;
 
         }
 

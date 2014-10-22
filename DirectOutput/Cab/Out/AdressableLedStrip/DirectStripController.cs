@@ -101,12 +101,12 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         /// <summary>
         /// This method is called whenever the value of a output in the Outputs property changes its value.<br />
         /// </summary>
-        /// <param name="Output">The output which has triggered the event.</param>
-        protected override void OnOutputValueChanged(IOutput Output)
+        /// <param name="ChangedOutput">The output which has triggered the event.</param>
+        protected override void OnOutputValueChanged(IOutput ChangedOutput)
         {
-            if (Output is IOutputNumbered)
+            if (ChangedOutput is IOutput)
             {
-                IOutputNumbered ON = (IOutputNumbered)Output;
+                IOutput ON = ChangedOutput;
                 int ByteNr = ON.Number - 1;
                 ByteNr = (ByteNr / 3) * 3 + ColNrLookup[ByteNr % 3];
 
@@ -149,7 +149,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         /// <summary>
         /// Initializes the output controller.
         /// </summary>
-        /// <param name="Cabinet">The Cabinet object which is using the IOutputController instance.</param>
+        /// <param name="Cabinet">The cabinet object which is using the IOutputController instance.</param>
         public override void Init(Cabinet Cabinet)
         {
             AddOutputs();

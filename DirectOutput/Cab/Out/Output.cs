@@ -37,6 +37,16 @@ namespace DirectOutput.Cab.Out
             }
         }
 
+
+
+        /// <summary>
+        /// Gets or sets the number of the Output object.
+        /// </summary>
+        /// <value>
+        /// The number of the Output object.
+        /// </value>
+        public int Number { get; set; }
+
         #region Events
         #region "ValueChanged Event"
         /// <summary>

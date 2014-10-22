@@ -19,6 +19,15 @@ namespace DirectOutput.Cab.Out
 
 
         /// <summary>
+        /// Gets or sets the number of the Output object.
+        /// </summary>
+        /// <value>
+        /// The number of the Numbered object.
+        /// </value>
+        int Number { get; set; }
+
+
+        /// <summary>
         /// This event has to fire if the Value of the output is changed 
         /// </summary>
         event Output.ValueChangedEventHandler ValueChanged;

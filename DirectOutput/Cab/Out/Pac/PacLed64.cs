@@ -85,7 +85,7 @@ namespace DirectOutput.Cab.Out.Pac
         /// This method does also start the workerthread which does the actual update work when Update() is called.<br />
         /// This method should only be called once. Subsequent calls have no effect.
         /// </summary>
-        /// <param name="Cabinet">The Cabinet object which is using the PacLed64 instance.</param>
+        /// <param name="Cabinet">The cabinet object which is using the output controller instance.</param>
         public override void Init(Cabinet Cabinet)
         {
             AddOutputs();   
@@ -120,9 +120,9 @@ namespace DirectOutput.Cab.Out.Pac
         {
             for (int i = 1; i <= 64; i++)
             {
-                if (!Outputs.Any(x => ((OutputNumbered)x).Number == i))
+                if (!Outputs.Any(x => (x).Number == i))
                 {
-                    Outputs.Add(new OutputNumbered() { Name = "{0}.{1:00}".Build(Name, i), Number = i });
+                    Outputs.Add(new Output() { Name = "{0}.{1:00}".Build(Name, i), Number = i });
                 }
             }
         }
@@ -143,11 +143,7 @@ namespace DirectOutput.Cab.Out.Pac
         protected override void OnOutputValueChanged(IOutput Output)
         {
 
-            if (!(Output is OutputNumbered))
-            {
-                throw new Exception("The OutputValueChanged event handler for PacLed64 unit {0} (Id: {2:0}) has been called by a sender which is not a OutputNumbered.".Build(Name, Id));
-            }
-            OutputNumbered ON = (OutputNumbered)Output;
+            IOutput ON = Output;
 
             if (!ON.Number.IsBetween(1, 64))
             {
@@ -270,7 +266,7 @@ namespace DirectOutput.Cab.Out.Pac
 
         private class PacLed64Unit
         {
-            private Pinball Pinball;
+            //private Pinball Pinball;
 
             private TimeSpanStatisticsItem UpdateTimeStatistics;
             private TimeSpanStatisticsItem PWMUpdateTimeStatistics;
@@ -304,34 +300,34 @@ namespace DirectOutput.Cab.Out.Pac
 
             public void Init(Cabinet Cabinet)
             {
-                this.Pinball = Cabinet.Pinball;
-                if (!Pinball.TimeSpanStatistics.Contains("PacLed64 {0:0} update calls".Build(Id)))
-                {
-                    UpdateTimeStatistics = new TimeSpanStatisticsItem() { Name = "PacLed64 {0:0} update calls".Build(Id), GroupName = "OutputControllers - PacLed64" };
-                    Pinball.TimeSpanStatistics.Add(UpdateTimeStatistics);
-                }
-                else
-                {
-                    UpdateTimeStatistics = Pinball.TimeSpanStatistics["PacLed64 {0:0} update calls".Build(Id)];
-                }
-                if (!Pinball.TimeSpanStatistics.Contains("PacLed64 {0:0} PWM updates".Build(Id)))
-                {
-                    PWMUpdateTimeStatistics = new TimeSpanStatisticsItem() { Name = "PacLed64 {0:0} PWM updates".Build(Id), GroupName = "OutputControllers - PacLed64" };
-                    Pinball.TimeSpanStatistics.Add(PWMUpdateTimeStatistics);
-                }
-                else
-                {
-                    PWMUpdateTimeStatistics = Pinball.TimeSpanStatistics["PacLed64 {0:0} PWM updates".Build(Id)];
-                }
-                if (!Pinball.TimeSpanStatistics.Contains("PacLed64 {0:0} OnOff updates".Build(Id)))
-                {
-                    OnOffUpdateTimeStatistics = new TimeSpanStatisticsItem() { Name = "PacLed64 {0:0} OnOff updates".Build(Id), GroupName = "OutputControllers - PacLed64" };
-                    Pinball.TimeSpanStatistics.Add(OnOffUpdateTimeStatistics);
-                }
-                else
-                {
-                    OnOffUpdateTimeStatistics = Pinball.TimeSpanStatistics["PacLed64 {0:0} OnOff updates".Build(Id)];
-                }
+                //this.Pinball = Cabinet.Pinball;
+                //if (!Pinball.TimeSpanStatistics.Contains("PacLed64 {0:0} update calls".Build(Id)))
+                //{
+                //    UpdateTimeStatistics = new TimeSpanStatisticsItem() { Name = "PacLed64 {0:0} update calls".Build(Id), GroupName = "OutputControllers - PacLed64" };
+                //    Pinball.TimeSpanStatistics.Add(UpdateTimeStatistics);
+                //}
+                //else
+                //{
+                //    UpdateTimeStatistics = Pinball.TimeSpanStatistics["PacLed64 {0:0} update calls".Build(Id)];
+                //}
+                //if (!Pinball.TimeSpanStatistics.Contains("PacLed64 {0:0} PWM updates".Build(Id)))
+                //{
+                //    PWMUpdateTimeStatistics = new TimeSpanStatisticsItem() { Name = "PacLed64 {0:0} PWM updates".Build(Id), GroupName = "OutputControllers - PacLed64" };
+                //    Pinball.TimeSpanStatistics.Add(PWMUpdateTimeStatistics);
+                //}
+                //else
+                //{
+                //    PWMUpdateTimeStatistics = Pinball.TimeSpanStatistics["PacLed64 {0:0} PWM updates".Build(Id)];
+                //}
+                //if (!Pinball.TimeSpanStatistics.Contains("PacLed64 {0:0} OnOff updates".Build(Id)))
+                //{
+                //    OnOffUpdateTimeStatistics = new TimeSpanStatisticsItem() { Name = "PacLed64 {0:0} OnOff updates".Build(Id), GroupName = "OutputControllers - PacLed64" };
+                //    Pinball.TimeSpanStatistics.Add(OnOffUpdateTimeStatistics);
+                //}
+                //else
+                //{
+                //    OnOffUpdateTimeStatistics = Pinball.TimeSpanStatistics["PacLed64 {0:0} OnOff updates".Build(Id)];
+                //}
                 StartPacLed64UpdaterThread();
             }
 
@@ -340,22 +336,22 @@ namespace DirectOutput.Cab.Out.Pac
 
                 TerminatePacLed64UpdaterThread();
                 ShutdownLighting();
-                this.Pinball = null;
+                //this.Pinball = null;
                 UpdateTimeStatistics = null;
                 PWMUpdateTimeStatistics = null;
             }
 
-            public void UpdateValue(OutputNumbered OutputNumbered)
+            public void UpdateValue(IOutput Output)
             {
                 //Skip update on output numbers which are out of range
-                if (!OutputNumbered.Number.IsBetween(1, 64)) return;
+                if (!Output.Number.IsBetween(1, 64)) return;
 
-                int ZeroBasedOutputNumber = OutputNumbered.Number - 1;
+                int ZeroBasedOutputNumber = Output.Number - 1;
                 lock (ValueChangeLocker)
                 {
-                    if (NewValue[ZeroBasedOutputNumber] != OutputNumbered.Value)
+                    if (NewValue[ZeroBasedOutputNumber] != Output.Value)
                     {
-                        NewValue[ZeroBasedOutputNumber] = OutputNumbered.Value;
+                        NewValue[ZeroBasedOutputNumber] = Output.Value;
                         UpdateRequired = true;
                     }
                 }

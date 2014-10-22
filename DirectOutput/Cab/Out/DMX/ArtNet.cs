@@ -127,8 +127,8 @@ namespace DirectOutput.Cab.Out.DMX
         /// Initializes the Artnet object.<br />
         /// Adds the output objects to the outputcollection of the ArtNet instance and starts the updater thread.
         /// </summary>
-        /// <param name="Cabinet">The cabinet object which is using the ArtNet instance.</param>
-        public override void Init(Cabinet  Cabinet)
+        /// <param name="Cabinet">The cabinet object which is using the output controller instance.</param>
+        public override void Init(Cabinet Cabinet)
         {
             AddOutputs();
 

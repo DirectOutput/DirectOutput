@@ -39,7 +39,7 @@ namespace DirectOutput.Cab.Out.Pac
         /// This method does also start the workerthread which does the actual update work when Update() is called.<br />
         /// This method should only be called once. Subsequent calls have no effect.
         /// </summary>
-        /// <param name="Cabinet">The Cabinet object which is using the PacDrive instance.</param>
+        /// <param name="Cabinet">The cabinet object which is using the output controller instance.</param>
         public override void Init(Cabinet Cabinet)
         {
             AddOutputs();
@@ -74,9 +74,9 @@ namespace DirectOutput.Cab.Out.Pac
         {
             for (int i = 1; i <= 16; i++)
             {
-                if (!Outputs.Any(x => ((OutputNumbered)x).Number == i))
+                if (!Outputs.Any(x => x.Number == i))
                 {
-                    Outputs.Add(new OutputNumbered() { Name = "{0}.{1:00}".Build(Name, i), Number = i });
+                    Outputs.Add(new Output() { Name = "{0}.{1:00}".Build(Name, i), Number = i });
                 }
             }
         }
@@ -97,11 +97,11 @@ namespace DirectOutput.Cab.Out.Pac
         protected override void OnOutputValueChanged(IOutput Output)
         {
 
-            if (!(Output is OutputNumbered))
+            if (!(Output is IOutput))
             {
                 throw new Exception("The OutputValueChanged event handler for the PacDrive uni has been called by a sender which is not a OutputNumbered.");
             }
-            OutputNumbered ON = (OutputNumbered)Output;
+            IOutput ON = Output;
 
             if (!ON.Number.IsBetween(1, 64))
             {
@@ -206,7 +206,7 @@ namespace DirectOutput.Cab.Out.Pac
 
         private class PacDriveUnit
         {
-            private Pinball Pinball;
+            //private Pinball Pinball;
 
             private TimeSpanStatisticsItem UpdateTimeStatistics;
 
@@ -230,16 +230,16 @@ namespace DirectOutput.Cab.Out.Pac
 
             public void Init(Cabinet Cabinet)
             {
-                this.Pinball = Cabinet.Pinball;
-                if (!Pinball.TimeSpanStatistics.Contains("PacDrive update calls"))
-                {
-                    UpdateTimeStatistics = new TimeSpanStatisticsItem() { Name = "PacDrive update calls", GroupName = "OutputControllers - PacDrive" };
-                    Pinball.TimeSpanStatistics.Add(UpdateTimeStatistics);
-                }
-                else
-                {
-                    UpdateTimeStatistics = Pinball.TimeSpanStatistics["PacDrive update calls"];
-                }
+                //this.Pinball = Cabinet.Pinball;
+                //if (!Pinball.TimeSpanStatistics.Contains("PacDrive update calls"))
+                //{
+                //    UpdateTimeStatistics = new TimeSpanStatisticsItem() { Name = "PacDrive update calls", GroupName = "OutputControllers - PacDrive" };
+                //    Pinball.TimeSpanStatistics.Add(UpdateTimeStatistics);
+                //}
+                //else
+                //{
+                //    UpdateTimeStatistics = Pinball.TimeSpanStatistics["PacDrive update calls"];
+                //}
 
                 StartPacDriveUpdaterThread();
             }
@@ -249,20 +249,20 @@ namespace DirectOutput.Cab.Out.Pac
 
                 TerminatePacDriveUpdaterThread();
                 ShutdownLighting();
-                this.Pinball = null;
+                //this.Pinball = null;
                 UpdateTimeStatistics = null;
             }
 
-            public void UpdateValue(OutputNumbered OutputNumbered)
+            public void UpdateValue(IOutput Output)
             {
                 //Skip update on output numbers which are out of range
-                if (!OutputNumbered.Number.IsBetween(1, 16)) return;
+                if (!Output.Number.IsBetween(1, 16)) return;
 
-                int ZeroBasedOutputNumber = OutputNumbered.Number - 1;
+                int ZeroBasedOutputNumber = Output.Number - 1;
                 ushort Mask = (ushort)(1 << ZeroBasedOutputNumber);
                 lock (ValueChangeLocker)
                 {
-                    if (OutputNumbered.Value != 0)
+                    if (Output.Value != 0)
                     {
                         NewValue |= Mask;
                     }

@@ -16,7 +16,7 @@ namespace DirectOutput.Cab.Out
     public abstract class OutputControllerBase : NamedItemBase, IOutputController
     {
 
-        private OutputList _Outputs=null;
+        private OutputList _Outputs = null;
         /// <summary>
         /// Contains the OutputList object for the outputs of the output controller.<br/>
         /// \remark This property is marked with the XMLIgnore attributte so its content does not get serialized, which means that output controller implementations inherting from this class have to create the output objects in the list.<br/>The XMLIgnore attribute is inherted to classes inheriting from this base class. This means that inherited classes do not serialize this property unless a specific serialization implementation is used in that class.
@@ -53,23 +53,21 @@ namespace DirectOutput.Cab.Out
         /// It doesn't do anything in this base class, but it can be overwritten (use override) in classes inherting the base class.
         /// </summary>
         /// <param name="Output">The output.</param>
-        protected virtual void OnOutputValueChanged(IOutput Output)
-        {
-
-        }
+        protected abstract void OnOutputValueChanged(IOutput Output);
 
 
 
 
 
-        
+
 
         /// <summary>
         /// Init must be overwritten and must initialize the ouput controller.<br />
         /// This method is called after the objects haven been instanciated.
         /// </summary>
-        /// <param name="Cabinet">The Cabinet object which is using the IOutputController instance.</param>
+        /// <param name="Cabinet">The cabinet object which is using the IOutputController instance.</param>
         public abstract void Init(Cabinet Cabinet);
+
 
         /// <summary>
         /// Finish must be overwritten and must finish the ouput controller.<br/>

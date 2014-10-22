@@ -120,9 +120,9 @@ namespace DirectOutput.Cab.Out.LW
         {
             Log.Debug("Initializing LedWiz Nr. {0:00}".Build(Number));
             AddOutputs();
-            if (!MinCommandIntervalMsSet)
+            if (!MinCommandIntervalMsSet && Cabinet.Owner.ConfigurationSettings.ContainsKey("LedWizDefaultMinCommandIntervalMs") && Cabinet.Owner.ConfigurationSettings["LedWizDefaultMinCommandIntervalMs"] is int)
             {
-                MinCommandIntervalMs = Cabinet.Pinball.GlobalConfig.LedWizDefaultMinCommandIntervalMs;
+                MinCommandIntervalMs = (int)Cabinet.Owner.ConfigurationSettings["LedWizDefaultMinCommandIntervalMs"];
             }
 
             LedWizUnits[Number].Init(Cabinet, MinCommandIntervalMs);
@@ -479,7 +479,7 @@ namespace DirectOutput.Cab.Out.LW
 
         private class LedWizUnit
         {
-            private Pinball Pinball;
+          //  private Pinball Pinball;
 
             private TimeSpanStatisticsItem UpdateTimeStatistics;
             private TimeSpanStatisticsItem PWMUpdateTimeStatistics;
@@ -519,34 +519,34 @@ namespace DirectOutput.Cab.Out.LW
 
             public void Init(Cabinet Cabinet, int MinCommandIntervalMs)
             {
-                this.Pinball = Cabinet.Pinball;
-                if (!Pinball.TimeSpanStatistics.Contains("LedWiz {0:00} update calls".Build(Number)))
-                {
-                    UpdateTimeStatistics = new TimeSpanStatisticsItem() { Name = "LedWiz {0:00} update calls".Build(Number), GroupName = "OutputControllers - LedWiz" };
-                    Pinball.TimeSpanStatistics.Add(UpdateTimeStatistics);
-                }
-                else
-                {
-                    UpdateTimeStatistics = Pinball.TimeSpanStatistics["LedWiz {0:00} update calls".Build(Number)];
-                }
-                if (!Pinball.TimeSpanStatistics.Contains("LedWiz {0:00} PWM updates".Build(Number)))
-                {
-                    PWMUpdateTimeStatistics = new TimeSpanStatisticsItem() { Name = "LedWiz {0:00} PWM updates".Build(Number), GroupName = "OutputControllers - LedWiz" };
-                    Pinball.TimeSpanStatistics.Add(PWMUpdateTimeStatistics);
-                }
-                else
-                {
-                    PWMUpdateTimeStatistics = Pinball.TimeSpanStatistics["LedWiz {0:00} PWM updates".Build(Number)];
-                }
-                if (!Pinball.TimeSpanStatistics.Contains("LedWiz {0:00} OnOff updates".Build(Number)))
-                {
-                    OnOffUpdateTimeStatistics = new TimeSpanStatisticsItem() { Name = "LedWiz {0:00} OnOff updates".Build(Number), GroupName = "OutputControllers - LedWiz" };
-                    Pinball.TimeSpanStatistics.Add(OnOffUpdateTimeStatistics);
-                }
-                else
-                {
-                    OnOffUpdateTimeStatistics = Pinball.TimeSpanStatistics["LedWiz {0:00} OnOff updates".Build(Number)];
-                }
+                //this.Pinball = Cabinet.Pinball;
+                //if (!Pinball.TimeSpanStatistics.Contains("LedWiz {0:00} update calls".Build(Number)))
+                //{
+                //    UpdateTimeStatistics = new TimeSpanStatisticsItem() { Name = "LedWiz {0:00} update calls".Build(Number), GroupName = "OutputControllers - LedWiz" };
+                //    Pinball.TimeSpanStatistics.Add(UpdateTimeStatistics);
+                //}
+                //else
+                //{
+                //    UpdateTimeStatistics = Pinball.TimeSpanStatistics["LedWiz {0:00} update calls".Build(Number)];
+                //}
+                //if (!Pinball.TimeSpanStatistics.Contains("LedWiz {0:00} PWM updates".Build(Number)))
+                //{
+                //    PWMUpdateTimeStatistics = new TimeSpanStatisticsItem() { Name = "LedWiz {0:00} PWM updates".Build(Number), GroupName = "OutputControllers - LedWiz" };
+                //    Pinball.TimeSpanStatistics.Add(PWMUpdateTimeStatistics);
+                //}
+                //else
+                //{
+                //    PWMUpdateTimeStatistics = Pinball.TimeSpanStatistics["LedWiz {0:00} PWM updates".Build(Number)];
+                //}
+                //if (!Pinball.TimeSpanStatistics.Contains("LedWiz {0:00} OnOff updates".Build(Number)))
+                //{
+                //    OnOffUpdateTimeStatistics = new TimeSpanStatisticsItem() { Name = "LedWiz {0:00} OnOff updates".Build(Number), GroupName = "OutputControllers - LedWiz" };
+                //    Pinball.TimeSpanStatistics.Add(OnOffUpdateTimeStatistics);
+                //}
+                //else
+                //{
+                //    OnOffUpdateTimeStatistics = Pinball.TimeSpanStatistics["LedWiz {0:00} OnOff updates".Build(Number)];
+                //}
                 this.MinCommandIntervalMs = MinCommandIntervalMs;
                 StartLedWizUpdaterThread();
             }
@@ -556,7 +556,7 @@ namespace DirectOutput.Cab.Out.LW
 
                 TerminateLedWizUpdaterThread();
                 ShutdownLighting();
-                this.Pinball = null;
+                //this.Pinball = null;
                 UpdateTimeStatistics = null;
                 PWMUpdateTimeStatistics = null;
             }

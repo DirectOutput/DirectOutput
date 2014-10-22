@@ -6,6 +6,7 @@ using System.Xml.Serialization;
 using DirectOutput.Cab.Out;
 using DirectOutput.General;
 using DirectOutput.General.Color;
+using DirectOutput.PinballSupport;
 
 
 namespace DirectOutput.Cab
@@ -46,14 +47,40 @@ namespace DirectOutput.Cab
 
 
         #region Properties
+        ///// <summary>
+        ///// Gets the Pinball object to which the Cabinet pobject belongs.
+        ///// </summary>
+        ///// <value>
+        ///// The pinball object.
+        ///// </value>
+        //[XmlIgnore]
+        //public Pinball Pinball { get; private set; }
+
+
         /// <summary>
-        /// Gets the Pinball object to which the Cabinet pobject belongs.
+        /// Gets or sets the owner or the cabinet.
         /// </summary>
         /// <value>
-        /// The pinball object.
+        /// The owner of the cabinet.
         /// </value>
         [XmlIgnore]
-        public Pinball Pinball { get; private set; }
+        public ICabinetOwner Owner { get; set; }
+
+
+        
+
+        /// <summary>
+        /// Gets the AlarmHandler object for the cabinet object.
+        /// </summary>
+        /// <value>
+        /// The AlarmHandler object for the cabinet object.
+        /// </value>
+        [XmlIgnore]
+        public AlarmHandler Alarms
+        {
+            get { return Owner.Alarms; }
+        }
+
 
         /// <summary>
         /// Name of the Cabinet.
@@ -271,11 +298,11 @@ namespace DirectOutput.Cab
         /// <summary>
         /// Initializes the cabinet.
         /// </summary>
-        /// <param name="Pinball">The Pinball object using the Cabinet instance.</param>
-        public void Init(Pinball Pinball)
+        /// <param name="Owner">The ICabinetOwner object for the cabinet instance.</param>
+        public void Init(ICabinetOwner CabinetOwner)
         {
             Log.Write("Initializing cabinet");
-            this.Pinball = Pinball;
+            this.Owner = CabinetOwner;
             OutputControllers.Init(this);
             Toys.Init(this);
     

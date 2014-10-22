@@ -32,7 +32,7 @@ namespace DirectOutput.Cab.Out.FTDIChip
         /// <summary>
         /// Initializes the FT245RBitbangController and starts the updater thread.
         /// </summary>
-        /// <param name="Cabinet">The Cabinet object which is using the IOutputController instance.</param>
+        /// <param name="Cabinet">The cabinet object which is using the output controller instance.</param>
         public override void Init(Cabinet Cabinet)
         {
             if (SerialNumber.IsNullOrWhiteSpace())
@@ -74,9 +74,9 @@ namespace DirectOutput.Cab.Out.FTDIChip
         {
             for (int i = 1; i <= 8; i++)
             {
-                if (!Outputs.Any(x => ((OutputNumbered)x).Number == i))
+                if (!Outputs.Any(x => x.Number == i))
                 {
-                    Outputs.Add(new OutputNumbered() { Name = "{0}.{1:00}".Build(Name, i), Number = i });
+                    Outputs.Add(new Output() { Name = "{0}.{1:00}".Build(Name, i), Number = i });
                 }
             }
         }
@@ -96,11 +96,7 @@ namespace DirectOutput.Cab.Out.FTDIChip
         protected override void OnOutputValueChanged(IOutput Output)
         {
 
-            if (!(Output is OutputNumbered))
-            {
-                throw new Exception("The OutputValueChanged event handler for the FT245RBitbangController with serial {0} has been called by a sender which is not a OutputNumbered.".Build(SerialNumber));
-            }
-            OutputNumbered ON = (OutputNumbered)Output;
+            IOutput ON = Output;
 
             if (!ON.Number.IsBetween(1, 64))
             {

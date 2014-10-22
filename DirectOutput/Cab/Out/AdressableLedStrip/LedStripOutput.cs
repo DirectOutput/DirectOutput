@@ -11,7 +11,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
     /// A simple wrapper for the OutputNumbered class.
     /// This might be replaced with some more sophisticated solution in the future.
     /// </summary>
-    public class LedStripOutput :OutputNumbered
+    public class LedStripOutput :Output
     {
 
     }
