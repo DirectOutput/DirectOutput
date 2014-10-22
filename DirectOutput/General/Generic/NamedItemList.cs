@@ -47,7 +47,7 @@ namespace DirectOutput.General.Generic
         {
             foreach (T Item in this)
             {
-                Item.BeforeNameChange -= new EventHandler<NameChangeEventArgs>(Item_BeforeNameChange);
+                Item.BeforeNameChanged -= new EventHandler<NameChangeEventArgs>(Item_BeforeNameChange);
                 Item.AfterNameChanged -= new EventHandler<NameChangeEventArgs>(Item_AfterNameChanged);
             }
         }
@@ -80,7 +80,7 @@ namespace DirectOutput.General.Generic
             {
                 _NameDict.Remove(e.Item.Name);
             }
-            e.Item.BeforeNameChange -= new EventHandler<NameChangeEventArgs>(Item_BeforeNameChange);
+            e.Item.BeforeNameChanged -= new EventHandler<NameChangeEventArgs>(Item_BeforeNameChange);
             e.Item.AfterNameChanged -= new EventHandler<NameChangeEventArgs>(Item_AfterNameChanged);
         }
 
@@ -88,7 +88,7 @@ namespace DirectOutput.General.Generic
         void NamedItemList_AfterInsert(object sender, InsertEventArgs<T> e)
         {
             _NameDict.Add(e.Item.Name, e.Item);
-            e.Item.BeforeNameChange += new EventHandler<NameChangeEventArgs>(Item_BeforeNameChange);
+            e.Item.BeforeNameChanged += new EventHandler<NameChangeEventArgs>(Item_BeforeNameChange);
             e.Item.AfterNameChanged += new EventHandler<NameChangeEventArgs>(Item_AfterNameChanged);
         }
 
@@ -111,10 +111,10 @@ namespace DirectOutput.General.Generic
             _NameDict.Add(e.NewItem.Name, e.NewItem);
 
 
-            e.OldItem.BeforeNameChange -= new EventHandler<NameChangeEventArgs>(Item_BeforeNameChange);
+            e.OldItem.BeforeNameChanged -= new EventHandler<NameChangeEventArgs>(Item_BeforeNameChange);
             e.OldItem.AfterNameChanged -= new EventHandler<NameChangeEventArgs>(Item_AfterNameChanged);
 
-            e.NewItem.BeforeNameChange += new EventHandler<NameChangeEventArgs>(Item_BeforeNameChange);
+            e.NewItem.BeforeNameChanged += new EventHandler<NameChangeEventArgs>(Item_BeforeNameChange);
             e.NewItem.AfterNameChanged += new EventHandler<NameChangeEventArgs>(Item_AfterNameChanged);
 
         }
@@ -180,7 +180,7 @@ namespace DirectOutput.General.Generic
         {
             foreach (T Item in this)
             {
-                Item.BeforeNameChange -= new EventHandler<NameChangeEventArgs>(Item_BeforeNameChange);
+                Item.BeforeNameChanged -= new EventHandler<NameChangeEventArgs>(Item_BeforeNameChange);
                 Item.AfterNameChanged -= new EventHandler<NameChangeEventArgs>(Item_AfterNameChanged);
             }
         }

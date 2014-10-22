@@ -58,7 +58,7 @@ namespace DirectOutput.FX
         /// <summary>
         /// This event must be fired before the Name property of a IEffect object is changed.
         /// </summary>
-        new event EventHandler<NameChangeEventArgs> BeforeNameChange;
+        new event EventHandler<NameChangeEventArgs> BeforeNameChanged;
 
     }
 }

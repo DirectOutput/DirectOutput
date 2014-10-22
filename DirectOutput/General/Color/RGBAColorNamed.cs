@@ -30,9 +30,9 @@ namespace DirectOutput.General.Color
                 if (_Name != value)
                 {
                     string OldName = _Name;
-                    if (BeforeNameChange != null)
+                    if (BeforeNameChanged != null)
                     {
-                        BeforeNameChange(this, new NameChangeEventArgs(OldName, value));
+                        BeforeNameChanged(this, new NameChangeEventArgs(OldName, value));
                     }
 
                     _Name = value;
@@ -52,7 +52,7 @@ namespace DirectOutput.General.Color
         /// <summary>
         /// Event is fired before the value of the property Name is changed.
         /// </summary>
-        public event EventHandler<NameChangeEventArgs> BeforeNameChange;
+        public event EventHandler<NameChangeEventArgs> BeforeNameChanged;
         #endregion
 
         #region Contructor

@@ -19,7 +19,7 @@ namespace DirectOutput.General.Generic
         /// <summary>
         /// Occurs before the name of the item changes.
         /// </summary>
-        event EventHandler<NameChangeEventArgs> BeforeNameChange;
+        event EventHandler<NameChangeEventArgs> BeforeNameChanged;
         /// <summary>
         /// Occurs when after the name of the item has changed.
         /// </summary>

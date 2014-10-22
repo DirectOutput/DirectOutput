@@ -16,6 +16,9 @@ namespace DirectOutput.Cab.Out
     public abstract class OutputControllerBase : NamedItemBase, IOutputController
     {
 
+
+
+
         private OutputList _Outputs = null;
         /// <summary>
         /// Contains the OutputList object for the outputs of the output controller.<br/>

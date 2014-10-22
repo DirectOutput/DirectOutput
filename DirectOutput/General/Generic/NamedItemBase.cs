@@ -26,20 +26,43 @@ namespace DirectOutput.General.Generic
                 if (_Name != value)
                 {
                     string OldName = _Name;
-                    if (BeforeNameChange != null)
-                    {
-                        BeforeNameChange(this, new NameChangeEventArgs(OldName, value));
-                    }
-
+                    OnBeforeNameChanged(OldName, value);
+                    BeforeNameChange(OldName, value);
                     _Name = value;
+                    AfterNameChange(OldName, value);
+                    OnAfterNameChanged(OldName, value);
 
-                    if (AfterNameChanged != null)
-                    {
-                        AfterNameChanged(this, new NameChangeEventArgs(OldName, value));
-                    }
+            
                 }
             }
         }
+
+        protected virtual void AfterNameChange(string OldName, string NewName)
+        {
+
+        }
+
+        protected virtual void BeforeNameChange(string OldName, string NewName)
+        {
+
+        }
+
+        private void OnAfterNameChanged(string OldName,String NewName)
+        {
+            if (AfterNameChanged != null)
+            {
+                AfterNameChanged(this, new NameChangeEventArgs(OldName, NewName));
+            }
+        }
+
+        private void OnBeforeNameChanged(string OldName, String NewName)
+        {
+            if (BeforeNameChanged != null)
+            {
+                BeforeNameChanged(this, new NameChangeEventArgs(OldName, NewName));
+            }
+        }
+
         /// <summary>
         /// Event is fired after the value of the property Name has changed.
         /// </summary>
@@ -48,7 +71,7 @@ namespace DirectOutput.General.Generic
         /// <summary>
         /// Event is fired before the value of the property Name is changed.
         /// </summary>
-        public event EventHandler<NameChangeEventArgs> BeforeNameChange;
+        public event EventHandler<NameChangeEventArgs> BeforeNameChanged;
         #endregion
 
 
