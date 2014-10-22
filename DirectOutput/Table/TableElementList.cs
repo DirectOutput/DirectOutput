@@ -175,14 +175,14 @@ namespace DirectOutput.Table
             else
             {
                 //Update named element
-                Log.Write("Update element: " + Data.Name);
+                //Log.Write("Update element: " + Data.Name);
                 if (Contains(Data.Name))
                 {
-                    _NamedTableElementsDictionary[Data.Name].Value = Data.Value;
+                    _NamedTableElementsDictionary[Data.Name.ToUpperInvariant()].Value = Data.Value;
                 }
                 else
                 {
-                    Add(Data.Name, Data.Value);
+                    Add(Data.Name.ToUpperInvariant(), Data.Value);
                 }
             }
 
@@ -217,7 +217,7 @@ namespace DirectOutput.Table
             }
             else
             {
-                Log.Write("Adding element 2: " + TableElement.Name);
+                //Log.Write("Adding element 2: " + TableElement.Name);
 
                 if (TableElement.Name.IsNullOrWhiteSpace())
                 {
@@ -253,7 +253,7 @@ namespace DirectOutput.Table
 
         public void Add(string TableElementName, int State)
         {
-            Log.Write("Adding element 1: " + TableElementName);
+            //Log.Write("Adding element 1: " + TableElementName);
             Add(new TableElement(TableElementName, State));
         }
 
@@ -276,7 +276,7 @@ namespace DirectOutput.Table
             }
             else
             {
-                return _NamedTableElementsDictionary.ContainsKey(TableElement.Name) || base.Contains(TableElement); ;
+                return _NamedTableElementsDictionary.ContainsKey(TableElement.Name.ToUpperInvariant()) || base.Contains(TableElement); ;
             }
         }
 
@@ -300,7 +300,7 @@ namespace DirectOutput.Table
         /// </returns>
         public bool Contains(string TableElementName)
         {
-            return _NamedTableElementsDictionary.ContainsKey(TableElementName);
+            return _NamedTableElementsDictionary.ContainsKey(TableElementName.ToUpperInvariant());
         }
 
 

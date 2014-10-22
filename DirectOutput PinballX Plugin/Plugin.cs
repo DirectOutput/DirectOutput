@@ -426,7 +426,7 @@ namespace PinballX
                 TextWriter tw = null;
                 try
                 {
-                    tw = new StreamWriter("PinballX DirectOutput Plugin.log", true);
+                    tw = new StreamWriter(Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName, "PinballX DirectOutput Plugin.log"), true);
 
                     tw.WriteLine("{1:yy.MM.dd hh:mm:ss.fff} {0}", Text, DateTime.Now);
 
@@ -675,10 +675,10 @@ namespace PinballX
                                     PBXAction = "PBXQuit";
                                     break;
                                 case InputActionEnum.Left:
-                                    PBXAction = "PBXWheelLeft";
+                                    PBXAction = "PBXWheelRight";
                                     break;
                                 case InputActionEnum.Right:
-                                    PBXAction = "PBXWheelRight";
+                                    PBXAction = "PBXWheelLeft";
                                     break;
                                 case InputActionEnum.Select:
                                     if (!OneClickLaunch)
@@ -687,10 +687,10 @@ namespace PinballX
                                     }
                                     break;
                                 case InputActionEnum.PageLeft:
-                                    PBXAction = "PBXWheelPageLeft";
+                                    PBXAction = "PBXWheelPageRight";
                                     break;
                                 case InputActionEnum.PageRight:
-                                    PBXAction = "PBXWheelPageRight";
+                                    PBXAction = "PBXWheelPageLeft";
                                     break;
                                 case InputActionEnum.Instructions:
                                     PBXAction = "PBXInstructions";

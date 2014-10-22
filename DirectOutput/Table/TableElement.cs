@@ -66,9 +66,9 @@ namespace DirectOutput.Table
             get { return _Name; }
             set
             {
-                if (_Name != value)
+                if (_Name != value.ToUpperInvariant())
                 {
-                    _Name = value;
+                    _Name = value.ToUpperInvariant();
                     if (NameChanged != null)
                     {
                         NameChanged(this, new EventArgs());
@@ -170,7 +170,7 @@ namespace DirectOutput.Table
 
         void TableElement_ValueChanged(object sender, TableElementValueChangedEventArgs e)
         {
-            Log.Write("Updating :" + TableElementType + " " + Number + " " + Name);
+            //Log.Write("Updating :" + TableElementType + " " + Number + " " + Name);
             AssignedEffects.Trigger(GetTableElementData());
         }
         #endregion

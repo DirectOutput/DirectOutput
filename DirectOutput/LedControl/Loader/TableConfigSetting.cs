@@ -342,7 +342,7 @@ namespace DirectOutput.LedControl.Loader
                         LastChar = S[i];
                     }
                 }
-                if (TriggerEndPos == -1) TriggerEndPos = S.Length ;
+                if (TriggerEndPos == -1) TriggerEndPos = S.Length;
 
                 string Trigger = S.Substring(0, TriggerEndPos).Trim();
 
@@ -372,7 +372,7 @@ namespace DirectOutput.LedControl.Loader
                         {
                             if (E.Length > 1)
                             {
-                                if (E[0] == (char)TableElementTypeEnum.NamedElement && E.Substring(1).All(C=>char.IsLetterOrDigit(C) || C=='_'))
+                                if (E[0] == (char)TableElementTypeEnum.NamedElement && E.Substring(1).All(C => char.IsLetterOrDigit(C) || C == '_'))
                                 {
                                     //Named element
                                 }
@@ -519,11 +519,6 @@ namespace DirectOutput.LedControl.Loader
                     AreaFlickerMaxDurationMs = Parts[PartNr].Substring(5).ToInteger();
                     IsArea = true;
                 }
-                else if (Parts[PartNr].Length > 2 && Parts[PartNr].Substring(0, 2).ToUpper() == "AA" && Parts[PartNr].Substring(2).IsInteger())
-                {
-                    AreaAcceleration = Parts[PartNr].Substring(2).ToInteger();
-                    IsArea = true;
-                }
 
                 else if (Parts[PartNr].Length > 2 && Parts[PartNr].Substring(0, 2).ToUpper() == "AT" && Parts[PartNr].Substring(2).IsInteger())
                 {
@@ -545,15 +540,46 @@ namespace DirectOutput.LedControl.Loader
                     AreaHeight = Parts[PartNr].Substring(2).ToInteger().Limit(0, 100);
                     IsArea = true;
                 }
+                //TODO: Remove parameter AA
+                else if (Parts[PartNr].Length > 2 && Parts[PartNr].Substring(0, 2).ToUpper() == "AA" && Parts[PartNr].Substring(2).IsInteger())
+                {
+                    AreaAcceleration = Parts[PartNr].Substring(2).ToInteger();
+                    IsArea = true;
+                }
+                else if (Parts[PartNr].Length > 3 && Parts[PartNr].Substring(0, 3).ToUpper() == "ASA" && Parts[PartNr].Substring(3).IsInteger())
+                {
+                    AreaAcceleration = Parts[PartNr].Substring(3).ToInteger();
+                    IsArea = true;
+                }
+
+                    //TODO:Remove AS para
                 else if (Parts[PartNr].Length > 2 && Parts[PartNr].Substring(0, 2).ToUpper() == "AS" && Parts[PartNr].Substring(2).IsInteger())
                 {
                     AreaSpeed = Parts[PartNr].Substring(2).ToInteger().Limit(1, 10000);
                     IsArea = true;
                 }
+                else if (Parts[PartNr].Length > 3 && Parts[PartNr].Substring(0, 3).ToUpper() == "ASS" && Parts[PartNr].Substring(3).IsInteger())
+                {
+                    AreaSpeed = Parts[PartNr].Substring(3).ToInteger().Limit(1, 10000);
+                    IsArea = true;
+                }
+                else if (Parts[PartNr].Length > 5 && Parts[PartNr].Substring(0, 3).ToUpper() == "ASS" && Parts[PartNr].ToUpper().Right(2)=="MS" && Parts[PartNr].Substring(3,Parts[PartNr].Length-5).IsInteger())
+                {
+                    AreaSpeed = (int)((double)100000/ Parts[PartNr].Substring(3, Parts[PartNr].Length - 5).ToInteger()).Limit(10, 100000);
+                    IsArea = true;
+                }
+
+                    //TODO:Remove AD para
                 else if (Parts[PartNr].Length == 3 && Parts[PartNr].Substring(0, 2).ToUpper() == "AD" && Enum.IsDefined(typeof(MatrixShiftDirectionEnum), (int)Parts[PartNr].Substring(2, 1).ToUpper()[0]))
                 {
 
                     AreaDirection = (MatrixShiftDirectionEnum)Parts[PartNr].Substring(2, 1).ToUpper()[0];
+                    IsArea = true;
+                }
+                else if (Parts[PartNr].Length == 4 && Parts[PartNr].Substring(0, 3).ToUpper() == "ASD" && Enum.IsDefined(typeof(MatrixShiftDirectionEnum), (int)Parts[PartNr].Substring(3, 1).ToUpper()[0]))
+                {
+
+                    AreaDirection = (MatrixShiftDirectionEnum)Parts[PartNr].Substring(3, 1).ToUpper()[0];
                     IsArea = true;
                 }
                 else if (Parts[PartNr].Length > 3 && Parts[PartNr].ToUpper().Substring(0, 3) == "MAX" && Parts[PartNr].Substring(3).IsInteger())

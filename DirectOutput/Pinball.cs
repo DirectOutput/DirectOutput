@@ -756,8 +756,8 @@ namespace DirectOutput
         /// <param name="Value">The value of the table element.</param>
         public void ReceiveData(string TableElementName, int Value)
         {
-            Log.Write("TableName:"+TableElementName);
-            Log.Write("Update {0}: {1}".Build(TableElementName, Value));
+            //Log.Write("TableName:"+TableElementName);
+            //Log.Write("Update {0}: {1}".Build(TableElementName, Value));
             InputQueue.Enqueue(TableElementName, Value);
             MainThreadSignal();
 

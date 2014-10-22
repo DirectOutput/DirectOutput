@@ -155,16 +155,18 @@ The following 4 paramaters are specifying the area of a matrix which is to be in
 \subsection inifiles_shifteffectpara Shift Effect Paras
 
 The matrix shift effect moves a color/value with a defineable direction, speed and acceleration through the matrix:
-* __AD{DirectionCharacter}__ defines the direction for area effects having a direction parameter (e.g. the ColorShiftEffect). Valid directions are: R-Right, L-Left, U-Up, D-Down.
-* __AS{Speed}__ defines the speed for matrix effects have a speed parameter (e.g. the ColorShiftEffect) expressed in percent of the effect area per second. 100 will shift through the effect area in one second, 400 will shift through the effect area in 1/4 second. Min. speed is 1, max. speed is 10000.
-* __AA{Acceleration}__ defines the acceleration of the speed for matrix effects (e.g. ColorShiftEffect), expressed in percent of the effect area per second. Acceleration can be positive (speed increases) or negative (speed decreases). Speed will never decrease below 1 and never increase above 10000.
+* __ASD{DirectionCharacter}__ defines the direction for the ColorShiftEffect. Valid directions are: R-Right, L-Left, U-Up, D-Down.
+* __ASS{Speed}__ defines the speed for the ColorShiftEffect expressed in percent of the effect area per second. 100 will shift through the effect area in one second, 400 will shift through the effect area in 1/4 second. Min. speed is 1, max. speed is 10000.
+* __ASS{Speed}MS__ defines the time in milliseconds the color needs to shift throgh the effect area. Min duration is 10ms, max duration is 100000ms.
+* __ASA{Acceleration}__ defines the acceleration for the ColorShiftEffect, expressed in percent of the effect area per second. Acceleration can be positive (speed increases) or negative (speed decreases). Speed will never decrease below 1 and never increase above 10000.
 
 \subsection inifiles_flickereffectpara Flicker Effect Paras
 
 The flicker effect generates random flickering with a defineable density and duration for the single flickers:
-* __AFDEN{Percentage}__ defines the density for the flicker effect. Density is express in percent a has a valid value range of 1 to 99.
+* __AFDEN{Percentage}__ defines the density for the flicker effect. Density is expressed in percent and has a valid value range of 1 to 99.
 * __AFMIN{DurationInMilliseconds}__ defines the min duration for the flicker of a single led in milliseconds.
 * __AFMAX{DurationInMilliseconds}__ defines the max duration for the flicker of a single led in milliseconds.
+
 
 \subsection inifiles_bitmapeffectpara Bitmap Effect Paras
 
