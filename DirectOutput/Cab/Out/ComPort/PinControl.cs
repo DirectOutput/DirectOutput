@@ -6,6 +6,12 @@ using System.IO.Ports;
 
 namespace DirectOutput.Cab.Out.ComPort
 {
+    /// <summary>
+    /// PinControl is a Arduniobased output controller by http://www.vpforums.org/index.php?showuser=79113
+    /// Is has 4 pwm output, 6 digital outputs. DOF supports any number of these controllers.
+    /// Outputs 1,8,9,10 are pwm outputs.
+    /// Outputs 2,3,4,5,6,7 are digital outputs.
+    /// </summary>
     public class PinControl : OutputControllerCompleteBase
     {
         /// <summary>
@@ -77,7 +83,7 @@ namespace DirectOutput.Cab.Out.ComPort
                     }
                     else
                     {
-                        Port.Write("9,2{0},{1},{2}".Build(OutputValues[8],OutputValues[9],OutputValues[10]));
+                        Port.Write("9,1,{0},{1},{2}".Build(OutputValues[8],OutputValues[9],OutputValues[10]));
                     }
                 }
 

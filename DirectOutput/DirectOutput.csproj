@@ -95,6 +95,7 @@
     <Compile Include="Cab\Out\ComPort\PinControl.cs" />
     <Compile Include="Cab\Out\DMX\ArtNet.cs" />
     <Compile Include="Cab\Out\DMX\ArtnetEngine\ArtnetEngine.cs" />
+    <Compile Include="Cab\Out\DMX\ArtNetNew.cs" />
     <Compile Include="Cab\Out\FTDIChip\FT245RBitbangController.cs" />
     <Compile Include="Cab\Out\FTDIChip\FTDIChip.cs" />
     <Compile Include="Cab\Out\IAutoConfigOutputController.cs" />

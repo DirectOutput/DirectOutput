@@ -126,7 +126,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                 }
                 catch (Exception E)
                 {
-                    Log.Exception("WS2811StripController {0} with number {1} has received a update with a illegal or to high output number ({2}).".Build(Name, ControllerNumber, ON.Number), E);
+                    Log.Exception("DirectStripController {0} with number {1} has received a update with a illegal or to high output number ({2}).".Build(Name, ControllerNumber, ON.Number), E);
                 }
             }
 
@@ -155,7 +155,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             AddOutputs();
 
             InitUpdaterThread();
-            Log.Write("WS2811StripController {0} with number {1} initialized and updaterthread started.".Build(Name, ControllerNumber));
+            Log.Write("DirectStripController {0} with number {1} initialized and updaterthread started.".Build(Name, ControllerNumber));
 
         }
 
@@ -165,7 +165,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         public override void Finish()
         {
             FinishUpdaterThread();
-            Log.Write("WS2811StripController {0} with number {1} finished and updaterthread stopped.".Build(Name, ControllerNumber));
+            Log.Write("DirectStripController {0} with number {1} finished and updaterthread stopped.".Build(Name, ControllerNumber));
         }
 
         /// <summary>
@@ -185,7 +185,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         /// <summary>
         /// Initializes the updater thread.
         /// </summary>
-        /// <exception cref="System.Exception">WS2811StripController {0} named {1} updater thread could not start.</exception>
+        /// <exception cref="System.Exception">DirectStripController {0} named {1} updater thread could not start.</exception>
         private void InitUpdaterThread()
         {
 
@@ -195,13 +195,13 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                 try
                 {
                     UpdaterThread = new Thread(UpdaterThreadDoIt);
-                    UpdaterThread.Name = "WS2811StripController {0} named {1} updater thread ".Build(ControllerNumber, Name);
+                    UpdaterThread.Name = "DirectStripController {0} named {1} updater thread ".Build(ControllerNumber, Name);
                     UpdaterThread.Start();
                 }
                 catch (Exception E)
                 {
-                    Log.Exception("WS2811StripController {0} named {1} updater thread could not start.".Build(ControllerNumber, Name), E);
-                    throw new Exception("WS2811StripController {0} named {1} updater thread could not start.".Build(ControllerNumber, Name), E);
+                    Log.Exception("DirectStripController {0} named {1} updater thread could not start.".Build(ControllerNumber, Name), E);
+                    throw new Exception("DirectStripController {0} named {1} updater thread could not start.".Build(ControllerNumber, Name), E);
                 }
             }
         }
@@ -209,7 +209,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         /// <summary>
         /// Finishes the updater thread.
         /// </summary>
-        /// <exception cref="System.Exception">A error occured during termination of WS2811StripController updater thread.</exception>
+        /// <exception cref="System.Exception">A error occured during termination of DirectStripController updater thread.</exception>
         private void FinishUpdaterThread()
         {
             if (UpdaterThread != null)
@@ -226,15 +226,15 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                 }
                 catch (Exception E)
                 {
-                    Log.Exception("A error occured during termination of WS2811StripController updater thread.", E);
-                    throw new Exception("A error occured during termination of WS2811StripController updater thread.", E);
+                    Log.Exception("A error occured during termination of DirectStripController updater thread.", E);
+                    throw new Exception("A error occured during termination of DirectStripController updater thread.", E);
                 }
             }
         }
 
 
         /// <summary>
-        /// Indicates whether the UpdaterThread of the WS2811StripController instance is active or not.
+        /// Indicates whether the UpdaterThread of the DirectStripController instance is active or not.
         /// </summary>
         public bool UpdaterThreadIsActive
         {
@@ -274,7 +274,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         private DirectStripControllerApi Controller = null;
 
         /// <summary>
-        /// This is the main method of the WS2811StripController object updater thread.
+        /// This is the main method of the DirectStripController object updater thread.
         /// </summary>
         private void UpdaterThreadDoIt()
         {

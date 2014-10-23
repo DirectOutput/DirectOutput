@@ -44,9 +44,12 @@ namespace DirectOutput.Cab.Out
 
         private void RenameOutputs()
         {
-            foreach (IOutput O in Outputs)
+            if (Outputs != null)
             {
-                O.Name = "{0}.{1}".Build((Name != null ? Name : ""), O.Name);
+                foreach (IOutput O in Outputs)
+                {
+                    O.Name = "{0}.{1}".Build((Name != null ? Name : ""), O.Name);
+                }
             }
         }
 

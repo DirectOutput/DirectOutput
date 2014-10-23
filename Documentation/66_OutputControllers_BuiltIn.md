@@ -50,6 +50,57 @@ The number of the Dmx universe.
 
 
 
+\section use_DirectOutput_Cab_Out_AdressableLedStrip_DirectStripController DirectStripController
+
+\subsection use_DirectOutput_Cab_Out_AdressableLedStrip_DirectStripController_summary Summary
+
+This output controller class is used to control the direct strip controller by Swisslizard.
+
+The hardware of this controller is based on a Atmel microcontroller and a FT245R USB interface chip by FTDI. To ensure max performance all copde on the controller has been written in assembler.
+
+WS2811 is a small controller chip which can controll a RGB led (256 PWM level on each channel) and be daisychained, so long cahins of LEDs (led strip are possible. The WS2812 understands the same protocoll as the WS2811, but is a RGB led with integrated controller chip which allows for even more dense populated RGB strips.
+
+Those controller chips are controlled using a single data line (there is no clock line). The data has to be sent with a frequency of 800khz. 1 bits have a duration of 0.65uS high and 0.6uS low. 0 bits have a duration of 0.25uS high and 1uS low. A interuption in the dataflow triggers the controller chips to push the data in the shift register to the PWM outputs. Since the timing requirements are very strict it is not easily possible to output that signal directly from a computer with normal operating system. Thats why controllers like the one displayed below are needed.
+
+\image html WS2811Controller.jpg
+This is a image of my controller prototype with classical through the hole parts and a small breakoutboard by SparkFun.
+At the time of the release of DOF R2, the first prototypes of SMD version of the controller are in production. Check back in the forums for more information.
+
+
+
+\subsection use_DirectOutput_Cab_Out_AdressableLedStrip_DirectStripController_samplexml Sample XML
+
+A configuration section for DirectStripController might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<DirectStripController>
+  <Name>Name of DirectStripController</Name>
+  <ControllerNumber>1</ControllerNumber>
+  <NumberOfLeds>1</NumberOfLeds>
+</DirectStripController>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_Cab_Out_AdressableLedStrip_DirectStripController_properties Properties
+
+DirectStripController has the following 3 configurable properties:
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_DirectStripController_ControllerNumber ControllerNumber
+
+The number of the WS2811 strip controller.
+
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_DirectStripController_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_DirectStripController_NumberOfLeds NumberOfLeds
+
+The number of leds on the WS2811 based led strip.
+
+
+
 \section use_DirectOutput_Cab_Out_FTDIChip_FT245RBitbangController FT245RBitbangController
 
 \subsection use_DirectOutput_Cab_Out_FTDIChip_FT245RBitbangController_summary Summary
@@ -249,21 +300,50 @@ The name of the item.
 
 
 
+\section use_DirectOutput_Cab_Out_ComPort_PinControl PinControl
+
+\subsection use_DirectOutput_Cab_Out_ComPort_PinControl_summary Summary
+
+PinControl is a Arduniobased output controller by http://www.vpforums.org/index.php?showuser=79113
+Is has 4 pwm output, 6 digital outputs. DOF supports any number of these controllers.
+Outputs 1,8,9,10 are pwm outputs.
+Outputs 2,3,4,5,6,7 are digital outputs.
+
+
+
+\subsection use_DirectOutput_Cab_Out_ComPort_PinControl_samplexml Sample XML
+
+A configuration section for PinControl might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<PinControl>
+  <Name>Name of PinControl</Name>
+  <ComPort>ComPort string</ComPort>
+</PinControl>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_Cab_Out_ComPort_PinControl_properties Properties
+
+PinControl has the following 2 configurable properties:
+
+\subsubsection DirectOutput_Cab_Out_ComPort_PinControl_ComPort ComPort
+
+The COM port for the controller.
+
+
+
+\subsubsection DirectOutput_Cab_Out_ComPort_PinControl_Name Name
+
+The name of the item.
+
+
+
 \section use_DirectOutput_Cab_Out_AdressableLedStrip_WS2811StripController WS2811StripController
 
 \subsection use_DirectOutput_Cab_Out_AdressableLedStrip_WS2811StripController_summary Summary
 
-This output controller class is used to control the WS2811 led strip controller by Swisslizard.
-
-The hardware of this controller is based on a Atmel microcontroller and a FT245R USB interface chip by FTDI. To ensure max performance all copde on the controller has been written in assembler.
-
-WS2811 is a small controller chip which can controll a RGB led (256 PWM level on each channel) and be daisychained, so long cahins of LEDs (led strip are possible. The WS2812 understands the same protocoll as the WS2811, but is a RGB led with integrated controller chip which allows for even more dense populated RGB strips.
-
-Those controller chips are controlled using a single data line (there is no clock line). The data has to be sent with a frequency of 800khz. 1 bits have a duration of 0.65uS high and 0.6uS low. 0 bits have a duration of 0.25uS high and 1uS low. A interuption in the dataflow triggers the controller chips to push the data in the shift register to the PWM outputs. Since the timing requirements are very strict it is not easily possible to output that signal directly from a computer with normal operating system. Thats why controllers like the one displayed below are needed.
-
-\image html WS2811Controller.jpg
-This is a image of my controller prototype with classical through the hole parts and a small breakoutboard by SparkFun.
-At the time of the release of DOF R2, the first prototypes of SMD version of the controller are in production. Check back in the forums for more information.
+The WS2811StripController class is just a simple wrapper around the DirectStripController class. It is only here to allow the use of old configs.
+Use the DirectStripController class for your configs.
+\deprecated The use of this class is deprecated. Please use the DirectStripController class instead.
 
 
 
