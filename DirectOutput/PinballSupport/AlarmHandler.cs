@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DirectOutput.General.Statistics;
+
 
 namespace DirectOutput.PinballSupport
 {
@@ -13,8 +13,7 @@ namespace DirectOutput.PinballSupport
     /// </summary>
     public class AlarmHandler
     {
-        private TimeSpanStatisticsItem AlarmStatistics;
-        private TimeSpanStatisticsItem IntervalAlarmStatistics;
+
 
         /// <summary>
         /// Gets the time when the next alarm (interval or single) is scheduled.
@@ -135,7 +134,7 @@ namespace DirectOutput.PinballSupport
                 bool AlarmTriggered = false;
                 IntervalAlarmList.Where(x => x.NextAlarm <= AlarmTime).ToList().ForEach(delegate(IntervalAlarmSettingBase S)
                 {
-                    IntervalAlarmStatistics.MeasurementStart();
+                 
                     try
                     {
                         S.Execute();
@@ -144,7 +143,7 @@ namespace DirectOutput.PinballSupport
                     {
                         Log.Exception("A exception occured when excuting the handler for a interval alarm. This interval alarm will be disabled.", E);
                     }
-                    IntervalAlarmStatistics.MeasurementStop();
+             
                     AlarmTriggered = true;
 
                     if (S.NextAlarm.AddMilliseconds(S.IntervalMs) <= AlarmTime)
@@ -403,10 +402,7 @@ namespace DirectOutput.PinballSupport
         /// </summary>
         public void Init(Pinball Pinball)
         {
-            AlarmStatistics = new TimeSpanStatisticsItem() { Name = "Alarm calls", GroupName = "Pinball - Alarm calls" };
-            Pinball.TimeSpanStatistics.Add(AlarmStatistics);
-            IntervalAlarmStatistics = new TimeSpanStatisticsItem() { Name = "Interval Alarm calls", GroupName = "Pinball - Alarm calls" };
-            Pinball.TimeSpanStatistics.Add(IntervalAlarmStatistics);
+
         }
 
         /// <summary>

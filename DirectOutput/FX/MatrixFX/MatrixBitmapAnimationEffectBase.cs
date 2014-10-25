@@ -278,7 +278,12 @@ namespace DirectOutput.FX.MatrixFX
         {
             if (AnimationActive)
             {
-                Table.Pinball.Alarms.UnregisterIntervalAlarm(Animate);
+ 
+                try
+                {
+                    Table.Pinball.Alarms.UnregisterIntervalAlarm(Animate);
+                }
+                catch { };
 
                 AnimationActive = false;
                 

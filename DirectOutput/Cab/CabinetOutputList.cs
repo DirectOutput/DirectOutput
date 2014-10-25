@@ -109,7 +109,7 @@ namespace DirectOutput.Cab
                 else
                 {
                     //just a simple name
-                    foreach (OutputControllerBase OC in this.OutputControllers)
+                    foreach (IOutputController OC in this.OutputControllers)
                     {
                         if (OC.Outputs.Contains(Name))
                         {
@@ -134,7 +134,7 @@ namespace DirectOutput.Cab
                 int Cnt = this.Count;
                 if (Index < Cnt)
                 {
-                    foreach (OutputControllerBase OC in this.OutputControllers)
+                    foreach (IOutputController OC in this.OutputControllers)
                     {
                         if (Index < OC.Outputs.Count)
                         {

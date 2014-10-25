@@ -93,9 +93,9 @@
     <Compile Include="Cab\Out\AdressableLedStrip\DirectStripController.cs" />
     <Compile Include="Cab\Out\AdressableLedStrip\WS2811StripController.cs" />
     <Compile Include="Cab\Out\ComPort\PinControl.cs" />
-    <Compile Include="Cab\Out\DMX\ArtNet.cs" />
+    <Compile Include="Cab\Out\DMX\ArtNeOld.cs" />
     <Compile Include="Cab\Out\DMX\ArtnetEngine\ArtnetEngine.cs" />
-    <Compile Include="Cab\Out\DMX\ArtNetNew.cs" />
+    <Compile Include="Cab\Out\DMX\ArtNet.cs" />
     <Compile Include="Cab\Out\FTDIChip\FT245RBitbangController.cs" />
     <Compile Include="Cab\Out\FTDIChip\FTDIChip.cs" />
     <Compile Include="Cab\Out\IAutoConfigOutputController.cs" />
@@ -206,23 +206,11 @@
     <Compile Include="Frontend\MainMenu.Designer.cs">
       <DependentUpon>MainMenu.cs</DependentUpon>
     </Compile>
-    <Compile Include="Frontend\SystemMonitor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Frontend\SystemMonitor.Designer.cs">
-      <DependentUpon>SystemMonitor.cs</DependentUpon>
-    </Compile>
     <Compile Include="Frontend\TableInfo.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Frontend\TableInfo.Designer.cs">
       <DependentUpon>TableInfo.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Frontend\TimeSpanStatisticsDetails.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Frontend\TimeSpanStatisticsDetails.Designer.cs">
-      <DependentUpon>TimeSpanStatisticsDetails.cs</DependentUpon>
     </Compile>
     <Compile Include="FX\AnalogToyFX\AnalogToyFX.cs" />
     <Compile Include="FX\AnalogToyFX\AnalogToyValueEffect.cs" />
@@ -254,12 +242,9 @@
     <Compile Include="General\BitmapHandling\FastImageList.cs" />
     <Compile Include="General\BitmapHandling\FastBitmap.cs" />
     <Compile Include="General\BitmapHandling\PixelData.cs" />
-    <Compile Include="General\Statistics\SimpleStatistics.cs" />
-    <Compile Include="General\Statistics\TimeSpanStatisticsList.cs" />
     <Compile Include="General\ThreadInfo.cs" />
     <Compile Include="General\ThreadInfoList.cs" />
     <Compile Include="General\Kernel32Imports.cs" />
-    <Compile Include="General\Statistics\TimeSpanStatisticsItem.cs" />
     <Compile Include="LedControl\Loader\TableVariablesDictionary.cs" />
     <Compile Include="LedControl\Loader\VariablesDictionary.cs" />
     <Compile Include="LedControl\Setup\Configurator.cs" />
@@ -397,14 +382,8 @@
     <EmbeddedResource Include="Frontend\MainMenu.resx">
       <DependentUpon>MainMenu.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Frontend\SystemMonitor.resx">
-      <DependentUpon>SystemMonitor.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Frontend\TableInfo.resx">
       <DependentUpon>TableInfo.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Frontend\TimeSpanStatisticsDetails.resx">
-      <DependentUpon>TimeSpanStatisticsDetails.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

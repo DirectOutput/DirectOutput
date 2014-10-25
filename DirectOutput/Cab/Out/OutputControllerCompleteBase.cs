@@ -134,7 +134,7 @@ namespace DirectOutput.Cab.Out
             {
                 SetupOutputs();
                 InitUpdaterThread();
-                Log.Write("{0} {1} intialized and updater thread started.");
+                Log.Write("{0} {1} intialized and updater thread started.".Build(this.GetType().Name,Name));
             }
             else
             {
@@ -148,7 +148,7 @@ namespace DirectOutput.Cab.Out
         /// </summary>
         public void Finish() {
             FinishUpdaterThread();
-            Log.Write("{0} {1} finished and updater thread stoped.");
+            Log.Write("{0} {1} finished and updater thread stopped.".Build(this.GetType().Name,Name));
         }
 
         /// <summary>
@@ -402,7 +402,7 @@ namespace DirectOutput.Cab.Out
 
                 DisconnectFromController();
 
-                Log.Warning("{0} has disconnected to {1} {2} and will terminate.".Build(Thread.CurrentThread.Name, this.GetType().Name, Name));
+                Log.Write("{0} has disconnected from {1} {2} and will terminate.".Build(Thread.CurrentThread.Name, this.GetType().Name, Name));
             }
             catch (Exception EU)
             {

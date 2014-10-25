@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Xml.Serialization;
 using DirectOutput.General;
-using DirectOutput.General.Statistics;
+
 
 namespace DirectOutput.Cab.Out.Pac
 {
@@ -208,7 +208,7 @@ namespace DirectOutput.Cab.Out.Pac
         {
             //private Pinball Pinball;
 
-            private TimeSpanStatisticsItem UpdateTimeStatistics;
+           
 
             private const int MaxUpdateFailCount = 5;
 
@@ -249,8 +249,8 @@ namespace DirectOutput.Cab.Out.Pac
 
                 TerminatePacDriveUpdaterThread();
                 ShutdownLighting();
-                //this.Pinball = null;
-                UpdateTimeStatistics = null;
+        
+
             }
 
             public void UpdateValue(IOutput Output)
@@ -360,9 +360,9 @@ namespace DirectOutput.Cab.Out.Pac
                     {
                         if (IsPresent)
                         {
-                            UpdateTimeStatistics.MeasurementStart();
+                          
                             SendPacDriveUpdate();
-                            UpdateTimeStatistics.MeasurementStop();
+                     
                         }
                         FailCnt = 0;
                     }

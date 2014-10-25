@@ -16,7 +16,7 @@ namespace DirectOutput.FX.MatrixFX
         private const int RefreshIntervalMs = 30;
 
 
-         private MatrixShiftDirectionEnum _ShiftDirection = MatrixShiftDirectionEnum.Right;
+        private MatrixShiftDirectionEnum _ShiftDirection = MatrixShiftDirectionEnum.Right;
 
         /// <summary>
         /// Gets or sets the shift direction resp. the direction in which the color moves.
@@ -69,12 +69,12 @@ namespace DirectOutput.FX.MatrixFX
 
             float NumberOfElements = (ShiftDirection == MatrixShiftDirectionEnum.Left || ShiftDirection == MatrixShiftDirectionEnum.Right ? AreaWidth : AreaHeight);
             float Position = 0;
-            float Speed = NumberOfElements/100*(ShiftSpeed / (1000 / RefreshIntervalMs));
+            float Speed = NumberOfElements / 100 * (ShiftSpeed / (1000 / RefreshIntervalMs));
             float Acceleration = NumberOfElements / 100 * (ShiftAcceleration / (1000 / RefreshIntervalMs));
             while (Position <= NumberOfElements)
             {
-                L.Add(Position.Limit(0,NumberOfElements));
-                Position += Speed ;
+                L.Add(Position.Limit(0, NumberOfElements));
+                Position += Speed;
                 Speed = (Speed + Acceleration).Limit(NumberOfElements / 100 * (1 / (1000 / RefreshIntervalMs)), 10000);
             }
             L.Add(Position.Limit(0, NumberOfElements));
@@ -83,7 +83,7 @@ namespace DirectOutput.FX.MatrixFX
             Step2Element = L.ToArray();
         }
 
-        float[] Step2Element=null;
+        float[] Step2Element = null;
 
         private void DoStep()
         {
@@ -99,14 +99,14 @@ namespace DirectOutput.FX.MatrixFX
 
             float FromElementNr = NumberOfElements;
             float ToElementNr = 0;
-            float[] Value = new float[NumberOfElements+1];
+            float[] Value = new float[NumberOfElements + 1];
 
             int LastValue = LastDiscardedValue;
 
             int ToNr;
             foreach (KeyValuePair<int, int> KV in TriggerValueBuffer)
             {
-                ToElementNr = Step2Element[(CurrentStep-KV.Key)];
+                ToElementNr = Step2Element[(CurrentStep - KV.Key)];
 
                 if (FromElementNr.Floor() == ToElementNr.Floor())
                 {
@@ -119,8 +119,8 @@ namespace DirectOutput.FX.MatrixFX
                         Value[(int)FromElementNr.Floor()] += (FromElementNr - FromElementNr.Floor()) * LastValue;
                     }
 
-                     ToNr = (int)(ToElementNr.Ceiling());
-                    for (int i = (int)FromElementNr.Floor()-1; i >= ToNr; i--)
+                    ToNr = (int)(ToElementNr.Ceiling());
+                    for (int i = (int)FromElementNr.Floor() - 1; i >= ToNr; i--)
                     {
                         Value[i] = LastValue;
                     }
@@ -130,7 +130,7 @@ namespace DirectOutput.FX.MatrixFX
                     }
 
                 }
-                FromElementNr=ToElementNr;
+                FromElementNr = ToElementNr;
                 LastValue = KV.Value;
             }
             ToElementNr = 0;
@@ -142,7 +142,7 @@ namespace DirectOutput.FX.MatrixFX
                 }
 
                 ToNr = (int)(ToElementNr.Ceiling()).Limit(0, int.MaxValue);
-                for (int i = (int)FromElementNr.Floor()-1; i >= ToNr; i--)
+                for (int i = (int)FromElementNr.Floor() - 1; i >= ToNr; i--)
                 {
                     Value[i] = LastValue;
                 }
@@ -209,21 +209,21 @@ namespace DirectOutput.FX.MatrixFX
                         }
                     }
                     break;
-            } 
+            }
             #endregion
 
 
 
 
-            
-            int DropKey = CurrentStep - (Step2Element.Length-1);
+
+            int DropKey = CurrentStep - (Step2Element.Length - 1);
             if (TriggerValueBuffer.ContainsKey(DropKey))
             {
                 LastDiscardedValue = TriggerValueBuffer[DropKey];
                 TriggerValueBuffer.Remove(DropKey);
             };
 
-            if (TriggerValueBuffer.Count > 0 || LastDiscardedValue!=0)
+            if (TriggerValueBuffer.Count > 0 || LastDiscardedValue != 0)
             {
                 CurrentStep++;
             }
@@ -258,7 +258,7 @@ namespace DirectOutput.FX.MatrixFX
 
         public override void Trigger(Table.TableElementData TableElementData)
         {
-            if (LastTriggerValue != TableElementData.Value && MatrixLayer!=null)
+            if (LastTriggerValue != TableElementData.Value && MatrixLayer != null)
             {
                 LastTriggerValue = TableElementData.Value;
 
@@ -294,7 +294,11 @@ namespace DirectOutput.FX.MatrixFX
 
         public override void Finish()
         {
-            Table.Pinball.Alarms.UnregisterIntervalAlarm(DoStep);
+            try
+            {
+                Table.Pinball.Alarms.UnregisterIntervalAlarm(DoStep);
+            }
+            catch { };
             base.Finish();
         }
 

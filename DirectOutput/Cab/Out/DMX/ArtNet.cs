@@ -1,11 +1,12 @@
 ﻿using System;
-using System.Threading;
-using DirectOutput.Cab.Out.DMX.ArtnetEngine;
-using System.Xml.Serialization;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using DirectOutput.Cab.Out.DMX.ArtnetEngine;
 
 namespace DirectOutput.Cab.Out.DMX
 {
+
     /// <summary>
     /// Artnet is a industry standard protocol used to control <a target="_blank" href="https://en.wikipedia.org/wiki/DMX512">DMX</a> lighting effects over ethernet. Using <a target="_blank" href="https://en.wikipedia.org/wiki/Art-Net">Art-Net</a> it is possible to connect a very wide range of lighting effects like <a target="_blank" href="https://www.google.ch/search?q=dmx+strobe">strobes</a> or <a target="_blank" href="https://www.google.ch/search?q=dmx+dimmer">dimmer packs</a>. There are tons of DMX controlled effects available on the market (from very cheap and small to very expensive and big). It might sounds a bit crazy, but with Art-net and DMX you could at least in theory control a whole stage lighting system (this would likely make you feel like Tommy in the movie).
     /// 
@@ -17,14 +18,11 @@ namespace DirectOutput.Cab.Out.DMX
     /// 
     /// \image html DMX.png DMX
     /// </summary>
-    public class ArtNet : OutputControllerBase, IOutputController
+    public class ArtNet : OutputControllerCompleteBase
     {
 
         private Engine Engine = null;
-        private byte[] DMXData = new byte[512];
-        private int LastDMXChannel = 0;
-        private bool UpdateRequired = true;
-        private object UpdateLocker = new object();
+
 
         private short _Universe = 0;
 
@@ -40,7 +38,7 @@ namespace DirectOutput.Cab.Out.DMX
             set { _Universe = value; }
         }
 
-        private string _BroadcastAddress="";
+        private string _BroadcastAddress = "";
 
         /// <summary>
         /// Gets or sets the broadcast address for the ArtNet object.<br/>
@@ -57,250 +55,79 @@ namespace DirectOutput.Cab.Out.DMX
         }
 
 
-
-        /// <summary>
-        /// Adds the outputs.
-        /// </summary>
-        private void AddOutputs()
+        protected override int GetNumberOfConfiguredOutputs()
         {
-            for (int i = 1; i <= 512; i++)
-            {
-                if (!Outputs.Any(x => ((DMXOutput)x).DmxChannel == i))
-                {
-                    Outputs.Add(new DMXOutput() { Name = "{0}.{1:000}".Build(Name, i), DmxChannel=i });
-                }
-            }
+            return 512;
         }
 
-        /// <summary>
-        /// This method is called whenever the value of a output in the Outputs property changes its value.<br />
-        /// It updates the internal arry holding the values for the DMX channels of the universe specified.
-        /// </summary>
-        /// <param name="Output">The output.</param>
-        /// <exception cref="System.Exception">The OutputValueChanged event handler for ArtNet node {0} (controlling Dmx universe {1}) has been called by a sender which is not a DmxOutput..Build(Name, Universe)</exception>
-        /// <exception cref="System.ArgumentOutOfRangeException">ArtNet node {0} has received a update for a illegal dmx channel number ({1})..Build(Name, O.DmxChannel)</exception>
-        protected override void OnOutputValueChanged(IOutput Output)
+        protected override bool VerifySettings()
         {
-            if (!(Output is DMXOutput))
+            return true;
+        }
+
+        protected override void UpdateOutputs(byte[] OutputValues)
+        {
+            try
             {
-                throw new Exception("The OutputValueChanged event handler for ArtNet node {0} (controlling Dmx universe {1}) has been called by a sender which is not a DmxOutput.".Build(Name, Universe));
-            }
-
-            DMXOutput O = (DMXOutput)Output;
-
-            if (!O.DmxChannel.IsBetween(1, 512))
-            {
-                Log.Exception("ArtNet node {0} has received a update for a illegal dmx channel number ({1}).".Build(Name, O.DmxChannel));
-                throw new ArgumentOutOfRangeException("ArtNet node {0} has received a update for a illegal dmx channel number ({1}).".Build(Name, O.DmxChannel));
-
-            }
-
-            lock (UpdateLocker)
-            {
-                if (DMXData[O.DmxChannel - 1] != O.Value)
+                if (Engine != null)
                 {
-                    DMXData[O.DmxChannel - 1] = O.Value;
-                    if (O.DmxChannel > LastDMXChannel)
+                    if (OutputValues.Length == 512)
                     {
-                        LastDMXChannel = O.DmxChannel;
+                        Engine.SendDMX(BroadcastAddress, Universe, OutputValues, 512);
                     }
-                    UpdateRequired = true;
-                }
-            }
-        }
-
-      
-
-        /// <summary>
-        /// Update triggers sending of the DMX data to the physical ArtNet node.<br/>
-        /// If no updates are required (no channel values have changed) no data will be sent..
-        /// </summary>
-        public override void Update()
-        {
-            if (UpdateRequired)
-            {
-                UpdaterThreadSignal();
-            }
-        }
-
-        /// <summary>
-        /// Initializes the Artnet object.<br />
-        /// Adds the output objects to the outputcollection of the ArtNet instance and starts the updater thread.
-        /// </summary>
-        /// <param name="Cabinet">The cabinet object which is using the output controller instance.</param>
-        public override void Init(Cabinet Cabinet)
-        {
-            AddOutputs();
-
-   
-            InitUpdaterThread();
-
-            Log.Write("ArtNet node {0} (controlling universe {1}) initialized and updater thread started.".Build(Name,Universe));
-        }
-
-        /// <summary>
-        /// Finishes the ArtNet object
-        /// </summary>
-        public override void Finish()
-        {
-            FinishUpdaterThread();
-            Log.Write("ArtNet node {0} (controlling universe {1}) finished and updater thread stopped.".Build(Name, Universe));
-
-        }
-
-
-
-        #region UpdaterThread
-        /// <summary>
-        /// Inits the updater thread.
-        /// </summary>
-        /// <exception cref="System.Exception">Artnet node {0} updater thread could not start.</exception>
-        private void InitUpdaterThread()
-        {
-
-            if (!UpdaterThreadIsActive)
-            {
-                KeepUpdaterThreadAlive = true;
-                try
-                {
-                    UpdaterThread = new Thread(UpdaterThreadDoIt);
-                    UpdaterThread.Name = "ArtNet node {0} updater thread ".Build(Name);
-                    UpdaterThread.Start();
-                }
-                catch (Exception E)
-                {
-                    Log.Exception("Artnet node {0} updater thread could not start.".Build(Name), E);
-                    throw new Exception("Artnet node {0} updater thread could not start.".Build(Name), E);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Finishes the updater thread.
-        /// </summary>
-        /// <exception cref="System.Exception">A error occured during termination of ArtNet updater thread.</exception>
-        private void FinishUpdaterThread()
-        {
-            if (UpdaterThread != null)
-            {
-                try
-                {
-                    KeepUpdaterThreadAlive = false;
-                    UpdaterThreadSignal();
-                    if (!UpdaterThread.Join(1000))
+                    else
                     {
-                        UpdaterThread.Abort();
-                    }
-                    UpdaterThread = null;
-                }
-                catch (Exception E)
-                {
-                    Log.Exception("A error occured during termination of ArtNet updater thread.", E);
-                    throw new Exception("A error occured during termination of ArtNet updater thread.", E);
-                }
-            }
-        }
-
-
-        /// <summary>
-        /// Indicates whether the UpdaterThread of the Artnet instance is active or not.
-        /// </summary>
-        public bool UpdaterThreadIsActive
-        {
-            get
-            {
-                if (UpdaterThread != null)
-                {
-                    if (UpdaterThread.IsAlive)
-                    {
-                        return true;
+                        throw new Exception("{0} {1} sent the wrong number of bytes to output.".Build(this.GetType().Name, Name));
                     }
                 }
-                return false;
+                else
+                {
+                    string Msg = "{0} {1} (Universe: {2}, Broadcast Address: {3}) is not connected.".Build(new object[] { this.GetType().Name, Name, Universe, BroadcastAddress });
+                    Log.Exception(Msg);
+                    throw new Exception(Msg);
+                }
+
             }
-        }
-
-        /// <summary>
-        /// Signals the updater thread to continue its work (if currently sleeping).
-        /// </summary>
-        private void UpdaterThreadSignal()
-        {
-
-            lock (UpdaterThreadLocker)
+            catch (Exception E)
             {
-                Monitor.Pulse(UpdaterThreadLocker);
+                string Msg = "{0} {1} (Universe: {2}, Broadcast Address: {3}) could not send data: {4}".Build(new object[] { this.GetType().Name, Name, Universe, BroadcastAddress, E.Message });
+                Log.Exception(Msg, E);
+                throw new Exception(Msg, E);
             }
         }
 
-
-        private Thread UpdaterThread { get; set; }
-        private object UpdaterThreadLocker = new object();
-        private bool KeepUpdaterThreadAlive = true;
-
-
-
-
-        /// <summary>
-        /// This is the main method of the ArtNet object updater thread.
-        /// </summary>
-        private void UpdaterThreadDoIt()
+        protected override void ConnectToController()
         {
             if (Engine == null)
             {
-                Engine = Engine.Instance;
-                
+
+                try
+                {
+                    Engine = Engine.Instance;
+                    Engine.SendDMX(BroadcastAddress, Universe, new byte[512], 512);
+                }
+                catch (Exception E)
+                {
+                    Engine = null;
+                    string Msg = "{0} {1} (Universe: {2}, Broadcast Address: {3}) could not connect: {4}".Build(new object[] { this.GetType().Name, Name, Universe, BroadcastAddress, E.Message });
+                    Log.Exception(Msg, E);
+                    throw new Exception(Msg, E);
+                }
             }
+        }
 
-            //Send all channels to ensure that there are defined values
-            Engine.SendDMX(BroadcastAddress,Universe, DMXData, 512);
-
-            while (KeepUpdaterThreadAlive)
+        protected override void DisconnectFromController()
+        {
+            try
             {
-
-                if (UpdateRequired)
-                {
-                    lock (UpdateLocker)
-                    {
-                        UpdateRequired = false;
-                        Engine.SendDMX(BroadcastAddress, Universe, DMXData, 512);// ((LastDMXChannel | 1) + 1).Limit(2, 512));
-                    }
-
-                }
-
-                if (KeepUpdaterThreadAlive)
-                {
-                    lock (UpdaterThreadLocker)
-                    {
-                        while (UpdateRequired == false && KeepUpdaterThreadAlive)
-                        {
-                            Monitor.Wait(UpdaterThreadLocker, 50);  // Lock is released while we’re waiting
-                        }
-                    }
-                }
-
+                Engine.SendDMX(BroadcastAddress, Universe, new byte[512], 512);
             }
-            Engine.SendDMX(BroadcastAddress, Universe, new byte[512], 512);
-
+            catch { }
 
             if (Engine != null)
             {
-               
                 Engine = null;
             }
-
         }
-        #endregion
-
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ArtNet"/> class.
-        /// </summary>
-        public ArtNet() {
-            Outputs = new OutputList();
-
-        }
-
-
-
     }
 }
