@@ -38,13 +38,14 @@ namespace DirectOutput.Table
 
         #region Direct access to TableElementType Dictionaries
 
-        /// <summary>
-        /// Returns a dictionary for the specified TableElementType
-        /// </summary>
-        public Dictionary<int, TableElement> GetTableElementDictonaryForType(TableElementTypeEnum Type)
-        {
-            return _NumberedTableElementsDictionary[Type];
-        }
+        ///// <summary>
+        ///// Returns a dictionary for the specified TableElementType
+        ///// </summary>
+        //public Dictionary<int, TableElement> GetTableElementDictonaryForType(TableElementTypeEnum Type)
+        //{
+            
+        //    return _NumberedTableElementsDictionary[Type];
+        //}
 
 
         /// <summary>
@@ -53,7 +54,14 @@ namespace DirectOutput.Table
         /// </summary>
         public List<TableElement> GetTableElementListForType(TableElementTypeEnum Type)
         {
-            return new List<TableElement>(_NumberedTableElementsDictionary[Type].Values);
+            if (Type == TableElementTypeEnum.NamedElement)
+            {
+                return new List<TableElement>(_NamedTableElementsDictionary.Values);
+            }
+            else
+            {
+                return new List<TableElement>(_NumberedTableElementsDictionary[Type].Values);
+            }
         }
 
         /// <summary>

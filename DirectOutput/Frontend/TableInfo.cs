@@ -52,7 +52,7 @@ namespace DirectOutput.Frontend
             }
             foreach (TableElementTypeEnum TET in Enum.GetValues(typeof(TableElementTypeEnum)))
             {
-                DT.Rows.Add("{0} count".Build(((TableElementTypeEnum)TET).ToString()), Pinball.Table.TableElements.GetTableElementDictonaryForType(TET).Count);
+                DT.Rows.Add("{0} count".Build(((TableElementTypeEnum)TET).ToString()), Pinball.Table.TableElements.GetTableElementListForType(TET).Count);
             }
 
             DT.Rows.Add("Configured effects", Pinball.Table.Effects.Count);
