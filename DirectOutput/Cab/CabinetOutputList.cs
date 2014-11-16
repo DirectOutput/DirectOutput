@@ -93,28 +93,46 @@ namespace DirectOutput.Cab
         {
             get
             {
+                string OutputName = "";
+
                 string[] N = Name.Replace("/", "\\").Split('\\');
-                if (N.Length==2)
+                if (N.Length == 2)
                 {
                     //it is a path
                     if (OutputControllers.Contains(N[0]))
                     {
-                        IOutputController OC = OutputControllers[N[0]];
-                        if (OC.Outputs.Contains(N[1]))
-                        {
-                            return OC.Outputs[N[1]];
-                        }
+                        OutputName = N[1];
                     }
                 }
                 else
                 {
                     //just a simple name
-                    foreach (IOutputController OC in this.OutputControllers)
+                    OutputName = Name;
+                }
+              
+
+                string[] NameParts = OutputName.Split('.');
+                if (NameParts.Length == 2)
+                {
+                    int Nr = 0;
+                    if (this.OutputControllers.Contains(NameParts[0]) && int.TryParse(NameParts[1], out Nr))
                     {
-                        if (OC.Outputs.Contains(Name))
+                        IOutputController OC = this.OutputControllers[NameParts[0]];
+
+                        IOutput O = OC.Outputs.FirstOrDefault(OP => OP.Number == Nr);
+                        if (O != null)
                         {
-                            return (IOutput)OC.Outputs[Name];
+                            return O;
                         }
+                    }
+                }
+
+
+                foreach (IOutputController OC in this.OutputControllers)
+                {
+                    if (OC.Outputs.Contains(OutputName))
+                    {
+                        return (IOutput)OC.Outputs[OutputName];
                     }
                 }
                 return null;
@@ -173,7 +191,7 @@ namespace DirectOutput.Cab
         public bool Contains(string Name)
         {
             return (this[Name] != null);
-            
+
         }
 
 

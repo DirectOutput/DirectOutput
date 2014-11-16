@@ -92,6 +92,7 @@
     <Compile Include="Cab\Out\AdressableLedStrip\LedStripOutput.cs" />
     <Compile Include="Cab\Out\AdressableLedStrip\DirectStripController.cs" />
     <Compile Include="Cab\Out\AdressableLedStrip\WS2811StripController.cs" />
+    <Compile Include="Cab\Out\ComPort\GenericCom.cs" />
     <Compile Include="Cab\Out\ComPort\PinControl.cs" />
     <Compile Include="Cab\Out\DMX\ArtNeOld.cs" />
     <Compile Include="Cab\Out\DMX\ArtnetEngine\ArtnetEngine.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="Cab\Out\LW\LW.cs" />
     <Compile Include="Cab\Out\OutputControllerCompleteBase.cs" />
     <Compile Include="Cab\Out\NullOutputController\NullOutputController.cs" />
+    <Compile Include="Cab\Out\OutputControllerFlexCompleteBase.cs" />
     <Compile Include="Cab\Out\Pac\PacDrive.cs" />
     <Compile Include="Cab\Out\Pac\PacDriveAutoConfigurator.cs" />
     <Compile Include="Cab\Out\Pac\PacDriveSingleton.cs" />

@@ -215,7 +215,10 @@ namespace DirectOutput.Cab.Toys.Hardware
         /// </summary>
         public override void Reset()
         {
-            OutputController.SetValues((FirstLedNumber-1) * 3, new byte[NumberOfLeds]);
+            if (OutputController != null && NumberOfLeds > 0)
+            {
+                OutputController.SetValues((FirstLedNumber - 1) * 3, new byte[NumberOfLeds]);
+            }
         }
 
         /// <summary>

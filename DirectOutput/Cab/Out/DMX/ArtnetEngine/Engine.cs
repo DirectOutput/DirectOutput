@@ -43,10 +43,14 @@ namespace DirectOutput.Cab.Out.DMX.ArtnetEngine
             {
                 try
                 {
-                    UdpServer = new UdpClient(0x1936);
+                    //Log.Write("Init artnet engine");
+                    UdpServer = new UdpClient();
+                    UdpServer.ExclusiveAddressUse = false;
+                    
                     UdpServer.EnableBroadcast = true;
                     UdpServer.Client.SendTimeout = 100;
                     UdpServer.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
+              
                 }
                 catch (Exception E)
                 {
@@ -71,6 +75,7 @@ namespace DirectOutput.Cab.Out.DMX.ArtnetEngine
                     }
                     catch { }
                     UdpServer = null;
+                    //Log.Write("drop artnet engine");
                 }
             }
         }

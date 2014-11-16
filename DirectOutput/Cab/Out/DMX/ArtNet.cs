@@ -77,6 +77,7 @@ namespace DirectOutput.Cab.Out.DMX
                     }
                     else
                     {
+                        Log.Exception("{0} {1} sent the wrong number of bytes to output.".Build(this.GetType().Name, Name));
                         throw new Exception("{0} {1} sent the wrong number of bytes to output.".Build(this.GetType().Name, Name));
                     }
                 }

@@ -59,14 +59,14 @@ namespace DirectOutput.Cab.Out.ComPort
                 {
                     if (OldValues == null || OldValues[i] != OutputValues[i])
                     {
-                        Port.Write("{0},{1}{2}#".Build(i+1, (OutputValues[0] == 0 ? 2 : 1), (OutputValues[0] != 0 && i==0 ? ",0,0," + OutputValues[0].ToString():"")));
+                        Port.Write("{0},{1}{2}#".Build(i+1, (OutputValues[i] == 0 ? 2 : 1), (OutputValues[i] != 0 && i==0 ? ",0,0," + OutputValues[i].ToString():"")));
 
                     }
                 }
 
                 bool ColorChanged = false;
                 bool IsBlack = true;
-                for (int i = 8; i < 11; i++)
+                for (int i = 8; i < 10; i++)
                 {
                     if (OldValues == null || OldValues[i] != OutputValues[i])
                     {
@@ -83,7 +83,7 @@ namespace DirectOutput.Cab.Out.ComPort
                     }
                     else
                     {
-                        Port.Write("9,1,{0},{1},{2}".Build(OutputValues[8],OutputValues[9],OutputValues[10]));
+                        Port.Write("9,1,{0},{1},{2}#".Build(OutputValues[7],OutputValues[8],OutputValues[9]));
                     }
                 }
 

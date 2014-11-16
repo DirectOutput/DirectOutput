@@ -1,5 +1,55 @@
 Built in Output controllers  {#outputcontrollers_builtin}
 ==========
+\section use_DirectOutput_Cab_Out_DMX_ArtNeOld ArtNeOld
+
+\subsection use_DirectOutput_Cab_Out_DMX_ArtNeOld_summary Summary
+
+Artnet is a industry standard protocol used to control <a target="_blank" href="https://en.wikipedia.org/wiki/DMX512">DMX</a> lighting effects over ethernet. Using <a target="_blank" href="https://en.wikipedia.org/wiki/Art-Net">Art-Net</a> it is possible to connect a very wide range of lighting effects like <a target="_blank" href="https://www.google.ch/search?q=dmx+strobe">strobes</a> or <a target="_blank" href="https://www.google.ch/search?q=dmx+dimmer">dimmer packs</a>. There are tons of DMX controlled effects available on the market (from very cheap and small to very expensive and big). It might sounds a bit crazy, but with Art-net and DMX you could at least in theory control a whole stage lighting system (this would likely make you feel like Tommy in the movie).
+
+To use Art-Net you will need a Art-Net node (unit that converts from ethernet to DMX protocol) and also some DMX controlled lighting effect. There are quite a few different Art-Net nodes available on the market and most of them should be compatible with the DirectOutput framework. For testing the Art-Net node <a target="_blank" href="http://www.ulrichradig.de/home/index.php/avr/dmx-avr-artnetnode">sold by Ulrich Radig</a> as a DIY kit was used.
+
+Each Art-Net node/DMX universe supports 512 DMX channels and several Art-Net nodes controlling different DMX universes can be used in parallel.
+
+If you want to read more about Art-net, visit the website of <a href="http://www.artisticlicence.com">Artistic License</a>. The specs for Art-net can be found in the Resources - User Guides + Datasheets section of the site.
+
+\image html DMX.png DMX
+
+
+
+\subsection use_DirectOutput_Cab_Out_DMX_ArtNeOld_samplexml Sample XML
+
+A configuration section for ArtNeOld might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<ArtNeOld>
+  <Name>Name of ArtNeOld</Name>
+  <Universe>0</Universe>
+  <BroadcastAddress>BroadcastAddress string</BroadcastAddress>
+</ArtNeOld>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_Cab_Out_DMX_ArtNeOld_properties Properties
+
+ArtNeOld has the following 3 configurable properties:
+
+\subsubsection DirectOutput_Cab_Out_DMX_ArtNeOld_BroadcastAddress BroadcastAddress
+
+String containing broadcast address. If this parameter is not set the default broadcast address (255.255.255.255) will be used.
+Valid values are any IP adresses (e.g. 192.168.1.53).
+
+
+
+\subsubsection DirectOutput_Cab_Out_DMX_ArtNeOld_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_Cab_Out_DMX_ArtNeOld_Universe Universe
+
+The number of the Dmx universe.
+
+
+
 \section use_DirectOutput_Cab_Out_DMX_ArtNet ArtNet
 
 \subsection use_DirectOutput_Cab_Out_DMX_ArtNet_summary Summary

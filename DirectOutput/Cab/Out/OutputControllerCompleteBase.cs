@@ -12,10 +12,14 @@ namespace DirectOutput.Cab.Out
     /// This abstract class implement the full base logic for a output controller with a separate thread for the hardware communication.
     /// All you have to do to create your own output controller class is to inherit this class and to implement a few abstract methods (int GetNumberOfConfiguredOutputs(), bool VerifySettings(), void ConnectToController(), void DisconnectFromController(), void UpdateOutputs(byte[] OutputValues).
     /// </summary>
-    public abstract class OutputControllerCompleteBase : NamedItemBase, IOutputController
+    public abstract class OutputControllerCompleteBase : NamedItemBase, IOutputController, ISupportsSetValues
     {
 
         byte[] OutputValues = new byte[0];
+
+
+
+
 
         /// <summary>
         /// Manages to output object of the output controller. Use the GetNumberOfConfiguredOutputs() method to determine the number of outputs to be setup.
@@ -99,19 +103,46 @@ namespace DirectOutput.Cab.Out
         /// <param name="Output">The output.</param>
         private void OnOutputValueChanged(IOutput Output)
         {
-            if (Output.Number < OutputValues.Length)
+            if (Output.Number>0 && Output.Number <= OutputValues.Length)
             {
                 lock (ValueChangeLocker)
                 {
-                    if (OutputValues[Output.Number] != Output.Value)
+                    if (OutputValues[Output.Number-1] != Output.Value)
                     {
-                        OutputValues[Output.Number] = Output.Value;
+                        OutputValues[Output.Number-1] = Output.Value;
                         UpdateRequired = true;
                     }
 
                 }
             }
         }
+
+
+
+        #region ISupportsSetValues Member
+
+        /// <summary>
+        /// Sets the values for one or several outputs of the controller.
+        /// </summary>
+        /// <param name="FirstOutput">The first output to be updated with a new value (zero based).</param>
+        /// <param name="Values">The values to be used.</param>
+        public void SetValues(int FirstOutput, byte[] Values)
+        {
+            if (FirstOutput >= OutputValues.Length) return;
+            if (FirstOutput < 0) return;
+            int CopyLength = (OutputValues.Length - FirstOutput).Limit(0, Values.Length);
+            if (CopyLength < 1) return;
+
+            lock (ValueChangeLocker)
+            {
+                Buffer.BlockCopy(Values, 0, OutputValues, FirstOutput, CopyLength);
+                UpdateRequired = true;
+            }
+        }
+
+        #endregion
+
+
 
         /// <summary>
         /// Initializes the output controller and starts the updater thread.
@@ -146,7 +177,7 @@ namespace DirectOutput.Cab.Out
         /// <summary>
         /// Finishes the output controller and stop the updater thread.
         /// </summary>
-        public void Finish() {
+        public virtual void Finish() {
             FinishUpdaterThread();
             Log.Write("{0} {1} finished and updater thread stopped.".Build(this.GetType().Name,Name));
         }
