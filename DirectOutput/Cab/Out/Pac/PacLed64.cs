@@ -578,7 +578,7 @@ namespace DirectOutput.Cab.Out.Pac
 
 
                     }
-                    ForceFullUpdate = false;
+                    //ForceFullUpdate = false;
                 }
                 else
                 {

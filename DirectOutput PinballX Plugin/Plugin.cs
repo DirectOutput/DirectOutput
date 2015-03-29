@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using DracLabs;
 using FuzzyStrings;
 using System.Reflection;
+using PinballX.Table2RomMapping;
 
 namespace PinballX
 {
@@ -134,7 +135,14 @@ namespace PinballX
 
         private void SetupRomNameLinks()
         {
-           
+            TableNameMappings AllTableMappings = new TableNameMappings();
+
+            string TableMappingFileName = DM.GetTableMappingFilename();
+            if (!string.IsNullOrEmpty(TableMappingFileName))
+            {
+                AllTableMappings = TableNameMappings.LoadTableMappings(TableMappingFileName);
+            }
+
 
             foreach (string R in DM.GetConfiguredTableElmentDescriptors())
             {
@@ -147,179 +155,47 @@ namespace PinballX
 
             if (TableRomNames.Count > 0)
             {
-                Log("Found following romnames in DOF config: " + string.Join(",", TableRomNames.ToArray()));
+                Log("The following RomNames are configured in DOF: " + string.Join(",", TableRomNames.ToArray()));
             }
             else
             {
-                Log("No romnames defined in DOF config.");
+                Log("No romnames are configured in DOF.");
                 //return;
             }
 
-            int Cnt = 0;
+           
 
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            //  var resourceName = "DefaultRomMap";
-
+  
 
 
 
-            try
-            {
-                using (Stream stream = GenerateStreamFromString(PinballX.Properties.Resources.DefaultRomMap))
-                {
-                    using (StreamReader reader = new StreamReader(stream))
-                    {
-                        while (!reader.EndOfStream)
-                        {
-                            string L = reader.ReadLine();
-                            if (L.Length > 1 && !L.StartsWith("#"))
-                            {
-                                string[] LParts = L.ToUpper().Split(';');
-                                if (LParts.Length == 2)
-                                {
-                                    if (!AllRomMap.ContainsKey(LParts[0].Trim()))
-                                    {
-                                        AllRomMap.Add(LParts[0].Trim(), LParts[1].Trim());
-                                    }
-
-                                    foreach (string R in TableRomNames)
-                                    {
-                                        if (LParts[1].Trim() == R || LParts[1].Trim().StartsWith(R + "_"))
-                                        {
-                                            string K = CleanGameDescription(LParts[0].Trim());
-                                            if (!ConfiguredRomMap.ContainsKey(K))
-                                            {
-                                                ConfiguredRomMap.Add(K, R.ToUpper());
-                                                Cnt++;
-                                            }
-                                        }
-                                    }
-
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception E)
-            {
-
-                Log("Exeception " + E.Message);
-            }
-            Log("Found " + Cnt.ToString() + " possible game names for configured rom names in internal list");
-
-
-
-            string IniFileName = Path.Combine(new DirectoryInfo(".").FullName, "pinemhi.ini");
-
-            if (File.Exists(IniFileName))
-            {
-                try
-                {
-                    Cnt = 0;
-                    IniFile I = new IniFile();
-                    I.Load(IniFileName, false);
-
-                    foreach (DracLabs.IniFile.IniSection.IniKey IniKey in I.GetSection("romfind").Keys)
-                    {
-
-                        string K = IniKey.Name.ToUpper().Trim();
-
-                        string V = IniKey.Value.ToUpper().Trim();
-
-
-
-                        string KS = K;
-                        if (K.IndexOf("(") > 1)
-                        {
-                            KS = K.Substring(K.IndexOf("(")).Trim();
-                        }
-
-                        if (!AllRomMap.ContainsKey(KS))
-                        {
-                            AllRomMap.Add(KS, V);
-                        }
-
-                        bool Found = false;
-                        foreach (string R in TableRomNames)
-                        {
-                            if (V == R || V.StartsWith(R + "_"))
-                            {
-                                Found = true;
-                                string RK = CleanGameDescription(KS);
-                                if (!ConfiguredRomMap.ContainsKey(RK))
-                                {
-                                    ConfiguredRomMap.Add(RK, R.ToUpper());
-                                }
-                                Cnt++;
-                            }
-                        }
-
-                        if (!Found)
-                        {
-                            //foreach (string R in RomNames)
-                            //{
-                            //    if (V.StartsWith(R))
-                            //    {
-                            //        Found = true;
-                            //        RomMap.Add(CleanGameDescription(KS.ToUpper()), R.ToUpper());
-                            //    }
-                            //}
-                        }
-
-
-                    };
-
-
-                    Log("Found " + Cnt.ToString() + " possible game names for configured rom names in pinemhi.ini");
-                }
-                catch (Exception E)
-                {
-
-                    Log("Exception while loading pinemhi.ini: " + E.Message);
-                }
-
-
-            }
-            else
-            {
-                Log("Pinemhi.ini file not found");
-            }
+           
 
         }
 
 
-        private Stream GenerateStreamFromString(string s)
-        {
-            MemoryStream stream = new MemoryStream();
-            StreamWriter writer = new StreamWriter(stream);
-            writer.Write(s);
-            writer.Flush();
-            stream.Position = 0;
-            return stream;
-        }
 
         Dictionary<string, string> RomLookupCache = new Dictionary<string, string>();
 
         private string GetRom(string GameDecriptionShort)
         {
-            string D = CleanGameDescription(GameDecriptionShort.ToUpper());
+            string GameDesc = CleanGameDescription(GameDecriptionShort.ToUpper());
 
 
-            if (TableRomNames.Contains(GameDecriptionShort)) return D;
+            if (TableRomNames.Contains(GameDecriptionShort)) return GameDesc;
 
-            if (ConfiguredRomMap.ContainsKey(D)) return ConfiguredRomMap[D];
+            if (ConfiguredRomMap.ContainsKey(GameDesc)) return ConfiguredRomMap[GameDesc];
 
-            if (RomLookupCache.ContainsKey(D)) return RomLookupCache[D];
+            if (RomLookupCache.ContainsKey(GameDesc)) return RomLookupCache[GameDesc];
 
             foreach (string K in ConfiguredRomMap.Keys)
             {
-                if (K.StartsWith(D)) return ConfiguredRomMap[K];
+                if (K.StartsWith(GameDesc)) return ConfiguredRomMap[K];
             }
 
             foreach (string K in ConfiguredRomMap.Keys)
             {
-                if (K.IndexOf(D) >= 0) return ConfiguredRomMap[K];
+                if (K.IndexOf(GameDesc) >= 0) return ConfiguredRomMap[K];
             }
 
             string MatchKey = null;
@@ -327,7 +203,7 @@ namespace PinballX
 
             foreach (string K in AllRomMap.Keys)
             {
-                double M = FuzzyStrings.FuzzyText.DiceCoefficient(K, D);
+                double M = FuzzyStrings.FuzzyText.DiceCoefficient(K, GameDesc);
 
                 if (M > MatchValue)
                 {
@@ -376,9 +252,9 @@ namespace PinballX
                 }
 
 
-                if (!RomLookupCache.ContainsKey(D))
+                if (!RomLookupCache.ContainsKey(GameDesc))
                 {
-                    RomLookupCache.Add(D, UseTableRom);
+                    RomLookupCache.Add(GameDesc, UseTableRom);
                 }
 
                 if (UseTableRom != null)

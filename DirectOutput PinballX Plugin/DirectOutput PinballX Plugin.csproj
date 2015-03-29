@@ -59,6 +59,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Table2RomMapping\Mapping.cs" />
+    <Compile Include="Table2RomMapping\TableNameMappings.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Configure.resx">

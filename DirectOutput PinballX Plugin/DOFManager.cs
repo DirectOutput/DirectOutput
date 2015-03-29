@@ -55,7 +55,7 @@ namespace PinballX
         {
             lock (DOFLocker)
             {
-               
+
                 if (DOF != null)
                 {
                     // Marshal.ReleaseComObject(DOF);
@@ -190,5 +190,21 @@ namespace PinballX
                 return new string[0];
             }
         }
+
+
+        public string GetTableMappingFilename()
+        {
+            lock (DOFLocker)
+            {
+                Load();
+                if (DOF != null && IsInitialized)
+                {
+                    return (string)DOFType.InvokeMember("TableMappingFileName", BindingFlags.InvokeMethod, null, DOF, null);
+                }
+                return null;
+            }
+
+        }
+
     }
 }

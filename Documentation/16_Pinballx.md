@@ -15,7 +15,7 @@ Installing step by step:
 * Open the directory where the DirectOutput framework is installed. 
 * From the DOF directory, execute the _RegisterDirectOutputComObject.exe_ to register the COM-object of DOF. \image html RegisterComObject.png 
 * Open the plugin directory of Pinballx (typically c:\\PinballX\\plugins) in another window.
-* Copy the file _B2SServerDirectOutputPlugin.dll_ from the DOF directory to the PinballX plugin directory.
+* Copy the file _DirectOutput PinballX Plugin.dll_ from the DOF directory to the PinballX plugin directory.
 * Start the PinballX Pluin Manager and activate the DirectOutput Plugin by activating the checkbox in front of the plugin name. \image html PBX_PluginManager.png
 * After activating the plugin,  select the line of the DOF plugin in the manager and click the configure button which will open the config window of the plugin. Check if the plugin can detect DOF and if you want turn on the logging for the plugin (DOF log is as usual controlled by the global config). \image html PBX_PluginConfig.png
 * Download some suitable config files from the config tool over at:  <a target="_blank" href="http://vpuniverse.com/ledwiz/login.php">ConfigTool Website</a> and put those configs in the config folder of DOF.

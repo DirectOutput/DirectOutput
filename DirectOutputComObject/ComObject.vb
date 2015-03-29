@@ -224,11 +224,28 @@ Public Class ComObject
     ''' Gets the descriptors for configured table elments.
     ''' </summary>
     ''' <returns>Array of tabler element descriptors</returns>
-    Public Function GetConfiguredTableElmentDescriptors()
+    Public Function GetConfiguredTableElmentDescriptors() As String()
         If Pinball IsNot Nothing Then
             Return Pinball.Table.TableElements.GetTableElementDescriptors()
         End If
         Return {}
+    End Function
+
+    ''' <summary>
+    ''' Return the Name and Path of the TableMapping file.
+    ''' </summary>
+    ''' <returns>Name and Path of the TableMapping file.</returns>
+    Public Function TableMappingFileName() As String
+        If Pinball IsNot Nothing Then
+            If (Pinball.GlobalConfig IsNot Nothing) Then
+                Dim FI As FileInfo
+                FI = Pinball.GlobalConfig.GetTableMappingFile()
+                If (FI IsNot Nothing) Then
+                    Return FI.Name
+                End If
+            End If
+        End If
+        Return ""
     End Function
 
 

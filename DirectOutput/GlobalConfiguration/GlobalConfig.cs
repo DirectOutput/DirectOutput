@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
+using System.Linq;
 using DirectOutput.General;
 
 
@@ -204,7 +205,31 @@ namespace DirectOutput.GlobalConfiguration
 
         }
 
+        /// <summary>
+        /// Gets a FileInfo object pointing to the table mapping file or null if no table mapping file exists.
+        /// </summary>
+        /// <param name="TableFilename">The table filename (optional).</param>
+        /// <returns>ileInfo object pointing to the table mapping file or null if no table mapping file exists</returns>
+        public FileInfo GetTableMappingFile(string TableFilename="")
+        {
+            Dictionary<int,FileInfo> IniFileDict = GetIniFilesDictionary(TableFilename);
 
+            if (IniFileDict != null && IniFileDict.Count > 0)
+            {
+                DirectoryInfo DI = IniFileDict[0].Directory;
+
+                FileInfo FI = DI.GetFiles("tablemappings.*").FirstOrDefault();
+
+                return FI;
+            }
+            else
+            {
+                return null;
+            }
+
+
+
+        }
 
 
         #endregion
