@@ -301,7 +301,7 @@ namespace DirectOutput.LedControl.Loader
             TableVariablesDictionary VD = new TableVariablesDictionary(VariableData);
 
 
-            for (int i = 0; i < DataToResolve.Count - 1; i++)
+            for (int i = 0; i < DataToResolve.Count ; i++)
             {
                 string D = DataToResolve[i].Trim();
                 bool Updated = false;
@@ -344,7 +344,7 @@ namespace DirectOutput.LedControl.Loader
                 if (!N.StartsWith("@")) N = "@" + N;
                 if (!N.EndsWith("@")) N += "@";
 
-                for (int i = 0; i < DataToResolve.Count - 1; i++)
+                for (int i = 0; i < DataToResolve.Count; i++)
                 {
                     DataToResolve[i] = DataToResolve[i].Replace(N, KV.Value);
                 }
