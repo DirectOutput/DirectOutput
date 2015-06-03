@@ -9,7 +9,7 @@ DirectOutput does also support <a target="_blank" href="http://www.pinballx.net/
 
 Prerequisites:
 * The DirectOutput framework must be installed, configured and working.
-* PinballX must be installed, confiured and working.
+* PinballX must be installed, configured and working.
 
 Installing step by step:
 * Open the directory where the DirectOutput framework is installed. 
@@ -52,7 +52,7 @@ Appart from using these special trigger parameters all other settings for effect
 
 __Examples:__
 
-* $PBXWheelRight 120 defined for a solenoid will fire the solenoid for 120ms when the whell rotates to the right.
+* $PBXWheelRight 120 defined for a solenoid will fire the solenoid for 120ms when the wheel rotates to the right.
 * $PBXMenu Blue defined for a rgb led will set this led to blue while a menu is displayed.
 * $PBXGameSelect Green 300 3 defined for a rgb led will generate 3 green flashes within 300ms when another game is selected using the whell.
 * $mm Red defined for a rgb led will set that led to read as long as Mediveal Madness (mm) is selected.

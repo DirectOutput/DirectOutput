@@ -7,6 +7,7 @@ using DracLabs;
 using FuzzyStrings;
 using System.Reflection;
 using PinballX.Table2RomMapping;
+using System.Linq;
 
 namespace PinballX
 {
@@ -26,14 +27,16 @@ namespace PinballX
         {
             if (State != LastPBXState)
             {
-                if (GetPBXStateName(LastPBXState) != null)
+                string StateName = GetPBXStateName(LastPBXState);
+                if (StateName != null)
                 {
-                    DM.UpdateNamedTableElement(GetPBXStateName(LastPBXState), 0);
+                    DM.UpdateNamedTableElement(StateName, 0);
                 }
 
-                if (GetPBXStateName(State) != null)
+                StateName = GetPBXStateName(State);
+                if (StateName != null)
                 {
-                    DM.UpdateNamedTableElement(GetPBXStateName(State),1);
+                    DM.UpdateNamedTableElement(StateName, 1);
                 }
 
                 LastPBXState = State;
@@ -129,13 +132,15 @@ namespace PinballX
         }
 
         List<string> TableRomNames = new List<string>();
-        Dictionary<string, string> ConfiguredRomMap = new Dictionary<string, string>();
-        Dictionary<string, string> AllRomMap = new Dictionary<string, string>();
+        TableNameMappings AllTableMappings = new TableNameMappings();
+        // Dictionary<string, string> ConfiguredRomMap = new Dictionary<string, string>();
+        //Dictionary<string, string> AllRomMap = new Dictionary<string, string>();
 
 
         private void SetupRomNameLinks()
         {
-            TableNameMappings AllTableMappings = new TableNameMappings();
+
+            AllTableMappings = new TableNameMappings();
 
             string TableMappingFileName = DM.GetTableMappingFilename();
             if (!string.IsNullOrEmpty(TableMappingFileName))
@@ -143,7 +148,7 @@ namespace PinballX
                 AllTableMappings = TableNameMappings.LoadTableMappings(TableMappingFileName);
             }
 
-
+            
             foreach (string R in DM.GetConfiguredTableElmentDescriptors())
             {
                 if (R.StartsWith("$"))
@@ -184,72 +189,73 @@ namespace PinballX
 
             if (TableRomNames.Contains(GameDecriptionShort)) return GameDesc;
 
-            if (ConfiguredRomMap.ContainsKey(GameDesc)) return ConfiguredRomMap[GameDesc];
+            //if (ConfiguredRomMap.ContainsKey(GameDesc)) return ConfiguredRomMap[GameDesc];
 
             if (RomLookupCache.ContainsKey(GameDesc)) return RomLookupCache[GameDesc];
 
-            foreach (string K in ConfiguredRomMap.Keys)
-            {
-                if (K.StartsWith(GameDesc)) return ConfiguredRomMap[K];
-            }
+            //foreach (string K in ConfiguredRomMap.Keys)
+            //{
+            //    if (K.StartsWith(GameDesc)) return ConfiguredRomMap[K];
+            //}
 
-            foreach (string K in ConfiguredRomMap.Keys)
-            {
-                if (K.IndexOf(GameDesc) >= 0) return ConfiguredRomMap[K];
-            }
+            //foreach (string K in ConfiguredRomMap.Keys)
+            //{
+            //    if (K.IndexOf(GameDesc) >= 0) return ConfiguredRomMap[K];
+            //}
 
-            string MatchKey = null;
+            //string MatchKey = null;
+            Mapping MatchMapping = null;
             double MatchValue = 0;
 
-            foreach (string K in AllRomMap.Keys)
+            foreach (Mapping Mapping in AllTableMappings)
             {
-                double M = FuzzyStrings.FuzzyText.DiceCoefficient(K, GameDesc);
+                double M = FuzzyStrings.FuzzyText.DiceCoefficient(Mapping.TableName, GameDesc);
 
                 if (M > MatchValue)
                 {
                     MatchValue = M;
-                    MatchKey = K;
+                    MatchMapping = Mapping;
                 }
             }
-          
-            if (MatchValue > 0.3 && !string.IsNullOrEmpty(MatchKey))
+
+            if (MatchValue > 0.3 && MatchMapping!=null)
             {
-                string Rom = AllRomMap[MatchKey];
+                string Rom = MatchMapping.RomName;
 
 
                 string UseTableRom = null;
 
                 foreach (string TableRomName in TableRomNames)
                 {
-                    if (TableRomName == Rom)
+                    if (TableRomName.Equals(Rom,StringComparison.InvariantCultureIgnoreCase))
                     {
                         UseTableRom = TableRomName;
                         break;
                     };
                 };
-                if (UseTableRom == null)
-                {
-                    foreach (string TableRomName in TableRomNames)
-                    {
-                        if (TableRomName.StartsWith(Rom + "_"))
-                        {
-                            UseTableRom = TableRomName;
-                            break;
-                        };
-                    };
-                }
+                //if (UseTableRom == null)
+                //{
+                //    foreach (string TableRomName in TableRomNames)
+                //    {
+                //        if (TableRomName.StartsWith(Rom + "_"))
+                //        {
+                //            UseTableRom = TableRomName;
+                //            break;
+                //        };
+                //    };
+                //}
 
-                if (UseTableRom == null)
-                {
-                    foreach (string TableRomName in TableRomNames)
-                    {
-                        if (TableRomName.StartsWith(Rom))
-                        {
-                            UseTableRom = TableRomName;
-                            break;
-                        };
-                    };
-                }
+                //if (UseTableRom == null)
+                //{
+                //    foreach (string TableRomName in TableRomNames)
+                //    {
+                //        if (TableRomName.StartsWith(Rom))
+                //        {
+                //            UseTableRom = TableRomName;
+                //            break;
+                //        };
+                //    };
+                //}
 
 
                 if (!RomLookupCache.ContainsKey(GameDesc))

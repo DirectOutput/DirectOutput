@@ -49,6 +49,10 @@ Public Class ComObject
     End Function
 
 
+    ''' <summary>
+    ''' Gets the path to the directory of the DirectOutput framework.
+    ''' </summary>
+    ''' <returns></returns>
     Function GetDllPath() As String
         Return New FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName
 
