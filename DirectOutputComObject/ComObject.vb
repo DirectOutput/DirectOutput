@@ -132,41 +132,49 @@ Public Class ComObject
     ''' <exception cref="System.Exception">Object has already been initialized. Call Finish() before initializing again.</exception>
     Public Sub Init(HostingApplicationName As String, Optional TableFileName As String = "", Optional GameName As String = "")
         If Pinball Is Nothing Then
+            Try
+                Dim HostAppFilename = HostingApplicationName.Replace(".", "")
 
-            Dim HostAppFilename = HostingApplicationName.Replace(".", "")
+                For Each C As Char In Path.GetInvalidFileNameChars()
+                    HostAppFilename = HostAppFilename.Replace("" + C, "")
+                Next
 
-            For Each C As Char In Path.GetInvalidFileNameChars()
-                HostAppFilename = HostAppFilename.Replace("" + C, "")
-            Next
+                For Each C As Char In Path.GetInvalidPathChars()
+                    HostAppFilename = HostAppFilename.Replace("" + C, "")
+                Next
+                HostAppFilename = "GlobalConfig_{0}".Build(HostAppFilename)
+                Dim F As FileInfo
 
-            For Each C As Char In Path.GetInvalidPathChars()
-                HostAppFilename = HostAppFilename.Replace("" + C, "")
-            Next
-            HostAppFilename = "GlobalConfig_{0}".Build(HostAppFilename)
-            Dim F As FileInfo
-
-            F = New FileInfo(Path.Combine(New FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName, "config", HostAppFilename + ".xml"))
-            If F.Exists = False Then
-                Dim LnkFile As FileInfo
-                LnkFile = New FileInfo(Path.Combine(New FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName, "config", HostAppFilename + ".lnk"))
-                If LnkFile.Exists Then
-                    Dim ConfigDirPath As String
-                    ConfigDirPath = ResolveShortcut(LnkFile)
-                    If Directory.Exists(ConfigDirPath) Then
-                        F = New FileInfo(Path.Combine(ConfigDirPath, HostAppFilename + ".xml"))
+                F = New FileInfo(Path.Combine(New FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName, "config", HostAppFilename + ".xml"))
+                If F.Exists = False Then
+                    Dim LnkFile As FileInfo
+                    LnkFile = New FileInfo(Path.Combine(New FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName, "config", HostAppFilename + ".lnk"))
+                    If LnkFile.Exists Then
+                        Dim ConfigDirPath As String
+                        ConfigDirPath = ResolveShortcut(LnkFile)
+                        If Directory.Exists(ConfigDirPath) Then
+                            F = New FileInfo(Path.Combine(ConfigDirPath, HostAppFilename + ".xml"))
+                        End If
                     End If
                 End If
-            End If
 
 
 
 
-            Pinball = New DirectOutput.Pinball()
+                Pinball = New DirectOutput.Pinball()
 
-            Pinball.Setup(F.FullName, TableFileName, GameName)
-            Pinball.Init()
+                Pinball.Setup(F.FullName, TableFileName, GameName)
+                Pinball.Init()
+            Catch E As Exception
+
+                Log.Warning(String.Format("DirectOutputComObject: A exception occured while initializing DOF: {0}", E.Message))
+                Log.Exception(E)
+                Throw (New Exception(String.Format("DirectOutputComObject: A exception occured while initializing DOF: {0}", E.Message)))
+            End Try
+
         Else
-            Throw New Exception("Object has already been initialized. Call Finish() before initializing again.")
+
+            Throw (New Exception("Object has already been initialized. Call Finish() before initializing again."))
         End If
 
     End Sub
@@ -240,16 +248,22 @@ Public Class ComObject
     ''' </summary>
     ''' <returns>Name and Path of the TableMapping file.</returns>
     Public Function TableMappingFileName() As String
-        If Pinball IsNot Nothing Then
-            If (Pinball.GlobalConfig IsNot Nothing) Then
-                Dim FI As FileInfo
-                FI = Pinball.GlobalConfig.GetTableMappingFile()
-                If (FI IsNot Nothing) Then
-                    Return FI.Name
+        Try
+            If Pinball IsNot Nothing Then
+                If (Pinball.GlobalConfig IsNot Nothing) Then
+                    Dim FI As FileInfo
+                    FI = Pinball.GlobalConfig.GetTableMappingFile()
+                    If (FI IsNot Nothing) Then
+                        Return FI.FullName
+                    End If
                 End If
             End If
-        End If
-        Return ""
+            Return ""
+        Catch E As Exception
+            Log.Warning("DirectOutputComObject: A exception occured while getting the TableMappingFilename")
+            Log.Exception(E)
+            Throw New Exception("DirectOutputComObject: A exception occured while getting the TableMappingFilename", E)
+        End Try
     End Function
 
 

@@ -7,7 +7,7 @@ using DracLabs;
 using FuzzyStrings;
 using System.Reflection;
 using PinballX.Table2RomMapping;
-using System.Linq;
+
 
 namespace PinballX
 {
@@ -90,6 +90,7 @@ namespace PinballX
 
         private void ReadPBXConfig()
         {
+            Log("Loading PBX config data");
             string IniFileName = Path.Combine(new DirectoryInfo(".").FullName, "config\\PinballX.ini");
 
             if (File.Exists(IniFileName))
@@ -123,10 +124,11 @@ namespace PinballX
                     OneClickLaunch = false;
                 }
 
-                Log("PBX config read");
+                Log("PBX config data loaded");
             }
             else
             {
+                Log("No PBX copnfig data found");
                 //No ini file found
             }
         }
@@ -139,17 +141,27 @@ namespace PinballX
 
         private void SetupRomNameLinks()
         {
-
+            Log("Loading Table/Romname mappings");
             AllTableMappings = new TableNameMappings();
 
-            string TableMappingFileName = DM.GetTableMappingFilename();
+         
+
+            AllTableMappings.Add(new Mapping() { TableName = "xxx", RomName = "yyy" });
+            AllTableMappings.Add(new Mapping() { TableName = "aaa", RomName = "bbb" });
+            
+            AllTableMappings.SaveTableMappings(".\\mappings.xml");
+
+               string TableMappingFileName = DM.GetTableMappingFilename();
+            Log("Table mapping filename: " + TableMappingFileName);
             if (!string.IsNullOrEmpty(TableMappingFileName))
             {
                 AllTableMappings = TableNameMappings.LoadTableMappings(TableMappingFileName);
             }
 
-            
-            foreach (string R in DM.GetConfiguredTableElmentDescriptors())
+            Log(AllTableMappings.ToString() + " TableMappings loaded");
+
+            string[] L=DM.GetConfiguredTableElmentDescriptors();
+            foreach (string R in L)
             {
                 if (R.StartsWith("$"))
                 {
@@ -167,7 +179,7 @@ namespace PinballX
                 Log("No romnames are configured in DOF.");
                 //return;
             }
-
+            Log("Table/RomName mapping loaded");
            
 
   
@@ -218,6 +230,9 @@ namespace PinballX
                 }
             }
 
+            if(MatchMapping!=null) {
+                Log("Best match for " + GameDesc + " is " + MatchMapping.TableName + " (" + MatchMapping.RomName + "). Match Value: " + MatchValue.ToString());
+            }
             if (MatchValue > 0.3 && MatchMapping!=null)
             {
                 string Rom = MatchMapping.RomName;
@@ -289,6 +304,7 @@ namespace PinballX
 
         private void LoadConfig()
         {
+            Log("Loading plugin config");
             try
             {
                 Config = Config.GetConfigFromXmlFile();
@@ -296,8 +312,11 @@ namespace PinballX
             catch { }
             if (Config == null)
             {
+                Log("Plugin config loading failed. Using default values.");
                 Config = new Config();
+
             }
+            Log("Plugin config loaded");
         }
 
 
@@ -336,6 +355,7 @@ namespace PinballX
             try
             {
                 LoadConfig();
+                
                 Config.EnableLogging = true;
 
                 Log("Initializing plugin");
@@ -344,13 +364,18 @@ namespace PinballX
 
 
 
-
+                Log("Initializing DOF");
                 DM.Init();
+                Log("DOF initialized");
+
+
                 SetupRomNameLinks();
 
+                Log("Sending initial PBX state to DOF");
                 UpdatePBXState(10);
 
                 DM.UpdateNamedTableElement("PBXScreenSaver", 0);
+                Log("Init complete");
             }
             catch (Exception E)
             {

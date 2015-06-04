@@ -216,7 +216,7 @@ namespace DirectOutput.GlobalConfiguration
 
             if (IniFileDict != null && IniFileDict.Count > 0)
             {
-                DirectoryInfo DI = IniFileDict[0].Directory;
+                DirectoryInfo DI = IniFileDict.First().Value.Directory;
 
                 FileInfo FI = DI.GetFiles("tablemappings.*").FirstOrDefault();
 

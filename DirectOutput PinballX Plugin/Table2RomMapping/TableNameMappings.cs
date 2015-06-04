@@ -66,7 +66,7 @@ namespace PinballX.Table2RomMapping
 
                         throw new Exception("Could not read data from TableMapping file: " + Filename, E);
                     }
-                    byte[] xmlBytes = Encoding.Default.GetBytes(Data);
+                    byte[] xmlBytes = Encoding.ASCII.GetBytes(Data);
                     using (MemoryStream ms = new MemoryStream(xmlBytes))
                     {
                         try
@@ -93,5 +93,27 @@ namespace PinballX.Table2RomMapping
                 return new TableNameMappings();
             }
         }
+
+
+        public void SaveTableMappings(string Filename)
+        {
+            string Xml = "";
+            using (MemoryStream ms = new MemoryStream())
+            {
+                new XmlSerializer(typeof(TableNameMappings)).Serialize(ms, this);
+                ms.Position = 0;
+                using (StreamReader sr = new StreamReader(ms, Encoding.Default))
+                {
+                    Xml = sr.ReadToEnd();
+                    sr.Dispose();
+                }
+            }
+
+            FileInfo FI = new FileInfo(Filename);
+           StreamWriter SW= FI.CreateText();
+           SW.Write(Xml);
+           SW.Close();
+        }
+
     }
 }

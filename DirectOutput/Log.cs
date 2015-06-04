@@ -141,7 +141,7 @@ namespace DirectOutput
         /// </summary>
         /// <param name="Message">The message.</param>
         /// <param name="E">The Exception to be logged.</param>
-        public static void Exception(string Message = "", Exception E = null)
+        public static void Exception(string Message , Exception E=null)
         {
             lock (Locker)
             {
@@ -200,7 +200,7 @@ namespace DirectOutput
         /// Writes a exception to the log.
         /// </summary>
         /// <param name="E">The Exception to be logged.</param>
-        public static void Exception(Exception E = null)
+        public static void Exception(Exception E )
         {
             Exception("", E);
         }
