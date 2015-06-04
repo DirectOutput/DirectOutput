@@ -138,22 +138,24 @@ namespace DirectOutput.FX.MatrixFX
                     int Tmp = Min; Min = Max; Max = Tmp;
                 }
 
-                int Avg = (Min + Max / 2) - Min;
-                int NewObjectsAvg = ((FlickerLeds * Avg) - ActiveFlickerObjects.Sum(FO => FO.DurationMs)) / (FlickerLeds - ActiveFlickerObjects.Count);
-                int NewObjectsAvgChange = Avg - NewObjectsAvg;
-
-                if (NewObjectsAvgChange < 0)
+                if (Min != Max && ActiveFlickerObjects.Count.IsBetween(0,FlickerLeds-1))
                 {
-                    //Increase min
-                    Min = (Min + Math.Abs(NewObjectsAvgChange) * 2).Limit(Min, Max);
-                
-                }
-                else
-                {
-                    //Decrease max
-                    Max = (Max - NewObjectsAvgChange * 2).Limit(Min, Max);
-                }
+                    int Avg = (Min + Max / 2) - Min;
+                    int NewObjectsAvg = ((FlickerLeds * Avg) - ActiveFlickerObjects.Sum(FO => FO.DurationMs)) / (FlickerLeds - ActiveFlickerObjects.Count);
+                    int NewObjectsAvgChange = Avg - NewObjectsAvg;
 
+                    if (NewObjectsAvgChange < 0)
+                    {
+                        //Increase min
+                        Min = (Min + Math.Abs(NewObjectsAvgChange) * 2).Limit(Min, Max);
+
+                    }
+                    else
+                    {
+                        //Decrease max
+                        Max = (Max - NewObjectsAvgChange * 2).Limit(Min, Max);
+                    }
+                }
 
                 while (ActiveFlickerObjects.Count < FlickerLeds && InactiveFlickerObjects.Count > 0)
                 {
