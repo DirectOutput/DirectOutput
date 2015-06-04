@@ -47,6 +47,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectOutputComObjectRegist
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectOutput PinballX Plugin", "DirectOutput PinballX Plugin\DirectOutput PinballX Plugin.csproj", "{EEC460F2-C571-4C69-A7DA-4BE510C37947}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectOutput PinballX Plugin Tester", "DirectOutput PinballX Plugin Tester\DirectOutput PinballX Plugin Tester.csproj", "{E0FF3E9F-7CB0-486C-8982-BAE65E0A8786}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -193,6 +195,18 @@ Global
 		{EEC460F2-C571-4C69-A7DA-4BE510C37947}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{EEC460F2-C571-4C69-A7DA-4BE510C37947}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{EEC460F2-C571-4C69-A7DA-4BE510C37947}.Release|x86.ActiveCfg = Release|Any CPU
+		{E0FF3E9F-7CB0-486C-8982-BAE65E0A8786}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{E0FF3E9F-7CB0-486C-8982-BAE65E0A8786}.Debug|Itanium.ActiveCfg = Debug|x86
+		{E0FF3E9F-7CB0-486C-8982-BAE65E0A8786}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{E0FF3E9F-7CB0-486C-8982-BAE65E0A8786}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{E0FF3E9F-7CB0-486C-8982-BAE65E0A8786}.Debug|x86.ActiveCfg = Debug|x86
+		{E0FF3E9F-7CB0-486C-8982-BAE65E0A8786}.Debug|x86.Build.0 = Debug|x86
+		{E0FF3E9F-7CB0-486C-8982-BAE65E0A8786}.Release|Any CPU.ActiveCfg = Release|x86
+		{E0FF3E9F-7CB0-486C-8982-BAE65E0A8786}.Release|Itanium.ActiveCfg = Release|x86
+		{E0FF3E9F-7CB0-486C-8982-BAE65E0A8786}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{E0FF3E9F-7CB0-486C-8982-BAE65E0A8786}.Release|Mixed Platforms.Build.0 = Release|x86
+		{E0FF3E9F-7CB0-486C-8982-BAE65E0A8786}.Release|x86.ActiveCfg = Release|x86
+		{E0FF3E9F-7CB0-486C-8982-BAE65E0A8786}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

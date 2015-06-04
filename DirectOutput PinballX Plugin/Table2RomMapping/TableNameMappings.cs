@@ -6,6 +6,7 @@ using System.Xml.Serialization;
 using FuzzyStrings;
 namespace PinballX.Table2RomMapping
 {
+    [XmlRoot(ElementName="TableNameMappings")]
     public class TableNameMappings : List<Mapping>
     {
 
@@ -66,14 +67,14 @@ namespace PinballX.Table2RomMapping
 
                         throw new Exception("Could not read data from TableMapping file: " + Filename, E);
                     }
-                    byte[] xmlBytes = Encoding.ASCII.GetBytes(Data);
+                    byte[] xmlBytes = Encoding.Default.GetBytes(Data);
                     using (MemoryStream ms = new MemoryStream(xmlBytes))
                     {
                         try
                         {
                             return (TableNameMappings)new XmlSerializer(typeof(TableNameMappings)).Deserialize(ms);
                         }
-                        catch (Exception E)
+catch (Exception E)
                         {
 
                             Exception Ex = new Exception("Could not deserialize the TableNameMappings config from XML data: " + E.Message, E);
