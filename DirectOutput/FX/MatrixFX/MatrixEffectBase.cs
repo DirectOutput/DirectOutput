@@ -63,7 +63,7 @@ namespace DirectOutput.FX.MatrixFX
         private float _Height = 100;
 
         /// <summary>
-        /// Gets or sets the height in percent of target area of the ledstrip which is controlled by the effect.
+        /// Gets or sets the height in percent of target area of the matrix which is controlled by the effect.
         /// </summary>
         /// <value>
         /// The height in percent of the target area for the effect (0-100).
@@ -77,7 +77,7 @@ namespace DirectOutput.FX.MatrixFX
         private float _Left = 0;
 
         /// <summary>
-        /// Gets or sets the left resp. X positon of the upper left corner in percent of the target area of the ledstrip which is controlled by the effect.
+        /// Gets or sets the left resp. X positon of the upper left corner in percent of the target area of the matrix which is controlled by the effect.
         /// </summary>
         /// <value>
         /// The left resp. X position of the upper left corner in percent of the target area for the effect (0-100).

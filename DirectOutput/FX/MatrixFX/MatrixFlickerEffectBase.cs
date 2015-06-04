@@ -10,7 +10,7 @@ namespace DirectOutput.FX.MatrixFX
     /// <summary>
     /// Does create random flickering with a defineable density, durations and value within the spefied area of a matrix toy.
     /// </summary>
-    public abstract class MatrixFlickerEffectBase<MatrixElementType> : MatrixEffectBase<MatrixElementType>
+    public abstract class MatrixFlickerEffectBaseNew<MatrixElementType> : MatrixEffectBase<MatrixElementType>
     {
         private const int RefreshIntervalMs = 30;
 
@@ -65,6 +65,37 @@ namespace DirectOutput.FX.MatrixFX
             set { _MaxFlickerDurationMs = value.Limit(1, int.MaxValue); }
         }
 
+        private int _FlickerFadeUpDurationMs = 150;
+
+        /// <summary>
+        /// Gets or sets the fade up duration in milliseconds for a single flicker/blink of a element. 
+        /// </summary>
+        /// <value>
+        /// The fade up duration in milliseconds for a single flicker/blink of a element.
+        /// </value>
+
+        public int FlickerFadeUpDurationMs
+        {
+            get { return _FlickerFadeUpDurationMs; }
+            set { _FlickerFadeUpDurationMs = value.Limit(1, int.MaxValue); }
+        }
+
+        private int _FlickerFadeDownDurationMs = 150;
+
+        /// <summary>
+        /// Gets or sets the fade down duration in milliseconds for a single flicker/blink of a element. 
+        /// </summary>
+        /// <value>
+        /// The fade down duration in milliseconds for a single flicker/blink of a element.
+        /// </value>
+
+        public int FlickerFadeDownDurationMs
+        {
+            get { return _FlickerFadeDownDurationMs; }
+            set { _FlickerFadeDownDurationMs = value.Limit(1, int.MaxValue); }
+        }
+
+
         /// <summary>
         /// Gets a value indicating whether this <see cref="MatrixFlickerEffectBase"/> is active.
         /// </summary>
@@ -74,16 +105,13 @@ namespace DirectOutput.FX.MatrixFX
         private bool Active { get; set; }
 
 
-        private SortedDictionary<int, List<System.Drawing.Point>> ElementDictionary = new SortedDictionary<int, List<System.Drawing.Point>>();
-        private int CurrentStep = 0;
         private int CurrentValue = 0;
-        private int CurrentFlickerElements = 0;
 
         private Random R = new Random();
 
         private void DoFlicker()
         {
-            MatrixElementType D;
+
             MatrixElementType I = GetEffectValue(0);
 
             int V = CurrentValue.Limit(0, 255);
@@ -99,7 +127,6 @@ namespace DirectOutput.FX.MatrixFX
                 //Effect is active (V>0)
                 if (V > 0 && FadeMode == FadeModeEnum.OnOff) { V = 255; }
 
-                D = GetEffectValue(V);
 
                 int NumberOfLeds = AreaWidth * AreaHeight;
                 int FlickerLeds = ((int)((double)NumberOfLeds / 100 * Density)).Limit(1, NumberOfLeds);
@@ -110,66 +137,87 @@ namespace DirectOutput.FX.MatrixFX
                 {
                     int Tmp = Min; Min = Max; Max = Tmp;
                 }
-                while (CurrentFlickerElements < FlickerLeds)
+
+                int Avg = (Min + Max / 2) - Min;
+                int NewObjectsAvg = ((FlickerLeds * Avg) - ActiveFlickerObjects.Sum(FO => FO.DurationMs)) / (FlickerLeds - ActiveFlickerObjects.Count);
+                int NewObjectsAvgChange = Avg - NewObjectsAvg;
+
+                if (NewObjectsAvgChange < 0)
                 {
-                    int S = CurrentStep + (int)((float)(R.Next(Min ,Max)) / RefreshIntervalMs);
-                    if (!ElementDictionary.ContainsKey(S))
-                    {
-                        ElementDictionary.Add(S, new List<System.Drawing.Point>());
-                    }
-                    ElementDictionary[S].Add(new System.Drawing.Point(R.Next(AreaLeft, AreaRight+1), R.Next(AreaTop,AreaBottom+1)));
-                    CurrentFlickerElements++;
+                    //Increase min
+                    Min = (Min + Math.Abs(NewObjectsAvgChange) * 2).Limit(Min, Max);
+                
+                }
+                else
+                {
+                    //Decrease max
+                    Max = (Max - NewObjectsAvgChange * 2).Limit(Min, Max);
                 }
 
 
-
-                List<int> DropKeys = new List<int>();
-
-                foreach (KeyValuePair<int, List<System.Drawing.Point>> KV in ElementDictionary)
+                while (ActiveFlickerObjects.Count < FlickerLeds && InactiveFlickerObjects.Count > 0)
                 {
-                    if (KV.Key < CurrentStep)
+                    FlickerObject FO = InactiveFlickerObjects[R.Next(InactiveFlickerObjects.Count)];
+                    InactiveFlickerObjects.Remove(FO);
+
+                    FO.StartTimestamp = DateTime.Now;
+                    FO.DurationMs = R.Next(Min, Max);
+                }
+
+                DateTime CurrentTimestamp = DateTime.Now;
+
+                for (int i = ActiveFlickerObjects.Count - 1; i >= 0; i--)
+                {
+                    FlickerObject FO = ActiveFlickerObjects[i];
+
+                    int FV;
+                    int AgeMs = (int)(DateTime.Now - FO.StartTimestamp).TotalMilliseconds;
+                    if (AgeMs > FO.DurationMs + FlickerFadeDownDurationMs)
                     {
-                        foreach (System.Drawing.Point P in KV.Value)
+                        //Remove element
+                        FV = 0;
+                        ActiveFlickerObjects.Remove(FO);
+                        InactiveFlickerObjects.Add(FO);
+                    }
+
+                    else if (FlickerFadeUpDurationMs > 0 && AgeMs < FlickerFadeUpDurationMs && AgeMs < FO.DurationMs)
+                    {
+                        //Fade up
+                        FV = (int)((double)V / FlickerFadeUpDurationMs * AgeMs);
+                    }
+                    else if (AgeMs > FO.DurationMs && FlickerFadeDownDurationMs > 0)
+                    {
+                        //Fade down
+                        if (FO.DurationMs < FlickerFadeUpDurationMs)
                         {
-                            MatrixLayer[P.X, P.Y] = I;
-                            CurrentFlickerElements--;
+                            FV = (int)((double)V / FlickerFadeUpDurationMs * FO.DurationMs);
                         }
-                        DropKeys.Add(KV.Key);
+                        else
+                        {
+                            FV = V;
+                        }
+                        FV = FV - (int)((double)FV / FlickerFadeDownDurationMs * (AgeMs - FO.DurationMs));
                     }
                     else
                     {
-                        foreach (System.Drawing.Point P in KV.Value)
-                        {
-                            MatrixLayer[P.X, P.Y] = D;
-                        }
+                        //Full on
+                        FV = V;
                     }
+                    FV = FV.Limit(0, 255);
+
+                    MatrixLayer[FO.X, FO.Y] = GetEffectValue(FV);
                 }
-
-
-                foreach (int S in DropKeys)
-                {
-                    ElementDictionary.Remove(S);
-                }
-
-                CurrentStep++;
-
-
 
             }
             else
             {
-                //Deactivate effect (V=0)
 
-                foreach (KeyValuePair<int, List<System.Drawing.Point>> KV in ElementDictionary)
+                foreach (FlickerObject FO in ActiveFlickerObjects)
                 {
-                    foreach (System.Drawing.Point P in KV.Value)
-                    {
-                        MatrixLayer[P.X, P.Y] = I;
-                    }
+                    MatrixLayer[FO.X, FO.Y] = I;
                 }
-                ElementDictionary.Clear();
-                CurrentStep = 0;
-                CurrentFlickerElements = 0;
+                InactiveFlickerObjects.AddRange(ActiveFlickerObjects);
+                ActiveFlickerObjects.Clear();
                 Table.Pinball.Alarms.UnregisterIntervalAlarm(DoFlicker);
                 Active = false;
 
@@ -196,6 +244,60 @@ namespace DirectOutput.FX.MatrixFX
                 }
             }
         }
+
+        /// <summary>
+        /// Initializes the effect.
+        /// </summary>
+        /// <param name="Table">Table object containing the effect.</param>
+        public override void Init(DirectOutput.Table.Table Table)
+        {
+            base.Init(Table);
+
+            BuildFlickerObjects();
+        }
+
+        public override void Finish()
+        {
+            if (Active)
+            {
+                CurrentValue = 0;
+                DoFlicker();
+            }
+            ActiveFlickerObjects.Clear();
+            InactiveFlickerObjects.Clear();
+            base.Finish();
+        }
+
+        private void BuildFlickerObjects()
+        {
+            ActiveFlickerObjects = new List<FlickerObject>();
+            InactiveFlickerObjects = new List<FlickerObject>();
+
+            for (int Y = AreaTop; Y <= AreaBottom; Y++)
+            {
+                for (int X = AreaLeft; X < AreaRight; X++)
+                {
+                    InactiveFlickerObjects.Add(new FlickerObject() { X = X, Y = Y });
+                }
+            }
+
+        }
+
+        private List<FlickerObject> ActiveFlickerObjects = new List<FlickerObject>();
+
+        private List<FlickerObject> InactiveFlickerObjects = new List<FlickerObject>();
+
+        private class FlickerObject
+        {
+
+            public int X { get; set; }
+            public int Y { get; set; }
+
+            public int DurationMs { get; set; }
+            public DateTime StartTimestamp { get; set; }
+
+        }
+
 
 
         /// <summary>
