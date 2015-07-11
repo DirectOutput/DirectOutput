@@ -1,55 +1,5 @@
 Built in Output controllers  {#outputcontrollers_builtin}
 ==========
-\section use_DirectOutput_Cab_Out_DMX_ArtNeOld ArtNeOld
-
-\subsection use_DirectOutput_Cab_Out_DMX_ArtNeOld_summary Summary
-
-Artnet is a industry standard protocol used to control <a target="_blank" href="https://en.wikipedia.org/wiki/DMX512">DMX</a> lighting effects over ethernet. Using <a target="_blank" href="https://en.wikipedia.org/wiki/Art-Net">Art-Net</a> it is possible to connect a very wide range of lighting effects like <a target="_blank" href="https://www.google.ch/search?q=dmx+strobe">strobes</a> or <a target="_blank" href="https://www.google.ch/search?q=dmx+dimmer">dimmer packs</a>. There are tons of DMX controlled effects available on the market (from very cheap and small to very expensive and big). It might sounds a bit crazy, but with Art-net and DMX you could at least in theory control a whole stage lighting system (this would likely make you feel like Tommy in the movie).
-
-To use Art-Net you will need a Art-Net node (unit that converts from ethernet to DMX protocol) and also some DMX controlled lighting effect. There are quite a few different Art-Net nodes available on the market and most of them should be compatible with the DirectOutput framework. For testing the Art-Net node <a target="_blank" href="http://www.ulrichradig.de/home/index.php/avr/dmx-avr-artnetnode">sold by Ulrich Radig</a> as a DIY kit was used.
-
-Each Art-Net node/DMX universe supports 512 DMX channels and several Art-Net nodes controlling different DMX universes can be used in parallel.
-
-If you want to read more about Art-net, visit the website of <a href="http://www.artisticlicence.com">Artistic License</a>. The specs for Art-net can be found in the Resources - User Guides + Datasheets section of the site.
-
-\image html DMX.png DMX
-
-
-
-\subsection use_DirectOutput_Cab_Out_DMX_ArtNeOld_samplexml Sample XML
-
-A configuration section for ArtNeOld might resemble the following structure:
-
-~~~~~~~~~~~~~{.xml}
-<ArtNeOld>
-  <Name>Name of ArtNeOld</Name>
-  <Universe>0</Universe>
-  <BroadcastAddress>BroadcastAddress string</BroadcastAddress>
-</ArtNeOld>
-~~~~~~~~~~~~~
-\subsection use_DirectOutput_Cab_Out_DMX_ArtNeOld_properties Properties
-
-ArtNeOld has the following 3 configurable properties:
-
-\subsubsection DirectOutput_Cab_Out_DMX_ArtNeOld_BroadcastAddress BroadcastAddress
-
-String containing broadcast address. If this parameter is not set the default broadcast address (255.255.255.255) will be used.
-Valid values are any IP adresses (e.g. 192.168.1.53).
-
-
-
-\subsubsection DirectOutput_Cab_Out_DMX_ArtNeOld_Name Name
-
-The name of the item.
-
-
-
-\subsubsection DirectOutput_Cab_Out_DMX_ArtNeOld_Universe Universe
-
-The number of the Dmx universe.
-
-
-
 \section use_DirectOutput_Cab_Out_DMX_ArtNet ArtNet
 
 \subsection use_DirectOutput_Cab_Out_DMX_ArtNet_summary Summary
@@ -127,11 +77,12 @@ A configuration section for DirectStripController might resemble the following s
   <Name>Name of DirectStripController</Name>
   <ControllerNumber>1</ControllerNumber>
   <NumberOfLeds>1</NumberOfLeds>
+  <PackData>false</PackData>
 </DirectStripController>
 ~~~~~~~~~~~~~
 \subsection use_DirectOutput_Cab_Out_AdressableLedStrip_DirectStripController_properties Properties
 
-DirectStripController has the following 3 configurable properties:
+DirectStripController has the following 4 configurable properties:
 
 \subsubsection DirectOutput_Cab_Out_AdressableLedStrip_DirectStripController_ControllerNumber ControllerNumber
 
@@ -150,6 +101,11 @@ The name of the item.
 The number of leds on the WS2811 based led strip.
 
 
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_DirectStripController_PackData PackData
+
+<c>true</c> if data should be packed bore it is sent to the controller; otherwise <c>false</c> (default). 
+            
 
 \section use_DirectOutput_Cab_Out_FTDIChip_FT245RBitbangController FT245RBitbangController
 
@@ -187,6 +143,105 @@ The name of the item.
 The serial number of the FT245R chip which is to be controlled.
 
 
+
+\section use_DirectOutput_Cab_Out_ComPort_GenericCom GenericCom
+
+\subsection use_DirectOutput_Cab_Out_ComPort_GenericCom_samplexml Sample XML
+
+A configuration section for GenericCom might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<GenericCom>
+  <Name>Name of GenericCom</Name>
+  <NumberOfOutputs>1</NumberOfOutputs>
+  <ComPort>ComPort string</ComPort>
+  <Baudrate>115200</Baudrate>
+  <Parity>None</Parity>
+  <DataBits>0</DataBits>
+  <StopBits>One</StopBits>
+  <OpenConnectionExpression>OpenConnectionExpression string</OpenConnectionExpression>
+  <CloseConnectionExpression>CloseConnectionExpression string</CloseConnectionExpression>
+  <UpdateStartExpression>UpdateStartExpression string</UpdateStartExpression>
+  <UpdateEndExpression>UpdateEndExpression string</UpdateEndExpression>
+  <UpdateOutputExpression>UpdateOutputExpression string</UpdateOutputExpression>
+</GenericCom>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_Cab_Out_ComPort_GenericCom_properties Properties
+
+GenericCom has the following 12 configurable properties:
+
+\subsubsection DirectOutput_Cab_Out_ComPort_GenericCom_Baudrate Baudrate
+
+The baudrate.
+
+
+
+\subsubsection DirectOutput_Cab_Out_ComPort_GenericCom_CloseConnectionExpression CloseConnectionExpression
+
+The close connection expression.
+
+
+
+\subsubsection DirectOutput_Cab_Out_ComPort_GenericCom_ComPort ComPort
+
+The COM port for the controller.
+
+
+
+\subsubsection DirectOutput_Cab_Out_ComPort_GenericCom_DataBits DataBits
+
+The data bits.
+
+
+
+\subsubsection DirectOutput_Cab_Out_ComPort_GenericCom_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_Cab_Out_ComPort_GenericCom_NumberOfOutputs NumberOfOutputs
+
+\subsubsection DirectOutput_Cab_Out_ComPort_GenericCom_OpenConnectionExpression OpenConnectionExpression
+
+The open connection expression.
+
+
+
+\subsubsection DirectOutput_Cab_Out_ComPort_GenericCom_Parity Parity
+
+The parity.
+
+
+
+The property Parity accepts the following values:
+
+* __None__
+* __Odd__
+* __Even__
+* __Mark__
+* __Space__
+
+
+\subsubsection DirectOutput_Cab_Out_ComPort_GenericCom_StopBits StopBits
+
+The stop bits.
+
+
+
+The property StopBits accepts the following values:
+
+* __None__
+* __One__
+* __Two__
+* __OnePointFive__
+
+
+\subsubsection DirectOutput_Cab_Out_ComPort_GenericCom_UpdateEndExpression UpdateEndExpression
+
+\subsubsection DirectOutput_Cab_Out_ComPort_GenericCom_UpdateOutputExpression UpdateOutputExpression
+
+\subsubsection DirectOutput_Cab_Out_ComPort_GenericCom_UpdateStartExpression UpdateStartExpression
 
 \section use_DirectOutput_Cab_Out_LW_LedWiz LedWiz
 
@@ -406,11 +461,12 @@ A configuration section for WS2811StripController might resemble the following s
   <Name>Name of WS2811StripController</Name>
   <ControllerNumber>1</ControllerNumber>
   <NumberOfLeds>1</NumberOfLeds>
+  <PackData>false</PackData>
 </WS2811StripController>
 ~~~~~~~~~~~~~
 \subsection use_DirectOutput_Cab_Out_AdressableLedStrip_WS2811StripController_properties Properties
 
-WS2811StripController has the following 3 configurable properties:
+WS2811StripController has the following 4 configurable properties:
 
 \subsubsection DirectOutput_Cab_Out_AdressableLedStrip_WS2811StripController_ControllerNumber ControllerNumber
 
@@ -429,4 +485,9 @@ The name of the item.
 The number of leds on the WS2811 based led strip.
 
 
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_WS2811StripController_PackData PackData
+
+<c>true</c> if data should be packed bore it is sent to the controller; otherwise <c>false</c> (default). 
+            
 

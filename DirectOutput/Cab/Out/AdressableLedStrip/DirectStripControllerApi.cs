@@ -55,6 +55,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         }
 
 
+
         public void SetData(byte[] Data)
         {
             byte[] Header = { (byte)'R', (byte)(Data.Length / 256), (byte)(Data.Length & 255) };
@@ -72,6 +73,107 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                 }
             }
         }
+
+
+        public void SetAndDisplayPackedData(byte[] Data)
+        {
+            lock (FT245RLocker)
+            {
+                SetPackedData(Data);
+                DisplayData(Data.Length);
+            }
+        }
+
+        public void SetPackedData(byte[] Data)
+        {
+
+            int DataPos = 0;
+
+            //Calc number of bytes to pack. Truncate data to a length which is divideable by 3.
+            int DataLength = Data.Length;
+            if (DataLength % 3 != 0)
+            {
+                DataLength -= (DataLength % 3);
+            }
+
+            //Create array for packed data (I hope the calc für the max size of the packed data is correct)
+            byte[] Packed = new byte[(int)(DataLength + ((double)DataLength / 127) + 2)];
+            int PackedPos = 3;
+
+            int BlockStartPos = 0;
+            byte BlockSize = 0;
+
+            while (DataPos < DataLength)
+            {
+
+                BlockStartPos = PackedPos++;               //Store startpos of block 
+                Packed[PackedPos++] = Data[DataPos++];      //Get first 3 bytes
+                Packed[PackedPos++] = Data[DataPos++];
+                Packed[PackedPos++] = Data[DataPos++];
+                BlockSize = 1;
+
+                if (DataPos >= DataLength)
+                {
+                    //reached the end of the data
+                    Packed[BlockStartPos] = BlockSize; //Set the size of the block (1 triplet)
+                }
+                else
+                {
+                    //not yet the end of the data
+
+                    //Check if the next bytes are the same as the first 3 bytes
+                    if (Packed[BlockStartPos + 1] != Data[DataPos] || Packed[BlockStartPos + 2] != Data[DataPos + 1] || Packed[BlockStartPos + 3] != Data[DataPos + 2])
+                    {
+                        //Data is different, build block of org data
+
+                        while (BlockSize < 127 && DataPos < DataLength && ((DataPos >= DataLength - 3) || (Data[DataPos] != Data[DataPos + 3] || Data[DataPos + 1] != Data[DataPos + 4] || Data[DataPos + 2] != Data[DataPos + 5])))
+                        {
+                            Packed[PackedPos++] = Data[DataPos++];      //Get next 3 bytes
+                            Packed[PackedPos++] = Data[DataPos++];
+                            Packed[PackedPos++] = Data[DataPos++];
+                            BlockSize++;
+                        }
+                        Packed[BlockStartPos] = BlockSize; //Set the number of triplets for the block
+
+                    }
+                    else
+                    {
+                        //Data is the same, build block of packed data
+                        while (BlockSize < 127 && DataPos < DataLength && Packed[BlockStartPos + 1] == Data[DataPos] && Packed[BlockStartPos + 2] == Data[DataPos + 1] && Packed[BlockStartPos + 3] == Data[DataPos + 2])
+                        {
+                            DataPos += 3;
+                            BlockSize++;
+                        }
+                        Packed[BlockStartPos] = (byte)(BlockSize + 128); //Set the number of repetions for the block, add 128 to mark the packed data
+
+                    }
+                }
+
+            }
+
+            Packed[PackedPos++] = 0; //Add 0 byte to mark the end of the data
+
+            byte[] Header = { (byte)'P', (byte)(PackedPos / 256), (byte)(PackedPos & 255) };
+            lock (FT245RLocker)
+            {
+                if (FT245R != null)
+                {
+                    try
+                    {
+                        uint Dummy = 0;
+                        FT245R.Write(Header, 3, ref Dummy);
+                        FT245R.Write(Data, Data.Length, ref Dummy);
+                    }
+                    catch { Close(); }
+                }
+            }
+
+
+        }
+
+ 
+
+
 
         public DirectStripControllerApi() { }
 

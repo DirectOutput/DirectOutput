@@ -87,6 +87,20 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         }
 
 
+        private bool _PackData;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the data which is sent to the controller should be packed.
+        /// Data packing uses a simple IFF (Interchangable File Format) like system.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if data should be packed bore it is sent to the controller; otherwise <c>false</c> (default). 
+        /// </value>
+        public bool PackData
+        {
+            get { return _PackData; }
+            set { _PackData = value; }
+        }
 
 
         private object UpdateLocker = new object();
@@ -292,7 +306,14 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             OutputLedData.Fill((byte)0);
             if (Controller != null)
             {
-                Controller.SetAndDisplayData(OutputLedData);
+                if (PackData)
+                {
+                    Controller.SetAndDisplayPackedData(OutputLedData);
+                }
+                else
+                {
+                    Controller.SetAndDisplayData(OutputLedData);
+                }
             }
             while (KeepUpdaterThreadAlive)
             {
@@ -308,8 +329,14 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
 
                     if (Controller != null)
                     {
-
-                        Controller.SetAndDisplayData(OutputLedData);
+                        if (PackData)
+                        {
+                            Controller.SetAndDisplayPackedData(OutputLedData);
+                        }
+                        else
+                        {
+                            Controller.SetAndDisplayData(OutputLedData);
+                        }
                     }
                 }
 
@@ -329,8 +356,14 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             OutputLedData.Fill((byte)0);
             if (Controller != null)
             {
-                Controller.SetAndDisplayData(OutputLedData);
-
+                if (PackData)
+                {
+                    Controller.SetAndDisplayPackedData(OutputLedData);
+                }
+                else
+                {
+                    Controller.SetAndDisplayData(OutputLedData);
+                }
                 Controller.Close();
             }
             Controller = null;
