@@ -8,11 +8,17 @@ using DirectOutput.Cab.Out.FTDIChip;
 
 namespace DirectOutput.Cab.Out.AdressableLedStrip
 {
+    /// <summary>
+    /// This class handles all communication with Direct StripControllers.
+    /// </summary>
     public class DirectStripControllerApi
     {
         private static readonly string[] ControllerNameBase = { "WS2811 Strip Controller", "Direct Strip Controller" };
 
 
+        /// <summary>
+        /// Sends a clear data buffer command to the Ledstrip controller
+        /// </summary>
         public void ClearData()
         {
             lock (FT245RLocker)
@@ -29,6 +35,10 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             }
         }
 
+        /// <summary>
+        /// Sends a display data command to the ledstrip controller.
+        /// </summary>
+        /// <param name="Length">The length of the data to be displayed.</param>
         public void DisplayData(int Length)
         {
             lock (FT245RLocker)
@@ -45,6 +55,10 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             }
         }
 
+        /// <summary>
+        /// Sends the specified data to the ledstrip controller and displays the data.
+        /// </summary>
+        /// <param name="Data">The data.</param>
         public void SetAndDisplayData(byte[] Data)
         {
             lock (FT245RLocker)
@@ -56,6 +70,10 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
 
 
 
+        /// <summary>
+        /// Sends the specified data to the ledstripn controller.
+        /// </summary>
+        /// <param name="Data">The data.</param>
         public void SetData(byte[] Data)
         {
             byte[] Header = { (byte)'R', (byte)(Data.Length / 256), (byte)(Data.Length & 255) };
@@ -75,6 +93,10 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         }
 
 
+        /// <summary>
+        /// Packs the specified data, sends the data to the controller and displays the data.
+        /// </summary>
+        /// <param name="Data">The data.</param>
         public void SetAndDisplayPackedData(byte[] Data)
         {
             lock (FT245RLocker)
@@ -84,6 +106,10 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             }
         }
 
+        /// <summary>
+        /// Packs the specified data using a IFF like compression and send the data to the ledstrip controller.
+        /// </summary>
+        /// <param name="Data">The data.</param>
         public void SetPackedData(byte[] Data)
         {
 
@@ -171,12 +197,19 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
 
         }
 
- 
 
 
 
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DirectStripControllerApi"/> class.
+        /// </summary>
         public DirectStripControllerApi() { }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DirectStripControllerApi"/> class and opens a connection to the specified controller.
+        /// </summary>
+        /// <param name="ControllerNumber">The controller number.</param>
         public DirectStripControllerApi(int ControllerNumber)
         {
             Open(ControllerNumber);
@@ -185,6 +218,12 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
 
         private int _ControllerNumber;
 
+        /// <summary>
+        /// Gets the controller number.
+        /// </summary>
+        /// <value>
+        /// The controller number.
+        /// </value>
         public int ControllerNumber
         {
             get { return _ControllerNumber; }
@@ -192,6 +231,12 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         }
 
 
+        /// <summary>
+        /// Gets a value indicating whether the ledstrip controller is present.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if device is present; otherwise, <c>false</c>.
+        /// </value>
         public bool DeviceIsPresent
         {
             get
@@ -207,6 +252,10 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         FTDI FT245R;
         private object FT245RLocker = new object();
 
+        /// <summary>
+        /// Opens a connection to the ledstrip controller with the specified controller number.
+        /// </summary>
+        /// <param name="ControllerNumber">The controller number.</param>
         public void Open(int ControllerNumber)
         {
             lock (FT245RLocker)
@@ -382,6 +431,9 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         }
 
 
+        /// <summary>
+        /// Closes a currently open connection to a ledstrip controller.
+        /// </summary>
         public void Close()
         {
             lock (FT245RLocker)
@@ -406,6 +458,10 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
 
 
 
+        /// <summary>
+        /// Gets a list of available ledstrip controller numbers.
+        /// </summary>
+        /// <returns></returns>
         public static List<int> GetAvailableControllerNumbers()
         {
             List<int> L = new List<int>();
