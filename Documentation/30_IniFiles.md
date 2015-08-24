@@ -166,7 +166,7 @@ The flicker effect generates random flickering with a defineable density and dur
 * __AFDEN{Percentage}__ defines the density for the flicker effect. Density is expressed in percent and has a valid value range of 1 to 99.
 * __AFMIN{DurationInMilliseconds}__ defines the min duration for the flicker of a single led in milliseconds.
 * __AFMAX{DurationInMilliseconds}__ defines the max duration for the flicker of a single led in milliseconds.
-
+* __AFFADE{DurationInMilliseconds}__ defines the the duration of the fading for the flickering elements.
 
 \subsection inifiles_bitmapeffectpara Bitmap Effect Paras
 
