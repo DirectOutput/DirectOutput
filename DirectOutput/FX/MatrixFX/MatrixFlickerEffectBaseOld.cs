@@ -10,7 +10,7 @@ namespace DirectOutput.FX.MatrixFX
     /// <summary>
     /// Does create random flickering with a defineable density, durations and value within the spefied area of a matrix toy.
     /// </summary>
-    public abstract class MatrixFlickerEffectBase<MatrixElementType> : MatrixEffectBase<MatrixElementType>
+    public abstract class MatrixFlickerEffectBaseOld<MatrixElementType> : MatrixEffectBase<MatrixElementType>
     {
         private const int RefreshIntervalMs = 30;
 

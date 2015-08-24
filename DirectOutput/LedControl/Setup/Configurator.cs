@@ -171,7 +171,11 @@ namespace DirectOutput.LedControl.Setup
                                                     {
                                                         ((RGBAMatrixFlickerEffect)Effect).MaxFlickerDurationMs = TCS.AreaFlickerMaxDurationMs;
                                                     }
-
+                                                    if (TCS.AreaFlickerFadeDurationMs > 0)
+                                                    {
+                                                        ((RGBAMatrixFlickerEffect)Effect).FlickerFadeDownDurationMs = TCS.AreaFlickerFadeDurationMs;
+                                                        ((RGBAMatrixFlickerEffect)Effect).FlickerFadeUpDurationMs = TCS.AreaFlickerFadeDurationMs;
+                                                    }
                                                 }
                                                 else
                                                 {
@@ -214,6 +218,10 @@ namespace DirectOutput.LedControl.Setup
                                                 if (TCS.AreaFlickerMaxDurationMs > 0)
                                                 {
                                                     ((AnalogAlphaMatrixFlickerEffect)Effect).MaxFlickerDurationMs = TCS.AreaFlickerMaxDurationMs;
+                                                }
+                                                if (TCS.AreaFlickerFadeDurationMs > 0) {
+                                                    ((AnalogAlphaMatrixFlickerEffect)Effect).FlickerFadeDownDurationMs = TCS.AreaFlickerFadeDurationMs;
+                                                    ((AnalogAlphaMatrixFlickerEffect)Effect).FlickerFadeUpDurationMs = TCS.AreaFlickerFadeDurationMs;
                                                 }
 
                                             }

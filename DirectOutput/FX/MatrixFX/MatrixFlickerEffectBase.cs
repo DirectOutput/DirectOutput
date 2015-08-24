@@ -10,7 +10,7 @@ namespace DirectOutput.FX.MatrixFX
     /// <summary>
     /// Does create random flickering with a defineable density, durations and value within the spefied area of a matrix toy.
     /// </summary>
-    public abstract class MatrixFlickerEffectBaseNew<MatrixElementType> : MatrixEffectBase<MatrixElementType>
+    public abstract class MatrixFlickerEffectBase<MatrixElementType> : MatrixEffectBase<MatrixElementType>
     {
         private const int RefreshIntervalMs = 30;
 
@@ -65,7 +65,7 @@ namespace DirectOutput.FX.MatrixFX
             set { _MaxFlickerDurationMs = value.Limit(1, int.MaxValue); }
         }
 
-        private int _FlickerFadeUpDurationMs = 150;
+        private int _FlickerFadeUpDurationMs = 0;
 
         /// <summary>
         /// Gets or sets the fade up duration in milliseconds for a single flicker/blink of a element. 
@@ -80,7 +80,7 @@ namespace DirectOutput.FX.MatrixFX
             set { _FlickerFadeUpDurationMs = value.Limit(1, int.MaxValue); }
         }
 
-        private int _FlickerFadeDownDurationMs = 150;
+        private int _FlickerFadeDownDurationMs = 0;
 
         /// <summary>
         /// Gets or sets the fade down duration in milliseconds for a single flicker/blink of a element. 
@@ -117,19 +117,21 @@ namespace DirectOutput.FX.MatrixFX
             int V = CurrentValue.Limit(0, 255);
             if (V > 0)
             {
+
                 if (!Active)
                 {
                     Table.Pinball.Alarms.RegisterIntervalAlarm(RefreshIntervalMs, DoFlicker);
                     Active = true;
+                  
+                
                 }
-
 
                 //Effect is active (V>0)
                 if (V > 0 && FadeMode == FadeModeEnum.OnOff) { V = 255; }
 
-
                 int NumberOfLeds = AreaWidth * AreaHeight;
                 int FlickerLeds = ((int)((double)NumberOfLeds / 100 * Density)).Limit(1, NumberOfLeds);
+
 
                 int Min = MinFlickerDurationMs;
                 int Max = MaxFlickerDurationMs;
@@ -138,32 +140,34 @@ namespace DirectOutput.FX.MatrixFX
                     int Tmp = Min; Min = Max; Max = Tmp;
                 }
 
-                if (Min != Max && ActiveFlickerObjects.Count.IsBetween(0,FlickerLeds-1))
-                {
-                    int Avg = (Min + Max / 2) - Min;
-                    int NewObjectsAvg = ((FlickerLeds * Avg) - ActiveFlickerObjects.Sum(FO => FO.DurationMs)) / (FlickerLeds - ActiveFlickerObjects.Count);
-                    int NewObjectsAvgChange = Avg - NewObjectsAvg;
+                //if (Min != Max && ActiveFlickerObjects.Count.IsBetween(0,FlickerLeds-1))
+                //{
+                //    int Avg = (Min + Max / 2) - Min;
+                //    int NewObjectsAvg = ((FlickerLeds * Avg) - ActiveFlickerObjects.Sum(FO => FO.DurationMs)) / (FlickerLeds - ActiveFlickerObjects.Count);
+                //    int NewObjectsAvgChange = Avg - NewObjectsAvg;
 
-                    if (NewObjectsAvgChange < 0)
-                    {
-                        //Increase min
-                        Min = (Min + Math.Abs(NewObjectsAvgChange) * 2).Limit(Min, Max);
+                //    if (NewObjectsAvgChange < 0)
+                //    {
+                //        //Increase min
+                //        Min = (Min + Math.Abs(NewObjectsAvgChange) * 2).Limit(Min, Max);
 
-                    }
-                    else
-                    {
-                        //Decrease max
-                        Max = (Max - NewObjectsAvgChange * 2).Limit(Min, Max);
-                    }
-                }
+                //    }
+                //    else
+                //    {
+                //        //Decrease max
+                //        Max = (Max - NewObjectsAvgChange * 2).Limit(Min, Max);
+                //    }
+                //}
 
+             
                 while (ActiveFlickerObjects.Count < FlickerLeds && InactiveFlickerObjects.Count > 0)
                 {
                     FlickerObject FO = InactiveFlickerObjects[R.Next(InactiveFlickerObjects.Count)];
                     InactiveFlickerObjects.Remove(FO);
 
                     FO.StartTimestamp = DateTime.Now;
-                    FO.DurationMs = R.Next(Min, Max);
+                    FO.DurationMs = R.Next(Min, Max)+ FlickerFadeDownDurationMs;
+                    ActiveFlickerObjects.Add(FO);
                 }
 
                 DateTime CurrentTimestamp = DateTime.Now;
@@ -176,16 +180,22 @@ namespace DirectOutput.FX.MatrixFX
                     int AgeMs = (int)(DateTime.Now - FO.StartTimestamp).TotalMilliseconds;
                     if (AgeMs > FO.DurationMs + FlickerFadeDownDurationMs)
                     {
-                        //Remove element
-                        FV = 0;
-                        ActiveFlickerObjects.Remove(FO);
-                        InactiveFlickerObjects.Add(FO);
-                    }
+                        
 
+                        if (AgeMs > (FO.DurationMs + FlickerFadeDownDurationMs) * 2 || R.NextDouble()>.5)
+                        {
+                            //Remove element
+                            ActiveFlickerObjects.Remove(FO);
+                            InactiveFlickerObjects.Add(FO);
+                        }
+                        FV = 0;
+                    }
                     else if (FlickerFadeUpDurationMs > 0 && AgeMs < FlickerFadeUpDurationMs && AgeMs < FO.DurationMs)
                     {
                         //Fade up
                         FV = (int)((double)V / FlickerFadeUpDurationMs * AgeMs);
+                        //Log.Write("U: " + FV.ToString());
+                       
                     }
                     else if (AgeMs > FO.DurationMs && FlickerFadeDownDurationMs > 0)
                     {
@@ -199,11 +209,16 @@ namespace DirectOutput.FX.MatrixFX
                             FV = V;
                         }
                         FV = FV - (int)((double)FV / FlickerFadeDownDurationMs * (AgeMs - FO.DurationMs));
+                        //Log.Write("D: " + FV.ToString());
+                      
                     }
                     else
                     {
                         //Full on
                         FV = V;
+
+                        //Log.Write("F: " + FV.ToString());
+
                     }
                     FV = FV.Limit(0, 255);
 
@@ -213,7 +228,7 @@ namespace DirectOutput.FX.MatrixFX
             }
             else
             {
-
+               
                 foreach (FlickerObject FO in ActiveFlickerObjects)
                 {
                     MatrixLayer[FO.X, FO.Y] = I;
@@ -227,7 +242,7 @@ namespace DirectOutput.FX.MatrixFX
 
         }
 
-
+        
 
 
 
@@ -275,9 +290,10 @@ namespace DirectOutput.FX.MatrixFX
             ActiveFlickerObjects = new List<FlickerObject>();
             InactiveFlickerObjects = new List<FlickerObject>();
 
+       
             for (int Y = AreaTop; Y <= AreaBottom; Y++)
             {
-                for (int X = AreaLeft; X < AreaRight; X++)
+                for (int X = AreaLeft; X <= AreaRight; X++)
                 {
                     InactiveFlickerObjects.Add(new FlickerObject() { X = X, Y = Y });
                 }

@@ -250,6 +250,7 @@ namespace DirectOutput.LedControl.Loader
         public int AreaFlickerDensity = 0;
         public int AreaFlickerMinDurationMs = 0;
         public int AreaFlickerMaxDurationMs = 0;
+        public int AreaFlickerFadeDurationMs = 0;
         public MatrixShiftDirectionEnum? AreaDirection = null;
         public bool IsArea = false;
 
@@ -519,7 +520,12 @@ namespace DirectOutput.LedControl.Loader
                     AreaFlickerMaxDurationMs = Parts[PartNr].Substring(5).ToInteger();
                     IsArea = true;
                 }
-
+                else if (Parts[PartNr].Length > 6 && Parts[PartNr].Substring(0, 6).ToUpper() == "AFFADE" && Parts[PartNr].Substring(6).IsInteger())
+                {
+                    AreaFlickerFadeDurationMs = Parts[PartNr].Substring(6).ToInteger();
+                  
+                    IsArea = true;
+                }
                 else if (Parts[PartNr].Length > 2 && Parts[PartNr].Substring(0, 2).ToUpper() == "AT" && Parts[PartNr].Substring(2).IsInteger())
                 {
                     AreaTop = Parts[PartNr].Substring(2).ToInteger().Limit(0, 100);

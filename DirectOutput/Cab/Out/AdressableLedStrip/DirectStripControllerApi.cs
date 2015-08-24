@@ -406,6 +406,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                         for (int i = 0; i < 2000; i++)
                         {
                             FT245R.Write(new byte[10], 10, ref Dummy);
+                            Thread.Sleep(10);
                             CharsToRead = 0;
                             FT245R.GetRxBytesAvailable(ref CharsToRead);
                             if (CharsToRead > 0)
