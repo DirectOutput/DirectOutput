@@ -144,12 +144,10 @@ namespace PinballX
             Log("Loading Table/Romname mappings");
             AllTableMappings = new TableNameMappings();
 
-         
-
-            AllTableMappings.Add(new Mapping() { TableName = "xxx", RomName = "yyy" });
-            AllTableMappings.Add(new Mapping() { TableName = "aaa", RomName = "bbb" });
+            //AllTableMappings.Add(new Mapping() { TableName = "xxx", RomName = "yyy" });
+            //AllTableMappings.Add(new Mapping() { TableName = "aaa", RomName = "bbb" });
             
-            AllTableMappings.SaveTableMappings(".\\mappings.xml");
+            //AllTableMappings.SaveTableMappings(".\\mappings.xml");
 
                string TableMappingFileName = DM.GetTableMappingFilename();
             Log("Table mapping filename: " + TableMappingFileName);
@@ -172,7 +170,7 @@ namespace PinballX
 
             if (TableRomNames.Count > 0)
             {
-                Log("The following RomNames are configured in DOF: " + string.Join(",", TableRomNames.ToArray()));
+                Log("The following " + TableRomNames.Count + " RomNames are configured in DOF: " + string.Join(",", TableRomNames.ToArray()));
             }
             else
             {
@@ -201,27 +199,16 @@ namespace PinballX
 
             if (TableRomNames.Contains(GameDecriptionShort)) return GameDesc;
 
-            //if (ConfiguredRomMap.ContainsKey(GameDesc)) return ConfiguredRomMap[GameDesc];
 
             if (RomLookupCache.ContainsKey(GameDesc)) return RomLookupCache[GameDesc];
 
-            //foreach (string K in ConfiguredRomMap.Keys)
-            //{
-            //    if (K.StartsWith(GameDesc)) return ConfiguredRomMap[K];
-            //}
 
-            //foreach (string K in ConfiguredRomMap.Keys)
-            //{
-            //    if (K.IndexOf(GameDesc) >= 0) return ConfiguredRomMap[K];
-            //}
-
-            //string MatchKey = null;
             Mapping MatchMapping = null;
             double MatchValue = 0;
 
             foreach (Mapping Mapping in AllTableMappings)
             {
-                double M = FuzzyStrings.FuzzyText.DiceCoefficient(Mapping.TableName, GameDesc);
+                double M = FuzzyStrings.FuzzyText.DiceCoefficient(Mapping.TableName.ToUpper(), GameDesc);
 
                 if (M > MatchValue)
                 {
@@ -231,9 +218,9 @@ namespace PinballX
             }
 
             if(MatchMapping!=null) {
-                Log("Best match for " + GameDesc + " is " + MatchMapping.TableName + " (" + MatchMapping.RomName + "). Match Value: " + MatchValue.ToString());
+                Log("Best match for " + GameDesc + " is " + MatchMapping.TableName.ToUpper() + " (" + MatchMapping.RomName + "). Match Value: " + MatchValue.ToString());
             }
-            if (MatchValue > 0.3 && MatchMapping!=null)
+            if (MatchValue > 0.55 && MatchMapping!=null)
             {
                 string Rom = MatchMapping.RomName;
 
@@ -248,29 +235,7 @@ namespace PinballX
                         break;
                     };
                 };
-                //if (UseTableRom == null)
-                //{
-                //    foreach (string TableRomName in TableRomNames)
-                //    {
-                //        if (TableRomName.StartsWith(Rom + "_"))
-                //        {
-                //            UseTableRom = TableRomName;
-                //            break;
-                //        };
-                //    };
-                //}
 
-                //if (UseTableRom == null)
-                //{
-                //    foreach (string TableRomName in TableRomNames)
-                //    {
-                //        if (TableRomName.StartsWith(Rom))
-                //        {
-                //            UseTableRom = TableRomName;
-                //            break;
-                //        };
-                //    };
-                //}
 
 
                 if (!RomLookupCache.ContainsKey(GameDesc))
@@ -558,7 +523,7 @@ namespace PinballX
         /// <returns></returns>
         public bool Event_Input(bool[] Input_Keys, bool[] Input_Buttons, int PinballXStatus)
         {
-
+            Log("Event_Input");
             try
             {
 

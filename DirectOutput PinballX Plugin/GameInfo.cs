@@ -39,5 +39,7 @@ namespace PinballX
         public string HighScore_3;
 
         public int Rating;
+        public string ROM;
+        public string PinMAMEROM;
     }
 }
