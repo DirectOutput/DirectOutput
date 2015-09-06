@@ -9,7 +9,7 @@ namespace DirectOutput.FX.MatrixFX
     {
 
         /// <summary>
-        /// Animation steps though frames of the source image.
+        /// Animation steps though frames of the source image (this mainly for animated gifs).
         /// </summary>
         Frame='F',
         /// <summary>

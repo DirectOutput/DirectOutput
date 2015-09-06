@@ -12,7 +12,7 @@ namespace DirectOutput.FX.MatrixFX
     /// <summary>
     /// Outputs a defined part of a bitmap on a area of a matrix
     /// </summary>
-    public abstract class MatrixBitmapEffectBase<MatrixElementType> : MatrixEffectBase<MatrixElementType>
+    public abstract class MatrixBitmapEffectBase<MatrixElementType> : MatrixEffectBase<MatrixElementType>, IMatrixBitmapEffect
     {
 
         private int _BitmapFrameNumber = 0;
@@ -115,7 +115,7 @@ namespace DirectOutput.FX.MatrixFX
             set { _BitmapFilePattern = value; }
         }
 
-        private PixelData[,] Pixels;
+        protected PixelData[,] Pixels;
 
         private void OutputBitmap(int FadeValue)
         {
@@ -174,7 +174,7 @@ namespace DirectOutput.FX.MatrixFX
             //TODO: Insert replace values for file pattern
             if (BitmapFilePattern.IsValid)
             {
-                FileInfo FI = BitmapFilePattern.GetFirstMatchingFile();
+                FileInfo FI = BitmapFilePattern.GetFirstMatchingFile(Table.Pinball.GlobalConfig.GetReplaceValuesDictionary());
                 if (FI!=null && FI.Exists)
                 {
                     FastImage BM;

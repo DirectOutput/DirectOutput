@@ -5,6 +5,7 @@ using System.Xml.Serialization;
 using DirectOutput.FX;
 
 using DirectOutput.General.BitmapHandling;
+using DirectOutput.FX.MatrixFX.BitmapShapes;
 
 
 /// <summary>
@@ -34,8 +35,8 @@ namespace DirectOutput.Table
         [XmlIgnoreAttribute]
         public Pinball Pinball { get; private set; }
 
-        
-        private FastImageList _Bitmaps=new FastImageList();
+
+        private FastImageList _Bitmaps = new FastImageList();
 
         /// <summary>
         /// Gets or sets the list of bitmaps
@@ -49,7 +50,27 @@ namespace DirectOutput.Table
             get { return _Bitmaps; }
             private set { _Bitmaps = value; }
         }
-        
+
+        private ShapeDefinitions _ShapeDefinitions;
+
+        /// <summary>
+        /// Gets or sets the shape definitions.
+        /// </summary>
+        /// <value>
+        /// The shape definitions.
+        /// </value>
+        [XmlIgnore]
+        public ShapeDefinitions ShapeDefinitions
+        {
+            get { return _ShapeDefinitions; }
+            set { _ShapeDefinitions = value; }
+        }
+
+
+
+
+
+
 
         #region TableName
         private string _TableName;
@@ -125,7 +146,7 @@ namespace DirectOutput.Table
         public string TableConfigurationFilename { get; set; }
 
 
-        private bool _AddLedControlConfig=false;
+        private bool _AddLedControlConfig = false;
 
         /// <summary>
         /// Gets or sets a value indicating whether configurations from ledcontrol files should be added to the table config from a xml table config file.
@@ -138,9 +159,9 @@ namespace DirectOutput.Table
             get { return _AddLedControlConfig; }
             set { _AddLedControlConfig = value; }
         }
-        
 
-        private TableConfigSourceEnum _ConfigurationSource=TableConfigSourceEnum.Unknown;
+
+        private TableConfigSourceEnum _ConfigurationSource = TableConfigSourceEnum.Unknown;
 
         /// <summary>
         /// Gets or sets the configuration source.
@@ -154,9 +175,9 @@ namespace DirectOutput.Table
             get { return _ConfigurationSource; }
             set { _ConfigurationSource = value; }
         }
-        
 
-        
+
+
 
         private EffectList _Effects;
         /// <summary>
@@ -205,7 +226,7 @@ namespace DirectOutput.Table
         /// </summary>
         public void TriggerStaticEffects()
         {
-            AssignedStaticEffects.Trigger(new TableElementData(TableElementTypeEnum.Unknown,0,1));
+            AssignedStaticEffects.Trigger(new TableElementData(TableElementTypeEnum.Unknown, 0, 1));
         }
 
         /// <summary>
@@ -215,6 +236,20 @@ namespace DirectOutput.Table
         public void Init(Pinball Pinball)
         {
             this.Pinball = Pinball;
+
+            FileInfo ShapeDefinitionFile = Pinball.GlobalConfig.GetShapeDefinitionFile();
+            if (ShapeDefinitionFile != null && ShapeDefinitionFile.Exists)
+            {
+                try
+                {
+                    ShapeDefinitions = ShapeDefinitions.GetShapeDefinitionsFromShapeDefinitionsXmlFile(ShapeDefinitionFile);
+                }
+                catch (Exception E)
+                {
+                    Log.Exception("Loading shape definition file {0} failed.".Build(ShapeDefinitionFile.FullName), E);
+                }
+            }
+
             Effects.Init(this);
 
             TableElements.InitAssignedEffects(this);
@@ -250,9 +285,9 @@ namespace DirectOutput.Table
                 using (StreamReader sr = new StreamReader(ms, Encoding.Default))
                 {
                     Xml = sr.ReadToEnd();
-                   
+
                 }
-                
+
             }
             return Xml;
         }
@@ -279,9 +314,9 @@ namespace DirectOutput.Table
 
             try
             {
-                 Xml = General.FileReader.ReadFileToString(FileName);
+                Xml = General.FileReader.ReadFileToString(FileName);
 
-                
+
 
             }
             catch (Exception E)
@@ -322,11 +357,11 @@ namespace DirectOutput.Table
             }
             catch (Exception E)
             {
-                
-               Exception Ex= new Exception("Could not deserialize Table config from XML Data",E);
-               Ex.Data.Add("XMLData", ConfigXml);
-               Log.Exception(Ex);
-               throw Ex;
+
+                Exception Ex = new Exception("Could not deserialize Table config from XML Data", E);
+                Ex.Data.Add("XMLData", ConfigXml);
+                Log.Exception(Ex);
+                throw Ex;
             }
         }
         #endregion

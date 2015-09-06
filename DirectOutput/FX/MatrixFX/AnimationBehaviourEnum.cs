@@ -12,7 +12,7 @@ namespace DirectOutput.FX.MatrixFX
     {
 
         /// <summary>
-        /// The animation restarts when it is triggered, is shown once and stops after the last frame
+        /// The animation restarts when it is triggered, it is shown once and stops after the last frame
         /// </summary>
         Once='O',
         /// <summary>

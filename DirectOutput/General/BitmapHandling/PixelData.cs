@@ -14,7 +14,7 @@ namespace DirectOutput.General.BitmapHandling
         //TODO: Check order of bytes!
 
         //Attention!
-        //The order of bytes is important. Dont change this without beeing sure that this wield yield the desired results.
+        //The order of bytes is important. Dont change this without beeing sure that this will yield the desired results.
         public byte Blue;
         public byte Green;
         public byte Red;

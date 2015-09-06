@@ -8,7 +8,7 @@ using DirectOutput.Cab.Toys.Layer;
 
 namespace DirectOutput.FX.MatrixFX
 {
-    public abstract class MatrixBitmapAnimationEffectBase<MatrixElementType> : MatrixEffectBase<MatrixElementType>
+    public abstract class MatrixBitmapAnimationEffectBase<MatrixElementType> : MatrixEffectBase<MatrixElementType>, IMatrixBitmapEffect
     {
         private MatrixAnimationStepDirectionEnum _AnimationStepDirection = MatrixAnimationStepDirectionEnum.Frame;
 
@@ -30,7 +30,7 @@ namespace DirectOutput.FX.MatrixFX
         /// Gets or sets the size of the step in pixels or frames (depending on the \ref AnimationStepDirection) to the next frame of the animation.
         /// </summary>
         /// <value>
-        /// Thesize of the step in pixels or frames (depending on the \ref AnimationStepDirection) to the next frame of the animation.
+        /// The size of the step in pixels or frames (depending on the \ref AnimationStepDirection) to the next frame of the animation.
         /// </value>
         public int AnimationStepSize
         {
@@ -185,7 +185,7 @@ namespace DirectOutput.FX.MatrixFX
             set { _BitmapFilePattern = value; }
         }
 
-        private PixelData[][,] Pixels;
+        protected PixelData[][,] Pixels;
 
 
         private bool AnimationActive = false;
@@ -329,7 +329,7 @@ namespace DirectOutput.FX.MatrixFX
             if (BitmapFilePattern.IsValid)
             {
 
-                string Filename = BitmapFilePattern.GetFirstMatchingFile().FullName;
+                string Filename = BitmapFilePattern.GetFirstMatchingFile(Table.Pinball.GlobalConfig.GetReplaceValuesDictionary()).FullName;
                 if (!Filename.IsNullOrWhiteSpace())
                 {
                     FastImage BM;

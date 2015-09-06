@@ -7,6 +7,7 @@ if not errorlevel 1 (
   copy *.exe "X:\DirectOutput"
   copy *.dll "X:\DirectOutput"
   copy *.pdb "X:\DirectOutput"
+  copy *Shapes.*" "X:\DirectOutput"
 )
 
 pause

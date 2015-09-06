@@ -7,7 +7,7 @@ namespace DirectOutput.FX.MatrixFX
     /// <summary>
     /// Base class for effects targeting a matrix of toys (e.g. addressable ledstrip)
     /// </summary>
-    public abstract class MatrixEffectBase<MatrixElementType> : EffectBase
+    public abstract class MatrixEffectBase<MatrixElementType> : EffectBase, DirectOutput.FX.MatrixFX.IMatrixEffect
     {
         #region Config properties
 

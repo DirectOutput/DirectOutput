@@ -5,7 +5,7 @@
 
 DirectOutput does also support <a target="_blank" href="http://www.pinballx.net/">PinballX</a> if you use the Pinballx DirectOuput Plugin. If this plugin is used, DOF will receive information from PBX for different events and states in PBX as well as information on the table which is currently selected in PBX. The effects for Pinballx are configured in the ini files from the config tool or alternatively in a xml file.
 
-Since PinballX does not deal with ROM names natively, the PBX plugin uses fuzzy text matching to convert the table names to the Rom Names used in the DOF configs. This process is not 100% percent reliable, which means that wrong rom names can be detected or that a rom is not detected at all. The closer the table decription of PBX resembles the table name in the DOF config tool resp. in the tablemappings.xml the easier it is to detect the correct rom from the table descriptions in the BX configs.
+Since PinballX does not deal with ROM names natively, the PBX plugin uses fuzzy text matching to convert the table names to the Rom Names used in the DOF configs. This process is not 100% percent reliable, which means that wrong rom names can be detected or that a rom is not detected at all. The closer the table decription of PBX resembles the table name in the DOF config tool resp. in the tablemappings.xml the easier it is to detect the correct rom from the table descriptions in the PBX configs.
 
 \section pbx_setup Setup
 
@@ -21,7 +21,7 @@ Installing step by step:
 * Start the PinballX Pluin Manager and activate the DirectOutput Plugin by activating the checkbox in front of the plugin name. \image html PBX_PluginManager.png
 * After activating the plugin,  select the line of the DOF plugin in the manager and click the configure button which will open the config window of the plugin. Check if the plugin can detect DOF and if you want turn on the logging for the plugin (DOF log is as usual controlled by the global config). \image html PBX_PluginConfig.png
 * Download some suitable config files from the config tool over at:  <a target="_blank" href="http://vpuniverse.com/ledwiz/login.php">ConfigTool Website</a> and put those configs in the config folder of DOF.
-* If you use a GlobalConfig files for your DOF installation, please create another GlobalConfig file for PinballX. This global config file must be named _GlobalConfig_PinballX.xml_. It is recommended that you use the GlobalConfig editor tool in the DOF directory to create this file. 
+* __Important:__ If you use a GlobalConfig files for your DOF installation, please create another GlobalConfig file for PinballX. This global config file must be named _GlobalConfig_PinballX.xml_. It is recommended that you use the GlobalConfig editor tool in the DOF directory to create this file. 
 
 \section pbx_infilepara Ini File Parameters
 

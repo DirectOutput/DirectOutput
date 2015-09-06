@@ -235,6 +235,37 @@ namespace DirectOutput.GlobalConfiguration
         #endregion
 
 
+        private FilePattern _ShapeDefinitionFilePattern = new FilePattern("{DllDir}\\DirectOutputShapes.xml");
+
+        /// <summary>
+        /// Gets or sets the path and name for the file containing shape definitions.
+        /// </summary>
+        /// <value>
+        /// The path and name of the file containing shape defintions.
+        /// </value>
+        public FilePattern ShapeDefintionFilePattern
+        {
+            get { return _ShapeDefinitionFilePattern; }
+            set { _ShapeDefinitionFilePattern = value; }
+        }
+
+        /// <summary>
+        ///  FileInfo object for the file containing the configuration of the cabinet (outputs, toys and so on). 
+        /// </summary>
+        /// <returns>FileInfo object for the file containing the configuration of the cabinet or null if no file has been specified.</returns>
+        public FileInfo GetShapeDefinitionFile()
+        {
+            if (!ShapeDefintionFilePattern.Pattern.IsNullOrWhiteSpace() && ShapeDefintionFilePattern.IsValid)
+            {
+                return ShapeDefintionFilePattern.GetFirstMatchingFile(GetReplaceValuesDictionary());
+            }
+
+            return null;
+        }
+
+
+
+
         #region Cabinet
 
         #region Cabinet config file
@@ -411,7 +442,7 @@ namespace DirectOutput.GlobalConfiguration
 
 
 
-        private Dictionary<string, string> GetReplaceValuesDictionary(string TableFileName = null, string RomName = "")
+        internal Dictionary<string, string> GetReplaceValuesDictionary(string TableFileName = null, string RomName = "")
         {
             Dictionary<string, string> D = new Dictionary<string, string>();
             if (GetGlobalConfigFile() != null)

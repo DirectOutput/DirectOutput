@@ -267,6 +267,9 @@ namespace DirectOutput.LedControl.Loader
         public MatrixAnimationStepDirectionEnum AreaBitmapAnimationDirection = MatrixAnimationStepDirectionEnum.Frame;
         public AnimationBehaviourEnum AreaBitmapAnimationBehaviour = AnimationBehaviourEnum.Loop;
 
+        public string ShapeName=null;
+
+
         /// <summary>
         /// Parses the setting data. <br />
         /// </summary>
@@ -442,6 +445,11 @@ namespace DirectOutput.LedControl.Loader
                     NoBool = true;
                 }
 
+                else if (Parts[PartNr].Length > 3 && Parts[PartNr].Substring(0, 3).ToUpper() == "SHP" )
+                {
+                    ShapeName = Parts[PartNr].Substring(3).Trim();
+                    IsArea = true;
+                }
                 else if (Parts[PartNr].Length > 3 && Parts[PartNr].Substring(0, 3).ToUpper() == "ABT" && Parts[PartNr].Substring(3).IsInteger())
                 {
                     AreaBitmapTop = Parts[PartNr].Substring(3).ToInteger();
@@ -523,7 +531,7 @@ namespace DirectOutput.LedControl.Loader
                 else if (Parts[PartNr].Length > 6 && Parts[PartNr].Substring(0, 6).ToUpper() == "AFFADE" && Parts[PartNr].Substring(6).IsInteger())
                 {
                     AreaFlickerFadeDurationMs = Parts[PartNr].Substring(6).ToInteger();
-                  
+
                     IsArea = true;
                 }
                 else if (Parts[PartNr].Length > 2 && Parts[PartNr].Substring(0, 2).ToUpper() == "AT" && Parts[PartNr].Substring(2).IsInteger())
@@ -569,9 +577,9 @@ namespace DirectOutput.LedControl.Loader
                     AreaSpeed = Parts[PartNr].Substring(3).ToInteger().Limit(1, 10000);
                     IsArea = true;
                 }
-                else if (Parts[PartNr].Length > 5 && Parts[PartNr].Substring(0, 3).ToUpper() == "ASS" && Parts[PartNr].ToUpper().Right(2)=="MS" && Parts[PartNr].Substring(3,Parts[PartNr].Length-5).IsInteger())
+                else if (Parts[PartNr].Length > 5 && Parts[PartNr].Substring(0, 3).ToUpper() == "ASS" && Parts[PartNr].ToUpper().Right(2) == "MS" && Parts[PartNr].Substring(3, Parts[PartNr].Length - 5).IsInteger())
                 {
-                    AreaSpeed = (int)((double)100000/ Parts[PartNr].Substring(3, Parts[PartNr].Length - 5).ToInteger()).Limit(10, 100000);
+                    AreaSpeed = (int)((double)100000 / Parts[PartNr].Substring(3, Parts[PartNr].Length - 5).ToInteger()).Limit(10, 100000);
                     IsArea = true;
                 }
 

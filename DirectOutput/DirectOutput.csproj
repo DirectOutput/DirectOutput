@@ -142,9 +142,19 @@
     <Compile Include="FX\MatrixFX\AnalogAlphaMatrixBitmapEffect.cs" />
     <Compile Include="FX\MatrixFX\AnalogAlphaMatrixBitmapAnimationEffect.cs" />
     <Compile Include="FX\MatrixFX\AnimationBehaviourEnum.cs" />
+    <Compile Include="FX\MatrixFX\BitmapShapes\ShapeAnimated.cs" />
+    <Compile Include="FX\MatrixFX\BitmapShapes\Shape.cs" />
+    <Compile Include="FX\MatrixFX\BitmapShapes\ShapeDefinitions.cs" />
+    <Compile Include="FX\MatrixFX\BitmapShapes\ShapeList.cs" />
+    <Compile Include="FX\MatrixFX\RGBAMatrixColorScaleShapeEffect.cs" />
+    <Compile Include="FX\MatrixFX\RGBAMatrixColorScaleBitmapAnimationEffect.cs" />
+    <Compile Include="FX\MatrixFX\RGBAMatrixColorScaleBitmapEffect.cs" />
+    <Compile Include="FX\MatrixFX\IMatrixBitmapEffect.cs" />
+    <Compile Include="FX\MatrixFX\IMatrixEffect.cs" />
     <Compile Include="FX\MatrixFX\MatrixFlickerEffectBase.cs" />
     <Compile Include="FX\MatrixFX\MatrixBitmapAnimationEffectBase.cs" />
     <Compile Include="FX\MatrixFX\MatrixBitmapEffectBase.cs" />
+    <Compile Include="FX\MatrixFX\RGBAMatrixShapeEffect.cs" />
     <Compile Include="FX\MatrixFX\MatrixShiftEffectBase.cs" />
     <Compile Include="FX\MatrixFX\MatrixFlickerEffectBaseOld.cs" />
     <Compile Include="FX\MatrixFX\MatrixValueEffectBase.cs" />
@@ -326,11 +336,17 @@
     <Compile Include="Table\TableElementValueChangedEventArgs.cs" />
     <Compile Include="Cab\Toys\ToyBase.cs" />
     <Compile Include="Cab\Toys\ToyList.cs" />
+    <Content Include="DirectOutputShapes.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="ftd2xx.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="PacDrive.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DirectOutputShapes.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
