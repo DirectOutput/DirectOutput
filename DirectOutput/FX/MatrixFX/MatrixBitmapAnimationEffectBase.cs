@@ -356,8 +356,10 @@ namespace DirectOutput.FX.MatrixFX
 
                                 Pixels = new PixelData[StepCount][,];
 
+
                                 for (int s = 0; s < StepCount; s++)
                                 {
+                                    
                                     Pixels[s] = BM.Frames[BitmapFrameNumber + s].GetClip(AreaWidth, AreaHeight, BitmapLeft, BitmapTop, BitmapWidth, BitmapHeight, DataExtractMode).Pixels;
                                 }
 
@@ -396,6 +398,7 @@ namespace DirectOutput.FX.MatrixFX
                                 break;
                         }
 
+                        Log.Debug("BitmapAnimationEffectBase. Grabbed image clips: W: {0}, H:{1}, BML: {2}, BMT: {3}, BMW: {4}, BMH: {5}, Steps: {6}".Build(new object[] { AreaWidth, AreaHeight, BitmapLeft, BitmapTop, BitmapWidth, BitmapHeight, StepCount }));
 
 
                     }

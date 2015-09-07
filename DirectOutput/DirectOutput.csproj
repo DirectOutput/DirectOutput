@@ -338,6 +338,7 @@
     <Compile Include="Cab\Toys\ToyList.cs" />
     <Content Include="DirectOutputShapes.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="ftd2xx.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

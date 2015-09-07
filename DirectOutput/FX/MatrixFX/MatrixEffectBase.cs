@@ -167,7 +167,7 @@ namespace DirectOutput.FX.MatrixFX
         [XmlIgnoreAttribute]
         protected int AreaWidth
         {
-            get { return (AreaRight-AreaLeft)+1;}
+            get { return (AreaRight - AreaLeft) + 1; }
         }
 
         /// <summary>
@@ -217,7 +217,7 @@ namespace DirectOutput.FX.MatrixFX
                 Matrix = (IMatrixToy<MatrixElementType>)Table.Pinball.Cabinet.Toys[ToyName];
                 MatrixLayer = Matrix.GetLayer(LayerNr);
 
-                AreaLeft = (int)((float)Matrix.Width / 100 * Left).Floor().Limit(0,Matrix.Width-1);
+                AreaLeft = (int)((float)Matrix.Width / 100 * Left).Floor().Limit(0, Matrix.Width - 1);
                 AreaTop = (int)((float)Matrix.Height / 100 * Top).Floor().Limit(0, Matrix.Height - 1);
                 AreaRight = (int)((float)Matrix.Width / 100 * (Left + Width).Limit(0, 100)).Floor().Limit(0, Matrix.Width - 1);
                 AreaBottom = (int)((float)Matrix.Height / 100 * (Top + Height).Limit(0, 100)).Floor().Limit(0, Matrix.Height - 1);
@@ -226,6 +226,7 @@ namespace DirectOutput.FX.MatrixFX
                 if (AreaLeft > AreaRight) { Tmp = AreaRight; AreaRight = AreaLeft; AreaLeft = AreaRight; }
                 if (AreaTop > AreaBottom) { Tmp = AreaBottom; AreaBottom = AreaTop; AreaTop = Tmp; }
 
+                Log.Debug("MatrixBase for {12}. Calculated area size: AreaDef(L:{0}, T:{1}, W:{2}, H:{3}), Matrix(W:{4}, H:{5}), ResultArea(Left: {6}, Top:{7}, Right:{8}, Bottom:{9}, Width:{10}, Height:{11})".Build(new object[] { Left, Top, Width, Height, Matrix.Height, Matrix.Width, AreaLeft, AreaTop, AreaRight, AreaBottom, AreaWidth, AreaHeight, this.GetType().Name }));
 
             }
 

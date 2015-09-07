@@ -112,6 +112,8 @@ namespace DirectOutput.LedControl.Setup
                                                     }
                                                 }
                                             }
+
+                                            Log.Debug("Setting up shape effect for area. L: {0}, T: {1}, W: {2}, H: {3}".Build(new object[] { TCS.AreaLeft, TCS.AreaTop, TCS.AreaWidth, TCS.AreaHeight }));
                                             if (ActiveColor != null)
                                             {
                                                 RGBAColor InactiveColor = ActiveColor.Clone();
@@ -125,9 +127,6 @@ namespace DirectOutput.LedControl.Setup
                                             {
                                                 //No color defined. Use org color effects
                                                 Effect = new RGBAMatrixShapeEffect() { LayerNr = Layer, ShapeName = TCS.ShapeName, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, ToyName = Toy.Name };
-
-
-
 
                                             }
 

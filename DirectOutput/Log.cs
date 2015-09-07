@@ -212,7 +212,7 @@ namespace DirectOutput
         /// \note The calls to this method are only executed, if the DebugLog symbol is defined. Generally this will only be active in special debug releases. The statement to define or undefine the DebugLog symbol can be found on the top of the code of this class.
         /// </summary>
         /// <param name="Message">The message to be written to the log file.</param>
-        [Conditional("DEBUGLOG")]
+       // [Conditional("DEBUGLOG")]
         public static void Debug(string Message = "")
         {
             Write("Debug: {0}".Build(Message));
