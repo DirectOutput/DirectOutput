@@ -293,5 +293,12 @@ namespace DirectOutput.General.Color
         }
 
         #endregion
+
+
+
+       new public string ToString()
+        {
+            return HexColor;
+        }
     }
 }

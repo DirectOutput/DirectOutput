@@ -193,7 +193,7 @@ namespace DirectOutput.General
                 default:
                     for (int i = 0; i <= 255; i++)
                     {
-                        C[i] = (byte)i;
+                        C[i] = (byte)(i);
                     }
                     break;
             }

@@ -366,6 +366,9 @@ namespace DirectOutput.Cab.Toys.Hardware
                                 Value[x, y, 2] = AlphaMappingTable.AlphaMapping[255 - Alpha, (int)Value[x, y, 2]] + AlphaMappingTable.AlphaMapping[Alpha, D[x, y].Blue.Limit(0, 255)];
                             }
                             Nr++;
+
+           
+
                         }
                     }
                 }
@@ -398,6 +401,8 @@ namespace DirectOutput.Cab.Toys.Hardware
                                 OutputData[OutputNumber + 1] = FadingTable[(int)Value[x, y, 0]];
                                 OutputData[OutputNumber] = FadingTable[(int)Value[x, y, 1]];
                                 OutputData[OutputNumber + 2] = FadingTable[(int)Value[x, y, 2]];
+
+                 
                             }
                         }
                         break;
@@ -452,6 +457,20 @@ namespace DirectOutput.Cab.Toys.Hardware
                         break;
                 }
             }
+
+
+
+            //for (int i = 0; i < OutputData.Length-3; i+=3)
+            //{
+            //    if (OutputData[i] != OutputData[i + 1] || OutputData[i] != OutputData[i + 2])
+            //    {
+            //        Console.WriteLine("Stop");
+
+            //    }
+
+
+            //}
+
 
 
         }

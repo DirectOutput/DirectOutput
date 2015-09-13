@@ -163,6 +163,81 @@ namespace DirectOutput.LedControl.Setup
                                             }
                                         }
                                     }
+                                    else if (TCS.IsPlasma)
+                                    {
+                                        if (Toy is IMatrixToy<RGBAColor>)
+                                        {
+                                            RGBAColor InactiveColor = null;
+                                            RGBAColor ActiveColor1 = null;
+                                            RGBAColor ActiveColor2 = null;
+                                            if (TCS.ColorConfig != null)
+                                            {
+                                                ActiveColor1 = TCS.ColorConfig.GetCabinetColor().GetRGBAColor();
+                                            }
+                                            else
+                                            {
+                                                if (!TCS.ColorName.IsNullOrWhiteSpace())
+                                                {
+                                                    if (TCS.ColorName.StartsWith("#"))
+                                                    {
+                                                        ActiveColor1 = new RGBAColor();
+                                                        if (!ActiveColor1.SetColor(TCS.ColorName))
+                                                        {
+                                                            ActiveColor1 = null;
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                            if (TCS.ColorConfig != null)
+                                            {
+                                                ActiveColor2 = TCS.ColorConfig2.GetCabinetColor().GetRGBAColor();
+                                            }
+                                            else
+                                            {
+                                                if (!TCS.ColorName2.IsNullOrWhiteSpace())
+                                                {
+                                                    if (TCS.ColorName2.StartsWith("#"))
+                                                    {
+                                                        ActiveColor2 = new RGBAColor();
+                                                        if (!ActiveColor2.SetColor(TCS.ColorName2))
+                                                        {
+                                                            ActiveColor2 = null;
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+
+                                            if (ActiveColor1 != null)
+                                            {
+                                                InactiveColor = ActiveColor1.Clone();
+                                                InactiveColor.Alpha = 0;
+                                            }
+                                            else if (ActiveColor2 != null)
+                                            {
+                                                InactiveColor = ActiveColor2.Clone();
+                                                InactiveColor.Alpha = 0;
+                                            }
+
+                                            if (ActiveColor1 == null)
+                                            {
+                                                ActiveColor1 = new RGBAColor(0xff, 0, 0, 0xff);
+                                            }
+
+                                            if (ActiveColor2 == null)
+                                            {
+                                                ActiveColor2 = new RGBAColor(0, 0xff, 0, 0xff);
+                                            }
+
+
+                                            Effect = new RGBAMatrixPlasmaEffect() { ActiveColor1 = ActiveColor1, ActiveColor2 = ActiveColor2, InactiveColor = InactiveColor, Height = TCS.AreaHeight, Width = TCS.AreaWidth, Top = TCS.AreaTop, Left = TCS.AreaLeft, LayerNr = Layer, PlasmaSpeed = TCS.PlasmaSpeed, PlasmaDensity = TCS.PlasmaDensity, ToyName = Toy.Name };
+                                        }
+                                        else
+                                        {
+
+                                        }
+                                    }
                                     else
                                     {
                                         //Non bitmap area effects

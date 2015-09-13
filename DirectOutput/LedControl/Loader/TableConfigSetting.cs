@@ -270,6 +270,16 @@ namespace DirectOutput.LedControl.Loader
         public string ShapeName=null;
 
 
+        public bool IsPlasma = false;
+        public int PlasmaSpeed = 100;
+        public int PlasmaDensity = 100;
+        public string ColorName2 = "";
+        public ColorConfig ColorConfig2 = null;
+
+
+        //public int PlasmaScale = 100;
+
+
         /// <summary>
         /// Parses the setting data. <br />
         /// </summary>
@@ -444,6 +454,31 @@ namespace DirectOutput.LedControl.Loader
                 {
                     NoBool = true;
                 }
+                else if (Parts[PartNr].Length > 3 && Parts[PartNr].Substring(0, 3).ToUpper() == "APS" && Parts[PartNr].Substring(3).IsInteger())
+                {
+                    PlasmaSpeed = Parts[PartNr].Substring(3).ToInteger();
+                    IsPlasma = true;
+                    IsArea = true;
+                }
+                else if (Parts[PartNr].Length > 3 && Parts[PartNr].Substring(0, 3).ToUpper() == "APD" && Parts[PartNr].Substring(3).IsInteger())
+                {
+                    PlasmaDensity = Parts[PartNr].Substring(3).ToInteger();
+                    IsPlasma = true;
+                    IsArea = true;
+                }
+                else if (Parts[PartNr].Length > 3 && Parts[PartNr].Substring(0, 3).ToUpper() == "APC")
+                {
+                    ColorName2 = Parts[PartNr].Substring(3);
+                    IsPlasma = true;
+                    IsArea = true;
+                }
+                //else if (Parts[PartNr].Length > 3 && Parts[PartNr].Substring(0, 3).ToUpper() == "APC" && Parts[PartNr].Substring(3).IsInteger())
+                //{
+                //    PlasmaScale = Parts[PartNr].Substring(3).ToInteger();
+                //    IsPlasma = true;
+                //    IsArea = true;
+                //}
+
 
                 else if (Parts[PartNr].Length > 3 && Parts[PartNr].Substring(0, 3).ToUpper() == "SHP" )
                 {

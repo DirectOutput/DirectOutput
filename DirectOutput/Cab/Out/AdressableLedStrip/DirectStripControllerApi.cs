@@ -93,6 +93,36 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         }
 
 
+        public byte[] ReadData(int Length)
+        {
+            byte[] Data = new byte[Length];
+            byte[] Header = { (byte)'S', (byte)(Length / 256), (byte)(Length & 255) };
+            lock (FT245RLocker)
+            {
+                if (FT245R != null)
+                {
+                    try
+                    {
+                        uint Dummy = 0;
+                        FT245R.CharReceived-=new EventHandler<EventArgs>(FT245R_CharReceived);
+                        FT245R.Write(Header, 3, ref Dummy);
+                        
+                      
+                        uint BytesRead=0;
+                        FT245R.Read(Data, ((uint)Length),  ref BytesRead);
+                        
+
+                        FT245R.CharReceived += new EventHandler<EventArgs>(FT245R_CharReceived);
+
+                    }
+                    catch { Close(); }
+                }
+            }
+            return Data;
+        }
+
+
+
         /// <summary>
         /// Packs the specified data, sends the data to the controller and displays the data.
         /// </summary>
@@ -270,6 +300,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                 FT245R = new FTDI();
                 FTDI.FT_STATUS FTStatus;
 
+               
 
                 //Get number of devices
                 uint DeviceCnt = 0;
