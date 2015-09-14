@@ -152,10 +152,7 @@ namespace DirectOutput.FX.MatrixFX
             double cy = Y + .5 * Math.Cos(Time / 1.833371);
             V += Math.Sin(Math.Sqrt((Math.PI * (PlasmaDensity / 56)) * (Math.PI * (PlasmaDensity / 56)) * (cx * cx + cy * cy) + 1) + Time);
             V = ((V + 3) / 6.0);
-            if (V < 0 || V > 1)
-            {
 
-            }
             return V;
         }
 
