@@ -63,7 +63,27 @@ Here is a small demo video showing DMX/Artnet support in action:
 <iframe width="560" height="315" src="http://www.youtube.com/embed/F4FI1NQ5nrc" frameborder="0" allowfullscreen></iframe>
 \endhtmlonly
 
+
+\section hardware_TeensyStripController Teensy Strip Controller
+
+The Teensy Strip Controller can control 8 channels with up to 1100 WS2811/WS2812 leds per channel. 
+
+\image html TeensyOctoWS2811.jpg
+
+The controller hardware uses a <a target="_blank" href="http://pjrc.com/store/teensy32_pins.html">Teensy 3.1/3.2</a> and the <a target="_blank" href="http://pjrc.com/store/octo28_adaptor.html">OctoWS2811 adaptor</a> for the Teensy. 
+
+Compiled firmware and the source code of the firmware is available on <a target="_blank" href="https://github.com/DirectOutput/TeensyStripController">Github</a>. Be sure to read the wiki pages (also on Github) for details on setup and use.
+
+Here is a video of the controller in action:
+
+\htmlonly
+<iframe width="560" height="315" src="https://youtu.be/WLQidOzOg5M" frameborder="0" allowfullscreen></iframe>
+\endhtmlonly
+
+
 \section hardware_WS2811 WS2811 addressable LedStrip controller
+
+\not Work on this board has been stopped. DOF will continue to support the board anyway. If you are after a controller for WS2811/WS2812 based ledstrips check out the Teensybased controller mentioned above.
 
 This is a small controller board by Swisslizard, which is able to control addressable ledstrips which are base on the WS2811 or the WS2812 led chip.
 
