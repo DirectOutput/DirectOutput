@@ -9,6 +9,10 @@ using DirectOutput.General.Analog;
 
 namespace DirectOutput.FX.MatrixFX
 {
+    /// <summary>
+    /// Displays parts of a bitmap as a animation on a matrix of AnalogAlpha elements. 
+    /// Check the docu on the other bitmap effects for more details on these effect types.
+    /// </summary>
     public class AnalogAlphaMatrixBitmapAnimationEffect : MatrixBitmapAnimationEffectBase<AnalogAlpha>
     {
         /// <summary>

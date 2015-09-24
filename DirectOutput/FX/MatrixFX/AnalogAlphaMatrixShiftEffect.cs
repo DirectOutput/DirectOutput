@@ -7,6 +7,10 @@ using DirectOutput.General.Analog;
 
 namespace DirectOutput.FX.MatrixFX
 {
+    /// <summary>
+    /// Same kind of effect like the RGBAMatrixShift effect, but for AnalogAlpha elements (just about everything which is not a RGBA element).
+    /// 
+    /// </summary>
     public class AnalogAlphaMatrixShiftEffect : MatrixShiftEffectBase<AnalogAlpha>
     {
         private const int RefreshIntervalMs = 30;

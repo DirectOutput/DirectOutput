@@ -10,6 +10,15 @@ using DirectOutput.General.Color;
 namespace DirectOutput.FX.MatrixFX
 {
 
+    /// <summary>
+    /// This displays a defined part of a bitmap as a animation in the given colors on a area of a RGBAtoy Matrix. The effect take the overall brightness of the pixels of the bitmap to control the brightness of the specified colors for each pixel.
+    /// 
+    /// The properties of the effect allow you to select the parts of the bitmap to display for the animation as well as the area of the matrix on which the bitmap is displayed. Depending on the size of your bitmap you might choose different modes for the image extraction.
+    /// 
+    /// The effect supports numerous image formats, inluding png, gif (also animated) and jpg.
+    /// 
+    /// The image extraction takes place upon initalization of the framework. While the framework is active, it only outputs the previously extracted and scaled data to allow for better performance. 
+    /// </summary>
     public class RGBAMatrixColorScaleBitmapAnimationEffect : MatrixBitmapAnimationEffectBase<RGBAColor>
     {
         private RGBAColor _ActiveColor = new RGBAColor(0xff, 0xff, 0xff, 0xff);

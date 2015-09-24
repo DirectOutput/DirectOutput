@@ -11,6 +11,13 @@ namespace DirectOutput.FX.MatrixFX
 
         private int _PlasmaSpeed = 100;
 
+        /// <summary>
+        /// Gets or sets the plasma speed.
+        /// Default is 100.
+        /// </summary>
+        /// <value>
+        /// The plasma speed.
+        /// </value>
         public int PlasmaSpeed
         {
             get { return _PlasmaSpeed; }
@@ -20,6 +27,13 @@ namespace DirectOutput.FX.MatrixFX
 
         private int _PlasmaScale = 100;
 
+        /// <summary>
+        /// Gets or sets the plasma scale.
+        /// Defaults to 100. Higher values will give plasma effects with a higher density/more ripples.
+        /// </summary>
+        /// <value>
+        /// The plasma scale.
+        /// </value>
         public int PlasmaScale
         {
             get { return _PlasmaScale; }
@@ -29,6 +43,13 @@ namespace DirectOutput.FX.MatrixFX
 
         private int _PlasmaDensity = 100;
 
+        /// <summary>
+        /// Gets or sets the plasma density.
+        /// Default is 100.
+        /// </summary>
+        /// <value>
+        /// The plasma density.
+        /// </value>
         public int PlasmaDensity
         {
             get { return _PlasmaDensity; }

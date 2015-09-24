@@ -6,13 +6,17 @@ using DirectOutput.General.Color;
 
 namespace DirectOutput.FX.MatrixFX
 {
+    /// <summary>
+    /// Displayes a classical plasma effect on a RGBA matrix/ledstrip array.
+    /// For more details on the math of the plasma effect, read the following page: http://www.bidouille.org/prog/plasma
+    /// </summary>
     public class RGBAMatrixPlasmaEffect : MatrixPlasmaEffectBase<RGBAColor>
     {
 
         private RGBAColor _ActiveColor1 = new RGBAColor(0x00, 0x00, 0xff, 0xff);
 
         /// <summary>
-        /// Gets or sets the active color.
+        /// Gets or sets the first active color.
         /// </summary>
         /// <value>
         /// The active color.
@@ -27,7 +31,7 @@ namespace DirectOutput.FX.MatrixFX
         private RGBAColor _ActiveColor2 = new RGBAColor(0x80, 0x80, 0x00, 0xff);
 
         /// <summary>
-        /// Gets or sets the active color 2.
+        /// Gets or sets the second active color 2.
         /// </summary>
         /// <value>
         /// The active color 2.
@@ -43,7 +47,6 @@ namespace DirectOutput.FX.MatrixFX
 
         /// <summary>
         /// Gets or sets the inactive color.
-        /// The FadeMode property defines how this value is used.
         /// </summary>
         /// <value>
         /// The inactive color.

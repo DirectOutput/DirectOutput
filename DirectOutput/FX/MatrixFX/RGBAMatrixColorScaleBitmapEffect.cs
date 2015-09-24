@@ -7,7 +7,7 @@ namespace DirectOutput.FX.MatrixFX
     /// <summary>
     /// The RGBAMatrixBitmapEffect displays a defined part of a bitmap in the given colors on a area of a RGBAtoy Matrix. The effect take the overall brightness of the pixels of the bitmap to control the brightness of the specified colors for each pixel.
     /// 
-    /// The properties of the effect allow you to select the part of the bitmap to display as well as the area of the matrix on which the bitmap is displayed. Dempending on the size of your bitmap you might choose different modes for the image extraction.
+    /// The properties of the effect allow you to select the part of the bitmap to display as well as the area of the matrix on which the bitmap is displayed. Depending on the size of your bitmap you might choose different modes for the image extraction.
     /// 
     /// The effect supports numerous image formats, inluding png, gif (also animated) and jpg.
     /// 

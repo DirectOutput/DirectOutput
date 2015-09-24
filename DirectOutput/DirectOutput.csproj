@@ -159,7 +159,6 @@
     <Compile Include="FX\MatrixFX\RGBAMatrixPlasmaEffect.cs" />
     <Compile Include="FX\MatrixFX\RGBAMatrixShapeEffect.cs" />
     <Compile Include="FX\MatrixFX\MatrixShiftEffectBase.cs" />
-    <Compile Include="FX\MatrixFX\MatrixFlickerEffectBaseOld.cs" />
     <Compile Include="FX\MatrixFX\MatrixValueEffectBase.cs" />
     <Compile Include="FX\MatrixFX\MatrixAnimationStepDirectionEnum.cs" />
     <Compile Include="FX\MatrixFX\RGBAMatrixBitmapAnimationEffect.cs" />

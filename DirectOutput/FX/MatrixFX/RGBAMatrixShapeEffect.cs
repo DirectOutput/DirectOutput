@@ -7,6 +7,9 @@ using DirectOutput.General.Color;
 
 namespace DirectOutput.FX.MatrixFX
 {
+    /// <summary>
+    /// Displays a shape on a RGBA matrix (typically a ledstrip matrix). The color of the displayed shape is the org color of the shape (multicolor shapes work as well).
+    /// </summary>
     public class RGBAMatrixShapeEffect : MatrixEffectBase<RGBAColor>
     {
         private string _ShapeName;
