@@ -334,7 +334,7 @@ namespace DirectOutput.Cab.Out
                 }
                 catch (Exception E)
                 {
-                    Log.Warning("{0} could not connect to the controller. Thread will quit.".Build(Thread.CurrentThread.Name));
+                    Log.Exception("{0} could not connect to the controller. Thread will quit.".Build(Thread.CurrentThread.Name),E);
 
                     try
                     {
@@ -365,7 +365,7 @@ namespace DirectOutput.Cab.Out
                         }
                         catch (Exception E)
                         {
-                            Log.Warning("{0} could not send update for {1} {2}: {3}. Will try again.".Build(new object[] { Thread.CurrentThread.Name, this.GetType().Name, Name, E.Message }));
+                            Log.Exception("{0} could not send update for {1} {2}: {3}. Will try again.".Build(new object[] { Thread.CurrentThread.Name, this.GetType().Name, Name, E.Message }),E);
                             UpdateOK = false;
                         }
                         if (UpdateOK) break;
@@ -387,7 +387,7 @@ namespace DirectOutput.Cab.Out
                         }
                         catch (Exception E)
                         {
-                            Log.Warning("{0} could not reconnect to the controller. Thread will quit.".Build(Thread.CurrentThread.Name));
+                            Log.Exception("{0} could not reconnect to the controller. Thread will quit.".Build(Thread.CurrentThread.Name),E);
 
                             try
                             {
@@ -404,7 +404,7 @@ namespace DirectOutput.Cab.Out
                         }
                         catch (Exception E)
                         {
-                            Log.Warning("{0} could still not send update for {1} {2}: {3}. Thread will quit.".Build(new object[] { Thread.CurrentThread.Name, this.GetType().Name, Name, E.Message }));
+                            Log.Exception("{0} could still not send update for {1} {2}: {3}. Thread will quit.".Build(new object[] { Thread.CurrentThread.Name, this.GetType().Name, Name, E.Message }),E);
                             try
                             {
                                 DisconnectFromController();

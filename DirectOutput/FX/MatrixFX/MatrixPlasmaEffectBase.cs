@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace DirectOutput.FX.MatrixFX
 {
@@ -39,10 +40,13 @@ namespace DirectOutput.FX.MatrixFX
 
         private const int RefreshIntervalMs = 30;
 
+        [XmlIgnore]
         int CurrentTrigerrValue = 0;
 
+        [XmlIgnore]
         DateTime PlasmaStartDateTime = DateTime.Now;
 
+        [XmlIgnore]
         public bool Active { get; private set; }
 
         private void DoPlasma()
@@ -67,6 +71,7 @@ namespace DirectOutput.FX.MatrixFX
             }
         }
 
+        [XmlIgnore]
         double Time = 0;
 
 

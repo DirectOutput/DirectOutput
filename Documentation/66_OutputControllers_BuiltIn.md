@@ -442,6 +442,103 @@ The name of the item.
 
 
 
+\section use_DirectOutput_Cab_Out_AdressableLedStrip_TeensyStripController TeensyStripController
+
+\subsection use_DirectOutput_Cab_Out_AdressableLedStrip_TeensyStripController_summary Summary
+
+The TeensyStripController is used to control up to 8 WS2811/WS2812 based ledstrips with up to 1100 leds per strip which are connected to a Teensy 3.1, 3.2 or later.
+
+The best place to get the hardware is probably the <a target="_blank" href="http://pjrc.com/teensy/">website</a> of the Teennsy inventor, where you can buy the <a target="_blank" href="http://pjrc.com/store/teensy32_pins.html">Teensy boards</a> (check if newer versions are available) and also a <a target="_blank" href="http://pjrc.com/store/octo28_adaptor.html">adapter board</a> which allows for easy connection of up to 8 led strips. There are also numerous other vendors of Teensy hardware (just ask Google).
+
+The firmware for the Teensy based ledstrip controller is based on a slightly hacked version og Paul Stoffregens excellent OctoWS2811 LED Library which can easily drive up to 1100leds per channel on a Teensy 3.1 or later. More information on the OctoWS2811 lib can be found on the <a target="_blank" href="http://pjrc.com/teensy/td_libs_OctoWS2811.html">Teensy website</a>, on <a target="_blank" href="https://github.com/PaulStoffregen/OctoWS2811">Github</a> and many other places on the internet.
+
+Ready to use, compiled firmware files can be downloaded from ??????? the source for the firmware is available on Github.
+
+
+
+
+\subsection use_DirectOutput_Cab_Out_AdressableLedStrip_TeensyStripController_samplexml Sample XML
+
+A configuration section for TeensyStripController might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<TeensyStripController>
+  <Name>Name of TeensyStripController</Name>
+  <NumberOfLedsStrip1>0</NumberOfLedsStrip1>
+  <NumberOfLedsStrip2>0</NumberOfLedsStrip2>
+  <NumberOfLedsStrip3>0</NumberOfLedsStrip3>
+  <NumberOfLedsStrip4>0</NumberOfLedsStrip4>
+  <NumberOfLedsStrip5>0</NumberOfLedsStrip5>
+  <NumberOfLedsStrip6>0</NumberOfLedsStrip6>
+  <NumberOfLedsStrip7>0</NumberOfLedsStrip7>
+  <NumberOfLedsStrip8>0</NumberOfLedsStrip8>
+  <ComPortName>Name of ComPort</ComPortName>
+</TeensyStripController>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_Cab_Out_AdressableLedStrip_TeensyStripController_properties Properties
+
+TeensyStripController has the following 10 configurable properties:
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_TeensyStripController_ComPortName ComPortName
+
+The name of the Com port (typicaly COM{Number}) the Teensy board is using.
+
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_TeensyStripController_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_TeensyStripController_NumberOfLedsStrip1 NumberOfLedsStrip1
+
+The number of leds on the ledstrip connected to channel 1 of the Teensy.
+
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_TeensyStripController_NumberOfLedsStrip2 NumberOfLedsStrip2
+
+The number of leds on the ledstrip connected to channel 2 of the Teensy.
+
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_TeensyStripController_NumberOfLedsStrip3 NumberOfLedsStrip3
+
+The number of leds on the ledstrip connected to channel 3 of the Teensy.
+
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_TeensyStripController_NumberOfLedsStrip4 NumberOfLedsStrip4
+
+The number of leds on the ledstrip connected to channel 4 of the Teensy.
+
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_TeensyStripController_NumberOfLedsStrip5 NumberOfLedsStrip5
+
+The number of leds on the ledstrip connected to channel 5 of the Teensy.
+
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_TeensyStripController_NumberOfLedsStrip6 NumberOfLedsStrip6
+
+The number of leds on the ledstrip connected to channel 6 of the Teensy.
+
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_TeensyStripController_NumberOfLedsStrip7 NumberOfLedsStrip7
+
+The number of leds on the ledstrip connected to channel 7 of the Teensy.
+
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_TeensyStripController_NumberOfLedsStrip8 NumberOfLedsStrip8
+
+The number of leds on the ledstrip connected to channel 8 of the Teensy.
+
+
+
 \section use_DirectOutput_Cab_Out_AdressableLedStrip_WS2811StripController WS2811StripController
 
 \subsection use_DirectOutput_Cab_Out_AdressableLedStrip_WS2811StripController_summary Summary
