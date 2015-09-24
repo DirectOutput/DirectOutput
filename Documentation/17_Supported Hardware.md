@@ -74,13 +74,6 @@ The controller hardware uses a <a target="_blank" href="http://pjrc.com/store/te
 
 Compiled firmware and the source code of the firmware is available on <a target="_blank" href="https://github.com/DirectOutput/TeensyStripController">Github</a>. Be sure to read the wiki pages (also on Github) for details on setup and use.
 
-Here is a video of the controller in action:
-
-\htmlonly
-<iframe width="560" height="315" src="https://youtu.be/WLQidOzOg5M" frameborder="0" allowfullscreen></iframe>
-\endhtmlonly
-
-
 \section hardware_WS2811 WS2811 addressable LedStrip controller
 
 \not Work on this board has been stopped. DOF will continue to support the board anyway. If you are after a controller for WS2811/WS2812 based ledstrips check out the Teensybased controller mentioned above.
