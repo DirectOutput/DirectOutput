@@ -139,6 +139,440 @@ This configures 1 TeensyStripController plus ledstrips for playfield back, playf
 
 This contains cabinet configs provided by DOF users. 
 
+\section configexamples_arngrim Arngrims config
+
+Arngrims config contains quite a few settings for Artnet devices. HIs other controllers are detected automatically and are therefore not listed in the config file.
+
+~~~~~~~~~~~~~{.xml}
+<?xml version="1.0"?>
+<Cabinet xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>Arngrim</Name>
+  <OutputControllers>
+    <ArtNet>
+      <Name>Artnet Node 1</Name>
+      <Universe>0</Universe>
+      <BroadcastAddress>255.255.255.255</BroadcastAddress>
+    </ArtNet>
+  </OutputControllers>
+  <Toys>
+    <RGBAToyGroup>
+      <Name>Ledbar Left</Name>
+      <ToyNames>
+        <Row>
+          <Column>32</Column>
+        </Row>
+        <Row>
+          <Column>31</Column>
+        </Row>
+        <Row>
+          <Column>30</Column>
+        </Row>
+        <Row>
+          <Column>29</Column>
+        </Row>
+        <Row>
+          <Column>28</Column>
+        </Row>
+        <Row>
+          <Column>27</Column>
+        </Row>
+        <Row>
+          <Column>26</Column>
+        </Row>
+        <Row>
+          <Column>25</Column>
+        </Row>
+        <Row>
+          <Column>24</Column>
+        </Row>
+        <Row>
+          <Column>23</Column>
+        </Row>
+        <Row>
+          <Column>22</Column>
+        </Row>
+        <Row>
+          <Column>21</Column>
+        </Row>
+        <Row>
+          <Column>20</Column>
+        </Row>
+        <Row>
+          <Column>19</Column>
+        </Row>
+        <Row>
+          <Column>18</Column>
+        </Row>
+        <Row>
+          <Column>17</Column>
+        </Row>
+      </ToyNames>
+      <LayerOffset>0</LayerOffset>
+    </RGBAToyGroup>
+    <RGBAToyGroup>
+      <Name>Ledbar Right</Name>
+      <ToyNames>
+        <Row>
+          <Column>16</Column>
+        </Row>
+        <Row>
+          <Column>15</Column>
+        </Row>
+        <Row>
+          <Column>14</Column>
+        </Row>
+        <Row>
+          <Column>13</Column>
+        </Row>
+        <Row>
+          <Column>12</Column>
+        </Row>
+        <Row>
+          <Column>11</Column>
+        </Row>
+        <Row>
+          <Column>10</Column>
+        </Row>
+        <Row>
+          <Column>9</Column>
+        </Row>
+        <Row>
+          <Column>8</Column>
+        </Row>
+        <Row>
+          <Column>7</Column>
+        </Row>
+        <Row>
+          <Column>6</Column>
+        </Row>
+        <Row>
+          <Column>5</Column>
+        </Row>
+        <Row>
+          <Column>4</Column>
+        </Row>
+        <Row>
+          <Column>3</Column>
+        </Row>
+        <Row>
+          <Column>2</Column>
+        </Row>
+        <Row>
+          <Column>1</Column>
+        </Row>
+      </ToyNames>
+      <LayerOffset>0</LayerOffset>
+    </RGBAToyGroup>
+    <RGBAToy>
+      <Name>1</Name>
+      <OutputNameRed>Artnet Node 1\Artnet Node 1.001</OutputNameRed>
+      <OutputNameGreen>Artnet Node 1\Artnet Node 1.002</OutputNameGreen>
+      <OutputNameBlue>Artnet Node 1\Artnet Node 1.003</OutputNameBlue>    
+      <FadingCurveName>Linear</FadingCurveName>
+    </RGBAToy>  
+    <RGBAToy>
+      <Name>2</Name>
+      <OutputNameRed>Artnet Node 1\Artnet Node 1.004</OutputNameRed>
+      <OutputNameGreen>Artnet Node 1\Artnet Node 1.005</OutputNameGreen>
+      <OutputNameBlue>Artnet Node 1\Artnet Node 1.006</OutputNameBlue>    
+      <FadingCurveName>Linear</FadingCurveName>
+    </RGBAToy>
+    <RGBAToy>
+      <Name>3</Name>
+      <OutputNameRed>Artnet Node 1\Artnet Node 1.007</OutputNameRed>
+      <OutputNameGreen>Artnet Node 1\Artnet Node 1.008</OutputNameGreen>
+      <OutputNameBlue>Artnet Node 1\Artnet Node 1.009</OutputNameBlue>    
+      <FadingCurveName>Linear</FadingCurveName>
+    </RGBAToy>  
+    <RGBAToy>
+      <Name>4</Name>
+      <OutputNameRed>Artnet Node 1\Artnet Node 1.010</OutputNameRed>
+      <OutputNameGreen>Artnet Node 1\Artnet Node 1.011</OutputNameGreen>
+      <OutputNameBlue>Artnet Node 1\Artnet Node 1.012</OutputNameBlue>    
+      <FadingCurveName>Linear</FadingCurveName>
+    </RGBAToy>    
+    <RGBAToy>
+      <Name>5</Name>
+      <OutputNameRed>Artnet Node 1\Artnet Node 1.013</OutputNameRed>
+      <OutputNameGreen>Artnet Node 1\Artnet Node 1.014</OutputNameGreen>
+      <OutputNameBlue>Artnet Node 1\Artnet Node 1.015</OutputNameBlue>    
+      <FadingCurveName>Linear</FadingCurveName>
+    </RGBAToy>  
+    <RGBAToy>
+      <Name>6</Name>
+      <OutputNameRed>Artnet Node 1\Artnet Node 1.016</OutputNameRed>
+      <OutputNameGreen>Artnet Node 1\Artnet Node 1.017</OutputNameGreen>
+      <OutputNameBlue>Artnet Node 1\Artnet Node 1.018</OutputNameBlue>    
+      <FadingCurveName>Linear</FadingCurveName>
+    </RGBAToy>    
+    <RGBAToy>
+      <Name>7</Name>
+      <OutputNameRed>Artnet Node 1\Artnet Node 1.019</OutputNameRed>
+      <OutputNameGreen>Artnet Node 1\Artnet Node 1.020</OutputNameGreen>
+      <OutputNameBlue>Artnet Node 1\Artnet Node 1.021</OutputNameBlue>    
+      <FadingCurveName>Linear</FadingCurveName>
+    </RGBAToy>  
+    <RGBAToy>
+      <Name>8</Name>
+      <OutputNameRed>Artnet Node 1\Artnet Node 1.022</OutputNameRed>
+      <OutputNameGreen>Artnet Node 1\Artnet Node 1.023</OutputNameGreen>
+      <OutputNameBlue>Artnet Node 1\Artnet Node 1.024</OutputNameBlue>    
+      <FadingCurveName>Linear</FadingCurveName>
+    </RGBAToy>    
+    <RGBAToy>
+      <Name>9</Name>
+      <OutputNameRed>Artnet Node 1\Artnet Node 1.025</OutputNameRed>
+      <OutputNameGreen>Artnet Node 1\Artnet Node 1.026</OutputNameGreen>
+      <OutputNameBlue>Artnet Node 1\Artnet Node 1.027</OutputNameBlue>    
+      <FadingCurveName>Linear</FadingCurveName>
+    </RGBAToy>  
+    <RGBAToy>
+      <Name>10</Name>
+      <OutputNameRed>Artnet Node 1\Artnet Node 1.028</OutputNameRed>
+      <OutputNameGreen>Artnet Node 1\Artnet Node 1.029</OutputNameGreen>
+      <OutputNameBlue>Artnet Node 1\Artnet Node 1.030</OutputNameBlue>    
+      <FadingCurveName>Linear</FadingCurveName>
+    </RGBAToy>    
+    <RGBAToy>
+      <Name>11</Name>
+      <OutputNameRed>Artnet Node 1\Artnet Node 1.031</OutputNameRed>
+      <OutputNameGreen>Artnet Node 1\Artnet Node 1.032</OutputNameGreen>
+      <OutputNameBlue>Artnet Node 1\Artnet Node 1.033</OutputNameBlue>    
+      <FadingCurveName>Linear</FadingCurveName>
+    </RGBAToy>  
+    <RGBAToy>
+      <Name>12</Name>
+      <OutputNameRed>Artnet Node 1\Artnet Node 1.034</OutputNameRed>
+      <OutputNameGreen>Artnet Node 1\Artnet Node 1.035</OutputNameGreen>
+      <OutputNameBlue>Artnet Node 1\Artnet Node 1.036</OutputNameBlue>    
+      <FadingCurveName>Linear</FadingCurveName>
+    </RGBAToy>    
+    <RGBAToy>
+      <Name>13</Name>
+      <OutputNameRed>Artnet Node 1\Artnet Node 1.037</OutputNameRed>
+      <OutputNameGreen>Artnet Node 1\Artnet Node 1.038</OutputNameGreen>
+      <OutputNameBlue>Artnet Node 1\Artnet Node 1.039</OutputNameBlue>    
+      <FadingCurveName>Linear</FadingCurveName>
+    </RGBAToy>  
+    <RGBAToy>
+      <Name>14</Name>
+      <OutputNameRed>Artnet Node 1\Artnet Node 1.040</OutputNameRed>
+      <OutputNameGreen>Artnet Node 1\Artnet Node 1.041</OutputNameGreen>
+      <OutputNameBlue>Artnet Node 1\Artnet Node 1.042</OutputNameBlue>    
+      <FadingCurveName>Linear</FadingCurveName>
+    </RGBAToy>    
+    <RGBAToy>
+      <Name>15</Name>
+      <OutputNameRed>Artnet Node 1\Artnet Node 1.043</OutputNameRed>
+      <OutputNameGreen>Artnet Node 1\Artnet Node 1.044</OutputNameGreen>
+      <OutputNameBlue>Artnet Node 1\Artnet Node 1.045</OutputNameBlue>    
+      <FadingCurveName>Linear</FadingCurveName>
+    </RGBAToy>  
+    <RGBAToy>
+      <Name>16</Name>
+      <OutputNameRed>Artnet Node 1\Artnet Node 1.046</OutputNameRed>
+      <OutputNameGreen>Artnet Node 1\Artnet Node 1.047</OutputNameGreen>
+      <OutputNameBlue>Artnet Node 1\Artnet Node 1.048</OutputNameBlue>    
+      <FadingCurveName>Linear</FadingCurveName>
+    </RGBAToy>  
+    <RGBAToy>
+      <Name>17</Name>
+      <OutputNameRed>Artnet Node 1\Artnet Node 1.128</OutputNameRed>
+      <OutputNameGreen>Artnet Node 1\Artnet Node 1.129</OutputNameGreen>
+      <OutputNameBlue>Artnet Node 1\Artnet Node 1.130</OutputNameBlue>    
+      <FadingCurveName>Linear</FadingCurveName>
+    </RGBAToy>  
+    <RGBAToy>
+      <Name>18</Name>
+      <OutputNameRed>Artnet Node 1\Artnet Node 1.131</OutputNameRed>
+      <OutputNameGreen>Artnet Node 1\Artnet Node 1.132</OutputNameGreen>
+      <OutputNameBlue>Artnet Node 1\Artnet Node 1.133</OutputNameBlue>    
+      <FadingCurveName>Linear</FadingCurveName>
+    </RGBAToy>    
+    <RGBAToy>
+      <Name>19</Name>
+      <OutputNameRed>Artnet Node 1\Artnet Node 1.134</OutputNameRed>
+      <OutputNameGreen>Artnet Node 1\Artnet Node 1.135</OutputNameGreen>
+      <OutputNameBlue>Artnet Node 1\Artnet Node 1.136</OutputNameBlue>    
+      <FadingCurveName>Linear</FadingCurveName>
+    </RGBAToy>  
+    <RGBAToy>
+      <Name>20</Name>
+      <OutputNameRed>Artnet Node 1\Artnet Node 1.137</OutputNameRed>
+      <OutputNameGreen>Artnet Node 1\Artnet Node 1.138</OutputNameGreen>
+      <OutputNameBlue>Artnet Node 1\Artnet Node 1.139</OutputNameBlue>    
+      <FadingCurveName>Linear</FadingCurveName>
+    </RGBAToy>  
+    <RGBAToy>
+      <Name>21</Name>
+      <OutputNameRed>Artnet Node 1\Artnet Node 1.140</OutputNameRed>
+      <OutputNameGreen>Artnet Node 1\Artnet Node 1.141</OutputNameGreen>
+      <OutputNameBlue>Artnet Node 1\Artnet Node 1.142</OutputNameBlue>    
+      <FadingCurveName>Linear</FadingCurveName>
+    </RGBAToy>  
+    <RGBAToy>
+      <Name>22</Name>
+      <OutputNameRed>Artnet Node 1\Artnet Node 1.143</OutputNameRed>
+      <OutputNameGreen>Artnet Node 1\Artnet Node 1.144</OutputNameGreen>
+      <OutputNameBlue>Artnet Node 1\Artnet Node 1.145</OutputNameBlue>    
+      <FadingCurveName>Linear</FadingCurveName>
+    </RGBAToy>  
+    <RGBAToy>
+      <Name>23</Name>
+      <OutputNameRed>Artnet Node 1\Artnet Node 1.146</OutputNameRed>
+      <OutputNameGreen>Artnet Node 1\Artnet Node 1.147</OutputNameGreen>
+      <OutputNameBlue>Artnet Node 1\Artnet Node 1.148</OutputNameBlue>    
+      <FadingCurveName>Linear</FadingCurveName>
+    </RGBAToy>  
+    <RGBAToy>
+      <Name>24</Name>
+      <OutputNameRed>Artnet Node 1\Artnet Node 1.149</OutputNameRed>
+      <OutputNameGreen>Artnet Node 1\Artnet Node 1.150</OutputNameGreen>
+      <OutputNameBlue>Artnet Node 1\Artnet Node 1.151</OutputNameBlue>    
+      <FadingCurveName>Linear</FadingCurveName>
+    </RGBAToy>  
+    <RGBAToy>
+      <Name>25</Name>
+      <OutputNameRed>Artnet Node 1\Artnet Node 1.152</OutputNameRed>
+      <OutputNameGreen>Artnet Node 1\Artnet Node 1.153</OutputNameGreen>
+      <OutputNameBlue>Artnet Node 1\Artnet Node 1.154</OutputNameBlue>    
+      <FadingCurveName>Linear</FadingCurveName>
+    </RGBAToy>  
+    <RGBAToy>
+      <Name>26</Name>
+      <OutputNameRed>Artnet Node 1\Artnet Node 1.155</OutputNameRed>
+      <OutputNameGreen>Artnet Node 1\Artnet Node 1.156</OutputNameGreen>
+      <OutputNameBlue>Artnet Node 1\Artnet Node 1.157</OutputNameBlue>    
+      <FadingCurveName>Linear</FadingCurveName>
+    </RGBAToy>  
+    <RGBAToy>
+      <Name>27</Name>
+      <OutputNameRed>Artnet Node 1\Artnet Node 1.158</OutputNameRed>
+      <OutputNameGreen>Artnet Node 1\Artnet Node 1.159</OutputNameGreen>
+      <OutputNameBlue>Artnet Node 1\Artnet Node 1.160</OutputNameBlue>    
+      <FadingCurveName>Linear</FadingCurveName>
+    </RGBAToy>  
+    <RGBAToy>
+      <Name>28</Name>
+      <OutputNameRed>Artnet Node 1\Artnet Node 1.161</OutputNameRed>
+      <OutputNameGreen>Artnet Node 1\Artnet Node 1.162</OutputNameGreen>
+      <OutputNameBlue>Artnet Node 1\Artnet Node 1.163</OutputNameBlue>    
+      <FadingCurveName>Linear</FadingCurveName>
+    </RGBAToy>  
+    <RGBAToy>
+      <Name>29</Name>
+      <OutputNameRed>Artnet Node 1\Artnet Node 1.164</OutputNameRed>
+      <OutputNameGreen>Artnet Node 1\Artnet Node 1.165</OutputNameGreen>
+      <OutputNameBlue>Artnet Node 1\Artnet Node 1.166</OutputNameBlue>    
+      <FadingCurveName>Linear</FadingCurveName>
+    </RGBAToy>  
+    <RGBAToy>
+      <Name>30</Name>
+      <OutputNameRed>Artnet Node 1\Artnet Node 1.167</OutputNameRed>
+      <OutputNameGreen>Artnet Node 1\Artnet Node 1.168</OutputNameGreen>
+      <OutputNameBlue>Artnet Node 1\Artnet Node 1.169</OutputNameBlue>    
+      <FadingCurveName>Linear</FadingCurveName>
+    </RGBAToy>  
+    <RGBAToy>
+      <Name>31</Name>
+      <OutputNameRed>Artnet Node 1\Artnet Node 1.170</OutputNameRed>
+      <OutputNameGreen>Artnet Node 1\Artnet Node 1.171</OutputNameGreen>
+      <OutputNameBlue>Artnet Node 1\Artnet Node 1.172</OutputNameBlue>    
+      <FadingCurveName>Linear</FadingCurveName>
+    </RGBAToy>  
+    <RGBAToy>
+      <Name>32</Name>
+      <OutputNameRed>Artnet Node 1\Artnet Node 1.173</OutputNameRed>
+      <OutputNameGreen>Artnet Node 1\Artnet Node 1.174</OutputNameGreen>
+      <OutputNameBlue>Artnet Node 1\Artnet Node 1.175</OutputNameBlue>    
+      <FadingCurveName>Linear</FadingCurveName>
+    </RGBAToy>
+    <AnalogAlphaToyGroup>
+      <Name>Strobe</Name>
+      <ToyNames>
+        <Row>
+        <Column>49</Column>
+        <Column>50</Column>      
+        <Column>51</Column>
+        <Column>52</Column>      
+        <Column>53</Column>
+        <Column>54</Column>
+      </Row>
+      </ToyNames>
+      <LayerOffset>0</LayerOffset>
+    </AnalogAlphaToyGroup>
+    <Lamp>
+      <Name>49</Name>
+      <OutputName>Artnet Node 1\Artnet Node 1.049</OutputName>
+      <FadingCurveName>Linear</FadingCurveName>
+    </Lamp>   
+    <Lamp>
+      <Name>50</Name>
+      <OutputName>Artnet Node 1\Artnet Node 1.050</OutputName>
+      <FadingCurveName>Linear</FadingCurveName>
+    </Lamp>   
+    <Lamp>
+      <Name>51</Name>
+      <OutputName>Artnet Node 1\Artnet Node 1.051</OutputName>
+      <FadingCurveName>Linear</FadingCurveName>
+    </Lamp>   
+    <Lamp>
+      <Name>52</Name>
+      <OutputName>Artnet Node 1\Artnet Node 1.052</OutputName>
+      <FadingCurveName>Linear</FadingCurveName>
+    </Lamp>   
+    <Lamp>
+      <Name>53</Name>
+      <OutputName>Artnet Node 1\Artnet Node 1.053</OutputName>
+      <FadingCurveName>Linear</FadingCurveName>
+    </Lamp>   
+    <Lamp>
+      <Name>54</Name>
+      <OutputName>Artnet Node 1\Artnet Node 1.054</OutputName>
+      <FadingCurveName>Linear</FadingCurveName>
+    </Lamp>   
+    <LedWizEquivalent>
+      <Name>LedWizEquivalent 100</Name>      
+      <LedWizNumber>100</LedWizNumber>  
+      <Outputs>
+      <LedWizEquivalentOutput>
+          <OutputName>Ledbar Left</OutputName>
+          <LedWizEquivalentOutputNumber>1</LedWizEquivalentOutputNumber>      
+      </LedWizEquivalentOutput>
+      <LedWizEquivalentOutput>
+          <OutputName>Ledbar Right</OutputName>
+          <LedWizEquivalentOutputNumber>4</LedWizEquivalentOutputNumber>      
+      </LedWizEquivalentOutput>
+      <LedWizEquivalentOutput>
+      <OutputName>Artnet Node 1\Artnet Node 1.049</OutputName>
+          <LedWizEquivalentOutputNumber>7</LedWizEquivalentOutputNumber>
+      </LedWizEquivalentOutput>
+      <LedWizEquivalentOutput>
+      <OutputName>Artnet Node 1\Artnet Node 1.050</OutputName>
+          <LedWizEquivalentOutputNumber>8</LedWizEquivalentOutputNumber>
+      </LedWizEquivalentOutput>
+      <LedWizEquivalentOutput>
+      <OutputName>Artnet Node 1\Artnet Node 1.051</OutputName>
+          <LedWizEquivalentOutputNumber>9</LedWizEquivalentOutputNumber>
+      </LedWizEquivalentOutput>
+      <LedWizEquivalentOutput>
+      <OutputName>Artnet Node 1\Artnet Node 1.052</OutputName>
+          <LedWizEquivalentOutputNumber>10</LedWizEquivalentOutputNumber>
+      </LedWizEquivalentOutput>
+      <LedWizEquivalentOutput>
+      <OutputName>Artnet Node 1\Artnet Node 1.053</OutputName>
+          <LedWizEquivalentOutputNumber>11</LedWizEquivalentOutputNumber>
+      </LedWizEquivalentOutput>
+      <LedWizEquivalentOutput>
+      <OutputName>Artnet Node 1\Artnet Node 1.054</OutputName>
+          <LedWizEquivalentOutputNumber>12</LedWizEquivalentOutputNumber>
+      </LedWizEquivalentOutput>
+      </Outputs>
+    </LedWizEquivalent>    
+  </Toys>
+</Cabinet>
+~~~~~~~~~~~~~~
+
 \subsection configexamples_swisslizard Swisslizards config
 
 This is the config of Swisslizards cabinet. Since there are quite a few output controllers and toys in that cab the config is quite long and messy. Dont use this as a example how thing can be done in the most readable and understandable way.
