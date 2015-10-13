@@ -207,7 +207,7 @@ namespace DirectOutput.Cab
             get
             {
                 int Cnt = 0;
-                foreach (OutputControllerBase OC in OutputControllers)
+                foreach (IOutputController OC in OutputControllers)
                 {
                     Cnt += OC.Outputs.Count;
                 }
