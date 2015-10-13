@@ -56,7 +56,7 @@ namespace DirectOutput
 
                         IsOk = true;
 
-                     
+
 
 
 
@@ -141,7 +141,7 @@ namespace DirectOutput
         /// </summary>
         /// <param name="Message">The message.</param>
         /// <param name="E">The Exception to be logged.</param>
-        public static void Exception(string Message , Exception E=null)
+        public static void Exception(string Message, Exception E = null)
         {
             lock (Locker)
             {
@@ -152,7 +152,7 @@ namespace DirectOutput
                 Write("EXCEPTION: Thread: {0}".Build(Thread.CurrentThread.Name));
                 if (E != null)
                 {
-                    Write("EXCEPTION: Message: {0}".Build(E.Message));
+                    Write("EXCEPTION: Message: {0} --> {1}".Build(E.GetType().Name, E.Message));
 
                     foreach (string S in E.StackTrace.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
                     {
@@ -184,7 +184,7 @@ namespace DirectOutput
                     while (E.InnerException != null)
                     {
                         E = E.InnerException;
-                        Write("EXCEPTION: InnerException {0}: {1}".Build(Level, E.Message));
+                        Write("EXCEPTION: InnerException {0}: {1} --> {2}".Build(Level, E.GetType().Name, E.Message));
                         Level++;
 
                         if (Level > 20)
@@ -200,7 +200,7 @@ namespace DirectOutput
         /// Writes a exception to the log.
         /// </summary>
         /// <param name="E">The Exception to be logged.</param>
-        public static void Exception(Exception E )
+        public static void Exception(Exception E)
         {
             Exception("", E);
         }
@@ -212,7 +212,7 @@ namespace DirectOutput
         /// \note The calls to this method are only executed, if the DebugLog symbol is defined. Generally this will only be active in special debug releases. The statement to define or undefine the DebugLog symbol can be found on the top of the code of this class.
         /// </summary>
         /// <param name="Message">The message to be written to the log file.</param>
-       // [Conditional("DEBUGLOG")]
+        // [Conditional("DEBUGLOG")]
         public static void Debug(string Message = "")
         {
             Write("Debug: {0}".Build(Message));
