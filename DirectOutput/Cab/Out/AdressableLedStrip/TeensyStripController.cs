@@ -232,7 +232,23 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         /// </returns>
         protected override bool VerifySettings()
         {
-            return !NumberOfLedsPerStrip.Any(Nr => Nr < 0) && !ComPortName.IsNullOrWhiteSpace() && SerialPort.GetPortNames().Any(PN => PN.Equals(ComPortName, StringComparison.InvariantCultureIgnoreCase));
+            if (ComPortName.IsNullOrWhiteSpace())
+            {
+                Log.Warning("The ComPortName has not been specified");
+                return false;
+            }
+
+            if(!SerialPort.GetPortNames().Any(PN => PN==ComPortName)) {
+                Log.Warning("The specified Com-Port {0} was not found. Available com-ports: {1}".Build(ComPortName, string.Join(", ", SerialPort.GetPortNames())));
+                return false;
+            }
+
+            if (NumberOfLedsPerStrip.Any(Nr => Nr < 0))
+            {
+                Log.Warning("At least one ledstrip has a invalid number of leds specified (<0).");
+                return false;
+            }
+            return true;
         }
 
 
@@ -398,7 +414,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
 
             try
             {
-                BytesRead = ComPort.Read(ReceiveData, 0, 3);
+                BytesRead = ReadPortWait(ReceiveData, 0, 3);
             }
             catch (Exception E)
             {
@@ -432,11 +448,11 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             BytesRead = -1;
             try
             {
-                BytesRead = ComPort.Read(ReceiveData, 0, 1);
+                BytesRead = ReadPortWait(ReceiveData, 0, 1);
             }
             catch (Exception E)
             {
-                throw new Exception("Expected 1 bytes after setting the number of leds per channel, but the read operation resulated in a exception. Will not send data to the controller.", E);
+                throw new Exception("Expected 1 bytes after setting the number of leds per channel, but the read operation resulted in a exception. Will not send data to the controller.", E);
             }
 
             if (BytesRead != 1 || ReceiveData[0] != (byte)'A')
@@ -452,11 +468,11 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             BytesRead = -1;
             try
             {
-                BytesRead = ComPort.Read(ReceiveData, 0, 1);
+                BytesRead = ReadPortWait(ReceiveData, 0, 1);
             }
             catch (Exception E)
             {
-                throw new Exception("Expected 1 bytes after clearing the buffer of the TeensyStripController, but the read operation resulated in a exception. Will not send data to the controller.", E);
+                throw new Exception("Expected 1 bytes after clearing the buffer of the TeensyStripController, but the read operation resulted in a exception. Will not send data to the controller.", E);
             }
 
             if (BytesRead != 1 || ReceiveData[0] != (byte)'A')
@@ -470,11 +486,11 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             BytesRead = -1;
             try
             {
-                BytesRead = ComPort.Read(ReceiveData, 0, 1);
+                BytesRead = ReadPortWait(ReceiveData, 0, 1);
             }
             catch (Exception E)
             {
-                throw new Exception("Expected 1 bytes after outputing the buffer of the TeensyStripController to the ledstrips, but the read operation resulated in a exception. Will not send data to the controller.", E);
+                throw new Exception("Expected 1 bytes after outputing the buffer of the TeensyStripController to the ledstrips, but the read operation resulted in a exception. Will not send data to the controller.", E);
             }
 
             if (BytesRead != 1 || ReceiveData[0] != (byte)'A')
@@ -505,5 +521,51 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             }
 
         }
+
+
+        /// <summary>
+        /// Reads reads the specifed number of bytes into the given buffer.
+        /// Waits until the specified number of bytes has been received or until the read timeout of the comport occurs.
+        /// </summary>
+        /// <param name="Buffer">The buffer.</param>
+        /// <param name="BufferOffset">The buffer offset.</param>
+        /// <param name="NumberOfBytes">The number of bytes.</param>
+        /// <returns>Number of bytes read.</returns>
+        private int ReadPortWait(byte[] Buffer, int BufferOffset, int NumberOfBytes) {
+
+            byte[] ReadBuffer=new byte[1];
+            for (int ByteNumber = 0; ByteNumber < NumberOfBytes; ByteNumber++)
+            {
+                int BytesRead = -1;
+
+                try
+                {
+                    BytesRead = ComPort.Read(ReadBuffer, 0, 1);
+
+                }
+                catch (TimeoutException TE)
+                {
+                    throw new Exception("A TimeoutException occured while trying to read byte {0} of {1} from Com-Port {2}.".Build(ByteNumber + 1, NumberOfBytes, ComPort.PortName), TE);
+                }
+                catch (Exception E)
+                {
+                    throw new Exception("A exception occured while trying to read byte {0} of {1} from Com-Port {2}.".Build(ByteNumber + 1, NumberOfBytes, ComPort.PortName), E);
+                }
+
+                if (BytesRead != 1)
+                {
+                    throw new Exception("A exception occured while trying to read byte {0} of {1} from Com-Port {2}. Tried to read 1 byte, but received {3} bytes.".Build(new object[] {ByteNumber + 1, NumberOfBytes, ComPort.PortName, BytesRead}));
+                }
+
+                Buffer[BufferOffset + ByteNumber] = ReadBuffer[0];
+
+            }
+
+            return NumberOfBytes;
+
+        }
+
+
+
     }
 }
