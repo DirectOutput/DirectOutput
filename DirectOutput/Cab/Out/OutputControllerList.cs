@@ -51,19 +51,27 @@ namespace DirectOutput.Cab.Out
 
             while (reader.NodeType != System.Xml.XmlNodeType.EndElement)
             {
-                Type T = Types[reader.LocalName];
-                if (T != null)
+                if (reader.NodeType == XmlNodeType.Element)
                 {
-                    XmlSerializer serializer = new XmlSerializer(T);
-                    IOutputController O = (IOutputController)serializer.Deserialize(reader);
-                    if (!Contains(O.Name))
+                    Type T = Types[reader.LocalName];
+                    if (T != null)
                     {
-                        Add(O);
+                        XmlSerializer serializer = new XmlSerializer(T);
+                        IOutputController O = (IOutputController)serializer.Deserialize(reader);
+                        if (!Contains(O.Name))
+                        {
+                            Add(O);
+                        }
+                    }
+                    else
+                    {
+                        Log.Warning("Output controller type {0} not found during deserialization of data.".Build(reader.LocalName));
+                        reader.Skip();
                     }
                 }
                 else
                 {
-                    Log.Warning("Output controller type {0} not found during deserialization of data.".Build(reader.LocalName));
+                    //Not a xml element. Probably a comment. Skip.
                     reader.Skip();
                 }
             }

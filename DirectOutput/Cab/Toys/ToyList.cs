@@ -50,23 +50,30 @@ namespace DirectOutput.Cab.Toys
 
             while (reader.NodeType != System.Xml.XmlNodeType.EndElement)
             {
-                Type T = Types[reader.LocalName];
-
-                if (T != null)
+                if (reader.NodeType == XmlNodeType.Element)
                 {
-                    XmlSerializer serializer = new XmlSerializer(T);
-                    IToy Toy = (IToy)serializer.Deserialize(reader);
-                    if (!Contains(Toy.Name))
+                    Type T = Types[reader.LocalName];
+
+                    if (T != null)
                     {
-                        Add(Toy);
+                        XmlSerializer serializer = new XmlSerializer(T);
+                        IToy Toy = (IToy)serializer.Deserialize(reader);
+                        if (!Contains(Toy.Name))
+                        {
+                            Add(Toy);
+                        }
+                    }
+                    else
+                    {
+                        Log.Warning("Toy type {0} not found during deserialization of cabinet data.".Build(reader.LocalName));
+                        reader.Skip();
                     }
                 }
                 else
                 {
-                    Log.Warning("Toy type {0} not found during deserialization of cabinet data.".Build(reader.LocalName));
+                    //Not a xml element. Probably a comment. Skip.
                     reader.Skip();
                 }
-                
 
             }
             reader.ReadEndElement();
@@ -127,7 +134,7 @@ namespace DirectOutput.Cab.Toys
             {
                 if (T is IToyUpdatable)
                 {
-                   ((IToyUpdatable)T).UpdateOutputs();
+                    ((IToyUpdatable)T).UpdateOutputs();
                 }
             }
         }
