@@ -1,10 +1,22 @@
 ﻿DOF History  {#dofhistory}
 ========
 
+_2015.6-2015.10_
+
+- Pinballx Plugin improved
+- More area/matrix effects added
+- new INI file paras added
+- support for TeensyStripController added
+- Flicker effect improved
+- Shape effect added
+- many other small improvements 
+
+
 __2014.10__
 
 - Plugin for Pinballx implemented
 - New ini file para for matrix effects
+- Support for Pincontrol added
 
 __2014.09__
 

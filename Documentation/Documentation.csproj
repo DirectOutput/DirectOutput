@@ -71,6 +71,8 @@
     <Content Include="img\B2SServer_Settings_NoBackglass.png" />
     <Content Include="img\DirectOutputR2_Big.png" />
     <Content Include="img\DirectOutputR2_Small.png" />
+    <Content Include="img\DirectOutputR3_Big.png" />
+    <Content Include="img\DirectOutputR3_Small.png" />
     <Content Include="img\DOFConfigTool.png" />
     <Content Include="img\GlobalConfigEditor_Cabinet.png" />
     <Content Include="img\GlobalConfigEditor_IniFiles.png" />

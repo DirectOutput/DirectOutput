@@ -571,7 +571,7 @@ Arngrims config contains quite a few settings for Artnet devices. HIs other cont
     </LedWizEquivalent>    
   </Toys>
 </Cabinet>
-~~~~~~~~~~~~~~
+~~~~~~~~~~~~~
 
 \subsection configexamples_swisslizard Swisslizards config
 
