@@ -74,7 +74,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             }
             set
             {
-                NumberOfLedsPerStrip[1] = value;
+                NumberOfLedsPerStrip[2] = value;
                 base.SetupOutputs();
             }
         }
@@ -319,7 +319,40 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         }
 
 
+        //private byte[] PackData(byte[] OutputValues, int FirstLed, int NumberOfLeds)
+        //{
+        //    int OutputPosition = FirstLed * 3;
+        //    int LedNr = 0;
 
+        //    if (NumberOfLeds > 0)
+        //    {
+        //        while (LedNr < NumberOfLeds)
+        //        {
+        //            if (OutputValues[OutputPosition] == OutputValues[OutputPosition + 3] && OutputValues[OutputPosition + 1] == OutputValues[OutputPosition + 4] && OutputValues[OutputPosition + 2] == OutputValues[OutputPosition + 5])
+        //            {
+        //                //
+        //            }
+        //            else
+        //            {
+
+        //            }
+
+
+
+
+        //        }
+
+
+
+        //    }
+        //    else
+        //    {
+        //        //No data to pack
+        //        return new byte[1] { 0 };
+        //    }
+
+
+        //}
 
 
         /// <summary>
@@ -360,7 +393,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
 
 
             //Make sure, the controller is in the expected state (ready to receive commands)
-            Thread.Sleep(100);
+            Thread.Sleep(50);
             ComPort.ReadExisting();
 
             bool CommandModeOK = false;
@@ -399,7 +432,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             };
             if (!CommandModeOK)
             {
-                Log.Exception("Could not put the controller into the commandmode. Will not send data to the controller.");
+                Log.Exception("Could not put the controller on com-port {0} into the commandmode. Will not send data to the controller.".Build(ComPortName));
                 DisconnectFromController();
                 return;
             }
