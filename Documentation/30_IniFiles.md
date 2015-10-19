@@ -136,7 +136,7 @@ The second and following parts of a setting can contain one or several of the fo
 * __BNPW{Percentage}__ defines the blink pulse width for nested blinking in percent of the blink interval.
 * __Invert__ inverts the effect, so the effect will be active when it is normaly inactive and vice versa.
 * __NoBool__ indicates that the trigger value off the effect is not to be treated as a boolean value resp. that the daufault mapping of the value to 0 or 255 (255 for all values which are not 0) should not take place.
-* __Numeric Values__ without any extra character can be used to specify the duration of the effect or the blinking behaviour. If blinking has been defined, one or two numeric values are parsed. Value 1 controls the blink interval in milliseconds, while value 2 defines the number of blinks. If no blinking has been defined, only one numeric values which is used to defined the duration of the effect in milliseconds is parsed.
+* __Numeric Values__ without any extra character can be used to specify the duration of the effect or the blinking behaviour. If blinking has been defined (BLINK para) and one numeric value has been specified, the numeric value defines the blink interval. If two numeric values are specified, the first numeric value defines the duration of the effect and the second numeric value defines the number of blinks during the defined duration. If no blink para and only one numeric value is defined, the numeric value defines the duration of the effect in milliseconds.
 
 \section inifiles_matrix Matrix/area effect parameters
 
