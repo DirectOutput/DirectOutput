@@ -189,7 +189,7 @@ namespace DirectOutput.LedControl.Setup
                                                 }
                                             }
 
-                                            if (TCS.ColorConfig != null)
+                                            if (TCS.ColorConfig2 != null)
                                             {
                                                 ActiveColor2 = TCS.ColorConfig2.GetCabinetColor().GetRGBAColor();
                                             }

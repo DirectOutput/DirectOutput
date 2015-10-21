@@ -69,7 +69,7 @@ namespace DirectOutput.Cab.Toys.Hardware
             set { _KickstartDurationMs = value.Limit(0, 5000); }
         }
 
-        private int _MinPower=1;
+        private int _MinPower = 1;
 
         /// <summary>
         /// Gets or sets the minimal power for the toy when it is active.
@@ -80,11 +80,11 @@ namespace DirectOutput.Cab.Toys.Hardware
         public int MinPower
         {
             get { return _MinPower; }
-            set { _MinPower = value.Limit(0,255); }
+            set { _MinPower = value.Limit(0, 255); }
         }
 
 
-        private int _MaxPower=255;
+        private int _MaxPower = 255;
 
         /// <summary>
         /// Gets or sets the max power for the toy. 
@@ -95,9 +95,9 @@ namespace DirectOutput.Cab.Toys.Hardware
         public int MaxPower
         {
             get { return _MaxPower; }
-            set { _MaxPower = value.Limit(0,255); }
+            set { _MaxPower = value.Limit(0, 255); }
         }
-        
+
 
 
         /// <summary>
@@ -109,13 +109,13 @@ namespace DirectOutput.Cab.Toys.Hardware
         //{
         //    get
         //    {
-                
+
         //        return (int)((Value - MinPower) * ((double)(MaxPower - MinPower) / 255));
         //    }
         //}
 
 
-        int CurrentMotorPower=0;
+        int CurrentMotorPower = 0;
         int TargetMotorPower = 0;
         bool KickstartActive = false;
         bool TurnedOffAfterMaxRunTime = false;
@@ -131,7 +131,7 @@ namespace DirectOutput.Cab.Toys.Hardware
 
                 if (P != 0)
                 {
-                    P=((int)((double)(MaxPower>=MinPower?MaxPower-MinPower:MinPower-MaxPower)/255*P)+MinPower).Limit(MinPower,MaxPower);
+                    P = ((int)((double)(MaxPower >= MinPower ? MaxPower - MinPower : MinPower - MaxPower) / 255 * P) + MinPower).Limit(MinPower, MaxPower);
                 }
 
 
@@ -151,7 +151,7 @@ namespace DirectOutput.Cab.Toys.Hardware
                         {
                             //need to turn the motor on
 
-                            if (KickstartDurationMs > 0 && KickstartPower > 0 && P<=KickstartPower)
+                            if (KickstartDurationMs > 0 && KickstartPower > 0 && P <= KickstartPower)
                             {
                                 //Kickstart is defined, start with kickstart
 
@@ -267,9 +267,12 @@ namespace DirectOutput.Cab.Toys.Hardware
         /// </summary>
         public override void Finish()
         {
-            AlarmHandler.UnregisterAlarm(KickStartEnd);
-            AlarmHandler.UnregisterAlarm(MaxRunTimeMotorStop);
-            AlarmHandler = null;
+            if (AlarmHandler != null)
+            {
+                AlarmHandler.UnregisterAlarm(KickStartEnd);
+                AlarmHandler.UnregisterAlarm(MaxRunTimeMotorStop);
+                AlarmHandler = null;
+            }
             base.Finish();
         }
 
