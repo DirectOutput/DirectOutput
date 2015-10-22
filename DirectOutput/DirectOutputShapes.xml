@@ -354,6 +354,7 @@
 
 
 
+
     <ShapeAnimated>
       <Name>RoundPulse</Name>
       <BitmapFrameNumber>0</BitmapFrameNumber>
@@ -363,7 +364,7 @@
       <BitmapHeight>16</BitmapHeight>
       <DataExtractMode>BlendPixels</DataExtractMode>
       <AnimationStepDirection>Right</AnimationStepDirection>
-      <AnimationStepSize>16</AnimationStepSize>
+      <AnimationStepSize>17</AnimationStepSize>
       <AnimationFrameCount>20</AnimationFrameCount>
       <AnimationBehaviour>Continue</AnimationBehaviour>
       <AnimationFrameDurationMs>40</AnimationFrameDurationMs>
@@ -377,7 +378,7 @@
       <BitmapHeight>16</BitmapHeight>
       <DataExtractMode>BlendPixels</DataExtractMode>
       <AnimationStepDirection>Right</AnimationStepDirection>
-      <AnimationStepSize>16</AnimationStepSize>
+      <AnimationStepSize>17</AnimationStepSize>
       <AnimationFrameCount>14</AnimationFrameCount>
       <AnimationBehaviour>Continue</AnimationBehaviour>
       <AnimationFrameDurationMs>40</AnimationFrameDurationMs>
@@ -391,7 +392,7 @@
       <BitmapHeight>16</BitmapHeight>
       <DataExtractMode>BlendPixels</DataExtractMode>
       <AnimationStepDirection>Right</AnimationStepDirection>
-      <AnimationStepSize>16</AnimationStepSize>
+      <AnimationStepSize>17</AnimationStepSize>
       <AnimationFrameCount>12</AnimationFrameCount>
       <AnimationBehaviour>Continue</AnimationBehaviour>
       <AnimationFrameDurationMs>40</AnimationFrameDurationMs>
@@ -405,7 +406,7 @@
       <BitmapHeight>16</BitmapHeight>
       <DataExtractMode>BlendPixels</DataExtractMode>
       <AnimationStepDirection>Right</AnimationStepDirection>
-      <AnimationStepSize>16</AnimationStepSize>
+      <AnimationStepSize>17</AnimationStepSize>
       <AnimationFrameCount>11</AnimationFrameCount>
       <AnimationBehaviour>Continue</AnimationBehaviour>
       <AnimationFrameDurationMs>40</AnimationFrameDurationMs>
@@ -419,7 +420,7 @@
       <BitmapHeight>16</BitmapHeight>
       <DataExtractMode>BlendPixels</DataExtractMode>
       <AnimationStepDirection>Right</AnimationStepDirection>
-      <AnimationStepSize>16</AnimationStepSize>
+      <AnimationStepSize>17</AnimationStepSize>
       <AnimationFrameCount>12</AnimationFrameCount>
       <AnimationBehaviour>Continue</AnimationBehaviour>
       <AnimationFrameDurationMs>40</AnimationFrameDurationMs>
@@ -433,7 +434,7 @@
       <BitmapHeight>16</BitmapHeight>
       <DataExtractMode>BlendPixels</DataExtractMode>
       <AnimationStepDirection>Right</AnimationStepDirection>
-      <AnimationStepSize>16</AnimationStepSize>
+      <AnimationStepSize>17</AnimationStepSize>
       <AnimationFrameCount>21</AnimationFrameCount>
       <AnimationBehaviour>Continue</AnimationBehaviour>
       <AnimationFrameDurationMs>40</AnimationFrameDurationMs>
@@ -447,7 +448,7 @@
       <BitmapHeight>16</BitmapHeight>
       <DataExtractMode>BlendPixels</DataExtractMode>
       <AnimationStepDirection>Right</AnimationStepDirection>
-      <AnimationStepSize>16</AnimationStepSize>
+      <AnimationStepSize>17</AnimationStepSize>
       <AnimationFrameCount>12</AnimationFrameCount>
       <AnimationBehaviour>Continue</AnimationBehaviour>
       <AnimationFrameDurationMs>40</AnimationFrameDurationMs>
@@ -461,7 +462,7 @@
       <BitmapHeight>16</BitmapHeight>
       <DataExtractMode>BlendPixels</DataExtractMode>
       <AnimationStepDirection>Right</AnimationStepDirection>
-      <AnimationStepSize>16</AnimationStepSize>
+      <AnimationStepSize>17</AnimationStepSize>
       <AnimationFrameCount>11</AnimationFrameCount>
       <AnimationBehaviour>Continue</AnimationBehaviour>
       <AnimationFrameDurationMs>40</AnimationFrameDurationMs>
@@ -475,7 +476,7 @@
       <BitmapHeight>16</BitmapHeight>
       <DataExtractMode>BlendPixels</DataExtractMode>
       <AnimationStepDirection>Right</AnimationStepDirection>
-      <AnimationStepSize>16</AnimationStepSize>
+      <AnimationStepSize>17</AnimationStepSize>
       <AnimationFrameCount>10</AnimationFrameCount>
       <AnimationBehaviour>Continue</AnimationBehaviour>
       <AnimationFrameDurationMs>40</AnimationFrameDurationMs>
@@ -489,7 +490,7 @@
       <BitmapHeight>16</BitmapHeight>
       <DataExtractMode>BlendPixels</DataExtractMode>
       <AnimationStepDirection>Right</AnimationStepDirection>
-      <AnimationStepSize>16</AnimationStepSize>
+      <AnimationStepSize>17</AnimationStepSize>
       <AnimationFrameCount>16</AnimationFrameCount>
       <AnimationBehaviour>Continue</AnimationBehaviour>
       <AnimationFrameDurationMs>40</AnimationFrameDurationMs>
@@ -503,7 +504,7 @@
       <BitmapHeight>16</BitmapHeight>
       <DataExtractMode>BlendPixels</DataExtractMode>
       <AnimationStepDirection>Right</AnimationStepDirection>
-      <AnimationStepSize>16</AnimationStepSize>
+      <AnimationStepSize>17</AnimationStepSize>
       <AnimationFrameCount>24</AnimationFrameCount>
       <AnimationBehaviour>Continue</AnimationBehaviour>
       <AnimationFrameDurationMs>40</AnimationFrameDurationMs>
@@ -517,7 +518,7 @@
       <BitmapHeight>16</BitmapHeight>
       <DataExtractMode>BlendPixels</DataExtractMode>
       <AnimationStepDirection>Right</AnimationStepDirection>
-      <AnimationStepSize>16</AnimationStepSize>
+      <AnimationStepSize>17</AnimationStepSize>
       <AnimationFrameCount>13</AnimationFrameCount>
       <AnimationBehaviour>Continue</AnimationBehaviour>
       <AnimationFrameDurationMs>40</AnimationFrameDurationMs>
@@ -531,7 +532,7 @@
       <BitmapHeight>16</BitmapHeight>
       <DataExtractMode>BlendPixels</DataExtractMode>
       <AnimationStepDirection>Right</AnimationStepDirection>
-      <AnimationStepSize>-16</AnimationStepSize>
+      <AnimationStepSize>-17</AnimationStepSize>
       <AnimationFrameCount>13</AnimationFrameCount>
       <AnimationBehaviour>Continue</AnimationBehaviour>
       <AnimationFrameDurationMs>40</AnimationFrameDurationMs>
@@ -545,7 +546,7 @@
       <BitmapHeight>16</BitmapHeight>
       <DataExtractMode>BlendPixels</DataExtractMode>
       <AnimationStepDirection>Right</AnimationStepDirection>
-      <AnimationStepSize>16</AnimationStepSize>
+      <AnimationStepSize>17</AnimationStepSize>
       <AnimationFrameCount>13</AnimationFrameCount>
       <AnimationBehaviour>Continue</AnimationBehaviour>
       <AnimationFrameDurationMs>40</AnimationFrameDurationMs>
@@ -559,7 +560,7 @@
       <BitmapHeight>16</BitmapHeight>
       <DataExtractMode>BlendPixels</DataExtractMode>
       <AnimationStepDirection>Right</AnimationStepDirection>
-      <AnimationStepSize>-16</AnimationStepSize>
+      <AnimationStepSize>-17</AnimationStepSize>
       <AnimationFrameCount>13</AnimationFrameCount>
       <AnimationBehaviour>Continue</AnimationBehaviour>
       <AnimationFrameDurationMs>40</AnimationFrameDurationMs>
@@ -573,7 +574,7 @@
       <BitmapHeight>16</BitmapHeight>
       <DataExtractMode>BlendPixels</DataExtractMode>
       <AnimationStepDirection>Right</AnimationStepDirection>
-      <AnimationStepSize>16</AnimationStepSize>
+      <AnimationStepSize>17</AnimationStepSize>
       <AnimationFrameCount>8</AnimationFrameCount>
       <AnimationBehaviour>Continue</AnimationBehaviour>
       <AnimationFrameDurationMs>40</AnimationFrameDurationMs>
@@ -615,7 +616,7 @@
       <BitmapHeight>16</BitmapHeight>
       <DataExtractMode>BlendPixels</DataExtractMode>
       <AnimationStepDirection>Right</AnimationStepDirection>
-      <AnimationStepSize>16</AnimationStepSize>
+      <AnimationStepSize>17</AnimationStepSize>
       <AnimationFrameCount>8</AnimationFrameCount>
       <AnimationBehaviour>Continue</AnimationBehaviour>
       <AnimationFrameDurationMs>40</AnimationFrameDurationMs>
@@ -629,11 +630,12 @@
       <BitmapHeight>16</BitmapHeight>
       <DataExtractMode>BlendPixels</DataExtractMode>
       <AnimationStepDirection>Right</AnimationStepDirection>
-      <AnimationStepSize>16</AnimationStepSize>
+      <AnimationStepSize>17</AnimationStepSize>
       <AnimationFrameCount>29</AnimationFrameCount>
       <AnimationBehaviour>Continue</AnimationBehaviour>
       <AnimationFrameDurationMs>40</AnimationFrameDurationMs>
     </ShapeAnimated>
+
 
 
 
