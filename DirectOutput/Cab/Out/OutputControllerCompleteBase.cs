@@ -26,7 +26,7 @@ namespace DirectOutput.Cab.Out
         /// </summary>
         protected void SetupOutputs()
         {
-            int NumberOfOutputs = GetNumberOfConfiguredOutputs().Limit(0,int.MaxValue);
+            int NumberOfOutputs = GetNumberOfConfiguredOutputs().Limit(0, int.MaxValue);
             if (Outputs == null)
             {
                 Outputs = new OutputList();
@@ -42,8 +42,8 @@ namespace DirectOutput.Cab.Out
                 }
             }
 
-            
-            OutputValues = Outputs.OrderBy(O=>O.Number).Select(O => O.Value).ToArray();
+
+            OutputValues = Outputs.OrderBy(O => O.Number).Select(O => O.Value).ToArray();
         }
 
         private void RenameOutputs()
@@ -73,7 +73,7 @@ namespace DirectOutput.Cab.Out
         public OutputList Outputs
         {
             get { return _Outputs; }
-             set
+            set
             {
                 if (_Outputs != null)
                 {
@@ -103,13 +103,13 @@ namespace DirectOutput.Cab.Out
         /// <param name="Output">The output.</param>
         private void OnOutputValueChanged(IOutput Output)
         {
-            if (Output.Number>0 && Output.Number <= OutputValues.Length)
+            if (Output.Number > 0 && Output.Number <= OutputValues.Length)
             {
                 lock (ValueChangeLocker)
                 {
-                    if (OutputValues[Output.Number-1] != Output.Value)
+                    if (OutputValues[Output.Number - 1] != Output.Value)
                     {
-                        OutputValues[Output.Number-1] = Output.Value;
+                        OutputValues[Output.Number - 1] = Output.Value;
                         UpdateRequired = true;
                     }
 
@@ -157,15 +157,15 @@ namespace DirectOutput.Cab.Out
             }
             catch (Exception E)
             {
-                string msg = "A exception occured when verifying the settings for {0} {1}: {2}. Cant initialize.".Build(this.GetType().Name, Name,E.Message);
+                string msg = "A exception occured when verifying the settings for {0} {1}: {2}. Cant initialize.".Build(this.GetType().Name, Name, E.Message);
                 Log.Exception(msg, E);
                 throw new Exception(msg, E);
-            } 
+            }
             if (V)
             {
                 SetupOutputs();
                 InitUpdaterThread();
-                Log.Write("{0} {1} intialized and updater thread started.".Build(this.GetType().Name,Name));
+                Log.Write("{0} {1} intialized and updater thread started.".Build(this.GetType().Name, Name));
             }
             else
             {
@@ -177,9 +177,10 @@ namespace DirectOutput.Cab.Out
         /// <summary>
         /// Finishes the output controller and stop the updater thread.
         /// </summary>
-        public virtual void Finish() {
+        public virtual void Finish()
+        {
             FinishUpdaterThread();
-            Log.Write("{0} {1} finished and updater thread stopped.".Build(this.GetType().Name,Name));
+            Log.Write("{0} {1} finished and updater thread stopped.".Build(this.GetType().Name, Name));
         }
 
         /// <summary>
@@ -334,7 +335,7 @@ namespace DirectOutput.Cab.Out
                 }
                 catch (Exception E)
                 {
-                    Log.Exception("{0} could not connect to the controller. Thread will quit.".Build(Thread.CurrentThread.Name),E);
+                    Log.Exception("{0} could not connect to the controller. Thread will quit.".Build(Thread.CurrentThread.Name), E);
 
                     try
                     {
@@ -365,7 +366,7 @@ namespace DirectOutput.Cab.Out
                         }
                         catch (Exception E)
                         {
-                            Log.Exception("{0} could not send update for {1} {2}: {3}. Will try again.".Build(new object[] { Thread.CurrentThread.Name, this.GetType().Name, Name, E.Message }),E);
+                            Log.Exception("{0} could not send update for {1} {2}: {3}. Will try again.".Build(new object[] { Thread.CurrentThread.Name, this.GetType().Name, Name, E.Message }), E);
                             UpdateOK = false;
                         }
                         if (UpdateOK) break;
@@ -387,7 +388,7 @@ namespace DirectOutput.Cab.Out
                         }
                         catch (Exception E)
                         {
-                            Log.Exception("{0} could not reconnect to the controller. Thread will quit.".Build(Thread.CurrentThread.Name),E);
+                            Log.Exception("{0} could not reconnect to the controller. Thread will quit.".Build(Thread.CurrentThread.Name), E);
 
                             try
                             {
@@ -404,7 +405,7 @@ namespace DirectOutput.Cab.Out
                         }
                         catch (Exception E)
                         {
-                            Log.Exception("{0} could still not send update for {1} {2}: {3}. Thread will quit.".Build(new object[] { Thread.CurrentThread.Name, this.GetType().Name, Name, E.Message }),E);
+                            Log.Exception("{0} could still not send update for {1} {2}: {3}. Thread will quit.".Build(new object[] { Thread.CurrentThread.Name, this.GetType().Name, Name, E.Message }), E);
                             try
                             {
                                 DisconnectFromController();
@@ -426,12 +427,25 @@ namespace DirectOutput.Cab.Out
                                 Monitor.Wait(UpdaterThreadLocker, 50);  // Lock is released while we’re waiting
                             }
                         }
-                      
+
                     }
                     UpdateRequired = false;
                 }
 
-                DisconnectFromController();
+                try
+                {
+                    UpdateOutputs(new byte[OutputValues.Length]);
+                }
+                catch (Exception E)
+                {
+                    Log.Exception("A exception occured in {0} while trying to turn of all outputs for {1} {2}".Build(Thread.CurrentThread.Name, this.GetType().Name, Name), E);
+                }
+                try
+                {
+                    DisconnectFromController();
+
+                }
+                catch {}
 
                 Log.Write("{0} has disconnected from {1} {2} and will terminate.".Build(Thread.CurrentThread.Name, this.GetType().Name, Name));
             }
@@ -440,7 +454,7 @@ namespace DirectOutput.Cab.Out
                 Log.Exception("A exception has occured in {0}. Thread will quit. Message: {1}".Build(Thread.CurrentThread.Name, EU.Message), EU);
             }
 
-            
+
         }
 
         #endregion
