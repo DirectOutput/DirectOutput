@@ -100,8 +100,6 @@ namespace DirectOutput.FX.MatrixFX
         {
             int F = (FadeMode == FadeModeEnum.OnOff ? (CurrentTrigerrValue > 0 ? 255 : 0) : CurrentTrigerrValue.Limit(0, 255));
 
-
-            // double Time = (DateTime.Now - PlasmaStartDateTime).TotalMilliseconds * ((double)PlasmaSpeed/10000);
             Time += ((double)PlasmaSpeed / 2000);
             int W = AreaWidth;
             int H = AreaHeight;

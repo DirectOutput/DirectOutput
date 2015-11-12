@@ -5,6 +5,8 @@ using System.Text;
 using DirectOutput.FX.MatrixFX.BitmapShapes;
 using DirectOutput.General.BitmapHandling;
 using DirectOutput.FX.MatrixFX;
+using DirectOutput.Cab;
+using DirectOutput.General;
 
 namespace Test
 {
@@ -13,17 +15,37 @@ namespace Test
         static void Main(string[] args)
         {
 
-            ShapeDefinitions D = new ShapeDefinitions();
+            Cabinet C = new Cabinet();
+            Curve CU = new Curve()
+            {
+                Name="Binary0Curve"
+            };
 
-            D.BitmapFilePattern = new DirectOutput.General.FilePattern("{DllDir}\\shapes.png");
 
-            Shape S = new Shape() { Name = "Round", BitmapTop = 10, BitmapLeft = 20, BitmapHeight = 50, BitmapWidth = 15, BitmapFrameNumber = 0, DataExtractMode = FastBitmapDataExtractModeEnum.BlendPixels };
-            D.Shapes.Add(S);
+            CU.Data[0] = 0;
+            for (int i = 1; i < 256; i++)
+            {
+                CU.Data[i] = 255;
+            }
 
-            S = new ShapeAnimated() { Name = "Pulse", BitmapTop = 10, BitmapLeft = 20, BitmapHeight = 50, BitmapWidth = 15, BitmapFrameNumber = 0, DataExtractMode = FastBitmapDataExtractModeEnum.BlendPixels, AnimationBehaviour = AnimationBehaviourEnum.Loop, AnimationFrameCount = 15, AnimationStepDirection = MatrixAnimationStepDirectionEnum.Right, AnimationFrameDurationMs = 30, AnimationStepSize = 15 };
-            D.Shapes.Add(S);
+            C.Curves.Add(CU);
 
-            D.SaveShapeDefinitionsXmlFile(@"C:\Users\tom\Documents\Github\DirectOutput\DirectOutput\DirectOutputShapes.xml");
+
+            CU = new Curve()
+            {
+                Name = "SinusCurve"
+            };
+
+
+            CU.Data[0] = 255;
+            for (int i = 0; i < 256; i++)
+            {
+                CU.Data[i] = (byte)(Math.Round(Math.Sin(Math.PI / 128 * i - Math.PI / 2) * 128 + 128, 0));
+            }
+
+            C.Curves.Add(CU);
+
+            C.SaveConfigXmlFile("test.xml");
 
         }
     }
