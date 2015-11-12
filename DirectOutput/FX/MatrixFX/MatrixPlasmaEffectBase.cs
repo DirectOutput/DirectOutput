@@ -122,23 +122,24 @@ namespace DirectOutput.FX.MatrixFX
                 SX = (double)SY;
             }
 
-            //SX = (double)1 / W;
-            //SY = (double)1 / H;
-            for (int Y = 0; Y < H; Y++)
+            PrecalcTimeValues(Time);
+
+            for (int X = 0; X < W; X++)
             {
-                double YY = (double)SY * Y;
-                for (int X = 0; X < W; X++)
+                PrecalcXValues(X, Time);
+                double XX = SX * X;
+                for (int Y = 0; Y < H; Y++)
                 {
-                    double XX = SX * X;
+                    double YY = (double)SY * Y;
+
                     double V = CalcPositionValue(XX, YY, Time).Limit(0, 1);
 
                     MatrixLayer[AreaLeft + X, AreaTop + Y] = GetEffectValue(F, Time, V, XX, YY);
-                    //   Console.Write("{0} ", ((int)V).ToString("X2"));
+                    
                 }
-                //Console.WriteLine();
+               
             }
-            //Console.WriteLine();
-
+           
         }
 
 
@@ -159,23 +160,33 @@ namespace DirectOutput.FX.MatrixFX
 
         }
 
+        double CosTime = 0;
+        double SinTimeDiv11767Mult05 = 0;
+        double CosTimeDiv1833371Mult05=0;
+        private void PrecalcTimeValues(double Time)
+        {
+            CosTime = Math.Cos(Time);
+            SinTimeDiv11767Mult05 = .5 * Math.Sin(Time / 1.1767);
+            CosTimeDiv1833371Mult05 = .5 * Math.Cos(Time / 1.833371);
+        }
+
+        double XWaveValue1 = 0;
+        double XWaveValue2 = 0;
+        private void PrecalcXValues(double X, double Time)
+        {
+            XWaveValue1 = Math.Sin(X * Math.PI * (PlasmaDensity / 28) + Time);
+            XWaveValue2 = X * Math.Sin(Time / 2.567);
+        }
+
 
         private double CalcPositionValue(double X, double Y, double Time)
         {
-            double V = 0;
+            double V = XWaveValue1;
 
-            //  V = X / Math.PI;
+            V += Math.Sin(Math.PI * (PlasmaDensity / 28) * (XWaveValue2 + Y * CosTime) + Time);
 
-            V += Math.Sin(X * Math.PI * (PlasmaDensity / 28) + Time);
-
-            V += Math.Sin(Math.PI * (PlasmaDensity / 28) * (X * Math.Sin(Time / 2.567) + Y * Math.Cos(Time)) + Time);
-
-
-            //          V += Math.Sin((Y*8  + Time)) / 2;
-            //V += Math.Sin((X*8  + Y*8 + Time)) / 2;
-
-            double cx = X + .5 * Math.Sin(Time / 1.1767);
-            double cy = Y + .5 * Math.Cos(Time / 1.833371);
+            double cx = X + SinTimeDiv11767Mult05;
+            double cy = Y + CosTimeDiv1833371Mult05;
             V += Math.Sin(Math.Sqrt((Math.PI * (PlasmaDensity / 56)) * (Math.PI * (PlasmaDensity / 56)) * (cx * cx + cy * cy) + 1) + Time);
             V = ((V + 3) / 6.0);
 
