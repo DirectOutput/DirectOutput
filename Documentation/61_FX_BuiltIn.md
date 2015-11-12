@@ -2,6 +2,13 @@ Built in Effects  {#fx_builtin}
 ==========
 \section use_DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect AnalogAlphaMatrixBitmapAnimationEffect
 
+\subsection use_DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_summary Summary
+
+Displays parts of a bitmap as a animation on a matrix of AnalogAlpha elements.
+Check the docu on the other bitmap effects for more details on these effect types.
+
+
+
 \subsection use_DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_samplexml Sample XML
 
 A configuration section for AnalogAlphaMatrixBitmapAnimationEffect might resemble the following structure:
@@ -473,6 +480,13 @@ The width in percent of the target area for the effect (0-100).
 
 
 \section use_DirectOutput_FX_MatrixFX_AnalogAlphaMatrixShiftEffect AnalogAlphaMatrixShiftEffect
+
+\subsection use_DirectOutput_FX_MatrixFX_AnalogAlphaMatrixShiftEffect_summary Summary
+
+Same kind of effect like the RGBAMatrixShift effect, but for AnalogAlpha elements (just about everything which is not a RGBA element).
+
+
+
 
 \subsection use_DirectOutput_FX_MatrixFX_AnalogAlphaMatrixShiftEffect_samplexml Sample XML
 
@@ -1825,6 +1839,18 @@ The width in percent of the target area for the effect (0-100).
 
 \section use_DirectOutput_FX_MatrixFX_RGBAMatrixColorScaleBitmapAnimationEffect RGBAMatrixColorScaleBitmapAnimationEffect
 
+\subsection use_DirectOutput_FX_MatrixFX_RGBAMatrixColorScaleBitmapAnimationEffect_summary Summary
+
+This displays a defined part of a bitmap as a animation in the given colors on a area of a RGBAtoy Matrix. The effect take the overall brightness of the pixels of the bitmap to control the brightness of the specified colors for each pixel.
+
+The properties of the effect allow you to select the parts of the bitmap to display for the animation as well as the area of the matrix on which the bitmap is displayed. Depending on the size of your bitmap you might choose different modes for the image extraction.
+
+The effect supports numerous image formats, inluding png, gif (also animated) and jpg.
+
+The image extraction takes place upon initalization of the framework. While the framework is active, it only outputs the previously extracted and scaled data to allow for better performance.
+
+
+
 \subsection use_DirectOutput_FX_MatrixFX_RGBAMatrixColorScaleBitmapAnimationEffect_samplexml Sample XML
 
 A configuration section for RGBAMatrixColorScaleBitmapAnimationEffect might resemble the following structure:
@@ -2048,7 +2074,7 @@ The width in percent of the target area for the effect (0-100).
 
 The RGBAMatrixBitmapEffect displays a defined part of a bitmap in the given colors on a area of a RGBAtoy Matrix. The effect take the overall brightness of the pixels of the bitmap to control the brightness of the specified colors for each pixel.
 
-The properties of the effect allow you to select the part of the bitmap to display as well as the area of the matrix on which the bitmap is displayed. Dempending on the size of your bitmap you might choose different modes for the image extraction.
+The properties of the effect allow you to select the part of the bitmap to display as well as the area of the matrix on which the bitmap is displayed. Depending on the size of your bitmap you might choose different modes for the image extraction.
 
 The effect supports numerous image formats, inluding png, gif (also animated) and jpg.
 
@@ -2225,6 +2251,12 @@ The width in percent of the target area for the effect (0-100).
 
 
 \section use_DirectOutput_FX_MatrixFX_RGBAMatrixColorScaleShapeEffect RGBAMatrixColorScaleShapeEffect
+
+\subsection use_DirectOutput_FX_MatrixFX_RGBAMatrixColorScaleShapeEffect_summary Summary
+
+Displays a shape on a RGBA matrix (typically a ledstrip array). The color of the displayed shape is controlled by the effect.
+
+
 
 \subsection use_DirectOutput_FX_MatrixFX_RGBAMatrixColorScaleShapeEffect_samplexml Sample XML
 
@@ -2486,6 +2518,13 @@ The width in percent of the target area for the effect (0-100).
 
 \section use_DirectOutput_FX_MatrixFX_RGBAMatrixPlasmaEffect RGBAMatrixPlasmaEffect
 
+\subsection use_DirectOutput_FX_MatrixFX_RGBAMatrixPlasmaEffect_summary Summary
+
+Displayes a classical plasma effect on a RGBA matrix/ledstrip array.
+For more details on the math of the plasma effect, read the following page: http://www.bidouille.org/prog/plasma
+
+
+
 \subsection use_DirectOutput_FX_MatrixFX_RGBAMatrixPlasmaEffect_samplexml Sample XML
 
 A configuration section for RGBAMatrixPlasmaEffect might resemble the following structure:
@@ -2592,9 +2631,21 @@ The name of the item.
 
 \subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixPlasmaEffect_PlasmaDensity PlasmaDensity
 
+The plasma density.
+
+
+
 \subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixPlasmaEffect_PlasmaScale PlasmaScale
 
+The plasma scale.
+
+
+
 \subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixPlasmaEffect_PlasmaSpeed PlasmaSpeed
+
+The plasma speed.
+
+
 
 \subsubsection DirectOutput_FX_MatrixFX_RGBAMatrixPlasmaEffect_Top Top
 
@@ -2615,6 +2666,12 @@ The width in percent of the target area for the effect (0-100).
 
 
 \section use_DirectOutput_FX_MatrixFX_RGBAMatrixShapeEffect RGBAMatrixShapeEffect
+
+\subsection use_DirectOutput_FX_MatrixFX_RGBAMatrixShapeEffect_summary Summary
+
+Displays a shape on a RGBA matrix (typically a ledstrip matrix). The color of the displayed shape is the org color of the shape (multicolor shapes work as well).
+
+
 
 \subsection use_DirectOutput_FX_MatrixFX_RGBAMatrixShapeEffect_samplexml Sample XML
 

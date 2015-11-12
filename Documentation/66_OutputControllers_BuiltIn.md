@@ -144,105 +144,6 @@ The serial number of the FT245R chip which is to be controlled.
 
 
 
-\section use_DirectOutput_Cab_Out_ComPort_GenericCom GenericCom
-
-\subsection use_DirectOutput_Cab_Out_ComPort_GenericCom_samplexml Sample XML
-
-A configuration section for GenericCom might resemble the following structure:
-
-~~~~~~~~~~~~~{.xml}
-<GenericCom>
-  <Name>Name of GenericCom</Name>
-  <NumberOfOutputs>1</NumberOfOutputs>
-  <ComPort>ComPort string</ComPort>
-  <Baudrate>115200</Baudrate>
-  <Parity>None</Parity>
-  <DataBits>0</DataBits>
-  <StopBits>One</StopBits>
-  <OpenConnectionExpression>OpenConnectionExpression string</OpenConnectionExpression>
-  <CloseConnectionExpression>CloseConnectionExpression string</CloseConnectionExpression>
-  <UpdateStartExpression>UpdateStartExpression string</UpdateStartExpression>
-  <UpdateEndExpression>UpdateEndExpression string</UpdateEndExpression>
-  <UpdateOutputExpression>UpdateOutputExpression string</UpdateOutputExpression>
-</GenericCom>
-~~~~~~~~~~~~~
-\subsection use_DirectOutput_Cab_Out_ComPort_GenericCom_properties Properties
-
-GenericCom has the following 12 configurable properties:
-
-\subsubsection DirectOutput_Cab_Out_ComPort_GenericCom_Baudrate Baudrate
-
-The baudrate.
-
-
-
-\subsubsection DirectOutput_Cab_Out_ComPort_GenericCom_CloseConnectionExpression CloseConnectionExpression
-
-The close connection expression.
-
-
-
-\subsubsection DirectOutput_Cab_Out_ComPort_GenericCom_ComPort ComPort
-
-The COM port for the controller.
-
-
-
-\subsubsection DirectOutput_Cab_Out_ComPort_GenericCom_DataBits DataBits
-
-The data bits.
-
-
-
-\subsubsection DirectOutput_Cab_Out_ComPort_GenericCom_Name Name
-
-The name of the item.
-
-
-
-\subsubsection DirectOutput_Cab_Out_ComPort_GenericCom_NumberOfOutputs NumberOfOutputs
-
-\subsubsection DirectOutput_Cab_Out_ComPort_GenericCom_OpenConnectionExpression OpenConnectionExpression
-
-The open connection expression.
-
-
-
-\subsubsection DirectOutput_Cab_Out_ComPort_GenericCom_Parity Parity
-
-The parity.
-
-
-
-The property Parity accepts the following values:
-
-* __None__
-* __Odd__
-* __Even__
-* __Mark__
-* __Space__
-
-
-\subsubsection DirectOutput_Cab_Out_ComPort_GenericCom_StopBits StopBits
-
-The stop bits.
-
-
-
-The property StopBits accepts the following values:
-
-* __None__
-* __One__
-* __Two__
-* __OnePointFive__
-
-
-\subsubsection DirectOutput_Cab_Out_ComPort_GenericCom_UpdateEndExpression UpdateEndExpression
-
-\subsubsection DirectOutput_Cab_Out_ComPort_GenericCom_UpdateOutputExpression UpdateOutputExpression
-
-\subsubsection DirectOutput_Cab_Out_ComPort_GenericCom_UpdateStartExpression UpdateStartExpression
-
 \section use_DirectOutput_Cab_Out_LW_LedWiz LedWiz
 
 \subsection use_DirectOutput_Cab_Out_LW_LedWiz_summary Summary
@@ -475,15 +376,22 @@ A configuration section for TeensyStripController might resemble the following s
   <NumberOfLedsStrip7>0</NumberOfLedsStrip7>
   <NumberOfLedsStrip8>0</NumberOfLedsStrip8>
   <ComPortName>Name of ComPort</ComPortName>
+  <ComPortTimeOutMs>200</ComPortTimeOutMs>
 </TeensyStripController>
 ~~~~~~~~~~~~~
 \subsection use_DirectOutput_Cab_Out_AdressableLedStrip_TeensyStripController_properties Properties
 
-TeensyStripController has the following 10 configurable properties:
+TeensyStripController has the following 11 configurable properties:
 
 \subsubsection DirectOutput_Cab_Out_AdressableLedStrip_TeensyStripController_ComPortName ComPortName
 
 The name of the Com port (typicaly COM{Number}) the Teensy board is using.
+
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_TeensyStripController_ComPortTimeOutMs ComPortTimeOutMs
+
+The COM port timeout in milliseconds (Valid range 1-5000ms, default: 200ms).
 
 
 

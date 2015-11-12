@@ -76,11 +76,12 @@ namespace DirectOutput.Cab.Toys.Hardware
         /// <summary>
         /// Gets or sets the strip arrangement.
         /// The following image explains the meaining of the different values.
-        /// 
+        ///  \image html LedStripArrangementEnum.jpg Supported led string arrangements
         /// </summary>
         /// <value>
         /// The strip arrangement value as defined in the LedStripArrangementEnum.
-        /// </value>
+        ///  \image html LedStripArrangementEnum.jpg Supported led string arrangements
+        ///  </value>
         public LedStripArrangementEnum LedStripArrangement
         {
             get { return _LedStripAranggement; }

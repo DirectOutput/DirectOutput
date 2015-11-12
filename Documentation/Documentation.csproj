@@ -79,6 +79,7 @@
     <Content Include="img\GlobalConfigEditor_Logging.png" />
     <Content Include="img\GlobalConfigEditor_Menu.png" />
     <Content Include="img\GlobalConfigEditor_Misc.png" />
+    <Content Include="img\LedStripArrangementEnum.jpg" />
     <Content Include="img\PBX_PluginConfig.png" />
     <Content Include="img\PBX_PluginManager.png" />
     <Content Include="img\RegisterComObject.png" />

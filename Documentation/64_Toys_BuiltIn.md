@@ -286,6 +286,7 @@ The height of the led stripe.
 \subsubsection DirectOutput_Cab_Toys_Hardware_LedStrip_LedStripArrangement LedStripArrangement
 
 The strip arrangement value as defined in the LedStripArrangementEnum.
+ \image html LedStripArrangementEnum.jpg Supported led string arrangements
 
 
 
