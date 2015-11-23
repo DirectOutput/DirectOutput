@@ -427,7 +427,16 @@ namespace DirectOutput.Cab.Out.Pac
             {
                 //Pinball.ThreadInfoList.HeartBeat("PacLed64 {0:0}".Build(Id));
 
+                try
+                {
+                    ResetFadeTime();
 
+                }
+                catch (Exception E)
+                {
+                    Log.Exception("A exception occured while setting the fadetime for pacled64 {0} to 0.".Build(Index), E);
+                    throw;
+                }
                 int FailCnt = 0;
                 while (KeepPacLed64UpdaterAlive)
                 {
@@ -593,6 +602,11 @@ namespace DirectOutput.Cab.Out.Pac
                 LastStateSent.Fill(false);
             }
 
+            private void ResetFadeTime()
+            {
+                PDSingleton.PacLed64SetLEDFadeTime(Index, 0);
+
+            }
 
 
 
