@@ -18,6 +18,7 @@ namespace DirectOutput.FX.MatrixFX.BitmapShapes
         /// <value>
         /// The bitmap file pattern which is used to load the bitmap file for the effect.
         /// </value>
+        [XmlIgnore]
         public FilePattern BitmapFilePattern
         {
             get { return _BitmapFilePattern; }
@@ -81,8 +82,8 @@ namespace DirectOutput.FX.MatrixFX.BitmapShapes
             }
             catch (Exception E)
             {
-                Log.Exception("Could not load ShapeDefinitions ShapeDefinitions from {0}.".Build(FileName), E);
-                throw new Exception("Could not read ShapeDefinitions ShapeDefinitions file {0}.".Build(FileName), E);
+                Log.Exception("Could not load ShapeDefinitions from {0}.".Build(FileName), E);
+                throw new Exception("Could not read ShapeDefinitions file {0}.".Build(FileName), E);
             }
 
             return GetShapeDefinitionsFromShapeDefinitionsXml(Xml);
@@ -136,9 +137,9 @@ namespace DirectOutput.FX.MatrixFX.BitmapShapes
                 catch (Exception E)
                 {
 
-                    Exception Ex = new Exception("Could not deserialize the ShapeDefinitions ShapeDefinitions from XML data.", E);
+                    Exception Ex = new Exception("Could not deserialize the ShapeDefinitions from XML data.", E);
                     Ex.Data.Add("XML Data", ShapeDefinitionsXml);
-                    Log.Exception("Could not load ShapeDefinitions ShapeDefinitions from XML data.", Ex);
+                    Log.Exception("Could not load ShapeDefinitions from XML data.", Ex);
                     throw Ex;
                 }
             }

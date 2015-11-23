@@ -235,7 +235,7 @@ namespace DirectOutput.GlobalConfiguration
         #endregion
 
 
-        private FilePattern _ShapeDefinitionFilePattern = new FilePattern("{DllDir}\\DirectOutputShapes.xml");
+        private FilePattern _ShapeDefinitionFilePattern = null;
 
         /// <summary>
         /// Gets or sets the path and name for the file containing shape definitions.
@@ -250,16 +250,24 @@ namespace DirectOutput.GlobalConfiguration
         }
 
         /// <summary>
-        ///  FileInfo object for the file containing the configuration of the cabinet (outputs, toys and so on). 
+        ///  Gets the FileInfo object for the xml file defining the shapes to be used by DOF.
         /// </summary>
-        /// <returns>FileInfo object for the file containing the configuration of the cabinet or null if no file has been specified.</returns>
-        public FileInfo GetShapeDefinitionFile()
+        /// <returns>FileInfo object for the xml file defining the shapes to be used by DOF</returns>
+        public FileInfo GetShapeDefinitionFile(string TableFilename="", string RomName="")
         {
-            if (!ShapeDefintionFilePattern.Pattern.IsNullOrWhiteSpace() && ShapeDefintionFilePattern.IsValid)
+            if (ShapeDefintionFilePattern!=null && !ShapeDefintionFilePattern.Pattern.IsNullOrWhiteSpace() && ShapeDefintionFilePattern.IsValid)
             {
-                return ShapeDefintionFilePattern.GetFirstMatchingFile(GetReplaceValuesDictionary());
+                return ShapeDefintionFilePattern.GetFirstMatchingFile(GetReplaceValuesDictionary(TableFilename, RomName));
             }
-
+            Dictionary<int, FileInfo> IniFilesDict = GetIniFilesDictionary(TableFilename);
+            if (IniFilesDict.Count > 0)
+            {
+                FileInfo FI=new FileInfo(Path.Combine(IniFilesDict.Select(KV=>KV.Value).First().Directory.FullName,"DirectOutputShapes.xml"));
+                if (FI.Exists)
+                {
+                    return FI;
+                }
+            }
             return null;
         }
 

@@ -249,6 +249,7 @@ namespace DirectOutput.Table
                     Log.Exception("Loading shape definition file {0} failed.".Build(ShapeDefinitionFile.FullName), E);
                 }
             }
+            ShapeDefinitions.BitmapFilePattern = new General.FilePattern(ShapeDefinitionFile.FullName.Substring(0, ShapeDefinitionFile.FullName.Length - ShapeDefinitionFile.Extension.Length) + ".png");
 
             Effects.Init(this);
 
