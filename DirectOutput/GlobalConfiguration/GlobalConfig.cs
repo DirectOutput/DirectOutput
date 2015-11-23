@@ -209,7 +209,7 @@ namespace DirectOutput.GlobalConfiguration
         /// Gets a FileInfo object pointing to the table mapping file or null if no table mapping file exists.
         /// </summary>
         /// <param name="TableFilename">The table filename (optional).</param>
-        /// <returns>ileInfo object pointing to the table mapping file or null if no table mapping file exists</returns>
+        /// <returns>FileInfo object pointing to the table mapping file or null if no table mapping file exists</returns>
         public FileInfo GetTableMappingFile(string TableFilename="")
         {
             Dictionary<int,FileInfo> IniFileDict = GetIniFilesDictionary(TableFilename);
