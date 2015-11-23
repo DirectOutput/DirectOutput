@@ -309,6 +309,7 @@ namespace DirectOutput.Cab.Out.LW
                         LWZ_SET_NOTIFY(del, (uint)ptr.ToInt32());
                         deviceList = (LWZDEVICELIST)Marshal.PtrToStructure(ptr, typeof(LWZDEVICELIST));
                         Marshal.FreeCoTaskMem(ptr);
+                        Log.Debug("Ledwiz devicelist content. Handles: {0}, Num devices: {1}".Build(string.Join(", ", deviceList.handles.Select(H => H.ToString())), deviceList.numdevices));
                     }
                     catch (Exception ex)
                     {
