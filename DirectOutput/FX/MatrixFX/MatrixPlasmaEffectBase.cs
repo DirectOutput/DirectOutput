@@ -124,8 +124,9 @@ namespace DirectOutput.FX.MatrixFX
 
             for (int X = 0; X < W; X++)
             {
-                PrecalcXValues(X, Time);
                 double XX = SX * X;
+                PrecalcXValues(XX, Time);
+                
                 for (int Y = 0; Y < H; Y++)
                 {
                     double YY = (double)SY * Y;
