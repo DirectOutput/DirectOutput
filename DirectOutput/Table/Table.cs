@@ -240,6 +240,7 @@ namespace DirectOutput.Table
             FileInfo ShapeDefinitionFile = Pinball.GlobalConfig.GetShapeDefinitionFile();
             if (ShapeDefinitionFile != null && ShapeDefinitionFile.Exists)
             {
+                Log.Write("Loading shape definition file: {0}".Build(ShapeDefinitionFile.FullName));
                 try
                 {
                     ShapeDefinitions = ShapeDefinitions.GetShapeDefinitionsFromShapeDefinitionsXmlFile(ShapeDefinitionFile);
@@ -249,6 +250,18 @@ namespace DirectOutput.Table
                     Log.Exception("Loading shape definition file {0} failed.".Build(ShapeDefinitionFile.FullName), E);
                 }
                 ShapeDefinitions.BitmapFilePattern = new General.FilePattern(ShapeDefinitionFile.FullName.Substring(0, ShapeDefinitionFile.FullName.Length - ShapeDefinitionFile.Extension.Length) + ".png");
+            }
+            else
+            {
+                if (ShapeDefinitionFile == null)
+                {
+                    Log.Warning("Could not determin name of shape definition file");
+                }
+                else
+                {
+                    Log.Warning("Shape definition file {0} does not exist");
+                }
+                ShapeDefinitions = new ShapeDefinitions();
             }
 
             Effects.Init(this);
