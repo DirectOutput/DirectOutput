@@ -168,6 +168,17 @@ The flicker effect generates random flickering with a defineable density and dur
 * __AFMAX{DurationInMilliseconds}__ defines the max duration for the flicker of a single led in milliseconds.
 * __AFFADE{DurationInMilliseconds}__ defines the the duration of the fading for the flickering elements.
 
+\subsection inifiles_plasmaeffectpara Plasma Effect Parameter
+
+
+\subsection inifiles_shapeeffectpara Shape Effect Parameters
+
+The frameork is able to display shapes, which are definied in the DirectOutputShapes.xml file, on a matrix toy. The area which is occupied by the shape is defined with the usual area parameters (AL?, AT?, AW?, AH?). DOF supports static and animated shapes (all defined in the mentioned xml file).
+Shapes can be displayed in any color. Just specify the color as you would for other effects.
+
+There is only one parameter which is specific to the shape effect:
+* __SHP{ShapeName}__ defines the named of the shape to be displayed. Check the DirectOutputShapes.xml file in the config directory for valid shape names (you can also extend this file if you like). 
+
 \subsection inifiles_bitmapeffectpara Bitmap Effect Paras
 
 DOF can display a part of a bitmap image on a matrix toy. The defined part of the bitmap is scaled to the size of the matrix, so the actual resolution of the matrix does not matter.
