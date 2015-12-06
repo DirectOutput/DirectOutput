@@ -66,17 +66,24 @@ namespace DirectOutput.Cab.Out.PS
                     throw new Exception("Pinscape Unit Numbers must be between 1-16. The supplied number {0} is out of range.".Build(value));
                 }
                 lock (NumberUpdateLocker)
-                {
+				{
+					// if the unit number changed, update it and attach to the new unit
                     if (_Number != value)
-                    {
-
+					{
+						// if we used a default name for the old unit number, change to the default
+						// name for the new unit number
                         if (Name.IsNullOrWhiteSpace() || Name == "Pinscape Controller {0:00}".Build(_Number))
                         {
                             Name = "Pinscape Controller {0:00}".Build(value);
                         }
 
+						// remember the new unit number
                         _Number = value;
 
+						// attach to the new device record for this unit number, updating the output list to match
+						this.Dev = Devices.First(D => D.UnitNo() == Number);
+						this.NumberOfOutputs = this.Dev.NumOutputs();
+						this.OldOutputValues = Enumerable.Repeat((byte)255, this.NumberOfOutputs).ToArray();
                     }
                 }
             }
@@ -521,16 +528,21 @@ namespace DirectOutput.Cab.Out.PS
 			Devices = FindDevices();
         }
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Pinscape"/> class with no unit number set.
+		/// The unit number must be set before use (via the Number property).
+		/// </summary>
+		public Pinscape()
+		{
+		}
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="Pinscape"/> class.
+        /// Initializes a new instance of the <see cref="Pinscape"/> class with a given unit number.
         /// </summary>
         /// <param name="Number">The number of the Pinscape controller (1-16).</param>
         public Pinscape(int Number)
-        {
+		{
 			this.Number = Number;
-			this.Dev = Devices.First(D => D.UnitNo() == Number);
-            this.NumberOfOutputs = this.Dev.NumOutputs();
-			this.OldOutputValues = Enumerable.Repeat((byte)255, this.NumberOfOutputs).ToArray();
         }
 
         #endregion
