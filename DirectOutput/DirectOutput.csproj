@@ -386,7 +386,6 @@
     <None Include="Cab\Cabinet.cd" />
     <None Include="Docu\Diagramms\ToyArchitecture.cd" />
     <None Include="FX\FX.cd" />
-    <None Include="LedControl\Loader\LedControl.cd" />
     <None Include="Main.cd" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\DirectOutput.GlobalConfig.Config.datasource" />

@@ -208,6 +208,10 @@ namespace DirectOutput.LedControl.Loader
                         Log.Exception("Could not parse line {1} from file {0}".Build(LedControlIniFile, MinDofVersionLine));
                         MinDOFVersion = null;
                     }
+                    if (MinDOFVersion != null)
+                    {
+                        Log.Write("Min DOF Version is {0} for file {1}".Build(MinDOFVersion.ToString(), LedControlIniFile.Name));
+                    }
 
                 }
                 else
