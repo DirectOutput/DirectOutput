@@ -343,6 +343,76 @@ The name of the item.
 
 
 
+\section use_DirectOutput_Cab_Out_PS_Pinscape Pinscape
+
+\subsection use_DirectOutput_Cab_Out_PS_Pinscape_summary Summary
+
+The <a href="https://developer.mbed.org/users/mjr/code/Pinscape_Controller/">Pinscape Controller</a> is an open-source
+software/hardware project based on the inexpensive and powerful Freescale FRDM-KL25Z microcontroller development platform.
+It provides a full set of virtual pinball cabinet I/O features, including analog plunger, accelerometer nudging, key/button
+input, and a flexible array of PWM outputs.
+
+For DOF purposes, we're only interested in the output controller features; all of the input features are handled through
+the standard Windows USB joystick drivers.  The output controller emulates an LedWiz, so legacy LedWiz-aware software can
+access its basic functionality.  However, the Pinscape controller has expanded functionality that the LedWiz protocol
+can't access due to its inherent design limits.  To allow access to the expanded functionality, the Pinscape controller
+uses custom extensions to the LedWiz protocol.  This DirectOutput framework module lets DOF use the extended protocol to
+take full advantage of the extended features.  First and most importantly, the Pinscape controller can support many more
+output channels than a real LedWiz.  In fact, there's no hard limit to the number of channels that could be attached
+to one controller, although the practical limit is probably about 200, and the reference hardware design provides
+up to about 60.  The extended protocol allows for about 130 channels, which is hopefully well beyond what anyone will
+be motivated to actually build in hardware.  Second, the extended protocol provides 8-bit PWM resolution, whereas the
+LedWiz protocol is limited to 49 levels (about 5-1/2 bit resolution).  DOF uses 8-bit resolution internally, so this
+lets devices show the full range of brightness levels that DOF can represent internally, for smoother fades and more
+precise color control in RGB devices (or more precise speed control in motors, intensity control in solenoids, etc).
+
+DOF uses the extended protocol, so it can fully access all of the expanded features.
+Legacy software that uses only the original LedWiz protocol (e.g., Future Pinball) can still recognize the device and
+access the first 32 output ports, using 49-level PWM resolution.
+
+DOF can automatically detect connected Pinscape controllers and configure them for use with the framework.
+
+The Pinscape Controller project can be found on <a href="https://developer.mbed.org/users/mjr/code/Pinscape_Controller/">mbed.org</a>.
+
+
+
+\subsection use_DirectOutput_Cab_Out_PS_Pinscape_samplexml Sample XML
+
+A configuration section for Pinscape might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<Pinscape>
+  <Name>Name of Pinscape</Name>
+  <NumberOfOutputs>1</NumberOfOutputs>
+  <Number>-1</Number>
+  <MinCommandIntervalMs>1</MinCommandIntervalMs>
+</Pinscape>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_Cab_Out_PS_Pinscape_properties Properties
+
+Pinscape has the following 4 configurable properties:
+
+\subsubsection DirectOutput_Cab_Out_PS_Pinscape_MinCommandIntervalMs MinCommandIntervalMs
+
+The mininimal interval between command in miliseconds.  The default is 1ms, which is also the minimum, since it's
+the fastest that USB allows at the hardware protocol level.
+
+
+
+\subsubsection DirectOutput_Cab_Out_PS_Pinscape_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_Cab_Out_PS_Pinscape_Number Number
+
+The unique unit number of the controller (Range 1-16).
+
+
+
+\subsubsection DirectOutput_Cab_Out_PS_Pinscape_NumberOfOutputs NumberOfOutputs
+
 \section use_DirectOutput_Cab_Out_AdressableLedStrip_TeensyStripController TeensyStripController
 
 \subsection use_DirectOutput_Cab_Out_AdressableLedStrip_TeensyStripController_summary Summary
