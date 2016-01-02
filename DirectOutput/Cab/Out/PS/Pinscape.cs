@@ -251,7 +251,7 @@ namespace DirectOutput.Cab.Out.PS
 				return numOutputs;
 			}
 			
-			public Device(SafeHandle fp, string path, string name, short vendorID, short productID, short version)
+			public Device(IntPtr fp, string path, string name, short vendorID, short productID, short version)
 			{
 				// remember the settings
 				this.fp = fp;
@@ -300,6 +300,12 @@ namespace DirectOutput.Cab.Out.PS
 					}
 				}
 			}
+
+            ~Device()
+            {
+                if (fp.ToInt32() != 0 && fp.ToInt32() != -1)
+                    HIDImports.CloseHandle(fp);
+            }
 			
 			private System.Threading.NativeOverlapped ov;
 			public byte[] ReadUSB()
@@ -310,7 +316,7 @@ namespace DirectOutput.Cab.Out.PS
 					byte[] buf = new byte[rptLen];
 					buf[0] = 0x00;
 					uint actual;
-					if (HIDImports.ReadFile(fp.DangerousGetHandle(), buf, rptLen, out actual, ref ov) == 0)
+					if (HIDImports.ReadFile(fp, buf, rptLen, out actual, ref ov) == 0)
 					{
 						// if the error is 6 ("invalid handle"), try re-opening the device
 						if (TryReopenHandle())
@@ -332,7 +338,7 @@ namespace DirectOutput.Cab.Out.PS
 				return null;
 			}
 
-			private SafeHandle OpenFile()
+			private IntPtr OpenFile()
 			{
 				return HIDImports.CreateFile(
 					path, HIDImports.GENERIC_READ_WRITE, HIDImports.SHARE_READ_WRITE,
@@ -346,7 +352,7 @@ namespace DirectOutput.Cab.Out.PS
 				{
 					// try opening a new handle on the device path
 					Console.WriteLine("invalid handle on read - trying to reopen handle");
-					SafeHandle fp2 = OpenFile();
+					IntPtr fp2 = OpenFile();
 					
 					// if that succeeded, replace the old handle with the new one and retry the read
 					if (fp2 != null)
@@ -390,7 +396,7 @@ namespace DirectOutput.Cab.Out.PS
 				for (int tries = 0; tries < 3; ++tries)
 				{
 					UInt32 actual;
-					if (HIDImports.WriteFile(fp.DangerousGetHandle(), buf, 9, out actual, ref ov) == 0)
+					if (HIDImports.WriteFile(fp, buf, 9, out actual, ref ov) == 0)
 					{
 						// try re-opening the handle, if it's an "invalid handle" error
 						if (TryReopenHandle())
@@ -412,7 +418,7 @@ namespace DirectOutput.Cab.Out.PS
 				return false;
 			}
 			
-			public SafeHandle fp;
+			public IntPtr fp;
 			public string path;
 			public string name;
 			public short vendorID;
@@ -466,41 +472,76 @@ namespace DirectOutput.Cab.Out.PS
 				if (HIDImports.SetupDiGetDeviceInterfaceDetail(hdev, ref diData, ref diDetail, size, out size, IntPtr.Zero))
 				{
 					// create a file handle to access the device
-					SafeHandle fp = HIDImports.CreateFile(
+					IntPtr fp = HIDImports.CreateFile(
 						diDetail.DevicePath, HIDImports.GENERIC_READ_WRITE, HIDImports.SHARE_READ_WRITE, 
 						IntPtr.Zero, FileMode.Open, 0, IntPtr.Zero);
 
 					// read the attributes
 					HIDImports.HIDD_ATTRIBUTES attrs = new HIDImports.HIDD_ATTRIBUTES();
 					attrs.Size = Marshal.SizeOf(attrs);
-					if (HIDImports.HidD_GetAttributes(fp.DangerousGetHandle(), ref attrs))
+					if (HIDImports.HidD_GetAttributes(fp, ref attrs))
 					{
+                        // presume this is a Pinscape Controller, then look for reasons it's not
+                        bool ok = true;
+
 						// read the product name string
 						String name = "<not available>";
 						byte[] nameBuf = new byte[128];
-						if (HIDImports.HidD_GetProductString(fp.DangerousGetHandle(), nameBuf, 128))
+						if (HIDImports.HidD_GetProductString(fp, nameBuf, 128))
 							name = System.Text.Encoding.Unicode.GetString(nameBuf).TrimEnd('\0');
 
-						// If the vendor and product ID match an LedWiz OR our private ID, and
+						// If the vendor and product ID match an LedWiz OR our private ID, and the
 						// product name contains "pinscape", and it's product version 7 or higher,
 						// it's a Pinscape controller with the extended protocol features.
 						bool isLW = ((ushort)attrs.VendorID == 0xFAFA && (attrs.ProductID >= 0x00F0 && attrs.ProductID <= 0x00FF));
 						bool isPS = ((ushort)attrs.VendorID == 0x1209 && ((ushort)attrs.ProductID == 0xEAEA));
-						if ((isLW || isPS)
-							&& Regex.IsMatch(name, @"\b(?i)pinscape\b")
-							&& attrs.VersionNumber >= 7)
+                        ok &= ((isLW || isPS)
+                                && Regex.IsMatch(name, @"\b(?i)pinscape\b")
+                                && attrs.VersionNumber >= 7);
+
+						// Newer versions of the device software can present multiple USB HID
+						// interfaces, including Keyboard (usage page 1, usage 6) and Media
+						// Control (volume up/down/mute buttons) (usage page 12, usage 1).
+						// The output controller is always part of the Joystick interface
+						// (usage page 1, usage 4).  HidP_GetCaps() returns the USB usage
+						// information for the first HID report descriptor associated with
+						// the interface, so we can determine which interface we're looking
+						// at by checking this information.  Start by getting the preparsed
+						// data from the Windows HID driver.
+                        IntPtr ppdata;
+                        if (ok && HIDImports.HidD_GetPreparsedData(fp, out ppdata))
+                        {
+                            // get the device caps
+                            HIDImports.HIDP_CAPS caps = new HIDImports.HIDP_CAPS();
+                            HIDImports.HidP_GetCaps(ppdata, ref caps);
+
+							// This Pinscape interface accepts output controller commands only
+							// if it's the joystick type (usage page 1 == generic desktop, usage
+							// 4 == joystick).  If it doesn't match, it must be a secondary HID
+							// interface on the same device, such as the keyboard or media
+							// controller interface.  Skip those interfaces, as they don't
+							// accept the output controller commands.
+                            ok &= (caps.UsagePage == 1 && caps.Usage == 4);
+
+                            // done with the preparsed data
+                            HIDImports.HidD_FreePreparsedData(ppdata);
+                        }
+
+						// If we passed all tests, this is the output controller interface for
+						// a Pinscape controller device, so add the device to our list.
+                        if (ok)
 						{
 							// add the device to our list
 							devices.Add(new Device(fp, diDetail.DevicePath, name, attrs.VendorID, attrs.ProductID, attrs.VersionNumber));
 							
 							// the device list object owns the handle nwo
-							fp = null;
+							fp = System.IntPtr.Zero;
 						}
 					}
 
 					// done with the file handle
-					if (fp != null)
-						HIDImports.CloseHandle(fp.DangerousGetHandle());
+                    if (fp.ToInt32() != 0 && fp.ToInt32() != -1)
+                        HIDImports.CloseHandle(fp);
 				}
 			}
 

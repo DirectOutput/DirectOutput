@@ -148,7 +148,7 @@ namespace DirectOutput.Cab.Out.PS
 		internal static extern UInt16 SetupDiDestroyDeviceInfoList(IntPtr hDevInfo);
 
 		[DllImport("Kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-		internal static extern SafeFileHandle CreateFile(
+		internal static extern IntPtr CreateFile(
 			string fileName,
 			[MarshalAs(UnmanagedType.U4)] UInt32 fileAccess,
 			[MarshalAs(UnmanagedType.U4)] UInt32 fileShare,
@@ -186,6 +186,68 @@ namespace DirectOutput.Cab.Out.PS
 		[DllImport("kernel32.dll", SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static extern bool CloseHandle(IntPtr hObject);
+
+		[StructLayout(LayoutKind.Sequential)]
+		internal struct HIDP_PREPARSED_DATA
+		{
+			public int cbSize;
+			public Guid InterfaceClassGuid;
+			public int Flags;
+			public IntPtr RESERVED;
+		}
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct HIDP_CAPS
+        {
+            public ushort Usage;
+            public ushort UsagePage;
+            public ushort InputReportByteLength;
+            public ushort OutputReportByteLength;
+            public ushort FeatureReportByteLength;
+            public ushort Reserved0;
+            public ushort Reserved1;
+            public ushort Reserved2;
+            public ushort Reserved3;
+            public ushort Reserved4;
+            public ushort Reserved5;
+            public ushort Reserved6;
+            public ushort Reserved7;
+            public ushort Reserved8;
+            public ushort Reserved9;
+            public ushort Reserved10;
+            public ushort Reserved11;
+            public ushort Reserved12;
+            public ushort Reserved13;
+            public ushort Reserved14;
+            public ushort Reserved15;
+            public ushort Reserved16;
+            public ushort NumberLinkCollectionNodes;
+            public ushort NumberInputButtonCaps;
+            public ushort NumberInputValueCaps;
+            public ushort NumberInputDataIndices;
+            public ushort NumberOutputButtonCaps;
+            public ushort NumberOutputValueCaps;
+            public ushort NumberOutputDataIndices;
+            public ushort NumberFeatureButtonCaps;
+            public ushort NumberFeatureValueCaps;
+            public ushort NumberFeatureDataIndices;        
+        }
+
+        [DllImport("Hid.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        internal static extern bool HidD_GetPreparsedData(
+            IntPtr hFile,
+            out IntPtr pp);
+
+        [DllImport("Hid.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        internal static extern bool HidD_FreePreparsedData(
+            IntPtr pp);
+
+        [DllImport("Hid.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        internal static extern bool HidP_GetCaps(
+            IntPtr pp,
+            ref HIDP_CAPS caps);
+
+
 	}
 }
 
