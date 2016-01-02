@@ -57,6 +57,7 @@ namespace DocumentationHelper
             S += "==========\n";
             foreach (Type T in Types.OrderBy(T => T.Name))
             {
+
                 TypeDocuData I = new TypeDocuData();
 
                 I.Type = T;
