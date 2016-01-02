@@ -72,7 +72,7 @@ The Teensy Strip Controller can control 8 channels with up to 1100 WS2811/WS2812
 
 The controller hardware uses a <a target="_blank" href="http://pjrc.com/store/teensy32_pins.html">Teensy 3.1/3.2</a> and the <a target="_blank" href="http://pjrc.com/store/octo28_adaptor.html">OctoWS2811 adaptor</a> for the Teensy. 
 
-Compiled firmware and the source code of the firmware is available on <a target="_blank" href="https://github.com/DirectOutput/TeensyStripController">Github</a>. Be sure to read the wiki pages (also on Github) for details on setup and use.
+Compiled firmware and the source code of the firmware is available on <a target="_blank" href="https://github.com/DirectOutput/TeensyStripController/releases">Github</a>. Be sure to read the wiki pages (also on Github) for details on setup and use.
 
 \section hardware_WS2811 WS2811 addressable LedStrip controller
 
