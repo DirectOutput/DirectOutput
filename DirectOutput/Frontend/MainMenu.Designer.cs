@@ -50,6 +50,8 @@
             this.button2 = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.label8 = new System.Windows.Forms.Label();
+            this.DOFPath = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
@@ -85,7 +87,7 @@
             // 
             // ShowCabinetConfiguration
             // 
-            this.ShowCabinetConfiguration.Location = new System.Drawing.Point(341, 387);
+            this.ShowCabinetConfiguration.Location = new System.Drawing.Point(346, 416);
             this.ShowCabinetConfiguration.Name = "ShowCabinetConfiguration";
             this.ShowCabinetConfiguration.Size = new System.Drawing.Size(157, 23);
             this.ShowCabinetConfiguration.TabIndex = 3;
@@ -95,7 +97,7 @@
             // 
             // ShowTableConfiguration
             // 
-            this.ShowTableConfiguration.Location = new System.Drawing.Point(178, 387);
+            this.ShowTableConfiguration.Location = new System.Drawing.Point(183, 416);
             this.ShowTableConfiguration.Name = "ShowTableConfiguration";
             this.ShowTableConfiguration.Size = new System.Drawing.Size(157, 23);
             this.ShowTableConfiguration.TabIndex = 4;
@@ -106,7 +108,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 214);
+            this.label2.Location = new System.Drawing.Point(17, 243);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(37, 13);
             this.label2.TabIndex = 5;
@@ -115,7 +117,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 237);
+            this.label3.Location = new System.Drawing.Point(17, 266);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(53, 13);
             this.label3.TabIndex = 6;
@@ -124,7 +126,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 259);
+            this.label4.Location = new System.Drawing.Point(17, 288);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(57, 13);
             this.label4.TabIndex = 7;
@@ -133,7 +135,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 326);
+            this.label5.Location = new System.Drawing.Point(17, 355);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(117, 13);
             this.label5.TabIndex = 8;
@@ -142,7 +144,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 361);
+            this.label6.Location = new System.Drawing.Point(17, 390);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(126, 13);
             this.label6.TabIndex = 9;
@@ -151,7 +153,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(12, 294);
+            this.label7.Location = new System.Drawing.Point(17, 323);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(120, 13);
             this.label7.TabIndex = 10;
@@ -159,7 +161,7 @@
             // 
             // TableName
             // 
-            this.TableName.Location = new System.Drawing.Point(148, 211);
+            this.TableName.Location = new System.Drawing.Point(153, 240);
             this.TableName.Name = "TableName";
             this.TableName.ReadOnly = true;
             this.TableName.Size = new System.Drawing.Size(565, 20);
@@ -167,7 +169,7 @@
             // 
             // TableFilename
             // 
-            this.TableFilename.Location = new System.Drawing.Point(148, 234);
+            this.TableFilename.Location = new System.Drawing.Point(153, 263);
             this.TableFilename.Name = "TableFilename";
             this.TableFilename.ReadOnly = true;
             this.TableFilename.Size = new System.Drawing.Size(565, 20);
@@ -175,7 +177,7 @@
             // 
             // TableRomname
             // 
-            this.TableRomname.Location = new System.Drawing.Point(148, 256);
+            this.TableRomname.Location = new System.Drawing.Point(153, 285);
             this.TableRomname.Name = "TableRomname";
             this.TableRomname.ReadOnly = true;
             this.TableRomname.Size = new System.Drawing.Size(565, 20);
@@ -183,7 +185,7 @@
             // 
             // GlobalConfigFilename
             // 
-            this.GlobalConfigFilename.Location = new System.Drawing.Point(148, 291);
+            this.GlobalConfigFilename.Location = new System.Drawing.Point(153, 320);
             this.GlobalConfigFilename.Name = "GlobalConfigFilename";
             this.GlobalConfigFilename.ReadOnly = true;
             this.GlobalConfigFilename.Size = new System.Drawing.Size(565, 20);
@@ -191,7 +193,7 @@
             // 
             // TableConfigFilename
             // 
-            this.TableConfigFilename.Location = new System.Drawing.Point(148, 326);
+            this.TableConfigFilename.Location = new System.Drawing.Point(153, 355);
             this.TableConfigFilename.Name = "TableConfigFilename";
             this.TableConfigFilename.ReadOnly = true;
             this.TableConfigFilename.Size = new System.Drawing.Size(565, 20);
@@ -199,7 +201,7 @@
             // 
             // CabinetConfigFilename
             // 
-            this.CabinetConfigFilename.Location = new System.Drawing.Point(148, 361);
+            this.CabinetConfigFilename.Location = new System.Drawing.Point(153, 390);
             this.CabinetConfigFilename.Name = "CabinetConfigFilename";
             this.CabinetConfigFilename.ReadOnly = true;
             this.CabinetConfigFilename.Size = new System.Drawing.Size(565, 20);
@@ -207,7 +209,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(178, 416);
+            this.button1.Location = new System.Drawing.Point(183, 445);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(157, 23);
             this.button1.TabIndex = 19;
@@ -217,7 +219,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(341, 416);
+            this.button2.Location = new System.Drawing.Point(346, 445);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(157, 23);
             this.button2.TabIndex = 20;
@@ -245,11 +247,30 @@
             this.label8.TabIndex = 22;
             this.label8.Text = "by SwissLizard";
             // 
+            // DOFPath
+            // 
+            this.DOFPath.Location = new System.Drawing.Point(153, 214);
+            this.DOFPath.Name = "DOFPath";
+            this.DOFPath.ReadOnly = true;
+            this.DOFPath.Size = new System.Drawing.Size(565, 20);
+            this.DOFPath.TabIndex = 23;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(17, 217);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(57, 13);
+            this.label9.TabIndex = 24;
+            this.label9.Text = "DOF Path:";
+            // 
             // MainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(734, 454);
+            this.ClientSize = new System.Drawing.Size(734, 475);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.DOFPath);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
@@ -305,5 +326,7 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox DOFPath;
+        private System.Windows.Forms.Label label9;
     }
 }
