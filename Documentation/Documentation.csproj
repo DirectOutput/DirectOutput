@@ -43,6 +43,7 @@
     <None Include="27_TableConfig.md" />
     <None Include="29_ConfigExamples.md" />
     <None Include="30_IniFiles.md" />
+    <None Include="40_Troubleshooting.md" />
     <None Include="50_Architecture.md" />
     <None Include="60_FX.md" />
     <None Include="55_B2SServerPlugin.md" />
@@ -65,6 +66,13 @@
   <ItemGroup>
     <Content Include="html\61_FX_BuiltIn_RGBAMatrixBitmapAnimationVideo.html" />
     <Content Include="html\99_Mainpage_DOFVideo.html" />
+    <Content Include="img\B2SServerCheck_Step1_Regedit.png" />
+    <Content Include="img\B2SServerCheck_Step2_RegeditOpen.PNG" />
+    <Content Include="img\B2SServerCheck_Step3_SearchB2SServer.PNG" />
+    <Content Include="img\B2SServerCheck_Step4_SearchResultB2SServer.PNG" />
+    <Content Include="img\B2SServerCheck_Step5_SearchOpenCLassID.PNG" />
+    <Content Include="img\B2SServerCheck_Step6_SearchClassID.PNG" />
+    <Content Include="img\B2SServerCheck_Step7_SearchClassIDResult.PNG" />
     <Content Include="img\B2SServer_PluginWindow.png" />
     <Content Include="img\B2SServer_Settings.png" />
     <Content Include="img\B2SServer_Settings_ActivatePlugins.png" />
