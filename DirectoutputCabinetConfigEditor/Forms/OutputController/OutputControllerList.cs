@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
+using DirectOutput.Cab;
 
 namespace DirectoutputCabinetConfigEditor.Forms.OutputController
 {
@@ -16,5 +17,14 @@ namespace DirectoutputCabinetConfigEditor.Forms.OutputController
         {
             InitializeComponent();
         }
+
+
+  
+
+        private void UpdateOutputControllerListView(OutputControllerList OutputControllers)
+        {
+
+        }
+
     }
 }
