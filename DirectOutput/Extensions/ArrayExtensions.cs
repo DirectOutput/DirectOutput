@@ -35,6 +35,21 @@ using System.Text;
             }
         }
 
+        /// <summary>
+        /// Fills the array with the specified value.
+        /// </summary>
+        /// <typeparam name="T">Type of the objects in the array.</typeparam>
+        /// <param name="x">The source array.</param>
+        /// <param name="FillValue">The fill value.</param>
+        /// <param name="StartPos">The start pos.</param>
+        public static void Fill<T>(this T[] x, T FillValue, int StartPos)
+        {
+            for (int i = 0; StartPos < x.Length; i++)
+            {
+                x[i] = FillValue;
+            }
+
+        }
 
         /// <summary>
         /// Compares the array with the specified array.
