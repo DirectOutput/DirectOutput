@@ -379,7 +379,7 @@ namespace DirectOutput.GlobalConfiguration
 
 
         #region Logging
-        private bool _EnableLog = false;
+        private bool _EnableLog = true;
 
 
         /// <summary>
@@ -394,7 +394,7 @@ namespace DirectOutput.GlobalConfiguration
             set { _EnableLog = value; }
         }
 
-        private bool _ClearLogOnSessionStart=false;
+        private bool _ClearLogOnSessionStart=true;
 
         /// <summary>
         /// Gets or sets a value indicating whether DOF clears the log file on session start.
