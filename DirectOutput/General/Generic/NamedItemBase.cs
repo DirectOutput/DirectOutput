@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace DirectOutput.General.Generic
 {
@@ -74,7 +75,27 @@ namespace DirectOutput.General.Generic
         public event EventHandler<NameChangeEventArgs> BeforeNameChanged;
         #endregion
 
+        public event PropertyChangedEventHandler PropertyChanged;
 
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        public event PropertyChangingEventHandler PropertyChanging;
+
+
+        protected virtual void OnPropertyChanging(string propertyName)
+        {
+            if (PropertyChanging != null)
+            {
+                PropertyChanging(this, new PropertyChangingEventArgs(propertyName));
+            }
+
+        }
 
     }
 }
