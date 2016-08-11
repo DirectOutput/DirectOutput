@@ -49,8 +49,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectOutput PinballX Plugi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{40240592-1757-4F21-9076-15E347745E8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectoutputCabinetConfigEditor", "DirectoutputCabinetConfigEditor\DirectoutputCabinetConfigEditor.csproj", "{4A7986D7-7C9E-48C2-9E82-A4CABC83506A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Extensions", "..\Extensions\Extensions\Extensions.csproj", "{3BA9C263-D8C3-4511-BD2F-4C7B55D82A1A}"
 EndProject
 Global
@@ -211,18 +209,6 @@ Global
 		{40240592-1757-4F21-9076-15E347745E8B}.Release|Mixed Platforms.Build.0 = Release|x86
 		{40240592-1757-4F21-9076-15E347745E8B}.Release|x86.ActiveCfg = Release|x86
 		{40240592-1757-4F21-9076-15E347745E8B}.Release|x86.Build.0 = Release|x86
-		{4A7986D7-7C9E-48C2-9E82-A4CABC83506A}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{4A7986D7-7C9E-48C2-9E82-A4CABC83506A}.Debug|Itanium.ActiveCfg = Debug|x86
-		{4A7986D7-7C9E-48C2-9E82-A4CABC83506A}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{4A7986D7-7C9E-48C2-9E82-A4CABC83506A}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{4A7986D7-7C9E-48C2-9E82-A4CABC83506A}.Debug|x86.ActiveCfg = Debug|x86
-		{4A7986D7-7C9E-48C2-9E82-A4CABC83506A}.Debug|x86.Build.0 = Debug|x86
-		{4A7986D7-7C9E-48C2-9E82-A4CABC83506A}.Release|Any CPU.ActiveCfg = Release|x86
-		{4A7986D7-7C9E-48C2-9E82-A4CABC83506A}.Release|Itanium.ActiveCfg = Release|x86
-		{4A7986D7-7C9E-48C2-9E82-A4CABC83506A}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{4A7986D7-7C9E-48C2-9E82-A4CABC83506A}.Release|Mixed Platforms.Build.0 = Release|x86
-		{4A7986D7-7C9E-48C2-9E82-A4CABC83506A}.Release|x86.ActiveCfg = Release|x86
-		{4A7986D7-7C9E-48C2-9E82-A4CABC83506A}.Release|x86.Build.0 = Release|x86
 		{3BA9C263-D8C3-4511-BD2F-4C7B55D82A1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3BA9C263-D8C3-4511-BD2F-4C7B55D82A1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BA9C263-D8C3-4511-BD2F-4C7B55D82A1A}.Debug|Itanium.ActiveCfg = Debug|Any CPU
