@@ -8,12 +8,24 @@ namespace ProPinballSlave
 {
 	public class FeedbackSlave
 	{
-
-		private IObservable<string> _data;
 		private ProPinballBridge.ProPinballFeedback _bridge;
 
 		public void Start()
 		{
+			try {
+				var oType = Type.GetTypeFromProgID("DirectOutput.ComObject", true);
+				Console.WriteLine("COM object found.");
+				if (oType != null) {
+					var instance = Activator.CreateInstance(oType);
+					Console.WriteLine("COM instance created.");
+					var dof = (IDirectOutputCom)System.Runtime.InteropServices.Marshal.CreateWrapperOfType(instance, typeof(IDirectOutputCom));
+					Console.WriteLine("Successfully loaded DOF {0}", dof.GetVersion());
+				}
+			} catch (Exception e) {
+				Console.WriteLine("Error connecting to DOF: {0}", e.Message);
+				//return;
+			}
+
 			CreateBridge();
 			unsafe
 			{
