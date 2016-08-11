@@ -1,5 +1,6 @@
 ﻿using System;
 using DirectOutput.General.Generic;
+using System.ComponentModel;
 namespace DirectOutput.Cab.Out
 {
     /// <summary>
@@ -7,7 +8,7 @@ namespace DirectOutput.Cab.Out
     /// The abstract OutputControllerBase class implements this interface and can be inherited for other output controller classes.<br/>
     /// It is important to ensure that all classes inherting this interface are XML serializeable.  
     /// </summary>
-    public interface IOutputController : INamedItem
+    public interface IOutputController : INamedItem, INotifyPropertyChanged
     {
 
 

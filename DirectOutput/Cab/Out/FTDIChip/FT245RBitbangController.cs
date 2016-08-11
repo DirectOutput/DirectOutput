@@ -15,6 +15,9 @@ namespace DirectOutput.Cab.Out.FTDIChip
     /// </summary>
     public class FT245RBitbangController : OutputControllerBase, IOutputController
     {
+
+        #region SerialNumber property of type string with events
+        #region SerialNumber property core parts
         private string _SerialNumber = "";
 
         /// <summary>
@@ -26,8 +29,49 @@ namespace DirectOutput.Cab.Out.FTDIChip
         public string SerialNumber
         {
             get { return _SerialNumber; }
-            set { _SerialNumber = value; }
+            set
+            {
+                if (_SerialNumber != value)
+                {
+                    OnSerialNumberChanging();
+                    _SerialNumber = value;
+                    OnSerialNumberChanged();
+                }
+            }
         }
+
+        /// <summary>
+        /// Fires when the SerialNumber property is about to change its value
+        /// </summary>
+        public event EventHandler<EventArgs> SerialNumberChanging;
+
+        /// <summary>
+        /// Fires when the SerialNumber property has changed its value
+        /// </summary>
+        public event EventHandler<EventArgs> SerialNumberChanged;
+        #endregion
+
+        /// <summary>
+        /// Is called when the SerialNumber property is about to change its value and fires the SerialNumberChanging event
+        /// </summary>
+        protected void OnSerialNumberChanging()
+        {
+            if (SerialNumberChanging != null) SerialNumberChanging(this, new EventArgs());
+
+            //Insert more logic to execute before the SerialNumber property changes here
+        }
+
+        /// <summary>
+        /// Is called when the SerialNumber property has changed its value and fires the SerialNumberChanged event
+        /// </summary>
+        protected void OnSerialNumberChanged()
+        {
+            //Insert more logic to execute after the SerialNumber property has changed here
+            OnPropertyChanged("SerialNumber");
+            if (SerialNumberChanged != null) SerialNumberChanged(this, new EventArgs());
+        }
+
+        #endregion
 
         /// <summary>
         /// Initializes the FT245RBitbangController and starts the updater thread.

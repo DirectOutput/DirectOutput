@@ -14,16 +14,67 @@ namespace DirectOutput.Cab.Out.ComPort
     /// </summary>
     public class PinControl : OutputControllerCompleteBase
     {
+
+
+        #region ComPort property of type string with events
+        #region ComPort property core parts
+        private string _ComPort = null;
         /// <summary>
         /// Gets or sets the COM port for the controller.
         /// </summary>
         /// <value>
         /// The COM port for the controller.
         /// </value>
-        public string ComPort { get; set; }
+        public string ComPort
+        {
+            get { return _ComPort; }
+            set
+            {
+                if (_ComPort != value)
+                {
+                    OnComPortChanging();
+                    _ComPort = value;
+                    OnComPortChanged();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fires when the ComPort property is about to change its value
+        /// </summary>
+        public event EventHandler<EventArgs> ComPortChanging;
+
+        /// <summary>
+        /// Fires when the ComPort property has changed its value
+        /// </summary>
+        public event EventHandler<EventArgs> ComPortChanged;
+        #endregion
+
+        /// <summary>
+        /// Is called when the ComPort property is about to change its value and fires the ComPortChanging event
+        /// </summary>
+        protected void OnComPortChanging()
+        {
+            if (ComPortChanging != null) ComPortChanging(this, new EventArgs());
+
+            //Insert more logic to execute before the ComPort property changes here
+        }
+
+        /// <summary>
+        /// Is called when the ComPort property has changed its value and fires the ComPortChanged event
+        /// </summary>
+        protected void OnComPortChanged()
+        {
+            //Insert more logic to execute after the ComPort property has changed here
+            OnPropertyChanged("ComPort");
+            if (ComPortChanged != null) ComPortChanged(this, new EventArgs());
+        }
+
+        #endregion
+
 
         private SerialPort Port = null;
-        private object PortLocker=new object();
+        private object PortLocker = new object();
         protected override int GetNumberOfConfiguredOutputs()
         {
             return 7 + 3;
@@ -51,7 +102,7 @@ namespace DirectOutput.Cab.Out.ComPort
         {
             if (Port != null)
             {
-                
+
 
 
 
@@ -59,7 +110,7 @@ namespace DirectOutput.Cab.Out.ComPort
                 {
                     if (OldValues == null || OldValues[i] != OutputValues[i])
                     {
-                        Port.Write("{0},{1}{2}#".Build(i+1, (OutputValues[i] == 0 ? 2 : 1), (OutputValues[i] != 0 && i==0 ? ",0,0," + OutputValues[i].ToString():"")));
+                        Port.Write("{0},{1}{2}#".Build(i + 1, (OutputValues[i] == 0 ? 2 : 1), (OutputValues[i] != 0 && i == 0 ? ",0,0," + OutputValues[i].ToString() : "")));
 
                     }
                 }
@@ -83,7 +134,7 @@ namespace DirectOutput.Cab.Out.ComPort
                     }
                     else
                     {
-                        Port.Write("9,1,{0},{1},{2}#".Build(OutputValues[7],OutputValues[8],OutputValues[9]));
+                        Port.Write("9,1,{0},{1},{2}#".Build(OutputValues[7], OutputValues[8], OutputValues[9]));
                     }
                 }
 
@@ -93,7 +144,7 @@ namespace DirectOutput.Cab.Out.ComPort
             {
                 throw new Exception("COM port {2} is not initialized for {0} {1}.".Build(this.GetType().Name, Name, ComPort));
             }
-        
+
         }
 
         protected override void ConnectToController()
@@ -110,7 +161,7 @@ namespace DirectOutput.Cab.Out.ComPort
                     OldValues = null;
 
                     Port = new SerialPort(ComPort, 115200, Parity.None, 8, StopBits.One);
-                    Port.Open(); 
+                    Port.Open();
                 }
             }
             catch (Exception E)
@@ -131,7 +182,7 @@ namespace DirectOutput.Cab.Out.ComPort
                     Port = null;
                     OldValues = null;
                 }
-                
+
             }
         }
 

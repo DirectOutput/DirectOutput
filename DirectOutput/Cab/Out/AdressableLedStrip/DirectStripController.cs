@@ -52,6 +52,9 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         private byte[] OutputLedData = new byte[0];
 
 
+
+        #region ControllerNumber property of type int with events
+        #region ControllerNumber property core parts
         private int _ControllerNumber = 1;
 
         /// <summary>
@@ -63,10 +66,53 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         public int ControllerNumber
         {
             get { return _ControllerNumber; }
-            set { _ControllerNumber = value; }
+            set
+            {
+                if (_ControllerNumber != value)
+                {
+                    OnControllerNumberChanging();
+                    _ControllerNumber = value;
+                    OnControllerNumberChanged();
+                }
+            }
         }
 
+        /// <summary>
+        /// Fires when the ControllerNumber property is about to change its value
+        /// </summary>
+        public event EventHandler<EventArgs> ControllerNumberChanging;
 
+        /// <summary>
+        /// Fires when the ControllerNumber property has changed its value
+        /// </summary>
+        public event EventHandler<EventArgs> ControllerNumberChanged;
+        #endregion
+
+        /// <summary>
+        /// Is called when the ControllerNumber property is about to change its value and fires the ControllerNumberChanging event
+        /// </summary>
+        protected void OnControllerNumberChanging()
+        {
+            if (ControllerNumberChanging != null) ControllerNumberChanging(this, new EventArgs());
+
+            //Insert more logic to execute before the ControllerNumber property changes here
+        }
+
+        /// <summary>
+        /// Is called when the ControllerNumber property has changed its value and fires the ControllerNumberChanged event
+        /// </summary>
+        protected void OnControllerNumberChanged()
+        {
+            //Insert more logic to execute after the ControllerNumber property has changed here
+            OnPropertyChanged("ControllerNumber");
+            if (ControllerNumberChanged != null) ControllerNumberChanged(this, new EventArgs());
+        }
+
+        #endregion
+
+
+        #region NumberOfLeds property of type int with events
+        #region NumberOfLeds property core parts
         private int _NumberOfLeds = 1;
 
         /// <summary>
@@ -80,14 +126,53 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             get { return _NumberOfLeds; }
             set
             {
-                _NumberOfLeds = value.Limit(0, 4006);
-                LedData = new byte[_NumberOfLeds * 3];
-                OutputLedData = new byte[_NumberOfLeds * 3];
+                if (_NumberOfLeds != value)
+                {
+                    OnNumberOfLedsChanging();
+                    _NumberOfLeds = value.Limit(0, 4006);
+                    LedData = new byte[_NumberOfLeds * 3];
+                    OutputLedData = new byte[_NumberOfLeds * 3];
+                    OnNumberOfLedsChanged();
+                }
             }
         }
 
+        /// <summary>
+        /// Fires when the NumberOfLeds property is about to change its value
+        /// </summary>
+        public event EventHandler<EventArgs> NumberOfLedsChanging;
 
-        private bool _PackData=false;
+        /// <summary>
+        /// Fires when the NumberOfLeds property has changed its value
+        /// </summary>
+        public event EventHandler<EventArgs> NumberOfLedsChanged;
+        #endregion
+
+        /// <summary>
+        /// Is called when the NumberOfLeds property is about to change its value and fires the NumberOfLedsChanging event
+        /// </summary>
+        protected void OnNumberOfLedsChanging()
+        {
+            if (NumberOfLedsChanging != null) NumberOfLedsChanging(this, new EventArgs());
+
+            //Insert more logic to execute before the NumberOfLeds property changes here
+        }
+
+        /// <summary>
+        /// Is called when the NumberOfLeds property has changed its value and fires the NumberOfLedsChanged event
+        /// </summary>
+        protected void OnNumberOfLedsChanged()
+        {
+            //Insert more logic to execute after the NumberOfLeds property has changed here
+            OnPropertyChanged("NumberOfLeds");
+            if (NumberOfLedsChanged != null) NumberOfLedsChanged(this, new EventArgs());
+        }
+
+        #endregion
+
+        #region PackData property of type bool with events
+        #region PackData property core parts
+        private bool _PackData = false;
 
         /// <summary>
         /// Gets or sets a value indicating whether the data which is sent to the controller should be packed.
@@ -99,8 +184,49 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         public bool PackData
         {
             get { return _PackData; }
-            set { _PackData = value; }
+            set
+            {
+                if (_PackData != value)
+                {
+                    OnPackDataChanging();
+                    _PackData = value;
+                    OnPackDataChanged();
+                }
+            }
         }
+
+        /// <summary>
+        /// Fires when the PackData property is about to change its value
+        /// </summary>
+        public event EventHandler<EventArgs> PackDataChanging;
+
+        /// <summary>
+        /// Fires when the PackData property has changed its value
+        /// </summary>
+        public event EventHandler<EventArgs> PackDataChanged;
+        #endregion
+
+        /// <summary>
+        /// Is called when the PackData property is about to change its value and fires the PackDataChanging event
+        /// </summary>
+        protected void OnPackDataChanging()
+        {
+            if (PackDataChanging != null) PackDataChanging(this, new EventArgs());
+
+            //Insert more logic to execute before the PackData property changes here
+        }
+
+        /// <summary>
+        /// Is called when the PackData property has changed its value and fires the PackDataChanged event
+        /// </summary>
+        protected void OnPackDataChanged()
+        {
+            //Insert more logic to execute after the PackData property has changed here
+            OnPropertyChanged("PackData");
+            if (PackDataChanged != null) PackDataChanged(this, new EventArgs());
+        }
+
+        #endregion
 
 
         private object UpdateLocker = new object();

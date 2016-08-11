@@ -95,7 +95,6 @@
     <Compile Include="Cab\Out\AdressableLedStrip\WS2811StripController.cs" />
     <Compile Include="Cab\Out\ComPort\GenericCom.cs" />
     <Compile Include="Cab\Out\ComPort\PinControl.cs" />
-    <Compile Include="Cab\Out\DMX\ArtNeOld.cs" />
     <Compile Include="Cab\Out\DMX\ArtnetEngine\ArtnetEngine.cs" />
     <Compile Include="Cab\Out\DMX\ArtNet.cs" />
     <Compile Include="Cab\Out\FTDIChip\FT245RBitbangController.cs" />

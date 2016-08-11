@@ -24,6 +24,8 @@ namespace DirectOutput.Cab.Out.DMX
         private Engine Engine = null;
 
 
+        #region Universe property of type short with events
+        #region Universe property core parts
         private short _Universe = 0;
 
         /// <summary>
@@ -35,9 +37,53 @@ namespace DirectOutput.Cab.Out.DMX
         public short Universe
         {
             get { return _Universe; }
-            set { _Universe = value; }
+            set
+            {
+                if (_Universe != value)
+                {
+                    OnUniverseChanging();
+                    _Universe = value;
+                    OnUniverseChanged();
+                }
+            }
         }
 
+        /// <summary>
+        /// Fires when the Universe property is about to change its value
+        /// </summary>
+        public event EventHandler<EventArgs> UniverseChanging;
+
+        /// <summary>
+        /// Fires when the Universe property has changed its value
+        /// </summary>
+        public event EventHandler<EventArgs> UniverseChanged;
+        #endregion
+
+        /// <summary>
+        /// Is called when the Universe property is about to change its value and fires the UniverseChanging event
+        /// </summary>
+        protected void OnUniverseChanging()
+        {
+            if (UniverseChanging != null) UniverseChanging(this, new EventArgs());
+
+            //Insert more logic to execute before the Universe property changes here
+        }
+
+        /// <summary>
+        /// Is called when the Universe property has changed its value and fires the UniverseChanged event
+        /// </summary>
+        protected void OnUniverseChanged()
+        {
+            //Insert more logic to execute after the Universe property has changed here
+            OnPropertyChanged("Universe");
+            if (UniverseChanged != null) UniverseChanged(this, new EventArgs());
+        }
+
+        #endregion
+
+
+        #region BroadcastAddress property of type string with events
+        #region BroadcastAddress property core parts
         private string _BroadcastAddress = "";
 
         /// <summary>
@@ -51,9 +97,49 @@ namespace DirectOutput.Cab.Out.DMX
         public string BroadcastAddress
         {
             get { return _BroadcastAddress; }
-            set { _BroadcastAddress = value; }
+            set
+            {
+                if (_BroadcastAddress != value)
+                {
+                    OnBroadcastAddressChanging();
+                    _BroadcastAddress = value;
+                    OnBroadcastAddressChanged();
+                }
+            }
         }
 
+        /// <summary>
+        /// Fires when the BroadcastAddress property is about to change its value
+        /// </summary>
+        public event EventHandler<EventArgs> BroadcastAddressChanging;
+
+        /// <summary>
+        /// Fires when the BroadcastAddress property has changed its value
+        /// </summary>
+        public event EventHandler<EventArgs> BroadcastAddressChanged;
+        #endregion
+
+        /// <summary>
+        /// Is called when the BroadcastAddress property is about to change its value and fires the BroadcastAddressChanging event
+        /// </summary>
+        protected void OnBroadcastAddressChanging()
+        {
+            if (BroadcastAddressChanging != null) BroadcastAddressChanging(this, new EventArgs());
+
+            //Insert more logic to execute before the BroadcastAddress property changes here
+        }
+
+        /// <summary>
+        /// Is called when the BroadcastAddress property has changed its value and fires the BroadcastAddressChanged event
+        /// </summary>
+        protected void OnBroadcastAddressChanged()
+        {
+            //Insert more logic to execute after the BroadcastAddress property has changed here
+            OnPropertyChanged("BroadcastAddress");
+            if (BroadcastAddressChanged != null) BroadcastAddressChanged(this, new EventArgs());
+        }
+
+        #endregion
 
         protected override int GetNumberOfConfiguredOutputs()
         {

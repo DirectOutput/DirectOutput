@@ -26,10 +26,14 @@ namespace DirectOutput.Cab.Out.LW
     /// </summary>
     public class LedWiz : OutputControllerBase, IOutputController, IDisposable
     {
-        #region Number
+        
 
 
         private object NumberUpdateLocker = new object();
+
+
+        #region Number property of type int with events
+        #region Number property core parts
         private int _Number = -1;
 
         /// <summary>
@@ -48,32 +52,67 @@ namespace DirectOutput.Cab.Out.LW
             get { return _Number; }
             set
             {
-                if (!value.IsBetween(1, 16))
-                {
-                    throw new Exception("LedWiz Numbers must be between 1-16. The supplied number {0} is out of range.".Build(value));
-                }
+                int V;
+
+                V = value.Limit(1, 16);
+
                 lock (NumberUpdateLocker)
                 {
-                    if (_Number != value)
+                    if (_Number != V)
                     {
-
-                        if (Name.IsNullOrWhiteSpace() || Name == "LedWiz {0:00}".Build(_Number))
-                        {
-                            Name = "LedWiz {0:00}".Build(value);
-                        }
-
-                        _Number = value;
-
+                        OnNumberChanging();
+                        _Number = V;
+  
+                        OnNumberChanged();
                     }
                 }
+
+
             }
+        }
+
+        /// <summary>
+        /// Fires when the Number property is about to change its value
+        /// </summary>
+        public event EventHandler<EventArgs> NumberChanging;
+
+        /// <summary>
+        /// Fires when the Number property has changed its value
+        /// </summary>
+        public event EventHandler<EventArgs> NumberChanged;
+        #endregion
+
+        /// <summary>
+        /// Is called when the Number property is about to change its value and fires the NumberChanging event
+        /// </summary>
+        protected void OnNumberChanging()
+        {
+            if (NumberChanging != null) NumberChanging(this, new EventArgs());
+
+            //Insert more logic to execute before the Number property changes here
+        }
+
+        /// <summary>
+        /// Is called when the Number property has changed its value and fires the NumberChanged event
+        /// </summary>
+        protected void OnNumberChanged()
+        {
+            //Insert more logic to execute after the Number property has changed here
+            OnPropertyChanged("Number");
+            if (NumberChanged != null) NumberChanged(this, new EventArgs());
         }
 
         #endregion
 
 
-        private int _MinCommandIntervalMs = 1;
+
+
         private bool MinCommandIntervalMsSet = false;
+
+        #region MinCommandIntervalMs property of type int with events
+        #region MinCommandIntervalMs property core parts
+        private int _MinCommandIntervalMs=1;
+
         /// <summary>
         /// Gets or sets the mininimal interval between command in miliseconds (Default: 1ms).
         /// Depending on the mainboard, usb hardware on the board, usb drivers and other factors the LedWiz does sometime tend to loose or misunderstand commands received if the are sent in to short intervals.
@@ -91,11 +130,48 @@ namespace DirectOutput.Cab.Out.LW
             get { return _MinCommandIntervalMs; }
             set
             {
-                _MinCommandIntervalMs = value.Limit(0, 1000);
-                MinCommandIntervalMsSet = true;
+                if (_MinCommandIntervalMs != value.Limit(0, 1000))
+                {
+                    OnMinCommandIntervalMsChanging();
+                    _MinCommandIntervalMs = value.Limit(0, 1000);
+                    MinCommandIntervalMsSet = true;
+                    OnMinCommandIntervalMsChanged();
+                }
             }
         }
 
+        /// <summary>
+        /// Fires when the MinCommandIntervalMs property is about to change its value
+        /// </summary>
+        public event EventHandler<EventArgs> MinCommandIntervalMsChanging;
+
+        /// <summary>
+        /// Fires when the MinCommandIntervalMs property has changed its value
+        /// </summary>
+        public event EventHandler<EventArgs> MinCommandIntervalMsChanged;
+         #endregion
+
+        /// <summary>
+        /// Is called when the MinCommandIntervalMs property is about to change its value and fires the MinCommandIntervalMsChanging event
+        /// </summary>
+        protected void OnMinCommandIntervalMsChanging()
+        {
+            if (MinCommandIntervalMsChanging != null) MinCommandIntervalMsChanging(this, new EventArgs());
+            
+            //Insert more logic to execute before the MinCommandIntervalMs property changes here
+        }
+
+        /// <summary>
+        /// Is called when the MinCommandIntervalMs property has changed its value and fires the MinCommandIntervalMsChanged event
+        /// </summary>
+        protected void OnMinCommandIntervalMsChanged()
+        {
+            //Insert more logic to execute after the MinCommandIntervalMs property has changed here
+            OnPropertyChanged("MinCommandIntervalMs");
+            if (MinCommandIntervalMsChanged != null) MinCommandIntervalMsChanged(this, new EventArgs());
+        }
+
+        #endregion
 
 
 
@@ -480,7 +556,7 @@ namespace DirectOutput.Cab.Out.LW
 
         private class LedWizUnit
         {
-          //  private Pinball Pinball;
+            //  private Pinball Pinball;
 
 
             //Used to convert the 0-255 range of output values to LedWiz values in the range of 0-48.
@@ -555,7 +631,7 @@ namespace DirectOutput.Cab.Out.LW
                 TerminateLedWizUpdaterThread();
                 ShutdownLighting();
                 //this.Pinball = null;
-              
+
             }
 
             public void UpdateValue(LedWizOutput LedWizOutput)
@@ -675,28 +751,28 @@ namespace DirectOutput.Cab.Out.LW
             }
             public void TerminateLedWizUpdaterThread()
             {
-              //  lock (LedWizUpdaterThreadLocker)
-              //  {
-                    if (LedWizUpdater != null)
+                //  lock (LedWizUpdaterThreadLocker)
+                //  {
+                if (LedWizUpdater != null)
+                {
+                    try
                     {
-                        try
+                        KeepLedWizUpdaterAlive = false;
+                        TriggerLedWizUpdaterThread();
+                        if (!LedWizUpdater.Join(1000))
                         {
-                            KeepLedWizUpdaterAlive = false;
-                            TriggerLedWizUpdaterThread();
-                            if (!LedWizUpdater.Join(1000))
-                            {
-                                LedWizUpdater.Abort();
-                            }
+                            LedWizUpdater.Abort();
+                        }
 
-                        }
-                        catch (Exception E)
-                        {
-                            Log.Exception("A error occurd during termination of {0}.".Build(LedWizUpdater.Name), E);
-                            throw new Exception("A error occurd during termination of {0}.".Build(LedWizUpdater.Name), E);
-                        }
-                        LedWizUpdater = null;
                     }
-               // }
+                    catch (Exception E)
+                    {
+                        Log.Exception("A error occurd during termination of {0}.".Build(LedWizUpdater.Name), E);
+                        throw new Exception("A error occurd during termination of {0}.".Build(LedWizUpdater.Name), E);
+                    }
+                    LedWizUpdater = null;
+                }
+                // }
             }
 
             bool TriggerUpdate = false;
@@ -724,9 +800,9 @@ namespace DirectOutput.Cab.Out.LW
                     {
                         if (IsPresent)
                         {
-                     
+
                             SendLedWizUpdate();
-               
+
                         }
                         FailCnt = 0;
                     }
@@ -799,22 +875,22 @@ namespace DirectOutput.Cab.Out.LW
                             if (CurrentSwitchUpdateBeforeValueUpdateRequired)
                             {
                                 UpdateDelay();
-                          
+
                                 SBA(CurrentBeforeValueSwitches[0], CurrentBeforeValueSwitches[1], CurrentBeforeValueSwitches[2], CurrentBeforeValueSwitches[3], 2);
-                       
+
                             }
 
                             UpdateDelay();
-                     
+
                             PBA(CurrentOuputValues);
-                        
+
                         }
                         if (CurrentSwitchUpdateAfterValueUpdateRequired || (CurrentSwitchUpdateBeforeValueUpdateRequired && !NewValueUpdateRequired))
                         {
                             UpdateDelay();
-                         
+
                             SBA(CurrentAfterValueSwitches[0], CurrentAfterValueSwitches[1], CurrentAfterValueSwitches[2], CurrentAfterValueSwitches[3], 2);
-                       
+
                         }
 
                     }

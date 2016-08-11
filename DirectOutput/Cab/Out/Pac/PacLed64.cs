@@ -22,11 +22,11 @@ namespace DirectOutput.Cab.Out.Pac
     /// </summary>
     public class PacLed64 : OutputControllerBase, IOutputController
     {
-        #region Id
 
 
-        private object IdUpdateLocker = new object();
-        private int _Id = -1;
+        #region Id property of type int with events
+        #region Id property core parts
+        private int _Id = 1;
 
         /// <summary>
         /// Gets or sets the Id of the PacLed64.<br />
@@ -46,23 +46,46 @@ namespace DirectOutput.Cab.Out.Pac
             {
                 if (!value.IsBetween(1, 4))
                 {
-                    throw new Exception("PacLed64 Ids must be between 1-4. The supplied Id {0} is out of range.".Build(value));
+                   Log.Warning("PacLed64 Ids must be between 1-4. The supplied Id {0} is out of range. Will set Id {1}".Build(value,value.Limit(1,4)));
                 }
-                lock (IdUpdateLocker)
+                if (_Id != value.Limit(1,4))
                 {
-                    if (_Id != value)
-                    {
-
-                        if (Name.IsNullOrWhiteSpace() || Name == "PacLed64 {0:0}".Build(_Id))
-                        {
-                            Name = "PacLed64 {0:0}".Build(value);
-                        }
-
-                        _Id = value;
-
-                    }
+                    OnIdChanging();
+                    _Id = value.Limit(1,4);
+                    OnIdChanged();
                 }
             }
+        }
+
+        /// <summary>
+        /// Fires when the Id property is about to change its value
+        /// </summary>
+        public event EventHandler<EventArgs> IdChanging;
+
+        /// <summary>
+        /// Fires when the Id property has changed its value
+        /// </summary>
+        public event EventHandler<EventArgs> IdChanged;
+        #endregion
+
+        /// <summary>
+        /// Is called when the Id property is about to change its value and fires the IdChanging event
+        /// </summary>
+        protected void OnIdChanging()
+        {
+            if (IdChanging != null) IdChanging(this, new EventArgs());
+
+            //Insert more logic to execute before the Id property changes here
+        }
+
+        /// <summary>
+        /// Is called when the Id property has changed its value and fires the IdChanged event
+        /// </summary>
+        protected void OnIdChanged()
+        {
+            //Insert more logic to execute after the Id property has changed here
+
+            if (IdChanged != null) IdChanged(this, new EventArgs());
         }
 
         #endregion
@@ -87,7 +110,7 @@ namespace DirectOutput.Cab.Out.Pac
         /// <param name="Cabinet">The cabinet object which is using the output controller instance.</param>
         public override void Init(Cabinet Cabinet)
         {
-            AddOutputs();   
+            AddOutputs();
             PacLed64Units[Id].Init(Cabinet);
             Log.Write("PacLed64 Id:{0} initialized and updater thread started.".Build(Id));
 
@@ -220,14 +243,14 @@ namespace DirectOutput.Cab.Out.Pac
         /// </summary>
         static PacLed64()
         {
-           
+
             PacLed64Units = new Dictionary<int, PacLed64Unit>();
             for (int i = 1; i <= 4; i++)
             {
                 PacLed64Units.Add(i, new PacLed64Unit(i));
 
             }
-  
+
         }
 
         /// <summary>
@@ -235,7 +258,7 @@ namespace DirectOutput.Cab.Out.Pac
         /// </summary>
         public PacLed64()
         {
-       
+
             Outputs = new OutputList();
 
         }
@@ -444,9 +467,9 @@ namespace DirectOutput.Cab.Out.Pac
                     {
                         if (IsPresent)
                         {
-                   
+
                             SendPacLed64Update();
-                        
+
                         }
                         FailCnt = 0;
                     }
@@ -533,7 +556,7 @@ namespace DirectOutput.Cab.Out.Pac
                                 StateUpdateRequired = false;
                             }
                         }
-                        if ( ForceFullUpdate || (IntensityUpdatesRequired + StateUpdatesRequired) > 30)
+                        if (ForceFullUpdate || (IntensityUpdatesRequired + StateUpdatesRequired) > 30)
                         {
                             //more than 30 update calls required. Will send intensity updates for all outputs.
                             PDSingleton.PacLed64SetLEDIntensities(Index, CurrentValue);
@@ -591,7 +614,7 @@ namespace DirectOutput.Cab.Out.Pac
                 }
                 else
                 {
-                    ForceFullUpdate=true;
+                    ForceFullUpdate = true;
                 }
             }
 
@@ -637,7 +660,7 @@ namespace DirectOutput.Cab.Out.Pac
                 if (Index >= 0)
                 {
                     LastValueSent.Fill((byte)0);
-                   
+
                     PDSingleton.PacLed64SetLEDIntensities(Index, LastValueSent);
                     LastStateSent.Fill(false);
                     LastValueSent.Fill((byte)0);
@@ -648,17 +671,17 @@ namespace DirectOutput.Cab.Out.Pac
             public PacLed64Unit(int Id)
             {
                 this.Id = Id;
-               
+
                 PDSingleton = PacDriveSingleton.Instance;
                 PDSingleton.OnPacAttached += new PacDriveSingleton.PacAttachedDelegate(Instance_OnPacAttached);
                 PDSingleton.OnPacRemoved += new PacDriveSingleton.PacRemovedDelegate(Instance_OnPacRemoved);
-              
+
                 this.Index = PacDriveSingleton.Instance.PacLed64GetIndexForDeviceId(Id);
-            
+
                 NewValue.Fill((byte)0);
-               
+
                 InitUnit();
-     
+
 
             }
 

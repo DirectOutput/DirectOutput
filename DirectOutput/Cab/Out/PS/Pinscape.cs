@@ -70,6 +70,7 @@ namespace DirectOutput.Cab.Out.PS
 					// if the unit number changed, update it and attach to the new unit
                     if (_Number != value)
 					{
+                        OnNumberChanging();
 						// if we used a default name for the old unit number, change to the default
 						// name for the new unit number
                         if (Name.IsNullOrWhiteSpace() || Name == "Pinscape Controller {0:00}".Build(_Number))
@@ -84,44 +85,114 @@ namespace DirectOutput.Cab.Out.PS
 						this.Dev = Devices.First(D => D.UnitNo() == Number);
 						this.NumberOfOutputs = this.Dev.NumOutputs();
 						this.OldOutputValues = Enumerable.Repeat((byte)255, this.NumberOfOutputs).ToArray();
+                        OnNumberChanged();
                     }
                 }
             }
         }
 
+        /// <summary>
+        /// Fires when the Number property is about to change its value
+        /// </summary>
+        public event EventHandler<EventArgs> NumberChanging;
+
+        /// <summary>
+        /// Fires when the Number property has changed its value
+        /// </summary>
+        public event EventHandler<EventArgs> NumberChanged;
+
+
+        /// <summary>
+        /// Is called when the Number property is about to change its value and fires the NumberChanging event
+        /// </summary>
+        protected void OnNumberChanging()
+        {
+            if (NumberChanging != null) NumberChanging(this, new EventArgs());
+
+            //Insert more logic to execute before the Number property changes here
+        }
+
+        /// <summary>
+        /// Is called when the Number property has changed its value and fires the NumberChanged event
+        /// </summary>
+        protected void OnNumberChanged()
+        {
+            //Insert more logic to execute after the Number property has changed here
+            OnPropertyChanged("Number");
+            if (NumberChanged != null) NumberChanged(this, new EventArgs());
+        }
+
+
         #endregion
 
 
-        private int _MinCommandIntervalMs = 1;
         private bool MinCommandIntervalMsSet = false;
 
-		/// <summary>
-		/// Gets or sets the mininimal interval between command in miliseconds (Default: 1ms).
-		/// The minimum message interval at the USB level is 1ms, but real LedWiz units can reportedly miss messages on some systems if messages are
-		/// sent at full USB speed.  The underlying causes aren't clear as there are a lot of black boxes in the communication path (the motherboard
-		/// USB hardware, the Windows USB drivers, the Windows HID drivers, USB hubs, and the LedWiz itself), but the assumption is that it's
-		/// timing-related, so the LedWiz version uses this parameter to throttle the data rate by increasing the time between consecutive messages
-		/// going across the wire to the LedWiz.  Since the Pinscape controller is all open source, the device side of the path is under our control,
-		/// unlike the LedWiz, so if we ever did run into any similar problems, we could potentially fix them more cleanly by fixing whatever the real
-		/// problem is on the device side of the USB path.  Even so, we'll also provide this parameter in case it turns out to be useful.
-		///
-		/// We recommend using the default interval of 1 ms, and only increasing this if problems occur (Toys which are sometimes not reacting, random
-		/// knocks of replay knocker or solenoids).  Better yet, any such problems should be investigated first on the Pinscape controller side to see if
-		/// they can be addressed more cleanly there.
+        #region MinCommandIntervalMs property of type int with events
+        #region MinCommandIntervalMs property core parts
+        private int _MinCommandIntervalMs = 1;
+
+        /// <summary>
+        /// Gets or sets the mininimal interval between command in miliseconds (Default: 1ms).
+        /// Depending on the mainboard, usb hardware on the board, usb drivers and other factors the LedWiz does sometime tend to loose or misunderstand commands received if the are sent in to short intervals.
+        /// The settings allows to increase the default minmal interval between commands from 1ms to a higher value. Higher values will make problems less likely, but decreases the number of possible updates of the ledwiz outputs in a given time frame.
+        /// It is recommended to use the default interval of 1 ms and only to increase this interval if problems occur (Toys which are sometimes not reacting, random knocks of replay knocker or solenoids).
         /// </summary>
         /// <value>
-		/// The mininimal interval between command in miliseconds.  The default is 1ms, which is also the minimum, since it's
-		/// the fastest that USB allows at the hardware protocol level.
+        /// The mininimal interval between command in miliseconds (Default: 1ms).
+        /// Depending on the mainboard, usb hardware on the board, usb drivers and other factors the LedWiz does sometime tend to loose or misunderstand commands received if the are sent in to short intervals.
+        /// The settings allows to increase the default minmal interval between commands from 1ms to a higher value. Higher values will make problems less likely, but decreases the number of possible updates of the ledwiz outputs in a given time frame.
+        /// It is recommended to use the default interval of 1 ms and only to increase this interval if problems occur (Toys which are sometimes not reacting, random knocks of replay knocker or solenoids).
         /// </value>
         public int MinCommandIntervalMs
         {
             get { return _MinCommandIntervalMs; }
             set
             {
-                _MinCommandIntervalMs = value.Limit(0, 1000);
-                MinCommandIntervalMsSet = true;
+                if (_MinCommandIntervalMs != value.Limit(0, 1000))
+                {
+                    OnMinCommandIntervalMsChanging();
+                    _MinCommandIntervalMs = value.Limit(0, 1000);
+                    MinCommandIntervalMsSet = true;
+                    OnMinCommandIntervalMsChanged();
+                }
             }
         }
+
+        /// <summary>
+        /// Fires when the MinCommandIntervalMs property is about to change its value
+        /// </summary>
+        public event EventHandler<EventArgs> MinCommandIntervalMsChanging;
+
+        /// <summary>
+        /// Fires when the MinCommandIntervalMs property has changed its value
+        /// </summary>
+        public event EventHandler<EventArgs> MinCommandIntervalMsChanged;
+        #endregion
+
+        /// <summary>
+        /// Is called when the MinCommandIntervalMs property is about to change its value and fires the MinCommandIntervalMsChanging event
+        /// </summary>
+        protected void OnMinCommandIntervalMsChanging()
+        {
+            if (MinCommandIntervalMsChanging != null) MinCommandIntervalMsChanging(this, new EventArgs());
+
+            //Insert more logic to execute before the MinCommandIntervalMs property changes here
+        }
+
+        /// <summary>
+        /// Is called when the MinCommandIntervalMs property has changed its value and fires the MinCommandIntervalMsChanged event
+        /// </summary>
+        protected void OnMinCommandIntervalMsChanged()
+        {
+            //Insert more logic to execute after the MinCommandIntervalMs property has changed here
+            OnPropertyChanged("MinCommandIntervalMs");
+            if (MinCommandIntervalMsChanged != null) MinCommandIntervalMsChanged(this, new EventArgs());
+        }
+
+        #endregion
+
+
 
         #region IOutputcontroller implementation
 
