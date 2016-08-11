@@ -7,7 +7,7 @@ using namespace System;
 
 namespace ProPinballBridge
 {
-	public delegate void OnNext(unsigned char* frame);
+	public delegate void OnNext(const char* message);
 	public delegate void OnError(const char* message);
 	public delegate void OnCompleted();
 

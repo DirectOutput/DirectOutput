@@ -256,6 +256,7 @@ void ProPinballBridge::ProPinballFeedback::GetFeedback(OnNext^ onNext, OnError^ 
 							}
 							else if (message->message_type == MESSAGE_TYPE_FEEDBACK)
 							{
+								onNext("tick");
 								handle_feedback(&(message->message_data.feedback_message_data));
 							}
 							else
