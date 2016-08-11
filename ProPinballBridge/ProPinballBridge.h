@@ -7,7 +7,10 @@ using namespace System;
 
 namespace ProPinballBridge
 {
-	public delegate void OnNext(const char* message);
+	public delegate void OnFlasher(int id, const char* name, float intensity);
+	public delegate void OnSolenoid(int id, const char* name, int status);
+	public delegate void OnFlipper(int id, const char* name, int status);
+	public delegate void OnButtonLight(int id, const char* name, int status);
 	public delegate void OnError(const char* message);
 	public delegate void OnCompleted();
 
@@ -16,7 +19,7 @@ namespace ProPinballBridge
 	public:
 		ProPinballFeedback(unsigned int message_size);
 
-		void GetFeedback(OnNext^ onNext, OnError^ onError, OnCompleted^ onCompleted);
+		void GetFeedback(OnFlasher^ onFlasher, OnSolenoid^ onSolenoid, OnFlipper^ onFlipper, OnButtonLight^ onButtonLight, OnError^ onError, OnCompleted^ onCompleted);
 		void Release();
 
 		int Status;

@@ -17,8 +17,17 @@ namespace ProPinballSlave
 			CreateBridge();
 			unsafe
 			{
-				_bridge.GetFeedback(msg => {
-					Console.WriteLine(new string(msg));
+				_bridge.GetFeedback((flasherId, flasherName, flasherIntensity) => {
+					Console.WriteLine("Flasher {0} ({1}): {2}", flasherId, new string(flasherName), flasherIntensity);
+
+				}, (solenoidId, solenoidName, solenoidStatus) => {
+					Console.WriteLine("Solenoid {0} ({1}): {2}", solenoidId, new string(solenoidName), solenoidStatus);
+
+				}, (flipperId, flipperName, flipperStatus) => {
+					Console.WriteLine("Flipper {0} ({1}): {2}", flipperId, new string(flipperName), flipperStatus);
+
+				}, (buttonId, buttonName, buttonStatus) => {
+					Console.WriteLine("Button {0} ({1}): {2}", buttonId, new string(buttonName), buttonStatus);
 
 				}, msg => {
 					Console.WriteLine("ERROR: {0}", new string(msg));

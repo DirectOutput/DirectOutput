@@ -152,41 +152,7 @@ const int DEFAULT_MESSAGE_PRIORITY = 0;
 
 void handle_feedback(const FEEDBACK_MESSAGE_DATA* feedback_data)
 {
-	static FEEDBACK_MESSAGE_DATA previous_feedback_data;
 
-	for (int flasher_index = 0; flasher_index < NUM_FLASHERS; flasher_index++)
-	{
-		if (feedback_data->flasher_intensity[flasher_index] != previous_feedback_data.flasher_intensity[flasher_index])
-		{
-			printf("Flasher %s: %f\n", FLASHER_NAME[flasher_index], feedback_data->flasher_intensity[flasher_index]);
-		}
-	}
-
-	for (int solenoid_index = 0; solenoid_index < NUM_SOLENOIDS; solenoid_index++)
-	{
-		if (feedback_data->solenoid_on[solenoid_index] != previous_feedback_data.solenoid_on[solenoid_index])
-		{
-			printf("Solenoid %s: %s\n", SOLENOID_NAME[solenoid_index], feedback_data->solenoid_on[solenoid_index] ? "ON" : "OFF");
-		}
-	}
-
-	for (int flipper_index = 0; flipper_index < NUM_FLIPPERS; flipper_index++)
-	{
-		if (feedback_data->flipper_solenoid_on[flipper_index] != previous_feedback_data.flipper_solenoid_on[flipper_index])
-		{
-			printf("Flipper %s: %s\n", FLIPPER_NAME[flipper_index], feedback_data->flipper_solenoid_on[flipper_index] ? "ON" : "OFF");
-		}
-	}
-
-	for (int button_index = 0; button_index < NUM_BUTTONS; button_index++)
-	{
-		if (feedback_data->button_lit[button_index] != previous_feedback_data.button_lit[button_index])
-		{
-			printf("Button light %s: %s\n", BUTTON_NAME[button_index], feedback_data->button_lit[button_index] ? "ON" : "OFF");
-		}
-	}
-
-	previous_feedback_data = *feedback_data;
 }
 
 ProPinballBridge::ProPinballFeedback::ProPinballFeedback(unsigned int message_size)
@@ -223,7 +189,7 @@ void ProPinballBridge::ProPinballFeedback::Release()
 	delete this;
 }
 
-void ProPinballBridge::ProPinballFeedback::GetFeedback(OnNext^ onNext, OnError^ onError, OnCompleted^ onCompleted)
+void ProPinballBridge::ProPinballFeedback::GetFeedback(OnFlasher^ onFlasher, OnSolenoid^ onSolenoid, OnFlipper^ onFlipper, OnButtonLight^ onButtonLight, OnError^ onError, OnCompleted^ onCompleted)
 {
 	bool done = false;
 
@@ -256,8 +222,43 @@ void ProPinballBridge::ProPinballFeedback::GetFeedback(OnNext^ onNext, OnError^ 
 							}
 							else if (message->message_type == MESSAGE_TYPE_FEEDBACK)
 							{
-								onNext("tick");
 								handle_feedback(&(message->message_data.feedback_message_data));
+								static FEEDBACK_MESSAGE_DATA previous_feedback_data;
+								const FEEDBACK_MESSAGE_DATA* feedback_data = &(message->message_data.feedback_message_data);
+
+								for (int flasher_index = 0; flasher_index < NUM_FLASHERS; flasher_index++)
+								{
+									if (feedback_data->flasher_intensity[flasher_index] != previous_feedback_data.flasher_intensity[flasher_index])
+									{
+										onFlasher(flasher_index, FLASHER_NAME[flasher_index], feedback_data->flasher_intensity[flasher_index]);
+									}
+								}
+
+								for (int solenoid_index = 0; solenoid_index < NUM_SOLENOIDS; solenoid_index++)
+								{
+									if (feedback_data->solenoid_on[solenoid_index] != previous_feedback_data.solenoid_on[solenoid_index])
+									{
+										onSolenoid(solenoid_index, SOLENOID_NAME[solenoid_index], feedback_data->solenoid_on[solenoid_index] ? 1 : 0);
+									}
+								}
+
+								for (int flipper_index = 0; flipper_index < NUM_FLIPPERS; flipper_index++)
+								{
+									if (feedback_data->flipper_solenoid_on[flipper_index] != previous_feedback_data.flipper_solenoid_on[flipper_index])
+									{
+										onFlipper(flipper_index, FLIPPER_NAME[flipper_index], feedback_data->flipper_solenoid_on[flipper_index] ? 1 : 0);
+									}
+								}
+
+								for (int button_index = 0; button_index < NUM_BUTTONS; button_index++)
+								{
+									if (feedback_data->button_lit[button_index] != previous_feedback_data.button_lit[button_index])
+									{
+										onButtonLight(button_index, BUTTON_NAME[button_index], feedback_data->button_lit[button_index] ? 1 : 0);
+									}
+								}
+								previous_feedback_data = *feedback_data;
+
 							}
 							else
 							{
