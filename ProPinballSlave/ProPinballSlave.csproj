@@ -55,6 +55,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DirectOutput\DirectOutput.csproj">
+      <Project>{da43acdd-8241-4a28-8eb2-dae80d91faa8}</Project>
+      <Name>DirectOutput</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ProPinballBridge\ProPinballBridge.vcxproj">
       <Project>{e59c8a02-9e95-4f7a-bdcc-cfcca57c3b4d}</Project>
       <Name>ProPinballBridge</Name>
