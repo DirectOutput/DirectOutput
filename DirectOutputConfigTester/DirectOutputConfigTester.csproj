@@ -90,10 +90,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Extensions\Extensions\Extensions.csproj">
-      <Project>{3BA9C263-D8C3-4511-BD2F-4C7B55D82A1A}</Project>
-      <Name>Extensions</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DirectOutput\DirectOutput.csproj">
       <Project>{DA43ACDD-8241-4A28-8EB2-DAE80D91FAA8}</Project>
       <Name>DirectOutput</Name>

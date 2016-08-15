@@ -399,12 +399,6 @@
       <DependentUpon>TableInfo.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Extensions\Extensions\Extensions.csproj">
-      <Project>{3BA9C263-D8C3-4511-BD2F-4C7B55D82A1A}</Project>
-      <Name>Extensions</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
