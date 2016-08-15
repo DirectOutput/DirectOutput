@@ -32,7 +32,12 @@ namespace ProPinballSlave
 			unsafe
 			{
 				_bridge.GetFeedback((flasherId, flasherName, flasherIntensity) => {
-					pinball.ReceiveData(Convert.ToChar(TableElementTypeEnum.Lamp), flasherId, flasherIntensity > 0.5 ? 1 : 0);
+					if (flasherIntensity > 0.8) {
+						pinball.ReceiveData(Convert.ToChar(TableElementTypeEnum.Lamp), flasherId, 1);
+					}
+					if (flasherIntensity < 0.1) {
+						pinball.ReceiveData(Convert.ToChar(TableElementTypeEnum.Lamp), flasherId, 0);
+					}
 					Console.WriteLine("Flasher {0} ({1}): {2}", flasherId, new string(flasherName), flasherIntensity);
 
 				}, (solenoidId, solenoidName, solenoidStatus) => {
