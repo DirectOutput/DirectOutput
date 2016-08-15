@@ -49,9 +49,11 @@ namespace ProPinballSlave
 
 				}, msg => {
 					Console.WriteLine("ERROR: {0}", new string(msg));
+					pinball.Finish();
 
 				}, () => {
 					Console.WriteLine("All done!");
+					pinball.Finish();
 
 				});
 			}
