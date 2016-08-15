@@ -20,7 +20,6 @@ namespace ProPinballBridge
 		ProPinballFeedback(unsigned int message_size);
 
 		void GetFeedback(OnFlasher^ onFlasher, OnSolenoid^ onSolenoid, OnFlipper^ onFlipper, OnButtonLight^ onButtonLight, OnError^ onError, OnCompleted^ onCompleted);
-		void Release();
 
 		int Status;
 		const char* Error;

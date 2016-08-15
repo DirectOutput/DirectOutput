@@ -150,11 +150,6 @@ const char* BUTTON_NAME[NUM_BUTTONS] =
 
 const int DEFAULT_MESSAGE_PRIORITY = 0;
 
-void handle_feedback(const FEEDBACK_MESSAGE_DATA* feedback_data)
-{
-
-}
-
 ProPinballBridge::ProPinballFeedback::ProPinballFeedback(unsigned int message_size)
 {
 	const char* MASTER_TO_SLAVE_QUEUE_NAME = "feedback_master_to_slave";
@@ -182,11 +177,6 @@ ProPinballBridge::ProPinballFeedback::ProPinballFeedback(unsigned int message_si
 			printf("Error sending slave ready message: %s\n", exception.what());
 		}
 	}
-}
-
-void ProPinballBridge::ProPinballFeedback::Release()
-{
-	delete this;
 }
 
 void ProPinballBridge::ProPinballFeedback::GetFeedback(OnFlasher^ onFlasher, OnSolenoid^ onSolenoid, OnFlipper^ onFlipper, OnButtonLight^ onButtonLight, OnError^ onError, OnCompleted^ onCompleted)
@@ -222,7 +212,6 @@ void ProPinballBridge::ProPinballFeedback::GetFeedback(OnFlasher^ onFlasher, OnS
 							}
 							else if (message->message_type == MESSAGE_TYPE_FEEDBACK)
 							{
-								handle_feedback(&(message->message_data.feedback_message_data));
 								static FEEDBACK_MESSAGE_DATA previous_feedback_data;
 								const FEEDBACK_MESSAGE_DATA* feedback_data = &(message->message_data.feedback_message_data);
 
