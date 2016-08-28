@@ -146,46 +146,50 @@ namespace DirectOutput
 
                 HostAppFilename = "GlobalConfig_{0}".Build(HostAppFilename);
 
-                //Check config dir for global config file
-                FileInfo F = new FileInfo(Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName, "config", "GlobalConfig_{0}.xml".Build(HostAppFilename)));
-                if (!F.Exists)
-                {
-                    //Check if a shortcut to the config dir exists
-                    FileInfo LnkFile = new FileInfo(Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName, "config", "GlobalConfig_{0}.lnk".Build(HostAppFilename)));
-                    if (LnkFile.Exists)
-                    {
-                        string ConfigDirPath = ResolveShortcut(LnkFile);
-                        if (Directory.Exists(ConfigDirPath))
-                        {
-                            F = new FileInfo(Path.Combine(ConfigDirPath, "GlobalConfig_{0}.xml".Build(HostAppFilename)));
-                        }
-                    }
-                    if (!F.Exists)
-                    {
-
-                        //Check default dir for global config file
-                        F = new FileInfo("GlobalConfig_{0}.xml".Build(HostAppFilename));
-                        if (!F.Exists)
-                        {
-                            //Check dll dir for global config file
-                            F = new FileInfo(Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName, "GlobalConfig_{0}.xml".Build(HostAppFilename)));
-                            if (!F.Exists)
-                            {
-                                //if global config file does not exist, set filename to config directory.
-                                F = new FileInfo(Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName, "config", "GlobalConfig_{0}.xml".Build(HostAppFilename)));
-                                if (!F.Directory.Exists)
-                                {
-                                    //If the config dir does not exist set the dll dir for the config
-                                    F = new FileInfo(Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName, "GlobalConfig_{0}.xml".Build(HostAppFilename)));
-                                }
-                            }
-                        }
-                    }
-                }
-
+				//Check config dir for global config file
+				var assemblyLocationAvailable = !Assembly.GetExecutingAssembly().Location.IsNullOrEmpty();
+				FileInfo F;
+				if (assemblyLocationAvailable) { 
+					F = new FileInfo(Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName, "config", "GlobalConfig_{0}.xml".Build(HostAppFilename)));
+					if (!F.Exists)
+					{
+						//Check if a shortcut to the config dir exists
+						FileInfo LnkFile = new FileInfo(Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName, "config", "GlobalConfig_{0}.lnk".Build(HostAppFilename)));
+						if (LnkFile.Exists)
+						{
+							string ConfigDirPath = ResolveShortcut(LnkFile);
+							if (Directory.Exists(ConfigDirPath))
+							{
+								F = new FileInfo(Path.Combine(ConfigDirPath, "GlobalConfig_{0}.xml".Build(HostAppFilename)));
+							}
+						}
+						if (!F.Exists)
+						{
+							//Check default dir for global config file
+							F = new FileInfo("GlobalConfig_{0}.xml".Build(HostAppFilename));
+							if (!F.Exists)
+							{
+								//Check dll dir for global config file
+								F = new FileInfo(Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName, "GlobalConfig_{0}.xml".Build(HostAppFilename)));
+								if (!F.Exists)
+								{
+									//if global config file does not exist, set filename to config directory.
+									F = new FileInfo(Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName, "config", "GlobalConfig_{0}.xml".Build(HostAppFilename)));
+									if (!F.Directory.Exists)
+									{
+										//If the config dir does not exist set the dll dir for the config
+										F = new FileInfo(Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName, "GlobalConfig_{0}.xml".Build(HostAppFilename)));
+									}
+								}
+							}
+						}
+					}
+				} else {
+					F = new FileInfo("GlobalConfig_{0}.xml".Build(HostAppFilename));
+				}
 
                 Pinball = new DirectOutput.Pinball();
-                Pinball.Setup((F.Exists ? F.FullName : ""), TableFilename, RomName);
+				Pinball.Setup((F.Exists ? F.FullName : ""), TableFilename, RomName);
                 Pinball.Init();
             }
             else

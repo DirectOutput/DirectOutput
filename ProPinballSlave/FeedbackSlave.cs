@@ -15,50 +15,39 @@ namespace ProPinballSlave
 
 		public void Start()
 		{
-			// init DOF
-			var dofHome = Environment.GetEnvironmentVariable("DOF_HOME");
-			if (dofHome == null) {
-				throw new Exception("Please set the DOF_HOME environment variable to the folder where your DirectOutput \"config\" folder is located.");
-			}
-			var dofConfig = Path.Combine(dofHome, "config", "GlobalConfig_Dmdext.xml");
-			if (!File.Exists(dofConfig)) {
-				throw new Exception($"Could not find \"{dofConfig}\". Are you sure your DOF_HOME environment variable is pointing to the right folder?");
-			}
-			var pinball = new Pinball();
-			pinball.Setup(dofConfig, null, "Timeshock");
-			pinball.Init();
+			DirectOutputHandler.Init("ProPinball", "Timeshock", "Timeshock");
 
 			CreateBridge();
 			unsafe
 			{
 				_bridge.GetFeedback((flasherId, flasherName, flasherIntensity) => {
 					if (flasherIntensity > 0.8) {
-						pinball.ReceiveData(Convert.ToChar(TableElementTypeEnum.Lamp), flasherId, 1);
+						DirectOutputHandler.UpdateTableElement(TableElementTypeEnum.Lamp.ToString(), flasherId, 1);
 					}
 					if (flasherIntensity < 0.1) {
-						pinball.ReceiveData(Convert.ToChar(TableElementTypeEnum.Lamp), flasherId, 0);
+						DirectOutputHandler.UpdateTableElement(TableElementTypeEnum.Lamp.ToString(), flasherId, 0);
 					}
 					Console.WriteLine("Flasher {0} ({1}): {2}", flasherId, new string(flasherName), flasherIntensity);
 
 				}, (solenoidId, solenoidName, solenoidStatus) => {
-					pinball.ReceiveData(Convert.ToChar(TableElementTypeEnum.Solenoid), solenoidId, solenoidStatus);
+					DirectOutputHandler.UpdateTableElement(TableElementTypeEnum.Solenoid.ToString(), solenoidId, solenoidStatus);
 					Console.WriteLine("Solenoid {0} ({1}): {2}", solenoidId, new string(solenoidName), solenoidStatus);
 
 				}, (flipperId, flipperName, flipperStatus) => {
-					pinball.ReceiveData(Convert.ToChar(TableElementTypeEnum.Solenoid), flipperId + 128, flipperStatus);
+					DirectOutputHandler.UpdateTableElement(TableElementTypeEnum.Solenoid.ToString(), flipperId + 128, flipperStatus);
 					Console.WriteLine("Flipper {0} ({1}): {2}", flipperId, new string(flipperName), flipperStatus);
 
 				}, (buttonId, buttonName, buttonStatus) => {
-					pinball.ReceiveData(Convert.ToChar(TableElementTypeEnum.LED), buttonId, buttonStatus);
+					DirectOutputHandler.UpdateTableElement(TableElementTypeEnum.LED.ToString(), buttonId, buttonStatus);
 					Console.WriteLine("Button {0} ({1}): {2}", buttonId, new string(buttonName), buttonStatus);
 
 				}, msg => {
 					Console.WriteLine("ERROR: {0}", new string(msg));
-					pinball.Finish();
+					DirectOutputHandler.Finish();
 
 				}, () => {
 					Console.WriteLine("All done!");
-					pinball.Finish();
+					DirectOutputHandler.Finish();
 
 				});
 			}
@@ -82,6 +71,13 @@ namespace ProPinballSlave
 
 			} catch (Exception e) {
 				Console.WriteLine("Error: {0}", e.Message);
+				Console.WriteLine(e.StackTrace);
+				if (e.InnerException != null)
+				{
+					Console.WriteLine("-------------------------------------------------------------------------------");
+					Console.WriteLine(e.InnerException.Message);
+					Console.WriteLine(e.InnerException.StackTrace);
+				}
 			}
 		}
 	}
