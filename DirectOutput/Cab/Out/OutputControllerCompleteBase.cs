@@ -14,12 +14,27 @@ namespace DirectOutput.Cab.Out
     /// </summary>
     public abstract class OutputControllerCompleteBase : NamedItemBase, IOutputController, ISupportsSetValues
     {
-
+		// Current brightness value for each output, from 0 (off) to 255 (100% on).
         byte[] OutputValues = new byte[0];
 
+		/// <summary>
+		/// Output controller in-use state.  This tells us if we've ever received a value update from the
+		/// client, and if we've sent any commands yet to the connected device.  Initially, this is set
+		/// to Startup.  On a value change event, if this is still startup, we set it to ValueChanged.
+		/// The updater thread can use this to determine if it needs to send initialization commands 
+		/// and/or value updates to the device.  The updater thread can simply take no action when the
+		/// value is Startup, as this means that the unit hasn't yet been addressed by the client and
+		/// thus might not be in use at all during this session.  When the state is ValueChanged, the
+		/// updater thread should send any necessary initialization commands to the device and change
+		/// the state to Running.  When the state is Running, the thread can simply send value updates
+		/// as normal.
+		/// </summary>
+		protected enum InUseStates { Startup, ValueChanged, Running };
 
-
-
+		/// <summary>
+		/// Current in-use state for this controller.
+		/// </summary>
+		protected InUseStates InUseState = InUseStates.Startup;
 
         /// <summary>
         /// Manages to output object of the output controller. Use the GetNumberOfConfiguredOutputs() method to determine the number of outputs to be setup.
@@ -41,7 +56,6 @@ namespace DirectOutput.Cab.Out
                     Outputs.Add(new Output() { Name = "{0}.{1}".Build((Name != null ? Name : ""), i), Number = i, Value = 0 });
                 }
             }
-
 
             OutputValues = Outputs.OrderBy(O => O.Number).Select(O => O.Value).ToArray();
         }
@@ -109,7 +123,14 @@ namespace DirectOutput.Cab.Out
                 {
                     if (OutputValues[Output.Number - 1] != Output.Value)
                     {
+						// if we're in Startup state, transition to ValueChanged state
+						if (InUseState == InUseStates.Startup)
+							InUseState = InUseStates.ValueChanged;
+
+						// set the new value
                         OutputValues[Output.Number - 1] = Output.Value;
+
+						// tell the updater thread we have to update the physical device
                         UpdateRequired = true;
                     }
 
@@ -135,7 +156,14 @@ namespace DirectOutput.Cab.Out
 
             lock (ValueChangeLocker)
             {
-                Buffer.BlockCopy(Values, 0, OutputValues, FirstOutput, CopyLength);
+				// copy the new values
+				Buffer.BlockCopy(Values, 0, OutputValues, FirstOutput, CopyLength);
+
+				// if we're in Startup state, transition to ValueChanged state
+				if (InUseState == InUseStates.Startup)
+					InUseState = InUseStates.ValueChanged;
+
+				// an update is now required
                 UpdateRequired = true;
             }
         }
@@ -227,7 +255,6 @@ namespace DirectOutput.Cab.Out
         /// <summary>
         /// This method is called when DOF wants to disconnect from the controller.
         /// Implement your own logic to disconnect from the controller here.
-
         /// </summary>
         protected abstract void DisconnectFromController();
 
@@ -331,7 +358,6 @@ namespace DirectOutput.Cab.Out
                 try
                 {
                     ConnectToController();
-
                 }
                 catch (Exception E)
                 {
@@ -359,10 +385,26 @@ namespace DirectOutput.Cab.Out
                     bool UpdateOK = true;
                     for (int i = 0; i < 1; i++)
                     {
-
                         try
                         {
-                            UpdateOutputs(ValuesToSend);
+							// If we're in ValueChanged state, we've received at least one value update
+							// from the client, but we haven't yet initialized the physical device.  Do
+							// so now.
+							if (InUseState == InUseStates.ValueChanged)
+							{
+								// send a physical update to turn off all outputs, to ensure that the
+								// output controller's initial physical state matches our internal state
+								UpdateOutputs(Enumerable.Repeat((byte)0, OutputValues.Length).ToArray());
+
+								// switch to Running state - we want to send updates from now on
+								InUseState = InUseStates.Running;
+							}
+
+							// Send the update if we're in Running state.  We don't send updates until
+							// we reach this state, since otherwise we haven't received any value changes
+							// from the client and hence might not be in use during this session.
+							if (InUseState == InUseStates.Running)
+								UpdateOutputs(ValuesToSend);
                         }
                         catch (Exception E)
                         {
@@ -427,14 +469,14 @@ namespace DirectOutput.Cab.Out
                                 Monitor.Wait(UpdaterThreadLocker, 50);  // Lock is released while we’re waiting
                             }
                         }
-
                     }
                     UpdateRequired = false;
                 }
 
                 try
-                {
-                    UpdateOutputs(new byte[OutputValues.Length]);
+				{
+					if (InUseState != InUseStates.Startup)
+						UpdateOutputs(new byte[OutputValues.Length]);
                 }
                 catch (Exception E)
                 {
@@ -443,7 +485,6 @@ namespace DirectOutput.Cab.Out
                 try
                 {
                     DisconnectFromController();
-
                 }
                 catch {}
 
@@ -453,7 +494,6 @@ namespace DirectOutput.Cab.Out
             {
                 Log.Exception("A exception has occured in {0}. Thread will quit. Message: {1}".Build(Thread.CurrentThread.Name, EU.Message), EU);
             }
-
 
         }
 

@@ -65,7 +65,7 @@ namespace GlobalConfigEditor
 
                     this.Text = "Global Configuration Editor - {0}".Build(Filename);
                 }
-                catch (Exception E)
+                catch (Exception)
                 {
                     MessageBox.Show("A exception occured when loading the global config file {0}.\nWill use empty global config instead.".Build(Filename), "Global config loading error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Config = new GlobalConfig();

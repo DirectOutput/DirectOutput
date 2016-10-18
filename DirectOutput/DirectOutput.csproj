@@ -70,6 +70,7 @@
     <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Ciloci.Flee">
@@ -100,6 +101,7 @@
     <Compile Include="Cab\Out\DMX\ArtNet.cs" />
     <Compile Include="Cab\Out\FTDIChip\FT245RBitbangController.cs" />
     <Compile Include="Cab\Out\FTDIChip\FTDIChip.cs" />
+    <Compile Include="Cab\Out\HIDImports.cs" />
     <Compile Include="Cab\Out\IAutoConfigOutputController.cs" />
     <Compile Include="Cab\Out\ISupportsSetValues.cs" />
     <Compile Include="Cab\Out\LW\LedWizAutoConfigurator.cs" />
@@ -118,7 +120,6 @@
     <Compile Include="Cab\Out\Pac\PacLed64AutoConfigurator.cs" />
     <Compile Include="Cab\Out\FTDIChip\FTD2XX_NET.cs" />
     <Compile Include="Cab\Out\AdressableLedStrip\DirectStripControllerApi.cs" />
-    <Compile Include="Cab\Out\PS\HIDImports.cs" />
     <Compile Include="Cab\Out\PS\Pinscape.cs" />
     <Compile Include="Cab\Out\PS\PinscapeAutoConfigurator.cs" />
     <Compile Include="Cab\Out\PS\PS.cs" />
@@ -361,9 +362,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="DirectOutputIcon_32.ico" />
-    <Content Include="ledwiz.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="Config\ledcontrol.ini">

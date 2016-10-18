@@ -226,7 +226,7 @@ namespace DirectOutput.Cab.Out.FTDIChip
             {
                 SendUpdate(0);
             }
-            catch (Exception E)
+            catch (Exception)
             {
                 Log.Exception("Could not send initial update to FTDI chip {0}. Updater thread will terminate.".Build(SerialNumber));
                 Disconnect();
@@ -422,7 +422,7 @@ namespace DirectOutput.Cab.Out.FTDIChip
                         {
                             FTDI.ErrorHandler(FTDI.Close());
                         }
-                        catch (Exception E)
+                        catch (Exception)
                         {
                             Log.Exception("A exception occured when closing the FTDI chip {0}.".Build(SerialNumber));
                         }

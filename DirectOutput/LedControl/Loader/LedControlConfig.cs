@@ -203,7 +203,7 @@ namespace DirectOutput.LedControl.Loader
                     {
                         MinDOFVersion = new Version(MinDofVersionString);
                     }
-                    catch (Exception E)
+                    catch (Exception)
                     {
                         Log.Exception("Could not parse line {1} from file {0}".Build(LedControlIniFile, MinDofVersionLine));
                         MinDOFVersion = null;

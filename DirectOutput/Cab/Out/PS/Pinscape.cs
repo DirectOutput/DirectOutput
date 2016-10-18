@@ -92,8 +92,8 @@ namespace DirectOutput.Cab.Out.PS
         #endregion
 
 
-        private int _MinCommandIntervalMs = 1;
         private bool MinCommandIntervalMsSet = false;
+		private int _MinCommandIntervalMs = 1;
 
 		/// <summary>
 		/// Gets or sets the mininimal interval between command in miliseconds (Default: 1ms).
@@ -199,6 +199,9 @@ namespace DirectOutput.Cab.Out.PS
 
 						// the new values are now the current values on the device
 						Array.Copy(NewOutputValues, i, OldOutputValues, i, lim - i);
+
+						// we've sent this whole bank of 7 - move on to the next
+						break;
 					}
 				}
 			}
@@ -227,7 +230,9 @@ namespace DirectOutput.Cab.Out.PS
 		/// </summary>
 		protected override void DisconnectFromController()
 		{
-			Dev.AllOff();
+			// if we've generated any updates, send an All Off signal
+			if (InUseState == InUseStates.Running)
+				Dev.AllOff();
 		}
 
 		#endregion
@@ -284,7 +289,7 @@ namespace DirectOutput.Cab.Out.PS
 
 				// Request a configuration report (special request type 4)
 				SpecialRequest(4);
-				for (int i = 0 ; i < 8 ; ++i)
+				for (int i = 0 ; i < 16 ; ++i)
 				{
 					// read a report - if it's our configuration reply, parse it, otherwise
 					// skip it (there might be one or more joystick status reports buffered)
@@ -303,8 +308,11 @@ namespace DirectOutput.Cab.Out.PS
 
             ~Device()
             {
-                if (fp.ToInt32() != 0 && fp.ToInt32() != -1)
+				if (fp.ToInt32() != 0 && fp.ToInt32() != -1)
+				{
                     HIDImports.CloseHandle(fp);
+					fp = IntPtr.Zero;
+				}
             }
 			
 			private System.Threading.NativeOverlapped ov;
@@ -351,7 +359,7 @@ namespace DirectOutput.Cab.Out.PS
 				if (Marshal.GetLastWin32Error() == 6)
 				{
 					// try opening a new handle on the device path
-					Console.WriteLine("invalid handle on read - trying to reopen handle");
+					Log.Write("Pinscape Controller: invalid handle on read; trying to reopen handle");
 					IntPtr fp2 = OpenFile();
 					
 					// if that succeeded, replace the old handle with the new one and retry the read
@@ -411,7 +419,9 @@ namespace DirectOutput.Cab.Out.PS
 						return false;
 					}
 					else
+					{
 						return true;
+					}
 				}
 
 				// maximum retries exceeded - return failure
@@ -503,7 +513,8 @@ namespace DirectOutput.Cab.Out.PS
 						// interfaces, including Keyboard (usage page 1, usage 6) and Media
 						// Control (volume up/down/mute buttons) (usage page 12, usage 1).
 						// The output controller is always part of the Joystick interface
-						// (usage page 1, usage 4).  HidP_GetCaps() returns the USB usage
+						// (usage page 1, usage 4) OR a vendor-specific "undefined" interface
+						// (usage page 1, usage 0).  HidP_GetCaps() returns the USB usage
 						// information for the first HID report descriptor associated with
 						// the interface, so we can determine which interface we're looking
 						// at by checking this information.  Start by getting the preparsed
@@ -521,7 +532,7 @@ namespace DirectOutput.Cab.Out.PS
 							// interface on the same device, such as the keyboard or media
 							// controller interface.  Skip those interfaces, as they don't
 							// accept the output controller commands.
-                            ok &= (caps.UsagePage == 1 && caps.Usage == 4);
+                            ok &= (caps.UsagePage == 1 && (caps.Usage == 4 || caps.Usage == 0));
 
                             // done with the preparsed data
                             HIDImports.HidD_FreePreparsedData(ppdata);
