@@ -101,7 +101,6 @@
     <Compile Include="Cab\Out\DMX\ArtNet.cs" />
     <Compile Include="Cab\Out\FTDIChip\FT245RBitbangController.cs" />
     <Compile Include="Cab\Out\FTDIChip\FTDIChip.cs" />
-    <Compile Include="Cab\Out\HIDImports.cs" />
     <Compile Include="Cab\Out\IAutoConfigOutputController.cs" />
     <Compile Include="Cab\Out\ISupportsSetValues.cs" />
     <Compile Include="Cab\Out\LW\LedWizAutoConfigurator.cs" />
@@ -120,6 +119,7 @@
     <Compile Include="Cab\Out\Pac\PacLed64AutoConfigurator.cs" />
     <Compile Include="Cab\Out\FTDIChip\FTD2XX_NET.cs" />
     <Compile Include="Cab\Out\AdressableLedStrip\DirectStripControllerApi.cs" />
+    <Compile Include="Cab\Out\HIDImports.cs" />
     <Compile Include="Cab\Out\PS\Pinscape.cs" />
     <Compile Include="Cab\Out\PS\PinscapeAutoConfigurator.cs" />
     <Compile Include="Cab\Out\PS\PS.cs" />
