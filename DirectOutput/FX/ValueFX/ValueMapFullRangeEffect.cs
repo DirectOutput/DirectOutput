@@ -13,6 +13,7 @@ namespace DirectOutput.FX.ValueFX
     /// </summary>
     public class ValueMapFullRangeEffect : EffectEffectBase
     {
+        private int _PreviousState = 0;
         /// <summary>
         /// Triggers the effect with the given TableElementData.
         /// </summary>
@@ -21,9 +22,11 @@ namespace DirectOutput.FX.ValueFX
         {
             TableElementData.Value = (TableElementData.Value == 0 ? 0 : 255);
 
-            TriggerTargetEffect(TableElementData);
-
-
+            if (TableElementData.Value != _PreviousState)
+            { 
+                TriggerTargetEffect(TableElementData);
+                _PreviousState = TableElementData.Value;
+            }
         }
     }
 }
