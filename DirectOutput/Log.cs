@@ -48,7 +48,7 @@ namespace DirectOutput
                         Logger = File.AppendText(Filename);
 
                         Logger.WriteLine("---------------------------------------------------------------------------------");
-						Logger.WriteLine("This is the mjr modified DOF version R3-sans-ledwiz.dll 2016-10-13");
+						Logger.WriteLine("This is the mjr modified DOF version R3+ 2016-10-19");
                         Logger.WriteLine("{0}\t{1}", DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss.fff"), "DirectOutput Logger initialized");
 
                         Version V = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
