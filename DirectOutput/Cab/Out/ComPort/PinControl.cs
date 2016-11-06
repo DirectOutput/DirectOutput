@@ -14,64 +14,13 @@ namespace DirectOutput.Cab.Out.ComPort
     /// </summary>
     public class PinControl : OutputControllerCompleteBase
     {
-
-
-        #region ComPort property of type string with events
-        #region ComPort property core parts
-        private string _ComPort = null;
         /// <summary>
         /// Gets or sets the COM port for the controller.
         /// </summary>
         /// <value>
         /// The COM port for the controller.
         /// </value>
-        public string ComPort
-        {
-            get { return _ComPort; }
-            set
-            {
-                if (_ComPort != value)
-                {
-                    OnComPortChanging();
-                    _ComPort = value;
-                    OnComPortChanged();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Fires when the ComPort property is about to change its value
-        /// </summary>
-        public event EventHandler<EventArgs> ComPortChanging;
-
-        /// <summary>
-        /// Fires when the ComPort property has changed its value
-        /// </summary>
-        public event EventHandler<EventArgs> ComPortChanged;
-        #endregion
-
-        /// <summary>
-        /// Is called when the ComPort property is about to change its value and fires the ComPortChanging event
-        /// </summary>
-        protected void OnComPortChanging()
-        {
-            if (ComPortChanging != null) ComPortChanging(this, new EventArgs());
-
-            //Insert more logic to execute before the ComPort property changes here
-        }
-
-        /// <summary>
-        /// Is called when the ComPort property has changed its value and fires the ComPortChanged event
-        /// </summary>
-        protected void OnComPortChanged()
-        {
-            //Insert more logic to execute after the ComPort property has changed here
-            OnPropertyChanged("ComPort");
-            if (ComPortChanged != null) ComPortChanged(this, new EventArgs());
-        }
-
-        #endregion
-
+        public string ComPort { get; set; }
 
         private SerialPort Port = null;
         private object PortLocker = new object();
