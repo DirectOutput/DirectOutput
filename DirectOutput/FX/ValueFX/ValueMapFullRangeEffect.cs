@@ -13,6 +13,7 @@ namespace DirectOutput.FX.ValueFX
     /// </summary>
     public class ValueMapFullRangeEffect : EffectEffectBase
     {
+        private Dictionary<string, int> _PreviousState = new Dictionary<string,int>();
         /// <summary>
         /// Triggers the effect with the given TableElementData.
         /// </summary>
@@ -21,9 +22,12 @@ namespace DirectOutput.FX.ValueFX
         {
             TableElementData.Value = (TableElementData.Value == 0 ? 0 : 255);
 
-            TriggerTargetEffect(TableElementData);
-
-
+            var Lookup = TableElementData.TableElementType.ToString() + TableElementData.Number.ToString(); 
+            if (!_PreviousState.ContainsKey(Lookup) || TableElementData.Value != _PreviousState[Lookup])
+            { 
+                TriggerTargetEffect(TableElementData);
+                _PreviousState[Lookup] = TableElementData.Value;
+            }
         }
     }
 }
