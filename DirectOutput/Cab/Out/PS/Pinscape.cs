@@ -134,7 +134,9 @@ namespace DirectOutput.Cab.Out.PS
         public override void Init(Cabinet Cabinet)
 		{
 			// get the minimum update interval from the global config
-            if (!MinCommandIntervalMsSet && Cabinet.Owner.ConfigurationSettings.ContainsKey("PinscapeDefaultMinCommandIntervalMs") && Cabinet.Owner.ConfigurationSettings["PinscapeDefaultMinCommandIntervalMs"] is int)
+            if (!MinCommandIntervalMsSet 
+                && Cabinet.Owner.ConfigurationSettings.ContainsKey("PinscapeDefaultMinCommandIntervalMs") 
+                && Cabinet.Owner.ConfigurationSettings["PinscapeDefaultMinCommandIntervalMs"] is int)
                 MinCommandIntervalMs = (int)Cabinet.Owner.ConfigurationSettings["PinscapeDefaultMinCommandIntervalMs"];
 
 			// do the base class work

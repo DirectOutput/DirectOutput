@@ -409,8 +409,9 @@ namespace DirectOutput
             
 
                 CabinetOwner CO = new CabinetOwner();
-                CO.Alarms = this.Alarms;
+				CO.Alarms = this.Alarms;
                 CO.ConfigurationSettings.Add("LedControlMinimumEffectDurationMs",GlobalConfig.LedControlMinimumEffectDurationMs);
+				CO.ConfigurationSettings.Add("LedWizDefaultMinCommandIntervalMs",GlobalConfig.LedWizDefaultMinCommandIntervalMs);
                 Cabinet.Init(CO);
 
                 Table.Init(this);

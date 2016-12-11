@@ -680,7 +680,7 @@ namespace DirectOutput.Cab.Out.LW
                             //Output will be turned on
                             if (V != NewOutputValues[ZeroBasedOutputNumber])
                             {
-                                //Need to change value before turing on
+                                //Need to change value before turning on
                                 NewOutputValues[ZeroBasedOutputNumber] = V;
                                 NewAfterValueSwitches[ByteNr] |= Mask;
                                 NewValueUpdateRequired = true;
@@ -907,27 +907,20 @@ namespace DirectOutput.Cab.Out.LW
 						// device gets reset - if it dropped a PBA previously, it 
 						// would be out of sync as a result.  The post-SBA ensures
 						// that the final switch values are in effect.
-						bool pbaTimeout = ((DateTime.Now - pbaTime).TotalMilliseconds > 1000);
+                        bool pbaTimeout = ((DateTime.Now - pbaTime).TotalMilliseconds > 1000);
 
                         if (CurrentValueUpdateRequired || pbaTimeout)
                         {
                             if (CurrentSwitchUpdateBeforeValueUpdateRequired || pbaTimeout)
-                            {
-                                UpdateDelay();
                                 SBA(CurrentBeforeValueSwitches);
-                            }
 
-                            UpdateDelay();
                             PBA(CurrentOutputValues);
                         }
 
 						if (CurrentSwitchUpdateAfterValueUpdateRequired
-							|| (CurrentSwitchUpdateBeforeValueUpdateRequired && !NewValueUpdateRequired)
+							|| (CurrentSwitchUpdateBeforeValueUpdateRequired && !CurrentValueUpdateRequired)
 							|| pbaTimeout)
-                        {
-                            UpdateDelay();
                             SBA(CurrentAfterValueSwitches);
-                        }
                     }
                 }
             }
@@ -980,7 +973,6 @@ namespace DirectOutput.Cab.Out.LW
 				for (int ofs = 0; ofs < 32; ofs += 8)
 				{
 					// send the PBA command for the next 8 outputs
-					UpdateDelay();
 					WriteUSB(new byte[9]{ 
 						0, 
 						b[ofs+0], b[ofs+1], b[ofs+2], b[ofs+3], 
@@ -1003,7 +995,8 @@ namespace DirectOutput.Cab.Out.LW
 					// are usually temporary and will succeed on retry.  But don't keep
 					// trying indefinitely; if we can't get through after a few tries,
 					// there's probably an unrecoverable problem.
-					for (int tries = 0; tries < RetryWait.Length; ++tries)
+                    UpdateDelay();
+                    for (int tries = 0; tries < RetryWait.Length; ++tries)
 					{
 						// try sending the command
 						UInt32 actual;
@@ -1044,10 +1037,10 @@ namespace DirectOutput.Cab.Out.LW
 				LWDEVICE d = deviceList.FirstOrDefault(dd => dd.unitNo == Number);
 
 				// if we have a path, open the file
-				if ((path = d.path) != null)
-					fp = HIDImports.CreateFile(
-						path, HIDImports.GENERIC_READ_WRITE, HIDImports.SHARE_READ_WRITE,
-						IntPtr.Zero, FileMode.Open, 0, IntPtr.Zero);
+                if ((path = d.path) != null)
+                    fp = HIDImports.CreateFile(
+                        path, HIDImports.GENERIC_READ_WRITE, HIDImports.SHARE_READ_WRITE,
+                        IntPtr.Zero, FileMode.Open, 0, IntPtr.Zero);
             }
         }
 
