@@ -73,9 +73,8 @@ namespace DirectOutput.Cab.Out.LW
         #endregion
 
 
+		private int _MinCommandIntervalMs = 1;
 		private bool MinCommandIntervalMsSet = false;
-        private int _MinCommandIntervalMs = 1;
-
         /// <summary>
         /// Gets or sets the mininimal interval between command in miliseconds (Default: 1ms).
         /// Depending on the mainboard, usb hardware on the board, usb drivers and other factors the LedWiz does sometime tend to loose or misunderstand commands received if the are sent in to short intervals.

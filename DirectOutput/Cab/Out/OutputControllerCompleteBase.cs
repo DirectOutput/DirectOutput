@@ -57,6 +57,7 @@ namespace DirectOutput.Cab.Out
                 }
             }
 
+
             OutputValues = Outputs.OrderBy(O => O.Number).Select(O => O.Value).ToArray();
         }
 
