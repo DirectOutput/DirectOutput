@@ -19,7 +19,11 @@ namespace DirectOutput.Cab.Out.Pac
             Unknown,
             PacDrive,
             UHID,
-            PacLED64
+            PacLED64,
+            ServoStik,
+            USBButton,
+            NanoLED,
+            IPACIO
         };
 
         public enum FlashSpeed : byte
@@ -116,19 +120,19 @@ namespace DirectOutput.Cab.Out.Pac
         [DllImport("PacDrive.dll", CallingConvention = CallingConvention.StdCall)]
         private static extern int PacGetVersionNumber(int Index);
 
-        [DllImport("PacDrive.dll", CallingConvention = CallingConvention.StdCall)]
+        [DllImport("PacDrive.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
         private static extern void PacGetVendorName(int Index, StringBuilder VendorName);
 
-        [DllImport("PacDrive.dll", CallingConvention = CallingConvention.StdCall)]
+        [DllImport("PacDrive.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
         private static extern void PacGetProductName(int Index, StringBuilder ProductName);
 
-        [DllImport("PacDrive.dll", CallingConvention = CallingConvention.StdCall)]
+        [DllImport("PacDrive.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
         private static extern void PacGetSerialNumber(int Index, StringBuilder SerialNumber);
 
-        [DllImport("PacDrive.dll", CallingConvention = CallingConvention.StdCall)]
+        [DllImport("PacDrive.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
         private static extern void PacGetDevicePath(int Index, StringBuilder DevicePath);
 
-        [DllImport("PacDrive.dll", CallingConvention = CallingConvention.StdCall)]
+        [DllImport("PacDrive.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool PacProgramUHID(int Index, StringBuilder FileName);
 
@@ -335,7 +339,7 @@ namespace DirectOutput.Cab.Out.Pac
             return -1;
         }
 
-
+        
         public int PacLed64GetIndexForDeviceId(int Id)
         {
 
@@ -350,6 +354,44 @@ namespace DirectOutput.Cab.Out.Pac
         }
 
         #endregion
+
+
+
+        #region Ultimate I/O specific methods
+        public int PacUIOGetDeviceId(int Index)
+        {
+            string S = GetDevicePath(Index);
+            //\\?\hid#vid_d209&pid_0410&mi_03&col03#9&178988d3&0&0002#{4d1e55b2-f16f-11cf-88cb-001111000030}
+
+            int IdPos = S.IndexOf("&pid_041");
+
+            if (IdPos <= 0)
+            {
+                return -1;
+            }
+            IdPos += 8;
+            int Id = 0;
+            if (int.TryParse(S.Substring(IdPos, 1), out Id))
+            {
+                //Log.Write("PacDriveSingleton.PacUIOGetDeviceId: detected device "+GetProductName(Index)+"@"+GetDevicePath(Index));
+                return Id;
+            }
+            return -1;
+        }
+
+        public int PacUIOGetIndexForDeviceId(int Id)
+        {
+            for (int i = 0; i < NumDevices; i++)
+            {
+                if (PacUIOGetDeviceId(i) == Id)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        } 
+        #endregion
+
 
         public DeviceType GetDeviceType(int Index)
         {
@@ -447,6 +489,43 @@ namespace DirectOutput.Cab.Out.Pac
             }
 
 
+            return -1;
+        }
+
+
+        /**
+        * Returns list of detected Ultimate I/O indices.
+        */
+        public List<int> PacUIOGetIdList() {
+            List<int> L = new List<int>();
+
+            //Log.Write("PacDriveSingleton.PacUIOGetIdList: numdevices=" + NumDevices);
+
+            for (int i = 0; i < NumDevices; i++) {
+                Log.Write("PacDriveSingleton.PacUIOGetIdList: i=" + i + ", numdevices=" + NumDevices + ", DeviceType=" + GetDeviceType(i));
+                if (GetDeviceType(i) == DeviceType.IPACIO) {
+                    //Log.Write("PacDriveSingleton.PacUIOGetIdList: Adding i=" + i + ", " + PacUIOGetDeviceId(i));
+                    L.Add(PacUIOGetDeviceId(i));
+                }
+            }
+
+            return L;
+        }
+
+        /**
+         * Gets the ID for first Ultimate I/O controller connected and online.
+         */
+        public int PacUIOGetIndex() {
+            List<int> L = new List<int>();
+
+            for (int i = 0; i < NumDevices; i++) {
+                if (GetDeviceType(i) == DeviceType.IPACIO) {
+                    Log.Write("PacDriveSingleton.PacUIOGetIndex: Ultimate I/O detected, index="+i+"/"+(NumDevices-1));
+                    return i;
+                }
+            }
+
+            Log.Write("PacDriveSingleton.PacUIOGetIndex: no Ultimate I/O found, amount of devices detected=" + NumDevices);
             return -1;
         }
 

@@ -118,6 +118,8 @@
     <Compile Include="Cab\Out\Pac\PacLed64AutoConfigurator.cs" />
     <Compile Include="Cab\Out\FTDIChip\FTD2XX_NET.cs" />
     <Compile Include="Cab\Out\AdressableLedStrip\DirectStripControllerApi.cs" />
+    <Compile Include="Cab\Out\Pac\PacUIO.cs" />
+    <Compile Include="Cab\Out\Pac\PacUIOAutoConfigurator.cs" />
     <Compile Include="Cab\Out\PS\HIDImports.cs" />
     <Compile Include="Cab\Out\PS\Pinscape.cs" />
     <Compile Include="Cab\Out\PS\PinscapeAutoConfigurator.cs" />
