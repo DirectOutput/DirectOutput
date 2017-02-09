@@ -1,33 +1,16 @@
 set DllPath=bin\Debug
-
 set TempDate=%date%
+set CurrDate=%TempDate:~6,4%%TempDate:~3,2%%TempDate:~0,2%
+set TempTime=%time%
+set CurrTime=%TempTime:~0,2%%TempTime:~3,2%%TempTime:~6,2%
 
-set CurrDate=%TempDate:~6,4%-%TempDate:~3,2%-%TempDate:~0,2%
+rem tools\GetAssemblyVersion.exe tag "%DllPath%\DirectOutput.dll" >temp.txt
+rem set /p VersionTag=<temp.txt
+rem del Temp.txt
 
-tools\GetAssemblyVersion.exe tag "%DllPath%\DirectOutput.dll" >temp.txt
+set Path=%cd%\DirectOutput\Builds
 
-set /p VersionTag=<temp.txt
-
-"C:\Program Files (x86)\Git\bin\git.exe" tag -a %VersionTag% -m '%VersionTag%'
-
-del Temp.txt
-
-tools\GetAssemblyVersion.exe filename "%DllPath%\DirectOutput.dll" >temp.txt
-
-set /p FileNameVersion=<temp.txt
-
-del Temp.txt
-
-
-set Path=C:\Users\Tom\Google Drive\DirectOutput\Alpha\%CurrDate%
-
-mkdir %Path%
-
-set ZipName=DirectOutput %FileNameVersion%.zip
-
-echo Will create %Path%%ZipName%
-
-del "%Path%%ZipName%"
+set ZipName=DirectOutput_rambo3_%CurrDate%_%CurrTime%.zip
 
 cd %DllPath%
 "C:\Program Files\7-Zip\7z.exe" a -tzip "%Path%\%ZipName%" "*.dll" 
