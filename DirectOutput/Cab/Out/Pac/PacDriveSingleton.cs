@@ -266,11 +266,22 @@ namespace DirectOutput.Cab.Out.Pac
 
         public bool PacLed64SetLEDIntensities(int Index, byte[] Data)
         {
-            return Pac64SetLEDIntensities(Index, Data);
+            bool sendResult = false;
+            try {
+                //Log.Write("PacDriveSingleton.PacLed64SetLEDIntensities... 0: index="+Index+", bytes="+Data.ToString());
+                //return Pac64SetLEDIntensities(Index, Data);
+                sendResult = Pac64SetLEDIntensities(Index, Data);
+                //Log.Write("PacDriveSingleton.PacLed64SetLEDIntensities... 1: done, result="+ sendResult);
+            } catch (Exception E) {
+                Log.Write("PacDriveSingleton.PacLed64SetLEDIntensities... 2: ERROR, result="+sendResult+", exception="+E);
+            }
+            return sendResult;
+
         }
 
         public bool PacLed64SetLEDIntensity(int Index, int Port, byte Intensity)
         {
+            //Log.Write("PacUIO.PacLed64SetLEDIntensity  0: index="+ Index + ", port="+ Port + ", intensity="+ Intensity);
             return Pac64SetLEDIntensity(Index, Port, Intensity);
         }
 

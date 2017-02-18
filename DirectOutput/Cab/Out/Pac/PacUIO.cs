@@ -76,6 +76,7 @@ namespace DirectOutput.Cab.Out.Pac
         /// </summary>
         public override void Update()
         {
+            //Log.Write("PacUIO.Update");
             PacUIOUnits[Id].TriggerPacUIOUpdaterThread();
         }
 
@@ -142,8 +143,9 @@ namespace DirectOutput.Cab.Out.Pac
         /// </exception>
         protected override void OnOutputValueChanged(IOutput Output)
         {
-
             IOutput ON = Output;
+            //Log.Write("PacUIO.OnOutputValueChanged");
+            //Log.Write("PacUIO.OnOutputValueChanged for #" +ON.Number);
 
             if (!ON.Number.IsBetween(1, 96))
             {
@@ -335,9 +337,11 @@ namespace DirectOutput.Cab.Out.Pac
             bool TriggerUpdate = false;
             public void TriggerPacUIOUpdaterThread()
             {
+                //Log.Write("PacUIO.TriggerPacUIOUpdaterThread");
                 TriggerUpdate = true;
                 lock (PacUIOUpdaterThreadLocker)
                 {
+                    //Log.Write("PacUIO.TriggerPacUIOUpdaterThread, Monitor.Pulse");
                     Monitor.Pulse(PacUIOUpdaterThreadLocker);
                 }
             }
@@ -346,7 +350,7 @@ namespace DirectOutput.Cab.Out.Pac
             //TODO: Check if thread should really terminate on failed updates
             private void PacUIOUpdaterDoIt()
             {
-
+                //Log.Write("PacUIO.PacUIOUpdaterDoIt START");
                 try
                 {
                     ResetFadeTime();
@@ -389,7 +393,9 @@ namespace DirectOutput.Cab.Out.Pac
                         {
                             while (!TriggerUpdate && KeepPacUIOUpdaterAlive)
                             {
+                                //Log.Write("PacUIO.PacUIOUpdaterDoIt Monitor.wait START");
                                 Monitor.Wait(PacUIOUpdaterThreadLocker, 50);  // Lock is released while we’re waiting
+                                //Log.Write("PacUIO.PacUIOUpdaterDoIt Monitor.wait DONE");
                                 //Pinball.ThreadInfoList.HeartBeat();
                             }
 
@@ -398,53 +404,52 @@ namespace DirectOutput.Cab.Out.Pac
                     }
                     TriggerUpdate = false;
                 }
+                //Log.Write("PacUIO.PacUIOUpdaterDoIt END");
                 //Pinball.ThreadInfoList.ThreadTerminates();
             }
 
 
 
-            private bool ForceFullUpdate = true;
-            private void SendPacUIOUpdate()
-            {
-                if (IsPresent)
-                {
-
-                    lock (PacUIOUpdateLocker)
-                    {
-                        lock (ValueChangeLocker)
-                        {
+            //private bool ForceFullUpdate = true;
+            /*
+             * variable introduced as true 20130809 / https://github.com/DirectOutput/DirectOutput/commit/090a0f0a2c778bb140968aa9be5888af6908c60c
+             * setting this true would in effect force update the entire led array through the pacsdk PacLed64SetLEDIntensities every ~40ms (all groups, all ports)
+             * causing the led array to act as a "lossless pixel renderer".
+             * during attack from mars this would cause the uio to freeze up from 30s to 5 minutes of playtime (v1.33, onboard led would stop lighting) with stuck flippers and lights until shutdown and / or unplugging power + usb.
+             * by setting this back to false, PacLed64SetLEDIntensities should only be triggered during high amount of events (more than 50, typically 1-5 are triggered at the same time)
+             * this change could bring performance boosts as the uio is less "offline", and there are less calls.
+             * 
+             * should this be applied to the pacled64 as well?
+             * */
+            private bool ForceFullUpdate = false;
+            private void SendPacUIOUpdate() {
+                //Log.Write("PacUIO.SendPacUIOUpdate START");
+                if (IsPresent) {
+                    lock (PacUIOUpdateLocker) {
+                        lock (ValueChangeLocker) {
                             if (!UpdateRequired && !ForceFullUpdate) return;
 
                             CopyNewToCurrent();
-
                             UpdateRequired = false;
                         }
 
                         byte IntensityUpdatesRequired = 0;
                         byte StateUpdatesRequired = 0;
-                        if (!ForceFullUpdate)
-                        {
+                        if (!ForceFullUpdate) {
 
-                            for (int g = 0; g < 8; g++)
-                            {
-
+                            //for (int g = 0; g < 8; g++) {
+                            //uio has 1-12 groups for a total of 1-96 leds, with each group having 8 ports (g and p)
+                            for (int g = 0; g < 12; g++) {
                                 bool StateUpdateRequired = false;
-                                for (int p = 0; p < 8; p++)
-                                {
+                                for (int p = 0; p < 8; p++) {
                                     int o = g << 3 | p;
-                                    if (CurrentValue[o] > 0)
-                                    {
-                                        if (CurrentValue[o] != LastValueSent[o])
-                                        {
+                                    if (CurrentValue[o] > 0) {
+                                        if (CurrentValue[o] != LastValueSent[o]) {
                                             IntensityUpdatesRequired++;
-                                        }
-                                        else if (!LastStateSent[o])
-                                        {
+                                        } else if (!LastStateSent[o]) {
                                             StateUpdateRequired = true;
                                         }
-                                    }
-                                    else if (LastStateSent[o])
-                                    {
+                                    } else if (LastStateSent[o]) {
                                         StateUpdateRequired = true;
                                     }
 
@@ -453,52 +458,51 @@ namespace DirectOutput.Cab.Out.Pac
                                 StateUpdateRequired = false;
                             }
                         }
-                        if (ForceFullUpdate || (IntensityUpdatesRequired + StateUpdatesRequired) > 30)
-                        {
-                            //more than 30 update calls required. Will send intensity updates for all outputs.
+
+                        //Log.Write("PacUIO.SendPacUIOUpdate PDSingleton.PacLed64SetLEDIntensities...IntensityUpdatesRequired=" + IntensityUpdatesRequired+ ", StateUpdatesRequired="+ StateUpdatesRequired+", total="+(IntensityUpdatesRequired + StateUpdatesRequired));
+
+                        //if (ForceFullUpdate || (IntensityUpdatesRequired + StateUpdatesRequired) > 30) {
+                        if (ForceFullUpdate || (IntensityUpdatesRequired + StateUpdatesRequired) > 50) {
+                            //more than 50 update calls required, send as one long update
+                            //TODO: note, this call requires a delay, according to pacdrivesdk, of about 20ms before any new calls are made...which doesn't seem implemented yet
+                            //Log.Write("PacUIO.SendPacUIOUpdate PDSingleton.PacLed64SetLEDIntensities...index="+ Index);
                             PDSingleton.PacLed64SetLEDIntensities(Index, CurrentValue);
+                            //Log.Write("PacUIO.SendPacUIOUpdate PDSingleton.PacLed64SetLEDIntensities...done");
                             Array.Copy(CurrentValue, LastValueSent, CurrentValue.Length);
-                            for (int i = 0; i < 96; i++)
-                            {
+                            for (int i = 0; i < 96; i++) {
                                 LastStateSent[i] = (LastValueSent[i] > 0);
                             }
-                        }
-                        else
-                        {
+                        } else {
                             //Will send separate intensity and state updates.
-                            for (int g = 0; g < 8; g++)
-                            {
+                            //for (int g = 0; g < 8; g++) {
+                            //seperate intensity and state updates, as recommended by the pacdrive sdk
+                            //uio has 1-12 groups for a total of 1-96 leds, with each group having 8 ports (g and p)
+                            for (int g = 0; g < 12; g++) {
                                 int Mask = 0;
                                 bool StateUpdateRequired = false;
-                                for (int p = 0; p < 8; p++)
-                                {
+                                for (int p = 0; p < 8; p++) {
                                     int o = g << 3 | p;
-                                    if (CurrentValue[o] > 0)
-                                    {
-                                        if (CurrentValue[o] != LastValueSent[o])
-                                        {
+                                    if (CurrentValue[o] > 0) {
+                                        if (CurrentValue[o] != LastValueSent[o]) {
                                             PDSingleton.PacLed64SetLEDIntensity(Index, o, CurrentValue[o]);
                                             LastStateSent[o] = true;
                                             LastValueSent[o] = CurrentValue[o];
-                                        }
-                                        else if (!LastStateSent[o])
-                                        {
+                                        } else if (!LastStateSent[o]) {
                                             Mask |= (1 << p);
                                             StateUpdateRequired = true;
                                             LastStateSent[o] = true;
                                         }
-                                    }
-                                    else if (LastStateSent[o])
-                                    {
+                                    } else if (LastStateSent[o]) {
                                         StateUpdateRequired = true;
                                         LastStateSent[o] = false;
                                         LastValueSent[o] = 0;
                                     }
 
                                 }
-                                if (StateUpdateRequired)
-                                {
+                                if (StateUpdateRequired) {
+                                    //Log.Write("PacUIO.SendPacUIOUpdate  0: PDSingleton.PacLed64SetLEDStates...index=" + Index+", group="+(g+1));
                                     PDSingleton.PacLed64SetLEDStates(Index, g + 1, (byte)Mask);
+                                    //Log.Write("PacUIO.SendPacUIOUpdate  1: PDSingleton.PacLed64SetLEDStates...done");
                                     StateUpdateRequired = false;
                                 }
 
@@ -508,22 +512,24 @@ namespace DirectOutput.Cab.Out.Pac
 
                     }
                     //ForceFullUpdate = false;
-                }
-                else
-                {
+                    //Log.Write("PacUIO.SendPacUIOUpdate END");
+                } else {
                     ForceFullUpdate = true;
                 }
+
             }
 
 
             public void ShutdownLighting()
             {
+                Log.Write("PacUIO.ShutdownLighting");
                 PDSingleton.PacLed64SetLEDStates(0, 0, 0);
                 LastStateSent.Fill(false);
             }
 
             private void ResetFadeTime()
             {
+                Log.Write("PacUIO.ResetFadeTime");
                 PDSingleton.PacLed64SetLEDFadeTime(Index, 0);
 
             }
