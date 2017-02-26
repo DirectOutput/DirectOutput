@@ -594,7 +594,7 @@ namespace DirectOutput
                         D = InputQueue.Dequeue();
                         try
                         {
-                          
+                            //Log.Write("Pinball.MainThreadDoIt...d.name="+D.Name+", value="+D.Value+", d="+D.Number+", d="+D);
                             Table.UpdateTableElement(D);
                             UpdateRequired |= true;
                       

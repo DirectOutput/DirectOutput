@@ -56,6 +56,7 @@ namespace DirectOutput.Cab.Out
         {
             if (ValueChanged != null)
             {
+                //Log.Write("Output.OnValueChanged... 1 name=" + this.Name + ", value=" + this.Value);
                 ValueChanged(this, new OutputEventArgs(this));
             }
         }

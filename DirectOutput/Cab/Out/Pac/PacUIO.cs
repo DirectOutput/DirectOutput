@@ -6,6 +6,8 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Xml.Serialization;
 using DirectOutput.General;
+using System.Globalization;
+using DirectOutput.Cab.Schedules;
 
 namespace DirectOutput.Cab.Out.Pac
 {
@@ -93,7 +95,12 @@ namespace DirectOutput.Cab.Out.Pac
             PacUIOUnits[Id].Init(Cabinet);
             Log.Write("PacUIO Id:{0} initialized and updater thread started.".Build(Id));
 
+            _Cabinet = Cabinet;
+
         }
+
+        //reference to Cabinet instance for reading ScheduledSettings
+        private Cabinet _Cabinet;
 
         /// <summary>
         /// Finishes the PacUIO object.<br/>
@@ -147,16 +154,21 @@ namespace DirectOutput.Cab.Out.Pac
             //Log.Write("PacUIO.OnOutputValueChanged");
             //Log.Write("PacUIO.OnOutputValueChanged for #" +ON.Number);
 
-            if (!ON.Number.IsBetween(1, 96))
-            {
+            if (!ON.Number.IsBetween(1, 96)) {
                 throw new Exception("PacUIO output numbers must be in the range of 1-96. The supplied output number {0} is out of range.".Build(ON.Number));
             }
 
+            //create a new dummy output with no event mirroring input arg to avoid triggering a recursive OnOutputValueChanged (modifying Output directly would retrigger this method)
+            Output newOutput = new Output();
+            newOutput.Value = ON.Value;
+            newOutput.Name = ON.Name;
+            newOutput.Number = ON.Number;
+
+            ScheduledSettingDevice ActiveScheduleDevice = _Cabinet.ScheduledSettings.GetActiveSchedule(newOutput, true, 27, Id);
             PacUIOUnit S = PacUIOUnits[this.Id];
-            S.UpdateValue(ON);
+            
+            S.UpdateValue(newOutput);
         }
-
-
 
         #endregion
         
@@ -437,7 +449,6 @@ namespace DirectOutput.Cab.Out.Pac
                         byte StateUpdatesRequired = 0;
                         if (!ForceFullUpdate) {
 
-                            //for (int g = 0; g < 8; g++) {
                             //uio has 1-12 groups for a total of 1-96 leds, with each group having 8 ports (g and p)
                             for (int g = 0; g < 12; g++) {
                                 bool StateUpdateRequired = false;
@@ -465,7 +476,6 @@ namespace DirectOutput.Cab.Out.Pac
                         if (ForceFullUpdate || (IntensityUpdatesRequired + StateUpdatesRequired) > 50) {
                             //more than 50 update calls required, send as one long update
                             //TODO: note, this call requires a delay, according to pacdrivesdk, of about 20ms before any new calls are made...which doesn't seem implemented yet
-                            //Log.Write("PacUIO.SendPacUIOUpdate PDSingleton.PacLed64SetLEDIntensities...index="+ Index);
                             PDSingleton.PacLed64SetLEDIntensities(Index, CurrentValue);
                             //Log.Write("PacUIO.SendPacUIOUpdate PDSingleton.PacLed64SetLEDIntensities...done");
                             Array.Copy(CurrentValue, LastValueSent, CurrentValue.Length);
@@ -474,7 +484,6 @@ namespace DirectOutput.Cab.Out.Pac
                             }
                         } else {
                             //Will send separate intensity and state updates.
-                            //for (int g = 0; g < 8; g++) {
                             //seperate intensity and state updates, as recommended by the pacdrive sdk
                             //uio has 1-12 groups for a total of 1-96 leds, with each group having 8 ports (g and p)
                             for (int g = 0; g < 12; g++) {

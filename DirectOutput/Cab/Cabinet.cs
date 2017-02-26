@@ -7,6 +7,7 @@ using DirectOutput.Cab.Out;
 using DirectOutput.General;
 using DirectOutput.General.Color;
 using DirectOutput.PinballSupport;
+using DirectOutput.Cab.Schedules;
 
 
 namespace DirectOutput.Cab
@@ -180,6 +181,16 @@ namespace DirectOutput.Cab
             get { return _OutputControllers; }
             set { _OutputControllers = value; }
         }
+
+        private ScheduledSettings _ScheduledSettings = new ScheduledSettings();
+        /// <summary>
+        /// List of scheduled settings. Outputs can be disabled using start-end clock regions.
+        /// </summary>
+        public ScheduledSettings ScheduledSettings {
+            get { return _ScheduledSettings; }
+            set { _ScheduledSettings = value; }
+        }
+
         #endregion
 
         #region Serialization

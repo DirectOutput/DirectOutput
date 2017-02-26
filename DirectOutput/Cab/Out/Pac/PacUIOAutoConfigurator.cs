@@ -18,10 +18,11 @@ namespace DirectOutput.Cab.Out.Pac
         /// This method detects and configures Ultimate I/O controllers automatically
         /// </summary>
         /// <param name="Cabinet">The cabinet object to which the automatically detected IOutputController objects are added if necessary.</param>
-        public void AutoConfig(Cabinet Cabinet)
-        {
+        public void AutoConfig(Cabinet Cabinet) {
 
-            Log.Write("PacUIOAutoConfigurator.AutoConfig started");
+            //Log.Write("ScheduleSettings name="+Cabinet.ScheduledSettings[0].Name+", clock="+ Cabinet.ScheduledSettings[0].ClockStart);
+
+            //Log.Write("PacUIOAutoConfigurator.AutoConfig started");
             foreach (int Id in PacDriveSingleton.Instance.PacUIOGetIdList()) {
                 if (!Cabinet.OutputControllers.Any(oc => oc is PacUIO && ((PacUIO)oc).Id == Id)) {
                     PacUIO PIO = new PacUIO();
