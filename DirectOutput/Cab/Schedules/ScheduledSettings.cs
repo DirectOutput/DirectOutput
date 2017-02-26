@@ -12,6 +12,56 @@ using System.Globalization;
 namespace DirectOutput.Cab.Schedules {
     public class ScheduledSettings : NamedItemList<ScheduledSetting>, IXmlSerializable {
 
+        /*private static readonly ScheduledSettings instance = new ScheduledSettings();
+
+        private ScheduledSettings() { }
+        public static ScheduledSettings Instance {
+            get {
+                //Log.Write("ScheduledSettings.new singleton instance");
+                return instance;
+            }
+        }*/
+
+        /*public static ScheduledSettings Instance { get { return Nested.instance; } }
+        class Nested {
+            static Nested() { }
+            internal static readonly ScheduledSettings instance = new ScheduledSettings();
+        }*/
+
+        /*private static ScheduledSettings instance;
+        private ScheduledSettings() { }
+        public static ScheduledSettings Instance {
+            get {
+                if (instance == null) {
+                    instance = new ScheduledSettings();
+                }
+                return instance;
+            }
+        }*/
+        //https://msdn.microsoft.com/en-us/library/ff650316.aspx
+        /*private static volatile ScheduledSettings instance;
+        private static object syncRoot = new Object();
+
+        private ScheduledSettings() { }
+        public static ScheduledSettings Instance {
+            get {
+                if (instance == null) {
+                    lock (syncRoot) {
+                        if (instance == null) {
+                            instance = new ScheduledSettings();
+                            Log.Write("First init");
+                        }
+                    }
+                }
+                return instance;
+            }
+        }*/
+
+        //thread safe singleton...though not sure how safe it is, setter has been opened up to allow cabinet to parse xml into it
+        public static ScheduledSettings Instance { get; set; }
+        private ScheduledSettings() { }
+        static ScheduledSettings() { Instance = new ScheduledSettings(); }
+
 
         /// <summary>
         /// Serializes the ScheduleSetting objects in this list to Xml.<br/>
@@ -132,7 +182,6 @@ namespace DirectOutput.Cab.Schedules {
 
                     }
 
-
                 }
 
             }
@@ -144,7 +193,7 @@ namespace DirectOutput.Cab.Schedules {
                 byte newValue = Convert.ToByte(currentOutput.Value * strengthFactor);
 
                 if (currentOutput.Value != 0) {
-                    Log.Write("ScheduledSettings.GetActiveSchedule: found active schedule: "+foundactiveSchedule.Name+" ["+foundactiveSchedule.ClockStart+"-"+foundactiveSchedule.ClockEnd+"] at channel #"+currentOutput.Number+" on device config " + foundactiveDevice.Name + ", applying strength multiplier: " + strengthFactor + ", old value=" + currentOutput.Value + ", new value=" + newValue);
+                    Log.Write("ScheduledSettings.GetActiveSchedule: found active schedule: " + foundactiveSchedule.Name + " [" + foundactiveSchedule.ClockStart + "-" + foundactiveSchedule.ClockEnd + "] at channel #" + currentOutput.Number + " on device config " + foundactiveDevice.Name + ", applying strength multiplier: " + strengthFactor + ", old value=" + currentOutput.Value + ", new value=" + newValue);
                 }
 
                 if (foundactiveDevice.OutputPercent == 0 && currentOutput.Value != 0) {
@@ -158,5 +207,31 @@ namespace DirectOutput.Cab.Schedules {
             return foundactiveDevice;
         }
 
+
+        /// <summary>
+        /// Checks if a ScheduledSetting is active, and returns a newly mirrored Output object with modified Value. If not found, returns same input back.
+        /// There's an interesting issue here when a range passes midnight (2300-0300 for instance) that might need to be handled better, idea being schedules should be able to run all day long in real time without reboots.
+        /// NOTE: this will change sending output if there is an active schedule.
+        /// </summary>
+        /// <param name="currentOutput">Output / port of device.</param>
+        /// <param name="startingdeviceIndex">Specifies start index of device ID (1st UIO=27).</param>
+        /// <param name="currentdeviceIndex">Specifies active index of device ID (for UIO this is zero-based, making the 1st UIO #27).</param>
+        public IOutput getnewrecalculatedOutput(IOutput currentOutput, int startingdeviceIndex, int currentdeviceIndex) {
+
+            //create a new dummy output with no event mirroring input arg to avoid triggering a recursive OnOutputValueChanged (modifying Output directly would retrigger this method)
+            Output newOutput = new Output();
+            newOutput.Value = currentOutput.Value;
+            newOutput.Name = currentOutput.Name;
+            newOutput.Number = currentOutput.Number;
+
+            ScheduledSettingDevice ActiveScheduleDevice = GetActiveSchedule(newOutput, true, startingdeviceIndex, currentdeviceIndex);
+
+            if (ActiveScheduleDevice != null) {
+                return newOutput;
+            } else {
+                return currentOutput;
+            }
+            
+        }
     }
 }

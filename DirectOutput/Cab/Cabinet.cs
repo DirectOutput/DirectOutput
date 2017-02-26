@@ -182,13 +182,13 @@ namespace DirectOutput.Cab
             set { _OutputControllers = value; }
         }
 
-        private ScheduledSettings _ScheduledSettings = new ScheduledSettings();
         /// <summary>
         /// List of scheduled settings. Outputs can be disabled using start-end clock regions.
+        /// This getter/setter is only used for XML-parsing into ScheduledSettings class, and settings can be accessed using ScheduledSettings.Instance from that point on.
         /// </summary>
         public ScheduledSettings ScheduledSettings {
-            get { return _ScheduledSettings; }
-            set { _ScheduledSettings = value; }
+            get { return ScheduledSettings.Instance; }
+            set { ScheduledSettings.Instance = value; }
         }
 
         #endregion
@@ -326,6 +326,7 @@ namespace DirectOutput.Cab
         /// </summary>
         public void Update()
         {
+            //Log.Write("Cabinet.Update... ");
             Toys.UpdateOutputs();
             OutputControllers.Update();
         }

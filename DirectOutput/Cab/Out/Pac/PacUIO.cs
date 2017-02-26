@@ -94,13 +94,7 @@ namespace DirectOutput.Cab.Out.Pac
             AddOutputs();
             PacUIOUnits[Id].Init(Cabinet);
             Log.Write("PacUIO Id:{0} initialized and updater thread started.".Build(Id));
-
-            _Cabinet = Cabinet;
-
         }
-
-        //reference to Cabinet instance for reading ScheduledSettings
-        private Cabinet _Cabinet;
 
         /// <summary>
         /// Finishes the PacUIO object.<br/>
@@ -151,23 +145,13 @@ namespace DirectOutput.Cab.Out.Pac
         protected override void OnOutputValueChanged(IOutput Output)
         {
             IOutput ON = Output;
-            //Log.Write("PacUIO.OnOutputValueChanged");
-            //Log.Write("PacUIO.OnOutputValueChanged for #" +ON.Number);
 
             if (!ON.Number.IsBetween(1, 96)) {
                 throw new Exception("PacUIO output numbers must be in the range of 1-96. The supplied output number {0} is out of range.".Build(ON.Number));
             }
 
-            //create a new dummy output with no event mirroring input arg to avoid triggering a recursive OnOutputValueChanged (modifying Output directly would retrigger this method)
-            Output newOutput = new Output();
-            newOutput.Value = ON.Value;
-            newOutput.Name = ON.Name;
-            newOutput.Number = ON.Number;
-
-            ScheduledSettingDevice ActiveScheduleDevice = _Cabinet.ScheduledSettings.GetActiveSchedule(newOutput, true, 27, Id);
             PacUIOUnit S = PacUIOUnits[this.Id];
-            
-            S.UpdateValue(newOutput);
+            S.UpdateValue(ScheduledSettings.Instance.getnewrecalculatedOutput (ON, 27, Id));
         }
 
         #endregion

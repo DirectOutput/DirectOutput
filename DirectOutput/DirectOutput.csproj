@@ -372,6 +372,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Builds\DirectOutput_rambo3_2017-02-09.zip" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="Config\ledcontrol.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
