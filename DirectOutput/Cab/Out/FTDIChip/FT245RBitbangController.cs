@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DirectOutput.Cab.Schedules;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -97,6 +98,7 @@ namespace DirectOutput.Cab.Out.FTDIChip
         {
 
             IOutput ON = Output;
+            ON = ScheduledSettings.Instance.getnewrecalculatedOutput(ON, 40, 0);
 
             if (!ON.Number.IsBetween(1, 64))
             {

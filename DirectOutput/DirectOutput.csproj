@@ -100,6 +100,7 @@
     <Compile Include="Cab\Out\DMX\ArtNet.cs" />
     <Compile Include="Cab\Out\FTDIChip\FT245RBitbangController.cs" />
     <Compile Include="Cab\Out\FTDIChip\FTDIChip.cs" />
+    <Compile Include="Cab\Out\FTDIChip\FT245RBitbangControllerAutoConfigurator.cs" />
     <Compile Include="Cab\Out\IAutoConfigOutputController.cs" />
     <Compile Include="Cab\Out\ISupportsSetValues.cs" />
     <Compile Include="Cab\Out\LW\LedWizAutoConfigurator.cs" />
