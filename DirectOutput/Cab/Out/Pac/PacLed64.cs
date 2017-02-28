@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Xml.Serialization;
 using DirectOutput.General;
+using DirectOutput.Cab.Schedules;
 
 namespace DirectOutput.Cab.Out.Pac
 {
@@ -150,7 +151,8 @@ namespace DirectOutput.Cab.Out.Pac
             }
 
             PacLed64Unit S = PacLed64Units[this.Id];
-            S.UpdateValue(ON);
+            //note, compensate for id not being zero-based [20-23]
+            S.UpdateValue(ScheduledSettings.Instance.getnewrecalculatedOutput(ON, 20, Id-1));
         }
 
 

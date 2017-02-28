@@ -151,6 +151,8 @@ namespace DirectOutput.Cab.Out.Pac
             }
 
             PacUIOUnit S = PacUIOUnits[this.Id];
+
+            //[27-28]
             S.UpdateValue(ScheduledSettings.Instance.getnewrecalculatedOutput (ON, 27, Id));
         }
 

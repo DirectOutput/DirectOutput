@@ -50,6 +50,7 @@ namespace DirectOutput.Cab.Out.FTDIChip {
                 FT245RBitbangController FTDevice = new FT245RBitbangController();
                 FTDevice.Name = "FT245RBitbangController {0}".Build(deviceIndex);
                 FTDevice.SerialNumber = devicelistSerial[deviceIndex];
+                FTDevice.Id = deviceIndex;
 
                 Log.Write("FT245RBitbangControllerAutoConfigurator.AutoConfig.. Detected FT245RBitbangController" + "[" + deviceIndex + "], name=" + FTDevice.Name+", serial #"+FTDevice.SerialNumber);
 

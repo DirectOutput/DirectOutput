@@ -7,6 +7,8 @@ using System.Xml.Serialization;
 using DirectOutput.General;
 using DirectOutput.Cab.Toys.Layer;
 using DirectOutput.General.Color;
+using DirectOutput.Cab.Schedules;
+using DirectOutput.Cab.Toys.LWEquivalent;
 
 namespace DirectOutput.Cab.Toys.Hardware
 {
@@ -185,7 +187,7 @@ namespace DirectOutput.Cab.Toys.Hardware
         [XmlIgnore]
         public MatrixDictionaryBase<RGBAColor> Layers { get; private set; }
 
-
+        
         #region IToy methods
 
         Cabinet Cabinet;
@@ -374,11 +376,44 @@ namespace DirectOutput.Cab.Toys.Hardware
                     }
                 }
 
-
-
-
                 //The following code mapps the led data to the outputs of the stripe
                 byte[] FadingTable = FadingCurve.Data;
+
+                //support for scheduled settings by applying outputstrength
+                //note; this needs to be optimized, possibly as states inside scheduledsettings among the other ones?
+                Output newOutput = new Output();
+                List<LedWizEquivalent> LWELedstripList = new List<LedWizEquivalent>(Cabinet.Toys.Where(OC => OC is LedWizEquivalent).Select(LW => ((LedWizEquivalent)LW)));
+                LedWizEquivalent LWE = LWELedstripList[0];
+
+                //wrap firstlednumber into an output number and channel strength
+                newOutput.Number = FirstLedNumber;
+                newOutput.Value = 255;
+                ScheduledSettingDevice activeSchedule = ScheduledSettings.Instance.GetActiveSchedule(newOutput, true, 30, LWE.LedWizNumber - 30);
+
+                //override fading curve to existing presets from 100 (default) to 0 (0-16)
+                if (activeSchedule != null) {
+                    if (activeSchedule.OutputPercent == 100) {
+                        //leave default running
+                    } else if (activeSchedule.OutputPercent >= 89) {
+                        FadingTable = new Curve(Curve.CurveTypeEnum.Linear0To224).Data;
+                    } else if (activeSchedule.OutputPercent >= 78) {
+                        FadingTable = new Curve(Curve.CurveTypeEnum.Linear0To192).Data;
+                    } else if (activeSchedule.OutputPercent >= 67) {
+                        FadingTable = new Curve(Curve.CurveTypeEnum.Linear0To160).Data;
+                    } else if (activeSchedule.OutputPercent >= 56) {
+                        FadingTable = new Curve(Curve.CurveTypeEnum.Linear0To128).Data;
+                    } else if (activeSchedule.OutputPercent >= 45) {
+                        FadingTable = new Curve(Curve.CurveTypeEnum.Linear0To96).Data;
+                    } else if (activeSchedule.OutputPercent >= 34) {
+                        FadingTable = new Curve(Curve.CurveTypeEnum.Linear0To64).Data;
+                    } else if (activeSchedule.OutputPercent >= 23) {
+                        FadingTable = new Curve(Curve.CurveTypeEnum.Linear0To32).Data;
+                    } else {
+                        FadingTable = new Curve(Curve.CurveTypeEnum.Linear0To16).Data;
+                    }
+                }
+
+
                 switch (ColorOrder)
                 {
                     case RGBOrderEnum.RBG:

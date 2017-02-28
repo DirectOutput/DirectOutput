@@ -30,6 +30,29 @@ namespace DirectOutput.Cab.Out.FTDIChip
             set { _SerialNumber = value; }
         }
 
+        private int _Id = 0;
+        /// <summary>
+        /// Gets or sets the Id of the FT245RBitbangController.<br />
+        /// The Id must be unique and in the range of 0 to 9.<br />
+        /// This Id is optional, and used by AutoConfig.
+        /// </summary>
+        /// <value>
+        /// The unique Id of the device (Range 0-9).
+        /// </value>
+        /// <exception cref="System.Exception">
+        /// PacLed64 Ids must be between 0-9. The supplied Id {0} is out of range.
+        /// </exception>
+        public int Id {
+            get { return _Id; }
+            set {
+                if (!value.IsBetween(0, 9)) {
+                    throw new Exception("FT245RBitbangController Ids must be between 0-9. The supplied Id {0} is out of range.".Build(value));
+                }
+                _Id = value;
+            }
+        }
+
+
         /// <summary>
         /// Initializes the FT245RBitbangController and starts the updater thread.
         /// </summary>
@@ -98,7 +121,7 @@ namespace DirectOutput.Cab.Out.FTDIChip
         {
 
             IOutput ON = Output;
-            ON = ScheduledSettings.Instance.getnewrecalculatedOutput(ON, 40, 0);
+            ON = ScheduledSettings.Instance.getnewrecalculatedOutput(ON, 40, Id);
 
             if (!ON.Number.IsBetween(1, 64))
             {
