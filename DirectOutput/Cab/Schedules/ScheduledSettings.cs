@@ -12,32 +12,6 @@ using System.Globalization;
 namespace DirectOutput.Cab.Schedules {
     public class ScheduledSettings : NamedItemList<ScheduledSetting>, IXmlSerializable {
 
-        /*private static readonly ScheduledSettings instance = new ScheduledSettings();
-
-        private ScheduledSettings() { }
-        public static ScheduledSettings Instance {
-            get {
-                //Log.Write("ScheduledSettings.new singleton instance");
-                return instance;
-            }
-        }*/
-
-        /*public static ScheduledSettings Instance { get { return Nested.instance; } }
-        class Nested {
-            static Nested() { }
-            internal static readonly ScheduledSettings instance = new ScheduledSettings();
-        }*/
-
-        /*private static ScheduledSettings instance;
-        private ScheduledSettings() { }
-        public static ScheduledSettings Instance {
-            get {
-                if (instance == null) {
-                    instance = new ScheduledSettings();
-                }
-                return instance;
-            }
-        }*/
         //https://msdn.microsoft.com/en-us/library/ff650316.aspx
         /*private static volatile ScheduledSettings instance;
         private static object syncRoot = new Object();
@@ -62,6 +36,8 @@ namespace DirectOutput.Cab.Schedules {
         private ScheduledSettings() { }
         static ScheduledSettings() { Instance = new ScheduledSettings(); }
 
+        //list of items that we've processed and has had an active setting, idea being to avoid lookups if found in list
+        private static List<ScheduledSettingDevice> CacheList = new List<ScheduledSettingDevice>();
 
         /// <summary>
         /// Serializes the ScheduleSetting objects in this list to Xml.<br/>
@@ -135,6 +111,10 @@ namespace DirectOutput.Cab.Schedules {
             ScheduledSettingDevice foundactiveDevice = null;
             ScheduledSetting foundactiveSchedule = null;
 
+
+            //possible to add result into cache for faster processing next time?
+
+
             foreach (ScheduledSetting scheduledSetting in this) {
 
                 //first check if enabled
@@ -189,11 +169,14 @@ namespace DirectOutput.Cab.Schedules {
             //recalculate output value based on strength?
             if (foundactiveDevice != null && recalculateoutputValue == true) {
                 double strengthFactor = foundactiveDevice.OutputPercent / 100f;
-
                 byte newValue = Convert.ToByte(currentOutput.Value * strengthFactor);
 
-                if (currentOutput.Value != 0) {
-                    Log.Write("ScheduledSettings.GetActiveSchedule: found active schedule: " + foundactiveSchedule.Name + " [" + foundactiveSchedule.ClockStart + "-" + foundactiveSchedule.ClockEnd + "] at channel #" + currentOutput.Number + " on device config " + foundactiveDevice.Name + ", applying strength multiplier: " + strengthFactor + ", old value=" + currentOutput.Value + ", new value=" + newValue);
+                if (CacheList.Contains(foundactiveDevice) == false) {
+                    CacheList.Add(foundactiveDevice);
+
+                    if (currentOutput.Value != 0) {
+                        Log.Write("ScheduledSettings.GetActiveSchedule: found active schedule: " + foundactiveSchedule.Name + " [" + foundactiveSchedule.ClockStart + "-" + foundactiveSchedule.ClockEnd + "] at channel #" + currentOutput.Number + " on device config " + foundactiveDevice.Name + ", applying strength multiplier: " + strengthFactor + ", old value=" + currentOutput.Value + ", new value=" + newValue);
+                    }
                 }
 
                 if (foundactiveDevice.OutputPercent == 0 && currentOutput.Value != 0) {
@@ -201,6 +184,8 @@ namespace DirectOutput.Cab.Schedules {
                 } else if (foundactiveDevice.OutputPercent != 100) {
                     currentOutput.Value = newValue;
                 }
+
+
 
             }
 
