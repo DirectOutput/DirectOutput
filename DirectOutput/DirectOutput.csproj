@@ -134,7 +134,7 @@
     <Compile Include="Cab\Out\Pac\PacUIO.cs" />
     <Compile Include="Cab\Out\Pac\PacUIOAutoConfigurator.cs" />
     <Compile Include="Cab\Out\PhilipsHue\PhilipsHueAutoConfigurator.cs" />
-    <Compile Include="Cab\Out\PhilipsHue\PhilipsHueHub.cs" />
+    <Compile Include="Cab\Out\PhilipsHue\PhilipsHueController.cs" />
     <Compile Include="Cab\Out\PS\HIDImports.cs" />
     <Compile Include="Cab\Out\PS\Pinscape.cs" />
     <Compile Include="Cab\Out\PS\PinscapeAutoConfigurator.cs" />
