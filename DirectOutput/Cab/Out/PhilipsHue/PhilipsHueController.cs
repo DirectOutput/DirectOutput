@@ -77,7 +77,8 @@ namespace DirectOutput.Cab.Out.Pac {
 
 
         private object IdUpdateLocker = new object();
-        private int _Id = -1;
+        //private int _Id = -1;
+        private int _Id = 0;
         private string _BridgeIP = "";
         private string _BridgeKey = "";
         private string _BridgeDeviceType = "dof_app#pincab";
@@ -121,6 +122,7 @@ namespace DirectOutput.Cab.Out.Pac {
                     PhilipsHueControllerUnits[Id].BridgeIP = value;
                     _BridgeIP = value;
                 }
+                //_BridgeIP = value;
             }
         }
 
@@ -134,6 +136,7 @@ namespace DirectOutput.Cab.Out.Pac {
                     PhilipsHueControllerUnits[Id].BridgeKey = value;
                     _BridgeKey = value;
                 }
+                //_BridgeKey = value;
             }
         }
 
@@ -174,9 +177,11 @@ namespace DirectOutput.Cab.Out.Pac {
         /// Initializes the PhilipsHueController object.<br />
         /// This method does also start the workerthread which does the actual update work when Update() is called.<br />
         /// This method should only be called once. Subsequent calls have no effect.
+        /// Method was adjusted to work on its own when the AutoConfigurator was removed, and will attempt doing the same thing (check connection).
         /// </summary>
         /// <param name="Cabinet">The cabinet object which is using the output controller instance.</param>
         public override void Init(Cabinet Cabinet) {
+            //Id = 0;
             AddOutputs();
             PhilipsHueControllerUnits[Id].Init(Cabinet);
             Log.Write("PhilipsHueController Id:{0} initialized and updater thread started.".Build(Id));
@@ -512,7 +517,7 @@ namespace DirectOutput.Cab.Out.Pac {
                                 //controlled commands, avoid spamming the bridge too quickly unless last command is black (power off) as this will result in delayed and inconsistent commands long after being sent (still in bridge queue)
                                 //if (bridgecommunicationDelta >= bridgecommunicationDelay || newbridgeCommand.On == false) {// || CurrentValue[i] == 0 || CurrentValue[i+1] == 0 || CurrentValue[i+2] == 0) {
                                 if (bridgecommunicationDelta >= bridgecommunicationDelay || newbridgeCommand.On == false || newhexColor.ToLower() == "000000") {
-                                    Log.Write("PhilipsHueController.SendPhilipsHueControllerUpdate, i=" + i + ", RGB single output 1-based=" + bridgebulbID + "/50, RGB hex=" + newhexColor + ", bridgecommunicationlastTimestamp=" + bridgecommunicationlastTimestamp + ", delta=" + bridgecommunicationDelta);
+                                    Log.Write("PhilipsHueController.SendPhilipsHueControllerUpdate, i=" + i + ", RGB single output 1-based=" + bridgebulbID + "/50, RGB hex=" + newhexColor + ", delta=" + bridgecommunicationDelta);
                                     hueClient.SendCommandAsync(newbridgeCommand, new List<string> { bridgebulbID.ToString() });
 
                                     //reset timestamp
