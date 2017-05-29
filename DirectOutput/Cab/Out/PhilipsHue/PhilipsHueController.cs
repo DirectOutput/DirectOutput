@@ -313,6 +313,12 @@ namespace DirectOutput.Cab.Out.Pac {
             private byte[] LastValueSent = new byte[150];
             private bool[] LastStateSent = new bool[150];
 
+            /// <summary>
+            /// To avoid turning of all lights in a setup, including for instance a whole house or apartment, keep note of which has been adjusted and then turn those off during shutdown to avoia affecting others.
+            /// Normally 0-based, but we're being lazy and matching with light id from the Hue app which is 1-based.
+            /// </summary>
+            private bool[] affectedLights = new bool[50];
+
             public bool UpdateRequired = true;
 
             public object PhilipsHueControllerUpdateLocker = new object();
@@ -512,6 +518,10 @@ namespace DirectOutput.Cab.Out.Pac {
                                 } else {
                                     newbridgeCommand.On = true;
                                     newbridgeCommand.SetColor(new RGBColor(newhexColor));
+
+                                    //set light id to affected for shutdown, stored in zero-based index
+                                    affectedLights[bridgebulbID-1] = true;
+
                                 }
 
                                 //controlled commands, avoid spamming the bridge too quickly unless last command is black (power off) as this will result in delayed and inconsistent commands long after being sent (still in bridge queue)
@@ -547,8 +557,20 @@ namespace DirectOutput.Cab.Out.Pac {
 
 
             public void ShutdownLighting() {
-                Log.Write("PhilipsHueController.ShutdownLighting");
-                //PDSingletonn.PacLed64SetLEDStates(0, 0, 0);
+                //Log.Write("PhilipsHueController.ShutdownLighting");
+                int currentlightID = 0;
+                for (int i=0; i<affectedLights.Length; i++) { 
+                    if (affectedLights[i] == true) {
+                        currentlightID = i + 1;
+                        LightCommand newbridgeCommand = new LightCommand();
+                        newbridgeCommand.TurnOff();
+                        newbridgeCommand.On = false;
+                        newbridgeCommand.TransitionTime = TimeSpan.FromMilliseconds(2000);
+                        Log.Write("PhilipsHueController.ShutdownLighting, Turning off light #" + currentlightID);
+                        hueClient.SendCommandAsync(newbridgeCommand, new List<string> { currentlightID.ToString() });
+                    }
+                }
+
                 LastStateSent.Fill(false);
             }
 
@@ -632,6 +654,9 @@ namespace DirectOutput.Cab.Out.Pac {
                 this.Index = Id;
 
                 NewValue.Fill((byte)0);
+
+                //assume all needed lights are false / off by default
+                affectedLights.Fill(false);
                 InitUnit();
                 //ConnectUnit();
             }
