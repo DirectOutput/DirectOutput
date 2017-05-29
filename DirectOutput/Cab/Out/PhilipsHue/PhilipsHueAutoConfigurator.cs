@@ -58,10 +58,10 @@ namespace DirectOutput.Cab.Out.Pac
                     Log.Write("Detected and added PhilipsHueController Id {0} with name {1}".Build(PHC.Id, PHC.Name));
                 }
 
-                //+50 used to define start of directoutputconfig[50...].xml toys
-                if (!Cabinet.Toys.Any(T => T is LedWizEquivalent && ((LedWizEquivalent)T).LedWizNumber == PHC.Id - 0 + 50)) {
+                //+70 used to define start of directoutputconfig[70...].xml toys
+                if (!Cabinet.Toys.Any(T => T is LedWizEquivalent && ((LedWizEquivalent)T).LedWizNumber == PHC.Id - 0 + 70)) {
                     LedWizEquivalent LWE = new LedWizEquivalent();
-                    LWE.LedWizNumber = PHC.Id - 0 + 50;
+                    LWE.LedWizNumber = PHC.Id - 0 + 70;
                     LWE.Name = "{0} Equivalent 1".Build(PHC.Name);
                     for (int i = 1; i <= 50; i++) {
                         LedWizEquivalentOutput LWEO = new LedWizEquivalentOutput() { OutputName = "{0}\\{0}.{1:00}".Build(PHC.Name, i), LedWizEquivalentOutputNumber = i };
