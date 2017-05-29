@@ -16,6 +16,8 @@ cd %DllPath%
 "C:\Program Files\7-Zip\7z.exe" a -tzip "%Path%\%ZipName%" "*.dll" 
 "C:\Program Files\7-Zip\7z.exe" a -tzip "%Path%\%ZipName%" "*.exe"
 "C:\Program Files\7-Zip\7z.exe" a -tzip "%Path%\%ZipName%" "*Shapes.*"
+"C:\Program Files\7-Zip\7z.exe" a -tzip "%Path%\%ZipName%" "*.xml"
+"C:\Program Files\7-Zip\7z.exe" a -tzip "%Path%\%ZipName%" "*.pdb"
 cd ..\..
 
 
