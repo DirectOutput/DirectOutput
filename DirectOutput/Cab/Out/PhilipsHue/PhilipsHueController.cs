@@ -122,7 +122,6 @@ namespace DirectOutput.Cab.Out.Pac {
                     PhilipsHueControllerUnits[Id].BridgeIP = value;
                     _BridgeIP = value;
                 }
-                //_BridgeIP = value;
             }
         }
 
@@ -136,7 +135,6 @@ namespace DirectOutput.Cab.Out.Pac {
                     PhilipsHueControllerUnits[Id].BridgeKey = value;
                     _BridgeKey = value;
                 }
-                //_BridgeKey = value;
             }
         }
 
@@ -495,39 +493,38 @@ namespace DirectOutput.Cab.Out.Pac {
 
                             //hue sends a combined / multiplexed rrggbb output, scan and combine 3 inputs into one output if any of the three inputs differ
                             if (CurrentValue[i] != LastValueSent[i] || CurrentValue[i + 1] != LastValueSent[i + 1] || CurrentValue[i + 2] != LastValueSent[i + 2]) {
-                                LastValueSent[i] = CurrentValue[i];
-                                LastValueSent[i + 1] = CurrentValue[i + 1];
-                                LastValueSent[i + 2] = CurrentValue[i + 2];
-
-
                                 LightCommand newbridgeCommand = new LightCommand();
                                 bridgebulbID = ((i + 2 + 1) / 3);
                                 string newhexColor = CurrentValue[i].ToString("x2") + CurrentValue[i + 1].ToString("x2") + CurrentValue[i + 2].ToString("x2");
 
-                                //todo: transition up quickly, but always transition down slowly
-                                //this can be used to fade down the amount of milliseconds until next send to try and have the hue actually do something useful to compensate for communication lag
+                                //transition up from 0 / black as quickly as possible, but always transition down slowly
+                                //this can be used to fade down the amount of milliseconds until next send to try and have the light actually do something useful to compensate for communication lag
+                                if ((LastValueSent[i] == 0 && CurrentValue[i] >0) || (LastValueSent[i+1] == 0 && CurrentValue[i+1] > 0) || (LastValueSent[i+2] == 0 && CurrentValue[i+2] > 0)) {
+                                    newbridgeCommand.TransitionTime = new TimeSpan(0);
+                                } else {
+                                    newbridgeCommand.TransitionTime = TimeSpan.FromMilliseconds(bridgecommunicationDelay);
+                                }
 
-                                //if (bridgecommunicationDelay >)
-                                //newbridgeCommand.TransitionTime = new TimeSpan(0);
-                                newbridgeCommand.TransitionTime = TimeSpan.FromMilliseconds(bridgecommunicationDelay);
-
-
+                                //if all black, override transitiontime to smoother delay, and turn off
                                 if (CurrentValue[i] == 0 && CurrentValue[i + 1] == 0 && CurrentValue[i + 2] == 0) {
                                     newbridgeCommand.TurnOff();
                                     newbridgeCommand.On = false;
+                                    newbridgeCommand.TransitionTime = TimeSpan.FromMilliseconds(bridgecommunicationDelay);
                                 } else {
                                     newbridgeCommand.On = true;
                                     newbridgeCommand.SetColor(new RGBColor(newhexColor));
 
                                     //set light id to affected for shutdown, stored in zero-based index
                                     affectedLights[bridgebulbID-1] = true;
-
                                 }
 
+                                LastValueSent[i] = CurrentValue[i];
+                                LastValueSent[i + 1] = CurrentValue[i + 1];
+                                LastValueSent[i + 2] = CurrentValue[i + 2];
+
                                 //controlled commands, avoid spamming the bridge too quickly unless last command is black (power off) as this will result in delayed and inconsistent commands long after being sent (still in bridge queue)
-                                //if (bridgecommunicationDelta >= bridgecommunicationDelay || newbridgeCommand.On == false) {// || CurrentValue[i] == 0 || CurrentValue[i+1] == 0 || CurrentValue[i+2] == 0) {
                                 if (bridgecommunicationDelta >= bridgecommunicationDelay || newbridgeCommand.On == false || newhexColor.ToLower() == "000000") {
-                                    Log.Write("PhilipsHueController.SendPhilipsHueControllerUpdate, i=" + i + ", RGB single output 1-based=" + bridgebulbID + "/50, RGB hex=" + newhexColor + ", delta=" + bridgecommunicationDelta);
+                                    //Log.Write("PhilipsHueController.SendPhilipsHueControllerUpdate IP="+BridgeIP+", i=" + i + ", RGB single output 1-based=" + bridgebulbID + "/50, RGB hex=" + newhexColor + ", delta=" + bridgecommunicationDelta);
                                     hueClient.SendCommandAsync(newbridgeCommand, new List<string> { bridgebulbID.ToString() });
 
                                     //reset timestamp
@@ -541,7 +538,6 @@ namespace DirectOutput.Cab.Out.Pac {
 
                             //skip ahead to start of next rgb input
                             i += 2;
-
                         }
 
                         //check if we should check bridge ping and recalibrate
@@ -636,10 +632,10 @@ namespace DirectOutput.Cab.Out.Pac {
 
                     if (adjustedPing > bridgecommunicationminimumDelay) {
                         bridgecommunicationDelay = (int)adjustedPing;
-                        Log.Write("PhilipsHueController.CheckConnection... current connection lag =" + deltaTimestamp + "ms, recalibrating from " + bridgecommunicationDelay + "ms -> " + deltaTimestamp + "ms, buffer factor=" + bridgecommunicationdelayFactor + " -> " + adjustedPing + "ms");
+                        Log.Write("PhilipsHueController.CheckConnection IP="+BridgeIP+"... current connection lag =" + deltaTimestamp + "ms, recalibrating from " + bridgecommunicationDelay + "ms -> " + deltaTimestamp + "ms, buffer factor=" + bridgecommunicationdelayFactor + " -> " + adjustedPing + "ms");
                     } else {
                         bridgecommunicationDelay = bridgecommunicationminimumDelay;
-                        Log.Write("PhilipsHueController.CheckConnection... current connection lag =" + deltaTimestamp + "ms, ignoring and using minimum " + bridgecommunicationminimumDelay + "ms to avoid bridge overload");
+                        Log.Write("PhilipsHueController.CheckConnection IP=" + BridgeIP + "... current connection lag =" + deltaTimestamp + "ms, ignoring and using minimum " + bridgecommunicationminimumDelay + "ms to avoid bridge overload");
                     }
                 } else {
                     Log.Write("PhilipsHueController.CheckConnection... lost connection, or unable to connect to bridge using BridgeIP=" + BridgeIP+ " and BridgeKey=" + BridgeKey+"... will ignore for now and attempt reconnecting every "+bridgecommunicationPing+"ms");
