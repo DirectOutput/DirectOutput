@@ -209,6 +209,7 @@ namespace DirectOutput.Cab.Schedules {
             newOutput.Name = currentOutput.Name;
             newOutput.Number = currentOutput.Number;
 
+            //Log.Write("ScheduledSettings.getnewrecalculatedOutput..name=" + newOutput.Name + ", number=" + newOutput.Number + ", currentdeviceIndex=" + currentdeviceIndex);
             ScheduledSettingDevice ActiveScheduleDevice = GetActiveSchedule(newOutput, true, startingdeviceIndex, currentdeviceIndex);
 
             if (ActiveScheduleDevice != null) {

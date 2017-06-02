@@ -236,8 +236,9 @@ namespace DirectOutput.Cab.Out.Pac {
 
             PhilipsHueControllerUnit S = PhilipsHueControllerUnits[this.Id];
 
-            //[50-51]
-            S.UpdateValue(ScheduledSettings.Instance.getnewrecalculatedOutput (ON, 50, Id));
+            //[70-71]
+            //Log.Write("PhilipsHueController.OnOutputValueChanged...id=" + this.Id + ", send=" + ON.Value);
+            S.UpdateValue(ScheduledSettings.Instance.getnewrecalculatedOutput (ON, 70, Id));
         }
 
         #endregion
