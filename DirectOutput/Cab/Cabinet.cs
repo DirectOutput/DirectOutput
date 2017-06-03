@@ -191,6 +191,15 @@ namespace DirectOutput.Cab
             set { ScheduledSettings.Instance = value; }
         }
 
+        /// <summary>
+        /// List of sequencial output settings. Outputs can be forwarded to others during fast retriggers to compensate for latency.
+        /// This getter/setter is only used for XML-parsing into SequentialOutputSettings class, and settings can be accessed using SequentialOutputSettings.Instance from that point on.
+        /// </summary>
+        public SequentialOutputSettings SequentialOutputSettings {
+            get { return SequentialOutputSettings.Instance; }
+            set { SequentialOutputSettings.Instance = value; }
+        }
+
         #endregion
 
         #region Serialization

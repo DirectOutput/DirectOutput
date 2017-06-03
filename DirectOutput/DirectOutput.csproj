@@ -139,6 +139,9 @@
     <Compile Include="Cab\Out\PS\Pinscape.cs" />
     <Compile Include="Cab\Out\PS\PinscapeAutoConfigurator.cs" />
     <Compile Include="Cab\Out\PS\PS.cs" />
+    <Compile Include="Cab\Sequencer\SequentialOutputSetting.cs" />
+    <Compile Include="Cab\Sequencer\SequentialOutputDevice.cs" />
+    <Compile Include="Cab\Sequencer\SequentialOutputSettings.cs" />
     <Compile Include="Cab\Schedules\ScheduledSettingDevice.cs" />
     <Compile Include="Cab\Schedules\ScheduledSetting.cs" />
     <Compile Include="Cab\Schedules\ScheduledSettings.cs" />
