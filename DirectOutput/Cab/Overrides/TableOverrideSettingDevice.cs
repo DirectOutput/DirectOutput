@@ -6,21 +6,19 @@ using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace DirectOutput.Cab.Sequencer {
-    public class SequentialOutputDevice: INamedItem {
+namespace DirectOutput.Cab.Overrides {
+    public class TableOverrideSettingDevice : INamedItem {
 
-        public SequentialOutputDevice() { }
+        public TableOverrideSettingDevice() { }
 
-        public SequentialOutputDevice(string Name, int ConfigPostfixID, string Outputs, int OutputMaxTime) :this() {
-            Log.Write("SequentialOutputDevice constructor...name=" + Name);
+        public TableOverrideSettingDevice(string Name, int ConfigPostfixID, string Outputs, int OutputPercent) :this() {
+            Log.Write("TableOverrideSettingDevice constructor...name=" + Name);
             this.Name = Name;
             this.ConfigPostfixID = ConfigPostfixID;
             this.Outputs = Outputs;
-            this.OutputMaxTime = OutputMaxTime;
-            this.OutputTimestamp = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
-            this.OutputIndex = 0;
+            this.OutputPercent = OutputPercent;
         }
-        
+            
 
         private string _Name;
         /// <summary>
@@ -82,51 +80,15 @@ namespace DirectOutput.Cab.Sequencer {
         /// </summary>    
         public List<int> OutputList = new List<int>();
 
-
-        private int _OutputMaxTime;
+        private int _OutputPercent;
         /// <summary>
-        /// Max life of active output in milliseconds until triggering next device in OutputList.<br/>
+        /// Output value in percent 0-100. to devices specified in OutputList. 0 = disabled / turned off completely. 100 = untouched (input strength).<br/>
         /// </summary>    
-        public int OutputMaxTime {
-            get { return _OutputMaxTime; }
-            set { _OutputMaxTime = value; }
+        public int OutputPercent {
+            get { return _OutputPercent; }
+            set { _OutputPercent = value; }
         }
 
-        private long _OutputTimestamp;
-        /// <summary>
-        /// Last timestamp value in milliseconds.<br/>
-        /// </summary>    
-        public long OutputTimestamp {
-            get { return _OutputTimestamp; }
-            set { _OutputTimestamp = value; }
-        }
-
-        private int _OutputIndex;
-        /// <summary>
-        /// Last output index used.<br/>
-        /// </summary>    
-        public int OutputIndex {
-            get { return _OutputIndex; }
-            set { _OutputIndex = value; }
-        }
-
-        /// <summary>
-        /// Sets next OutputIndex, and returns value for that index. If beyond length of outputs, reset back to first / primary output.
-        /// </summary>
-        /// <returns></returns>
-        public int getsetnextoutputValue() {
-            int nextValue = 0;
-
-            OutputIndex++;
-
-            if (OutputIndex == OutputList.Count) {
-                OutputIndex = 0;
-            }
-
-            nextValue = OutputList[OutputIndex];
-
-            return nextValue;
-        }
 
     }
 }

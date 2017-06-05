@@ -8,6 +8,8 @@ using System.Xml.Serialization;
 using DirectOutput.General;
 using System.Globalization;
 using DirectOutput.Cab.Schedules;
+using DirectOutput.Cab.Sequencer;
+using DirectOutput.Cab.Overrides;
 
 namespace DirectOutput.Cab.Out.Pac
 {
@@ -151,6 +153,9 @@ namespace DirectOutput.Cab.Out.Pac
             }
 
             PacUIOUnit S = PacUIOUnits[this.Id];
+
+            //check for table overrides
+            ON = TableOverrideSettings.Instance.getnewrecalculatedOutput(ON, 27, Id);
 
             //check for retrigger output... try to ensure, if valid, the retrigger id is also shut down
             ON = SequentialOutputSettings.Instance.getnextOutput(ON, 27, Id);

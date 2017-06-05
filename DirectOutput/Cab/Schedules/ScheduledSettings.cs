@@ -197,26 +197,32 @@ namespace DirectOutput.Cab.Schedules {
         /// Checks if a ScheduledSetting is active, and returns a newly mirrored Output object with modified Value. If not found, returns same input back.
         /// There's an interesting issue here when a range passes midnight (2300-0300 for instance) that might need to be handled better, idea being schedules should be able to run all day long in real time without reboots.
         /// NOTE: this will change sending output if there is an active schedule.
+        /// If value of input is 0, ignore changing and return input unchanged.
         /// </summary>
         /// <param name="currentOutput">Output / port of device.</param>
         /// <param name="startingdeviceIndex">Specifies start index of device ID (1st UIO=27).</param>
         /// <param name="currentdeviceIndex">Specifies active index of device ID (for UIO this is zero-based, making the 1st UIO #27).</param>
         public IOutput getnewrecalculatedOutput(IOutput currentOutput, int startingdeviceIndex, int currentdeviceIndex) {
 
-            //create a new dummy output with no event mirroring input arg to avoid triggering a recursive OnOutputValueChanged (modifying Output directly would retrigger this method)
-            Output newOutput = new Output();
-            newOutput.Value = currentOutput.Value;
-            newOutput.Name = currentOutput.Name;
-            newOutput.Number = currentOutput.Number;
+            if (currentOutput.Value != 0) {
+                //create a new dummy output with no event mirroring input arg to avoid triggering a recursive OnOutputValueChanged (modifying Output directly would retrigger this method)
+                Output newOutput = new Output();
+                newOutput.Value = currentOutput.Value;
+                newOutput.Name = currentOutput.Name;
+                newOutput.Number = currentOutput.Number;
 
-            //Log.Write("ScheduledSettings.getnewrecalculatedOutput..name=" + newOutput.Name + ", number=" + newOutput.Number + ", currentdeviceIndex=" + currentdeviceIndex);
-            ScheduledSettingDevice ActiveScheduleDevice = GetActiveSchedule(newOutput, true, startingdeviceIndex, currentdeviceIndex);
+                //Log.Write("ScheduledSettings.getnewrecalculatedOutput..name=" + newOutput.Name + ", number=" + newOutput.Number + ", currentdeviceIndex=" + currentdeviceIndex);
+                ScheduledSettingDevice ActiveScheduleDevice = GetActiveSchedule(newOutput, true, startingdeviceIndex, currentdeviceIndex);
 
-            if (ActiveScheduleDevice != null) {
-                return newOutput;
+                if (ActiveScheduleDevice != null) {
+                    return newOutput;
+                } else {
+                    return currentOutput;
+                }
             } else {
                 return currentOutput;
             }
+            
             
         }
     }

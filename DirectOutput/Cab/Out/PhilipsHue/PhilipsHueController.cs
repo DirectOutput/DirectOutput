@@ -13,6 +13,7 @@ using Q42.HueApi.ColorConverters;
 using Q42.HueApi.ColorConverters.HSB;
 using Q42.HueApi.Interfaces;
 using System.Threading.Tasks;
+using DirectOutput.Cab.Overrides;
 
 namespace DirectOutput.Cab.Out.Pac {
     /// <summary>
@@ -235,6 +236,9 @@ namespace DirectOutput.Cab.Out.Pac {
             }
 
             PhilipsHueControllerUnit S = PhilipsHueControllerUnits[this.Id];
+
+            //check for table overrides
+            ON = TableOverrideSettings.Instance.getnewrecalculatedOutput(ON, 70, Id);
 
             //[70-71]
             //Log.Write("PhilipsHueController.OnOutputValueChanged...id=" + this.Id + ", send=" + ON.Value);

@@ -6,7 +6,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace DirectOutput.Cab.Schedules {
+namespace DirectOutput.Cab.Sequencer {
     public class SequentialOutputSetting: INamedItem{
 
         public SequentialOutputSetting() { }

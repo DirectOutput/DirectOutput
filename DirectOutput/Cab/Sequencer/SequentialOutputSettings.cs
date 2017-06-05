@@ -5,7 +5,7 @@ using DirectOutput.General.Generic;
 using DirectOutput.Cab.Out;
 using System;
 
-namespace DirectOutput.Cab.Schedules {
+namespace DirectOutput.Cab.Sequencer {
     public class SequentialOutputSettings : NamedItemList<SequentialOutputSetting>, IXmlSerializable {
 
         //thread safe singleton...though not sure how safe it is, setter has been opened up to allow cabinet to parse xml into it
