@@ -160,7 +160,7 @@ namespace DirectOutput.Cab.Out.Pac
             //check for retrigger output... try to ensure, if valid, the retrigger id is also shut down
             ON = SequentialOutputSettings.Instance.getnextOutput(ON, 27, Id);
 
-            //[27-28]
+            //check for scheduled setting, [27-28]
             S.UpdateValue(ScheduledSettings.Instance.getnewrecalculatedOutput (ON, 27, Id));
         }
 

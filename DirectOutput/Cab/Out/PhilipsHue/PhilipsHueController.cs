@@ -240,7 +240,7 @@ namespace DirectOutput.Cab.Out.Pac {
             //check for table overrides
             ON = TableOverrideSettings.Instance.getnewrecalculatedOutput(ON, 70, Id);
 
-            //[70-71]
+            //check for scheduled setting, [70-71]
             //Log.Write("PhilipsHueController.OnOutputValueChanged...id=" + this.Id + ", send=" + ON.Value);
             S.UpdateValue(ScheduledSettings.Instance.getnewrecalculatedOutput (ON, 70, Id));
         }

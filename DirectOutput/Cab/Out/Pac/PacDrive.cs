@@ -7,6 +7,7 @@ using System.Threading;
 using System.Xml.Serialization;
 using DirectOutput.General;
 using DirectOutput.Cab.Schedules;
+using DirectOutput.Cab.Overrides;
 
 namespace DirectOutput.Cab.Out.Pac
 {
@@ -109,7 +110,10 @@ namespace DirectOutput.Cab.Out.Pac
                 throw new Exception("PacDrive output numbers must be in the range of 1-16. The supplied output number {0} is out of range.".Build(ON.Number));
             }
 
-            //note, there seems to only be support for a single [19] pacdrive?
+            //check for table overrides
+            ON = TableOverrideSettings.Instance.getnewrecalculatedOutput(ON, 19, 0);
+
+            //check for scheduled setting, note there seems to only be support for a single [19] pacdrive?
             PacDriveInstance.UpdateValue(ScheduledSettings.Instance.getnewrecalculatedOutput(ON, 19, 0));
         }
 
