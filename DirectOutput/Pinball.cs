@@ -382,7 +382,7 @@ namespace DirectOutput
                 {
                     Table.RomName = RomName;
                 }
-                Log.Write("Table config loading finished");
+                Log.Write("Table config loading finished: romname="+RomName+", tablename="+Table.TableName);
 
 
                 //update table overrider with romname and tablename references, and activate valid overrides
