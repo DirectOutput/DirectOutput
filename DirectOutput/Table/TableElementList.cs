@@ -183,7 +183,6 @@ namespace DirectOutput.Table
             else
             {
                 //Update named element
-                //Log.Write("Update element: " + Data.Name);
                 if (Contains(Data.Name))
                 {
                     _NamedTableElementsDictionary[Data.Name.ToUpperInvariant()].Value = Data.Value;

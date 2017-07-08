@@ -60,6 +60,7 @@ namespace DirectOutput.Cab.Out
                         IOutputController O = (IOutputController)serializer.Deserialize(reader);
                         if (!Contains(O.Name))
                         {
+                            //Log.Write("OutputControlleRList.ReadXml...adding: " + O.Name);
                             Add(O);
                         }
                     }

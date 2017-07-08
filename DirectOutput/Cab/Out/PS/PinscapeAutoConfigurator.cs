@@ -22,7 +22,7 @@ namespace DirectOutput.Cab.Out.PS
 		{
 			const int UnitBias = 50;
             List<int> Preconfigured = new List<int>(Cabinet.OutputControllers.Where(OC => OC is Pinscape).Select(PS => ((Pinscape)PS).Number));
-			IEnumerable<int> Numbers = Pinscape.AllDevices().Select(d => d.UnitNo());
+			IEnumerable<int> Numbers = Pinscape.AllDevices().Select(d => d.GetUnitNo());
             foreach (int N in Numbers)
             {
                 if (!Preconfigured.Contains(N))

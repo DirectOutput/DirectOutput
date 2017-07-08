@@ -7,6 +7,9 @@ using System.Xml.Serialization;
 using DirectOutput.General;
 using DirectOutput.Cab.Toys.Layer;
 using DirectOutput.General.Color;
+using DirectOutput.Cab.Schedules;
+using DirectOutput.Cab.Toys.LWEquivalent;
+using DirectOutput.Cab.Overrides;
 
 namespace DirectOutput.Cab.Toys.Hardware
 {
@@ -185,7 +188,7 @@ namespace DirectOutput.Cab.Toys.Hardware
         [XmlIgnore]
         public MatrixDictionaryBase<RGBAColor> Layers { get; private set; }
 
-
+        
         #region IToy methods
 
         Cabinet Cabinet;
@@ -340,6 +343,37 @@ namespace DirectOutput.Cab.Toys.Hardware
         byte[] OutputData = new byte[0];
 
         /// <summary>
+        /// Returns calculated FadingTable using input percent 0-100.
+        /// </summary>
+        /// <param name="outputPercent"></param>
+        /// <returns></returns>
+        private byte[] getfadingtablefromPercent (int outputPercent) {
+            byte[] fadingTable = FadingCurve.Data;
+
+            if (outputPercent == 100) {
+                //leave default running
+            } else if (outputPercent >= 89) {
+                fadingTable = new Curve(Curve.CurveTypeEnum.Linear0To224).Data;
+            } else if (outputPercent >= 78) {
+                fadingTable = new Curve(Curve.CurveTypeEnum.Linear0To192).Data;
+            } else if (outputPercent >= 67) {
+                fadingTable = new Curve(Curve.CurveTypeEnum.Linear0To160).Data;
+            } else if (outputPercent >= 56) {
+                fadingTable = new Curve(Curve.CurveTypeEnum.Linear0To128).Data;
+            } else if (outputPercent >= 45) {
+                fadingTable = new Curve(Curve.CurveTypeEnum.Linear0To96).Data;
+            } else if (outputPercent >= 34) {
+                fadingTable = new Curve(Curve.CurveTypeEnum.Linear0To64).Data;
+            } else if (outputPercent >= 23) {
+                fadingTable = new Curve(Curve.CurveTypeEnum.Linear0To32).Data;
+            } else {
+                fadingTable = new Curve(Curve.CurveTypeEnum.Linear0To16).Data;
+            }
+
+            return fadingTable;
+        }
+
+        /// <summary>
         /// Gets a array of bytes values re'presenting the data to be sent to the led strip.
         /// </summary>
         /// <returns></returns>
@@ -374,11 +408,28 @@ namespace DirectOutput.Cab.Toys.Hardware
                     }
                 }
 
-
-
-
-                //The following code mapps the led data to the outputs of the stripe
+                //the following code mapps the led data to the outputs of the stripe
+                //to affect output strength, modify fadingtable during overrides
                 byte[] FadingTable = FadingCurve.Data;
+
+                //wrapper object to specify output strength so we have something to modify
+                Output newOutput = new Output();
+                List<LedWizEquivalent> LWELedstripList = new List<LedWizEquivalent>(Cabinet.Toys.Where(OC => OC is LedWizEquivalent).Select(LW => ((LedWizEquivalent)LW)));
+                LedWizEquivalent LWE = LWELedstripList[0];
+
+                //wrap firstlednumber into an output number and channel strength 0-100 as output value
+                newOutput.Number = FirstLedNumber;
+                newOutput.Value = 100;
+
+                //check for table overrides
+                newOutput.Value = TableOverrideSettings.Instance.getnewrecalculatedOutput(newOutput, 30, LWE.LedWizNumber - 30).Value;
+
+                //check for scheduled setting
+                newOutput.Value = ScheduledSettings.Instance.getnewrecalculatedOutput(newOutput, 30, LWE.LedWizNumber - 30).Value;
+
+                //get fadingtable from finale percent output
+                FadingTable = getfadingtablefromPercent(newOutput.Value);
+
                 switch (ColorOrder)
                 {
                     case RGBOrderEnum.RBG:

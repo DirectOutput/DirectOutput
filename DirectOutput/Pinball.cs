@@ -13,6 +13,7 @@ using System.Linq;
 using DirectOutput.Table;
 
 using System.Diagnostics;
+using DirectOutput.Cab.Overrides;
 
 namespace DirectOutput
 {
@@ -381,9 +382,13 @@ namespace DirectOutput
                 {
                     Table.RomName = RomName;
                 }
-                Log.Write("Table config loading finished");
+                Log.Write("Table config loading finished: romname="+RomName+", tablename="+Table.TableName);
 
 
+                //update table overrider with romname and tablename references, and activate valid overrides
+                TableOverrideSettings.Instance.activeromName = RomName;
+                TableOverrideSettings.Instance.activetableName = Table.TableName;
+                TableOverrideSettings.Instance.activateOverrides();
 
                 Log.Write("Pinball parts loaded");
             }
@@ -594,7 +599,7 @@ namespace DirectOutput
                         D = InputQueue.Dequeue();
                         try
                         {
-                          
+                            //Log.Write("Pinball.MainThreadDoIt...d.name="+D.Name+", value="+D.Value+", d="+D.Number+", d="+D);
                             Table.UpdateTableElement(D);
                             UpdateRequired |= true;
                       
