@@ -5,7 +5,6 @@
 _2017.7_
 
 - Recompiled this documentation using Doxygen.
-- Replaced ledwiz.dll for DOFLinx & Pinscape to avoid crashing (see http://mjrnet.org/pinscape/dll-updates.html for more info). Needs testing by real LEDWiz users to confirm actual stability.
 
 
 _2017.5-2017.6_

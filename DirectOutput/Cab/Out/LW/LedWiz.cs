@@ -25,7 +25,6 @@ namespace DirectOutput.Cab.Out.LW
     /// 
     /// \image html LedWizLogo.jpg
     /// 
-    /// Please note: the original ledwiz.dll (7KB) used by this class was replaced 4th of June 2017 to avoid crashes with Pinscape when used with DOFLinx. See http://mjrnet.org/pinscape/dll-updates.html for more info.
     /// </summary>
     public class LedWiz : OutputControllerBase, IOutputController, IDisposable
     {
