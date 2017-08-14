@@ -2,10 +2,16 @@
 <Weavers>
   <Costura>
     <Unmanaged32Assemblies>
+      ProPinballBridge
+      FTD2XX32
+      ledwiz32
+      PacDrive32
     </Unmanaged32Assemblies>
     <Unmanaged64Assemblies>
       ProPinballBridge
-      ftd2xx
+      FTD2XX64
+      ledwiz64
+      PacDrive64
     </Unmanaged64Assemblies>
   </Costura>
 </Weavers>
