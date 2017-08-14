@@ -53,13 +53,13 @@ namespace DirectOutput.Cab.Out.FTDIChip
             if (hFTD2XXDLL == IntPtr.Zero)
             {
                 // Load our FTD2XX.DLL library
-                hFTD2XXDLL = LoadLibrary(@"FTD2XX.DLL");
+                hFTD2XXDLL = IntPtr.Size == 8 ? LoadLibrary(@"FTD2XX64.DLL") : LoadLibrary(@"FTD2XX32.DLL");
                 if (hFTD2XXDLL == IntPtr.Zero)
                 {
                     // Failed to load our FTD2XX.DLL library from System32 or the application directory
                     // Try the same directory that this FTD2XX_NET DLL is in
                   
-                    hFTD2XXDLL = LoadLibrary(@Path.GetDirectoryName(GetType().Assembly.Location) + "\\FTD2XX.DLL");
+                    hFTD2XXDLL = LoadLibrary(@Path.GetDirectoryName(GetType().Assembly.Location) + "\\" + (IntPtr.Size == 8 ? "FTD2XX64.DLL" : "FTD2XX32.DLL"));
                 }
             }
 

@@ -233,17 +233,69 @@ namespace DirectOutput.Cab.Out.LW
             public int numdevices;
         }
 
-        [DllImport("LEDWiz", CallingConvention = CallingConvention.Cdecl)]
-        private extern static void LWZ_SBA(uint device, uint bank0, uint bank1, uint bank2, uint bank3, uint globalPulseSpeed);
+		// 32-bit imports
+        [DllImport("LEDWiz32", EntryPoint = "LWZ_SBA", CallingConvention = CallingConvention.StdCall)]
+        private extern static void LWZ_SBA_32(uint device, uint bank0, uint bank1, uint bank2, uint bank3, uint globalPulseSpeed);
 
-        [DllImport("LEDWiz", CallingConvention = CallingConvention.Cdecl)]
-        private extern static void LWZ_PBA(uint device, uint brightness);
+        [DllImport("LEDWiz32", EntryPoint = "LWZ_PBA", CallingConvention = CallingConvention.StdCall)]
+        private extern static void LWZ_PBA_32(uint device, uint brightness);
 
-        [DllImport("LEDWiz", CallingConvention = CallingConvention.Cdecl)]
-        private extern static void LWZ_REGISTER(uint h, uint hwnd);
+        [DllImport("LEDWiz32", EntryPoint = "LWZ_REGISTER", CallingConvention = CallingConvention.StdCall)]
+        private extern static void LWZ_REGISTER_32(uint h, uint hwnd);
 
-        [DllImport("LEDWiz", CallingConvention = CallingConvention.Cdecl)]
-        private extern static void LWZ_SET_NOTIFY(MulticastDelegate notifyProc, uint list);
+        [DllImport("LEDWiz32", EntryPoint = "LWZ_SET_NOTIFY", CallingConvention = CallingConvention.StdCall)]
+        private extern static void LWZ_SET_NOTIFY_32(MulticastDelegate notifyProc, uint list);
+
+		// 64-bit imports
+		[DllImport("LEDWiz64", EntryPoint = "LWZ_SBA", CallingConvention = CallingConvention.StdCall)]
+        private extern static void LWZ_SBA_64(uint device, uint bank0, uint bank1, uint bank2, uint bank3, uint globalPulseSpeed);
+
+        [DllImport("LEDWiz64", EntryPoint = "LWZ_PBA", CallingConvention = CallingConvention.StdCall)]
+        private extern static void LWZ_PBA_64(uint device, uint brightness);
+
+        [DllImport("LEDWiz64", EntryPoint = "LWZ_REGISTER", CallingConvention = CallingConvention.StdCall)]
+        private extern static void LWZ_REGISTER_64(uint h, uint hwnd);
+
+        [DllImport("LEDWiz64", EntryPoint = "LWZ_SET_NOTIFY", CallingConvention = CallingConvention.StdCall)]
+        private extern static void LWZ_SET_NOTIFY_64(MulticastDelegate notifyProc, uint list);
+
+		// DLL API
+		private static void LWZ_SBA(uint device, uint bank0, uint bank1, uint bank2, uint bank3, uint globalPulseSpeed)
+		{
+			if (IntPtr.Size == 8) {
+				LWZ_SBA_64(device, bank0, bank1, bank2, bank3, globalPulseSpeed);
+			} else {
+				LWZ_SBA_32(device, bank0, bank1, bank2, bank3, globalPulseSpeed);
+			}
+		}
+
+        private static void LWZ_PBA(uint device, uint brightness)
+		{
+			if (IntPtr.Size == 8) {
+				LWZ_PBA_64(device, brightness);
+			} else {
+				LWZ_PBA_32(device, brightness);
+			}
+		}
+
+        private static void LWZ_REGISTER(uint h, uint hwnd)
+		{
+			if (IntPtr.Size == 8) {
+				LWZ_REGISTER_64(h, hwnd);
+			} else {
+				LWZ_REGISTER_32(h, hwnd);
+			}
+		}
+
+        private static void LWZ_SET_NOTIFY(MulticastDelegate notifyProc, uint list)
+		{
+			if (IntPtr.Size == 8) {
+				LWZ_SET_NOTIFY_64(notifyProc, list);
+			} else {
+				LWZ_SET_NOTIFY_32(notifyProc, list);
+			}
+		}
+
 
         private delegate void NotifyDelegate(int reason, uint newDevice);
 
