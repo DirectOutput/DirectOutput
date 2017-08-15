@@ -225,8 +225,8 @@ namespace DirectOutput.Cab.Out.LW
 
 
         #region LEDWIZ Static Private Methods & Properties
-        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
-        private struct LWZDEVICELIST
+		[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
+        public struct LWZDEVICELIST
         {
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = LWZ_MAX_DEVICES)]
             public uint[] handles;
@@ -234,67 +234,67 @@ namespace DirectOutput.Cab.Out.LW
         }
 
 		// 32-bit imports
-        [DllImport("LEDWiz32", EntryPoint = "LWZ_SBA", CallingConvention = CallingConvention.StdCall)]
+        [DllImport("ledwiz32.dll", EntryPoint = "LWZ_SBA", CallingConvention = CallingConvention.StdCall)]
         private extern static void LWZ_SBA_32(uint device, uint bank0, uint bank1, uint bank2, uint bank3, uint globalPulseSpeed);
 
-        [DllImport("LEDWiz32", EntryPoint = "LWZ_PBA", CallingConvention = CallingConvention.StdCall)]
-        private extern static void LWZ_PBA_32(uint device, uint brightness);
+        [DllImport("ledwiz32.dll", EntryPoint = "LWZ_PBA", CallingConvention = CallingConvention.StdCall)]
+        private extern static void LWZ_PBA_32(uint device, byte[] brightness);
 
-        [DllImport("LEDWiz32", EntryPoint = "LWZ_REGISTER", CallingConvention = CallingConvention.StdCall)]
+        [DllImport("ledwiz32.dll", EntryPoint = "LWZ_REGISTER", CallingConvention = CallingConvention.StdCall)]
         private extern static void LWZ_REGISTER_32(uint h, uint hwnd);
 
-        [DllImport("LEDWiz32", EntryPoint = "LWZ_SET_NOTIFY", CallingConvention = CallingConvention.StdCall)]
-        private extern static void LWZ_SET_NOTIFY_32(MulticastDelegate notifyProc, uint list);
+        [DllImport("ledwiz32.dll", EntryPoint = "LWZ_SET_NOTIFY", CallingConvention = CallingConvention.StdCall)]
+        private extern static void LWZ_SET_NOTIFY_32(MulticastDelegate notifyProc, IntPtr list);
 
-		// 64-bit imports
-		[DllImport("LEDWiz64", EntryPoint = "LWZ_SBA", CallingConvention = CallingConvention.StdCall)]
+        // 64-bit imports
+        [DllImport("ledwiz64.dll", EntryPoint = "LWZ_SBA", CallingConvention = CallingConvention.StdCall)]
         private extern static void LWZ_SBA_64(uint device, uint bank0, uint bank1, uint bank2, uint bank3, uint globalPulseSpeed);
 
-        [DllImport("LEDWiz64", EntryPoint = "LWZ_PBA", CallingConvention = CallingConvention.StdCall)]
-        private extern static void LWZ_PBA_64(uint device, uint brightness);
+        [DllImport("ledwiz64.dll", EntryPoint = "LWZ_PBA", CallingConvention = CallingConvention.StdCall)]
+        private extern static void LWZ_PBA_64(uint device, byte[] brightness);
 
-        [DllImport("LEDWiz64", EntryPoint = "LWZ_REGISTER", CallingConvention = CallingConvention.StdCall)]
+        [DllImport("ledwiz64.dll", EntryPoint = "LWZ_REGISTER", CallingConvention = CallingConvention.StdCall)]
         private extern static void LWZ_REGISTER_64(uint h, uint hwnd);
 
-        [DllImport("LEDWiz64", EntryPoint = "LWZ_SET_NOTIFY", CallingConvention = CallingConvention.StdCall)]
-        private extern static void LWZ_SET_NOTIFY_64(MulticastDelegate notifyProc, uint list);
+        [DllImport("ledwiz64.dll", EntryPoint = "LWZ_SET_NOTIFY", CallingConvention = CallingConvention.StdCall)]
+        private extern static void LWZ_SET_NOTIFY_64(MulticastDelegate notifyProc, IntPtr list);
 
 		// DLL API
-		private static void LWZ_SBA(uint device, uint bank0, uint bank1, uint bank2, uint bank3, uint globalPulseSpeed)
-		{
-			if (IntPtr.Size == 8) {
-				LWZ_SBA_64(device, bank0, bank1, bank2, bank3, globalPulseSpeed);
-			} else {
-				LWZ_SBA_32(device, bank0, bank1, bank2, bank3, globalPulseSpeed);
-			}
-		}
+        private static void LWZ_SBA(uint device, uint bank0, uint bank1, uint bank2, uint bank3, uint globalPulseSpeed)
+        {
+            if (IntPtr.Size == 8) {
+                LWZ_SBA_64(device, bank0, bank1, bank2, bank3, globalPulseSpeed);
+            } else {
+                LWZ_SBA_32(device, bank0, bank1, bank2, bank3, globalPulseSpeed);
+            }
+        }
 
-        private static void LWZ_PBA(uint device, uint brightness)
-		{
-			if (IntPtr.Size == 8) {
-				LWZ_PBA_64(device, brightness);
-			} else {
-				LWZ_PBA_32(device, brightness);
-			}
-		}
+        private static void LWZ_PBA(uint device, byte[] brightness)
+        {
+            if (IntPtr.Size == 8) {
+                LWZ_PBA_64(device, brightness);
+            } else {
+                LWZ_PBA_32(device, brightness);
+            }
+        }
 
         private static void LWZ_REGISTER(uint h, uint hwnd)
-		{
-			if (IntPtr.Size == 8) {
-				LWZ_REGISTER_64(h, hwnd);
-			} else {
-				LWZ_REGISTER_32(h, hwnd);
-			}
-		}
+        {
+            if (IntPtr.Size == 8) {
+                LWZ_REGISTER_64(h, hwnd);
+            } else {
+                LWZ_REGISTER_32(h, hwnd);
+            }
+        }
 
-        private static void LWZ_SET_NOTIFY(MulticastDelegate notifyProc, uint list)
-		{
-			if (IntPtr.Size == 8) {
-				LWZ_SET_NOTIFY_64(notifyProc, list);
-			} else {
-				LWZ_SET_NOTIFY_32(notifyProc, list);
-			}
-		}
+        private static void LWZ_SET_NOTIFY(MulticastDelegate notifyProc, IntPtr list)
+        {
+            if (IntPtr.Size == 8) {
+                LWZ_SET_NOTIFY_64(notifyProc, list);
+            } else {
+                LWZ_SET_NOTIFY_32(notifyProc, list);
+            }
+        }
 
 
         private delegate void NotifyDelegate(int reason, uint newDevice);
@@ -350,17 +350,20 @@ namespace DirectOutput.Cab.Out.LW
                 if (StartedUp == 0)
                 {
                     MainWindow = IntPtr.Zero;
-                    deviceList.handles = new uint[LWZ_MAX_DEVICES] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+                    deviceList.handles = new uint[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
                     deviceList.numdevices = 0;
                     try
                     {
-                        NotifyDelegate del = new NotifyDelegate(Notify);
+                        NotifyDelegate notifyDelegate = new NotifyDelegate(Notify);
 
-                        IntPtr ptr = Marshal.AllocCoTaskMem(Marshal.SizeOf(typeof(LWZDEVICELIST)));
-                        Marshal.StructureToPtr(deviceList, ptr, true);
-                        LWZ_SET_NOTIFY(del, (uint)ptr.ToInt32());
-                        deviceList = (LWZDEVICELIST)Marshal.PtrToStructure(ptr, typeof(LWZDEVICELIST));
-                        Marshal.FreeCoTaskMem(ptr);
+                        IntPtr deviceListPtr = Marshal.AllocCoTaskMem(Marshal.SizeOf(typeof(LWZDEVICELIST)));
+                        Marshal.StructureToPtr(deviceList, deviceListPtr, true);
+
+                        LWZ_SET_NOTIFY(notifyDelegate, deviceListPtr);
+
+                        deviceList = (LWZDEVICELIST)Marshal.PtrToStructure(deviceListPtr, typeof(LWZDEVICELIST));
+                        Marshal.FreeCoTaskMem(deviceListPtr);
+
                         Log.Debug("Ledwiz devicelist content. Handles: {0}, Num devices: {1}".Build(string.Join(", ", deviceList.handles.Select(H => H.ToString())), deviceList.numdevices));
                     }
                     catch (Exception ex)
@@ -388,7 +391,7 @@ namespace DirectOutput.Cab.Out.LW
                         {
                             S.ShutdownLighting();
                         }
-                        LWZ_SET_NOTIFY((System.MulticastDelegate)null, 0);
+                        LWZ_SET_NOTIFY((System.MulticastDelegate)null, new IntPtr());
                     }
                 }
             }
@@ -500,14 +503,11 @@ namespace DirectOutput.Cab.Out.LW
         /// </summary>
         public LedWiz()
         {
+            Log.Write("Opening " + (IntPtr.Size == 8 ? "64" : "32") + "-bit LedWiz driver...");
             StartupLedWiz();
 
             Outputs = new OutputList();
-
-
         }
-
-
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LedWiz"/> class.
@@ -517,6 +517,7 @@ namespace DirectOutput.Cab.Out.LW
             : this()
         {
             this.Number = Number;
+            this.Name = "LedWiz";
         }
 
         #endregion
@@ -892,10 +893,7 @@ namespace DirectOutput.Cab.Out.LW
             {
                 if (IsPresent)
                 {
-                    IntPtr ptr = Marshal.AllocCoTaskMem(val.Length);
-                    Marshal.Copy(val, 0, ptr, val.Length);
-                    LWZ_PBA((uint)Number, (uint)ptr.ToInt32());
-                    Marshal.FreeCoTaskMem(ptr);
+                    LWZ_PBA((uint)Number, val);
                 }
             }
 
