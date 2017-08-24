@@ -13,9 +13,7 @@ This is an executable that sends all feedback signals to DOF.
 3. In Steam, right-click on Pro Pinball, set launch options and add `fDOFSlave`. 
    You'll also need the `m2` or `m3` parameter depending on your setup, otherwise
    the executable won't be called.
-4. Add an environment variable called `DOF_HOME` pointing to your DOF installation 
-   (the folder where `config` sits in).
-5. Create `GlobalConfig_Dmdext.xml` with your config (TBD)
+4. Create `directoutputconfig.ini` with your config. The game name is "timeshock".
 
 ### Configuration
 
