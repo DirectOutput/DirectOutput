@@ -30,52 +30,52 @@ The following is a list of the IDs assigned to each event:
 
 #### Flashers
 
-- `0` - left return lane
-- `1` - right return lane
-- `2` - time maching
-- `3` - lock alpha
-- `4` - lock beta
-- `5` - lock gamma
-- `6` - lock delta
-- `7` - crystal
+- `L0` - left return lane
+- `L1` - right return lane
+- `L2` - time maching
+- `L3` - lock alpha
+- `L4` - lock beta
+- `L5` - lock gamma
+- `L6` - lock delta
+- `L7` - crystal
 
 #### Solenoids
 	
-- `0` - plunger
-- `1` - through eject
-- `2` - knocker
-- `3` - left slingshot
-- `4` - right slingshot
-- `5` - left jet
-- `6` - right jet,
-- `7` - bottom jet
-- `8` - left drops up
-- `9` - right drops up
-- `10` - lock release 1
-- `11` - lock release 2
-- `12` - lock release 3
-- `13` - lock release A
-- `14` - lock release B
-- `15` - lock release C
-- `16` - lock release D
-- `17` - middle eject
-- `18` - top eject strong,
-- `19` - top eject weak
-- `20` - middle ramp down
-- `21` - high divertor
-- `22` - low divertor
-- `23` - scoop retract
-- `24` - magno save
-- `25` - magno lock
+- `S0` - plunger
+- `S1` - through eject
+- `S2` - knocker
+- `S3` - left slingshot
+- `S4` - right slingshot
+- `S5` - left jet
+- `S6` - right jet,
+- `S7` - bottom jet
+- `S8` - left drops up
+- `S9` - right drops up
+- `S10` - lock release 1
+- `S11` - lock release 2
+- `S12` - lock release 3
+- `S13` - lock release A
+- `S14` - lock release B
+- `S15` - lock release C
+- `S16` - lock release D
+- `S17` - middle eject
+- `S18` - top eject strong,
+- `S19` - top eject weak
+- `S20` - middle ramp down
+- `S21` - high divertor
+- `S22` - low divertor
+- `S23` - scoop retract
+- `S24` - magno save
+- `S25` - magno lock
 
 #### Flippers
 
-- `0` - low left
-- `1` - low right
-- `2` - high right
+- `S128` - low left
+- `S129` - low right
+- `S130` - high right
 
 #### Button Lights        
 
-- `0` - start
-- `1` - fire
-- `2` - magnosave
+- `D0` - start
+- `D1` - fire
+- `D2` - magnosave
