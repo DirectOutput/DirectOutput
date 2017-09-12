@@ -27,19 +27,19 @@ namespace ProPinballSlave
 					if (flasherIntensity < 0.1) {
 						DirectOutputHandler.UpdateTableElement(TableElementTypeEnum.Lamp.ToString(), flasherId, 0);
 					}
-					Console.WriteLine("Flasher {0} ({1}): {2}", flasherId, new string(flasherName), flasherIntensity);
+					Console.WriteLine("{0} | Flasher {1} ({2}): {3}", DateTime.Now, flasherId, new string(flasherName), flasherIntensity);
 
 				}, (solenoidId, solenoidName, solenoidStatus) => {
 					DirectOutputHandler.UpdateTableElement(TableElementTypeEnum.Solenoid.ToString(), solenoidId, solenoidStatus);
-					Console.WriteLine("Solenoid {0} ({1}): {2}", solenoidId, new string(solenoidName), solenoidStatus);
+					Console.WriteLine("{0} | Solenoid {1} ({2}): {3}", DateTime.Now, solenoidId, new string(solenoidName), solenoidStatus);
 
 				}, (flipperId, flipperName, flipperStatus) => {
 					DirectOutputHandler.UpdateTableElement(TableElementTypeEnum.Solenoid.ToString(), flipperId + 128, flipperStatus);
-					Console.WriteLine("Flipper {0} ({1}): {2}", flipperId, new string(flipperName), flipperStatus);
+					Console.WriteLine("{0} | Flipper {1} ({2}): {3}", DateTime.Now, flipperId, new string(flipperName), flipperStatus);
 
 				}, (buttonId, buttonName, buttonStatus) => {
 					DirectOutputHandler.UpdateTableElement(TableElementTypeEnum.LED.ToString(), buttonId, buttonStatus);
-					Console.WriteLine("Button {0} ({1}): {2}", buttonId, new string(buttonName), buttonStatus);
+					Console.WriteLine("{0} | Button {1} ({2}): {3}", DateTime.Now, buttonId, new string(buttonName), buttonStatus);
 
 				}, msg => {
 					Console.WriteLine("ERROR: {0}", new string(msg));
