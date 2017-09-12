@@ -517,7 +517,6 @@ namespace DirectOutput.Cab.Out.LW
             : this()
         {
             this.Number = Number;
-            this.Name = "LedWiz";
         }
 
         #endregion
