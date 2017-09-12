@@ -144,7 +144,7 @@ namespace DirectOutput
                 }
 
 
-                HostAppFilename = "GlobalConfig_{0}".Build(HostAppFilename);
+                //HostAppFilename = "GlobalConfig_{0}".Build(HostAppFilename);
 
 				//Check config dir for global config file
 				var assemblyLocationAvailable = !Assembly.GetExecutingAssembly().Location.IsNullOrEmpty();
