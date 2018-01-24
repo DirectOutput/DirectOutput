@@ -12,6 +12,7 @@ public static class byteExtensions
     /// <summary>
     /// Limits the value to the supplied Min- and MaxValues
     /// </summary>
+    /// <param name="d">The value to clamp</param>
     /// <param name="MinValue">Minimum Value</param>
     /// <param name="MaxValue">Maximum Value</param>
     /// <returns>Double limited the to specified Min- and MaxValues</returns>

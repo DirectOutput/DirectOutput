@@ -42,6 +42,7 @@ public static class StringExtensions
     /// <summary>
     /// Determines whether the specified part of the string is a hex number.
     /// </summary>
+    /// <param name="s">The string</param>
     /// <param name="startindex">The startindex of the substring to check.</param>
     /// <returns>
     ///   <c>true</c> if the specified part of the string is a hex number, otherwise <c>false</c>.
@@ -54,6 +55,7 @@ public static class StringExtensions
     /// <summary>
     /// Determines whether the specified part of the string is a hex number.
     /// </summary>
+    /// <param name="s">The string</param>
     /// <param name="startindex">The startindex of the substring to check.</param>
     /// <param name="length">The length of the substrng to check.</param>
     /// <returns>
@@ -97,6 +99,7 @@ public static class StringExtensions
     /// <summary>
     /// Returns a number of characters from the left-hand side of this instance. 
     /// </summary>
+    /// <param name="s">The string</param>
     /// <param name="length">The number of characters to return.</param>
     /// <returns>Returns a string containing the leftmost <paramref name="length"/> characters of the string.</returns>
     public static string Left(this string s, int length)
@@ -107,6 +110,7 @@ public static class StringExtensions
     /// <summary>
     /// Returns a number of characters from the right-hand side of this instance. 
     /// </summary>
+    /// <param name="s">The string</param>
     /// <param name="length">The number of characters to return.</param>
     /// <returns>Returns a string containing the rightmost <paramref name="length"/> characters of the string.</returns>
     public static string Right(this string s, int length)
@@ -118,6 +122,7 @@ public static class StringExtensions
     /// Retrieves a substring from this instance. The substring starts at a specified character position and has a specified length. 
     /// <para>The behaviour of this method is the same as substring.</para>
     /// </summary>
+    /// <param name="s">The string</param>
     /// <param name="startIndex">The zero-based starting character position of a substring in this instance.</param>
     /// <param name="length">The number of characters in the substring. </param>
     /// <returns>A string that is equivalent to the substring of <paramref name="length"/> that begins at <paramref name="startIndex"/> in this instance, or Empty if <paramref name="startIndex"/> is equal to the length of this instance </returns>
@@ -194,6 +199,7 @@ public static class StringExtensions
     /// <summary>
     /// Replaces one or more format items in the string with the string representation of a specified object.
     /// </summary>
+    /// <param name="s">The string</param>
     /// <param name="arg0">The object to format.</param>
     /// <returns>A copy the string in which any format items are replaced by the string representation of <paramref name="arg0"/>.</returns>
     public static string Build(this string s, object arg0)
@@ -205,6 +211,7 @@ public static class StringExtensions
     /// <summary>
     /// Replaces the format items in the string with the string representation of two specified objects.
     /// </summary>
+    /// <param name="s">The string</param>
     /// <param name="arg0">The first object to format. </param>
     /// <param name="arg1">The second object to format. </param>
     /// <returns>A copy of the string in which format items are replaced by the string representations of <paramref name="arg0"/> and <paramref name="arg1"/>.</returns>
@@ -217,6 +224,7 @@ public static class StringExtensions
     /// <summary>
     /// Replaces the format items in the string with the string representation of three specified objects.
     /// </summary>
+    /// <param name="s">The string</param>
     /// <param name="arg0">The first object to format. </param>
     /// <param name="arg1">The second object to format. </param>
     /// <param name="arg2">The third object to format. </param>
@@ -230,6 +238,7 @@ public static class StringExtensions
     /// <summary>
     /// Replaces the format item in the string with the string representation of a corresponding object in a specified array.
     /// </summary>
+    /// <param name="s">The string</param>
     /// <param name="args">An object array that contains zero or more objects to format. </param>
     /// <returns>A copy of the string in which the format items have been replaced by the string representation of the corresponding objects in <paramref name="args"/>.</returns>
     public static string Build(this string s, object[] args)
@@ -245,6 +254,7 @@ public static class StringExtensions
     /// Indicates if the string is a valid email address.
     /// <para>Only the structure of the string is checked. No checks on existance of the domain or email address are performed.</para>
     /// </summary>
+    /// <param name="s">The string</param>
     /// <returns>true if the string is a valid email address, otherwise false.</returns>
     public static bool IsEmail(this string s)
     {
@@ -255,6 +265,7 @@ public static class StringExtensions
     /// <summary>
     /// Writes the string to a file
     /// </summary>
+    /// <param name="s">The string</param>
     /// <param name="FileName">The complete file path to write to.<para>
     /// If the file does not exist a new file will be created. If the file exists, the file will be overwritten.</para> </param>
     public static void WriteToFile(this string s, string FileName)
@@ -265,6 +276,7 @@ public static class StringExtensions
     /// <summary>
     /// Writes the string to a file
     /// </summary>
+    /// <param name="s">The string</param>
     /// <param name="FileName">The complete file path to write to. </param>
     /// <param name="Append">Determines whether data is to be appended to the file. If the file exists and append is false, the file is overwritten. If the file exists and append is true, the data is appended to the file. Otherwise, a new file is created. </param>
     public static void WriteToFile(this string s, string FileName, bool Append)

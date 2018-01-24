@@ -1,7 +1,7 @@
 ﻿
-/// <summary>
-/// This namespace does only contain the NullEffect.
-/// </summary>
+// <summary>
+// This namespace does only contain the NullEffect.
+// </summary>
 namespace DirectOutput.FX.NullFX
 {
     /// <summary>

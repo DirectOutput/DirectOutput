@@ -8,9 +8,9 @@ using DirectOutput.General.BitmapHandling;
 using DirectOutput.FX.MatrixFX.BitmapShapes;
 
 
-/// <summary>
-/// The Table namespace contains all table specific classes like the Table class itself, TableElement and effect assigment classes. 
-/// </summary>
+// <summary>
+// The Table namespace contains all table specific classes like the Table class itself, TableElement and effect assigment classes. 
+// </summary>
 namespace DirectOutput.Table
 {
 

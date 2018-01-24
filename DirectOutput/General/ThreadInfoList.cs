@@ -87,6 +87,7 @@ namespace DirectOutput.General
         /// \note This method has to be called by the thread to be monitored.
         /// </summary>
         /// <param name="Exception">The exception to record.</param>
+        /// <param name="HostObject">The host object</param>
         public void RecordException(Exception Exception, object HostObject=null) {
             HeartBeat(HostObject);
             this[Thread.CurrentThread].RecordException(Exception);

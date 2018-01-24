@@ -1,12 +1,10 @@
-﻿
-
-
-/// <summary>
-/// DirectOutput is the root namespace for the DirectOutput framework. 
-/// </summary>
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
 using System;
+
+// <summary>
+// DirectOutput is the root namespace for the DirectOutput framework. 
+// </summary>
 namespace DirectOutput
 {
     /// <summary>

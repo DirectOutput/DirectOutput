@@ -97,7 +97,7 @@ namespace DirectOutput.FX.MatrixFX
 
 
         /// <summary>
-        /// Gets a value indicating whether this <see cref="MatrixFlickerEffectBase"/> is active.
+        /// Gets a value indicating whether this effect is active.
         /// </summary>
         /// <value>
         ///   <c>true</c> if active; otherwise, <c>false</c>.

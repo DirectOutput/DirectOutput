@@ -306,10 +306,10 @@ namespace DirectOutput.General.BitmapHandling
         private int _Height = 0;
         /// <summary>
         /// Get the height of the frame.<br/>
-        /// </summary>
         /// <value>
         /// The height of the frame.
         /// </value>
+        /// </summary>
         public int Height
         {
             get
@@ -321,8 +321,8 @@ namespace DirectOutput.General.BitmapHandling
 
         /// <summary>
         /// Loads the currently active frame of the specified Image into the FastBitmap object.
+        /// <param name="Image">The image.</param>
         /// </summary>
-        /// <param name="Bitmap">The bitmap.</param>
         public void Load(Image Image)
         {
             Load(new Bitmap(Image));
@@ -330,8 +330,8 @@ namespace DirectOutput.General.BitmapHandling
 
         /// <summary>
         /// Loads the currently active frame of the specified bitmap into the FastBitmap object.
-        /// </summary>
         /// <param name="Bitmap">The bitmap.</param>
+        /// </summary>
         public void Load(Bitmap Bitmap)
         {
 

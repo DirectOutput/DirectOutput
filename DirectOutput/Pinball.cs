@@ -776,12 +776,12 @@ namespace DirectOutput
         }
 
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Pinball" /> class and calls the Init method with the specified parameters.
-        /// </summary>
-        /// <param name="GlobalConfigFilename">The global config filename.</param>
-        /// <param name="TableFilename">The table filename.</param>
-        /// <param name="RomName">Name of the rom.</param>
+        // <summary>
+        // Initializes a new instance of the <see cref="Pinball" /> class and calls the Init method with the specified parameters.
+        // </summary>
+        // <param name="GlobalConfigFilename">The global config filename.</param>
+        // <param name="TableFilename">The table filename.</param>
+        // <param name="RomName">Name of the rom.</param>
         //public Pinball(string GlobalConfigFilename = "", string TableFilename = "", string RomName = "")
         //    : this()
         //{

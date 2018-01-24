@@ -297,8 +297,8 @@ namespace DirectOutput.Cab
 
         /// <summary>
         /// Initializes the cabinet.
+        /// <param name="CabinetOwner">The ICabinetOwner object for the cabinet instance.</param>
         /// </summary>
-        /// <param name="Owner">The ICabinetOwner object for the cabinet instance.</param>
         public void Init(ICabinetOwner CabinetOwner)
         {
             Log.Write("Initializing cabinet");
