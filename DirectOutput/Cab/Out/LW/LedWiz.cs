@@ -29,14 +29,10 @@ namespace DirectOutput.Cab.Out.LW
     /// </summary>
     public class LedWiz : OutputControllerBase, IOutputController, IDisposable
     {
-        
+        #region Number
 
 
         private object NumberUpdateLocker = new object();
-
-
-        #region Number property of type int with events
-        #region Number property core parts
         private int _Number = -1;
 
         /// <summary>
@@ -55,63 +51,32 @@ namespace DirectOutput.Cab.Out.LW
             get { return _Number; }
             set
             {
-                int V;
-
-                V = value.Limit(1, 16);
-
+                if (!value.IsBetween(1, 16))
+                {
+                    throw new Exception("LedWiz Numbers must be between 1-16. The supplied number {0} is out of range.".Build(value));
+                }
                 lock (NumberUpdateLocker)
                 {
-                    if (_Number != V)
+                    if (_Number != value)
                     {
-                        OnNumberChanging();
-                        _Number = V;
-  
-                        OnNumberChanged();
+
+                        if (Name.IsNullOrWhiteSpace() || Name == "LedWiz {0:00}".Build(_Number))
+                        {
+                            Name = "LedWiz {0:00}".Build(value);
+                        }
+
+                        _Number = value;
+
                     }
                 }
-
-
             }
         }
 
-        /// <summary>
-        /// Fires when the Number property is about to change its value
-        /// </summary>
-        public event EventHandler<EventArgs> NumberChanging;
-
-        /// <summary>
-        /// Fires when the Number property has changed its value
-        /// </summary>
-        public event EventHandler<EventArgs> NumberChanged;
         #endregion
-
-        /// <summary>
-        /// Is called when the Number property is about to change its value and fires the NumberChanging event
-        /// </summary>
-        protected void OnNumberChanging()
-        {
-            if (NumberChanging != null) NumberChanging(this, new EventArgs());
-
-            //Insert more logic to execute before the Number property changes here
-        }
-
-        /// <summary>
-        /// Is called when the Number property has changed its value and fires the NumberChanged event
-        /// </summary>
-        protected void OnNumberChanged()
-        {
-            //Insert more logic to execute after the Number property has changed here
-            OnPropertyChanged("Number");
-            if (NumberChanged != null) NumberChanged(this, new EventArgs());
-        }
-
-        #endregion
-
 
 
         #region MinCommandIntervalMs property of type int with events
-        #region MinCommandIntervalMs property core parts
-        private int _MinCommandIntervalMs=1;
+        private int _MinCommandIntervalMs = 1;
         private bool MinCommandIntervalMsSet = false;
 
         /// <summary>
@@ -131,49 +96,12 @@ namespace DirectOutput.Cab.Out.LW
             get { return _MinCommandIntervalMs; }
             set
             {
-                if (_MinCommandIntervalMs != value.Limit(0, 1000))
-                {
-                    OnMinCommandIntervalMsChanging();
-                    _MinCommandIntervalMs = value.Limit(0, 1000);
-                    MinCommandIntervalMsSet = true;
-                    OnMinCommandIntervalMsChanged();
-                }
+                _MinCommandIntervalMs = value.Limit(0, 1000);
+                MinCommandIntervalMsSet = true;
             }
         }
 
-        /// <summary>
-        /// Fires when the MinCommandIntervalMs property is about to change its value
-        /// </summary>
-        public event EventHandler<EventArgs> MinCommandIntervalMsChanging;
-
-        /// <summary>
-        /// Fires when the MinCommandIntervalMs property has changed its value
-        /// </summary>
-        public event EventHandler<EventArgs> MinCommandIntervalMsChanged;
-         #endregion
-
-        /// <summary>
-        /// Is called when the MinCommandIntervalMs property is about to change its value and fires the MinCommandIntervalMsChanging event
-        /// </summary>
-        protected void OnMinCommandIntervalMsChanging()
-        {
-            if (MinCommandIntervalMsChanging != null) MinCommandIntervalMsChanging(this, new EventArgs());
-            
-            //Insert more logic to execute before the MinCommandIntervalMs property changes here
-        }
-
-        /// <summary>
-        /// Is called when the MinCommandIntervalMs property has changed its value and fires the MinCommandIntervalMsChanged event
-        /// </summary>
-        protected void OnMinCommandIntervalMsChanged()
-        {
-            //Insert more logic to execute after the MinCommandIntervalMs property has changed here
-            OnPropertyChanged("MinCommandIntervalMs");
-            if (MinCommandIntervalMsChanged != null) MinCommandIntervalMsChanged(this, new EventArgs());
-        }
-
         #endregion
-
 
 
         #region IOutputcontroller implementation
@@ -520,9 +448,8 @@ namespace DirectOutput.Cab.Out.LW
             Dispose(false);
         }
 
+
         #region Dispose
-
-
 
         /// <summary>
         /// Disposes the LedWiz object.
@@ -533,6 +460,7 @@ namespace DirectOutput.Cab.Out.LW
             Dispose(true);
             GC.SuppressFinalize(this); // remove this from gc finalizer list
         }
+        
         /// <summary>
         /// Releases unmanaged and - optionally - managed resources.
         /// </summary>
@@ -574,8 +502,6 @@ namespace DirectOutput.Cab.Out.LW
 
         #endregion
 
-
-
         #region Constructor
 
 
@@ -596,11 +522,10 @@ namespace DirectOutput.Cab.Out.LW
         /// </summary>
         public LedWiz()
         {
+            Log.Write("Opening " + (IntPtr.Size == 8 ? "64" : "32") + "-bit LedWiz driver...");
             StartupLedWiz();
             Outputs = new OutputList();
         }
-
-
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LedWiz"/> class.
@@ -613,10 +538,6 @@ namespace DirectOutput.Cab.Out.LW
         }
 
         #endregion
-
-
-
-
 
 
         #region Internal class for LedWiz output states and update methods

@@ -24,11 +24,11 @@ namespace DirectOutput.Cab.Out.Pac
     /// </summary>
     public class PacLed64 : OutputControllerBase, IOutputController
     {
+        #region Id
 
 
-        #region Id property of type int with events
-        #region Id property core parts
-        private int _Id = 1;
+        private object IdUpdateLocker = new object();
+        private int _Id = -1;
 
         /// <summary>
         /// Gets or sets the Id of the PacLed64.<br />
@@ -48,46 +48,23 @@ namespace DirectOutput.Cab.Out.Pac
             {
                 if (!value.IsBetween(1, 4))
                 {
-                   Log.Warning("PacLed64 Ids must be between 1-4. The supplied Id {0} is out of range. Will set Id {1}".Build(value,value.Limit(1,4)));
+                    throw new Exception("PacLed64 Ids must be between 1-4. The supplied Id {0} is out of range.".Build(value));
                 }
-                if (_Id != value.Limit(1,4))
+                lock (IdUpdateLocker)
                 {
-                    OnIdChanging();
-                    _Id = value.Limit(1,4);
-                    OnIdChanged();
+                    if (_Id != value)
+                    {
+
+                        if (Name.IsNullOrWhiteSpace() || Name == "PacLed64 {0:0}".Build(_Id))
+                        {
+                            Name = "PacLed64 {0:0}".Build(value);
+                        }
+
+                        _Id = value;
+
+                    }
                 }
             }
-        }
-
-        /// <summary>
-        /// Fires when the Id property is about to change its value
-        /// </summary>
-        public event EventHandler<EventArgs> IdChanging;
-
-        /// <summary>
-        /// Fires when the Id property has changed its value
-        /// </summary>
-        public event EventHandler<EventArgs> IdChanged;
-        #endregion
-
-        /// <summary>
-        /// Is called when the Id property is about to change its value and fires the IdChanging event
-        /// </summary>
-        protected void OnIdChanging()
-        {
-            if (IdChanging != null) IdChanging(this, new EventArgs());
-
-            //Insert more logic to execute before the Id property changes here
-        }
-
-        /// <summary>
-        /// Is called when the Id property has changed its value and fires the IdChanged event
-        /// </summary>
-        protected void OnIdChanged()
-        {
-            //Insert more logic to execute after the Id property has changed here
-
-            if (IdChanged != null) IdChanged(this, new EventArgs());
         }
 
         #endregion

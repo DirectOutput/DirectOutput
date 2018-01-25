@@ -162,7 +162,7 @@ namespace DirectOutput
                 }
                 catch (Exception E)
                 {
-
+					Console.WriteLine(E.StackTrace);
                     throw new Exception("DirectOutput framework could initialize the log file.\n Inner exception: {0}".Build(E.Message), E);
                 }
             }

@@ -50,8 +50,8 @@ namespace DirectOutput
                         Logger.WriteLine("---------------------------------------------------------------------------------");
                         Logger.WriteLine("This is the MJR Grander Unified DOF R3++ edition of 2018-01-25");
                         Logger.WriteLine("Incorporating: Final DOF R3 beta code by SwissLizard; PWM fixes by Rob Ross; ");
-                        Logger.WriteLine("UltimateIO & Philips Hue by Rambo3 and Boye; Pinscape updates & DLL-free LedWiz");
-                        Logger.WriteLine("improvements by MJR.");
+                        Logger.WriteLine("UltimateIO & Philips Hue by Rambo3 and Boye; ProPinball & 64-bit support by ");
+                        Logger.WriteLine("Freezy; and Pinscape updates & DLL-free LedWiz improvements by MJR.");
                         Logger.WriteLine("DOF was created by SwissLizard");
                         Logger.WriteLine("Main project source code: https://github.com/DirectOutput/DirectOutput");
                         Logger.WriteLine("{0}\t{1}", DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss.fff"), "DirectOutput Logger initialized");

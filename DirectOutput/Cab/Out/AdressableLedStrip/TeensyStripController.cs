@@ -23,453 +23,154 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
     {
         private int[] NumberOfLedsPerStrip = new int[8];
 
-
-        #region NumberOfLedsStrip1 property of type int with events
-        #region NumberOfLedsStrip1 property core parts
-
-
         /// <summary>
-        ///  NumberOfLedsStrip1 property of type int
+        /// Gets or sets the number of leds of ledstrip connected to channel 1 of the Teensy.
         /// </summary>
+        /// <value>
+        /// The number of leds on the ledstrip connected to channel 1 of the Teensy.
+        /// </value>
         public int NumberOfLedsStrip1
         {
-            get { return NumberOfLedsPerStrip[0]; }
+            get
+            {
+                return NumberOfLedsPerStrip[0];
+            }
             set
             {
-                if (NumberOfLedsPerStrip[0] != value)
-                {
-                    OnNumberOfLedsStrip1Changing();
-                    NumberOfLedsPerStrip[0] = value;
-                    base.SetupOutputs();
-                    OnNumberOfLedsStrip1Changed();
-                }
+                NumberOfLedsPerStrip[0] = value;
+                base.SetupOutputs();
             }
         }
-
         /// <summary>
-        /// Fires when the NumberOfLedsStrip1 property is about to change its value
+        /// Gets or sets the number of leds of ledstrip connected to channel 2 of the Teensy.
         /// </summary>
-        public event EventHandler<EventArgs> NumberOfLedsStrip1Changing;
-
-        /// <summary>
-        /// Fires when the NumberOfLedsStrip1 property has changed its value
-        /// </summary>
-        public event EventHandler<EventArgs> NumberOfLedsStrip1Changed;
-        #endregion
-
-        /// <summary>
-        /// Is called when the NumberOfLedsStrip1 property is about to change its value and fires the NumberOfLedsStrip1Changing event
-        /// </summary>
-        protected void OnNumberOfLedsStrip1Changing()
-        {
-            if (NumberOfLedsStrip1Changing != null) NumberOfLedsStrip1Changing(this, new EventArgs());
-
-            //Insert more logic to execute before the NumberOfLedsStrip1 property changes here
-        }
-
-        /// <summary>
-        /// Is called when the NumberOfLedsStrip1 property has changed its value and fires the NumberOfLedsStrip1Changed event
-        /// </summary>
-        protected void OnNumberOfLedsStrip1Changed()
-        {
-            //Insert more logic to execute after the NumberOfLedsStrip1 property has changed here
-            OnPropertyChanged("NumberOfLedsStrip1");
-            if (NumberOfLedsStrip1Changed != null) NumberOfLedsStrip1Changed(this, new EventArgs());
-        }
-
-        #endregion
-
-
-        #region NumberOfLedsStrip2 property of type int with events
-        #region NumberOfLedsStrip2 property core parts
-
-
-        /// <summary>
-        ///  NumberOfLedsStrip2 property of type int
-        /// </summary>
+        /// <value>
+        /// The number of leds on the ledstrip connected to channel 2 of the Teensy.
+        /// </value>
         public int NumberOfLedsStrip2
         {
-            get { return NumberOfLedsPerStrip[1]; }
+            get
+            {
+                return NumberOfLedsPerStrip[1];
+            }
             set
             {
-                if (NumberOfLedsPerStrip[1] != value)
-                {
-                    OnNumberOfLedsStrip2Changing();
-                    NumberOfLedsPerStrip[1] = value;
-                    base.SetupOutputs();
-                    OnNumberOfLedsStrip2Changed();
-                }
+                NumberOfLedsPerStrip[1] = value;
+                base.SetupOutputs();
             }
         }
 
         /// <summary>
-        /// Fires when the NumberOfLedsStrip2 property is about to change its value
+        /// Gets or sets the number of leds of ledstrip connected to channel 3 of the Teensy.
         /// </summary>
-        public event EventHandler<EventArgs> NumberOfLedsStrip2Changing;
-
-        /// <summary>
-        /// Fires when the NumberOfLedsStrip2 property has changed its value
-        /// </summary>
-        public event EventHandler<EventArgs> NumberOfLedsStrip2Changed;
-        #endregion
-
-        /// <summary>
-        /// Is called when the NumberOfLedsStrip2 property is about to change its value and fires the NumberOfLedsStrip2Changing event
-        /// </summary>
-        protected void OnNumberOfLedsStrip2Changing()
-        {
-            if (NumberOfLedsStrip2Changing != null) NumberOfLedsStrip2Changing(this, new EventArgs());
-
-            //Insert more logic to execute before the NumberOfLedsStrip2 property changes here
-        }
-
-        /// <summary>
-        /// Is called when the NumberOfLedsStrip2 property has changed its value and fires the NumberOfLedsStrip2Changed event
-        /// </summary>
-        protected void OnNumberOfLedsStrip2Changed()
-        {
-            //Insert more logic to execute after the NumberOfLedsStrip2 property has changed here
-            OnPropertyChanged("NumberOfLedsStrip2");
-            if (NumberOfLedsStrip2Changed != null) NumberOfLedsStrip2Changed(this, new EventArgs());
-        }
-
-        #endregion
-
-        #region NumberOfLedsStrip3 property of type int with events
-        #region NumberOfLedsStrip3 property core parts
-
-
-        /// <summary>
-        ///  NumberOfLedsStrip3 property of type int
-        /// </summary>
+        /// <value>
+        /// The number of leds on the ledstrip connected to channel 3 of the Teensy.
+        /// </value>
         public int NumberOfLedsStrip3
         {
-            get { return NumberOfLedsPerStrip[2]; }
+            get
+            {
+                return NumberOfLedsPerStrip[2];
+            }
             set
             {
-                if (NumberOfLedsPerStrip[2] != value)
-                {
-                    OnNumberOfLedsStrip3Changing();
-                    NumberOfLedsPerStrip[2] = value;
-                    base.SetupOutputs();
-                    OnNumberOfLedsStrip3Changed();
-                }
+                NumberOfLedsPerStrip[2] = value;
+                base.SetupOutputs();
             }
         }
-
         /// <summary>
-        /// Fires when the NumberOfLedsStrip3 property is about to change its value
+        /// Gets or sets the number of leds of ledstrip connected to channel 4 of the Teensy.
         /// </summary>
-        public event EventHandler<EventArgs> NumberOfLedsStrip3Changing;
-
-        /// <summary>
-        /// Fires when the NumberOfLedsStrip3 property has changed its value
-        /// </summary>
-        public event EventHandler<EventArgs> NumberOfLedsStrip3Changed;
-        #endregion
-
-        /// <summary>
-        /// Is called when the NumberOfLedsStrip3 property is about to change its value and fires the NumberOfLedsStrip3Changing event
-        /// </summary>
-        protected void OnNumberOfLedsStrip3Changing()
-        {
-            if (NumberOfLedsStrip3Changing != null) NumberOfLedsStrip3Changing(this, new EventArgs());
-
-            //Insert more logic to execute before the NumberOfLedsStrip3 property changes here
-        }
-
-        /// <summary>
-        /// Is called when the NumberOfLedsStrip3 property has changed its value and fires the NumberOfLedsStrip3Changed event
-        /// </summary>
-        protected void OnNumberOfLedsStrip3Changed()
-        {
-            //Insert more logic to execute after the NumberOfLedsStrip3 property has changed here
-            OnPropertyChanged("NumberOfLedsStrip3");
-            if (NumberOfLedsStrip3Changed != null) NumberOfLedsStrip3Changed(this, new EventArgs());
-        }
-
-        #endregion
-
-        #region NumberOfLedsStrip4 property of type int with events
-        #region NumberOfLedsStrip4 property core parts
-
-
-        /// <summary>
-        ///  NumberOfLedsStrip4 property of type int
-        /// </summary>
+        /// <value>
+        /// The number of leds on the ledstrip connected to channel 4 of the Teensy.
+        /// </value>
         public int NumberOfLedsStrip4
         {
-            get { return NumberOfLedsPerStrip[3]; }
+            get
+            {
+                return NumberOfLedsPerStrip[3];
+            }
             set
             {
-                if (NumberOfLedsPerStrip[3] != value)
-                {
-                    OnNumberOfLedsStrip4Changing();
-                    NumberOfLedsPerStrip[3] = value;
-                    base.SetupOutputs();
-                    OnNumberOfLedsStrip4Changed();
-                }
+                NumberOfLedsPerStrip[3] = value;
+                base.SetupOutputs();
             }
         }
-
         /// <summary>
-        /// Fires when the NumberOfLedsStrip4 property is about to change its value
+        /// Gets or sets the number of leds of ledstrip connected to channel 5 of the Teensy.
         /// </summary>
-        public event EventHandler<EventArgs> NumberOfLedsStrip4Changing;
-
-        /// <summary>
-        /// Fires when the NumberOfLedsStrip4 property has changed its value
-        /// </summary>
-        public event EventHandler<EventArgs> NumberOfLedsStrip4Changed;
-        #endregion
-
-        /// <summary>
-        /// Is called when the NumberOfLedsStrip4 property is about to change its value and fires the NumberOfLedsStrip4Changing event
-        /// </summary>
-        protected void OnNumberOfLedsStrip4Changing()
-        {
-            if (NumberOfLedsStrip4Changing != null) NumberOfLedsStrip4Changing(this, new EventArgs());
-
-            //Insert more logic to execute before the NumberOfLedsStrip4 property changes here
-        }
-
-        /// <summary>
-        /// Is called when the NumberOfLedsStrip4 property has changed its value and fires the NumberOfLedsStrip4Changed event
-        /// </summary>
-        protected void OnNumberOfLedsStrip4Changed()
-        {
-            //Insert more logic to execute after the NumberOfLedsStrip4 property has changed here
-            OnPropertyChanged("NumberOfLedsStrip4");
-            if (NumberOfLedsStrip4Changed != null) NumberOfLedsStrip4Changed(this, new EventArgs());
-        }
-
-        #endregion
-
-        #region NumberOfLedsStrip5 property of type int with events
-        #region NumberOfLedsStrip5 property core parts
-
-
-        /// <summary>
-        ///  NumberOfLedsStrip5 property of type int
-        /// </summary>
+        /// <value>
+        /// The number of leds on the ledstrip connected to channel 5 of the Teensy.
+        /// </value>
         public int NumberOfLedsStrip5
         {
-            get { return NumberOfLedsPerStrip[4]; }
+            get
+            {
+                return NumberOfLedsPerStrip[4];
+            }
             set
             {
-                if (NumberOfLedsPerStrip[4] != value)
-                {
-                    OnNumberOfLedsStrip5Changing();
-                    NumberOfLedsPerStrip[4] = value;
-                    base.SetupOutputs();
-                    OnNumberOfLedsStrip5Changed();
-                }
+                NumberOfLedsPerStrip[4] = value;
+                base.SetupOutputs();
             }
         }
 
         /// <summary>
-        /// Fires when the NumberOfLedsStrip5 property is about to change its value
+        /// Gets or sets the number of leds of ledstrip connected to channel 6 of the Teensy.
         /// </summary>
-        public event EventHandler<EventArgs> NumberOfLedsStrip5Changing;
-
-        /// <summary>
-        /// Fires when the NumberOfLedsStrip5 property has changed its value
-        /// </summary>
-        public event EventHandler<EventArgs> NumberOfLedsStrip5Changed;
-        #endregion
-
-        /// <summary>
-        /// Is called when the NumberOfLedsStrip5 property is about to change its value and fires the NumberOfLedsStrip5Changing event
-        /// </summary>
-        protected void OnNumberOfLedsStrip5Changing()
-        {
-            if (NumberOfLedsStrip5Changing != null) NumberOfLedsStrip5Changing(this, new EventArgs());
-
-            //Insert more logic to execute before the NumberOfLedsStrip5 property changes here
-        }
-
-        /// <summary>
-        /// Is called when the NumberOfLedsStrip5 property has changed its value and fires the NumberOfLedsStrip5Changed event
-        /// </summary>
-        protected void OnNumberOfLedsStrip5Changed()
-        {
-            //Insert more logic to execute after the NumberOfLedsStrip5 property has changed here
-            OnPropertyChanged("NumberOfLedsStrip5");
-            if (NumberOfLedsStrip5Changed != null) NumberOfLedsStrip5Changed(this, new EventArgs());
-        }
-
-        #endregion
-
-        #region NumberOfLedsStrip6 property of type int with events
-        #region NumberOfLedsStrip6 property core parts
-
-
-        /// <summary>
-        ///  NumberOfLedsStrip6 property of type int
-        /// </summary>
+        /// <value>
+        /// The number of leds on the ledstrip connected to channel 6 of the Teensy.
+        /// </value>
         public int NumberOfLedsStrip6
         {
-            get { return NumberOfLedsPerStrip[5]; }
+            get
+            {
+                return NumberOfLedsPerStrip[5];
+            }
             set
             {
-                if (NumberOfLedsPerStrip[5] != value)
-                {
-                    OnNumberOfLedsStrip6Changing();
-                    NumberOfLedsPerStrip[5] = value;
-                    base.SetupOutputs();
-                    OnNumberOfLedsStrip6Changed();
-                }
+                NumberOfLedsPerStrip[5] = value;
+                base.SetupOutputs();
             }
         }
-
         /// <summary>
-        /// Fires when the NumberOfLedsStrip6 property is about to change its value
+        /// Gets or sets the number of leds of ledstrip connected to channel 7 of the Teensy.
         /// </summary>
-        public event EventHandler<EventArgs> NumberOfLedsStrip6Changing;
-
-        /// <summary>
-        /// Fires when the NumberOfLedsStrip6 property has changed its value
-        /// </summary>
-        public event EventHandler<EventArgs> NumberOfLedsStrip6Changed;
-        #endregion
-
-        /// <summary>
-        /// Is called when the NumberOfLedsStrip6 property is about to change its value and fires the NumberOfLedsStrip6Changing event
-        /// </summary>
-        protected void OnNumberOfLedsStrip6Changing()
-        {
-            if (NumberOfLedsStrip6Changing != null) NumberOfLedsStrip6Changing(this, new EventArgs());
-
-            //Insert more logic to execute before the NumberOfLedsStrip6 property changes here
-        }
-
-        /// <summary>
-        /// Is called when the NumberOfLedsStrip6 property has changed its value and fires the NumberOfLedsStrip6Changed event
-        /// </summary>
-        protected void OnNumberOfLedsStrip6Changed()
-        {
-            //Insert more logic to execute after the NumberOfLedsStrip6 property has changed here
-            OnPropertyChanged("NumberOfLedsStrip6");
-            if (NumberOfLedsStrip6Changed != null) NumberOfLedsStrip6Changed(this, new EventArgs());
-        }
-
-        #endregion
-
-
-        #region NumberOfLedsStrip7 property of type int with events
-        #region NumberOfLedsStrip7 property core parts
-
-
-        /// <summary>
-        ///  NumberOfLedsStrip7 property of type int
-        /// </summary>
+        /// <value>
+        /// The number of leds on the ledstrip connected to channel 7 of the Teensy.
+        /// </value>
         public int NumberOfLedsStrip7
         {
-            get { return NumberOfLedsPerStrip[6]; }
+            get
+            {
+                return NumberOfLedsPerStrip[6];
+            }
             set
             {
-                if (NumberOfLedsPerStrip[6] != value)
-                {
-                    OnNumberOfLedsStrip7Changing();
-                    NumberOfLedsPerStrip[6] = value;
-                    base.SetupOutputs();
-                    OnNumberOfLedsStrip7Changed();
-                }
+                NumberOfLedsPerStrip[6] = value;
+                base.SetupOutputs();
             }
         }
-
         /// <summary>
-        /// Fires when the NumberOfLedsStrip7 property is about to change its value
+        /// Gets or sets the number of leds of ledstrip connected to channel 8 of the Teensy.
         /// </summary>
-        public event EventHandler<EventArgs> NumberOfLedsStrip7Changing;
-
-        /// <summary>
-        /// Fires when the NumberOfLedsStrip7 property has changed its value
-        /// </summary>
-        public event EventHandler<EventArgs> NumberOfLedsStrip7Changed;
-        #endregion
-
-        /// <summary>
-        /// Is called when the NumberOfLedsStrip7 property is about to change its value and fires the NumberOfLedsStrip7Changing event
-        /// </summary>
-        protected void OnNumberOfLedsStrip7Changing()
-        {
-            if (NumberOfLedsStrip7Changing != null) NumberOfLedsStrip7Changing(this, new EventArgs());
-
-            //Insert more logic to execute before the NumberOfLedsStrip7 property changes here
-        }
-
-        /// <summary>
-        /// Is called when the NumberOfLedsStrip7 property has changed its value and fires the NumberOfLedsStrip7Changed event
-        /// </summary>
-        protected void OnNumberOfLedsStrip7Changed()
-        {
-            //Insert more logic to execute after the NumberOfLedsStrip7 property has changed here
-            OnPropertyChanged("NumberOfLedsStrip7");
-            if (NumberOfLedsStrip7Changed != null) NumberOfLedsStrip7Changed(this, new EventArgs());
-        }
-
-        #endregion
-
-        #region NumberOfLedsStrip8 property of type int with events
-        #region NumberOfLedsStrip8 property core parts
-
-
-        /// <summary>
-        ///  NumberOfLedsStrip8 property of type int
-        /// </summary>
+        /// <value>
+        /// The number of leds on the ledstrip connected to channel 8 of the Teensy.
+        /// </value>
         public int NumberOfLedsStrip8
         {
-            get { return NumberOfLedsPerStrip[7]; }
+            get
+            {
+                return NumberOfLedsPerStrip[7];
+            }
             set
             {
-                if (NumberOfLedsPerStrip[7] != value)
-                {
-                    OnNumberOfLedsStrip8Changing();
-                    NumberOfLedsPerStrip[7] = value;
-                    base.SetupOutputs();
-                    OnNumberOfLedsStrip8Changed();
-                }
+                NumberOfLedsPerStrip[7] = value;
+                base.SetupOutputs();
             }
         }
 
-        /// <summary>
-        /// Fires when the NumberOfLedsStrip8 property is about to change its value
-        /// </summary>
-        public event EventHandler<EventArgs> NumberOfLedsStrip8Changing;
-
-        /// <summary>
-        /// Fires when the NumberOfLedsStrip8 property has changed its value
-        /// </summary>
-        public event EventHandler<EventArgs> NumberOfLedsStrip8Changed;
-        #endregion
-
-        /// <summary>
-        /// Is called when the NumberOfLedsStrip8 property is about to change its value and fires the NumberOfLedsStrip8Changing event
-        /// </summary>
-        protected void OnNumberOfLedsStrip8Changing()
-        {
-            if (NumberOfLedsStrip8Changing != null) NumberOfLedsStrip8Changing(this, new EventArgs());
-
-            //Insert more logic to execute before the NumberOfLedsStrip8 property changes here
-        }
-
-        /// <summary>
-        /// Is called when the NumberOfLedsStrip8 property has changed its value and fires the NumberOfLedsStrip8Changed event
-        /// </summary>
-        protected void OnNumberOfLedsStrip8Changed()
-        {
-            //Insert more logic to execute after the NumberOfLedsStrip8 property has changed here
-            OnPropertyChanged("NumberOfLedsStrip8");
-            if (NumberOfLedsStrip8Changed != null) NumberOfLedsStrip8Changed(this, new EventArgs());
-        }
-
-        #endregion
-
-
-        #region ComPortName property of type string with events
-        #region ComPortName property core parts
-        private string _ComPortName = null;
+        private string _ComPortName;
 
         /// <summary>
         /// Gets or sets the name (typicaly COM{Number}) of the virtual Com port the Teensy board is using.
@@ -480,56 +181,10 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         public string ComPortName
         {
             get { return _ComPortName; }
-            set
-            {
-                if (_ComPortName != value)
-                {
-                    OnComPortNameChanging();
-                    _ComPortName = value;
-                    OnComPortNameChanged();
-                }
-            }
+            set { _ComPortName = value; }
         }
 
-        /// <summary>
-        /// Fires when the ComPortName property is about to change its value
-        /// </summary>
-        public event EventHandler<EventArgs> ComPortNameChanging;
 
-        /// <summary>
-        /// Fires when the ComPortName property has changed its value
-        /// </summary>
-        public event EventHandler<EventArgs> ComPortNameChanged;
-        #endregion
-
-        /// <summary>
-        /// Is called when the ComPortName property is about to change its value and fires the ComPortNameChanging event
-        /// </summary>
-        protected void OnComPortNameChanging()
-        {
-            if (ComPortNameChanging != null) ComPortNameChanging(this, new EventArgs());
-
-            //Insert more logic to execute before the ComPortName property changes here
-        }
-
-        /// <summary>
-        /// Is called when the ComPortName property has changed its value and fires the ComPortNameChanged event
-        /// </summary>
-        protected void OnComPortNameChanged()
-        {
-            //Insert more logic to execute after the ComPortName property has changed here
-            OnPropertyChanged("ComPortName");
-            if (ComPortNameChanged != null) ComPortNameChanged(this, new EventArgs());
-        }
-
-        #endregion
-
-
-
-
-
-        #region ComPortTimeOutMs property of type int with events
-        #region ComPortTimeOutMs property core parts
         private int _ComPortTimeOutMs = 200;
 
         /// <summary>
@@ -546,60 +201,16 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             {
                 if (value.IsBetween(1, 5000))
                 {
-                    if (_ComPortTimeOutMs != value)
-                    {
-                        OnComPortTimeOutMsChanging();
-                        _ComPortTimeOutMs = value;
-                        OnComPortTimeOutMsChanged();
-                    }
+                    _ComPortTimeOutMs = value;
                 }
                 else
                 {
+                    _ComPortTimeOutMs = 200;
                     Log.Warning("The specified value {0} for the ComPortTimeOutMs is outside the valid range of 1 to 5000. Will use the default value of 200ms.".Build(value));
-                    if (_ComPortTimeOutMs != 200)
-                    {
-                        OnComPortTimeOutMsChanging();
-                        _ComPortTimeOutMs = 200;
-                        OnComPortTimeOutMsChanged();
-                    }
                 }
-
-       
             }
         }
 
-        /// <summary>
-        /// Fires when the ComPortTimeOutMs property is about to change its value
-        /// </summary>
-        public event EventHandler<EventArgs> ComPortTimeOutMsChanging;
-
-        /// <summary>
-        /// Fires when the ComPortTimeOutMs property has changed its value
-        /// </summary>
-        public event EventHandler<EventArgs> ComPortTimeOutMsChanged;
-        #endregion
-
-        /// <summary>
-        /// Is called when the ComPortTimeOutMs property is about to change its value and fires the ComPortTimeOutMsChanging event
-        /// </summary>
-        protected void OnComPortTimeOutMsChanging()
-        {
-            if (ComPortTimeOutMsChanging != null) ComPortTimeOutMsChanging(this, new EventArgs());
-
-            //Insert more logic to execute before the ComPortTimeOutMs property changes here
-        }
-
-        /// <summary>
-        /// Is called when the ComPortTimeOutMs property has changed its value and fires the ComPortTimeOutMsChanged event
-        /// </summary>
-        protected void OnComPortTimeOutMsChanged()
-        {
-            //Insert more logic to execute after the ComPortTimeOutMs property has changed here
-            OnPropertyChanged("ComPortTimeOutMs");
-            if (ComPortTimeOutMsChanged != null) ComPortTimeOutMsChanged(this, new EventArgs());
-        }
-
-        #endregion
 
 
         /// <summary>
