@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DirectOutput.Cab.Schedules;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -24,6 +25,7 @@ namespace DirectOutput.Cab.Out.LW
     /// The current implementation of the LedWiz driver uses a separate thread for every ledwiz connected to the system to ensure max. performance.
     /// 
     /// \image html LedWizLogo.jpg
+    /// 
     /// </summary>
     public class LedWiz : OutputControllerBase, IOutputController, IDisposable
     {
@@ -192,6 +194,13 @@ namespace DirectOutput.Cab.Out.LW
             }
 
             LedWizUnit S = LedWizUnits[this.Number];
+            //S.UpdateValue(LWO);
+
+            //uses ledwizoutput instead of standard output, need to mirror ledwizoutputnumber
+            //note, compensate for id [1-16] not being zero-based
+            IOutput recalculatedOutput = ScheduledSettings.Instance.getnewrecalculatedOutput(Output, 1, Number-1);
+            LWO.Value = recalculatedOutput.Value;
+
             S.UpdateValue(LWO);
         }
 

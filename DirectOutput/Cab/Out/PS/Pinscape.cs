@@ -81,8 +81,8 @@ namespace DirectOutput.Cab.Out.PS
                         _Number = value;
 
 						// attach to the new device record for this unit number, updating the output list to match
-						this.Dev = Devices.First(D => D.UnitNo() == Number);
-						this.NumberOfOutputs = this.Dev.NumOutputs();
+						this.Dev = Devices.First(D => D.GetUnitNo() == Number);
+						this.NumberOfOutputs = this.Dev.GetNumOutputs();
 						this.OldOutputValues = Enumerable.Repeat((byte)255, this.NumberOfOutputs).ToArray();
                     }
                 }
@@ -245,15 +245,23 @@ namespace DirectOutput.Cab.Out.PS
 		{
 			public override string ToString()
 			{
-				return name + " (unit " + UnitNo() + ")";
+				return name + " (unit " + GetUnitNo() + ")";
 			}
 
-			public int UnitNo()
+            /// <summary>
+            /// Gets the unit no, cast from short to int.
+            /// </summary>
+            /// <returns></returns>
+            public int GetUnitNo()
 			{
 				return unitNo;
 			}
 
-			public int NumOutputs()
+            /// <summary>
+            /// Gets the number of outputs, cast from short to int.
+            /// </summary>
+            /// <returns></returns>
+            public int GetNumOutputs()
 			{
 				return numOutputs;
 			}

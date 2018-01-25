@@ -32,7 +32,7 @@ namespace DirectOutput.FX.ValueFX
             // check to see if the converted boolean value has changed since
             // the last update
             var key = TableElementData.TableElementType.ToString() + TableElementData.Number.ToString();
-            if (!_PreviousState.ContainsKey(key) || TableElementData.Value != newval)
+            if (!_PreviousState.ContainsKey(key) || newval != _PreviousState[key])
             {
                 // trigger the effect
                 TriggerTargetEffect(TableElementData);
