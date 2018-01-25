@@ -82,8 +82,8 @@ namespace DirectOutput.Cab.Out.PS
                         _Number = value;
 
 						// attach to the new device record for this unit number, updating the output list to match
-						this.Dev = Devices.First(D => D.UnitNo() == Number);
-						this.NumberOfOutputs = this.Dev.NumOutputs();
+						this.Dev = Devices.First(D => D.GetUnitNo() == Number);
+						this.NumberOfOutputs = this.Dev.GetNumOutputs();
 						this.OldOutputValues = Enumerable.Repeat((byte)255, this.NumberOfOutputs).ToArray();
                         OnNumberChanged();
                     }
@@ -126,11 +126,11 @@ namespace DirectOutput.Cab.Out.PS
         #endregion
 
 
-        private bool MinCommandIntervalMsSet = false;
 
         #region MinCommandIntervalMs property of type int with events
         #region MinCommandIntervalMs property core parts
         private int _MinCommandIntervalMs = 1;
+        private bool MinCommandIntervalMsSet = false;
 
         /// <summary>
         /// Gets or sets the mininimal interval between command in miliseconds (Default: 1ms).
@@ -205,7 +205,9 @@ namespace DirectOutput.Cab.Out.PS
         public override void Init(Cabinet Cabinet)
 		{
 			// get the minimum update interval from the global config
-            if (!MinCommandIntervalMsSet && Cabinet.Owner.ConfigurationSettings.ContainsKey("PinscapeDefaultMinCommandIntervalMs") && Cabinet.Owner.ConfigurationSettings["PinscapeDefaultMinCommandIntervalMs"] is int)
+            if (!MinCommandIntervalMsSet
+                && Cabinet.Owner.ConfigurationSettings.ContainsKey("PinscapeDefaultMinCommandIntervalMs")
+                && Cabinet.Owner.ConfigurationSettings["PinscapeDefaultMinCommandIntervalMs"] is int)
                 MinCommandIntervalMs = (int)Cabinet.Owner.ConfigurationSettings["PinscapeDefaultMinCommandIntervalMs"];
 
 			// do the base class work
@@ -270,6 +272,9 @@ namespace DirectOutput.Cab.Out.PS
 
 						// the new values are now the current values on the device
 						Array.Copy(NewOutputValues, i, OldOutputValues, i, lim - i);
+
+						// we've sent this whole bank of 7 - move on to the next
+						break;
 					}
 				}
 			}
@@ -298,7 +303,9 @@ namespace DirectOutput.Cab.Out.PS
 		/// </summary>
 		protected override void DisconnectFromController()
 		{
-			Dev.AllOff();
+			// if we've generated any updates, send an All Off signal
+			if (InUseState == InUseStates.Running)
+				Dev.AllOff();
 		}
 
 		#endregion
@@ -309,19 +316,27 @@ namespace DirectOutput.Cab.Out.PS
 		{
 			public override string ToString()
 			{
-				return name + " (unit " + UnitNo() + ")";
+				return name + " (unit " + GetUnitNo() + ")";
 			}
-			
-			public int UnitNo()
+
+            /// <summary>
+            /// Gets the unit no, cast from short to int.
+            /// </summary>
+            /// <returns></returns>
+            public int GetUnitNo()
 			{
 				return unitNo;
 			}
 
-			public int NumOutputs()
+            /// <summary>
+            /// Gets the number of outputs, cast from short to int.
+            /// </summary>
+            /// <returns></returns>
+            public int GetNumOutputs()
 			{
 				return numOutputs;
 			}
-			
+
 			public Device(IntPtr fp, string path, string name, short vendorID, short productID, short version)
 			{
 				// remember the settings
@@ -335,7 +350,7 @@ namespace DirectOutput.Cab.Out.PS
 
 				// presume we have the standard LedWiz-compatible complement of 32 outputs
 				this.numOutputs = 32;
-				
+
 				// If we're using the LedWiz vendor/product ID, the unit number is encoded in the product
 				// ID (it's the bottom 4 bits of the ID value - this is zero-based, so add one to get our
 				// 1-based value for UI reporting).  If we're using our private vendor/product ID, the unit
@@ -355,7 +370,7 @@ namespace DirectOutput.Cab.Out.PS
 
 				// Request a configuration report (special request type 4)
 				SpecialRequest(4);
-				for (int i = 0 ; i < 8 ; ++i)
+				for (int i = 0 ; i < 16 ; ++i)
 				{
 					// read a report - if it's our configuration reply, parse it, otherwise
 					// skip it (there might be one or more joystick status reports buffered)
@@ -374,10 +389,13 @@ namespace DirectOutput.Cab.Out.PS
 
             ~Device()
             {
-                if (fp.ToInt32() != 0 && fp.ToInt32() != -1)
+				if (fp.ToInt32() != 0 && fp.ToInt32() != -1)
+				{
                     HIDImports.CloseHandle(fp);
+					fp = IntPtr.Zero;
+				}
             }
-			
+
 			private System.Threading.NativeOverlapped ov;
 			public byte[] ReadUSB()
 			{
@@ -392,7 +410,7 @@ namespace DirectOutput.Cab.Out.PS
 						// if the error is 6 ("invalid handle"), try re-opening the device
 						if (TryReopenHandle())
 							continue;
-						
+
 						Log.Write("Pinscape Controller USB error reading from device: " + GetLastWin32ErrMsg());
 						return null;
 					}
@@ -404,7 +422,7 @@ namespace DirectOutput.Cab.Out.PS
 					else
 						return buf;
 				}
-				
+
 				// don't retry more than a few times
 				return null;
 			}
@@ -415,35 +433,35 @@ namespace DirectOutput.Cab.Out.PS
 					path, HIDImports.GENERIC_READ_WRITE, HIDImports.SHARE_READ_WRITE,
 					IntPtr.Zero, FileMode.Open, 0, IntPtr.Zero);
 			}
-			
+
 			private bool TryReopenHandle()
 			{
 				// if the last error is 6 ("invalid handle"), try re-opening it
 				if (Marshal.GetLastWin32Error() == 6)
 				{
 					// try opening a new handle on the device path
-					Console.WriteLine("invalid handle on read - trying to reopen handle");
+					Log.Write("Pinscape Controller: invalid handle on read; trying to reopen handle");
 					IntPtr fp2 = OpenFile();
-					
+
 					// if that succeeded, replace the old handle with the new one and retry the read
 					if (fp2 != null)
 					{
 						// replace the handle
 						fp = fp2;
-						
+
 						// tell the caller to try again
 						return true;
 					}
 				}
-				
+
 				// we didn't successfully reopen the handle
 				return false;
 			}
-			
+
 			public String GetLastWin32ErrMsg()
 			{
 				int errno = Marshal.GetLastWin32Error();
-				return String.Format("{0} (Win32 error {1})", 
+				return String.Format("{0} (Win32 error {1})",
 									 new System.ComponentModel.Win32Exception(errno).Message, errno);
 			}
 
@@ -472,7 +490,7 @@ namespace DirectOutput.Cab.Out.PS
 						// try re-opening the handle, if it's an "invalid handle" error
 						if (TryReopenHandle())
 							continue;
-						
+
 						Log.Write("Pinscape Controller USB error sending request to device: " + GetLastWin32ErrMsg());
 						return false;
 					}
@@ -482,13 +500,15 @@ namespace DirectOutput.Cab.Out.PS
 						return false;
 					}
 					else
+					{
 						return true;
+					}
 				}
 
 				// maximum retries exceeded - return failure
 				return false;
 			}
-			
+
 			public IntPtr fp;
 			public string path;
 			public string name;
@@ -544,7 +564,7 @@ namespace DirectOutput.Cab.Out.PS
 				{
 					// create a file handle to access the device
 					IntPtr fp = HIDImports.CreateFile(
-						diDetail.DevicePath, HIDImports.GENERIC_READ_WRITE, HIDImports.SHARE_READ_WRITE, 
+						diDetail.DevicePath, HIDImports.GENERIC_READ_WRITE, HIDImports.SHARE_READ_WRITE,
 						IntPtr.Zero, FileMode.Open, 0, IntPtr.Zero);
 
 					// read the attributes
@@ -574,7 +594,8 @@ namespace DirectOutput.Cab.Out.PS
 						// interfaces, including Keyboard (usage page 1, usage 6) and Media
 						// Control (volume up/down/mute buttons) (usage page 12, usage 1).
 						// The output controller is always part of the Joystick interface
-						// (usage page 1, usage 4).  HidP_GetCaps() returns the USB usage
+						// (usage page 1, usage 4) OR a vendor-specific "undefined" interface
+						// (usage page 1, usage 0).  HidP_GetCaps() returns the USB usage
 						// information for the first HID report descriptor associated with
 						// the interface, so we can determine which interface we're looking
 						// at by checking this information.  Start by getting the preparsed
@@ -592,7 +613,7 @@ namespace DirectOutput.Cab.Out.PS
 							// interface on the same device, such as the keyboard or media
 							// controller interface.  Skip those interfaces, as they don't
 							// accept the output controller commands.
-                            ok &= (caps.UsagePage == 1 && caps.Usage == 4);
+                            ok &= (caps.UsagePage == 1 && (caps.Usage == 4 || caps.Usage == 0));
 
                             // done with the preparsed data
                             HIDImports.HidD_FreePreparsedData(ppdata);
@@ -604,7 +625,7 @@ namespace DirectOutput.Cab.Out.PS
 						{
 							// add the device to our list
 							devices.Add(new Device(fp, diDetail.DevicePath, name, attrs.VendorID, attrs.ProductID, attrs.VersionNumber));
-							
+
 							// the device list object owns the handle nwo
 							fp = System.IntPtr.Zero;
 						}

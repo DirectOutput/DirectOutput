@@ -48,6 +48,10 @@ namespace DirectOutput
                         Logger = File.AppendText(Filename);
 
                         Logger.WriteLine("---------------------------------------------------------------------------------");
+                        Logger.WriteLine("This is the MJR Grander Unified DOF R3++ edition of 2018-01-24");
+                        Logger.WriteLine("Incorporating: PWM fixes by Rob Ross; UltimateIO & Hue edition by Rambo3 and Boye");
+                        Logger.WriteLine("DOF was created by SwissLizard");
+                        Logger.WriteLine("Main project source code: https://github.com/DirectOutput/DirectOutput");
                         Logger.WriteLine("{0}\t{1}", DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss.fff"), "DirectOutput Logger initialized");
 
                         Version V = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;

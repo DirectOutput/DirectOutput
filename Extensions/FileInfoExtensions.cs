@@ -144,7 +144,7 @@ public static class FileInfoExtensions
             stream = File.Open(file.FullName, FileMode.Open, FileAccess.Read);
             stream.Dispose();
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             return false;
         }

@@ -1,8 +1,8 @@
 ﻿
 
-/// <summary>
-/// The DirectOutput.FX.ListFX namepsace contains the classes for the ListEffect.
-/// </summary>
+// <summary>
+// The DirectOutput.FX.ListFX namepsace contains the classes for the ListEffect.
+// </summary>
 namespace DirectOutput.FX.ListFX
 {
 

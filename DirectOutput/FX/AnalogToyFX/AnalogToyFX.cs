@@ -1,7 +1,6 @@
-﻿
-/// <summary>
-/// Namespace for effects controlling AnalogToy objects.
-/// </summary>
+﻿// <summary>
+// Namespace for effects controlling AnalogToy objects.
+// </summary>
 namespace DirectOutput.FX.AnalogToyFX
 {
 }

@@ -269,7 +269,7 @@ namespace DirectOutput.GlobalConfiguration
                 }
             }
             FileInfo FII = new FilePattern("{DllDir}\\DirectOutputShapes.xml").GetFirstMatchingFile(GetReplaceValuesDictionary(TableFilename, RomName));
-            if (FII.Exists)
+            if (FII != null && FII.Exists)
             {
                 return FII;
             }

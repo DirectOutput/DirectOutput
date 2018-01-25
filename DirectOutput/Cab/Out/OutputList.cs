@@ -3,6 +3,7 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
 using DirectOutput.General.Generic;
+using DirectOutput.Cab.Schedules;
 
 namespace DirectOutput.Cab.Out
 {
@@ -110,6 +111,7 @@ namespace DirectOutput.Cab.Out
 
         void Item_ValueChanged(object sender, OutputEventArgs e)
         {
+            //Log.Write("OutputList.item_ValueChanged.. sender=" + sender + ", e.name=" + e.Name + ", e.value=" + e.Value + ", e.output=" + e.Output.Name + ", object type=" + e.Output.GetType());
             OnOutputValueChanged(e.Output);
         }
 
@@ -124,8 +126,7 @@ namespace DirectOutput.Cab.Out
         /// <param name="Output">The output which triggers the event.</param>
         protected void OnOutputValueChanged(IOutput Output)
         {
-            if (OutputValueChanged != null)
-            {
+            if (OutputValueChanged != null) {
                 OutputValueChanged(this, new OutputEventArgs(Output));
             }
         }

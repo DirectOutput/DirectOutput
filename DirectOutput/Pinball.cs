@@ -13,6 +13,7 @@ using System.Linq;
 using DirectOutput.Table;
 
 using System.Diagnostics;
+using DirectOutput.Cab.Overrides;
 
 namespace DirectOutput
 {
@@ -381,9 +382,13 @@ namespace DirectOutput
                 {
                     Table.RomName = RomName;
                 }
-                Log.Write("Table config loading finished");
+                Log.Write("Table config loading finished: romname="+RomName+", tablename="+Table.TableName);
 
 
+                //update table overrider with romname and tablename references, and activate valid overrides
+                TableOverrideSettings.Instance.activeromName = RomName;
+                TableOverrideSettings.Instance.activetableName = Table.TableName;
+                TableOverrideSettings.Instance.activateOverrides();
 
                 Log.Write("Pinball parts loaded");
             }
@@ -409,8 +414,9 @@ namespace DirectOutput
             
 
                 CabinetOwner CO = new CabinetOwner();
-                CO.Alarms = this.Alarms;
+				CO.Alarms = this.Alarms;
                 CO.ConfigurationSettings.Add("LedControlMinimumEffectDurationMs",GlobalConfig.LedControlMinimumEffectDurationMs);
+				CO.ConfigurationSettings.Add("LedWizDefaultMinCommandIntervalMs",GlobalConfig.LedWizDefaultMinCommandIntervalMs);
                 Cabinet.Init(CO);
 
                 Table.Init(this);
@@ -594,7 +600,7 @@ namespace DirectOutput
                         D = InputQueue.Dequeue();
                         try
                         {
-                          
+                            //Log.Write("Pinball.MainThreadDoIt...d.name="+D.Name+", value="+D.Value+", d="+D.Number+", d="+D);
                             Table.UpdateTableElement(D);
                             UpdateRequired |= true;
                       
@@ -775,12 +781,12 @@ namespace DirectOutput
         }
 
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Pinball" /> class and calls the Init method with the specified parameters.
-        /// </summary>
-        /// <param name="GlobalConfigFilename">The global config filename.</param>
-        /// <param name="TableFilename">The table filename.</param>
-        /// <param name="RomName">Name of the rom.</param>
+        // <summary>
+        // Initializes a new instance of the <see cref="Pinball" /> class and calls the Init method with the specified parameters.
+        // </summary>
+        // <param name="GlobalConfigFilename">The global config filename.</param>
+        // <param name="TableFilename">The table filename.</param>
+        // <param name="RomName">Name of the rom.</param>
         //public Pinball(string GlobalConfigFilename = "", string TableFilename = "", string RomName = "")
         //    : this()
         //{
