@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO.Ports;
-using Ciloci.Flee;
 using System.Text.RegularExpressions;
 
 namespace DirectOutput.Cab.Out.ComPort
