@@ -1,24 +1,48 @@
-set DllPath=bin\Debug
+@echo off
+
+rem ===========================================================
+rem ###   PATH CONFIGURATION
+
+rem ###   DOF DLL path
+set DofDllPath=bin\Debug
+
+rem ###   ProPinball bridge DLL path
+set ProPinBridgePath=Debug
+
+rem ###   ProPinball DOFSlave path
+set ProPinSlavePath=ProPinballSlave\bin\x86\Debug
+
+rem ###   Zip file path
+set ZipPath=%cd%\Builds
+set ZipName=DirectOutput-mjr-%CurrDate%.zip
+set ZipFile=%ZipPath%\%ZipName%
+
+
+rem ===========================================================
+
+rem ###   Date/time to embed in zip file name
 set TempDate=%date%
-set CurrDate=%TempDate:~6,4%%TempDate:~3,2%%TempDate:~0,2%
+set CurrDate=%TempDate:~10,4%%TempDate:~7,2%%TempDate:~4,2%
 set TempTime=%time%
 set CurrTime=%TempTime:~0,2%%TempTime:~3,2%%TempTime:~6,2%
 
-rem tools\GetAssemblyVersion.exe tag "%DllPath%\DirectOutput.dll" >temp.txt
-rem set /p VersionTag=<temp.txt
-rem del Temp.txt
+rem ###   Current DOF assembly version
+tools\GetAssemblyVersion.exe tag "%DofDllPath%\DirectOutput.dll" >temp.txt
+set /p VersionTag=<temp.txt
+del Temp.txt
 
-set Path=%cd%\DirectOutput\Builds
+rem ###   Announce what we're doing
+echo %VersionTag% Debug
+echo -^> %ZipFile%
+echo.
 
-set ZipName=DirectOutput_rambo3_%CurrDate%_%CurrTime%.zip
+rem ###   Add DOF files
+pushd %DofDllPath%
+if exist "%ZipFile%" del "%ZipFile%"
+zip "%ZipFile%" *.dll *.exe *Shapes.* *.xml
+popd
 
-cd %DllPath%
-"C:\Program Files\7-Zip\7z.exe" a -tzip "%Path%\%ZipName%" "*.dll" 
-"C:\Program Files\7-Zip\7z.exe" a -tzip "%Path%\%ZipName%" "*.exe"
-"C:\Program Files\7-Zip\7z.exe" a -tzip "%Path%\%ZipName%" "*Shapes.*"
-"C:\Program Files\7-Zip\7z.exe" a -tzip "%Path%\%ZipName%" "*.xml"
-"C:\Program Files\7-Zip\7z.exe" a -tzip "%Path%\%ZipName%" "*.pdb"
-cd ..\..
+rem ###   Add ProPinball support files
+zip -j "%ZipFile%" "%ProPinSlavePath%\*.exe"
 
-
-pause
+echo.
