@@ -10,6 +10,7 @@ Extensions.dll
 DirectOutputConfigTester.exe
 GlobalConfigEditor.exe
 LedControlFileTester.exe
+Newtonsoft.Json.dll
 RegisterDirectOutputComObject.exe
 
 Ciloci.Flee.dll

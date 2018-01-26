@@ -108,7 +108,6 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
   </ItemGroup>
-<<<<<<< HEAD
   <ItemGroup>
     <ProjectReference Include="..\DirectOutput\DirectOutput.csproj">
       <Project>{DA43ACDD-8241-4A28-8EB2-DAE80D91FAA8}</Project>

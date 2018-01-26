@@ -1,6 +1,13 @@
 @echo off
 
 rem ===========================================================
+rem
+rem   The list of DOF DLL builds files is taken from
+rem   .\manifest.debug.x86.txt.  Edit that file to add or
+rem   remove files.
+
+
+rem ===========================================================
 rem ###   PATH CONFIGURATION
 
 rem ###   DOF DLL path
@@ -13,7 +20,7 @@ rem ###   ProPinball DOFSlave path
 set ProPinSlavePath=ProPinballSlave\bin\x86\Debug
 
 rem ###   Zip file path
-set ZipPath=%cd%\Builds
+set ZipPath=Builds
 set ZipName=DirectOutput-mjr-%CurrDate%.zip
 set ZipFile=%ZipPath%\%ZipName%
 
@@ -22,7 +29,7 @@ rem ===========================================================
 
 rem ###   Date/time to embed in zip file name
 set TempDate=%date%
-set CurrDate=%TempDate:~10,4%%TempDate:~7,2%%TempDate:~4,2%
+set CurrDate=%TempDate:~10,4%%TempDate:~4,2%%TempDate:~7,2%
 set TempTime=%time%
 set CurrTime=%TempTime:~0,2%%TempTime:~3,2%%TempTime:~6,2%
 
@@ -37,10 +44,10 @@ echo -^> %ZipFile%
 echo.
 
 rem ###   Add DOF files
-pushd %DofDllPath%
 if exist "%ZipFile%" del "%ZipFile%"
-zip "%ZipFile%" *.dll *.exe *Shapes.* *.xml
-popd
+for /F "eol=#" %%i in (manifest.debug.x86.txt) do (
+    zip -j "%ZipFile%" "%DofDllPath%\%%i"
+)
 
 rem ###   Add ProPinball support files
 zip -j "%ZipFile%" "%ProPinSlavePath%\*.exe"
