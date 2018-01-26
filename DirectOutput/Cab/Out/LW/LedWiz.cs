@@ -55,6 +55,7 @@ namespace DirectOutput.Cab.Out.LW
                 {
                     throw new Exception("LedWiz Numbers must be between 1-16. The supplied number {0} is out of range.".Build(value));
                 }
+
                 lock (NumberUpdateLocker)
                 {
                     if (_Number != value)
@@ -66,7 +67,6 @@ namespace DirectOutput.Cab.Out.LW
                         }
 
                         _Number = value;
-
                     }
                 }
             }
@@ -393,6 +393,7 @@ namespace DirectOutput.Cab.Out.LW
 					}
 
 				}
+
 				StartedUp++;
 			}
 		}
@@ -401,7 +402,6 @@ namespace DirectOutput.Cab.Out.LW
         {
             lock (StartupLocker)
             {
-
                 if (StartedUp > 0)
                 {
                     StartedUp--;
@@ -424,14 +424,11 @@ namespace DirectOutput.Cab.Out.LW
         /// <returns></returns>
         public static List<int> GetLedwizNumbers()
         {
-			// create an instance to ensure we populate the static unit list
-			LedWiz LW = new LedWiz();
+            // make sure the static device list is initialized
+            StartupLedWiz();
 
 			// get a list of just the unit numbers
             List<int> lst = deviceList.Select(d => d.unitNo).ToList();
-
-			// done with the temporary instance
-			LW.Dispose();
 
 			// return the list
 			return lst;
@@ -444,7 +441,6 @@ namespace DirectOutput.Cab.Out.LW
         /// </summary>
         ~LedWiz()
         {
-
             Dispose(false);
         }
 
@@ -477,25 +473,20 @@ namespace DirectOutput.Cab.Out.LW
                 catch
                 {
                 }
+
                 // If disposing equals true, dispose all managed
                 // and unmanaged resources.
                 if (disposing)
                 {
-                    // Dispose managed resources.
-
+                    // Dispose managed resources
                 }
 
-                // Call the appropriate methods to clean up
-                // unmanaged resources here.
-                // If disposing is false,
-                // only the following code is executed.
-
+                // Call the appropriate methods to clean up unmanaged resources here.
+                // If disposing is false, only the following code is executed.
                 TerminateLedWiz();
-
 
                 // Note disposing has been done.
                 disposed = true;
-
             }
         }
         private bool disposed = false;

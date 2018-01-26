@@ -49,23 +49,17 @@ namespace DirectOutput
 
                         Logger.WriteLine("---------------------------------------------------------------------------------");
                         Logger.WriteLine("This is the MJR Grander Unified DOF R3++ edition of 2018-01-25");
-                        Logger.WriteLine("Incorporating: Final DOF R3 beta code by SwissLizard; PWM fixes by Rob Ross; ");
-                        Logger.WriteLine("UltimateIO & Philips Hue by Rambo3 and Boye; ProPinball & 64-bit support by ");
-                        Logger.WriteLine("Freezy; and Pinscape updates & DLL-free LedWiz improvements by MJR.");
-                        Logger.WriteLine("DOF was created by SwissLizard");
-                        Logger.WriteLine("Main project source code: https://github.com/DirectOutput/DirectOutput");
+                        Logger.WriteLine("Incorporating: Final DOF R3 beta code by SwissLizard; PWM fixes by Rob Ross;");
+                        Logger.WriteLine("UltimateIO & Philips Hue by Rambo3; ProPinball & 64-bit support by Freezy;");
+                        Logger.WriteLine("and Pinscape updates & DLL-free LedWiz improvements by MJR.");
+                        Logger.WriteLine("DOF created by SwissLizard | https://github.com/mjrgh/DirectOutput");
                         Logger.WriteLine("{0}\t{1}", DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss.fff"), "DirectOutput Logger initialized");
 
                         Version V = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
                         DateTime BuildDate = new DateTime(2000, 1, 1).AddDays(V.Build).AddSeconds(V.Revision * 2);
-                        Logger.WriteLine("{0}\t{1}", DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss.fff"), "DirectOutput Version {0} as of {1}".Build(V.ToString(), BuildDate.ToString("yyyy.MM.dd HH:mm")));
+                        Logger.WriteLine("{0}\t{1}", DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss.fff"), "DirectOutput Version {0}, built {1}".Build(V.ToString(), BuildDate.ToString("yyyy.MM.dd HH:mm")));
 
                         IsOk = true;
-
-
-
-
-
                     }
                     catch
                     {
@@ -104,14 +98,12 @@ namespace DirectOutput
         /// <param name="Message">The message.</param>
         public static void Write(string Message)
         {
-
             lock (Locker)
             {
                 if (IsOk)
                 {
                     try
                     {
-
                         if (Message.IsNullOrWhiteSpace())
                         {
                             Logger.WriteLine("{0}\t{1}", DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss.fff"), "");
@@ -170,8 +162,6 @@ namespace DirectOutput
                         Write("EXCEPTION: Targetsite: {0}".Build(E.TargetSite.ToString()));
                     }
 
-
-
                     try
                     {
                         // Get stack trace for the exception with source file information
@@ -222,9 +212,7 @@ namespace DirectOutput
         public static void Debug(string Message = "")
         {
             Write("Debug: {0}".Build(Message));
-
         }
-
 
     }
 }

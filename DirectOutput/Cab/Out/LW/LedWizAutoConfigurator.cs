@@ -20,8 +20,6 @@ namespace DirectOutput.Cab.Out.LW
         /// <param name="Cabinet">The cabinet object to which the automatically detected IOutputController objects are added if necessary.</param>
         public void AutoConfig(Cabinet Cabinet)
         {
-
-
             List<int> Preconfigured = new List<int>(Cabinet.OutputControllers.Where(OC => OC is LedWiz).Select(LW => ((LedWiz)LW).Number));
             List<int> Numbers = LedWiz.GetLedwizNumbers();
             foreach (int N in Numbers)
@@ -34,7 +32,6 @@ namespace DirectOutput.Cab.Out.LW
                         
                         Cabinet.OutputControllers.Add(LW);
                         Log.Write("Detected and added LedWiz Nr. {0} with name {1}".Build(LW.Number, LW.Name));
-
 
                         if (!Cabinet.Toys.Any(T => T is LedWizEquivalent && ((LedWizEquivalent)T).LedWizNumber == LW.Number))
                         {
@@ -53,15 +50,10 @@ namespace DirectOutput.Cab.Out.LW
                                 Cabinet.Toys.Add(LWE);
                                 Log.Write("Added LedwizEquivalent Nr. {0} with name {1} for Ledwiz Nr. {2}".Build(LWE.LedWizNumber,LWE.Name,LW.Number));
                             }
-
                         }
                     }
                 }
             }
-
-
-
-
 
         }
 
