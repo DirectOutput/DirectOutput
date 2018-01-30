@@ -24,6 +24,8 @@ set ZipPath=Builds
 set ZipName=DirectOutput-mjr-%CurrDate%.zip
 set ZipFile=%ZipPath%\%ZipName%
 
+rem ###   MSI setup output
+set MSIPath=DOFSetup\bin\Debug
 
 rem ===========================================================
 
@@ -51,5 +53,9 @@ for /F "eol=#" %%i in (manifest.debug.x86.txt) do (
 
 rem ###   Add ProPinball support files
 zip -j "%ZipFile%" "%ProPinSlavePath%\*.exe"
+
+
+rem ###   Copy MSI setup to build folder
+copy "%MSIPath%\DOFSetup.msi" "%ZipPath%\DirectOutput-mjr-%CurrDate%.msi"
 
 echo.
