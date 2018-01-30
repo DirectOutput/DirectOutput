@@ -6,7 +6,6 @@ rem   The list of DOF DLL builds files is taken from
 rem   .\manifest.debug.x86.txt.  Edit that file to add or
 rem   remove files.
 
-
 rem ===========================================================
 rem ###   PATH CONFIGURATION
 
@@ -21,19 +20,27 @@ set ProPinSlavePath=ProPinballSlave\bin\x86\Debug
 
 rem ###   Zip file path
 set ZipPath=Builds
-set ZipName=DirectOutput-mjr-%CurrDate%.zip
-set ZipFile=%ZipPath%\%ZipName%
 
 rem ###   MSI setup output
 set MSIPath=DOFSetup\bin\Debug
 
 rem ===========================================================
-
 rem ###   Date/time to embed in zip file name
 set TempDate=%date%
 set CurrDate=%TempDate:~10,4%%TempDate:~4,2%%TempDate:~7,2%
 set TempTime=%time%
 set CurrTime=%TempTime:~0,2%%TempTime:~3,2%%TempTime:~6,2%
+
+rem ###   Zip file
+set ZipName=DirectOutput-mjr-%CurrDate%.zip
+set ZipFile=%ZipPath%\%ZipName%
+
+
+rem ===========================================================
+rem ###
+rem ###   Main build steps
+rem ###
+
 
 rem ###   Current DOF assembly version
 tools\GetAssemblyVersion.exe tag "%DofDllPath%\DirectOutput.dll" >temp.txt
