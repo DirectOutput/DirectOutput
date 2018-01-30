@@ -60,7 +60,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ProPinballBridge", "ProPinb
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProPinballSlave", "ProPinballSlave\ProPinballSlave.csproj", "{D6C8DFAC-7B96-4B30-879A-455429544D22}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "DOFSetup", "DOFSetup\DOFSetup.vdproj", "{DDFC9763-5247-41B5-B240-5B42C7BDFC62}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "DOFSetup", "DOFSetup\DOFSetup.wixproj", "{14518E83-208E-4EEF-B40E-3FB4D17D4A05}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DOFSetupB2SFixup", "DOFSetupB2SFixup\DOFSetupB2SFixup.csproj", "{3942CB54-55A5-4858-8317-39E0E5E6F2A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -171,10 +173,18 @@ Global
 		{D6C8DFAC-7B96-4B30-879A-455429544D22}.Release|x64.Build.0 = Release|x64
 		{D6C8DFAC-7B96-4B30-879A-455429544D22}.Release|x86.ActiveCfg = Release|x86
 		{D6C8DFAC-7B96-4B30-879A-455429544D22}.Release|x86.Build.0 = Release|x86
-		{DDFC9763-5247-41B5-B240-5B42C7BDFC62}.Debug|x64.ActiveCfg = Debug
-		{DDFC9763-5247-41B5-B240-5B42C7BDFC62}.Debug|x86.ActiveCfg = Debug
-		{DDFC9763-5247-41B5-B240-5B42C7BDFC62}.Release|x64.ActiveCfg = Release
-		{DDFC9763-5247-41B5-B240-5B42C7BDFC62}.Release|x86.ActiveCfg = Release
+		{14518E83-208E-4EEF-B40E-3FB4D17D4A05}.Debug|x64.ActiveCfg = Debug|x86
+		{14518E83-208E-4EEF-B40E-3FB4D17D4A05}.Debug|x86.ActiveCfg = Debug|x86
+		{14518E83-208E-4EEF-B40E-3FB4D17D4A05}.Debug|x86.Build.0 = Debug|x86
+		{14518E83-208E-4EEF-B40E-3FB4D17D4A05}.Release|x64.ActiveCfg = Release|x86
+		{14518E83-208E-4EEF-B40E-3FB4D17D4A05}.Release|x86.ActiveCfg = Release|x86
+		{14518E83-208E-4EEF-B40E-3FB4D17D4A05}.Release|x86.Build.0 = Release|x86
+		{3942CB54-55A5-4858-8317-39E0E5E6F2A0}.Debug|x64.ActiveCfg = Debug|x86
+		{3942CB54-55A5-4858-8317-39E0E5E6F2A0}.Debug|x86.ActiveCfg = Debug|x86
+		{3942CB54-55A5-4858-8317-39E0E5E6F2A0}.Debug|x86.Build.0 = Debug|x86
+		{3942CB54-55A5-4858-8317-39E0E5E6F2A0}.Release|x64.ActiveCfg = Release|x86
+		{3942CB54-55A5-4858-8317-39E0E5E6F2A0}.Release|x86.ActiveCfg = Release|x86
+		{3942CB54-55A5-4858-8317-39E0E5E6F2A0}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GlobalConfig>
+  <LedWizDefaultMinCommandIntervalMs>1</LedWizDefaultMinCommandIntervalMs>
+  <LedControlMinimumEffectDurationMs>60</LedControlMinimumEffectDurationMs>
+  <LedControlMinimumRGBEffectDurationMs>120</LedControlMinimumRGBEffectDurationMs>
+  <IniFilesPath />
+  <TableConfigFilePatterns />
+  <EnableLogging>true</EnableLogging>
+  <ClearLogOnSessionStart>true</ClearLogOnSessionStart>
+  <LogFilePattern>.\DirectOutput.log</LogFilePattern>
+</GlobalConfig>

@@ -1,0 +1,63 @@
+SETTING UP THE DOF DEVELOPER ENVIRONMENT
+
+1. Core DirectOutput DLLs
+
+For the DirectOutput build itself, you just need a vanilla Visual
+Studio 2017 Community Edition setup, with C# and VB.NET support
+enabled.  The Community Edition is free.  Get it from
+visualstudio.com.
+
+You can stop there if you don't need to build any of the Extended
+Mission Profile items below.  However, you won't be able to use the
+IDE Build > Solution menu command, since that will want to build
+everything.
+
+
+2. ProPinball interface
+
+To build the ProPinball components, you also need C++ enabled.  In
+addition, this build requires the Visual Studio 2015 C++ build tools.
+After you have VS itself installed, you can add these via the VS
+installer:
+
+- From the VS menu, invoke Tools > Get Tools & Features
+
+- In the Summary list on the right, open Desktop Development with C++
+
+- Check the box for VC++ 2015.3 v140 toolset for desktop (x86,x64)
+  (if the box is already checked, that version is already installed)
+
+- Click the Modify button to install
+
+
+The ProPinball bridge actually does build with the VS2017 build tools,
+but it uses a copy of the third-party Boost library that generates
+warnings if you compile it with VC++ versions beyond 2015/v140.  I
+haven't tested to see if this creates a usable build despite the
+warnings, so I'm leaving the VC++ 2015 dependency in place for now.
+If you want to try it with a different VC++ version, you can override
+the compiler dependency as follows:
+
+- Right click ProPinballBridge in the project tree
+
+- Select Properties on the context menu
+
+- On the General page, change Platform Toolset to Visual Studio 2017
+(or whichever version you prefer)
+
+
+3. Installer
+
+To build the Windows Setup (MSI installer) project, you also need the
+WiX toolset.  This is a widely-used, free, open-source MSI compiler.  
+Get it from wixtoolset.org.
+
+You have to install WiX in two steps, in this order:
+
+- Install the core "WiX Toolset version 3.11" (or current version) first
+
+- Then install the "WiX Toolset Visual Studio 2017 Extension"
+
+The Visual Studio extension provides the integration that lets us build
+the Setup program as part of the solution build process from the IDE.
+
