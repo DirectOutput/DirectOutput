@@ -1,5 +1,3 @@
-<img src="http://directoutput.github.com/DirectOutput/DirectOutputR3_Small.png" alt="DirectOutput framework R3 for virtual pinball cabinets"/>
-
 DirectOutput Framework R3++, Grand Unified Edition
 
 DirectOutput is an add-in for Visual Pinball and other programs that
