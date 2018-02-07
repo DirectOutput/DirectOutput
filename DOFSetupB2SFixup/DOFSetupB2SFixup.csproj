@@ -41,7 +41,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomAction.cs" />
+    <Compile Include="B2SFixup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="CustomAction.config" />
   </ItemGroup>

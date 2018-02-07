@@ -79,6 +79,14 @@
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
       <RefTargetDir>INSTALLFOLDER</RefTargetDir>
     </ProjectReference>
+    <ProjectReference Include="..\DOFSetupPBXFixup\DOFSetupPBXFixup.csproj">
+      <Name>DOFSetupPBXFixup</Name>
+      <Project>{9515dda6-ba19-4a8f-afcc-fc1fc6128fa4}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
     <ProjectReference Include="..\Extensions\Extensions.csproj">
       <Name>Extensions</Name>
       <Project>{3ba9c263-d8c3-4511-bd2f-4c7b55d82a1a}</Project>

@@ -52,9 +52,14 @@ echo %VersionTag% Debug
 echo -^> %ZipFile%
 echo.
 
-rem ###   Add DOF files
+rem ###   Delete any old copy of the ZIP file
 if exist "%ZipFile%" del "%ZipFile%"
-for /F "eol=#" %%i in (manifest.debug.x86.txt) do (
+
+rem ###   Add the LICENSE file
+zip -j "%ZipFile%" LICENSE
+
+rem ###   Add DOF files
+for /F "eol=# delims=" %%i in (manifest.debug.x86.txt) do (
     zip -j "%ZipFile%" "%DofDllPath%\%%i"
 )
 

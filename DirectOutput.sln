@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2002
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectOutput", "DirectOutput\DirectOutput.csproj", "{DA43ACDD-8241-4A28-8EB2-DAE80D91FAA8}"
 EndProject
@@ -63,6 +63,8 @@ EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "DOFSetup", "DOFSetup\DOFSetup.wixproj", "{14518E83-208E-4EEF-B40E-3FB4D17D4A05}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DOFSetupB2SFixup", "DOFSetupB2SFixup\DOFSetupB2SFixup.csproj", "{3942CB54-55A5-4858-8317-39E0E5E6F2A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DOFSetupPBXFixup", "DOFSetupPBXFixup\DOFSetupPBXFixup.csproj", "{9515DDA6-BA19-4A8F-AFCC-FC1FC6128FA4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -185,6 +187,12 @@ Global
 		{3942CB54-55A5-4858-8317-39E0E5E6F2A0}.Release|x64.ActiveCfg = Release|x86
 		{3942CB54-55A5-4858-8317-39E0E5E6F2A0}.Release|x86.ActiveCfg = Release|x86
 		{3942CB54-55A5-4858-8317-39E0E5E6F2A0}.Release|x86.Build.0 = Release|x86
+		{9515DDA6-BA19-4A8F-AFCC-FC1FC6128FA4}.Debug|x64.ActiveCfg = Debug|x86
+		{9515DDA6-BA19-4A8F-AFCC-FC1FC6128FA4}.Debug|x86.ActiveCfg = Debug|x86
+		{9515DDA6-BA19-4A8F-AFCC-FC1FC6128FA4}.Debug|x86.Build.0 = Debug|x86
+		{9515DDA6-BA19-4A8F-AFCC-FC1FC6128FA4}.Release|x64.ActiveCfg = Release|x86
+		{9515DDA6-BA19-4A8F-AFCC-FC1FC6128FA4}.Release|x86.ActiveCfg = Release|x86
+		{9515DDA6-BA19-4A8F-AFCC-FC1FC6128FA4}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -71,24 +71,46 @@
       BinaryKey="B2SFixupDLL"
       DllEntry="B2SFixup" />
     
-    <!-- Our B2SFixup custom task has run deferred, and as a result it
-         doesn't have access to session.GetTargetPath() to identify the
-         install folder.  (That just seems to be an MSI limitation.)  
-         To pass the folder path, we have to use a property, which we
-         can do with ANOTHER Custom Action.  We can access the property
-         listed in Value="" from the C# code via session.CustomActionData[].
+    <!-- Custom PBXFixup action.  This is another custom action, this time
+         for setting up the PinballX plugin.  For this, we have to find
+         the PBX install folder, the only good way to do which seems to be
+         from the uninstall records in the registry; copy our plugin DLL
+         to the PBX install folder's Plugins directory; and edit the PBX
+         .INI file to add the DOF plugin if it's not already there, and 
+         enable it in either case.
+    -->
+    <Binary Id="PBXFixupDLL" SourceFile="$(var.DOFSetupPBXFixup.TargetDir)DOFSetupPBXFixup.CA.dll" />
+    <CustomAction
+      Id="PBXFixup"
+      Return="check"
+      Execute="deferred"
+      BinaryKey="PBXFixupDLL"
+      DllEntry="PBXFixup" />
+    
+    <!-- Our B2SFixup and PBXFixup custom tasks have to run deferred, and as 
+         a result they don't have access to session.GetTargetPath() to identify 
+         the install folder.  (That seems to be an MSI limitation, not WiX.)
+         To pass the folder path, we have to use a property, which we can do
+         with ANOTHER Custom Action.  We can access the property listed in 
+         Value="" from the C# code via session.CustomActionData[].
     -->
     <CustomAction
-      Id="SetCustomActionVars"
+      Id="SetB2SVars"
       Return="check"
       Property="B2SFixup" Value="INSTALLEDPATH=[DOFDIR]" />
+    <CustomAction
+      Id="SetPBXVars"
+      Return="check"
+      Property="PBXFixup" Value="INSTALLEDPATH=[DOFDIR]" />
 
     <!-- Set up our custom action sequence.  The property setter has to run
-         before the C# task. -->
+         before each C# task. -->
     <InstallExecuteSequence>
-      <Custom Action="SetCustomActionVars" Before="B2SFixup" />
-      <Custom Action="B2SFixup" Before="InstallFinalize"  />
-    </InstallExecuteSequence>
+      <Custom Action="SetB2SVars" Before="B2SFixup" />
+      <Custom Action="B2SFixup" Before="InstallFinalize">NOT REMOVE="ALL"</Custom>
+      <Custom Action="SetPBXVars" Before="PBXFixup" />
+      <Custom Action="PBXFixup" Before="InstallFinalize">NOT REMOVE="ALL"</Custom>
+</InstallExecuteSequence>
 
 
   </Product>
@@ -130,6 +152,8 @@
         <File Source="$(var.LedControlFileTester.TargetPath)" />
 
         <File Source="$(var.ProPinballSlave.TargetPath)" />
+
+        <File Source="$(var.SolutionDir)LICENSE" />
       </Component>
     </DirectoryRef>
 
