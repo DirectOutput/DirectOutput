@@ -98,7 +98,7 @@ namespace DOFSetupPBXFixup
                             if (File.Exists(iniFile))
                             {
                                 session.Log("INI file exists; reading it");
-                                ini = File.ReadAllLines(iniFile);
+                                ini = File.ReadAllLines(iniFile, Encoding.Unicode);
                             }
 
                             // scan for an existing mention of our plugin
@@ -133,8 +133,7 @@ namespace DOFSetupPBXFixup
                                 {
                                     // this is our section!
                                     ourPluginSectLineNo = pluginSectLineNo;
-                                    session.Log("DOF plugin section found (line " 
-                                        + ourPluginSectLineNo + ": " + ini[ourPluginSectLineNo]);
+                                    session.Log("DOF plugin section found (line " + (ourPluginSectLineNo + 1) + ")");
 
                                     // no need to scan any further
                                     break;
@@ -153,6 +152,7 @@ namespace DOFSetupPBXFixup
                                 if (i == ourPluginSectLineNo)
                                 {
                                     // entering our section
+                                    session.Log("Entering our section on rewrite");
                                     inOurSect = true;
                                 }
                                 else if (inOurSect && Regex.IsMatch(l, @"(?i)\s*\[Plugin_(\d+)\]\s*"))
@@ -161,14 +161,16 @@ namespace DOFSetupPBXFixup
                                     inOurSect = false;
 
                                     // if we didn't find an Enabled line in our section, add one
+                                    session.Log("Exiting our section; foundEnabled=" + foundEnabled);
                                     if (!foundEnabled)
                                         newIni.Add("Enabled=True");
                                 }
 
                                 // if we're in our section, note if this is the Enabled line
-                                if (inOurSect && Regex.IsMatch(l, @"(?i)\s*Enabled\*=.*"))
+                                if (inOurSect && Regex.IsMatch(l, @"(?i)\s*Enabled\s*=.*"))
                                 {
                                     // it's our enabled line - change it to Enabled=True
+                                    session.Log(". found Enabled line (" + (i+1) + ")");
                                     l = "Enabled=True";
                                     foundEnabled = true;
                                 }

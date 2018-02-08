@@ -133,6 +133,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\AssemblyInfo\SharedAssemblyInfo.cs">
+      <Link>SharedAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Cab\CabinetOwner.cs" />
     <Compile Include="Cab\ICabinetOwner.cs" />
     <Compile Include="Cab\Out\AdressableLedStrip\AdressableLedStrip.cs" />

@@ -3,13 +3,31 @@
   <Product Id="*"
       Name="DirectOutput"
       Language="1033"
-      Version="3.1.0.0"
+      Version="!(bind.FileVersion.MainDofDll)"
       Manufacturer="DirectOutput"
       UpgradeCode="75f5d8f8-a58b-4a2c-91db-eeef0a114582">
 
     <Package Description="DirectOutput" InstallerVersion="200" Compressed="yes" InstallScope="perUser" />
 
-    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <!--
+      MSI's default settings allow multiple versions of a program to be
+      installed alongside one another simultaneously.  That's what you want
+      for most applications, but not for DOF.  DOF's design makes it highly
+      problematic if multiple versions are installed, since DOF consists of
+      a bunch C# DLLs that have to be in sync with each other, and it hooks
+      into other programs (B2S, PBX) via registry keys and file shortcuts.
+      It's the global nature of those file references that makes it such a
+      problem to have multiple copies of DOF around.  So we override the
+      defaults to try to ensure that only one copy is ever installed.
+      In particular, we set AllowDowngrades="yes" to allow the user to 
+      switch to newer or older DOF versions at any time.  This prevents
+      MSI from creating a new installed product record if installing an
+      older (or equal) version.
+    -->
+    <MajorUpgrade 
+      AllowDowngrades="yes"
+      IgnoreRemoveFailure="no"
+      Schedule="afterInstallInitialize" />
     <MediaTemplate EmbedCab="yes" />
 
     <!-- Components to install -->
@@ -18,7 +36,7 @@
       <ComponentRef Id="SampleConfigFiles" />
       <ComponentRef Id="DirectOutputComObject.dll" />  <!-- from Generated/RegisterDirectOutputComObject.wxs -->
     </Feature>
-
+    
     <!--
         Generated/RegisterDirectOutputComObject.wxs is generated automatically
         by a special target in the project file.  You can't see the target from
@@ -37,7 +55,7 @@
         do this and ensures that everything stays up to dates, so it seems like
         an equitable trade.
     -->
-
+    
     <!-- At run time, show the dialog UI to select the destination folder -->
     <Property Id="WIXUI_INSTALLDIR" Value="DOFDIR" />
     <UIRef Id="WixUI_InstallDirCustom" />
@@ -110,17 +128,32 @@
       <Custom Action="B2SFixup" Before="InstallFinalize">NOT REMOVE="ALL"</Custom>
       <Custom Action="SetPBXVars" Before="PBXFixup" />
       <Custom Action="PBXFixup" Before="InstallFinalize">NOT REMOVE="ALL"</Custom>
-</InstallExecuteSequence>
-
+    </InstallExecuteSequence>
 
   </Product>
 
   <Fragment>
-    <SetDirectory Id="INSTALLFOLDER" Value="[WindowsVolume]DirectOutput" />
+    <!-- Retrieve the old install folder from the registry, if set -->
+    <Property Id="INSTALLFOLDER">
+      <RegistrySearch 
+        Id="InstallFolder" Type="raw"
+        Root="HKCU" Key="SOFTWARE\DirectOutput\DirectOutput" Name="InstallPath"/>
+    </Property>
+
+    <!-- 
+      Install folder root - default to X:\DirectOutput (where X: is the
+      Windows install volume).  Note that the RegistrySearch property
+      setting above will override this if the key exists, so we'll
+      propose installing in same current folder if a previous version
+      already exists.
+    -->
+    <!-- <SetDirectory Id="INSTALLFOLDER" Value="[WindowsVolume]DirectOutput" /> -->
     <Directory Id="TARGETDIR" Name="SourceDir">
-      <Directory Id="INSTALLFOLDER">
-        <Directory Id="DOFDIR" >
-          <Directory Id="DOFCONFIGDIR" Name="Config" />
+      <Directory Id="WINDOWSVOLUME">
+        <Directory Id="INSTALLFOLDER" Name="DirectOutput">
+          <Directory Id="DOFDIR" >
+            <Directory Id="DOFCONFIGDIR" Name="Config" />
+          </Directory>
         </Directory>
       </Directory>
     </Directory>
@@ -129,10 +162,38 @@
   <Fragment>
     <DirectoryRef Id="DOFDIR">
       <Component Id="DofFiles" Guid="F1126C16-DACD-4D27-9C20-C5589D53EE2A">
-        <File Source="$(var.B2SServerPlugin.TargetPath)" />
-        <File Source="$(var.B2SServerPlugin.TargetDir)B2SServerPluginInterface.dll" />
 
-        <File Source="$(var.DirectOutput.TargetPath)" />
+        <!-- save the install folder for subsequent updates -->
+        <RegistryKey Root="HKCU" Key="SOFTWARE\DirectOutput\DirectOutput">
+          <RegistryValue Type="string" Name="InstallPath" Value="[DOFDIR]"/>
+        </RegistryKey>
+
+        <!-- 
+          DOF has multiple DLL components that always need to be in sync, so it's
+          important to make sure we have a consistent set.  All of the DLL files
+          should thus be explicitly removed, in case we're replacing an existing
+          installation.
+        -->
+        <RemoveFile Id="RemoveDof" Name="$(var.DirectOutput.TargetFileName)" On="install" />
+        <RemoveFile Id="RemoveNJ" Name="Newtonsoft.Json.dll" On="install" />
+        <RemoveFile Id="RemoveFlee" Name="Ciloci.Flee.dll" On="install" />
+        <RemoveFile Id="RemoveFTD2XX32" Name="FTD2XX32.dll" On="install" />
+        <RemoveFile Id="RemovePac" Name="PacDrive32.dll" On="install" />
+        <RemoveFile Id="RemoveHue" Name="Q42.HueApi.dll" On="install" />
+        <RemoveFile Id="RemoveHueCC" Name="Q42.HueApi.ColorConverters.dll" On="install" />
+        <RemoveFile Id="RemoveB2S" Name="$(var.B2SServerPlugin.TargetFileName)" On="install" />
+        <RemoveFile Id="RemoveB2Spi" Name="B2SServerPluginInterface.dll" On="install" />
+        <RemoveFile Id="RemoveComObj" Name="DirectOutputComObject.dll" On="install" />
+        <RemoveFile Id="RemovePBX" Name="$(var.DirectOutput PinballX Plugin.TargetFileName)" On="install" />
+        <RemoveFile Id="RemoveComReg" Name="$(var.DirectOutputComObjectRegister.TargetFileName)" On="install" />
+        <RemoveFile Id="RemoveCfgTest" Name="$(var.DirectOutputConfigTester.TargetFileName)" On="install" />
+        <RemoveFile Id="RemoveExts" Name="$(var.Extensions.TargetFileName)" On="install" />
+        <RemoveFile Id="RemoveCfgEd" Name="$(var.GlobalConfigEditor.TargetFileName)" On="install" />
+        <RemoveFile Id="RemoveLedTst" Name="$(var.LedControlFileTester.TargetFileName)" On="install" />
+        <RemoveFile Id="RemoveProSlv" Name="$(var.ProPinballSlave.TargetFileName)" On="install" />
+
+
+        <File Id="MainDofDll" Source="$(var.DirectOutput.TargetPath)" />
         <File Source="$(var.DirectOutput.TargetDir)DirectOutputShapes.png" />
         <File Source="$(var.DirectOutput.TargetDir)DirectOutputShapes.xml" />
         <File Source="$(var.DirectOutput.TargetDir)Newtonsoft.Json.dll" />
@@ -141,6 +202,9 @@
         <File Source="$(var.DirectOutput.TargetDir)PacDrive32.dll" />
         <File Source="$(var.DirectOutput.TargetDir)Q42.HueApi.dll" />
         <File Source="$(var.DirectOutput.TargetDir)Q42.HueApi.ColorConverters.dll" />
+
+        <File Source="$(var.B2SServerPlugin.TargetPath)" />
+        <File Source="$(var.B2SServerPlugin.TargetDir)B2SServerPluginInterface.dll" />
 
         <!-- NOTE: DirectOutputComObject is included separately via Generated/RegisterDirectOutputComObject.wxs -->
 
@@ -154,6 +218,7 @@
         <File Source="$(var.ProPinballSlave.TargetPath)" />
 
         <File Source="$(var.SolutionDir)LICENSE" />
+      
       </Component>
     </DirectoryRef>
 
