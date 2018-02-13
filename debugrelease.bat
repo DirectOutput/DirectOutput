@@ -58,10 +58,13 @@ if exist "%ZipFile%" del "%ZipFile%"
 rem ###   Add the LICENSE file
 zip -j "%ZipFile%" LICENSE
 
-rem ###   Add DOF files
+rem ###   Add DOF DLL files
 for /F "eol=# delims=" %%i in (manifest.debug.x86.txt) do (
     zip -j "%ZipFile%" "%DofDllPath%\%%i"
 )
+
+rem ###   Add DOF config example files
+zip "%ZipFile%" config\examples\*.xml
 
 rem ###   Add ProPinball support files
 zip -j "%ZipFile%" "%ProPinSlavePath%\*.exe"

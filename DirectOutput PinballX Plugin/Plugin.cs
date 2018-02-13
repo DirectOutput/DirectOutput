@@ -287,7 +287,7 @@ namespace PinballX
 
         private void Log(string Text)
         {
-            if (Config != null && Config.EnableLogging)
+            if (Config == null || Config.EnableLogging)
             {
                 TextWriter tw = null;
                 try
@@ -345,6 +345,13 @@ namespace PinballX
             catch (Exception E)
             {
                 Log("Init failed: " + E.Message);
+                Log(". Stack: " + E.StackTrace);
+                String depth = ".";
+                for (Exception ei = E.InnerException; ei != null; ei = ei.InnerException, depth += ".")
+                {
+                    Log(depth + " Inner exception: " + ei.Message);
+                    Log(depth + ". Stack: " + ei.StackTrace);
+                }
                 InitOK = false;
             }
 
@@ -690,6 +697,9 @@ namespace PinballX
         /// </summary>
         public Plugin()
         {
+            Version V = typeof(Plugin).Assembly.GetName().Version;
+            DateTime BuildDate = new DateTime(2000, 1, 1).AddDays(V.Build).AddSeconds(V.Revision * 2);
+            Log("DirectOutput PinballX Plugin, version " + V + ", built " + BuildDate.ToString("yyyy.MM.dd HH:mm"));
         }
 
         #endregion
@@ -769,6 +779,4 @@ namespace PinballX
     }
 
 }
-
-
 

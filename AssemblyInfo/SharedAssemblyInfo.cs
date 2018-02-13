@@ -48,11 +48,29 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-// '*' in the Build Number or Revision fields cause Visual Studio to generate
-// automatically updates values on each build.
+// '*' in the Build Number field tells Visual Studio to generate the
+// Build Number and Revision fields, which it does as follows:  Build Number
+// is set to the current date, expressed as the number of days since 1/1/2000,
+// and Revision is set to the current time of day, as the number of seconds
+// since midnight divided by 2.  Both are in the local time zone of the
+// build machine.  This ensures that the Build Number monotonically increases
+// in newer versions and that Build+Revision is unique per build, and also
+// embeds the build timestamp in the assembly version data, which allows the
+// build date to be determined at runtime.  Several components use this to
+// report the build date in their logging mechanisms.
 //
-// IMPORTANT: VB projects can't share this data, so any version updates must
-// be propagated to VB projects manually.
+// IMPORTANT: The version string MUST be in the format "<major>.<minor>.*",
+// with <major> and <minor> manually set to numbers and the literal "*" as
+// the third element.  Several components depend upon "*" in the Build Number
+// field to retrieve the build timestamp.  Changing the version string layout
+// will break the build timestamp reports in the log.
+//
+// IMPORTANT: VB projects can't share this data!  Whenever the <major>.<minor>
+// version numbers are updated, the VB components must be manually updated to
+// keep them in sync.  The VB components should always use the identical
+// version strings to avoid confusing users when troubleshooting.  The most
+// common setup problem users have is mismatched components, so let's try to
+// make things easier on users by using consistent component IDs.
 //
 [assembly: AssemblyVersion("3.1.*")]
 

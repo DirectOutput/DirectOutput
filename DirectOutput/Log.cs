@@ -48,16 +48,13 @@ namespace DirectOutput
                         Logger = File.AppendText(Filename);
 
                         Logger.WriteLine("---------------------------------------------------------------------------------");
-                        Logger.WriteLine("This is the MJR Grander Unified DOF R3++ edition of 2018-01-25");
-                        Logger.WriteLine("Incorporating: Final DOF R3 beta code by SwissLizard; PWM fixes by Rob Ross;");
-                        Logger.WriteLine("UltimateIO & Philips Hue by Rambo3; ProPinball & 64-bit support by Freezy;");
-                        Logger.WriteLine("and Pinscape updates & DLL-free LedWiz improvements by MJR.");
-                        Logger.WriteLine("DOF created by SwissLizard | https://github.com/mjrgh/DirectOutput");
-                        Logger.WriteLine("{0}\t{1}", DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss.fff"), "DirectOutput Logger initialized");
-
                         Version V = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
                         DateTime BuildDate = new DateTime(2000, 1, 1).AddDays(V.Build).AddSeconds(V.Revision * 2);
-                        Logger.WriteLine("{0}\t{1}", DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss.fff"), "DirectOutput Version {0}, built {1}".Build(V.ToString(), BuildDate.ToString("yyyy.MM.dd HH:mm")));
+                        Logger.WriteLine("DirectOutput Version {0}, built {1}".Build(V.ToString(), BuildDate.ToString("yyyy.MM.dd HH:mm")));
+                        Logger.WriteLine("MJR Grander Unified DOF R3++ edition feat. Djrobx, Rambo3, and Freezy");
+                        Logger.WriteLine("DOF created by SwissLizard | https://github.com/mjrgh/DirectOutput");
+
+                        Logger.WriteLine("{0}\t{1}", DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss.fff"), "DirectOutput Logger initialized");
 
                         IsOk = true;
                     }

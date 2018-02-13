@@ -152,7 +152,9 @@
       <Directory Id="WINDOWSVOLUME">
         <Directory Id="INSTALLFOLDER" Name="DirectOutput">
           <Directory Id="DOFDIR" >
-            <Directory Id="DOFCONFIGDIR" Name="Config" />
+            <Directory Id="DOFCONFIGDIR" Name="Config" >
+              <Directory Id="DOFCONFIGEXAMPLESDIR" Name="Examples"/>
+            </Directory>
           </Directory>
         </Directory>
       </Directory>
@@ -222,10 +224,10 @@
       </Component>
     </DirectoryRef>
 
-    <DirectoryRef Id="DOFCONFIGDIR">
+    <DirectoryRef Id="DOFCONFIGEXAMPLESDIR">
       <Component Id="SampleConfigFiles" Guid="F372286A-B036-471C-AC42-357EBCB9EBD3">
-        <File Source="$(var.SolutionDir)config\Cabinet.xml" />
-        <File Source="$(var.SolutionDir)config\GlobalConfig_B2SServer.xml" />
+        <File Source="$(var.SolutionDir)config\examples\Cabinet.xml" />
+        <File Source="$(var.SolutionDir)config\examples\GlobalConfig_B2SServer.xml" />
       </Component>
     </DirectoryRef>
   </Fragment>

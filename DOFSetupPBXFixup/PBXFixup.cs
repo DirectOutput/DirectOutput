@@ -87,6 +87,7 @@ namespace DOFSetupPBXFixup
                     try
                     {
                         // copy the plugin DLL
+                        session.Log("Copying DOF PBX plugin: " + src + " -> " + dst);
                         File.Copy(src, dst, true);
 
                         String iniFile = Path.Combine(pbxPath, @"Config\PinballX.ini");
