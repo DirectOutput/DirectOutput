@@ -29,6 +29,33 @@ namespace DirectOutput.Cab.Out.Pac
 
         private object IdUpdateLocker = new object();
         private int _Id = -1;
+        private int _MinUpdateIntervalMs = 5;
+        private int _FullUpdateThreshold = 30;
+
+
+        public int MinUpdateIntervalMs
+        {
+            get
+            {
+                return this._MinUpdateIntervalMs;
+            }
+            set
+            {
+                this._MinUpdateIntervalMs = IntExtensions.Limit(value, 0, 1000);
+            }
+        }
+
+        public int FullUpdateThreshold
+        {
+            get
+            {
+                return this._FullUpdateThreshold;
+            }
+            set
+            {
+                this._FullUpdateThreshold = IntExtensions.Limit(value, 0, 64);
+            }
+        }
 
         /// <summary>
         /// Gets or sets the Id of the PacLed64.<br />
@@ -90,6 +117,8 @@ namespace DirectOutput.Cab.Out.Pac
         public override void Init(Cabinet Cabinet)
         {
             AddOutputs();
+            PacLed64.PacLed64Units[this.Id].FullUpdateThreshold = this.FullUpdateThreshold;
+            PacLed64.PacLed64Units[this.Id].MinUpdateInterval = TimeSpan.FromMilliseconds((double)this.MinUpdateIntervalMs);
             PacLed64Units[Id].Init(Cabinet);
             Log.Write("PacLed64 Id:{0} initialized and updater thread started.".Build(Id));
 
@@ -279,6 +308,13 @@ namespace DirectOutput.Cab.Out.Pac
 
 
             public int Id { get; private set; }
+
+
+            public int FullUpdateThreshold { get; set; }
+
+            public TimeSpan MinUpdateInterval { get; set; }
+
+            private DateTime LastCommand = DateTime.MinValue;
 
             private int Index { get; set; }
 
@@ -540,9 +576,11 @@ namespace DirectOutput.Cab.Out.Pac
                                 StateUpdateRequired = false;
                             }
                         }
-                        if (ForceFullUpdate || (IntensityUpdatesRequired + StateUpdatesRequired) > 30)
+
+                        if (ForceFullUpdate || (IntensityUpdatesRequired + StateUpdatesRequired) > this.FullUpdateThreshold)
                         {
                             //more than 30 update calls required. Will send intensity updates for all outputs.
+                            EnforceMinUpdateInterval();
                             PDSingleton.PacLed64SetLEDIntensities(Index, CurrentValue);
                             Array.Copy(CurrentValue, LastValueSent, CurrentValue.Length);
                             for (int i = 0; i < 64; i++)
@@ -564,6 +602,7 @@ namespace DirectOutput.Cab.Out.Pac
                                     {
                                         if (CurrentValue[o] != LastValueSent[o])
                                         {
+                                            EnforceMinUpdateInterval();
                                             PDSingleton.PacLed64SetLEDIntensity(Index, o, CurrentValue[o]);
                                             LastStateSent[o] = true;
                                             LastValueSent[o] = CurrentValue[o];
@@ -585,6 +624,7 @@ namespace DirectOutput.Cab.Out.Pac
                                 }
                                 if (StateUpdateRequired)
                                 {
+                                    EnforceMinUpdateInterval();
                                     PDSingleton.PacLed64SetLEDStates(Index, g + 1, (byte)Mask);
                                     StateUpdateRequired = false;
                                 }
@@ -605,14 +645,29 @@ namespace DirectOutput.Cab.Out.Pac
 
             public void ShutdownLighting()
             {
+                EnforceMinUpdateInterval();
                 PDSingleton.PacLed64SetLEDStates(0, 0, 0);
                 LastStateSent.Fill(false);
             }
 
             private void ResetFadeTime()
             {
+                EnforceMinUpdateInterval();
                 PDSingleton.PacLed64SetLEDFadeTime(Index, 0);
+            }
 
+            private void EnforceMinUpdateInterval()
+            {
+                if (!(this.MinUpdateInterval != TimeSpan.Zero))
+                    return;
+                TimeSpan timeSpan = DateTime.Now - this.LastCommand;
+                this.LastCommand = DateTime.Now;
+                if (timeSpan < this.MinUpdateInterval)
+                {
+                    int millisecondsTimeout = IntExtensions.Limit((int)(this.MinUpdateInterval - timeSpan).TotalMilliseconds, 0, 1000);
+                    if (millisecondsTimeout > 0)
+                        Thread.Sleep(millisecondsTimeout);
+                }
             }
 
 
