@@ -7,7 +7,9 @@ using DirectOutput.Cab.Out;
 using DirectOutput.General;
 using DirectOutput.General.Color;
 using DirectOutput.PinballSupport;
-
+using DirectOutput.Cab.Schedules;
+using DirectOutput.Cab.Sequencer;
+using DirectOutput.Cab.Overrides;
 
 namespace DirectOutput.Cab
 {
@@ -180,6 +182,34 @@ namespace DirectOutput.Cab
             get { return _OutputControllers; }
             set { _OutputControllers = value; }
         }
+
+        /// <summary>
+        /// List of scheduled settings. Outputs can be disabled using start-end clock regions.
+        /// This getter/setter is only used for XML-parsing into ScheduledSettings class, and settings can be accessed using ScheduledSettings.Instance from that point on.
+        /// </summary>
+        public ScheduledSettings ScheduledSettings {
+            get { return ScheduledSettings.Instance; }
+            set { ScheduledSettings.Instance = value; }
+        }
+
+        /// <summary>
+        /// List of sequencial output settings. Outputs can be forwarded to others during fast retriggers to compensate for latency.
+        /// This getter/setter is only used for XML-parsing into SequentialOutputSettings class, and settings can be accessed using SequentialOutputSettings.Instance from that point on.
+        /// </summary>
+        public SequentialOutputSettings SequentialOutputSettings {
+            get { return SequentialOutputSettings.Instance; }
+            set { SequentialOutputSettings.Instance = value; }
+        }
+
+        /// <summary>
+        /// List of table overrides. Outputs can be disabled using table filenames or rom names.
+        /// This getter/setter is only used for XML-parsing into TableOverrideSettings class, and settings can be accessed using TableOverrideSettings.Instance from that point on.
+        /// </summary>
+        public TableOverrideSettings TableOverrideSettings {
+            get { return TableOverrideSettings.Instance; }
+            set { TableOverrideSettings.Instance = value; }
+        }
+
         #endregion
 
         #region Serialization
@@ -297,8 +327,8 @@ namespace DirectOutput.Cab
 
         /// <summary>
         /// Initializes the cabinet.
+        /// <param name="CabinetOwner">The ICabinetOwner object for the cabinet instance.</param>
         /// </summary>
-        /// <param name="Owner">The ICabinetOwner object for the cabinet instance.</param>
         public void Init(ICabinetOwner CabinetOwner)
         {
             Log.Write("Initializing cabinet");
@@ -315,6 +345,7 @@ namespace DirectOutput.Cab
         /// </summary>
         public void Update()
         {
+            //Log.Write("Cabinet.Update... ");
             Toys.UpdateOutputs();
             OutputControllers.Update();
         }

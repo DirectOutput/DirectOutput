@@ -24,7 +24,7 @@ namespace DirectOutput.Frontend
             TableName.Text = (Pinball.Table.TableName.IsNullOrWhiteSpace() ? "<No table name set>" : Pinball.Table.TableName);
             TableFilename.Text = (Pinball.Table.TableFilename.IsNullOrWhiteSpace() ? "<No table file name set>" : Pinball.Table.TableFilename);
             TableRomname.Text = (Pinball.Table.RomName.IsNullOrWhiteSpace() ? "<No rom name set>" : Pinball.Table.RomName);
-
+            DOFPath.Text = new System.IO.FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).Directory.FullName;
 
             GlobalConfigFilename.Text = (Pinball.GlobalConfig.GlobalConfigFilename.IsNullOrWhiteSpace() ? "<no global config file set>" : (Pinball.GlobalConfig.GetGlobalConfigFile().Exists ? Pinball.GlobalConfig.GlobalConfigFilename : "<no global config file found>"));
 
@@ -35,7 +35,7 @@ namespace DirectOutput.Frontend
                     TableConfigFilename.Text = Pinball.Table.TableConfigurationFilename;
                     break;
                 case DirectOutput.Table.TableConfigSourceEnum.IniFile:
-                    TableConfigFilename.Text = "Table config parsed from LedControl file.";
+                    TableConfigFilename.Text = "Table config parsed from LedControl file(s).";
                     break;
                 default:
                     TableConfigFilename.Text = "<no config file loaded>";

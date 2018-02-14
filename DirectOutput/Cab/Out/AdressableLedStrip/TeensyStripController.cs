@@ -185,7 +185,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         }
 
 
-        private int _ComPortTimeOutMs=200;
+        private int _ComPortTimeOutMs = 200;
 
         /// <summary>
         /// Gets or sets the COM port timeout in milliseconds.
@@ -210,7 +210,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                 }
             }
         }
-        
+
 
 
         /// <summary>
@@ -238,7 +238,8 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                 return false;
             }
 
-            if(!SerialPort.GetPortNames().Any(PN => PN==ComPortName)) {
+            if (!SerialPort.GetPortNames().Any(PN => PN == ComPortName))
+            {
                 Log.Warning("The specified Com-Port {0} was not found. Available com-ports: {1}".Build(ComPortName, string.Join(", ", SerialPort.GetPortNames())));
                 return false;
             }
@@ -424,7 +425,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
 
                     //Got no anwser from com port. Mostly likely we are still inside a command which is expecting more data. Send a lot of 0 bytes to get out of this situation.
                     ComPort.Write(new byte[3 * 1000], 0, 3 * 1000);
-                    
+
                     Thread.Sleep(50);
                     //Get rid of all returned data and try again
                     ComPort.ReadExisting();
@@ -564,9 +565,10 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         /// <param name="BufferOffset">The buffer offset.</param>
         /// <param name="NumberOfBytes">The number of bytes.</param>
         /// <returns>Number of bytes read.</returns>
-        private int ReadPortWait(byte[] Buffer, int BufferOffset, int NumberOfBytes) {
+        private int ReadPortWait(byte[] Buffer, int BufferOffset, int NumberOfBytes)
+        {
 
-            byte[] ReadBuffer=new byte[1];
+            byte[] ReadBuffer = new byte[1];
             for (int ByteNumber = 0; ByteNumber < NumberOfBytes; ByteNumber++)
             {
                 int BytesRead = -1;
@@ -587,7 +589,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
 
                 if (BytesRead != 1)
                 {
-                    throw new Exception("A exception occured while trying to read byte {0} of {1} from Com-Port {2}. Tried to read 1 byte, but received {3} bytes.".Build(new object[] {ByteNumber + 1, NumberOfBytes, ComPort.PortName, BytesRead}));
+                    throw new Exception("A exception occured while trying to read byte {0} of {1} from Com-Port {2}. Tried to read 1 byte, but received {3} bytes.".Build(new object[] { ByteNumber + 1, NumberOfBytes, ComPort.PortName, BytesRead }));
                 }
 
                 Buffer[BufferOffset + ByteNumber] = ReadBuffer[0];

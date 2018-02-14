@@ -6,6 +6,8 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Xml.Serialization;
 using DirectOutput.General;
+using DirectOutput.Cab.Schedules;
+using DirectOutput.Cab.Overrides;
 
 namespace DirectOutput.Cab.Out.Pac
 {
@@ -179,7 +181,12 @@ namespace DirectOutput.Cab.Out.Pac
             }
 
             PacLed64Unit S = PacLed64Units[this.Id];
-            S.UpdateValue(ON);
+
+            //check for table overrides
+            ON = TableOverrideSettings.Instance.getnewrecalculatedOutput(ON, 20, Id-1);
+
+            //note, compensate for id not being zero-based [20-23]
+            S.UpdateValue(ScheduledSettings.Instance.getnewrecalculatedOutput(ON, 20, Id-1));
         }
 
 
@@ -249,14 +256,14 @@ namespace DirectOutput.Cab.Out.Pac
         /// </summary>
         static PacLed64()
         {
-           
+
             PacLed64Units = new Dictionary<int, PacLed64Unit>();
             for (int i = 1; i <= 4; i++)
             {
                 PacLed64Units.Add(i, new PacLed64Unit(i));
 
             }
-  
+
         }
 
         /// <summary>
@@ -264,7 +271,7 @@ namespace DirectOutput.Cab.Out.Pac
         /// </summary>
         public PacLed64()
         {
-       
+
             Outputs = new OutputList();
 
         }
@@ -480,9 +487,9 @@ namespace DirectOutput.Cab.Out.Pac
                     {
                         if (IsPresent)
                         {
-                   
+
                             SendPacLed64Update();
-                        
+
                         }
                         FailCnt = 0;
                     }
@@ -570,7 +577,7 @@ namespace DirectOutput.Cab.Out.Pac
                             }
                         }
 
-                        if ( ForceFullUpdate || (IntensityUpdatesRequired + StateUpdatesRequired) > this.FullUpdateThreshold)
+                        if (ForceFullUpdate || (IntensityUpdatesRequired + StateUpdatesRequired) > this.FullUpdateThreshold)
                         {
                             //more than 30 update calls required. Will send intensity updates for all outputs.
                             EnforceMinUpdateInterval();
@@ -631,7 +638,7 @@ namespace DirectOutput.Cab.Out.Pac
                 }
                 else
                 {
-                    ForceFullUpdate=true;
+                    ForceFullUpdate = true;
                 }
             }
 
@@ -692,7 +699,7 @@ namespace DirectOutput.Cab.Out.Pac
                 if (Index >= 0)
                 {
                     LastValueSent.Fill((byte)0);
-                   
+
                     PDSingleton.PacLed64SetLEDIntensities(Index, LastValueSent);
                     LastStateSent.Fill(false);
                     LastValueSent.Fill((byte)0);
@@ -703,17 +710,17 @@ namespace DirectOutput.Cab.Out.Pac
             public PacLed64Unit(int Id)
             {
                 this.Id = Id;
-               
+
                 PDSingleton = PacDriveSingleton.Instance;
                 PDSingleton.OnPacAttached += new PacDriveSingleton.PacAttachedDelegate(Instance_OnPacAttached);
                 PDSingleton.OnPacRemoved += new PacDriveSingleton.PacRemovedDelegate(Instance_OnPacRemoved);
-              
+
                 this.Index = PacDriveSingleton.Instance.PacLed64GetIndexForDeviceId(Id);
-            
+
                 NewValue.Fill((byte)0);
-               
+
                 InitUnit();
-     
+
 
             }
 

@@ -87,7 +87,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         }
 
 
-        private bool _PackData=false;
+        private bool _PackData = false;
 
         /// <summary>
         /// Gets or sets a value indicating whether the data which is sent to the controller should be packed.
@@ -382,3 +382,4 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
 
     }
 }
+

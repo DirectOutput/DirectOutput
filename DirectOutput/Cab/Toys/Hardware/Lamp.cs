@@ -9,7 +9,6 @@ namespace DirectOutput.Cab.Toys.Hardware
 {
 
     /// <summary>
-
     /// Lamp toy.<br/>
     /// Just a simple wrapper for the <see cref="AnalogAlphaToy"/>.
     /// </summary>

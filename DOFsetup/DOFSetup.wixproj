@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" InitialTargets="EnsureWixToolsetInstalled" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>3.10</ProductVersion>
+    <ProjectGuid>14518e83-208e-4eef-b40e-3fb4d17d4a05</ProjectGuid>
+    <SchemaVersion>2.0</SchemaVersion>
+    <OutputName>DOFSetup</OutputName>
+    <OutputType>Package</OutputType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <DefineConstants>Debug</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Generated\RegisterDirectOutputComObject.wxs" />
+    <Compile Include="Product.wxs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\B2SServerPlugin\B2SServerPlugin.csproj">
+      <Name>B2SServerPlugin</Name>
+      <Project>{ffd1c931-d563-4bb1-8656-f3c0952b287a}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\DirectOutput PinballX Plugin\DirectOutput PinballX Plugin.csproj">
+      <Name>DirectOutput PinballX Plugin</Name>
+      <Project>{eec460f2-c571-4c69-a7da-4be510c37947}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\DirectOutputComObjectRegister\DirectOutputComObjectRegister.csproj">
+      <Name>DirectOutputComObjectRegister</Name>
+      <Project>{0503f7eb-fcd9-4b4a-be3f-6cf1f3dcb3d2}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\DirectOutputComObject\DirectOutputComObject.vbproj">
+      <Name>DirectOutputComObject</Name>
+      <Project>{d9e91ab1-ae38-41b3-9224-1f945bab012b}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\DirectOutputConfigTester\DirectOutputConfigTester.csproj">
+      <Name>DirectOutputConfigTester</Name>
+      <Project>{a65b13c1-b813-4478-b130-6b6cb7d98eb9}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\DirectOutput\DirectOutput.csproj">
+      <Name>DirectOutput</Name>
+      <Project>{da43acdd-8241-4a28-8eb2-dae80d91faa8}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\DOFSetupB2SFixup\DOFSetupB2SFixup.csproj">
+      <Name>DOFSetupB2SFixup</Name>
+      <Project>{3942cb54-55a5-4858-8317-39e0e5e6f2a0}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\DOFSetupPBXFixup\DOFSetupPBXFixup.csproj">
+      <Name>DOFSetupPBXFixup</Name>
+      <Project>{9515dda6-ba19-4a8f-afcc-fc1fc6128fa4}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\Extensions\Extensions.csproj">
+      <Name>Extensions</Name>
+      <Project>{3ba9c263-d8c3-4511-bd2f-4c7b55d82a1a}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\GlobalConfigEditor\GlobalConfigEditor.csproj">
+      <Name>GlobalConfigEditor</Name>
+      <Project>{1e95052e-be0f-4eee-8814-ef07c972436c}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\LedControlFileTester\LedControlFileTester.csproj">
+      <Name>LedControlFileTester</Name>
+      <Project>{97f9d29a-6938-4667-a489-c4d3308eb086}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\ProPinballBridge\ProPinballBridge.vcxproj">
+      <Name>ProPinballBridge</Name>
+      <Project>{e59c8a02-9e95-4f7a-bdcc-cfcca57c3b4d}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\ProPinballSlave\ProPinballSlave.csproj">
+      <Name>ProPinballSlave</Name>
+      <Project>{d6c8dfac-7b96-4b30-879a-455429544d22}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WixExtension Include="WixUIExtension">
+      <HintPath>$(WixExtDir)\WixUIExtension.dll</HintPath>
+      <Name>WixUIExtension</Name>
+    </WixExtension>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Generated" />
+    <Folder Include="Res" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Res\Banner.bmp" />
+    <Content Include="Res\DialogSide.bmp" />
+    <Content Include="Res\DOFLicense.rtf" />
+  </ItemGroup>
+  <Import Project="$(WixTargetsPath)" Condition=" '$(WixTargetsPath)' != '' " />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets" Condition=" '$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets') " />
+  <Target Name="EnsureWixToolsetInstalled" Condition=" '$(WixTargetsImported)' != 'true' ">
+    <Error Text="The WiX Toolset v3.11 (or newer) build tools must be installed to build this project. To download the WiX Toolset, see http://wixtoolset.org/releases/" />
+  </Target>
+  <!--
+	To modify your build process, add your task inside one of the targets below and uncomment it.
+	Other similar extension points exist, see Wix.targets.
+	<Target Name="BeforeBuild">
+	</Target>
+	<Target Name="AfterBuild">
+	</Target>
+	-->
+  <Target Name="BeforeBuild">
+    <!--
+     <HeatFile> runs the WiX "heat" tool, which automatically generates WiX
+     scripts for various purposes.  Here, we're using it to extract COM object
+     registration data from DirectOutputComObject.dll and write it to the WiX
+     script Generated\RegisterDirectOutputComObject.wxs.  This generates the
+     WiX script elements to (1) add the DLL to the install set, and (2) add
+     the registry variables to register the COM object to the install set.
+     When the end user runs the install, the result will be that the DLL is
+     copied to the install folder and the registry keys are created for the
+     COM object it implements.  Doing this with <HeatFile> is better than
+     hand-coding the WiX commands because it automatically keeps the script
+     in sync with the DLL.  For example, if we were to change the class GUID
+     in the DLL, the script would update to the new GUID automatically.
+    -->
+    <HeatFile ToolPath="$(WixToolPath)" NoLogo="true" File="$(SolutionDir)bin\$(Configuration)\DirectOutputComObject.dll" OutputFile="$(ProjectDir)Generated\RegisterDirectOutputComObject.wxs" DirectoryRefId="DOFDIR" PreprocessorVariable="var.DirectOutputComObject.TargetDir" SuppressRootDirectory="true" GenerateGuidsNow="true" SuppressFragments="true" SuppressUniqueIds="true" />
+  </Target>
+</Project>

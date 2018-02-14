@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-/// <summary>
-/// This namespace contains a outputcontroller implementaion which isnt doing anything.
-/// </summary>
+// <summary>
+// This namespace contains a outputcontroller implementaion which isnt doing anything.
+// </summary>
 namespace DirectOutput.Cab.Out.NullOutputController
 {
 

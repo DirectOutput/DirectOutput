@@ -48,18 +48,15 @@ namespace DirectOutput
                         Logger = File.AppendText(Filename);
 
                         Logger.WriteLine("---------------------------------------------------------------------------------");
-                        Logger.WriteLine("{0}\t{1}", DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss.fff"), "DirectOutput Logger initialized");
-
                         Version V = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
                         DateTime BuildDate = new DateTime(2000, 1, 1).AddDays(V.Build).AddSeconds(V.Revision * 2);
-                        Logger.WriteLine("{0}\t{1}", DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss.fff"), "DirectOutput Version {0} as of {1}".Build(V.ToString(), BuildDate.ToString("yyyy.MM.dd HH:mm")));
+                        Logger.WriteLine("DirectOutput Version {0}, built {1}".Build(V.ToString(), BuildDate.ToString("yyyy.MM.dd HH:mm")));
+                        Logger.WriteLine("MJR Grander Unified DOF R3++ edition feat. Djrobx, Rambo3, and Freezy");
+                        Logger.WriteLine("DOF created by SwissLizard | https://github.com/mjrgh/DirectOutput");
+
+                        Logger.WriteLine("{0}\t{1}", DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss.fff"), "DirectOutput Logger initialized");
 
                         IsOk = true;
-
-
-
-
-
                     }
                     catch
                     {
@@ -98,14 +95,12 @@ namespace DirectOutput
         /// <param name="Message">The message.</param>
         public static void Write(string Message)
         {
-
             lock (Locker)
             {
                 if (IsOk)
                 {
                     try
                     {
-
                         if (Message.IsNullOrWhiteSpace())
                         {
                             Logger.WriteLine("{0}\t{1}", DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss.fff"), "");
@@ -164,8 +159,6 @@ namespace DirectOutput
                         Write("EXCEPTION: Targetsite: {0}".Build(E.TargetSite.ToString()));
                     }
 
-
-
                     try
                     {
                         // Get stack trace for the exception with source file information
@@ -216,9 +209,7 @@ namespace DirectOutput
         public static void Debug(string Message = "")
         {
             Write("Debug: {0}".Build(Message));
-
         }
-
 
     }
 }

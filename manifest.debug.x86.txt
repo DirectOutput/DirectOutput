@@ -1,0 +1,21 @@
+# Manifest for DOF release ZIP - Debug x86 configuration
+
+B2SServerDirectOutputPlugin.dll
+B2SServerPluginInterface.dll
+DirectOutput.dll
+DirectOutputShapes.png
+DirectOutputShapes.xml
+Extensions.dll
+
+DirectOutput PinballX Plugin.dll
+DirectOutputConfigTester.exe
+GlobalConfigEditor.exe
+LedControlFileTester.exe
+Newtonsoft.Json.dll
+RegisterDirectOutputComObject.exe
+
+Ciloci.Flee.dll
+FTD2XX32.dll
+PacDrive32.dll
+Q42.HueApi.dll
+Q42.HueApi.ColorConverters.dll

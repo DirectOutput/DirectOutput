@@ -1,6 +1,26 @@
 ﻿DOF History  {#dofhistory}
 ========
 
+
+_2017.7_
+
+- Recompiled this documentation using Doxygen.
+
+
+_2017.5-2017.6_
+
+- Support for Philips Hue.
+- Support for <TableOverrideSettings> for overriding outputs using Cabinet.xml per-table, per-device, per-output etc.
+- Support for <SequentialOutputSettings> in Cabinet.xml for output cycling for contactors. Can be used during retriggers of an output quicker than a contactor can respond to when hooked onto a Sainsmart. For instance, left flipper -> left slingshot if left flipper contactor is triggered within say 300ms.
+
+
+_2017.2-2017.4_
+
+- Support for I-PAC Ultimate I/O.
+- Auto detects SainSmart USB devices (serial, device). Remove entries in Cabinet.xml for this to go into effect.
+- Support for <ScheduledSettings> in Cabinet.xml ("day & night modes"). Defines a time region, a setting name, and a list of devices. Each device has a set of ports that will get their output values modified by OutputPercent. Note that using LED-amps will render anything 1-99 in effect 100 due to the LED-amps taking over.
+
+
 _2015.6-2015.10_
 
 - Pinballx Plugin improved

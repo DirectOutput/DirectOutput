@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DirectOutput</RootNamespace>
     <AssemblyName>DirectOutput</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -26,6 +26,8 @@
     <PlatformTarget>x86</PlatformTarget>
     <DocumentationFile>..\bin\\Docu\DirectOutput.XML</DocumentationFile>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <NoWarn>CS1591</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -35,6 +37,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>DirectOutputIcon_32.ico</ApplicationIcon>
@@ -54,6 +57,7 @@
     <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>..\bin\Release\</OutputPath>
@@ -70,15 +74,58 @@
     <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>..\bin\\Docu\DirectOutput.XML</DocumentationFile>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Ciloci.Flee">
       <HintPath>..\packages\fleesharp.0.9.27-pre\lib\net40\Ciloci.Flee.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Q42.HueApi, Version=3.6.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Q42.HueApi.3.6.1\lib\netstandard1.1\Q42.HueApi.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Q42.HueApi.ColorConverters, Version=3.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Q42.HueApi.ColorConverters.3.6.0\lib\netstandard1.1\Q42.HueApi.ColorConverters.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
@@ -86,6 +133,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\AssemblyInfo\SharedAssemblyInfo.cs">
+      <Link>SharedAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Cab\CabinetOwner.cs" />
     <Compile Include="Cab\ICabinetOwner.cs" />
     <Compile Include="Cab\Out\AdressableLedStrip\AdressableLedStrip.cs" />
@@ -95,11 +145,12 @@
     <Compile Include="Cab\Out\AdressableLedStrip\WS2811StripController.cs" />
     <Compile Include="Cab\Out\ComPort\GenericCom.cs" />
     <Compile Include="Cab\Out\ComPort\PinControl.cs" />
-    <Compile Include="Cab\Out\DMX\ArtNeOld.cs" />
     <Compile Include="Cab\Out\DMX\ArtnetEngine\ArtnetEngine.cs" />
     <Compile Include="Cab\Out\DMX\ArtNet.cs" />
     <Compile Include="Cab\Out\FTDIChip\FT245RBitbangController.cs" />
     <Compile Include="Cab\Out\FTDIChip\FTDIChip.cs" />
+    <Compile Include="Cab\Out\HIDImports.cs" />
+    <Compile Include="Cab\Out\FTDIChip\FT245RBitbangControllerAutoConfigurator.cs" />
     <Compile Include="Cab\Out\IAutoConfigOutputController.cs" />
     <Compile Include="Cab\Out\ISupportsSetValues.cs" />
     <Compile Include="Cab\Out\LW\LedWizAutoConfigurator.cs" />
@@ -118,10 +169,26 @@
     <Compile Include="Cab\Out\Pac\PacLed64AutoConfigurator.cs" />
     <Compile Include="Cab\Out\FTDIChip\FTD2XX_NET.cs" />
     <Compile Include="Cab\Out\AdressableLedStrip\DirectStripControllerApi.cs" />
-    <Compile Include="Cab\Out\PS\HIDImports.cs" />
+    <Compile Include="Cab\Out\Pac\PacUIO.cs" />
+    <Compile Include="Cab\Out\Pac\PacUIOAutoConfigurator.cs" />
+    <Compile Include="Cab\Out\PhilipsHue\PhilipsHue.cs" />
+    <Compile Include="Cab\Out\PhilipsHue\PhilipsHueAutoConfigurator.cs" />
+    <Compile Include="Cab\Out\PhilipsHue\PhilipsHueController.cs" />
     <Compile Include="Cab\Out\PS\Pinscape.cs" />
     <Compile Include="Cab\Out\PS\PinscapeAutoConfigurator.cs" />
     <Compile Include="Cab\Out\PS\PS.cs" />
+    <Compile Include="Cab\Overrides\Overrides.cs" />
+    <Compile Include="Cab\Overrides\TableOverrideSettingDevice.cs" />
+    <Compile Include="Cab\Overrides\TableOverrideSetting.cs" />
+    <Compile Include="Cab\Overrides\TableOverrideSettings.cs" />
+    <Compile Include="Cab\Schedules\Schedules.cs" />
+    <Compile Include="Cab\Sequencer\Sequencer.cs" />
+    <Compile Include="Cab\Sequencer\SequentialOutputSetting.cs" />
+    <Compile Include="Cab\Sequencer\SequentialOutputDevice.cs" />
+    <Compile Include="Cab\Sequencer\SequentialOutputSettings.cs" />
+    <Compile Include="Cab\Schedules\ScheduledSettingDevice.cs" />
+    <Compile Include="Cab\Schedules\ScheduledSetting.cs" />
+    <Compile Include="Cab\Schedules\ScheduledSettings.cs" />
     <Compile Include="Cab\Toys\Hardware\Hardware.cs" />
     <Compile Include="Cab\Toys\Hardware\GearMotor.cs" />
     <Content Include="Config\GlobalConfig_B2SServer.xml">
@@ -190,17 +257,6 @@
     <Compile Include="Cab\Toys\ToyBaseUpdatable.cs" />
     <Compile Include="Cab\Toys\Layer\RGBAToy.cs" />
     <Compile Include="DirectOutput.cs" />
-    <Compile Include="Extensions\ArrayExtensions.cs" />
-    <Compile Include="Extensions\ByteExtensions.cs" />
-    <Compile Include="Extensions\DirectoryInfoExtensions.cs" />
-    <Compile Include="Extensions\DoubleExtensions.cs" />
-    <Compile Include="Extensions\FileInfoExtensions.cs" />
-    <Compile Include="Extensions\IntExtensions.cs" />
-    <Compile Include="Extensions\FloatExtensions.cs" />
-    <Compile Include="Extensions\PropertyInfoExtension.cs" />
-    <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Extensions\TimeSpanExtensions.cs" />
-    <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Frontend\AvailableToysInfo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -346,14 +402,20 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="ftd2xx.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PacDrive.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="DirectOutputShapes.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="FTD2XX32.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="FTD2XX64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PacDrive32.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PacDrive64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
@@ -361,11 +423,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="DirectOutputIcon_32.ico" />
-    <Content Include="ledwiz.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Builds\DirectOutput_rambo3_2017-02-09.zip" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="Config\ledcontrol.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -387,7 +448,9 @@
     <None Include="Docu\Diagramms\ToyArchitecture.cd" />
     <None Include="FX\FX.cd" />
     <None Include="Main.cd" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\DataSources\DirectOutput.GlobalConfig.Config.datasource" />
     <None Include="Properties\DataSources\DirectOutput.GlobalConfig.FilePatternList.datasource" />
     <None Include="Properties\DataSources\DirectOutput.GlobalConfig.GlobalConfigEditor.datasource" />
@@ -411,7 +474,15 @@
       <DependentUpon>TableInfo.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Extensions\Extensions.csproj">
+      <Project>{3BA9C263-D8C3-4511-BD2F-4C7B55D82A1A}</Project>
+      <Name>Extensions</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

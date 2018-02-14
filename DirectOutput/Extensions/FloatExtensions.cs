@@ -12,6 +12,7 @@ public static class floatExtensions
     /// <summary>
     /// Limits the value to the supplied Min- and MaxValues
     /// </summary>
+    /// <param name="d">The value to clamp</param>
     /// <param name="MinValue">Minimum Value</param>
     /// <param name="MaxValue">Maximum Value</param>
     /// <returns>Float limited the to specified Min- and MaxValues</returns>
@@ -26,6 +27,7 @@ public static class floatExtensions
     /// <summary>
     /// Indicates wheter the value of the double within a specified range.
     /// </summary>
+    /// <param name="i">The value to test</param>
     /// <param name="MinValue">Minimum Value</param>
     /// <param name="MaxValue">>Maximum Value</param>
     /// <returns>true if the double is between <paramref name="MinValue"/> and <paramref name="MaxValue"/>, otherwise false.</returns>

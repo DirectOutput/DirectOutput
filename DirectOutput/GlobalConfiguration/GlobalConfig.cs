@@ -130,8 +130,15 @@ namespace DirectOutput.GlobalConfiguration
                 catch { }
             }
 
+			if (GetGlobalConfigDirectory() != null)
+			{
+				LookupPaths.Add(GetGlobalConfigDirectory().FullName);
+			}
+			LookupPaths.Add(Directory.GetCurrentDirectory());
 
-            LookupPaths.AddRange(new string[] { GetGlobalConfigDirectory().FullName, Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) });
+			if (!Assembly.GetExecutingAssembly().Location.IsNullOrEmpty()) {
+				LookupPaths.Add(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+			}
 
             //Build the dictionary of ini files
 
@@ -269,7 +276,7 @@ namespace DirectOutput.GlobalConfiguration
                 }
             }
             FileInfo FII = new FilePattern("{DllDir}\\DirectOutputShapes.xml").GetFirstMatchingFile(GetReplaceValuesDictionary(TableFilename, RomName));
-            if (FII.Exists)
+            if (FII != null && FII.Exists)
             {
                 return FII;
             }
@@ -379,7 +386,7 @@ namespace DirectOutput.GlobalConfiguration
 
 
         #region Logging
-        private bool _EnableLog = false;
+        private bool _EnableLog = true;
 
 
         /// <summary>
@@ -394,7 +401,7 @@ namespace DirectOutput.GlobalConfiguration
             set { _EnableLog = value; }
         }
 
-        private bool _ClearLogOnSessionStart=false;
+        private bool _ClearLogOnSessionStart=true;
 
         /// <summary>
         /// Gets or sets a value indicating whether DOF clears the log file on session start.
@@ -466,7 +473,7 @@ namespace DirectOutput.GlobalConfiguration
                 D.Add("GlobalConfigDir", GetGlobalConfigDirectory().FullName);
             }
 
-            FileInfo FI = new FileInfo(Assembly.GetExecutingAssembly().Location);
+            FileInfo FI = new FileInfo(Assembly.GetExecutingAssembly().Location.IsNullOrEmpty() ? Directory.GetCurrentDirectory() : Assembly.GetExecutingAssembly().Location);
             D.Add("DllDirectory", FI.Directory.FullName);
             D.Add("DllDir", FI.Directory.FullName);
             D.Add("AssemblyDirectory", FI.Directory.FullName);

@@ -1,7 +1,9 @@
-﻿using System;
+﻿using DirectOutput.Cab.Schedules;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.IO;
 using System.Threading;
 
 
@@ -23,6 +25,7 @@ namespace DirectOutput.Cab.Out.LW
     /// The current implementation of the LedWiz driver uses a separate thread for every ledwiz connected to the system to ensure max. performance.
     /// 
     /// \image html LedWizLogo.jpg
+    /// 
     /// </summary>
     public class LedWiz : OutputControllerBase, IOutputController, IDisposable
     {
@@ -52,6 +55,7 @@ namespace DirectOutput.Cab.Out.LW
                 {
                     throw new Exception("LedWiz Numbers must be between 1-16. The supplied number {0} is out of range.".Build(value));
                 }
+
                 lock (NumberUpdateLocker)
                 {
                     if (_Number != value)
@@ -63,7 +67,6 @@ namespace DirectOutput.Cab.Out.LW
                         }
 
                         _Number = value;
-
                     }
                 }
             }
@@ -72,8 +75,10 @@ namespace DirectOutput.Cab.Out.LW
         #endregion
 
 
+        #region MinCommandIntervalMs property of type int with events
         private int _MinCommandIntervalMs = 1;
         private bool MinCommandIntervalMsSet = false;
+
         /// <summary>
         /// Gets or sets the mininimal interval between command in miliseconds (Default: 1ms).
         /// Depending on the mainboard, usb hardware on the board, usb drivers and other factors the LedWiz does sometime tend to loose or misunderstand commands received if the are sent in to short intervals.
@@ -96,7 +101,7 @@ namespace DirectOutput.Cab.Out.LW
             }
         }
 
-
+        #endregion
 
 
         #region IOutputcontroller implementation
@@ -191,6 +196,13 @@ namespace DirectOutput.Cab.Out.LW
             }
 
             LedWizUnit S = LedWizUnits[this.Number];
+            //S.UpdateValue(LWO);
+
+            //uses ledwizoutput instead of standard output, need to mirror ledwizoutputnumber
+            //note, compensate for id [1-16] not being zero-based
+            IOutput recalculatedOutput = ScheduledSettings.Instance.getnewrecalculatedOutput(Output, 1, Number-1);
+            LWO.Value = recalculatedOutput.Value;
+
             S.UpdateValue(LWO);
         }
 
@@ -225,36 +237,43 @@ namespace DirectOutput.Cab.Out.LW
 
 
         #region LEDWIZ Static Private Methods & Properties
-        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
-        private struct LWZDEVICELIST
-        {
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = LWZ_MAX_DEVICES)]
-            public uint[] handles;
-            public int numdevices;
-        }
 
-        [DllImport("LEDWiz", CallingConvention = CallingConvention.Cdecl)]
-        private extern static void LWZ_SBA(uint device, uint bank0, uint bank1, uint bank2, uint bank3, uint globalPulseSpeed);
+		// LedWiz device descriptor
+		struct LWDEVICE
+		{
+			public LWDEVICE(int unitNo, String path)
+			{
+				this.unitNo = unitNo;
+				this.path = path;
+			}
 
-        [DllImport("LEDWiz", CallingConvention = CallingConvention.Cdecl)]
-        private extern static void LWZ_PBA(uint device, uint brightness);
+			// nominal LedWiz unit number (1-16)
+			public int unitNo;
 
-        [DllImport("LEDWiz", CallingConvention = CallingConvention.Cdecl)]
-        private extern static void LWZ_REGISTER(uint h, uint hwnd);
+			// Win32 file path to USB endpoint for the device.  This path can
+			// can opened as an ordinary file to send commands to the LedWiz.
+			public String path;
+		}
+		
+		// LedWiz device list.  For each LedWiz device we find in the system,
+		// we populate the array entry indexed by the unit number with an
+		// LWDEVICE structure for the device.
+		private static List<LWDEVICE> deviceList = new List<LWDEVICE>();
 
-        [DllImport("LEDWiz", CallingConvention = CallingConvention.Cdecl)]
-        private extern static void LWZ_SET_NOTIFY(MulticastDelegate notifyProc, uint list);
-
-        private delegate void NotifyDelegate(int reason, uint newDevice);
-
-        private static IntPtr MainWindow = IntPtr.Zero;
-
-        private static LWZDEVICELIST deviceList;
-
+		// The LedWiz USB interface is designed so that each unit attached
+		// to a given computer is distinguished from others in the same system
+		// by its USB product ID code.  The manufacturer assigned a range of
+		// 16 product IDs for this purpose, which means that the maximum
+		// number of units on a single system is 16.  We don't actually
+		// impose any limit of our own; this constant is just for reference.
         private const int LWZ_MAX_DEVICES = 16;
-        private const int LWZ_ADD = 1;
-        private const int LWZ_DELETE = 2;
 
+		// The LedWiz flash modes.  These modes can be used in place of
+		// PWM brightness levels in PBA commands.  This enum is for reference
+		// only, as we never use any of the flash modes in DOF; we instead
+		// handle flashes and fades by setting PWM levels on a timer.  Note
+		// that LedWiz devices aren't actually very reliable at executing
+		// these modes properly, so it's good that we don't need them.
         private enum AutoPulseMode : int
         {
             RampUpRampDown = 129,				// /\/\
@@ -263,70 +282,126 @@ namespace DirectOutput.Cab.Out.LW
             RampUpDown = 132					// /-|/-
         }
 
-
-
-        private static void Notify(int reason, uint newDevice)
-        {
-            //TODO: Ledwizverhalten bei add und remove im laufenden betrieb prüfen
-            if (reason == LWZ_ADD)
-            {
-                LWZ_REGISTER(newDevice, (uint)MainWindow.ToInt32());
-            }
-            if (reason == LWZ_DELETE)
-            {
-            }
-        }
-
-
-
-        private static int NumDevices
-        {
-            get { return deviceList.numdevices; }
-        }
-
-        private static uint[] DeviceHandles
-        {
-            get { return deviceList.handles; }
-        }
-
         private static int StartedUp = 0;
         private static object StartupLocker = new object();
-        private static void StartupLedWiz()
-        {
-            lock (StartupLocker)
-            {
-                if (StartedUp == 0)
-                {
-                    MainWindow = IntPtr.Zero;
-                    deviceList.handles = new uint[LWZ_MAX_DEVICES] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-                    deviceList.numdevices = 0;
-                    try
-                    {
-                        NotifyDelegate del = new NotifyDelegate(Notify);
+		private static void StartupLedWiz()
+		{
+			lock (StartupLocker)
+			{
+				if (StartedUp == 0)
+				{
+					// clear the device list
+					deviceList = new List<LWDEVICE>();
 
-                        IntPtr ptr = Marshal.AllocCoTaskMem(Marshal.SizeOf(typeof(LWZDEVICELIST)));
-                        Marshal.StructureToPtr(deviceList, ptr, true);
-                        LWZ_SET_NOTIFY(del, (uint)ptr.ToInt32());
-                        deviceList = (LWZDEVICELIST)Marshal.PtrToStructure(ptr, typeof(LWZDEVICELIST));
-                        Marshal.FreeCoTaskMem(ptr);
-                        Log.Debug("Ledwiz devicelist content. Handles: {0}, Num devices: {1}".Build(string.Join(", ", deviceList.handles.Select(H => H.ToString())), deviceList.numdevices));
-                    }
-                    catch (Exception ex)
-                    {
-                        Log.Exception("Could not init LedWiz", ex);
-                        throw new Exception("Could not init LedWiz", ex);
-                    }
+					try
+					{
+						// The LedWiz is uses the Windows generic HID driver, so we can find
+						// all of the LedWiz devices in the system by enumerating HID devices
+						// and filtering for the LedWiz vendor/product ID codes.  To enumerate
+						// the HID devices, enumerate all devices matching the HID class GUID.
+						Guid guid;
+						HIDImports.HidD_GetHidGuid(out guid);
+						IntPtr hdev = HIDImports.SetupDiGetClassDevs(
+							ref guid, null, IntPtr.Zero, HIDImports.DIGCF_DEVICEINTERFACE);
 
-                }
-                StartedUp++;
-            }
-        }
+						// set up the attribute structure buffer
+						HIDImports.SP_DEVICE_INTERFACE_DATA diData = new HIDImports.SP_DEVICE_INTERFACE_DATA();
+						diData.cbSize = Marshal.SizeOf(diData);
+
+						// read the devices matching the HID class GUID
+						for (uint i = 0;
+							 HIDImports.SetupDiEnumDeviceInterfaces(hdev, IntPtr.Zero, ref guid, i, ref diData);
+							 ++i)
+						{
+							// get the size of the detail data structure
+							UInt32 size = 0;
+							HIDImports.SetupDiGetDeviceInterfaceDetail(
+								hdev, ref diData, IntPtr.Zero, 0, out size, IntPtr.Zero);
+
+							// now that we know the structure size, set up a buffer and
+							// and read the contents into it
+							HIDImports.SP_DEVICE_INTERFACE_DETAIL_DATA diDetail = new HIDImports.SP_DEVICE_INTERFACE_DETAIL_DATA();
+							diDetail.cbSize = (IntPtr.Size == 8) ? (uint)8 : (uint)5;
+							if (HIDImports.SetupDiGetDeviceInterfaceDetail(hdev, ref diData, ref diDetail, size, out size, IntPtr.Zero))
+							{
+								// create a file handle to access the device
+								IntPtr fp = HIDImports.CreateFile(
+									diDetail.DevicePath, HIDImports.GENERIC_READ_WRITE, HIDImports.SHARE_READ_WRITE,
+									IntPtr.Zero, FileMode.Open, 0, IntPtr.Zero);
+
+								// make sure we opened the file
+								if (fp != IntPtr.Zero && fp.ToInt32() != -1)
+								{
+									// read the attributes
+									HIDImports.HIDD_ATTRIBUTES attrs = new HIDImports.HIDD_ATTRIBUTES();
+									attrs.Size = Marshal.SizeOf(attrs);
+									if (HIDImports.HidD_GetAttributes(fp, ref attrs))
+									{
+										// presume this is an LedWiz unit, then look for reasons it's not
+										bool ok = true;
+
+										// Check for the LedWiz vendor and product ID codes.  If they don't
+										// match, it's not an LedWiz.
+										ok &= ((ushort)attrs.VendorID == 0xFAFA);
+										ok &= (attrs.ProductID >= 0x00F0 && attrs.ProductID < 0x00FF);
+
+										// Infer the unit number from the product ID.  The product ID
+										// is simply 0x00EF + Unit Number, using our internal convention
+										// of starting the numbering at 1.
+										int unitNo = attrs.ProductID - 0x00EF;
+
+										// Check the HID output report descriptor.  The LedWiz interface
+										// has an 8-byte output report (which actually looks like 9 bytes
+										// on the Windows side, because Windows adds a mandatory prefix
+										// byte for the report ID, even when the extra byte doesn't go 
+										// across the wire, which it doesn't in this case).
+										// 
+										// To get the report descriptor information, we have to retrieve
+										// the "capabilities" structure, which requires fetching the
+										// "preparsed data" structure.
+										IntPtr ppdata;
+										if (ok && HIDImports.HidD_GetPreparsedData(fp, out ppdata))
+										{
+											// get the device caps
+											HIDImports.HIDP_CAPS caps = new HIDImports.HIDP_CAPS();
+											HIDImports.HidP_GetCaps(ppdata, ref caps);
+
+											// Check that we have a single link collection, and that
+											// we have the expected output report length.
+											ok &= (caps.NumberLinkCollectionNodes == 1);
+											ok &= (caps.OutputReportByteLength == 9);
+
+											// done with the preparsed data
+											HIDImports.HidD_FreePreparsedData(ppdata);
+										}
+
+										// if we passed all tests, add this device to the list
+										if (ok)
+											deviceList.Add(new LWDEVICE(unitNo, diDetail.DevicePath));
+									}
+
+									// done with the file handle
+									HIDImports.CloseHandle(fp);
+								}
+							}
+						}
+					}
+					catch (Exception ex)
+					{
+						Log.Exception("Could not init LedWiz", ex);
+						throw new Exception("Could not init LedWiz", ex);
+					}
+
+				}
+
+				StartedUp++;
+			}
+		}
 
         private static void TerminateLedWiz()
         {
             lock (StartupLocker)
             {
-
                 if (StartedUp > 0)
                 {
                     StartedUp--;
@@ -336,7 +411,6 @@ namespace DirectOutput.Cab.Out.LW
                         {
                             S.ShutdownLighting();
                         }
-                        LWZ_SET_NOTIFY((System.MulticastDelegate)null, 0);
                     }
                 }
             }
@@ -350,15 +424,14 @@ namespace DirectOutput.Cab.Out.LW
         /// <returns></returns>
         public static List<int> GetLedwizNumbers()
         {
-            List<int> L = new List<int>();
+            // make sure the static device list is initialized
+            StartupLedWiz();
 
-            LedWiz LW = new LedWiz();
-            for (int i = 0; i < LedWiz.NumDevices; i++)
-            {
-                L.Add((int)LedWiz.DeviceHandles[i]);
-            }
-            LW.Dispose();
-            return L;
+			// get a list of just the unit numbers
+            List<int> lst = deviceList.Select(d => d.unitNo).ToList();
+
+			// return the list
+			return lst;
         }
 
 
@@ -368,13 +441,11 @@ namespace DirectOutput.Cab.Out.LW
         /// </summary>
         ~LedWiz()
         {
-
             Dispose(false);
         }
 
+
         #region Dispose
-
-
 
         /// <summary>
         /// Disposes the LedWiz object.
@@ -385,6 +456,7 @@ namespace DirectOutput.Cab.Out.LW
             Dispose(true);
             GC.SuppressFinalize(this); // remove this from gc finalizer list
         }
+        
         /// <summary>
         /// Releases unmanaged and - optionally - managed resources.
         /// </summary>
@@ -401,32 +473,25 @@ namespace DirectOutput.Cab.Out.LW
                 catch
                 {
                 }
+
                 // If disposing equals true, dispose all managed
                 // and unmanaged resources.
                 if (disposing)
                 {
-                    // Dispose managed resources.
-
+                    // Dispose managed resources
                 }
 
-                // Call the appropriate methods to clean up
-                // unmanaged resources here.
-                // If disposing is false,
-                // only the following code is executed.
-
+                // Call the appropriate methods to clean up unmanaged resources here.
+                // If disposing is false, only the following code is executed.
                 TerminateLedWiz();
-
 
                 // Note disposing has been done.
                 disposed = true;
-
             }
         }
         private bool disposed = false;
 
         #endregion
-
-
 
         #region Constructor
 
@@ -448,14 +513,10 @@ namespace DirectOutput.Cab.Out.LW
         /// </summary>
         public LedWiz()
         {
+            Log.Write("Opening " + (IntPtr.Size == 8 ? "64" : "32") + "-bit LedWiz driver...");
             StartupLedWiz();
-
             Outputs = new OutputList();
-
-
         }
-
-
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LedWiz"/> class.
@@ -470,17 +531,13 @@ namespace DirectOutput.Cab.Out.LW
         #endregion
 
 
-
-
-
-
         #region Internal class for LedWiz output states and update methods
 
         private static Dictionary<int, LedWizUnit> LedWizUnits = new Dictionary<int, LedWizUnit>();
 
         private class LedWizUnit
         {
-          //  private Pinball Pinball;
+            //  private Pinball Pinball;
 
 
             //Used to convert the 0-255 range of output values to LedWiz values in the range of 0-48.
@@ -489,11 +546,17 @@ namespace DirectOutput.Cab.Out.LW
             private static readonly byte[] ByteToLedWizValue = { 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 10, 10, 10, 10, 10, 10, 11, 11, 11, 11, 11, 12, 12, 12, 12, 12, 13, 13, 13, 13, 13, 13, 14, 14, 14, 14, 14, 15, 15, 15, 15, 15, 16, 16, 16, 16, 16, 16, 17, 17, 17, 17, 17, 18, 18, 18, 18, 18, 19, 19, 19, 19, 19, 20, 20, 20, 20, 20, 20, 21, 21, 21, 21, 21, 22, 22, 22, 22, 22, 23, 23, 23, 23, 23, 23, 24, 24, 24, 24, 24, 25, 25, 25, 25, 25, 26, 26, 26, 26, 26, 26, 27, 27, 27, 27, 27, 28, 28, 28, 28, 28, 29, 29, 29, 29, 29, 29, 30, 30, 30, 30, 30, 31, 31, 31, 31, 31, 32, 32, 32, 32, 32, 32, 33, 33, 33, 33, 33, 34, 34, 34, 34, 34, 35, 35, 35, 35, 35, 36, 36, 36, 36, 36, 36, 37, 37, 37, 37, 37, 38, 38, 38, 38, 38, 39, 39, 39, 39, 39, 39, 40, 40, 40, 40, 40, 41, 41, 41, 41, 41, 42, 42, 42, 42, 42, 42, 43, 43, 43, 43, 43, 44, 44, 44, 44, 44, 45, 45, 45, 45, 45, 45, 46, 46, 46, 46, 46, 47, 47, 47, 47, 47, 48, 48, 48, 48, 48, 49 };
             private const int MaxUpdateFailCount = 5;
 
-
+			// our LedWiz unit number (1-16)
             public int Number { get; private set; }
 
+			// Win32 file path to the USB HID endpoint for the device
+			private String path;
+
+			// Win32 file handle to the USB HID endpoint
+			private IntPtr fp = IntPtr.Subtract(IntPtr.Zero, 1);
+
             public byte[] NewOutputValues = new byte[32] { 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49 };
-            public byte[] CurrentOuputValues = new byte[32];
+            public byte[] CurrentOutputValues = new byte[32];
             public byte[] NewAfterValueSwitches = new byte[4];
             public byte[] NewBeforeValueSwitches = new byte[4];
             public byte[] CurrentAfterValueSwitches = new byte[4];
@@ -513,7 +576,6 @@ namespace DirectOutput.Cab.Out.LW
             public Thread LedWizUpdater;
             public bool KeepLedWizUpdaterAlive = false;
             public object LedWizUpdaterThreadLocker = new object();
-
 
             public void Init(Cabinet Cabinet, int MinCommandIntervalMs)
             {
@@ -545,18 +607,36 @@ namespace DirectOutput.Cab.Out.LW
                 //{
                 //    OnOffUpdateTimeStatistics = Pinball.TimeSpanStatistics["LedWiz {0:00} OnOff updates".Build(Number)];
                 //}
+
                 this.MinCommandIntervalMs = MinCommandIntervalMs;
                 StartLedWizUpdaterThread();
             }
 
             public void Finish()
             {
-
                 TerminateLedWizUpdaterThread();
                 ShutdownLighting();
                 //this.Pinball = null;
-              
             }
+
+			/// <summary>
+			/// Output controller in-use state.  This tells us if we've ever received a value update from the
+			/// client, and if we've sent any commands yet to the connected device.  Initially, this is set
+			/// to Startup.  On a value change event, if this is still startup, we set it to ValueChanged.
+			/// The updater thread can use this to determine if it needs to send initialization commands 
+			/// and/or value updates to the device.  The updater thread can simply take no action when the
+			/// value is Startup, as this means that the unit hasn't yet been addressed by the client and
+			/// thus might not be in use at all during this session.  When the state is ValueChanged, the
+			/// updater thread should send any necessary initialization commands to the device and change
+			/// the state to Running.  When the state is Running, the thread can simply send value updates
+			/// as normal.
+			/// </summary>
+			protected enum InUseStates { Startup, ValueChanged, Running };
+
+			/// <summary>
+			/// Current in-use state for this controller.
+			/// </summary>
+			protected InUseStates InUseState = InUseStates.Startup;
 
             public void UpdateValue(LedWizOutput LedWizOutput)
             {
@@ -572,6 +652,10 @@ namespace DirectOutput.Cab.Out.LW
 
                 lock (ValueChangeLocker)
                 {
+					// if in Startup state, transition to ValueChanged state
+					if (InUseState == InUseStates.Startup)
+						InUseState = InUseStates.ValueChanged;
+
                     if (S != ((NewAfterValueSwitches[ByteNr] & Mask) != 0))
                     {
                         //Neeed to adjust switches
@@ -589,7 +673,7 @@ namespace DirectOutput.Cab.Out.LW
                             //Output will be turned on
                             if (V != NewOutputValues[ZeroBasedOutputNumber])
                             {
-                                //Need to change value before turing on
+                                //Need to change value before turning on
                                 NewOutputValues[ZeroBasedOutputNumber] = V;
                                 NewAfterValueSwitches[ByteNr] |= Mask;
                                 NewValueUpdateRequired = true;
@@ -631,7 +715,7 @@ namespace DirectOutput.Cab.Out.LW
 
                     if (NewValueUpdateRequired)
                     {
-                        Array.Copy(NewOutputValues, CurrentOuputValues, NewOutputValues.Length);
+                        Array.Copy(NewOutputValues, CurrentOutputValues, NewOutputValues.Length);
                         NewValueUpdateRequired = false;
                     }
                     if (NewSwitchUpdateAfterValueUpdateRequired || NewSwitchUpdateBeforeValueUpdateRequired)
@@ -675,28 +759,28 @@ namespace DirectOutput.Cab.Out.LW
             }
             public void TerminateLedWizUpdaterThread()
             {
-              //  lock (LedWizUpdaterThreadLocker)
-              //  {
-                    if (LedWizUpdater != null)
+                //  lock (LedWizUpdaterThreadLocker)
+                //  {
+                if (LedWizUpdater != null)
+                {
+                    try
                     {
-                        try
+                        KeepLedWizUpdaterAlive = false;
+                        TriggerLedWizUpdaterThread();
+                        if (!LedWizUpdater.Join(1000))
                         {
-                            KeepLedWizUpdaterAlive = false;
-                            TriggerLedWizUpdaterThread();
-                            if (!LedWizUpdater.Join(1000))
-                            {
-                                LedWizUpdater.Abort();
-                            }
+                            LedWizUpdater.Abort();
+                        }
 
-                        }
-                        catch (Exception E)
-                        {
-                            Log.Exception("A error occurd during termination of {0}.".Build(LedWizUpdater.Name), E);
-                            throw new Exception("A error occurd during termination of {0}.".Build(LedWizUpdater.Name), E);
-                        }
-                        LedWizUpdater = null;
                     }
-               // }
+                    catch (Exception E)
+                    {
+                        Log.Exception("A error occurd during termination of {0}.".Build(LedWizUpdater.Name), E);
+                        throw new Exception("A error occurd during termination of {0}.".Build(LedWizUpdater.Name), E);
+                    }
+                    LedWizUpdater = null;
+                }
+                // }
             }
 
             bool TriggerUpdate = false;
@@ -709,13 +793,11 @@ namespace DirectOutput.Cab.Out.LW
                 }
             }
 
-
             //TODO: Check if thread should really terminate on failed updates
             private void LedWizUpdaterDoIt()
             {
                 Log.Write("Updater thread for LedWiz {0:00} started.".Build(Number));
                 //Pinball.ThreadInfoList.HeartBeat("LedWiz {0:00}".Build(Number));
-
 
                 int FailCnt = 0;
                 while (KeepLedWizUpdaterAlive)
@@ -724,9 +806,22 @@ namespace DirectOutput.Cab.Out.LW
                     {
                         if (IsPresent)
                         {
-                     
-                            SendLedWizUpdate();
-               
+							// If in ValueChanged state, initialize the LedWiz unit to the
+							// base state, with all switches (SBA) OFF and all profile levels
+							// (PBA) set to 100% (brightness level 49).
+							if (InUseState == InUseStates.Startup)
+							{
+								// send the initialization commands
+								SBA(new byte[] { 0, 0, 0, 0 });
+								PBA(Enumerable.Repeat((byte)49, 32).ToArray());
+
+								// switch to Running state
+								InUseState = InUseStates.Running;
+							}
+
+							// if in Running state, send the update
+							if (InUseState == InUseStates.Running)
+								SendLedWizUpdate();
                         }
                         FailCnt = 0;
                     }
@@ -742,6 +837,7 @@ namespace DirectOutput.Cab.Out.LW
                             KeepLedWizUpdaterAlive = false;
                         }
                     }
+
                     //Pinball.ThreadInfoList.HeartBeat();
                     if (KeepLedWizUpdaterAlive)
                     {
@@ -752,12 +848,12 @@ namespace DirectOutput.Cab.Out.LW
                                 Monitor.Wait(LedWizUpdaterThreadLocker, 50);  // Lock is released while we’re waiting
                                 //Pinball.ThreadInfoList.HeartBeat();
                             }
-
-                        }
-
+						}
                     }
+
                     TriggerUpdate = false;
                 }
+
                 //Pinball.ThreadInfoList.ThreadTerminates();
                 Log.Write("Updater thread for LedWiz {0:00} terminated.".Build(Number));
             }
@@ -793,30 +889,31 @@ namespace DirectOutput.Cab.Out.LW
                             UpdateRequired = false;
                         }
 
+						// If it's been too long since our last PBA, send a PBA.
+						// The LedWiz seems to occasionally miss a PBA packet, so 
+						// it's counterproductive to optimize *too* aggressively
+						// to avoid sending them.
+						//
+						// If we do decide to send the PBA due to the time lapse,
+						// send the full update with an SBA first and an SBA after.
+						// The initial SBA helps ensures that the PBA counter on the
+						// device gets reset - if it dropped a PBA previously, it 
+						// would be out of sync as a result.  The post-SBA ensures
+						// that the final switch values are in effect.
+                        bool pbaTimeout = ((DateTime.Now - pbaTime).TotalMilliseconds > 1000);
 
-                        if (CurrentValueUpdateRequired)
+                        if (CurrentValueUpdateRequired || pbaTimeout)
                         {
-                            if (CurrentSwitchUpdateBeforeValueUpdateRequired)
-                            {
-                                UpdateDelay();
-                          
-                                SBA(CurrentBeforeValueSwitches[0], CurrentBeforeValueSwitches[1], CurrentBeforeValueSwitches[2], CurrentBeforeValueSwitches[3], 2);
-                       
-                            }
+                            if (CurrentSwitchUpdateBeforeValueUpdateRequired || pbaTimeout)
+                                SBA(CurrentBeforeValueSwitches);
 
-                            UpdateDelay();
-                     
-                            PBA(CurrentOuputValues);
-                        
-                        }
-                        if (CurrentSwitchUpdateAfterValueUpdateRequired || (CurrentSwitchUpdateBeforeValueUpdateRequired && !NewValueUpdateRequired))
-                        {
-                            UpdateDelay();
-                         
-                            SBA(CurrentAfterValueSwitches[0], CurrentAfterValueSwitches[1], CurrentAfterValueSwitches[2], CurrentAfterValueSwitches[3], 2);
-                       
+                            PBA(CurrentOutputValues);
                         }
 
+						if (CurrentSwitchUpdateAfterValueUpdateRequired
+							|| (CurrentSwitchUpdateBeforeValueUpdateRequired && !CurrentValueUpdateRequired)
+							|| pbaTimeout)
+                            SBA(CurrentAfterValueSwitches);
                     }
                 }
             }
@@ -824,49 +921,121 @@ namespace DirectOutput.Cab.Out.LW
 
             public void ShutdownLighting()
             {
-                SBA(0, 0, 0, 0, 2);
+				SBA(new byte[]{0, 0, 0, 0});
             }
 
 
-            private void SBA(uint bank1, uint bank2, uint bank3, uint bank4, uint globalPulseSpeed)
-            {
-                if (IsPresent)
-                {
-                    LWZ_SBA((uint)Number, bank1, bank2, bank3, bank4, globalPulseSpeed);
-                }
-            }
+			// Send an SBA command.  This command sets all 32 outputs to ON/OFF
+			// values, leaving the brightness or flash mode unchanged.  The switch
+			// values are packed into four bytes, one bit per output.
+			private void SBA(byte[] b, byte globalFlashSpeed = 2)
+			{
+				// Set up the SBA command.  The first byte is the HID report ID 
+				// (always 0 for the LedWiz, since there's only one report type).
+				// The second byte of an SBA is always 64 (0x40), which identifies
+				// the SBA command.  The next four bytes are the switch bits, and 
+				// the next byte is the global flash speed.  The last two bytes are 
+				// unused, so we set them to zero.
+				WriteUSB(new byte[9]{ 0, 64, b[0], b[1], b[2], b[3], globalFlashSpeed, 0, 0 });
+			}
 
-            private void PBA(byte[] val)
-            {
-                if (IsPresent)
-                {
-                    IntPtr ptr = Marshal.AllocCoTaskMem(val.Length);
-                    Marshal.Copy(val, 0, ptr, val.Length);
-                    LWZ_PBA((uint)Number, (uint)ptr.ToInt32());
-                    Marshal.FreeCoTaskMem(ptr);
-                }
-            }
+			// Send a set of PBA updates.  This sends a sequence of four PBA
+			// commands to the LedWiz to update all 32 outputs.  
+			//
+			// A PBA command simply consists of 8 bytes containing the brightness 
+			// levels for 8 consecutive outputs.  An internal counter on the LedWiz
+			// determines which block of 8 outputs is being set.  Each SBA command
+			// resets the counter to the first port, so that the first PBA after
+			// an SBA writes to outputs 1-8.  The LedWiz bumps up the counter by 8
+			// on each PBA, so the second PBA after an SBA writes ports 9-16, etc.
+			// So to update all 32 outputs, we write four PBA commands.  The series
+			// of four PBAs leaves the counter where it started, since the counter 
+			// rolls over to the first port after passing the last port.
+			//
+			// Note that we don't do anything here to reset the internal counter
+			// before sending the series of PBA commands, because we assume it's
+			// already pointing to the first port.  This is safe because the only 
+			// commands we ever send are SBA commands (which implicitly reset the 
+			// counter to the first port) and blocks of four consecutive PBA 
+			// commands (which leave the counter where it started because of the 
+			// rollover behavior).
+			private DateTime pbaTime = new DateTime(0);
+			private void PBA(byte[] b)
+			{
+				// Send the outputs 8 at a time
+				for (int ofs = 0; ofs < 32; ofs += 8)
+				{
+					// send the PBA command for the next 8 outputs
+					WriteUSB(new byte[9]{ 
+						0, 
+						b[ofs+0], b[ofs+1], b[ofs+2], b[ofs+3], 
+						b[ofs+4], b[ofs+5], b[ofs+6], b[ofs+7] 
+					});
+				}
+
+				// note the time of the last PBA
+				pbaTime = DateTime.Now;
+			}
+
+			private System.Threading.NativeOverlapped ov = new System.Threading.NativeOverlapped();
+			private int[] RetryWait = new int[] { 1, 1, 1, 2, 2, 2, 3, 3, 5, 5 };
+			private void WriteUSB(byte[] buf)
+			{
+				// make sure the file handle is valid
+				if (fp.ToInt32() != -1)
+				{
+					// Try a few times.  USB writes sometimes fail, but these failures
+					// are usually temporary and will succeed on retry.  But don't keep
+					// trying indefinitely; if we can't get through after a few tries,
+					// there's probably an unrecoverable problem.
+                    UpdateDelay();
+                    for (int tries = 0; tries < RetryWait.Length; ++tries)
+					{
+						// try sending the command
+						UInt32 actual;
+						if (HIDImports.WriteFile(fp, buf, (UInt32)buf.Length, out actual, ref ov) != 0
+							&& actual == buf.Length)
+							return;
+
+						// if that failed, give it a moment before trying again
+						Thread.Sleep(RetryWait[tries]);
+					}
+					Log.Write(String.Format("LedWiz {0} WriteUSB failed after {1} retries", Number, RetryWait.Length));
+				}
+				else
+					Log.Write(String.Format("LedWiz {0} WriteUSB has no file handle", Number));
+			}
 
             private bool IsPresent
             {
                 get
                 {
                     if (!Number.IsBetween(1, 16)) return false;
-                    return DeviceHandles.Any(x => x == Number);
+                    return deviceList.Any(d => d.unitNo == Number);
                 }
             }
 
 
             public LedWizUnit(int Number)
             {
-                this.Number = Number;
+				// make sure the device list is loaded
+				StartupLedWiz();
 
+				// remember my unit number
+				this.Number = Number;
 
+				// If this device exists in the system, open a Win32 file handle
+				// to its USB HID endpoint.  This allows us to send LWZ commands
+				// simply by writing to the file handle.
+				LWDEVICE d = deviceList.FirstOrDefault(dd => dd.unitNo == Number);
 
+				// if we have a path, open the file
+                if ((path = d.path) != null)
+                    fp = HIDImports.CreateFile(
+                        path, HIDImports.GENERIC_READ_WRITE, HIDImports.SHARE_READ_WRITE,
+                        IntPtr.Zero, FileMode.Open, 0, IntPtr.Zero);
             }
-
         }
-
 
 
         #endregion

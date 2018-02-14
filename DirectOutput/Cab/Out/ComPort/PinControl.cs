@@ -23,7 +23,7 @@ namespace DirectOutput.Cab.Out.ComPort
         public string ComPort { get; set; }
 
         private SerialPort Port = null;
-        private object PortLocker=new object();
+        private object PortLocker = new object();
         protected override int GetNumberOfConfiguredOutputs()
         {
             return 7 + 3;
@@ -51,7 +51,7 @@ namespace DirectOutput.Cab.Out.ComPort
         {
             if (Port != null)
             {
-                
+
 
 
 
@@ -59,7 +59,7 @@ namespace DirectOutput.Cab.Out.ComPort
                 {
                     if (OldValues == null || OldValues[i] != OutputValues[i])
                     {
-                        Port.Write("{0},{1}{2}#".Build(i+1, (OutputValues[i] == 0 ? 2 : 1), (OutputValues[i] != 0 && i==0 ? ",0,0," + OutputValues[i].ToString():"")));
+                        Port.Write("{0},{1}{2}#".Build(i + 1, (OutputValues[i] == 0 ? 2 : 1), (OutputValues[i] != 0 && i == 0 ? ",0,0," + OutputValues[i].ToString() : "")));
 
                     }
                 }
@@ -83,7 +83,7 @@ namespace DirectOutput.Cab.Out.ComPort
                     }
                     else
                     {
-                        Port.Write("9,1,{0},{1},{2}#".Build(OutputValues[7],OutputValues[8],OutputValues[9]));
+                        Port.Write("9,1,{0},{1},{2}#".Build(OutputValues[7], OutputValues[8], OutputValues[9]));
                     }
                 }
 
@@ -93,7 +93,7 @@ namespace DirectOutput.Cab.Out.ComPort
             {
                 throw new Exception("COM port {2} is not initialized for {0} {1}.".Build(this.GetType().Name, Name, ComPort));
             }
-        
+
         }
 
         protected override void ConnectToController()
@@ -110,7 +110,7 @@ namespace DirectOutput.Cab.Out.ComPort
                     OldValues = null;
 
                     Port = new SerialPort(ComPort, 115200, Parity.None, 8, StopBits.One);
-                    Port.Open(); 
+                    Port.Open();
                 }
             }
             catch (Exception E)
@@ -131,7 +131,7 @@ namespace DirectOutput.Cab.Out.ComPort
                     Port = null;
                     OldValues = null;
                 }
-                
+
             }
         }
 
