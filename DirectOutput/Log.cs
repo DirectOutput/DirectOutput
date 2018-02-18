@@ -5,6 +5,7 @@ using System;
 using System.IO;
 using System.Diagnostics;
 using System.Threading;
+using System.Collections.Generic;
 
 namespace DirectOutput
 {
@@ -20,6 +21,10 @@ namespace DirectOutput
         private static object Locker = new object();
 
         private static string _Filename = ".\\DirectOutput.log";
+
+        // collection of records from before the log file was set up, to allow
+        // logging and debugging of initial config file setup
+        static List<String> PreLogFileLog = new List<string>();
 
         /// <summary>
         /// Gets or sets the filename for the log.
@@ -57,6 +62,16 @@ namespace DirectOutput
                         Logger.WriteLine("{0}\t{1}", DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss.fff"), "DirectOutput Logger initialized");
 
                         IsOk = true;
+
+                        // copy the pre-log-file items to the log
+                        if (PreLogFileLog != null)
+                        {
+                            foreach (String s in PreLogFileLog)
+                                Logger.WriteLine(s);
+
+                            // clear the pre-log items
+                            PreLogFileLog = null;
+                        }
                     }
                     catch
                     {
@@ -66,6 +81,24 @@ namespace DirectOutput
                     IsInitialized = true;
                 }
             }
+        }
+
+        /// <summary>
+        /// Finalize initialization.  Call during startup.  If logging will
+        /// be used, call after Init().  Otherwise call at any convenient
+        /// point during startup.
+        /// </summary>
+        public static void AfterInit()
+        {
+            // Discard any pre-log messages, and forget the list so that we
+            // don't collect any more mesages.  We collect pre-log messages
+            // so that we can log events before the log file is open.  When
+            // we reach this point, the log file will have already been opened
+            // if there's going to be one at all, and we will have copied the
+            // accumulated pre-log messages into the file.  Once we get past
+            // initialization, there's no point in saving more messages, since 
+            // log file won't be opened after this point.
+            PreLogFileLog = null;
         }
 
         /// <summary>
@@ -88,12 +121,10 @@ namespace DirectOutput
             }
         }
 
-
-        /// <summary>
-        /// Writes the specified message to the logfile.
-        /// </summary>
-        /// <param name="Message">The message.</param>
-        public static void Write(string Message)
+        // Raw message writer.  This writes a string that's already been
+        // formatted by Write() to the current backing store, either the
+        // log file or the pre-log-file internal list.
+        private static void WriteRaw(string s)
         {
             lock (Locker)
             {
@@ -101,24 +132,35 @@ namespace DirectOutput
                 {
                     try
                     {
-                        if (Message.IsNullOrWhiteSpace())
-                        {
-                            Logger.WriteLine("{0}\t{1}", DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss.fff"), "");
-                        }
-                        else
-                        {
-                            foreach (string M in Message.Split(new[] { '\r', '\n' }))
-                            {
-                                Logger.WriteLine("{0}\t{1}", DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss.fff"), M);
-                            }
-                        }
+                        Logger.WriteLine("{0}", s);
                         Logger.Flush();
                     }
                     catch
                     {
-
                     }
                 }
+                else if (PreLogFileLog != null)
+                {
+                    // we're in the pre-log-file stage - log earlier messages
+                    PreLogFileLog.Add(s);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Writes the specified message to the logfile.
+        /// </summary>
+        /// <param name="Message">The message.</param>
+        public static void Write(string Message)
+        {
+            if (Message.IsNullOrWhiteSpace())
+            {
+                WriteRaw("{0}\t{1}".Build(DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss.fff"), ""));
+            }
+            else
+            {
+                foreach (string M in Message.Split(new[] { '\r', '\n' }))
+                    WriteRaw("{0}\t{1}".Build(DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss.fff"), M));
             }
         }
 

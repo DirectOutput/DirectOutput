@@ -611,8 +611,11 @@ namespace DirectOutput.GlobalConfiguration
                 if (File.Exists(GlobalConfigFileName))
                 {
 
-
                     string Xml = General.FileReader.ReadFileToString(GlobalConfigFileName);
+
+                    // For debug purposes only: copy the contents to the log to debug file sourcing issues
+                    // Log.Write("Read global config from \"" + GlobalConfigFileName + "\", contents follow:\n====\n"
+                    //    + Xml + "\n====");
 
                     GlobalConfig GC = GetGlobalConfigFromGlobalConfigXml(Xml);
                     if (GC != null)
@@ -624,7 +627,7 @@ namespace DirectOutput.GlobalConfiguration
                 }
                 else
                 {
-
+                    Log.Write("Global config file \"" + GlobalConfigFileName + "\" does not exist; no global config loaded");
                     return null;
                 }
             }

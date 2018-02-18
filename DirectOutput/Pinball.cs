@@ -107,17 +107,17 @@ namespace DirectOutput
             bool GlobalConfigLoaded = true;
             //Load the global config
 
-
             try
             {
+                Log.Write("Global config filename is \"" + GlobalConfigFilename + "\"");
                 if (!GlobalConfigFilename.IsNullOrWhiteSpace())
                 {
                     FileInfo GlobalConfigFile = new FileInfo(GlobalConfigFilename);
 
-
                     GlobalConfig = GlobalConfig.GetGlobalConfigFromConfigXmlFile(GlobalConfigFile.FullName);
                     if (GlobalConfig == null)
                     {
+                        Log.Write("No global config file loaded");
                         GlobalConfigLoaded = false;
 
                         //set new global config object if it config could not be loaded from the file.
@@ -162,11 +162,13 @@ namespace DirectOutput
                 }
                 catch (Exception E)
                 {
-					Console.WriteLine(E.StackTrace);
+                    Console.WriteLine(E.StackTrace);
                     throw new Exception("DirectOutput framework could initialize the log file.\n Inner exception: {0}".Build(E.Message), E);
                 }
             }
 
+            // finalize logger initialization
+            Log.AfterInit();
 
             try
             {

@@ -257,6 +257,9 @@ namespace DirectOutput.Cab
             try
             {
                 Xml = General.FileReader.ReadFileToString(FileName);
+
+                // For debugging only: copy the contents of the cabinet.xml file to the log, to help diagnose file sourcing issues
+                // Log.Write("Read cabinet definition from \"" + FileName + "\"; file contents follow:\n====\n" + Xml + "\n====\n\n");
             }
             catch (Exception E)
             {
