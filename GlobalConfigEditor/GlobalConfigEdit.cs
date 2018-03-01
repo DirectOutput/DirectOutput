@@ -38,6 +38,7 @@ namespace GlobalConfigEditor
             Config.EnableLogging = LoggingEnabled.Checked;
             Config.ClearLogOnSessionStart = ClearLogOnSessionStart.Checked;
             Config.LedWizDefaultMinCommandIntervalMs = (int)LedWizDefaultMinCommandIntervalMs.Value;
+            Config.PacLedDefaultMinCommandIntervalMs = (int)PacLedDefaultMinCommandIntervalMs.Value;
             try
             {
                 Config.SaveGlobalConfig(Filename);
@@ -86,7 +87,7 @@ namespace GlobalConfigEditor
 
             CabinetFilename.Text = Config.CabinetConfigFilePattern.Pattern;
             LedWizDefaultMinCommandIntervalMs.Value = Config.LedWizDefaultMinCommandIntervalMs;
-
+            PacLedDefaultMinCommandIntervalMs.Value = Config.PacLedDefaultMinCommandIntervalMs;
         }
 
         private void SelectIniFilePathButton_Click(object sender, EventArgs e)

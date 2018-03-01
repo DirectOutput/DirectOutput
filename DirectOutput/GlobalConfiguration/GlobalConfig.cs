@@ -24,17 +24,15 @@ namespace DirectOutput.GlobalConfiguration
 
 
 
-        private int _LedWizDefaultMinCommandIntervalMs = 1;
+        private int _LedWizDefaultMinCommandIntervalMs = 10;
 
         /// <summary>
-        /// Gets or sets the mininimal interval between command for LedWiz units in miliseconds (Default: 1ms).
-        /// Depending on the mainboard, usb hardware on the board, usb drivers, OS and other factors the LedWiz does sometime tend to loose or misunderstand commands received if the are sent in to short intervals.
-        /// The settings allows to increase the default minmal interval between commands from 1ms to a higher value. Higher values will make problems less likely, but decreases the number of possible updates of the ledwiz outputs in a given time frame.
-        /// It is recommended to use the default interval of 1 ms and only to increase this interval if problems occur (Toys which are sometimes not reacting, random knocks of replay knocker or solenoids).
-        /// This is only a default value. The min command interval can also be set on a per LedWiz base in the cabinet config.
+        /// Gets or sets the mininimal interval between commands sent to the LedWiz.
+        /// This works around a design defect in the LedWiz that makes it misinterpret
+        /// commands if USB packets are sent too quickly.  See LedWiz.cs for details.
         /// </summary>
         /// <value>
-        /// The min interval between commands sent to LedWiz units in milliseconds.
+        /// The minum interval between commands sent to LedWiz units, in milliseconds.
         /// </value>
         public int LedWizDefaultMinCommandIntervalMs
         {
@@ -74,6 +72,24 @@ namespace DirectOutput.GlobalConfiguration
             get { return _LedControlMinimumRGBEffectDurationMs; }
             set { _LedControlMinimumRGBEffectDurationMs = value; }
         }
+
+
+        private int _PacLedDefaultMinCommandIntervalMs = 10;
+
+        /// <summary>
+        /// Gets or sets the mininimal interval between commands sent to the PacLed64.
+        /// The PacLed appears to have a design defect similar to the LedWiz that requires
+        /// a similar workaround of spacing out commands sent to the device.
+        /// </summary>
+        /// <value>
+        /// The minum interval between commands sent to PacLed units, in milliseconds.
+        /// </value>
+        public int PacLedDefaultMinCommandIntervalMs
+        {
+            get { return _PacLedDefaultMinCommandIntervalMs; }
+            set { _PacLedDefaultMinCommandIntervalMs = value.Limit(0, 1000); }
+        }
+
 
 
 

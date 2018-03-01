@@ -76,20 +76,55 @@ namespace DirectOutput.Cab.Out.LW
 
 
         #region MinCommandIntervalMs property of type int with events
-        private int _MinCommandIntervalMs = 1;
+        private int _MinCommandIntervalMs = 10;
         private bool MinCommandIntervalMsSet = false;
 
         /// <summary>
-        /// Gets or sets the mininimal interval between command in miliseconds (Default: 1ms).
-        /// Depending on the mainboard, usb hardware on the board, usb drivers and other factors the LedWiz does sometime tend to loose or misunderstand commands received if the are sent in to short intervals.
-        /// The settings allows to increase the default minmal interval between commands from 1ms to a higher value. Higher values will make problems less likely, but decreases the number of possible updates of the ledwiz outputs in a given time frame.
-        /// It is recommended to use the default interval of 1 ms and only to increase this interval if problems occur (Toys which are sometimes not reacting, random knocks of replay knocker or solenoids).
+        /// Gets or sets the mininimal interval between command in miliseconds.
+        /// 
+        /// The purpose of this minimium interval is to work around a serious design flaw in the
+        /// LedWiz hardware.  The flaw makes the LedWiz misinterpret USB packets if they arrive
+        /// too quickly.  Observationally, sending packets too quickly makes the LedWiz fire
+        /// ports and change brightness levels apparently at random.  It was initially thought
+        /// that this was due to lost USB packets or some such hand-wavy gremlin issue, but on
+        /// closer inspection, it's not a USB issue at all, but a reproducible and demonstrable
+        /// LedWiz defect.  We haven't attempted to reverse-engineer the LedWiz firmware to 
+        /// determine the exact defect, but from testing it's pretty apparent what's going on:
+        /// they failed to protect against concurrent access by the LedWiz firmware and its USB
+        /// wire interface.  If you contrive to send the LedWiz a sequence of packets with
+        /// certain bit patterns, you can demonstrate that the LedWiz incorrectly reads the
+        /// bytes from a new packet using the command code from the prior packet.  This makes
+        /// it misinterpret on/off codes as brightness codes, and vice versa, which leads to
+        /// the observed "random" firing.  It's not actually random - it's quite deterministic -
+        /// but it appears to be random because it's not at all what was intended.
+        /// 
+        /// The workaround is to deliberately throttle the rate of USB packets that we send 
+        /// to the device.  Unfortunately, there's no universal "right" delay rate, because 
+        /// the Windows USB drivers and PC USB hardware cause a lot of variability in the
+        /// actual packet delivery timing.  I suspect based on observations that Windows has 
+        /// some elevator-algorithm optimizations in its USB packet sequencing, to group 
+        /// packets to the same device together, which seriously confounds our attempts to 
+        /// control delivery timing.  To make matters worse, other unrelated applications
+        /// can even somehow have an effect on this (e.g., running PinballX affects USB
+        /// packet timing).  Anyway, due to all of these uncontrollable external factors, 
+        /// there's no minimum timing that's guaranteed to work.  This is one of those 
+        /// cases where you have to find a workable delay time in each specific system
+        /// experimentally (and you might even have to adjust it from time to time as
+        /// your software environment changes).
+        /// 
+        /// The current default is 10ms.  The old default was 1ms, but I've [mjr] increased
+        /// it to make it more likely to "just work" on most systems.  Delays below 5ms
+        /// seem to cause problems for quite a lot of people.  The 1ms default meant that 
+        /// lots of people ran into weird problems and had to ask for help on the forums.
+        /// A more conservative (longer) delay will hopefully make this invisible to most 
+        /// users, so they'll never have to know or care about it.  And I don't think the
+        /// longer time is even any kind of trade-off: 10ms isn't long enough to cause 
+        /// perceptible latency or make brightness ramps any less smooth.  And of course 
+        /// anyone who does find the longer time to be somehow undesirable can override 
+        /// it via the global config.
         /// </summary>
         /// <value>
-        /// The mininimal interval between command in miliseconds (Default: 1ms).
-        /// Depending on the mainboard, usb hardware on the board, usb drivers and other factors the LedWiz does sometime tend to loose or misunderstand commands received if the are sent in to short intervals.
-        /// The settings allows to increase the default minmal interval between commands from 1ms to a higher value. Higher values will make problems less likely, but decreases the number of possible updates of the ledwiz outputs in a given time frame.
-        /// It is recommended to use the default interval of 1 ms and only to increase this interval if problems occur (Toys which are sometimes not reacting, random knocks of replay knocker or solenoids).
+        /// The mininimal interval between command in miliseconds
         /// </value>
         public int MinCommandIntervalMs
         {

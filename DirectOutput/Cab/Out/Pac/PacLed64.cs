@@ -29,6 +29,7 @@ namespace DirectOutput.Cab.Out.Pac
 
         private object IdUpdateLocker = new object();
         private int _Id = -1;
+        private bool _MinUpdateIntervalMsSet = false;
         private int _MinUpdateIntervalMs = 5;
         private int _FullUpdateThreshold = 30;
 
@@ -42,6 +43,7 @@ namespace DirectOutput.Cab.Out.Pac
             set
             {
                 this._MinUpdateIntervalMs = IntExtensions.Limit(value, 0, 1000);
+                _MinUpdateIntervalMsSet = true;
             }
         }
 
@@ -117,6 +119,13 @@ namespace DirectOutput.Cab.Out.Pac
         public override void Init(Cabinet Cabinet)
         {
             AddOutputs();
+            if (!_MinUpdateIntervalMsSet 
+                && Cabinet.Owner.ConfigurationSettings.ContainsKey("PacLedDefaultMinCommandIntervalMs") 
+                && Cabinet.Owner.ConfigurationSettings["PacLedDefaultMinCommandIntervalMs"] is int)
+            {
+                MinUpdateIntervalMs = (int)Cabinet.Owner.ConfigurationSettings["PacLedDefaultMinCommandIntervalMs"];
+            }
+
             PacLed64.PacLed64Units[this.Id].FullUpdateThreshold = this.FullUpdateThreshold;
             PacLed64.PacLed64Units[this.Id].MinUpdateInterval = TimeSpan.FromMilliseconds((double)this.MinUpdateIntervalMs);
             PacLed64Units[Id].Init(Cabinet);
@@ -582,6 +591,8 @@ namespace DirectOutput.Cab.Out.Pac
                             //more than 30 update calls required. Will send intensity updates for all outputs.
                             EnforceMinUpdateInterval();
                             PDSingleton.PacLed64SetLEDIntensities(Index, CurrentValue);
+                            LastCommand = DateTime.Now;
+
                             Array.Copy(CurrentValue, LastValueSent, CurrentValue.Length);
                             for (int i = 0; i < 64; i++)
                             {
@@ -604,6 +615,8 @@ namespace DirectOutput.Cab.Out.Pac
                                         {
                                             EnforceMinUpdateInterval();
                                             PDSingleton.PacLed64SetLEDIntensity(Index, o, CurrentValue[o]);
+                                            LastCommand = DateTime.Now;
+
                                             LastStateSent[o] = true;
                                             LastValueSent[o] = CurrentValue[o];
                                         }
@@ -626,6 +639,8 @@ namespace DirectOutput.Cab.Out.Pac
                                 {
                                     EnforceMinUpdateInterval();
                                     PDSingleton.PacLed64SetLEDStates(Index, g + 1, (byte)Mask);
+                                    LastCommand = DateTime.Now;
+
                                     StateUpdateRequired = false;
                                 }
 
@@ -647,6 +662,8 @@ namespace DirectOutput.Cab.Out.Pac
             {
                 EnforceMinUpdateInterval();
                 PDSingleton.PacLed64SetLEDStates(0, 0, 0);
+                LastCommand = DateTime.Now;
+
                 LastStateSent.Fill(false);
             }
 
@@ -654,20 +671,21 @@ namespace DirectOutput.Cab.Out.Pac
             {
                 EnforceMinUpdateInterval();
                 PDSingleton.PacLed64SetLEDFadeTime(Index, 0);
+                LastCommand = DateTime.Now;
             }
 
             private void EnforceMinUpdateInterval()
             {
                 if (!(this.MinUpdateInterval != TimeSpan.Zero))
                     return;
-                TimeSpan timeSpan = DateTime.Now - this.LastCommand;
-                this.LastCommand = DateTime.Now;
+                TimeSpan timeSpan = DateTime.Now - LastCommand;
                 if (timeSpan < this.MinUpdateInterval)
                 {
                     int millisecondsTimeout = IntExtensions.Limit((int)(this.MinUpdateInterval - timeSpan).TotalMilliseconds, 0, 1000);
                     if (millisecondsTimeout > 0)
                         Thread.Sleep(millisecondsTimeout);
                 }
+                LastCommand = DateTime.Now;
             }
 
 
@@ -698,11 +716,14 @@ namespace DirectOutput.Cab.Out.Pac
             {
                 if (Index >= 0)
                 {
-                    LastValueSent.Fill((byte)0);
+                    // set all outputs to zero brightness
+                    lock (ValueChangeLocker)
+                    {
+                        for (int i = 0; i < 64; ++i)
+                            NewValue[i] = 0;
 
-                    PDSingleton.PacLed64SetLEDIntensities(Index, LastValueSent);
-                    LastStateSent.Fill(false);
-                    LastValueSent.Fill((byte)0);
+                        UpdateRequired = true;
+                    }
                 }
             }
 
@@ -720,11 +741,7 @@ namespace DirectOutput.Cab.Out.Pac
                 NewValue.Fill((byte)0);
 
                 InitUnit();
-
-
             }
-
-
         }
 
 

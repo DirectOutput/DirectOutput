@@ -57,16 +57,22 @@
             this.label2 = new System.Windows.Forms.Label();
             this.LogFilename = new System.Windows.Forms.TextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.LedWizDefaultMinCommandIntervalMs = new System.Windows.Forms.NumericUpDown();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.SelectIniFileDirectoryDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.SelectCabinetConfigFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.SelectLogFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.SaveGlobalConfigDialog = new System.Windows.Forms.SaveFileDialog();
             this.OpenGlobalConfigDialog = new System.Windows.Forms.OpenFileDialog();
-            this.LedWizDefaultMinCommandIntervalMs = new System.Windows.Forms.NumericUpDown();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.PacLedDefaultMinCommandIntervalMs = new System.Windows.Forms.NumericUpDown();
+            this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.Menu.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -76,8 +82,11 @@
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.tabPage4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.LedWizDefaultMinCommandIntervalMs)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+            this.tabPage5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PacLedDefaultMinCommandIntervalMs)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             this.SuspendLayout();
             // 
             // Menu
@@ -143,6 +152,7 @@
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage4);
+            this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 24);
             this.tabControl1.Name = "tabControl1";
@@ -180,9 +190,9 @@
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label3.Location = new System.Drawing.Point(8, 3);
+            this.label3.Location = new System.Drawing.Point(8, 22);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(417, 143);
+            this.label3.Size = new System.Drawing.Size(417, 124);
             this.label3.TabIndex = 3;
             this.label3.Text = resources.GetString("label3.Text");
             // 
@@ -321,7 +331,7 @@
             // LoggingEnabled
             // 
             this.LoggingEnabled.AutoSize = true;
-            this.LoggingEnabled.Location = new System.Drawing.Point(12, 10);
+            this.LoggingEnabled.Location = new System.Drawing.Point(12, 34);
             this.LoggingEnabled.Name = "LoggingEnabled";
             this.LoggingEnabled.Size = new System.Drawing.Size(96, 17);
             this.LoggingEnabled.TabIndex = 6;
@@ -370,7 +380,52 @@
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage4.Size = new System.Drawing.Size(576, 312);
             this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Misc";
+            this.tabPage4.Text = "LedWiz";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(271, 34);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(20, 13);
+            this.label8.TabIndex = 14;
+            this.label8.Text = "ms";
+            // 
+            // label7
+            // 
+            this.label7.Location = new System.Drawing.Point(10, 65);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(560, 58);
+            this.label7.TabIndex = 13;
+            this.label7.Text = resources.GetString("label7.Text");
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(10, 34);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(191, 13);
+            this.label6.TabIndex = 12;
+            this.label6.Text = "LedWiz Default Min Command Interval:";
+            // 
+            // LedWizDefaultMinCommandIntervalMs
+            // 
+            this.LedWizDefaultMinCommandIntervalMs.Location = new System.Drawing.Point(207, 32);
+            this.LedWizDefaultMinCommandIntervalMs.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.LedWizDefaultMinCommandIntervalMs.Name = "LedWizDefaultMinCommandIntervalMs";
+            this.LedWizDefaultMinCommandIntervalMs.Size = new System.Drawing.Size(58, 20);
+            this.LedWizDefaultMinCommandIntervalMs.TabIndex = 11;
+            this.LedWizDefaultMinCommandIntervalMs.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.LedWizDefaultMinCommandIntervalMs.ThousandsSeparator = true;
+            this.LedWizDefaultMinCommandIntervalMs.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
             // 
             // pictureBox4
             // 
@@ -414,50 +469,76 @@
     "l|All files (*.*)|*.*";
             this.OpenGlobalConfigDialog.Title = "Select the global config file to open";
             // 
-            // LedWizDefaultMinCommandIntervalMs
+            // tabPage5
             // 
-            this.LedWizDefaultMinCommandIntervalMs.Location = new System.Drawing.Point(207, 36);
-            this.LedWizDefaultMinCommandIntervalMs.Minimum = new decimal(new int[] {
+            this.tabPage5.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage5.Controls.Add(this.label9);
+            this.tabPage5.Controls.Add(this.label10);
+            this.tabPage5.Controls.Add(this.label11);
+            this.tabPage5.Controls.Add(this.PacLedDefaultMinCommandIntervalMs);
+            this.tabPage5.Controls.Add(this.pictureBox5);
+            this.tabPage5.Location = new System.Drawing.Point(4, 22);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage5.Size = new System.Drawing.Size(576, 312);
+            this.tabPage5.TabIndex = 4;
+            this.tabPage5.Text = "PacLed";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(271, 34);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(20, 13);
+            this.label9.TabIndex = 19;
+            this.label9.Text = "ms";
+            // 
+            // label10
+            // 
+            this.label10.Location = new System.Drawing.Point(10, 65);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(560, 58);
+            this.label10.TabIndex = 18;
+            this.label10.Text = resources.GetString("label10.Text");
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(10, 34);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(192, 13);
+            this.label11.TabIndex = 17;
+            this.label11.Text = "PacLed Default Min Command Interval:";
+            // 
+            // PacLedDefaultMinCommandIntervalMs
+            // 
+            this.PacLedDefaultMinCommandIntervalMs.Location = new System.Drawing.Point(207, 32);
+            this.PacLedDefaultMinCommandIntervalMs.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.LedWizDefaultMinCommandIntervalMs.Name = "LedWizDefaultMinCommandIntervalMs";
-            this.LedWizDefaultMinCommandIntervalMs.Size = new System.Drawing.Size(58, 20);
-            this.LedWizDefaultMinCommandIntervalMs.TabIndex = 11;
-            this.LedWizDefaultMinCommandIntervalMs.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.LedWizDefaultMinCommandIntervalMs.ThousandsSeparator = true;
-            this.LedWizDefaultMinCommandIntervalMs.Value = new decimal(new int[] {
-            1,
+            this.PacLedDefaultMinCommandIntervalMs.Name = "PacLedDefaultMinCommandIntervalMs";
+            this.PacLedDefaultMinCommandIntervalMs.Size = new System.Drawing.Size(58, 20);
+            this.PacLedDefaultMinCommandIntervalMs.TabIndex = 16;
+            this.PacLedDefaultMinCommandIntervalMs.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.PacLedDefaultMinCommandIntervalMs.ThousandsSeparator = true;
+            this.PacLedDefaultMinCommandIntervalMs.Value = new decimal(new int[] {
+            10,
             0,
             0,
             0});
             // 
-            // label6
+            // pictureBox5
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(10, 38);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(191, 13);
-            this.label6.TabIndex = 12;
-            this.label6.Text = "LedWiz Default Min Command Interval:";
-            // 
-            // label7
-            // 
-            this.label7.Location = new System.Drawing.Point(10, 63);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(560, 49);
-            this.label7.TabIndex = 13;
-            this.label7.Text = resources.GetString("label7.Text");
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(271, 38);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(20, 13);
-            this.label8.TabIndex = 14;
-            this.label8.Text = "ms";
+            this.pictureBox5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox5.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox5.Image")));
+            this.pictureBox5.Location = new System.Drawing.Point(431, 6);
+            this.pictureBox5.Name = "pictureBox5";
+            this.pictureBox5.Size = new System.Drawing.Size(139, 45);
+            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox5.TabIndex = 15;
+            this.pictureBox5.TabStop = false;
             // 
             // GlobalConfigEdit
             // 
@@ -487,8 +568,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.LedWizDefaultMinCommandIntervalMs)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            this.tabPage5.ResumeLayout(false);
+            this.tabPage5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PacLedDefaultMinCommandIntervalMs)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -534,6 +619,12 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.NumericUpDown LedWizDefaultMinCommandIntervalMs;
+        private System.Windows.Forms.TabPage tabPage5;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.NumericUpDown PacLedDefaultMinCommandIntervalMs;
+        private System.Windows.Forms.PictureBox pictureBox5;
     }
 }
 
