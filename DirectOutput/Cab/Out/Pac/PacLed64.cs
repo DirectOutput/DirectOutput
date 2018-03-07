@@ -30,7 +30,7 @@ namespace DirectOutput.Cab.Out.Pac
         private object IdUpdateLocker = new object();
         private int _Id = -1;
         private bool _MinUpdateIntervalMsSet = false;
-        private int _MinUpdateIntervalMs = 5;
+        private int _MinUpdateIntervalMs = 10;
         private int _FullUpdateThreshold = 30;
 
 
@@ -663,6 +663,9 @@ namespace DirectOutput.Cab.Out.Pac
                 EnforceMinUpdateInterval();
                 PDSingleton.PacLed64SetLEDStates(0, 0, 0);
                 LastCommand = DateTime.Now;
+
+                // give the device a moment to digest the update
+                Thread.Sleep(100);
 
                 LastStateSent.Fill(false);
             }

@@ -482,11 +482,8 @@ namespace DirectOutput.Cab.Out.Pac
 
         public static PacDriveSingleton Instance { get { return lazy.Value; } }
 
-
         private PacDriveSingleton()
         {
-
-
             PacAttachedCallbackPtr = new PAC_ATTACHED_CALLBACK(PacAttachedCallback);
             PacRemovedCallbackPtr = new PAC_REMOVED_CALLBACK(PacRemovedCallback);
 

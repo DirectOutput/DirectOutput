@@ -11,6 +11,7 @@ using DirectOutput.LedControl.Loader;
 using DirectOutput.PinballSupport;
 using System.Linq;
 using DirectOutput.Table;
+using System.Runtime.InteropServices;
 
 using System.Diagnostics;
 using DirectOutput.Cab.Overrides;
@@ -107,6 +108,14 @@ namespace DirectOutput
             bool GlobalConfigLoaded = true;
             //Load the global config
 
+            PreLoadDLL("Ciloci.Flee.dll");
+            PreLoadDLL("Extensions.dll");
+            PreLoadDLL("FTD2XX32.dll");
+            PreLoadDLL("Newtonsoft.Json.dll");
+            PreLoadDLL("PacDrive32.dll");
+            PreLoadDLL("Q42.HueApi.ColorConverters.dll");
+            PreLoadDLL("Q42.HeuApi.dll");
+
             try
             {
                 Log.Write("Global config filename is \"" + GlobalConfigFilename + "\"");
@@ -180,7 +189,7 @@ namespace DirectOutput
                 {
                     if (!GlobalConfigFilename.IsNullOrWhiteSpace())
                     {
-                        Log.Write("Could not find or load theGlobalConfig file {0}".Build(GlobalConfigFilename));
+                        Log.Write("Could not find or load the global config file {0}".Build(GlobalConfigFilename));
                     }
                     else
                     {
@@ -403,6 +412,36 @@ namespace DirectOutput
             
         }
 
+        #region Pre Load Library
+
+        [DllImport("kernel32.dll")]
+        public static extern IntPtr LoadLibrary(string dllToLoad);
+
+        /// <summary>
+        /// Pre-load a DLL.  This explicitly loads a DLL from the folder containing
+        /// the main assembly DLL, to ensure that we load the local DLL regardless
+        /// of where the calling EXE is running from.
+        /// </summary>
+        /// <param name="filename">
+        /// The base name (without a path) of the DLL to pre-load.
+        /// </param>
+        public static void PreLoadDLL(String filename)
+        {
+            String assemblyPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase);
+            String dllPath = Path.Combine(assemblyPath, filename);
+            Log.Write("Pre-loading DLL " + filename + " from " + dllPath);
+            try
+            {
+                LoadLibrary(dllPath);
+            }
+            catch (Exception e)
+            {
+                Log.Write("Unable to pre-load DLL " + filename + " from " + dllPath + ": " + e.Message);
+            }
+        }
+
+        #endregion
+
         /// <summary>
         /// Initializes/starts the Pinball object
         /// </summary>
@@ -413,12 +452,12 @@ namespace DirectOutput
             {
 
                 Log.Write("Starting processes");
-            
 
                 CabinetOwner CO = new CabinetOwner();
 				CO.Alarms = this.Alarms;
                 CO.ConfigurationSettings.Add("LedControlMinimumEffectDurationMs",GlobalConfig.LedControlMinimumEffectDurationMs);
 				CO.ConfigurationSettings.Add("LedWizDefaultMinCommandIntervalMs",GlobalConfig.LedWizDefaultMinCommandIntervalMs);
+                CO.ConfigurationSettings.Add("PacLedDefaultMinCommandIntervalMs", GlobalConfig.PacLedDefaultMinCommandIntervalMs);
                 Cabinet.Init(CO);
 
                 Table.Init(this);
