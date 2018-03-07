@@ -352,9 +352,6 @@
     </Shape>
 
 
-
-
-
     <ShapeAnimated>
       <Name>RoundPulse</Name>
       <BitmapFrameNumber>0</BitmapFrameNumber>
@@ -637,6 +634,565 @@
     </ShapeAnimated>
 
 
+<Shape>
+      <Name>Exclamation</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>1</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>QuotationMarks</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>9</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>Pound</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>17</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>Percent</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>33</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>Apostrophe</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>49</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>LeftBracket</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>57</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>RightBracket</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>65</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>Times</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>73</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>Plus</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>81</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>Comma</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>89</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>Minus</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>97</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>Period</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>105</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>ForwardSlash</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>113</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>Number0</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>121</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>Number1</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>129</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>Number2</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>137</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>Number3</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>145</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>Number4</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>153</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>Number5</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>161</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>Number6</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>169</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>Number7</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>177</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>Number8</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>185</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>Number9</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>193</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>Colon</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>201</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>Semi-Colon</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>209</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>LessThan</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>217</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>Equals</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>225</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>GreaterThan</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>233</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>QuestionMark</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>241</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>AtSymbol</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>249</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>LetterA</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>257</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>LetterB</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>265</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>LetterC</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>273</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>LetterD</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>281</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>LetterE</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>289</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>LetterF</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>297</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>LetterG</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>305</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>LetterH</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>313</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>LetterI</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>321</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>LetterJ</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>329</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>LetterK</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>337</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>LetterL</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>345</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>LetterM</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>353</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>LetterN</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>361</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>LetterO</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>369</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>LetterP</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>377</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>LetterQ</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>385</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>LetterR</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>393</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>LetterS</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>401</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>LetterT</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>409</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>LetterU</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>417</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>LetterV</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>425</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>LetterW</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>433</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>LetterX</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>441</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>LetterY</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>449</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
+
+<Shape>
+      <Name>LetterZ</Name>
+      <BitmapFrameNumber>0</BitmapFrameNumber>
+      <BitmapTop>254</BitmapTop>
+      <BitmapLeft>457</BitmapLeft>
+      <BitmapWidth>7</BitmapWidth>
+      <BitmapHeight>7</BitmapHeight>
+      <DataExtractMode>BlendPixels</DataExtractMode>
+    </Shape>
 
 
   </Shapes>
