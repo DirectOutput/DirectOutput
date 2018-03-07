@@ -31,6 +31,19 @@ namespace DirectOutput.Cab.Out.FTDIChip
             set { _SerialNumber = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the device description string, as reported by the device.
+        /// </summary>
+        /// <value>
+        /// The description string.
+        /// </value>
+        public String Description
+        {
+            get { return _Description; }
+            set { _Description = value; }
+        }
+        private string _Description;
+
         private int _Id = 0;
         /// <summary>
         /// Gets or sets the Id of the FT245RBitbangController.<br />

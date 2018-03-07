@@ -124,7 +124,7 @@ namespace DirectOutput.Cab.Out.LW
         /// it via the global config.
         /// </summary>
         /// <value>
-        /// The mininimal interval between command in miliseconds
+        /// The minimum interval between command in milliseconds
         /// </value>
         public int MinCommandIntervalMs
         {
