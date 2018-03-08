@@ -108,14 +108,6 @@ namespace DirectOutput
             bool GlobalConfigLoaded = true;
             //Load the global config
 
-            PreLoadDLL("Ciloci.Flee.dll");
-            PreLoadDLL("Extensions.dll");
-            PreLoadDLL("FTD2XX32.dll");
-            PreLoadDLL("Newtonsoft.Json.dll");
-            PreLoadDLL("PacDrive32.dll");
-            PreLoadDLL("Q42.HueApi.ColorConverters.dll");
-            PreLoadDLL("Q42.HeuApi.dll");
-
             try
             {
                 Log.Write("Global config filename is \"" + GlobalConfigFilename + "\"");
@@ -421,23 +413,29 @@ namespace DirectOutput
         /// Pre-load a DLL.  This explicitly loads a DLL from the folder containing
         /// the main assembly DLL, to ensure that we load the local DLL regardless
         /// of where the calling EXE is running from.
+        /// 
+        /// Some people have had problems where one or more of the secondary DLLs
+        /// can't be loaded even though they're installed in the DOF folder.  The
+        /// idea with pre-loading them is that we skip the normal Windows/.Net DLL
+        /// search algorithms and instead tell Windows to load the DLLs from the
+        /// DLL folder directly.  Once a DLL is loaded within a process, Windows
+        /// shouldn't have to look for it again for the duration of this process.
         /// </summary>
         /// <param name="filename">
         /// The base name (without a path) of the DLL to pre-load.
         /// </param>
         public static void PreLoadDLL(String filename)
         {
+            // get the code base path, stripping any "file:\" prefix
             String assemblyPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase);
+            if (assemblyPath.StartsWith("file:\\"))
+                assemblyPath = assemblyPath.Substring(6);
+
+            // build the absolute path to the DLL, looking in the DLL folder
             String dllPath = Path.Combine(assemblyPath, filename);
-            Log.Write("Pre-loading DLL " + filename + " from " + dllPath);
-            try
-            {
-                LoadLibrary(dllPath);
-            }
-            catch (Exception e)
-            {
-                Log.Write("Unable to pre-load DLL " + filename + " from " + dllPath + ": " + e.Message);
-            }
+            IntPtr hModule = LoadLibrary(dllPath);
+            Log.Write("Pre-loading DLL " + filename + " from " + dllPath
+                + (hModule.ToInt64() == 0 ? " : FAILED" : " : ok"));
         }
 
         #endregion
@@ -815,10 +813,14 @@ namespace DirectOutput
         /// </summary>
         public Pinball()
         {
-
-
-          
-
+            // pre-load the DLLs
+            PreLoadDLL("Ciloci.Flee.dll");
+            PreLoadDLL("Extensions.dll");
+            PreLoadDLL("FTD2XX32.dll");
+            PreLoadDLL("Newtonsoft.Json.dll");
+            PreLoadDLL("PacDrive32.dll");
+            PreLoadDLL("Q42.HueApi.ColorConverters.dll");
+            PreLoadDLL("Q42.HueApi.dll");
         }
 
 
