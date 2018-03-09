@@ -23,26 +23,39 @@ namespace PinballX
             {
                 if (DOF == null)
                 {
+                    String DofComObjProgID = "DirectOutput.ComObject";
+                    Guid DofComObjGuid = new Guid("A23BFDBC-9A8A-46C0-8672-60F23D54FFB6");
                     try
                     {
-                        DOFType = Type.GetTypeFromProgID("DirectOutput.ComObject", true);
-
+                        // try getting the DOF COM object by name
+                        DOFType = Type.GetTypeFromProgID(DofComObjProgID, true);
                     }
-                    catch (Exception E)
+                    catch (Exception E1)
                     {
-
-                        throw new Exception("Could not find the DirectOutput.ComObject. Please check if the DirectOutputComObject is registered.", E);
+                        // That didn't work - try getting it by GUID.  Type.GetTypeFromProgID()
+                        // is known to fail on some systems for reasons that aren't entirely
+                        // clear, and one workaround seems to be to load the type by GUID 
+                        // instead.
+                        try
+                        {                            
+                            DOFType = Type.GetTypeFromCLSID(DofComObjGuid);
+                        }
+                        catch (Exception E2)
+                        {
+                            throw new Exception("The type data for the DOF COM object wasn't found. "
+                                + "Please check that DirectOutputComObject.dll has been registered. "
+                                + "Type.GetTypeFromProgID(" + DofComObjProgID + ") failed with error: "
+                                + E1 + "; and then on retry, Type.GetTypeFromCLSID(" + DofComObjGuid
+                                + ") failed with error: " + E2);
+                        }
                     }
-
 
                     try
                     {
                         DOF = Activator.CreateInstance(DOFType);
-
                     }
                     catch (Exception E)
                     {
-
                         throw new Exception("Could not create a instance of the DirectOutput framework. " + E.Message);
                     }
 
