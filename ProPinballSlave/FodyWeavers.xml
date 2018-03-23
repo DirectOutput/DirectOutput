@@ -1,17 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <Weavers>
-  <Costura>
-    <Unmanaged32Assemblies>
-      ProPinballBridge
-      FTD2XX32
-      ledwiz32
-      PacDrive32
-    </Unmanaged32Assemblies>
-    <Unmanaged64Assemblies>
-      ProPinballBridge
-      FTD2XX64
-      ledwiz64
-      PacDrive64
-    </Unmanaged64Assemblies>
-  </Costura>
+  
 </Weavers>

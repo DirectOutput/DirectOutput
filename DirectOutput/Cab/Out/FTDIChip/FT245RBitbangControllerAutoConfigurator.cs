@@ -68,16 +68,6 @@ namespace DirectOutput.Cab.Out.FTDIChip {
                 FTDevice.Description = devicelist[deviceIndex].desc;
                 FTDevice.Id = deviceIndex;
 
-                if (FTDevice.SerialNumber.StartsWith("ZBPLNG"))
-                {
-                    Log.Write("FT245RBitbangControllerAutoConfigurator.AutoConfig.. Detected Zeb's Plunger kit at index "
-                        + deviceIndex + ", name=" + FTDevice.Name
-                        + ", description: " + FTDevice.Description
-                        + ", serial #" + FTDevice.SerialNumber
-                        + "; SKIPPING");
-                    continue;
-                }
-
                 Log.Write("FT245RBitbangControllerAutoConfigurator.AutoConfig.. Detected FT245RBitbangController" + "["
                     + deviceIndex + "], name=" + FTDevice.Name
                     + ", description: " + FTDevice.Description
