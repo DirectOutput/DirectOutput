@@ -51,10 +51,6 @@ namespace DirectOutput.Cab.Out.ComPort
         {
             if (Port != null)
             {
-
-
-
-
                 for (int i = 0; i < 7; i++)
                 {
                     if (OldValues == null || OldValues[i] != OutputValues[i])
@@ -66,7 +62,7 @@ namespace DirectOutput.Cab.Out.ComPort
 
                 bool ColorChanged = false;
                 bool IsBlack = true;
-                for (int i = 8; i < 10; i++)
+                for (int i = 7; i < 10; i++)
                 {
                     if (OldValues == null || OldValues[i] != OutputValues[i])
                     {

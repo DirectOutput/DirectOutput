@@ -26,10 +26,10 @@ set MSIPath=DOFSetup\bin\Debug
 
 rem ===========================================================
 rem ###   Date/time to embed in zip file name
-set TempDate=%date%
-set CurrDate=%TempDate:~10,4%%TempDate:~4,2%%TempDate:~7,2%
-set TempTime=%time%
-set CurrTime=%TempTime:~0,2%%TempTime:~3,2%%TempTime:~6,2%
+set TempDate=
+for /f "skip=1" %%i in ('wmic os get localdatetime') do if not defined TempDate set TempDate=%%i
+set CurrDate=%TempDate:~0,8%
+set CurrTime=%TempDate:~8,6%
 
 rem ###   Zip file
 set ZipName=DirectOutput-mjr-%CurrDate%.zip
