@@ -15,7 +15,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyTrademark("")>
 <Assembly: AssemblyCopyright("Copyright ©  2012-2018 Swisslizard")>
 
-<Assembly: ComVisible(True)> 
+<Assembly: ComVisible(True)>
 
 'Die folgende GUID bestimmt die ID der Typbibliothek, wenn dieses Projekt für COM verfügbar gemacht wird
 <Assembly: Guid("f1519cb6-259e-4c8e-84ce-092c4cd69fb1")>

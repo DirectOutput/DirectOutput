@@ -28,7 +28,7 @@ namespace DirectOutputComObjectRegister
 
                     System.Diagnostics.ProcessStartInfo ProcStartInfo = new System.Diagnostics.ProcessStartInfo();
                     ProcStartInfo.FileName = RegAsm;
-                    ProcStartInfo.Arguments = "\"" + ComObject + "\" /silent /nologo /codebase";
+                    ProcStartInfo.Arguments = "\"" + ComObject + "\" /silent /nologo /codebase /tlb";
 
                     ProcStartInfo.RedirectStandardOutput = true;
                     ProcStartInfo.UseShellExecute = false;
