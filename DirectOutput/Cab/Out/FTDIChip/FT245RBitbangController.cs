@@ -374,10 +374,8 @@ namespace DirectOutput.Cab.Out.FTDIChip
         {
             lock (FTDILocker)
             {
-
                 if (FTDI != null)
                 {
-
                     Disconnect();
                 }
 

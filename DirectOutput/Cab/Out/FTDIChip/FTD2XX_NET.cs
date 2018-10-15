@@ -37,7 +37,7 @@ namespace DirectOutput.Cab.Out.FTDIChip
     /// <summary>
     /// Class wrapper for FTD2XX.DLL
     /// </summary>
-    public class FTDI
+    public class FTDI : IDisposable
     {
         private AutoResetEvent receivedDataEvent;
         private BackgroundWorker dataReceivedHandler;
@@ -49,17 +49,18 @@ namespace DirectOutput.Cab.Out.FTDIChip
         /// </summary>
         public FTDI()
         {
-            // If FTD2XX.DLL is NOT loaded already, load it
-            if (hFTD2XXDLL == IntPtr.Zero)
+			// If FTD2XX.DLL is NOT loaded already, load it
+			String dllFile = IntPtr.Size == 8 ? "FTD2XX64.DLL" : "FTD2XX32.DLL";
+
+			if (hFTD2XXDLL == IntPtr.Zero)
             {
-                // Load our FTD2XX.DLL library
-                hFTD2XXDLL = IntPtr.Size == 8 ? LoadLibrary(@"FTD2XX64.DLL") : LoadLibrary(@"FTD2XX32.DLL");
+				// Load our FTD2XX.DLL library
+				hFTD2XXDLL = LoadLibrary(dllFile);
                 if (hFTD2XXDLL == IntPtr.Zero)
                 {
                     // Failed to load our FTD2XX.DLL library from System32 or the application directory
-                    // Try the same directory that this FTD2XX_NET DLL is in
-                  
-                    hFTD2XXDLL = LoadLibrary(@Path.GetDirectoryName(GetType().Assembly.Location) + "\\" + (IntPtr.Size == 8 ? "FTD2XX64.DLL" : "FTD2XX32.DLL"));
+                    // Try the same directory that the DOF assembly is in.
+                    hFTD2XXDLL = LoadLibrary(Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), dllFile));
                 }
             }
 
@@ -124,8 +125,6 @@ namespace DirectOutput.Cab.Out.FTDIChip
                 // Failed to load our DLL - alert the user
                throw new Exception("Failed to load FTD2XX.DLL.  Are the FTDI drivers installed?");
             }
-
-        
         }
          
 
@@ -145,7 +144,6 @@ namespace DirectOutput.Cab.Out.FTDIChip
                 }
                 if (nrOfBytesAvailable > 0)
                 {
-
                     OnCharReceived();
                 }
             }
@@ -158,18 +156,40 @@ namespace DirectOutput.Cab.Out.FTDIChip
         /// </summary>
         ~FTDI()
         {
-            // FreeLibrary here - we should only do this if we are completely finished
-            FreeLibrary(hFTD2XXDLL);
-            hFTD2XXDLL = IntPtr.Zero;
+			Dispose(false);
         }
-        #endregion
+		#endregion
 
-        #region LOAD_LIBRARIES
-        /// <summary>
-        /// Built-in Windows API functions to allow us to dynamically load our own DLL.
-        /// Will allow us to use old versions of the DLL that do not have all of these functions available.
-        /// </summary>
-        [DllImport("kernel32.dll")]
+		#region Dispose
+
+		public void Dispose()
+		{
+			Dispose(true);
+		}
+
+		public void Dispose(bool disposing)
+		{
+			// if we have a device handle, close it
+			if (ftHandle != IntPtr.Zero && pFT_Close != IntPtr.Zero)
+			{
+				tFT_Close FT_Close = (tFT_Close)Marshal.GetDelegateForFunctionPointer(pFT_Close, typeof(tFT_Close));
+				FT_Close(ftHandle);
+				ftHandle = IntPtr.Zero;
+			}
+
+			// FreeLibrary here - we should only do this if we are completely finished
+			FreeLibrary(hFTD2XXDLL);
+			hFTD2XXDLL = IntPtr.Zero;
+		}
+
+		#endregion
+
+		#region LOAD_LIBRARIES
+		/// <summary>
+		/// Built-in Windows API functions to allow us to dynamically load our own DLL.
+		/// Will allow us to use old versions of the DLL that do not have all of these functions available.
+		/// </summary>
+		[DllImport("kernel32.dll")]
         private static extern IntPtr LoadLibrary(string dllToLoad);
         [DllImport("kernel32.dll")]
         private static extern IntPtr GetProcAddress(IntPtr hModule, string procedureName);
@@ -2143,87 +2163,129 @@ namespace DirectOutput.Cab.Out.FTDIChip
             return ftStatus;
         }
 
+		// OpenWithRetry delegate
+		protected delegate FT_STATUS OpenFunc();
 
-        //**************************************************************************
-        // OpenByIndex
-        //**************************************************************************
-        // Intellisense comments
-        /// <summary>
-        /// Opens the FTDI device with the specified index.  
-        /// </summary>
-        /// <returns>FT_STATUS value from FT_Open in FTD2XX.DLL</returns>
-        /// <param name="index">Index of the device to open.
-        /// Note that this cannot be guaranteed to open a specific device.</param>
-        /// <remarks>Initialises the device to 8 data bits, 1 stop bit, no parity, no flow control and 9600 Baud.</remarks>
-        public FT_STATUS OpenByIndex(UInt32 index)
+		// Open locker, to protect against trying to call open functions concurrently
+		// (the FTDI DLL and/or device driver doesn't seem to tolerate this).
+		protected static object openLocker = new object();
+
+
+		//**************************************************************************
+		// OpenCommon
+		//**************************************************************************
+		/// <summary>
+		/// Opens the FTDI device, locking against concurrent access by other threads.
+		/// On success, initializaes communication parameters on the new connection.
+		/// 
+		/// The Open calls in the underlying DLL don't appear to be thread-safe; they'll
+		/// return "device not open" and "device not found" errors if we allow multiple
+		/// threads to enter Open calls simultaneously.  This affects machines with
+		/// more than one physical device that uses the FTDI drivers, such as a machine
+		/// with two Sainsmart devices, or a machine with a Sainsmart device and a
+		/// Zeb's plunger device.  Since DOF starts one thread per logical device, and
+		/// the threads all start at about the same time, it's easily possible to hit
+		/// the Open calls in multiple threads simultaneously.  So we have to protect
+		/// against such concurent access by serializing the Open calls through a lock 
+		/// object.
+		/// 
+		/// On return, the internal ftHandle value will be zeroed if the open call 
+		/// didn't succeed.
+		/// </summary>
+		/// <returns>FT_STATUS value</returns>
+		/// <param name="openFunc">Delegate to call to perform the actual open</param>
+		/// <param name="desc">Description of the device identification, for log messages</param>
+		protected FT_STATUS OpenCommon(OpenFunc openFunc, String desc)
+		{
+			// make sure the DLL has been loaded
+			if (hFTD2XXDLL == IntPtr.Zero)
+				throw new Exception("Failed to load FTDI2XX DLL");
+
+			// check for required function pointers
+			if (pFT_SetDataCharacteristics == IntPtr.Zero)
+				throw new Exception("Failed to load function FT_SetDataCharacteristics.");
+			if (pFT_SetFlowControl == IntPtr.Zero)
+				throw new Exception("Failed to load function FT_SetFlowControl.");
+			if (pFT_SetBaudRate == IntPtr.Zero)
+				throw new Exception("Failed to load function FT_SetBaudRate.");
+
+			// presume failure
+			FT_STATUS ftStatus = FT_STATUS.FT_OTHER_ERROR;
+
+			// serialize access to the Open functions
+			lock (openLocker)
+			{
+				// Call FT_Open
+				ftStatus = openFunc();
+			}
+
+			// if the status isn't "OK", zero the handle and return failure
+			if (ftStatus != FT_STATUS.FT_OK)
+			{
+				ftHandle = IntPtr.Zero;
+				return ftStatus;
+			}
+
+			// Initialise port data characteristics
+			if (ftStatus == FT_STATUS.FT_OK)
+			{
+				// Initialise port data characteristics
+				byte WordLength = FT_DATA_BITS.FT_BITS_8;
+				byte StopBits = FT_STOP_BITS.FT_STOP_BITS_1;
+				byte Parity = FT_PARITY.FT_PARITY_NONE;
+				tFT_SetDataCharacteristics FT_SetDataCharacteristics = (tFT_SetDataCharacteristics)Marshal.GetDelegateForFunctionPointer(pFT_SetDataCharacteristics, typeof(tFT_SetDataCharacteristics));
+				ftStatus = FT_SetDataCharacteristics(ftHandle, WordLength, StopBits, Parity);
+			}
+
+			// Initialise to no flow control
+			if (ftStatus == FT_STATUS.FT_OK)
+			{
+				UInt16 FlowControl = FT_FLOW_CONTROL.FT_FLOW_NONE;
+				byte Xon = 0x11;
+				byte Xoff = 0x13;
+				tFT_SetFlowControl FT_SetFlowControl = (tFT_SetFlowControl)Marshal.GetDelegateForFunctionPointer(pFT_SetFlowControl, typeof(tFT_SetFlowControl));
+				ftStatus = FT_SetFlowControl(ftHandle, FlowControl, Xon, Xoff);
+			}
+
+			// Initialize Baud rate
+			if (ftStatus == FT_STATUS.FT_OK)
+			{ 
+				UInt32 BaudRate = 9600;
+				tFT_SetBaudRate FT_SetBaudRate = (tFT_SetBaudRate)Marshal.GetDelegateForFunctionPointer(pFT_SetBaudRate, typeof(tFT_SetBaudRate));
+				ftStatus = FT_SetBaudRate(ftHandle, BaudRate);
+			}
+
+			// Set up the event object
+			if (ftStatus == FT_STATUS.FT_OK)
+				SetupEvent();
+
+			// return the result
+			return ftStatus;
+		}
+
+		//**************************************************************************
+		// OpenByIndex
+		//**************************************************************************
+		// Intellisense comments
+		/// <summary>
+		/// Opens the FTDI device with the specified index.  
+		/// </summary>
+		/// <returns>FT_STATUS value from FT_Open in FTD2XX.DLL</returns>
+		/// <param name="index">Index of the device to open.
+		/// Note that this cannot be guaranteed to open a specific device.</param>
+		/// <remarks>Initialises the device to 8 data bits, 1 stop bit, no parity, no flow control and 9600 Baud.</remarks>
+		public FT_STATUS OpenByIndex(UInt32 index)
         {
-            // Initialise ftStatus to something other than FT_OK
-            FT_STATUS ftStatus = FT_STATUS.FT_OTHER_ERROR;
+			return OpenCommon(() => 
+			{
+				// make sure FT_Open is accessible
+				if (pFT_Open == IntPtr.Zero)
+					throw new Exception("Failed to load function FT_Open.");
 
-            // If the DLL hasn't been loaded, just return here
-            if (hFTD2XXDLL == IntPtr.Zero)
-                return ftStatus;
-
-            // Check for our required function pointers being set up
-            if ((pFT_Open != IntPtr.Zero) & (pFT_SetDataCharacteristics != IntPtr.Zero) & (pFT_SetFlowControl != IntPtr.Zero) & (pFT_SetBaudRate != IntPtr.Zero))
-            {
-                tFT_Open FT_Open = (tFT_Open)Marshal.GetDelegateForFunctionPointer(pFT_Open, typeof(tFT_Open));
-                tFT_SetDataCharacteristics FT_SetDataCharacteristics = (tFT_SetDataCharacteristics)Marshal.GetDelegateForFunctionPointer(pFT_SetDataCharacteristics, typeof(tFT_SetDataCharacteristics));
-                tFT_SetFlowControl FT_SetFlowControl = (tFT_SetFlowControl)Marshal.GetDelegateForFunctionPointer(pFT_SetFlowControl, typeof(tFT_SetFlowControl));
-                tFT_SetBaudRate FT_SetBaudRate = (tFT_SetBaudRate)Marshal.GetDelegateForFunctionPointer(pFT_SetBaudRate, typeof(tFT_SetBaudRate));
-
-                // Call FT_Open
-                ftStatus = FT_Open(index, ref ftHandle);
-
-                // Appears that the handle value can be non-NULL on a fail, so set it explicitly
-                if (ftStatus != FT_STATUS.FT_OK)
-                    ftHandle = IntPtr.Zero;
-
-                if (ftHandle != IntPtr.Zero)
-                {
-                    // Initialise port data characteristics
-                    byte WordLength = FT_DATA_BITS.FT_BITS_8;
-                    byte StopBits = FT_STOP_BITS.FT_STOP_BITS_1;
-                    byte Parity = FT_PARITY.FT_PARITY_NONE;
-                    ftStatus = FT_SetDataCharacteristics(ftHandle, WordLength, StopBits, Parity);
-                    // Initialise to no flow control
-                    UInt16 FlowControl = FT_FLOW_CONTROL.FT_FLOW_NONE;
-                    byte Xon = 0x11;
-                    byte Xoff = 0x13;
-                    ftStatus = FT_SetFlowControl(ftHandle, FlowControl, Xon, Xoff);
-                    // Initialise Baud rate
-                    UInt32 BaudRate = 9600;
-                    ftStatus = FT_SetBaudRate(ftHandle, BaudRate);
-                }
-            }
-            else
-            {
-                if (pFT_Open == IntPtr.Zero)
-                {
-                   throw new Exception("Failed to load function FT_Open.");
-                }
-                if (pFT_SetDataCharacteristics == IntPtr.Zero)
-                {
-                   throw new Exception("Failed to load function FT_SetDataCharacteristics.");
-                }
-                if (pFT_SetFlowControl == IntPtr.Zero)
-                {
-                   throw new Exception("Failed to load function FT_SetFlowControl.");
-                }
-                if (pFT_SetBaudRate == IntPtr.Zero)
-                {
-                   throw new Exception("Failed to load function FT_SetBaudRate.");
-                }
-            }
-
-            if (ftStatus == FT_STATUS.FT_OK)
-            {
-                SetupEvent();
-            }
-
-
-
-            return ftStatus;
+				// call FT_Open
+				var FT_Open = (tFT_Open)Marshal.GetDelegateForFunctionPointer(pFT_Open, typeof(tFT_Open));
+				return FT_Open(index, ref ftHandle);
+			}, "device at index " + index);
         }
 
 
@@ -2239,72 +2301,16 @@ namespace DirectOutput.Cab.Out.FTDIChip
         /// <remarks>Initialises the device to 8 data bits, 1 stop bit, no parity, no flow control and 9600 Baud.</remarks>
         public FT_STATUS OpenBySerialNumber(string serialnumber)
         {
-            // Initialise ftStatus to something other than FT_OK
-            FT_STATUS ftStatus = FT_STATUS.FT_OTHER_ERROR;
+            return OpenCommon(() =>
+			{
+				// make sure FT_OpenEx is accessible
+				if (pFT_Open == IntPtr.Zero)
+					throw new Exception("Failed to load function FT_Open.");
 
-            // If the DLL hasn't been loaded, just return here
-            if (hFTD2XXDLL == IntPtr.Zero)
-                return ftStatus;
-
-            // Check for our required function pointers being set up
-            if ((pFT_OpenEx != IntPtr.Zero) & (pFT_SetDataCharacteristics != IntPtr.Zero) & (pFT_SetFlowControl != IntPtr.Zero) & (pFT_SetBaudRate != IntPtr.Zero))
-            {
-                tFT_OpenEx FT_OpenEx = (tFT_OpenEx)Marshal.GetDelegateForFunctionPointer(pFT_OpenEx, typeof(tFT_OpenEx));
-                tFT_SetDataCharacteristics FT_SetDataCharacteristics = (tFT_SetDataCharacteristics)Marshal.GetDelegateForFunctionPointer(pFT_SetDataCharacteristics, typeof(tFT_SetDataCharacteristics));
-                tFT_SetFlowControl FT_SetFlowControl = (tFT_SetFlowControl)Marshal.GetDelegateForFunctionPointer(pFT_SetFlowControl, typeof(tFT_SetFlowControl));
-                tFT_SetBaudRate FT_SetBaudRate = (tFT_SetBaudRate)Marshal.GetDelegateForFunctionPointer(pFT_SetBaudRate, typeof(tFT_SetBaudRate));
-
-                // Call FT_OpenEx
-                ftStatus = FT_OpenEx(serialnumber, FT_OPEN_BY_SERIAL_NUMBER, ref ftHandle);
-
-                // Appears that the handle value can be non-NULL on a fail, so set it explicitly
-                if (ftStatus != FT_STATUS.FT_OK)
-                    ftHandle = IntPtr.Zero;
-
-                if (ftHandle != IntPtr.Zero)
-                {
-                    // Initialise port data characteristics
-                    byte WordLength = FT_DATA_BITS.FT_BITS_8;
-                    byte StopBits = FT_STOP_BITS.FT_STOP_BITS_1;
-                    byte Parity = FT_PARITY.FT_PARITY_NONE;
-                    ftStatus = FT_SetDataCharacteristics(ftHandle, WordLength, StopBits, Parity);
-                    // Initialise to no flow control
-                    UInt16 FlowControl = FT_FLOW_CONTROL.FT_FLOW_NONE;
-                    byte Xon = 0x11;
-                    byte Xoff = 0x13;
-                    ftStatus = FT_SetFlowControl(ftHandle, FlowControl, Xon, Xoff);
-                    // Initialise Baud rate
-                    UInt32 BaudRate = 9600;
-                    ftStatus = FT_SetBaudRate(ftHandle, BaudRate);
-                }
-            }
-            else
-            {
-                if (pFT_OpenEx == IntPtr.Zero)
-                {
-                   throw new Exception("Failed to load function FT_OpenEx.");
-                }
-                if (pFT_SetDataCharacteristics == IntPtr.Zero)
-                {
-                   throw new Exception("Failed to load function FT_SetDataCharacteristics.");
-                }
-                if (pFT_SetFlowControl == IntPtr.Zero)
-                {
-                   throw new Exception("Failed to load function FT_SetFlowControl.");
-                }
-                if (pFT_SetBaudRate == IntPtr.Zero)
-                {
-                   throw new Exception("Failed to load function FT_SetBaudRate.");
-                }
-            }
-
-            if (ftStatus == FT_STATUS.FT_OK)
-            {
-                SetupEvent();
-            }
-
-
-            return ftStatus;
+				// open by serial number
+				var FT_OpenEx = (tFT_OpenEx)Marshal.GetDelegateForFunctionPointer(pFT_OpenEx, typeof(tFT_OpenEx));
+				return FT_OpenEx(serialnumber, FT_OPEN_BY_SERIAL_NUMBER, ref ftHandle);
+			}, "serial #" + serialnumber);
         }
 
 
@@ -2320,70 +2326,16 @@ namespace DirectOutput.Cab.Out.FTDIChip
         /// <remarks>Initialises the device to 8 data bits, 1 stop bit, no parity, no flow control and 9600 Baud.</remarks>
         public FT_STATUS OpenByDescription(string description)
         {
-            // Initialise ftStatus to something other than FT_OK
-            FT_STATUS ftStatus = FT_STATUS.FT_OTHER_ERROR;
+			return OpenCommon(() =>
+			{
+				// make sure FT_OpenEx is accessible
+				if (pFT_Open == IntPtr.Zero)
+					throw new Exception("Failed to load function FT_Open.");
 
-            // If the DLL hasn't been loaded, just return here
-            if (hFTD2XXDLL == IntPtr.Zero)
-                return ftStatus;
-
-            // Check for our required function pointers being set up
-            if ((pFT_OpenEx != IntPtr.Zero) & (pFT_SetDataCharacteristics != IntPtr.Zero) & (pFT_SetFlowControl != IntPtr.Zero) & (pFT_SetBaudRate != IntPtr.Zero))
-            {
-                tFT_OpenEx FT_OpenEx = (tFT_OpenEx)Marshal.GetDelegateForFunctionPointer(pFT_OpenEx, typeof(tFT_OpenEx));
-                tFT_SetDataCharacteristics FT_SetDataCharacteristics = (tFT_SetDataCharacteristics)Marshal.GetDelegateForFunctionPointer(pFT_SetDataCharacteristics, typeof(tFT_SetDataCharacteristics));
-                tFT_SetFlowControl FT_SetFlowControl = (tFT_SetFlowControl)Marshal.GetDelegateForFunctionPointer(pFT_SetFlowControl, typeof(tFT_SetFlowControl));
-                tFT_SetBaudRate FT_SetBaudRate = (tFT_SetBaudRate)Marshal.GetDelegateForFunctionPointer(pFT_SetBaudRate, typeof(tFT_SetBaudRate));
-
-                // Call FT_OpenEx
-                ftStatus = FT_OpenEx(description, FT_OPEN_BY_DESCRIPTION, ref ftHandle);
-
-                // Appears that the handle value can be non-NULL on a fail, so set it explicitly
-                if (ftStatus != FT_STATUS.FT_OK)
-                    ftHandle = IntPtr.Zero;
-
-                if (ftHandle != IntPtr.Zero)
-                {
-                    // Initialise port data characteristics
-                    byte WordLength = FT_DATA_BITS.FT_BITS_8;
-                    byte StopBits = FT_STOP_BITS.FT_STOP_BITS_1;
-                    byte Parity = FT_PARITY.FT_PARITY_NONE;
-                    ftStatus = FT_SetDataCharacteristics(ftHandle, WordLength, StopBits, Parity);
-                    // Initialise to no flow control
-                    UInt16 FlowControl = FT_FLOW_CONTROL.FT_FLOW_NONE;
-                    byte Xon = 0x11;
-                    byte Xoff = 0x13;
-                    ftStatus = FT_SetFlowControl(ftHandle, FlowControl, Xon, Xoff);
-                    // Initialise Baud rate
-                    UInt32 BaudRate = 9600;
-                    ftStatus = FT_SetBaudRate(ftHandle, BaudRate);
-                }
-            }
-            else
-            {
-                if (pFT_OpenEx == IntPtr.Zero)
-                {
-                   throw new Exception("Failed to load function FT_OpenEx.");
-                }
-                if (pFT_SetDataCharacteristics == IntPtr.Zero)
-                {
-                   throw new Exception("Failed to load function FT_SetDataCharacteristics.");
-                }
-                if (pFT_SetFlowControl == IntPtr.Zero)
-                {
-                   throw new Exception("Failed to load function FT_SetFlowControl.");
-                }
-                if (pFT_SetBaudRate == IntPtr.Zero)
-                {
-                   throw new Exception("Failed to load function FT_SetBaudRate.");
-                }
-            }
-
-            if (ftStatus == FT_STATUS.FT_OK)
-            {
-                SetupEvent();
-            }
-            return ftStatus;
+				// open by serial number
+				var FT_OpenEx = (tFT_OpenEx)Marshal.GetDelegateForFunctionPointer(pFT_OpenEx, typeof(tFT_OpenEx));
+				return FT_OpenEx(description, FT_OPEN_BY_DESCRIPTION, ref ftHandle);
+			}, "by description \"" + description + "\"");
         }
 
 
@@ -2399,86 +2351,27 @@ namespace DirectOutput.Cab.Out.FTDIChip
         /// <remarks>Initialises the device to 8 data bits, 1 stop bit, no parity, no flow control and 9600 Baud.</remarks>
         public FT_STATUS OpenByLocation(UInt32 location)
         {
-            // Initialise ftStatus to something other than FT_OK
-            FT_STATUS ftStatus = FT_STATUS.FT_OTHER_ERROR;
+			return OpenCommon(() =>
+			{
+				if (pFT_Open == IntPtr.Zero)
+					throw new Exception("Failed to load function FT_Open.");
 
-            // If the DLL hasn't been loaded, just return here
-            if (hFTD2XXDLL == IntPtr.Zero)
-                return ftStatus;
+				var FT_OpenEx = (tFT_OpenExLoc)Marshal.GetDelegateForFunctionPointer(pFT_OpenEx, typeof(tFT_OpenExLoc));
+				return FT_OpenEx(location, FT_OPEN_BY_LOCATION, ref ftHandle);
 
-            // Check for our required function pointers being set up
-            if ((pFT_OpenEx != IntPtr.Zero) & (pFT_SetDataCharacteristics != IntPtr.Zero) & (pFT_SetFlowControl != IntPtr.Zero) & (pFT_SetBaudRate != IntPtr.Zero))
-            {
-                tFT_OpenExLoc FT_OpenEx = (tFT_OpenExLoc)Marshal.GetDelegateForFunctionPointer(pFT_OpenEx, typeof(tFT_OpenExLoc));
-                tFT_SetDataCharacteristics FT_SetDataCharacteristics = (tFT_SetDataCharacteristics)Marshal.GetDelegateForFunctionPointer(pFT_SetDataCharacteristics, typeof(tFT_SetDataCharacteristics));
-                tFT_SetFlowControl FT_SetFlowControl = (tFT_SetFlowControl)Marshal.GetDelegateForFunctionPointer(pFT_SetFlowControl, typeof(tFT_SetFlowControl));
-                tFT_SetBaudRate FT_SetBaudRate = (tFT_SetBaudRate)Marshal.GetDelegateForFunctionPointer(pFT_SetBaudRate, typeof(tFT_SetBaudRate));
-
-                // Call FT_OpenEx
-                ftStatus = FT_OpenEx(location, FT_OPEN_BY_LOCATION, ref ftHandle);
-
-                // Appears that the handle value can be non-NULL on a fail, so set it explicitly
-                if (ftStatus != FT_STATUS.FT_OK)
-                    ftHandle = IntPtr.Zero;
-
-                if (ftHandle != IntPtr.Zero)
-                {
-                    // Initialise port data characteristics
-                    byte WordLength = FT_DATA_BITS.FT_BITS_8;
-                    byte StopBits = FT_STOP_BITS.FT_STOP_BITS_1;
-                    byte Parity = FT_PARITY.FT_PARITY_NONE;
-                    ftStatus = FT_SetDataCharacteristics(ftHandle, WordLength, StopBits, Parity);
-                    // Initialise to no flow control
-                    UInt16 FlowControl = FT_FLOW_CONTROL.FT_FLOW_NONE;
-                    byte Xon = 0x11;
-                    byte Xoff = 0x13;
-                    ftStatus = FT_SetFlowControl(ftHandle, FlowControl, Xon, Xoff);
-                    // Initialise Baud rate
-                    UInt32 BaudRate = 9600;
-                    ftStatus = FT_SetBaudRate(ftHandle, BaudRate);
-                }
-            }
-            else
-            {
-                if (pFT_OpenEx == IntPtr.Zero)
-                {
-                   throw new Exception("Failed to load function FT_OpenEx.");
-                }
-                if (pFT_SetDataCharacteristics == IntPtr.Zero)
-                {
-                   throw new Exception("Failed to load function FT_SetDataCharacteristics.");
-                }
-                if (pFT_SetFlowControl == IntPtr.Zero)
-                {
-                   throw new Exception("Failed to load function FT_SetFlowControl.");
-                }
-                if (pFT_SetBaudRate == IntPtr.Zero)
-                {
-                   throw new Exception("Failed to load function FT_SetBaudRate.");
-                }
-            }
-
-            if (ftStatus == FT_STATUS.FT_OK)
-            {
-                SetupEvent();
-            }
-
-
-            return ftStatus;
+			}, "by location(" + location + ")");
         }
 
-        private void SetupEvent() {
-           receivedDataEvent = new AutoResetEvent(false);
+        private void SetupEvent()
+		{
+			receivedDataEvent = new AutoResetEvent(false);
             FT_STATUS Status = SetEventNotification(FTDI.FT_EVENTS.FT_EVENT_RXCHAR, receivedDataEvent);
             ErrorHandler(Status, FT_ERROR.FT_NO_ERROR);
 
             dataReceivedHandler = new BackgroundWorker();
             dataReceivedHandler.DoWork += ReadData;
             if (!dataReceivedHandler.IsBusy)
-            {
                 dataReceivedHandler.RunWorkerAsync();
-            }
-
         }
 
         /// <summary>
@@ -2522,10 +2415,8 @@ namespace DirectOutput.Cab.Out.FTDIChip
                 // Call FT_Close
                 ftStatus = FT_Close(ftHandle);
 
-                if (ftStatus == FT_STATUS.FT_OK)
-                {
-                    ftHandle = IntPtr.Zero;
-                }
+				// clear the handle
+                ftHandle = IntPtr.Zero;
             }
             else
             {

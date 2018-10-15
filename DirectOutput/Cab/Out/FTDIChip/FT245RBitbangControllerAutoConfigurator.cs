@@ -47,16 +47,17 @@ namespace DirectOutput.Cab.Out.FTDIChip {
             //do this seperate from adding instances in case multiple instances of ftdi would cause issues, as doing this too aggressive will cause locked exe / dll on exit
             for (uint i=0; i<amountDevices; i++)
             {
-                FTDI connectFTDI = new FTDI();
-                string deviceSerial = "";
-                string deviceDesc = "";
-                connectFTDI.OpenByIndex(i);
-                connectFTDI.GetSerialNumber(out deviceSerial);
-                connectFTDI.GetDescription(out deviceDesc);
-                devicelist.Add(new DeviceInfo(deviceSerial, deviceDesc));
-                //Log.Write("i=" + i + ", serial device=" + deviceSerial);
-                connectFTDI.Close();
-                connectFTDI = null;
+				using (FTDI connectFTDI = new FTDI())
+				{
+					string deviceSerial = "";
+					string deviceDesc = "";
+					connectFTDI.OpenByIndex(i);
+					connectFTDI.GetSerialNumber(out deviceSerial);
+					connectFTDI.GetDescription(out deviceDesc);
+					devicelist.Add(new DeviceInfo(deviceSerial, deviceDesc));
+					//Log.Write("i=" + i + ", serial device=" + deviceSerial);
+					connectFTDI.Close();
+				}
             }
             
             //next add instances of the controller to output, and all controller outputs
