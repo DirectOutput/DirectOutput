@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.IO;
 using System.Threading;
+using System.Text.RegularExpressions;
 
 
 namespace DirectOutput.Cab.Out.LW
@@ -276,10 +277,11 @@ namespace DirectOutput.Cab.Out.LW
 		// LedWiz device descriptor
 		struct LWDEVICE
 		{
-			public LWDEVICE(int unitNo, String path)
+			public LWDEVICE(int unitNo, String path, String productName)
 			{
 				this.unitNo = unitNo;
 				this.path = path;
+				this.productName = productName;
 			}
 
 			// nominal LedWiz unit number (1-16)
@@ -288,6 +290,9 @@ namespace DirectOutput.Cab.Out.LW
 			// Win32 file path to USB endpoint for the device.  This path can
 			// can opened as an ordinary file to send commands to the LedWiz.
 			public String path;
+
+			// USB product name
+			public String productName;
 		}
 		
 		// LedWiz device list.  For each LedWiz device we find in the system,
@@ -375,9 +380,35 @@ namespace DirectOutput.Cab.Out.LW
 										// presume this is an LedWiz unit, then look for reasons it's not
 										bool ok = true;
 
-										// Check for the LedWiz vendor and product ID codes.  If they don't
-										// match, it's not an LedWiz.
-										ok &= ((ushort)attrs.VendorID == 0xFAFA);
+										// read the product name string
+										String name = "<not available>";
+										byte[] nameBuf = new byte[128];
+										if (HIDImports.HidD_GetProductString(fp, nameBuf, 128))
+											name = System.Text.Encoding.Unicode.GetString(nameBuf).TrimEnd('\0');
+
+										// read the manufacturer name string
+										String manuf = "<not available>";
+										byte[] manufBuf = new byte[128];
+										if (HIDImports.HidD_GetManufacturerString(fp, manufBuf, 128))
+											manuf = System.Text.Encoding.Unicode.GetString(manufBuf).TrimEnd('\0');
+
+										// Check for the vendor code
+										if ((ushort)attrs.VendorID == 0xFAFA)
+										{
+											// original LedWiz vendor ID
+										}
+										else if ((ushort)attrs.VendorID == 0x20A0
+											&& Regex.IsMatch(manuf, @"(?i)zebsboards"))
+										{
+											// Zeb's plunger device VID, and the product string matches
+										}
+										else
+										{
+											// not a recognized VID for an LedWiz
+											ok = false;
+										}
+
+										// check that the PID is in range for an LedWiz
 										ok &= (attrs.ProductID >= 0x00F0 && attrs.ProductID < 0x00FF);
 
 										// Infer the unit number from the product ID.  The product ID
@@ -394,6 +425,14 @@ namespace DirectOutput.Cab.Out.LW
 										// To get the report descriptor information, we have to retrieve
 										// the "capabilities" structure, which requires fetching the
 										// "preparsed data" structure.
+										//
+										// Checking these extra descriptor elements helps us avoid false
+										// positives for other devices that happen to use the same VID
+										// (which is possible because FAFA doesn't appear to be officially
+										// licensed or registered with USB-IF).  It also helps us pick the
+										// right interface for devices that expose multiple HID interfaces,
+										// such as LWCloneU2 or Pinscape.  E.g., Pinscape can expose a
+										// keyboard interface in addition to the LedWiz interface.
 										IntPtr ppdata;
 										if (ok && HIDImports.HidD_GetPreparsedData(fp, out ppdata))
 										{
@@ -410,9 +449,30 @@ namespace DirectOutput.Cab.Out.LW
 											HIDImports.HidD_FreePreparsedData(ppdata);
 										}
 
+										// Check that the unit number isn't already claimed by another
+										// device in our device list.  The unit number is the device's
+										// address from the perspective of the user's configuration, so
+										// we can't have two devices at the same address
+										if (ok)
+										{
+											foreach (var d in deviceList)
+											{
+												if (d.unitNo == unitNo)
+												{
+													ok = false;
+													Log.Warning("LedWiz device \"" + name + "\" (VID "
+														+ (ushort)attrs.VendorID + ", PID "
+														+ (ushort)attrs.ProductID + ", LedWiz unit #" + unitNo
+														+ ") conflicts with previously enumerated device \""
+														+ d.productName + "\"; \"" 
+														+ name + "\" will be ignored for this session");
+												}
+											}
+										}
+
 										// if we passed all tests, add this device to the list
 										if (ok)
-											deviceList.Add(new LWDEVICE(unitNo, diDetail.DevicePath));
+											deviceList.Add(new LWDEVICE(unitNo, diDetail.DevicePath, name));
 									}
 
 									// done with the file handle

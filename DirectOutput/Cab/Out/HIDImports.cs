@@ -107,6 +107,12 @@ namespace DirectOutput.Cab.Out
 			byte[] Buffer,
 			uint BufferLength);
 
+		[DllImport("hid.dll")]
+		internal extern static bool HidD_GetManufacturerString(
+			IntPtr HidDeviceObject,
+			byte[] Buffer,
+			uint BufferLength);
+
 		[DllImport(@"setupapi.dll", CharSet = CharSet.Auto, SetLastError = true)]
 		internal static extern IntPtr SetupDiGetClassDevs(
 			ref Guid ClassGuid,
