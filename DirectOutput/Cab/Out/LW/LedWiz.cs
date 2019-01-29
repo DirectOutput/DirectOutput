@@ -392,6 +392,11 @@ namespace DirectOutput.Cab.Out.LW
 										if (HIDImports.HidD_GetManufacturerString(fp, manufBuf, 128))
 											manuf = System.Text.Encoding.Unicode.GetString(manufBuf).TrimEnd('\0');
 
+										Log.Write("LedWiz-like device at VID=" + (ushort)attrs.VendorID
+											+ ", PID=" + (ushort)attrs.ProductID
+											+ ", product string=" + name
+											+ ", manufacturer string=" + manuf);
+
 										// Check for the vendor code
 										if ((ushort)attrs.VendorID == 0xFAFA)
 										{
@@ -440,10 +445,38 @@ namespace DirectOutput.Cab.Out.LW
 											HIDImports.HIDP_CAPS caps = new HIDImports.HIDP_CAPS();
 											HIDImports.HidP_GetCaps(ppdata, ref caps);
 
-											// Check that we have a single link collection, and that
-											// we have the expected output report length.
-											ok &= (caps.NumberLinkCollectionNodes == 1);
+											Log.Write("HID caps: usage page=" + caps.UsagePage
+												+ ", usage=" + caps.Usage
+												+ ", number of link collection nodes=" + caps.NumberLinkCollectionNodes
+												+ ", output report byte length=" + caps.OutputReportByteLength);
+
+											// Check that we have the expected output report length
 											ok &= (caps.OutputReportByteLength == 9);
+
+											// Make some further heuristic checks
+											if (manuf == "GGG")
+											{
+												// GroovyGameGear's signature.  Let's assume that this is an
+												// LedWiz-compatible device.  The real LedWiz is a GGG product,
+												// so we can presumably count on GGG to use a different PID for
+												// another device of their own that's mutually incompatible.
+											}
+											else
+											{
+												// For anything else, we *formerly* did the following check:
+												//
+												// ok &= (caps.NumberLinkCollectionNodes == 1);
+												//
+												// There was nothing magic about this; it was just an ad hoc
+												// test that the original LedWiz and LWCloneU2 passed; the
+												// Pinscape controller passed it as well, which was deliberate
+												// because it was known that the original version of the
+												// LWCloneU2 DLL did the test.  But I consider this test too
+												// restrictive now, primarily because a newer GGG product,
+												// the LedWiz+GP, does *not* pass the test, and secondarily
+												// because it limits the HID features the device can use and
+												// still pass the test. 
+											}
 
 											// done with the preparsed data
 											HIDImports.HidD_FreePreparsedData(ppdata);
