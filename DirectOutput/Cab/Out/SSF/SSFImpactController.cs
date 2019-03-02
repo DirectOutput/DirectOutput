@@ -12,18 +12,20 @@ namespace DirectOutput.Cab.Out.SSFImpactController
 {
 
     /// <summary>
-    /// This is a dummy output controller not doing anthing with the data it receives.<br/>
-    /// It is mainly thought as a sample how to implement a simple output controller.<br/>
-    /// <remarks>Be sure to check the abstract OutputControllerBase class and the IOutputController interface for a better understanding.</remarks>
+    /// The SSFImpactor supports for using common audio bass shakers to emulate/simulate contractors/solenoids in a Virtual Pinball Cabinet.<br/>
+    /// It presents itself as a full set of contactors, etc for assignment via DOF Config. Support, hardware suggestions, layout diagrams and the
+    /// just about friendliest people in the hobby can be found here:  <a href="https://www.facebook.com/groups/SSFeedback/">
+    /// <remarks>For help specifically with SSFImpactor look fo Kai "MrKai" Cherry.</remarks>
     /// </summary>
     public class SSFImpactController : OutputControllerBase, IOutputController
     {
 
-        internal int currentBanger = 0;
+        
         internal SoundBank bank = new SoundBank();
         internal List<String> myNames = new List<String>();
         internal Assembly assembly = Assembly.GetExecutingAssembly();
         internal Stream SSF = Assembly.GetExecutingAssembly().GetManifestResourceStream("DirectOutput.Cab.Out.SSF.SSF");
+        internal Stream SSFLI = Assembly.GetExecutingAssembly().GetManifestResourceStream("DirectOutput.Cab.Out.SSF.SSFLI"); //low intensity
         internal MemoryStream ssfStream = new MemoryStream();
 
 
@@ -31,6 +33,10 @@ namespace DirectOutput.Cab.Out.SSFImpactController
         /// Init initializes the ouput controller.<br />
         /// This method is called after the
         /// objects haven been instanciated.
+        /// 
+        /// Specifically, Init is prepping the "Soundbank" for the currently supported 'hardware'
+        /// and setting the user preffered output style/profile via presence, or lack of, 
+        /// a file named "SSFLI" (Surround Sound Feedback - Low Intensity)
         /// </summary>
         /// <param name="Cabinet">The cabinet object which is using the output controller instance.</param>
         public override void Init(Cabinet Cabinet)
@@ -42,10 +48,16 @@ namespace DirectOutput.Cab.Out.SSFImpactController
                 return;
             }
             Bass.Init();
-
-            var memoryStream = new MemoryStream();
-            SSF.CopyTo(ssfStream);
-            
+ 
+            if (File.Exists(@"C:\DirectOutput\SSFLI")) //Low Intensity Single channel
+            {
+                SSFLI.CopyTo(ssfStream);
+                SSF = null;
+            } else
+            {
+                SSF.CopyTo(ssfStream);
+                SSFLI = null;
+            }
 
 
             bank.PrepBox();
@@ -90,13 +102,14 @@ namespace DirectOutput.Cab.Out.SSFImpactController
 
         /// <summary>
         /// This method is called whenever the value of a output in the Outputs property changes its value.<br />
-        /// This method must implement the logic to trigger the update the physical outputs.
+        /// Due to some clever "orthogonal thinking", the whole of "hardware suite" can be controled here
+        /// Hattip to djrobx for the idea!
         /// </summary>
         /// <param name="Output">The output.</param>
         protected override void OnOutputValueChanged(IOutput Output)
         {
-            //Clever Rob suggested a lot of code could be avoided by attacking this "harware" this way, here :)
-            if (Output.Number <= 1 || Output.Value == 42)
+            
+            if (Output.Number <= 1 || Output.Value == 42) 
             {
                 return;
             }
@@ -105,18 +118,18 @@ namespace DirectOutput.Cab.Out.SSFImpactController
             {
                 if (outp.Value == 255)
                 {
-    
-                    var stream = Bass.CreateStream(ssfStream.ToArray(), 0, ssfStream.Length, BassFlags.Default);
+
+                    int stream = Bass.CreateStream(ssfStream.ToArray(), 0, ssfStream.Length, BassFlags.Default);
                     if (stream != 0)
                     {
                         
                         if (outp.Number < 5 || outp.Number > 13)
                         {
-                            Bass.ChannelSetAttribute(stream, ChannelAttribute.Volume, 1);
+                            Bass.ChannelSetAttribute(stream, ChannelAttribute.Volume, 1); //Per Rusty, do "front 4" and extras 'harder'
                         }
                         else
                         {
-                            Bass.ChannelSetAttribute(stream, ChannelAttribute.Volume, 0.5);
+                            Bass.ChannelSetAttribute(stream, ChannelAttribute.Volume, 0.5); //pop bumpers, etc are further away, generally :)
                         }
                         
                         Bass.ChannelPlay(stream);
@@ -164,6 +177,7 @@ namespace DirectOutput.Cab.Out.SSFImpactController
 
         //This is a separate class to allow for future expansion; eg parameters to change playback characteristics
         //It is a remnant of the 'soundbank'-based experiments, but future forward can serve a similar purpose via modifiers, etc
+        //
         static SoundBank()
         {
         }
