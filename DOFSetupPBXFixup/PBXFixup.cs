@@ -226,21 +226,19 @@ namespace DOFSetupPBXFixup
             else
             {
                 // note that it wasn't found
-                session.Log("No PinballX installer entry found; skipping PinballX setup");
+                session.Log("No PinballX installer entry found in registry; skipping PinballX setup");
             }
 
             // if there are any errors, show them
             if (errors.Count != 0)
             {
-                String msg = "Setup was unable to set up the DirectOutput plugin "
-                    + "for PinballX automatically.  If you have PinballX installed "
-                    + "and wish to use DirectOutput effects with it, you'll have to "
-                    + "set up the plugin manually.  Refer to the DirectOutput R3 "
-                    + "documentation online for instructions on setting it up."
-                    + "\r\nError details:";
-
-                foreach (var err in errors)
-                    msg += "\r\n\r\n" + err;
+				String msg = "";
+				String padding = "";
+				foreach (var err in errors)
+				{
+					msg += padding + err;
+					padding = "\r\n\r\n";
+				}
 
                 session.Message(InstallMessage.Error, new Record { FormatString = msg });
             }
