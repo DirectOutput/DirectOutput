@@ -14,7 +14,7 @@ namespace DirectOutput.Cab.Out.SSFImpactController
     /// <summary>
     /// The SSFImpactor supports for using common audio bass shakers to emulate/simulate contractors/solenoids in a Virtual Pinball Cabinet.<br/>
     /// It presents itself as a full set of contactors, etc for assignment via DOF Config. Support, hardware suggestions, layout diagrams and the
-    /// just about friendliest people in the hobby can be found here:  <a href="https://www.facebook.com/groups/SSFeedback/">
+    /// just about friendliest people in the hobby can be found here:  <a href="https://www.facebook.com/groups/SSFeedback/"/>
     /// <remarks>For help specifically with SSFImpactor look fo Kai "MrKai" Cherry.</remarks>
     /// </summary>
     public class SSFImpactController : OutputControllerBase, IOutputController
@@ -27,7 +27,7 @@ namespace DirectOutput.Cab.Out.SSFImpactController
         internal Stream SSF = Assembly.GetExecutingAssembly().GetManifestResourceStream("DirectOutput.Cab.Out.SSF.SSF");
         internal Stream SSFLI = Assembly.GetExecutingAssembly().GetManifestResourceStream("DirectOutput.Cab.Out.SSF.SSFLI"); //low intensity
         internal MemoryStream ssfStream = new MemoryStream();
-
+        internal bool haveBass = false;
 
         /// <summary>
         /// Init initializes the ouput controller.<br />
@@ -47,23 +47,37 @@ namespace DirectOutput.Cab.Out.SSFImpactController
                 Log.Exception("Could not Initialize SSFImpactor");
                 return;
             }
-            Bass.Init();
- 
-            if (File.Exists(@"C:\DirectOutput\SSFLI")) //Low Intensity Single channel
+
+            if (SoundBank.Names.Count == 0)
             {
-                SSFLI.CopyTo(ssfStream);
-                SSF = null;
-            } else
-            {
-                SSF.CopyTo(ssfStream);
-                SSFLI = null;
+                try
+                {
+                    bank.PrepBox();
+                    var info = Bass.Info;
+
+                    if (File.Exists(@"C:\DirectOutput\SSFLI")) //Low Intensity Single channel
+                    {
+                        SSFLI.CopyTo(ssfStream);
+                        SSF = null;
+                    }
+                    else
+                    {
+                        SSF.CopyTo(ssfStream);
+                        SSFLI = null;
+                    }
+
+                    Log.Write("SSFImpactor \"Hardware\" Initialized\n");
+                    haveBass = true;
+                    AddOutputs();
+                }
+                catch (Exception e)
+                {
+                    Log.Write("Could Not Initialze Bass - " + e.Message);
+                }
             }
 
-
-            bank.PrepBox();
-            Log.Write("SSFImpactor \"Hardware\" Initialized\n");
-
-            AddOutputs();
+            
+          
         }
 
         /// <summary>
@@ -72,7 +86,21 @@ namespace DirectOutput.Cab.Out.SSFImpactController
         /// </summary>
         public override void Finish()
         {
-           // Bass.Free();
+            if (!haveBass)
+            {
+                Log.Write("!haveBass test kickout, Finish()");
+                return;
+            }
+
+            try
+            {
+                Bass.Free();
+            }
+            catch (Exception)
+            {
+                Log.Write("Bass subsystem was not initialized");
+            }
+           
         }
 
         /// <summary>
@@ -91,12 +119,8 @@ namespace DirectOutput.Cab.Out.SSFImpactController
         public SSFImpactController()
         {
             Outputs = new OutputList();
-
-            if (SoundBank.Names.Count == 0)
-            {
-                SoundBank b = new SoundBank(); b.PrepBox();
-            }
-            AddOutputs();
+            
+  
         }
 
 
@@ -108,43 +132,45 @@ namespace DirectOutput.Cab.Out.SSFImpactController
         /// <param name="Output">The output.</param>
         protected override void OnOutputValueChanged(IOutput Output)
         {
-            
-            if (Output.Number <= 1 || Output.Value == 42) 
+
+            if (Output.Number <= 1 || Output.Value == 42)
             {
+                Log.Write(String.Format("BYPASS:: Ouput.Number ->{0} Output.Value ->{1}", Output.Number, Output.Value));
                 return;
             }
 
-            foreach (IOutput outp in Outputs)
-            {
-                if (outp.Value == 255)
+                foreach (IOutput outp in Outputs)
                 {
-
-                    int stream = Bass.CreateStream(ssfStream.ToArray(), 0, ssfStream.Length, BassFlags.Default);
-                    if (stream != 0)
+                    if (outp.Value == 255)
                     {
-                        
-                        if (outp.Number < 5 || outp.Number > 13)
+
+                        int stream = Bass.CreateStream(ssfStream.ToArray(), 0, ssfStream.Length, BassFlags.Default);
+                        if (stream != 0)
                         {
-                            Bass.ChannelSetAttribute(stream, ChannelAttribute.Volume, 1); //Per Rusty, do "front 4" and extras 'harder'
+
+                            if (outp.Number < 5 || outp.Number > 13)
+                            {
+                                Bass.ChannelSetAttribute(stream, ChannelAttribute.Volume, 1); //Per Rusty, do "front 4" and extras 'harder'
+                            }
+                            else
+                            {
+                                Bass.ChannelSetAttribute(stream, ChannelAttribute.Volume, 0.5); //pop bumpers, etc are further away, generally :)
+                            }
+
+                        Log.Write("Playing " + outp.Name);
+                            Bass.ChannelPlay(stream);
+                            Outputs.GetEnumerator().Current.Value = 42;
+
+                            while (Bass.ChannelIsActive(stream) == PlaybackState.Playing)
+                            {
+                                //need to let it play, Kai
+                            }
+                            //done this way as opposed to "one-liner" as I suspect that method has a leak...
+                            Bass.StreamFree(stream);
                         }
-                        else
-                        {
-                            Bass.ChannelSetAttribute(stream, ChannelAttribute.Volume, 0.5); //pop bumpers, etc are further away, generally :)
-                        }
-                        
-                        Bass.ChannelPlay(stream);
-                       
-                        Outputs.GetEnumerator().Current.Value = 42;
-                        while (Bass.ChannelIsActive(stream) == PlaybackState.Playing)
-                        {
-                            //need to let it play, Kai
-                        }
-                        //done this way as opposed to "one-liner" as I suspect that method has a leak...
-                        Bass.StreamFree(stream);
                     }
                 }
-            }
-
+            
             
         }/// <summary>
          /// Adds the outputs from the SoundBank.<br/>
@@ -157,7 +183,7 @@ namespace DirectOutput.Cab.Out.SSFImpactController
             {
                 if (!Outputs.Any(x => x.Number == i))
                 {
-                    Outputs.Add(new Output() { Name = "{0}.{1:00}".Build(SoundBank.Names[i], i), Number = i });
+                    Outputs.Add(new Output() { Name = "{0}.{1:00}".Build(SoundBank.Names[i], i), Number = i, Value = 0 });
 
                     myNames.Add(SoundBank.Names[i]);
                     Log.Write(String.Format("Added: {0} tointernal list...", Outputs.Last().Name));
@@ -180,6 +206,7 @@ namespace DirectOutput.Cab.Out.SSFImpactController
         //
         static SoundBank()
         {
+            
         }
 
         public List<String> BankNames()
@@ -189,6 +216,16 @@ namespace DirectOutput.Cab.Out.SSFImpactController
 
         public void PrepBox()
         {
+            try
+            {
+                Bass.Init();
+            }
+            catch (Exception)
+            {
+                Log.Write("Could Not Initialze Bass. SSFImpactor disabled for events.");
+                return;
+            }
+
             ports = new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8,9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 };
             names = new List<String> { "StartButton", "FlipperLeft", "FlipperRight", "SlingshotLeft", "SlingshotRight",
                 "8-BumperCenter", "8-BumperRight", "8-BumperLeft", "10-BumperBackLeft", "10-BumperBackCenter","10-BumperBackLeft",
@@ -201,7 +238,7 @@ namespace DirectOutput.Cab.Out.SSFImpactController
 
             for (int i = 0; i < max; i++)
             {
-                Log.Write(String.Format("PORT {0}: {1}", i.ToString(),names[1]));
+                Log.Write(String.Format("PORT {0}: {1}", i.ToString(),names[i]));
             }
            
             Log.Write(String.Format("SSFImpactor: {0} ready.", ports.Count.ToString()));
