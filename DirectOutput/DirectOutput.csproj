@@ -107,16 +107,17 @@
     <Reference Include="Ciloci.Flee">
       <HintPath>..\packages\fleesharp.0.9.27-pre\lib\net40\Ciloci.Flee.dll</HintPath>
     </Reference>
+    <Reference Include="ManagedBass, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ManagedBass.2.0.4\lib\net45\ManagedBass.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Q42.HueApi, Version=3.6.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Q42.HueApi.3.6.1\lib\netstandard1.1\Q42.HueApi.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Q42.HueApi.ColorConverters, Version=3.6.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Q42.HueApi.ColorConverters.3.6.0\lib\netstandard1.1\Q42.HueApi.ColorConverters.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -182,6 +183,7 @@
     <Compile Include="Cab\Out\PS\Pinscape.cs" />
     <Compile Include="Cab\Out\PS\PinscapeAutoConfigurator.cs" />
     <Compile Include="Cab\Out\PS\PS.cs" />
+    <Compile Include="Cab\Out\SSF\SSFImpactController.cs" />
     <Compile Include="Cab\Overrides\Overrides.cs" />
     <Compile Include="Cab\Overrides\TableOverrideSettingDevice.cs" />
     <Compile Include="Cab\Overrides\TableOverrideSetting.cs" />
@@ -424,6 +426,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Builds\DirectOutput_rambo3_2017-02-09.zip" />
+    <EmbeddedResource Include="Cab\Out\SSF\SSF" />
+    <EmbeddedResource Include="Cab\Out\SSF\SSFLI" />
     <None Include="ClassDiagram1.cd" />
     <None Include="Config\ledcontrol.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
