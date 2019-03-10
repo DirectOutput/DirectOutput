@@ -23,11 +23,14 @@ namespace DirectOutput.Cab.Out.SSFImpactController
         
         internal SoundBank bank = new SoundBank();
         internal List<String> myNames = new List<String>();
+        internal List<SSFnoid> Contactors = new List<SSFnoid>();
+
         internal Assembly assembly = Assembly.GetExecutingAssembly();
         internal Stream SSF = Assembly.GetExecutingAssembly().GetManifestResourceStream("DirectOutput.Cab.Out.SSF.SSF");
         internal Stream SSFLI = Assembly.GetExecutingAssembly().GetManifestResourceStream("DirectOutput.Cab.Out.SSF.SSFLI"); //low intensity
         internal MemoryStream ssfStream = new MemoryStream();
-        internal bool haveBass = false;
+        internal bool haveBass, useFaker = false;
+        internal Faker fakeShaker;
 
         /// <summary>
         /// Init initializes the ouput controller.<br />
@@ -60,12 +63,17 @@ namespace DirectOutput.Cab.Out.SSFImpactController
                         SSFLI.CopyTo(ssfStream);
                         SSF = null;
                     }
-                    else
+                    else 
                     {
                         SSF.CopyTo(ssfStream);
                         SSFLI = null;
                     }
 
+                    
+                   
+                     useFaker = true;
+                     fakeShaker = new Faker();
+                     Log.Write("SSFShaker activated");
                     Log.Write("SSFImpactor \"Hardware\" Initialized\n");
                     haveBass = true;
                     AddOutputs();
@@ -92,6 +100,7 @@ namespace DirectOutput.Cab.Out.SSFImpactController
                 return;
             }
 
+            Outputs = null;
             try
             {
                 Bass.Free();
@@ -108,9 +117,75 @@ namespace DirectOutput.Cab.Out.SSFImpactController
         /// </summary>
         public override void Update()
         {
-            //Log.Write("Updates");
-            
-     
+
+            try
+            {
+                foreach (IOutput outp in Outputs)
+                {
+                    if (outp.Number == 11 && useFaker)
+                    {
+                        fakeShaker.SetSpeed(outp.Value);
+                        //Contactors[11].Value = outp.Value;
+                       // Contactors[11].fired = true;
+                        Log.Write("Playing " + outp.Name);
+                        return;
+                    }
+
+
+
+                    if (Contactors[outp.Number].fired && (Contactors[outp.Number].Value == outp.Value))
+                    {
+                        Log.Write(String.Format("BYPASS:: Ouput.Number ->{0} Output.Value ->{1}", outp.Number, outp.Value));
+                        return;
+                    }
+
+                    if (outp.Value != 0)
+                    {
+
+                        int stream = Bass.CreateStream(ssfStream.ToArray(), 0, ssfStream.Length, BassFlags.Default);
+                        if (stream != 0)
+                        {
+
+                            if (outp.Number < 4 || outp.Number > 9)
+                            {
+                                Bass.ChannelSetAttribute(stream, ChannelAttribute.Volume, 1); //Per Rusty, do "front 4" and extras 'harder'
+                            }
+                            else
+                            {
+                                Bass.ChannelSetAttribute(stream, ChannelAttribute.Volume, 0.75); //pop bumpers, etc are further away, generally :)
+                            }
+
+                            Log.Write("Playing " + outp.Name);
+                            Bass.ChannelPlay(stream);
+
+
+
+                            //shaker experiement
+                            Contactors[outp.Number].fired = true;
+                            Contactors[outp.Number].Value= outp.Value;
+                            while (Bass.ChannelIsActive(stream) == PlaybackState.Playing)
+                            {
+                                //need to let it play, Kai
+                            }
+                            //done this way as opposed to "one-liner" as I suspect that method has a leak...
+                            Bass.StreamFree(stream);
+                        }
+                    }
+                    else
+                    {
+                        Contactors[outp.Number].fired = false;
+                        Contactors[outp.Number].Value = outp.Value;
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+
+                Log.Write("UPDATE EXCEPTION:: " + e.Message);
+            }
+
         }
 
         /// <summary>
@@ -132,46 +207,20 @@ namespace DirectOutput.Cab.Out.SSFImpactController
         /// <param name="Output">The output.</param>
         protected override void OnOutputValueChanged(IOutput Output)
         {
-
-            if (Output.Number <= 1 || Output.Value == 42)
+            if (Output.Number > Contactors.Count - 1)
             {
-                Log.Write(String.Format("BYPASS:: Ouput.Number ->{0} Output.Value ->{1}", Output.Number, Output.Value));
+                Log.Write(String.Format("BYPASS:: Ouput.Number ->{0} Outputs[{0}].Value ->{1}, current val not changed, non zero", Output.Number, Output.Value));
                 return;
             }
 
-                foreach (IOutput outp in Outputs)
-                {
-                    if (outp.Value == 255)
-                    {
-
-                        int stream = Bass.CreateStream(ssfStream.ToArray(), 0, ssfStream.Length, BassFlags.Default);
-                        if (stream != 0)
-                        {
-
-                            if (outp.Number < 5 || outp.Number > 13)
-                            {
-                                Bass.ChannelSetAttribute(stream, ChannelAttribute.Volume, 1); //Per Rusty, do "front 4" and extras 'harder'
-                            }
-                            else
-                            {
-                                Bass.ChannelSetAttribute(stream, ChannelAttribute.Volume, 0.5); //pop bumpers, etc are further away, generally :)
-                            }
-
-                        Log.Write("Playing " + outp.Name);
-                            Bass.ChannelPlay(stream);
-                            Outputs.GetEnumerator().Current.Value = 42;
-
-                            while (Bass.ChannelIsActive(stream) == PlaybackState.Playing)
-                            {
-                                //need to let it play, Kai
-                            }
-                            //done this way as opposed to "one-liner" as I suspect that method has a leak...
-                            Bass.StreamFree(stream);
-                        }
-                    }
-                }
             
+                Outputs[Output.Number].Value = Output.Value;
+               // Contactors[Output.Number].Value = Output.Value;
             
+
+            
+
+
         }/// <summary>
          /// Adds the outputs from the SoundBank.<br/>
          /// This method adds OutputNumbered objects for all outputs to the list of outputs.
@@ -184,12 +233,127 @@ namespace DirectOutput.Cab.Out.SSFImpactController
                 if (!Outputs.Any(x => x.Number == i))
                 {
                     Outputs.Add(new Output() { Name = "{0}.{1:00}".Build(SoundBank.Names[i], i), Number = i, Value = 0 });
-
+                    Contactors.Add(new SSFnoid() { Number = i, Value = 0 });
                     myNames.Add(SoundBank.Names[i]);
-                    Log.Write(String.Format("Added: {0} tointernal list...", Outputs.Last().Name));
+                    Log.Write($"Added: {Outputs.Last().Name} to internal list...");
 
                 }
             }
+        }
+
+    }
+
+    class SSFnoid
+    {
+        internal bool fired = false;
+        public byte Value = 0;
+        public int Number;
+
+        static SSFnoid()
+        {
+
+        }
+           
+        public void Activate()
+        {
+
+        }
+    }
+
+
+    class Faker
+    {
+        internal bool isShaking = false;
+        public byte currentValue = 0;
+        internal int startup, running, shutdown;
+        internal Stream S1W = Assembly.GetExecutingAssembly().GetManifestResourceStream("DirectOutput.Cab.Out.SSF.S1W");
+        internal Stream PE = Assembly.GetExecutingAssembly().GetManifestResourceStream("DirectOutput.Cab.Out.SSF.PE");
+        internal MemoryStream startstream,runstream = new MemoryStream();
+
+        static Faker()
+        {
+            Log.Write("Using SSFImpactor Shaking");
+            
+
+        }
+
+        public void TurnOn()
+        {
+            if(isShaking)
+            {
+                return;
+            }
+
+            S1W.CopyTo(startstream);
+            PE.CopyTo(runstream);
+           
+            startup = Bass.CreateStream(startstream.ToArray(), 0, startstream.Length, BassFlags.Default); //wobly ramp up
+            Bass.ChannelSetAttribute(startup, ChannelAttribute.Volume, 1);
+            Bass.ChannelPlay(startup);
+            Log.Write("ShakerON");
+            isShaking = true;
+            while (Bass.ChannelIsActive(startup) == PlaybackState.Playing)
+            {
+                //need to let it play, Kai
+            }
+            //done this way as opposed to "one-liner" as I suspect that method has a leak...
+            Bass.StreamFree(startup);
+        }
+
+        public void TurnOff()
+        {
+            //for now:
+            if(isShaking && currentValue == 0)
+            {
+                Bass.ChannelPause(running);
+                isShaking = false;
+                Log.Write("ShakerOFF");
+
+            }
+        }
+
+
+        public void SetSpeed(byte speed)
+        {
+            if (speed == 0)
+            {
+                TurnOff();
+                currentValue = 0;
+                
+                return;
+            }
+
+            if (speed == currentValue) // reality: speed == currentValue
+            {
+                return;
+            }
+            Log.Write("ShakerSpped => " + speed.ToString());
+
+
+            if(!isShaking)
+            {
+                TurnOn();
+                currentValue = speed;
+            }
+
+            if(running == 0)
+            {
+                running = Bass.CreateStream(runstream.ToArray(), 0, runstream.Length, BassFlags.Default); //perfect loop sample
+            }
+            else
+            {
+                //already on, speed not implemented
+                //"speed" to pitch or modifier here
+                return;
+            }
+            
+            Bass.ChannelSetAttribute(startup, ChannelAttribute.Volume, 1);
+            Bass.ChannelAddFlag(running, BassFlags.Loop);
+            Bass.ChannelPlay(running);
+
+          
+
+
         }
 
     }
@@ -226,11 +390,11 @@ namespace DirectOutput.Cab.Out.SSFImpactController
                 return;
             }
 
-            ports = new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8,9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 };
-            names = new List<String> { "StartButton", "FlipperLeft", "FlipperRight", "SlingshotLeft", "SlingshotRight",
-                "8-BumperCenter", "8-BumperRight", "8-BumperLeft", "10-BumperBackLeft", "10-BumperBackCenter","10-BumperBackLeft",
-                "10-BumperMiddleLeft", "10-BumperMiddleCenter", "10-BumperMiddleRight", "Knocker","Shaker","Gear","LaunchButton",
-                "AuthLaunchBall","FireButton","ExtraBall","Bell","HellBallMotor" }; ;
+            ports = new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8,9, 10, 11, 12, 13, 14 };
+            names = new List<String> {  "FlipperLeft", "FlipperRight", "SlingshotLeft", "SlingshotRight",
+                "10-BumperBackLeft", "10-BumperBackCenter","10-BumperBackRight",
+                "10-BumperMiddleLeft", "10-BumperMiddleCenter", "10-BumperMiddleRight", "Knocker","Shaker","Gear",
+                "HellBallMotor","Bell" }; ;
 
             int max = ports.Count - 1;
 
