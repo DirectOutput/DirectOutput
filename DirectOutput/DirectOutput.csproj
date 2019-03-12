@@ -428,6 +428,8 @@
     <None Include="Builds\DirectOutput_rambo3_2017-02-09.zip" />
     <EmbeddedResource Include="Cab\Out\SSF\SSF" />
     <EmbeddedResource Include="Cab\Out\SSF\SSFLI" />
+    <EmbeddedResource Include="Cab\Out\SSF\PE" />
+    <EmbeddedResource Include="Cab\Out\SSF\S1W" />
     <None Include="ClassDiagram1.cd" />
     <None Include="Config\ledcontrol.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
