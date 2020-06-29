@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -83,7 +83,6 @@ namespace DirectOutput.LedControl.Loader
                         if (!this[TableName].ContainsKey(VarName))
                         {
                             this[TableName].Add(VarName, Value);
-
                         }
                         else
                         {
