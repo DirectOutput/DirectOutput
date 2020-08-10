@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -263,17 +263,17 @@ namespace DirectOutput.LedControl.Loader
                 return;
             }
 
-            if (VariableData != null)
-            {
-                ResolveVariables(OutData, VariableData);
-            }
-
-            if (TableVariableData != null)
-            {
+            //Resolve tables variables first in case they override global variables (like custom flasher mx shapes)
+            if (TableVariableData != null) {
+                Log.Write("Resolving Tables Variables");
                 ResolveTableVariables(OutData, TableVariableData);
             }
 
-
+            if (VariableData != null)
+            {
+                Log.Write("Resolving Global Variables");
+                ResolveVariables(OutData, VariableData);
+            }
 
             ColorConfigurations.ParseLedControlData(ColorData, ThrowExceptions);
 
@@ -327,12 +327,11 @@ namespace DirectOutput.LedControl.Loader
                             }
                         }
                     }
-
                 }
                 if (Updated)
                 {
                     DataToResolve[i] = D;
-                   
+                  
                 }
             }
 

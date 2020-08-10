@@ -113,7 +113,7 @@ namespace DirectOutput.LedControl.Setup
                                                 }
                                             }
 
-                                            Log.Debug("Setting up shape effect for area. L: {0}, T: {1}, W: {2}, H: {3}".Build(new object[] { TCS.AreaLeft, TCS.AreaTop, TCS.AreaWidth, TCS.AreaHeight }));
+                                            Log.Debug("Setting up shape effect for area. L: {0}, T: {1}, W: {2}, H: {3}, Name: {4}".Build(new object[] { TCS.AreaLeft, TCS.AreaTop, TCS.AreaWidth, TCS.AreaHeight, TCS.ShapeName }));
                                             if (ActiveColor != null)
                                             {
                                                 RGBAColor InactiveColor = ActiveColor.Clone();
