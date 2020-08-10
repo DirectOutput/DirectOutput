@@ -56,7 +56,7 @@
         the registration entries to the MSI script.  The tool also includes the
         DLL file itself in the build, so we don't have to include it manually.
         
-        We use the <HeatFile> approach because it's the"right" way of handling 
+        We use the <HeatFile> approach because it's the "right" way of handling 
         COM object registration in WiX.  I don't like the way the target is
         hidden from the IDE view, but this is by far the most automatic way to
         do this and ensures that everything stays up to dates, so it seems like
