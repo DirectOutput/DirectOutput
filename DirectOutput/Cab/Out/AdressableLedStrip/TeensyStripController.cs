@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -184,6 +184,61 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             set { _ComPortName = value; }
         }
 
+        private int _ComPortBaudRate = 9600;
+
+        /// <summary>
+        /// Gets or sets the COM port baud rate.
+        /// </summary>
+        /// <value>
+        /// The baud rate of the Com port (by default 9600) the Teensy board is using.
+        /// </value>
+        public int ComPortBaudRate
+        {
+            get { return _ComPortBaudRate; }
+            set { _ComPortBaudRate = value; }
+        }
+
+        private Parity _ComPortParity = Parity.None;
+
+        /// <summary>
+        /// Gets or sets the COM port Parity.
+        /// </summary>
+        /// <value>
+        /// The Parity of the Com port (by default Parity.None) the Teensy board is using.
+        /// </value>
+        public Parity ComPortParity
+        {
+            get { return _ComPortParity; }
+            set { _ComPortParity = value; }
+        }
+
+        private int _ComPortDataBits = 8;
+
+        /// <summary>
+        /// Gets or sets the COM port DataBits.
+        /// </summary>
+        /// <value>
+        /// The DataBits of the Com port (by default 8) the Teensy board is using.
+        /// </value>
+        public int ComPortDataBits
+        {
+            get { return _ComPortDataBits; }
+            set { _ComPortDataBits = value; }
+        }
+
+        private StopBits _ComPortStopBits = StopBits.One;
+
+        /// <summary>
+        /// Gets or sets the COM port StopBits.
+        /// </summary>
+        /// <value>
+        /// The StopBits of the Com port (by default StopBits.One) the Teensy board is using.
+        /// </value>
+        public StopBits ComPortStopBits
+        {
+            get { return _ComPortStopBits; }
+            set { _ComPortStopBits = value; }
+        }
 
         private int _ComPortTimeOutMs = 200;
 
@@ -211,7 +266,71 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             }
         }
 
+        private int _ComPortOpenWaitMs = 50;
 
+        /// <summary>
+        /// Gets or sets the COM port wait in milliseconds when opening the port.
+        /// This properties accepts values between 50 and 5000 milliseconds (default 50ms). If a value outside this range is specified, the properties value reverts to the default value of 50ms.
+        /// </summary>
+        /// <value>
+        /// The COM port wait on opening in milliseconds (Valid range 50-5000ms, default: 50ms).
+        /// </value>
+        public int ComPortOpenWaitMs
+        {
+            get { return _ComPortOpenWaitMs; }
+            set {
+                if (value.IsBetween(50, 5000)) {
+                    _ComPortOpenWaitMs = value;
+                } else {
+                    _ComPortOpenWaitMs = 50;
+                    Log.Warning("The specified value {0} for the ComPortOpenWaitMs is outside the valid range of 50 to 5000. Will use the default value of 50ms.".Build(value));
+                }
+            }
+        }
+
+        private int _ComPortHandshakeStartWaitMs = 20;
+
+        /// <summary>
+        /// Gets or sets the COM port wait in milliseconds at the start of the handshake phase.
+        /// This properties accepts values between 20 and 500 milliseconds (default 20ms). If a value outside this range is specified, the properties value reverts to the default value of 20ms.
+        /// </summary>
+        /// <value>
+        /// The COM port wait before read in milliseconds (Valid range 20-500ms, default: 20ms).
+        /// </value>
+        public int ComPortHandshakeStartWaitMs
+        {
+            get { return _ComPortHandshakeStartWaitMs; }
+            set {
+                if (value.IsBetween(20, 500)) {
+                    _ComPortHandshakeStartWaitMs = value;
+                } else {
+                    _ComPortHandshakeStartWaitMs = 20;
+                    Log.Warning("The specified value {0} for the ComPortHandshakeStartWaitMs is outside the valid range of 20 to 500. Will use the default value of 20ms.".Build(value));
+                }
+            }
+        }
+
+        private int _ComPortHandshakeEndWaitMs = 50;
+
+        /// <summary>
+        /// Gets or sets the COM port timeout in milliseconds at the end of the handshake phase.
+        /// This properties accepts values between 50 and 500 milliseconds (default 50ms). If a value outside this range is specified, the properties value reverts to the default value of 50ms.
+        /// </summary>
+        /// <value>
+        /// The COM port wait after write in milliseconds (Valid range 50-500ms, default: 50ms).
+        /// </value>
+        public int ComPortHandshakeEndWaitMs
+        {
+            get { return _ComPortHandshakeEndWaitMs; }
+            set {
+                if (value.IsBetween(50, 500)) {
+                    _ComPortHandshakeEndWaitMs = value;
+                } else {
+                    _ComPortHandshakeEndWaitMs = 50;
+                    Log.Warning("The specified value {0} for the ComPortHandshakeEndWaitMs is outside the valid range of 50 to 500. Will use the default value of 50ms.".Build(value));
+                }
+            }
+        }
 
         /// <summary>
         /// This method returns the sum of the number of leds configured for the 8 output channels of the Teensy board.
@@ -369,7 +488,12 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                 throw new Exception("The specified Com-Port '{0}' does not exist. Found the following Com-Ports: {1}. Will not send data to the controller.".Build(ComPortName, string.Join(", ", PortNames)));
             }
 
+            Log.Write($"Initializing ComPort {ComPortName} with these settings :\n\tBaudRate {ComPortBaudRate}, Parity {ComPortParity}, DataBits {ComPortDataBits}, StopBits {ComPortStopBits}, R/W Timeouts {ComPortTimeOutMs}ms\n\tHandshake Timings : Open {ComPortOpenWaitMs}ms, Loop Start/End {ComPortHandshakeStartWaitMs}/{ComPortHandshakeEndWaitMs}ms");
             ComPort = new SerialPort();
+            ComPort.BaudRate = ComPortBaudRate;
+            ComPort.Parity = ComPortParity;
+            ComPort.DataBits = ComPortDataBits;
+            ComPort.StopBits = ComPortStopBits;
             ComPort.ReadTimeout = ComPortTimeOutMs;
             ComPort.WriteTimeout = ComPortTimeOutMs;
 
@@ -391,10 +515,8 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                 throw new Exception("A exception occured while trying to open the Com-port '{0}'. Found the following Com-Ports: {1}.  Will not send data to the controller.".Build(ComPortName, string.Join(", ", PortNames)), E);
             }
 
-
-
             //Make sure, the controller is in the expected state (ready to receive commands)
-            Thread.Sleep(50);
+            Thread.Sleep(ComPortOpenWaitMs);
             ComPort.ReadExisting();
 
             bool CommandModeOK = false;
@@ -402,7 +524,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             {
 
                 ComPort.Write(new byte[] { 0 }, 0, 1);
-                Thread.Sleep(20);
+                Thread.Sleep(ComPortHandshakeStartWaitMs);  
                 if (ComPort.BytesToRead > 0)
                 {
                     int Ret = ComPort.ReadByte();
@@ -426,7 +548,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                     //Got no anwser from com port. Mostly likely we are still inside a command which is expecting more data. Send a lot of 0 bytes to get out of this situation.
                     ComPort.Write(new byte[3 * 1000], 0, 3 * 1000);
 
-                    Thread.Sleep(50);
+                    Thread.Sleep(ComPortHandshakeEndWaitMs);
                     //Get rid of all returned data and try again
                     ComPort.ReadExisting();
                 }
