@@ -268,14 +268,14 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
 
         private int _ComPortOpenWaitMs = 50;
 
-        /// <summary>
-        /// Gets or sets the COM port wait in milliseconds when opening the port.
-        /// This properties accepts values between 50 and 5000 milliseconds (default 50ms). If a value outside this range is specified, the properties value reverts to the default value of 50ms.
-        /// </summary>
-        /// <value>
-        /// The COM port wait on opening in milliseconds (Valid range 50-5000ms, default: 50ms).
-        /// </value>
-        public int ComPortOpenWaitMs
+		/// <summary>
+		/// Gets or sets the COM port wait in milliseconds when opening the port.
+		/// This properties accepts values between 50 and 5000 milliseconds (default 50ms). If a value outside this range is specified, the properties value reverts to the default value of 50ms.
+		/// </summary>
+		/// <value>
+		/// The COM port wait on opening in milliseconds (Valid range 50-5000ms, default: 50ms).
+		/// </value>
+		public int ComPortOpenWaitMs
         {
             get { return _ComPortOpenWaitMs; }
             set {
@@ -332,13 +332,23 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             }
         }
 
-        /// <summary>
-        /// This method returns the sum of the number of leds configured for the 8 output channels of the Teensy board.
-        /// </summary>
-        /// <returns>
-        /// The sum of the number of leds configured for the 8 output channels of the Teensy board.
-        /// </returns>
-        protected override int GetNumberOfConfiguredOutputs()
+		private bool _ComPortDtrEnable = false;
+
+		/// <summary></summary>
+		/// Gets or sets the COM port DTR (Data Terminal Ready) enable state.
+		public bool ComPortDtrEnable
+		{
+			get { return _ComPortDtrEnable; }
+			set { _ComPortDtrEnable = value; }
+		}
+
+		/// <summary>
+		/// This method returns the sum of the number of leds configured for the 8 output channels of the Teensy board.
+		/// </summary>
+		/// <returns>
+		/// The sum of the number of leds configured for the 8 output channels of the Teensy board.
+		/// </returns>
+		protected override int GetNumberOfConfiguredOutputs()
         {
             return NumberOfLedsPerStrip.Sum() * 3;
         }
@@ -541,7 +551,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                 throw new Exception($"The specified Com-Port '{ComPortName}' does not exist. Found the following Com-Ports: {string.Join(", ", PortNames)}. Will not send data to the controller.");
             }
 
-            Log.Write($"Initializing ComPort {ComPortName} with these settings :\n\tBaudRate {ComPortBaudRate}, Parity {ComPortParity}, DataBits {ComPortDataBits}, StopBits {ComPortStopBits}, R/W Timeouts {ComPortTimeOutMs}ms\n\tHandshake Timings : Open {ComPortOpenWaitMs}ms, Loop Start/End {ComPortHandshakeStartWaitMs}/{ComPortHandshakeEndWaitMs}ms");
+            Log.Write($"Initializing ComPort {ComPortName} with these settings :\n\tBaudRate {ComPortBaudRate}, Parity {ComPortParity}, DataBits {ComPortDataBits}, StopBits {ComPortStopBits}, R/W Timeouts {ComPortTimeOutMs}ms\n\tHandshake Timings : Open {ComPortOpenWaitMs}ms, Loop Start/End {ComPortHandshakeStartWaitMs}/{ComPortHandshakeEndWaitMs}ms, DTR enable {ComPortDtrEnable}");
             ComPort = new SerialPort();
             ComPort.BaudRate = ComPortBaudRate;
             ComPort.Parity = ComPortParity;
@@ -549,6 +559,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             ComPort.StopBits = ComPortStopBits;
             ComPort.ReadTimeout = ComPortTimeOutMs;
             ComPort.WriteTimeout = ComPortTimeOutMs;
+			ComPort.DtrEnable = ComPortDtrEnable;
 
             try
             {

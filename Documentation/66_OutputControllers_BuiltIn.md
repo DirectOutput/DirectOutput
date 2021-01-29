@@ -447,6 +447,7 @@ A configuration section for TeensyStripController might resemble the following s
   <NumberOfLedsStrip8>0</NumberOfLedsStrip8>
   <ComPortName>Name of ComPort</ComPortName>
   <ComPortTimeOutMs>200</ComPortTimeOutMs>
+  <ComPortDtrEnable>true</ComPortDtrEnable>
 </TeensyStripController>
 ~~~~~~~~~~~~~
 \subsection use_DirectOutput_Cab_Out_AdressableLedStrip_TeensyStripController_properties Properties
