@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 namespace DirectOutput.Cab.Out.AdressableLedStrip
 {
     /// <summary>
-    /// The WemosD1MPStripController is a Teensy equivalent board called Wemos D1 Mini Pro (also known as ESP8266), it's cheaper than the Teensy and can support the same amount of Ledstrip & leds per strip.
+    /// The WemosD1MPStripController is a Teensy equivalent board called Wemos D1 Mini Pro (also known as ESP8266), it's cheaper than the Teensy and can support the same amount of Ledstrip and leds per strip.
     /// 
     /// \image html wemos-d1-mini-pro.jpg
     /// 
-    /// The Wemos D1 Mini Pro firmware made by aetios50, peskopat & yoyofr can be found there <a target="_blank" href="https://github.com/aetios50/PincabLedStrip">aetios50 Github page</a>
+    /// The Wemos D1 Mini Pro firmware made by aetios50, peskopat and yoyofr can be found there <a target="_blank" href="https://github.com/aetios50/PincabLedStrip">aetios50 Github page</a>
     /// 
     /// You can also find a tutorial (in french for now) explaining the flashing process for the Wemos D1 Mini Pro using these firmware <a target="_blank" href="https://shop.arnoz.com/laboratoire/2019/10/29/flasher-unewemos-d1-mini-pro-pour-lutiliser-dans-son-pincab/">Arnoz' lab Wemos D1 flashing tutorial</a>
     /// 
-    /// There is a great online tool to setup easily both Teensy & Wemos D1 based ledstrips (an english version is also available) <a target="_blank" href="https://shop.arnoz.com/laboratoire/2020/09/17/cacabinet-generator/">Arnoz' cacabinet generator</a>
+    /// There is a great online tool to setup easily both Teensy and Wemos D1 based ledstrips (an english version is also available) <a target="_blank" href="https://shop.arnoz.com/laboratoire/2020/09/17/cacabinet-generator/">Arnoz' cacabinet generator</a>
     /// 
     /// </summary>
     public class WemosD1MPStripController : TeensyStripController
