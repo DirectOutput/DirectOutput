@@ -57,7 +57,13 @@ namespace DirectOutput.Cab.Out
                     if (T != null)
                     {
                         XmlSerializer serializer = new XmlSerializer(T);
-                        IOutputController O = (IOutputController)serializer.Deserialize(reader);
+                        IOutputController O = null;
+                        try {
+                            O = (IOutputController)serializer.Deserialize(reader);
+                        } catch (Exception E) {
+                            Log.Exception("DirectOutput framework has encountered a exception during initialization.", E);
+                            throw new Exception("DirectOutput framework has encountered a exception during initialization.\n Inner exception: {0}".Build(E.Message), E);
+                        }
                         if (!Contains(O.Name))
                         {
                             //Log.Write("OutputControlleRList.ReadXml...adding: " + O.Name);

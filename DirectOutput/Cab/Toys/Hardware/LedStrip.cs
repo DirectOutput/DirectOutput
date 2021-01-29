@@ -165,6 +165,23 @@ namespace DirectOutput.Cab.Toys.Hardware
 
         }
 
+        /// <summary>
+        /// The brightness ratio in percent of the Ledstrip, will be applied at the end of the Values calculation.
+        /// Value range from 0 (nothing displayed) to 100 (output untouched)
+        /// </summary>
+        /// <remarks>
+        /// Will allow users to adjust their led brightness regarding their cabinet setup without reflashing any controller firmware.
+        /// </remarks>
+        private float _Brightness = 1.0f;
+        public int Brightness
+        {
+            get {
+                return (int)((_Brightness * 100.0f) + 0.5f);
+            }
+            set {
+                _Brightness = (value * 0.01f).Limit(0.0f, 1.0f);
+            }
+        }
 
         /// <summary>
         /// Gets or sets the name of the output controller to be used.
@@ -381,6 +398,12 @@ namespace DirectOutput.Cab.Toys.Hardware
         {
             if (Layers.Count > 0)
             {
+                //Ledstrip brightness is zero, won't output anything
+                if (_Brightness == 0.0f) {
+                    OutputData.Fill<byte>(0);
+                    return;
+                }
+
                 //Blend layers
                 float[, ,] Value = new float[Width, Height, 3];
 
@@ -507,6 +530,13 @@ namespace DirectOutput.Cab.Toys.Hardware
                             }
                         }
                         break;
+                }
+
+                //Apply ledstrip brightness if needed
+                if (_Brightness < 1.0f) {
+                    for (var num = 0; num < OutputData.Length; ++num) {
+                        OutputData[num] = (byte)(OutputData[num] * _Brightness);
+                    }
                 }
             }
 
