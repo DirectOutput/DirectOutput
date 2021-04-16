@@ -78,8 +78,8 @@ namespace DirectOutput.Cab.Out
 		public struct HIDD_ATTRIBUTES
 		{
 			public int Size;
-			public short VendorID;
-			public short ProductID;
+			public ushort VendorID;
+			public ushort ProductID;
 			public short VersionNumber;
 		}
 

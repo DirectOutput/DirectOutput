@@ -260,7 +260,7 @@ namespace DirectOutput.Cab.Out.PS
                 return numOutputs;
             }
 
-            public Device(IntPtr fp, string path, string name, short vendorID, short productID, short version)
+            public Device(IntPtr fp, string path, string name, ushort vendorID, ushort productID, short version)
             {
                 // remember the settings
                 this.fp = fp;
@@ -278,7 +278,7 @@ namespace DirectOutput.Cab.Out.PS
                 // ID (it's the bottom 4 bits of the ID value - this is zero-based, so add one to get our
                 // 1-based value for UI reporting).  If we're using our private vendor/product ID, the unit
                 // number must be obtained from the configuration report below.
-                if ((ushort)vendorID == 0xFAFA && (productID & 0xFFF0) == 0x00F0)
+                if (vendorID == 0xFAFA && (productID & 0xFFF0) == 0x00F0)
                     this.unitNo = (short)((productID & 0x000f) + 1);
                 else
                     this.unitNo = 1;
@@ -318,6 +318,14 @@ namespace DirectOutput.Cab.Out.PS
 					fp = IntPtr.Zero;
 				}
             }
+
+			// Does this device emulate a given LedWiz unit?  The unit is identified by
+			// the nominal user-visible numbering scheme where the first unit at VID/PID
+			// FAFA/00F0 is LedWiz #1.
+			public bool IsLedWizEmulator(int unitNum)
+			{
+				return (ushort)vendorID == 0xFAFA && productID == 0x00F1 + unitNum;
+			}
 
 			private System.Threading.NativeOverlapped ov;
 			public byte[] ReadUSB()
@@ -435,8 +443,8 @@ namespace DirectOutput.Cab.Out.PS
 			public IntPtr fp;
 			public string path;
 			public string name;
-			public short vendorID;
-			public short productID;
+			public ushort vendorID;
+			public ushort productID;
 			public short version;
 			public short unitNo;
 			public bool plungerEnabled;

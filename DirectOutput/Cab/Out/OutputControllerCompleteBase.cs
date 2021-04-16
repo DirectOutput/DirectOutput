@@ -28,6 +28,30 @@ namespace DirectOutput.Cab.Out
 		/// updater thread should send any necessary initialization commands to the device and change
 		/// the state to Running.  When the state is Running, the thread can simply send value updates
 		/// as normal.
+		/// 
+		/// The point of this state tracking is to avoid sending initialization commands to interfaces
+		/// that aren't in use.  It's possible for a single physical device to appear to DOF as multiple
+		/// software devices, because a single physical device can expose multiple USB interfaces or
+		/// might be accessible via multiple protocols.  The main practical case right now where this
+		/// can occur is the Pinscape controller, which has both an LedWiz emulation mode and its own
+		/// native mode, but the same principle could easily apply to other devices in the future, so 
+		/// it's good to deal with it as a general problem rather than hard-coding something special
+		/// into the LedWiz and/or Pinscape drivers.  At any rate, the problem that can occur when DOF
+		/// sees multiple interfaces for one physical device is that DOF will (without this state
+		/// management) want to send initialization commands to all of the different interfaces it
+		/// sees for that single device, to set all of its ports to a known initial state (usually
+		/// this means just turning off all of the ports).  DOF handles each device interface on a
+		/// separate thread, so the sequencing of those initialization commands across the multiple
+		/// spoofed interfaces to the one device is unpredicatble.  So the result can be that thread 
+		/// T1 for interface I1 sends its initialization commands, and then gets some value updates
+		/// from the host to turn on some outputs - turn on the START button light, say - and *then*
+		/// thread T2 for interface I2 sends *its* initialization commands, turning the outputs back
+		/// to their initial OFF state.  So the START button light flashes on for an instant and
+		/// goes right back off.  But if I2 isn't actually used in the configuration, there really
+		/// was never a need for T2 to send the initialization commands.  So we can easily clear up
+		/// this kind of one-device/multiple-interfaces conflict by just waiting to send initialization
+		/// commands until we know that the interface is actually in use in the configuration, by
+		/// waiting until the configuration has sent us at least one explicit value change.
 		/// </summary>
 		protected enum InUseStates { Startup, ValueChanged, Running };
 

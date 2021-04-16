@@ -398,11 +398,11 @@ namespace DirectOutput.Cab.Out.LW
 											+ ", manufacturer string=" + manuf);
 
 										// Check for the vendor code
-										if ((ushort)attrs.VendorID == 0xFAFA)
+										if (attrs.VendorID == 0xFAFA)
 										{
 											// original LedWiz vendor ID
 										}
-										else if ((ushort)attrs.VendorID == 0x20A0
+										else if (attrs.VendorID == 0x20A0
 											&& Regex.IsMatch(manuf, @"(?i)zebsboards"))
 										{
 											// Zeb's plunger device VID, and the product string matches
@@ -934,10 +934,31 @@ namespace DirectOutput.Cab.Out.LW
                     {
                         if (IsPresent)
                         {
-							// If in ValueChanged state, initialize the LedWiz unit to the
-							// base state, with all switches (SBA) OFF and all profile levels
-							// (PBA) set to 100% (brightness level 49).
-							if (InUseState == InUseStates.Startup)
+							// Check our state:
+							//
+							// Startup means that we've detected the device in the system, but we
+							// haven't received any value changes for the device yet.  DO NOT send
+							// any commands at all to the device in this state, because we have no
+							// reason to think that the configuration uses this device at all.  It's
+							// particularly important NOT to send any commands to the device when we
+							// don't have explicit value changes to send, because the LedWiz interface
+							// that we're addressing might be an EMULATED interface from another type
+							// of physical device that also exposes its own NATIVE interface under a
+							// different DOF LedWiz-Equivalent ID.  Pinscape Controllers do this, for
+							// example.  If we were to send initialization commands without knowing
+							// that the LedWiz interface is actually in use, we could cause a conflict
+							// by turning off ports that the other interface actually wanted to be on.
+							//
+							// ValueChanged means that we've received at least one explicit value
+							// update from the host program while we were in the Startup state.  This
+							// means that we haven't yet sent any commands to the physical LedWiz yet.
+							// Thus we have to intialize the LedWiz and send the value updates.  We
+							// transition into Running state at this point to indicate that we're
+							// actively talking to the LedWiz.
+							//
+							// Running means that we've already started talking to the LedWiz, so we
+							// should just send any further value updates since the last update.
+							if (InUseState == InUseStates.ValueChanged)
 							{
 								// send the initialization commands
 								SBA(new byte[] { 0, 0, 0, 0 });
