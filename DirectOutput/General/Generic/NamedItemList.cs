@@ -45,13 +45,16 @@ namespace DirectOutput.General.Generic
 
         void NamedItemList_BeforeClear(object sender, EventArgs e)
         {
-            foreach (T Item in this)
-            {
+            foreach (T Item in this) {
                 Item.BeforeNameChanged -= new EventHandler<NameChangeEventArgs>(Item_BeforeNameChange);
                 Item.AfterNameChanged -= new EventHandler<NameChangeEventArgs>(Item_AfterNameChanged);
             }
         }
 
+        void NamedItemList_AfterClear(object sender, EventArgs e)
+        {
+            _NameDict.Clear();
+        }
 
         void Item_AfterNameChanged(object sender, NameChangeEventArgs e)
         {
@@ -158,6 +161,7 @@ namespace DirectOutput.General.Generic
             this.AfterSet += new EventHandler<SetEventArgs<T>>(NamedItemList_AfterSet);
             this.AfterRemove += new EventHandler<RemoveEventArgs<T>>(NamedItemList_AfterRemove);
             this.BeforeClear += new EventHandler<EventArgs>(NamedItemList_BeforeClear);
+            this.AfterClear += new EventHandler<EventArgs>(NamedItemList_AfterClear);
         }
 
 

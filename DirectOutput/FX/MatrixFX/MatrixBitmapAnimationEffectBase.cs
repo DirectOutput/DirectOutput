@@ -193,30 +193,25 @@ namespace DirectOutput.FX.MatrixFX
         private int AnimationFadeValue = 0;
         private void Animate()
         {
-            
 
-            for (int y = 0; y < AreaHeight; y++)
-            {
-                int yd = y + AreaTop;
-                for (int x = 0; x < AreaWidth; x++)
-                {
-                    int xd = x + AreaLeft;
-                    MatrixLayer[xd, yd] = GetEffectValue(AnimationFadeValue, Pixels[AnimationStep][x, y]);
+            if (AnimationStep <= Pixels.GetUpperBound(0)) {
+                for (int y = 0; y < AreaHeight; y++) {
+                    int yd = y + AreaTop;
+                    for (int x = 0; x < AreaWidth; x++) {
+                        int xd = x + AreaLeft;
+                        MatrixLayer[xd, yd] = GetEffectValue(AnimationFadeValue, Pixels[AnimationStep][x, y]);
+                    }
                 }
-            }
-
-          
-
-            AnimationStep++;
-            if (AnimationStep >= Pixels.GetUpperBound(0))
-            {
+                AnimationStep++;
+                if (AnimationBehaviour != AnimationBehaviourEnum.Once) {
+                    AnimationStep = AnimationStep % (Pixels.GetUpperBound(0) + 1);
+                }
+            } else {
                 AnimationStep = 0;
-                if (AnimationBehaviour == AnimationBehaviourEnum.Once)
-                {
+                if (AnimationBehaviour == AnimationBehaviourEnum.Once) {
                     StopAnimation();
                 }
             }
-
         }
 
         private void Clear()
@@ -329,7 +324,7 @@ namespace DirectOutput.FX.MatrixFX
             if (BitmapFilePattern.IsValid)
             {
 
-                string Filename = BitmapFilePattern.GetFirstMatchingFile(Table.Pinball.GlobalConfig.GetReplaceValuesDictionary()).FullName;
+                string Filename = BitmapFilePattern.GetFirstMatchingFile(Table.Pinball.GlobalConfig.GetReplaceValuesDictionary())?.FullName ?? string.Empty;
                 if (!Filename.IsNullOrWhiteSpace())
                 {
                     FastImage BM;

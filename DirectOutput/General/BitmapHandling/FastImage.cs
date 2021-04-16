@@ -43,6 +43,7 @@ namespace DirectOutput.General.BitmapHandling
                 Frames.Add(FrameNumber, F);
             }
 
+            Img.Dispose();
         }
 
 
