@@ -114,6 +114,7 @@ namespace DirectOutput.FX.TimmedFX
             }
             else
             {
+                Table.Pinball.Alarms.UnregisterIntervalAlarm(FadingStep);
                 CurrentValue = TargetValue;
             }
 
