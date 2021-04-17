@@ -395,7 +395,7 @@
             // OpenTableFileDialog
             // 
             this.OpenTableFileDialog.DefaultExt = "vpt";
-            this.OpenTableFileDialog.Filter = "VP Table file (*.vpt)|*.vpt|All files|*.*";
+            this.OpenTableFileDialog.Filter = "VP Table file (*.vpt;*.vpx)|*.vpt;*.vpx|All files|*.*";
             this.OpenTableFileDialog.Title = "Select a pinball table file";
             // 
             // TableFileClearButton

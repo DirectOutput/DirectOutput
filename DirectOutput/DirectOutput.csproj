@@ -110,6 +110,12 @@
     <Reference Include="ManagedBass, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ManagedBass.2.0.4\lib\net45\ManagedBass.dll</HintPath>
     </Reference>
+    <Reference Include="ManagedBass.Fx, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ManagedBass.Fx.1.0.2\lib\portable-net45+MonoAndroid+uap\ManagedBass.Fx.dll</HintPath>
+    </Reference>
+    <Reference Include="ManagedBass.Mix, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ManagedBass.Mix.1.0.1\lib\portable-net45+MonoAndroid+uap\ManagedBass.Mix.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -406,6 +412,9 @@
     <Compile Include="Table\TableElementValueChangedEventArgs.cs" />
     <Compile Include="Cab\Toys\ToyBase.cs" />
     <Compile Include="Cab\Toys\ToyList.cs" />
+    <EmbeddedResource Include="Costura32\bassmix.dll" />
+    <EmbeddedResource Include="Costura32\bass_fx.dll" />
+    <EmbeddedResource Include="Costura32\bass.dll" />
     <Content Include="DirectOutputShapes.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -427,10 +436,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Builds\DirectOutput_rambo3_2017-02-09.zip" />
-    <EmbeddedResource Include="Cab\Out\SSF\SSF" />
     <EmbeddedResource Include="Cab\Out\SSF\SSFLI" />
     <EmbeddedResource Include="Cab\Out\SSF\PE" />
-    <EmbeddedResource Include="Cab\Out\SSF\S1W" />
+    <EmbeddedResource Include="Cab\Out\SSF\SSF1C" />
+    <EmbeddedResource Include="Cab\Out\SSF\7hzOD" />
+    <EmbeddedResource Include="Cab\Out\SSF\OG" />
     <None Include="ClassDiagram1.cd" />
     <None Include="Config\ledcontrol.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
