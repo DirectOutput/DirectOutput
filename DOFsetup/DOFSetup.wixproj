@@ -183,6 +183,7 @@
        SuppressRootDirectory="true"
        GenerateGuidsNow="true"
        SuppressFragments="true"
+	   RunAsSeparateProcess="true"
        SuppressUniqueIds="true" />
 
     <!-- Run heat again to generate the Wix script elements for the
@@ -197,6 +198,7 @@
        SuppressRootDirectory="true"
        GenerateGuidsNow="true"
        SuppressFragments="true"
+	   RunAsSeparateProcess="true"
        SuppressUniqueIds="true" />
   </Target>
 </Project>
