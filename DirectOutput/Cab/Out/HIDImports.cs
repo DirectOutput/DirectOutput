@@ -108,6 +108,12 @@ namespace DirectOutput.Cab.Out
 			uint BufferLength);
 
 		[DllImport("hid.dll")]
+		internal extern static bool HidD_GetSerialNumberString(
+			IntPtr HidDeviceObject, 
+			byte[] Buffer, 
+			int BufferLength);
+
+		[DllImport("hid.dll")]
 		internal extern static bool HidD_GetManufacturerString(
 			IntPtr HidDeviceObject,
 			byte[] Buffer,
