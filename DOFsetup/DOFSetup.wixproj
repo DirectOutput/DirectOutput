@@ -8,16 +8,43 @@
     <SchemaVersion>2.0</SchemaVersion>
     <OutputName>DOFSetup</OutputName>
     <OutputType>Package</OutputType>
+    <RunWixToolsOutOfProc Condition=" '$(PROCESSOR_ARCHITECTURE)'!='x86' ">true</RunWixToolsOutOfProc>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <DefineConstants>Debug</DefineConstants>
     <SuppressIces>ICE57;ICE61</SuppressIces>
+    <RunWixToolsOutOfProc Condition=" '$(PROCESSOR_ARCHITECTURE)'!='x86' ">true</RunWixToolsOutOfProc>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <RunWixToolsOutOfProc Condition=" '$(PROCESSOR_ARCHITECTURE)'!='x86' ">true</RunWixToolsOutOfProc>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <DefineConstants>Debug</DefineConstants>
+    <SuppressIces>ICE57;ICE61</SuppressIces>
+    <RunWixToolsOutOfProc Condition=" '$(PROCESSOR_ARCHITECTURE)'!='x86' ">true</RunWixToolsOutOfProc>
+    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <RunWixToolsOutOfProc Condition=" '$(PROCESSOR_ARCHITECTURE)'!='x86' ">true</RunWixToolsOutOfProc>
+    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <DefineConstants>Debug</DefineConstants>
+    <SuppressIces>ICE57;ICE61</SuppressIces>
+    <RunWixToolsOutOfProc Condition=" '$(PROCESSOR_ARCHITECTURE)'!='x86' ">true</RunWixToolsOutOfProc>
+    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <RunWixToolsOutOfProc Condition=" '$(PROCESSOR_ARCHITECTURE)'!='x86' ">true</RunWixToolsOutOfProc>
+    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Generated\RegisterDirectOutputComObjectDll.wxs" />
@@ -141,6 +168,7 @@
     <Folder Include="Res" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="FixTypeLib.xslt" />
     <Content Include="Res\Banner.bmp" />
     <Content Include="Res\DialogSide.bmp" />
     <Content Include="Res\DOFLicense.rtf" />
@@ -173,32 +201,9 @@
      in sync with the DLL.  For example, if we were to change the class GUID
      in the DLL, the script would update to the new GUID automatically.
     -->
-    <HeatFile
-       ToolPath="$(WixToolPath)"
-       NoLogo="true"
-       File="$(SolutionDir)bin\$(Configuration)\DirectOutputComObject.dll"
-       OutputFile="$(ProjectDir)Generated\RegisterDirectOutputComObjectDll.wxs"
-       DirectoryRefId="DOFDIR"
-       PreprocessorVariable="var.DirectOutputComObject.TargetDir"
-       SuppressRootDirectory="true"
-       GenerateGuidsNow="true"
-       SuppressFragments="true"
-	   RunAsSeparateProcess="true"
-       SuppressUniqueIds="true" />
-
+    <HeatFile ToolPath="$(WixToolPath)" NoLogo="true" File="$(SolutionDir)bin\$(Platform)\$(Configuration)\DirectOutputComObject.dll" OutputFile="$(ProjectDir)Generated\RegisterDirectOutputComObjectDll.wxs" DirectoryRefId="DOFDIR" PreprocessorVariable="var.DirectOutputComObject.TargetDir" SuppressRootDirectory="true" GenerateGuidsNow="true" SuppressFragments="true" SuppressUniqueIds="true" RunAsSeparateProcess="$(RunWixToolsOutOfProc)" />
     <!-- Run heat again to generate the Wix script elements for the
     COM type library (.tlb) -->
-    <HeatFile
-       ToolPath="$(WixToolPath)"
-       NoLogo="true"
-       File="$(SolutionDir)bin\$(Configuration)\DirectOutputComObject.tlb"
-       OutputFile="$(ProjectDir)Generated\RegisterDirectOutputComObjectTlb.wxs"
-       DirectoryRefId="DOFDIR"
-       PreprocessorVariable="var.DirectOutputComObject.TargetDir"
-       SuppressRootDirectory="true"
-       GenerateGuidsNow="true"
-       SuppressFragments="true"
-	   RunAsSeparateProcess="true"
-       SuppressUniqueIds="true" />
+    <HeatFile ToolPath="$(WixToolPath)" NoLogo="true" File="$(SolutionDir)bin\$(Platform)\$(Configuration)\DirectOutputComObject.tlb" OutputFile="$(ProjectDir)Generated\RegisterDirectOutputComObjectTlb.wxs" DirectoryRefId="DOFDIR" PreprocessorVariable="var.DirectOutputComObject.TargetDir" SuppressRootDirectory="true" GenerateGuidsNow="true" SuppressFragments="true" SuppressUniqueIds="true" RunAsSeparateProcess="$(RunWixToolsOutOfProc)" />
   </Target>
 </Project>

@@ -41,7 +41,7 @@ Public Class ComObject
     ''' <summary>
     ''' Gets the name and the version of the DirectOutput framework.
     ''' </summary>
-    ''' <returns>String containg the name and the version of the DirectOutput framework.</returns>
+    ''' <returns>String containing the name and the version of the DirectOutput framework.</returns>
     Function GetName() As String
         Dim V As Version = GetType(Pinball).Assembly.GetName().Version
         Dim BuildDate As DateTime = New DateTime(2000, 1, 1).AddDays(V.Build).AddSeconds(V.Revision * 2)
@@ -233,9 +233,9 @@ Public Class ComObject
 
 
     ''' <summary>
-    ''' Gets the descriptors for configured table elments.
+    ''' Gets the descriptors for configured table elements.
     ''' </summary>
-    ''' <returns>Array of tabler element descriptors</returns>
+    ''' <returns>Array of table element descriptors</returns>
     Public Function GetConfiguredTableElmentDescriptors() As String()
         If Pinball IsNot Nothing Then
             Return Pinball.Table.TableElements.GetTableElementDescriptors()
@@ -260,9 +260,9 @@ Public Class ComObject
             End If
             Return ""
         Catch E As Exception
-            Log.Warning("DirectOutputComObject: A exception occured while getting the TableMappingFilename")
+            Log.Warning("DirectOutputComObject: A exception occurred while getting the TableMappingFilename")
             Log.Exception(E)
-            Throw New Exception("DirectOutputComObject: A exception occured while getting the TableMappingFilename", E)
+            Throw New Exception("DirectOutputComObject: A exception occurred while getting the TableMappingFilename", E)
         End Try
     End Function
 

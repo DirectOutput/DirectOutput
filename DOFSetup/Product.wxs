@@ -59,7 +59,7 @@
         We use the <HeatFile> approach because it's the "right" way of handling 
         COM object registration in WiX.  I don't like the way the target is
         hidden from the IDE view, but this is by far the most automatic way to
-        do this and ensures that everything stays up to dates, so it seems like
+        do this and ensures that everything stays up to date, so it seems like
         an equitable trade.
     -->
     

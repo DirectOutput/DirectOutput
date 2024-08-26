@@ -45,20 +45,13 @@ namespace DirectOutput.LedControl.Setup
         public void Setup(LedControlConfigList LedControlConfigList, DirectOutput.Table.Table Table, Cabinet Cabinet, string RomName)
         {
             Dictionary<int, TableConfig> TableConfigDict = LedControlConfigList.GetTableConfigDictonary(RomName);
-
-            string IniFilePath = "";
-            if (LedControlConfigList.Count > 0)
-            {
-                IniFilePath = LedControlConfigList[0].LedControlIniFile.Directory.FullName;
-            }
-
             Dictionary<int, Dictionary<int, IToy>> ToyAssignments = SetupCabinet(TableConfigDict, Cabinet);
 
-
-
-            SetupTable(Table, TableConfigDict, ToyAssignments, IniFilePath);
-
-
+			if (LedControlConfigList.Count > 0 && LedControlConfigList[0].LedControlIniFile != null)
+			{
+				string IniFilePath = LedControlConfigList[0].LedControlIniFile.Directory.FullName;
+				SetupTable(Table, TableConfigDict, ToyAssignments, IniFilePath);
+			}
         }
 
         private void SetupTable(Table.Table Table, Dictionary<int, TableConfig> TableConfigDict, Dictionary<int, Dictionary<int, IToy>> ToyAssignments, string IniFilePath)
