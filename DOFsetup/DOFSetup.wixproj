@@ -168,7 +168,8 @@
     <Folder Include="Res" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="FixTypeLib.xslt" />
+    <Content Include="FixGeneratedTlb_x64.xslt" />
+    <Content Include="FixGeneratedTlb_x86.xslt" />
     <Content Include="Res\Banner.bmp" />
     <Content Include="Res\DialogSide.bmp" />
     <Content Include="Res\DOFLicense.rtf" />
@@ -204,6 +205,6 @@
     <HeatFile ToolPath="$(WixToolPath)" NoLogo="true" File="$(SolutionDir)bin\$(Platform)\$(Configuration)\DirectOutputComObject.dll" OutputFile="$(ProjectDir)Generated\RegisterDirectOutputComObjectDll.wxs" DirectoryRefId="DOFDIR" PreprocessorVariable="var.DirectOutputComObject.TargetDir" SuppressRootDirectory="true" GenerateGuidsNow="true" SuppressFragments="true" SuppressUniqueIds="true" RunAsSeparateProcess="$(RunWixToolsOutOfProc)" />
     <!-- Run heat again to generate the Wix script elements for the
     COM type library (.tlb) -->
-    <HeatFile ToolPath="$(WixToolPath)" NoLogo="true" File="$(SolutionDir)bin\$(Platform)\$(Configuration)\DirectOutputComObject.tlb" OutputFile="$(ProjectDir)Generated\RegisterDirectOutputComObjectTlb.wxs" DirectoryRefId="DOFDIR" PreprocessorVariable="var.DirectOutputComObject.TargetDir" SuppressRootDirectory="true" GenerateGuidsNow="true" SuppressFragments="true" SuppressUniqueIds="true" RunAsSeparateProcess="$(RunWixToolsOutOfProc)" />
+    <HeatFile ToolPath="$(WixToolPath)" NoLogo="true" File="$(SolutionDir)bin\$(Platform)\$(Configuration)\DirectOutputComObject.tlb" OutputFile="$(ProjectDir)Generated\RegisterDirectOutputComObjectTlb.wxs" DirectoryRefId="DOFDIR" PreprocessorVariable="var.DirectOutputComObject.TargetDir" SuppressRootDirectory="true" GenerateGuidsNow="true" SuppressFragments="true" SuppressUniqueIds="true" RunAsSeparateProcess="$(RunWixToolsOutOfProc)" Transforms="FixGeneratedTlb_$(Platform).xslt" />
   </Target>
 </Project>

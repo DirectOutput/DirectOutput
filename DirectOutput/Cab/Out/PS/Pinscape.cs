@@ -48,7 +48,7 @@ namespace DirectOutput.Cab.Out.PS
         /// <summary>
         /// Gets or sets the unit number of the controller.<br />
         /// The unit number must be unique.<br />
-        /// Setting changes the Name property, if it is blank or if the Name coresponds to "Pinscape Controller {Number}".
+        /// Setting changes the Name property, if it is blank or if the Name corresponds to "Pinscape Controller {Number}".
         /// </summary>
         /// <value>
         /// The unique unit number of the controller (Range 1-16).
@@ -97,7 +97,7 @@ namespace DirectOutput.Cab.Out.PS
         private bool MinCommandIntervalMsSet = false;
 
         /// <summary>
-        /// Gets or sets the mininimal interval between command in miliseconds (Default: 1ms).
+        /// Gets or sets the minimal interval between command in milliseconds (Default: 1ms).
         /// The minimum message interval at the USB level is 1ms, but real LedWiz units can reportedly miss messages on some systems if messages are
         /// sent at full USB speed.  The underlying causes aren't clear as there are a lot of black boxes in the communication path (the motherboard
         /// USB hardware, the Windows USB drivers, the Windows HID drivers, USB hubs, and the LedWiz itself), but the assumption is that it's
@@ -111,7 +111,7 @@ namespace DirectOutput.Cab.Out.PS
         /// they can be addressed more cleanly there.
         /// </summary>
         /// <value>
-        /// The mininimal interval between command in miliseconds.  The default is 1ms, which is also the minimum, since it's
+        /// The minimal interval between command in milliseconds.  The default is 1ms, which is also the minimum, since it's
         /// the fastest that USB allows at the hardware protocol level.
         /// </value>
         public int MinCommandIntervalMs
@@ -130,7 +130,7 @@ namespace DirectOutput.Cab.Out.PS
 
         /// <summary>
         /// Initializes the Pinscape object.<br />
-        /// This method does also start the workerthread which does the actual update work when Update() is called.<br />
+        /// This method also starts the worker thread which does the actual update work when Update() is called.<br />
         /// This method should only be called once. Subsequent calls have no effect.
         /// </summary>
         /// <param name="Cabinet">The Cabinet object which is using the Pinscape instance.</param>
@@ -148,7 +148,7 @@ namespace DirectOutput.Cab.Out.PS
 
         /// <summary>
         /// Finishes the Pinscape object.<br/>
-        /// Finish does also terminate the workerthread for updates.
+        /// Finish also terminates the worker thread for updates.
         /// </summary>
         public override void Finish()
         {
@@ -260,7 +260,7 @@ namespace DirectOutput.Cab.Out.PS
                 return numOutputs;
             }
 
-            public Device(IntPtr fp, string path, string name, ushort vendorID, ushort productID, short version)
+            public Device(IntPtr fp, string path, string name, ushort vendorID, ushort productID, short version, uint inputReportByteLength)
             {
                 // remember the settings
                 this.fp = fp;
@@ -270,6 +270,7 @@ namespace DirectOutput.Cab.Out.PS
                 this.productID = productID;
                 this.version = version;
                 this.plungerEnabled = true;
+                this.inputReportByteLength = inputReportByteLength;
 
                 // presume we have the standard LedWiz-compatible complement of 32 outputs
                 this.numOutputs = 32;
@@ -287,7 +288,7 @@ namespace DirectOutput.Cab.Out.PS
                 byte[] buf = ReadUSB();
                 if (buf != null)
                 {
-                    // parse the reponse
+                    // parse the response
                     this.plungerEnabled = (buf[1] & 0x01) != 0;
                 }
 
@@ -332,11 +333,10 @@ namespace DirectOutput.Cab.Out.PS
 			{
 				for (int tries = 0 ; tries < 3 ; ++tries)
 				{
-					const int rptLen = 15;
-					byte[] buf = new byte[rptLen];
+					byte[] buf = new byte[inputReportByteLength];
 					buf[0] = 0x00;
 					uint actual;
-					if (HIDImports.ReadFile(fp, buf, rptLen, out actual, ref ov) == 0)
+					if (HIDImports.ReadFile(fp, buf, inputReportByteLength, out actual, ref ov) == 0)
 					{
 						// if the error is 6 ("invalid handle"), try re-opening the device
 						if (TryReopenHandle())
@@ -345,7 +345,7 @@ namespace DirectOutput.Cab.Out.PS
 						Log.Write("Pinscape Controller USB error reading from device: " + GetLastWin32ErrMsg());
 						return null;
 					}
-					else if (actual != rptLen)
+					else if (actual != inputReportByteLength)
 					{
 						Log.Write("Pinscape Controller USB error reading from device: not all bytes received");
 						return null;
@@ -449,6 +449,7 @@ namespace DirectOutput.Cab.Out.PS
 			public short unitNo;
 			public bool plungerEnabled;
 			public int numOutputs;
+            public uint inputReportByteLength;
 		}
 
 		#endregion
@@ -532,6 +533,7 @@ namespace DirectOutput.Cab.Out.PS
 						// at by checking this information.  Start by getting the preparsed
 						// data from the Windows HID driver.
                         IntPtr ppdata;
+                        uint inputReportByteLength = 0;
                         if (ok && HIDImports.HidD_GetPreparsedData(fp, out ppdata))
                         {
                             // get the device caps
@@ -546,6 +548,9 @@ namespace DirectOutput.Cab.Out.PS
 							// accept the output controller commands.
                             ok &= (caps.UsagePage == 1 && (caps.Usage == 4 || caps.Usage == 0));
 
+                            // remember the input report byte length
+                            inputReportByteLength = caps.InputReportByteLength;
+
                             // done with the preparsed data
                             HIDImports.HidD_FreePreparsedData(ppdata);
                         }
@@ -555,7 +560,7 @@ namespace DirectOutput.Cab.Out.PS
                         if (ok)
 						{
 							// add the device to our list
-							devices.Add(new Device(fp, diDetail.DevicePath, name, attrs.VendorID, attrs.ProductID, attrs.VersionNumber));
+							devices.Add(new Device(fp, diDetail.DevicePath, name, attrs.VendorID, attrs.ProductID, attrs.VersionNumber, inputReportByteLength));
 
 							// the device list object owns the handle now
 							fp = System.IntPtr.Zero;

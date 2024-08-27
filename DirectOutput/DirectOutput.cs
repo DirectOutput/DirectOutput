@@ -34,7 +34,7 @@ namespace DirectOutput
         /// or
         /// You must call Init before passing data to the DirectOutput framework
         /// or
-        /// A exception occured when passing in data (TableElementTypeChar: {0}, Number: {1}, Value: {2})
+        /// A exception occurred when passing in data (TableElementTypeChar: {0}, Number: {1}, Value: {2})
         /// </exception>
         public static void UpdateTableElement(string TableElementTypeChar, int Number, int Value)
         {
@@ -60,7 +60,7 @@ namespace DirectOutput
                 }
                 else
                 {
-                    throw new Exception("A exception occured when passing in data (TableElementTypeChar: {0}, Number: {1}, Value: {2})".Build(C, Number, Value), E);
+                    throw new Exception("A exception occurred when passing in data (TableElementTypeChar: {0}, Number: {1}, Value: {2})".Build(C, Number, Value), E);
                 }
             }
         }
@@ -75,7 +75,7 @@ namespace DirectOutput
         /// <exception cref="System.Exception">
         /// You must call Init before passing data to the DirectOutput framework
         /// or
-        /// A exception occured when passing in data (TableElementName: {0}, Value: {1}).Build(TableElementName, Value)
+        /// A exception occurred when passing in data (TableElementName: {0}, Value: {1}).Build(TableElementName, Value)
         /// </exception>
         public static void UpdateNamedTableElement(string TableElementName, int Value)
         {
@@ -91,7 +91,7 @@ namespace DirectOutput
                 }
                 else
                 {
-                    throw new Exception("A exception occured when passing in data (TableElementName: {0}, Value: {1})".Build(TableElementName, Value), E);
+                    throw new Exception("A exception occurred when passing in data (TableElementName: {0}, Value: {1})".Build(TableElementName, Value), E);
                 }
             }
 
@@ -117,15 +117,51 @@ namespace DirectOutput
         }
 
         /// <summary>
-        /// Initializes the DirectOutput framework.<br/>
-        /// The method has to be called before any data is sent to DOF.<br/>
-        /// It loads all necessary configuration data and starts all internal processes.
+        /// Get the base location to look for configuration files.  If we're running
+        /// in an x64 folder that appears to be a subfolder of a main install folder,
+        /// as indicated by the presence of a "config" folder in the parent, we'll
+        /// look to the parent folder for all configuration files.  This makes it
+        /// relatively easy to install an x86 and x64 versions so that they share a
+        /// common set of config files.  Otherwise, we'll use the folder containing
+        /// the executing DLL.
         /// </summary>
-        /// <param name="HostingApplicationName">Name of the hosting application.</param>
-        /// <param name="TableFilename">The table filename (specify a dummy filename of no table file is available).</param>
-        /// <param name="RomName">Name of the rom (If thhere is no rom name of a table, specify your own unique name for the game).</param>
-        /// <exception cref="System.Exception">Object has already been initialized. You must call Finish() before initializing again.</exception>
-        public static void Init(string HostingApplicationName, string TableFilename, string RomName)
+        /// <returns>
+        /// The path to use for all configuration files, or null if no path can be
+        /// identified.
+        /// </returns>
+        public static String GetConfigFileLocation()
+        {
+            // If we can't identify the assembly folder, return null
+            var assemblyLocation = Assembly.GetExecutingAssembly().Location;
+            if (assemblyLocation.IsNullOrEmpty())
+                return null;
+
+            // Check to see if we're installed in an x64 subfolder of what looks
+            // like a main install folder, as indicated by the presence of a Config
+            // folder.
+            if (Path.GetFileName(assemblyLocation).ToLower() == "x64"
+                && (new FileInfo(Path.Combine(assemblyLocation, "../config"))).Exists)
+            {
+                // this is an x64 sub-folder - use the main parent folder as the config root folder
+                return Path.GetDirectoryName(assemblyLocation);
+            }
+            else
+            {
+                // this must be a main install folder - use the DLL location
+                return assemblyLocation;
+            }
+        }
+
+		/// <summary>
+		/// Initializes the DirectOutput framework.<br/>
+		/// The method has to be called before any data is sent to DOF.<br/>
+		/// It loads all necessary configuration data and starts all internal processes.
+		/// </summary>
+		/// <param name="HostingApplicationName">Name of the hosting application.</param>
+		/// <param name="TableFilename">The table filename (specify a dummy filename of no table file is available).</param>
+		/// <param name="RomName">Name of the rom (If there is no rom name of a table, specify your own unique name for the game).</param>
+		/// <exception cref="System.Exception">Object has already been initialized. You must call Finish() before initializing again.</exception>
+		public static void Init(string HostingApplicationName, string TableFilename, string RomName)
         {
             if (Pinball == null)
             {
@@ -146,15 +182,16 @@ namespace DirectOutput
 
                 //HostAppFilename = "GlobalConfig_{0}".Build(HostAppFilename);
 
-				//Check config dir for global config file
-				var assemblyLocationAvailable = !Assembly.GetExecutingAssembly().Location.IsNullOrEmpty();
+				// Get the config file location
+                var fileLocation = GetConfigFileLocation();
 				FileInfo F;
-				if (assemblyLocationAvailable) { 
-					F = new FileInfo(Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName, "config", "GlobalConfig_{0}.xml".Build(HostAppFilename)));
+				if (fileLocation != null) {
+
+					F = new FileInfo(Path.Combine(new FileInfo(fileLocation).Directory.FullName, "config", "GlobalConfig_{0}.xml".Build(HostAppFilename)));
 					if (!F.Exists)
 					{
 						//Check if a shortcut to the config dir exists
-						FileInfo LnkFile = new FileInfo(Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName, "config", "GlobalConfig_{0}.lnk".Build(HostAppFilename)));
+						FileInfo LnkFile = new FileInfo(Path.Combine(new FileInfo(fileLocation).Directory.FullName, "config", "GlobalConfig_{0}.lnk".Build(HostAppFilename)));
 						if (LnkFile.Exists)
 						{
 							string ConfigDirPath = ResolveShortcut(LnkFile);
@@ -170,15 +207,15 @@ namespace DirectOutput
 							if (!F.Exists)
 							{
 								//Check dll dir for global config file
-								F = new FileInfo(Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName, "GlobalConfig_{0}.xml".Build(HostAppFilename)));
+								F = new FileInfo(Path.Combine(new FileInfo(fileLocation).Directory.FullName, "GlobalConfig_{0}.xml".Build(HostAppFilename)));
 								if (!F.Exists)
 								{
 									//if global config file does not exist, set filename to config directory.
-									F = new FileInfo(Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName, "config", "GlobalConfig_{0}.xml".Build(HostAppFilename)));
+									F = new FileInfo(Path.Combine(new FileInfo(fileLocation).Directory.FullName, "config", "GlobalConfig_{0}.xml".Build(HostAppFilename)));
 									if (!F.Directory.Exists)
 									{
 										//If the config dir does not exist set the dll dir for the config
-										F = new FileInfo(Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName, "GlobalConfig_{0}.xml".Build(HostAppFilename)));
+										F = new FileInfo(Path.Combine(new FileInfo(fileLocation).Directory.FullName, "GlobalConfig_{0}.xml".Build(HostAppFilename)));
 									}
 								}
 							}
@@ -202,7 +239,7 @@ namespace DirectOutput
         /// <summary>
         /// Shows the frontend of the DirectOutput framework.
         /// </summary>
-        /// <exception cref="System.Exception">Init has to be called before the frontend is opend.</exception>
+        /// <exception cref="System.Exception">Init has to be called before the frontend is opened.</exception>
         public static void ShowFrontend()
         {
             if (Pinball != null)
@@ -213,13 +250,13 @@ namespace DirectOutput
                 }
                 catch (Exception E)
                 {
-                    System.Windows.Forms.MessageBox.Show("Could not show DirectOutput frontend.\n The following exception occured:\n{0}".Build(E.Message), "DirectOutput");
+                    System.Windows.Forms.MessageBox.Show("Could not show DirectOutput frontend.\n The following exception occurred:\n{0}".Build(E.Message), "DirectOutput");
                 }
 
             }
             else
             {
-                throw new Exception("Init has to be called before the frontend is opend.");
+                throw new Exception("Init has to be called before the frontend is opened.");
             }
         }
 

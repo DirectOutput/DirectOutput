@@ -487,6 +487,7 @@
     <Content Include="DirectOutputIcon_32.ico" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="Builds\DirectOutput_rambo3_2017-02-09.zip" />
     <EmbeddedResource Include="Cab\Out\SSF\SSFLI" />
     <EmbeddedResource Include="Cab\Out\SSF\PE" />

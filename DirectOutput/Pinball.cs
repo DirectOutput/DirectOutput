@@ -78,7 +78,7 @@ namespace DirectOutput
         private GlobalConfig _GlobalConfig = new GlobalConfig();
 
         /// <summary>
-        /// Gets the global config for the Pinnball object.
+        /// Gets the global config for the Pinball object.
         /// </summary>
         /// <value>
         /// The global config for the Pinball object.
