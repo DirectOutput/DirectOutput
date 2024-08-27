@@ -11,6 +11,7 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "B2SServerPlugin", "B2SServerPlugin\B2SServerPlugin.csproj", "{FFD1C931-D563-4BB1-8656-F3C0952B287A}"
 	ProjectSection(ProjectDependencies) = postProject
 		{B153E2F0-22E6-445D-9B54-540C6AB85AF9} = {B153E2F0-22E6-445D-9B54-540C6AB85AF9}
+		{DA43ACDD-8241-4A28-8EB2-DAE80D91FAA8} = {DA43ACDD-8241-4A28-8EB2-DAE80D91FAA8}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Documentation", "Documentation\Documentation.csproj", "{900AD058-EB0D-4DBC-BF34-DE5824A8C1D8}"
@@ -47,9 +48,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectOutputConfigTester", "DirectOutputConfigTester\DirectOutputConfigTester.csproj", "{A65B13C1-B813-4478-B130-6B6CB7D98EB9}"
 	ProjectSection(ProjectDependencies) = postProject
 		{B153E2F0-22E6-445D-9B54-540C6AB85AF9} = {B153E2F0-22E6-445D-9B54-540C6AB85AF9}
+		{DA43ACDD-8241-4A28-8EB2-DAE80D91FAA8} = {DA43ACDD-8241-4A28-8EB2-DAE80D91FAA8}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocumentationHelper", "DocumentationHelper\DocumentationHelper.csproj", "{5A549EF6-DBC5-4C20-A6DB-3F90D81F6465}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DA43ACDD-8241-4A28-8EB2-DAE80D91FAA8} = {DA43ACDD-8241-4A28-8EB2-DAE80D91FAA8}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlobalConfigEditor", "GlobalConfigEditor\GlobalConfigEditor.csproj", "{1E95052E-BE0F-4EEE-8814-EF07C972436C}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -68,8 +73,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DirectOutputComObject", "Di
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectOutputComObjectRegister", "DirectOutputComObjectRegister\DirectOutputComObjectRegister.csproj", "{0503F7EB-FCD9-4B4A-BE3F-6CF1F3DCB3D2}"
 	ProjectSection(ProjectDependencies) = postProject
-		{D9E91AB1-AE38-41B3-9224-1F945BAB012B} = {D9E91AB1-AE38-41B3-9224-1F945BAB012B}
 		{B153E2F0-22E6-445D-9B54-540C6AB85AF9} = {B153E2F0-22E6-445D-9B54-540C6AB85AF9}
+		{D9E91AB1-AE38-41B3-9224-1F945BAB012B} = {D9E91AB1-AE38-41B3-9224-1F945BAB012B}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectOutput PinballX Plugin", "DirectOutput PinballX Plugin\DirectOutput PinballX Plugin.csproj", "{EEC460F2-C571-4C69-A7DA-4BE510C37947}"

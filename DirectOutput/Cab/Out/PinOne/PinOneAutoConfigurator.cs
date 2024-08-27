@@ -77,7 +77,7 @@ namespace DirectOutput.Cab.Out.PinOne
                         }
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     if (Port != null)
                     {

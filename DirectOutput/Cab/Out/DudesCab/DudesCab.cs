@@ -13,11 +13,11 @@ namespace DirectOutput.Cab.Out.DudesCab
     /// <summary>
     /// The <a href="https://shop.arnoz.com/en/">Dude's Cab Controller</a> is a all-in-one virtual pinball controller
     /// 
-    /// It's based on the RP2040 processor, provide 32 inputs, accelerometer, plunger & Dof support.
+    /// It's based on the RP2040 processor, provide 32 inputs, accelerometer, plunger &amp; Dof support.
     /// The Dof support provides 128 PWM outputs through up to 8 extension boards.
-    /// Maximum intensity, Flipper logic, Chime logic & Gamma Correction are supported for all outputs
+    /// Maximum intensity, Flipper logic, Chime logic &amp; Gamma Correction are supported for all outputs
     /// Each outputs can also have its intensity lowered independently from the Dof values
-    /// As for the Pinscape controller, the communication is fully suported through Hid In/Out protocol with multipart messages support
+    /// As for the Pinscape controller, the communication is fully supported through Hid In/Out protocol with multipart messages support
     /// The Dude's Cab controllers are registered in the Dof config tool from unit #90 to 94
     /// 
     /// </summary>
