@@ -22,7 +22,8 @@ namespace DOFSetupPBXFixup
 
             // Get the DirectOutput install location.  
             String dofPath = session.CustomActionData["INSTALLEDPATH"];
-            session.Log("Installation folder is " + dofPath);
+            String bitness = session.CustomActionData["BITNESS"];
+            session.Log("Installation folder is " + dofPath + ", bitness=" + bitness);
 
             // Find PinballX's install location by searching for its uninstall key
             String pbxPath = null;

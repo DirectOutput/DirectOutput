@@ -1,11 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Id="*"
-      Name="DirectOutput"
+
+	<!--
+	  Assign separate UpgradeCode values for 32- and 64-bit, so that MSI
+		treats these as distinct products.  The UpgradeCode is the primary
+		key that MS Setup uses to identify a product across different versions,
+		and we define things in such a way that Setup will only allow one
+		version of each UpgradeCode to be installed, to ensure that there's
+		no confusion from having multiple copies of the COM Object installed.
+		But we DO want to allow having a 32-bit and a 64-bit version installed
+		on the same machine simultaneously, so each bitness version needs its
+		own UpgradeCode.
+	-->
+	<?if $(var.Platform)=x64 ?>
+	  <?define msiUpgradeCode = "A7EAB3EB-6524-4173-B5D8-25FC867BD29E" ?>
+	  <?define msiProductName = "DirectOutput64" ?>
+	  <?define msiBitness = "64" ?>
+	  <?define Win64 = "yes" ?>
+	  <?define DirectorySuffix = "64" ?>
+	<?else ?>
+	  <?define msiUpgradeCode = "75f5d8f8-a58b-4a2c-91db-eeef0a114582" ?>
+  	<?define msiProductName = "DirectOutput" ?>
+  	<?define msiBitness = "32" ?>
+	  <?define Win64 = "no" ?>
+	  <?define DirectorySuffix = "" ?>
+  <?endif ?>
+
+	<Product Id="*"
+      Name="$(var.msiProductName)"
       Language="1033"
       Version="!(bind.FileVersion.MainDofDll)"
       Manufacturer="DirectOutput"
-      UpgradeCode="75f5d8f8-a58b-4a2c-91db-eeef0a114582">
+      UpgradeCode="$(var.msiUpgradeCode)">
 		
 		<?define DOFCOMObjectGUID="A23BFDBC-9A8A-46C0-8672-60F23D54FFB6"?>
 
@@ -122,11 +148,11 @@
     <CustomAction
       Id="SetB2SVars"
       Return="check"
-      Property="B2SFixup" Value="INSTALLEDPATH=[DOFDIR]" />
+      Property="B2SFixup" Value="INSTALLEDPATH=[DOFDIR];BITNESS=$(var.msiBitness)" />
     <CustomAction
       Id="SetPBXVars"
       Return="check"
-      Property="PBXFixup" Value="INSTALLEDPATH=[DOFDIR]" />
+      Property="PBXFixup" Value="INSTALLEDPATH=[DOFDIR];BITNESS=$(var.msiBitness)" />
 
     <!-- Set up our custom action sequence.  The property setter has to run
          before each C# task. -->
@@ -144,7 +170,7 @@
     <Property Id="INSTALLFOLDER">
       <RegistrySearch 
         Id="InstallFolder" Type="raw"
-        Root="HKCU" Key="SOFTWARE\DirectOutput\DirectOutput" Name="InstallPath"/>
+        Root="HKCU" Key="SOFTWARE\DirectOutput\DirectOutput" Name="InstallPath$(var.DirectorySuffix)"/>
     </Property>
 
     <!-- 
@@ -174,7 +200,7 @@
 				
         <!-- save the install folder for subsequent updates -->
         <RegistryKey Root="HKCU" Key="SOFTWARE\DirectOutput\DirectOutput">
-          <RegistryValue Type="string" Name="InstallPath" Value="[DOFDIR]"/>
+          <RegistryValue Type="string" Name="InstallPath$(var.DirectorySuffix)" Value="[DOFDIR]"/>
         </RegistryKey>
 
         <!-- 

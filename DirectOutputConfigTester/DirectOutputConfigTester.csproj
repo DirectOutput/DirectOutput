@@ -58,14 +58,6 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DirectOutput, Version=3.1.8557.43121, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\bin\Debug\DirectOutput.dll</HintPath>
-    </Reference>
-    <Reference Include="Extensions, Version=3.1.8557.42823, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Extensions\bin\x86\Debug\Extensions.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -128,6 +120,16 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Settings\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DirectOutput\DirectOutput.csproj">
+      <Project>{da43acdd-8241-4a28-8eb2-dae80d91faa8}</Project>
+      <Name>DirectOutput</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Extensions\Extensions.csproj">
+      <Project>{3ba9c263-d8c3-4511-bd2f-4c7b55d82a1a}</Project>
+      <Name>Extensions</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

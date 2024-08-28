@@ -200,9 +200,18 @@
      COM object it implements.  Doing this with <HeatFile> is better than
      hand-coding the WiX commands because it automatically keeps the script
      in sync with the DLL.  For example, if we were to change the class GUID
-     in the DLL, the script would update to the new GUID automatically.
-    -->
-    <HeatFile ToolPath="$(WixToolPath)" NoLogo="true" File="$(SolutionDir)bin\$(Platform)\$(Configuration)\DirectOutputComObject.dll" OutputFile="$(ProjectDir)Generated\RegisterDirectOutputComObjectDll.wxs" DirectoryRefId="DOFDIR" PreprocessorVariable="var.DirectOutputComObject.TargetDir" SuppressRootDirectory="true" GenerateGuidsNow="true" SuppressFragments="true" SuppressUniqueIds="true" RunAsSeparateProcess="$(RunWixToolsOutOfProc)" />
+     in the DLL, the script would update to the new GUID
+     automatically.
+
+     The WiX v3 heat tool can only read 32-bit DLLs.  The extracted
+     information is the same for 32 and 64, so we'll just force it to read
+     from the 32-bit version.  This means that you MUST build the full
+     32-bit version BEFORE building the 64-bit version.  That's not too big
+     a risk because the harvested information actually never changes,
+     pretty much by design - the GUIDs that it extracts have to be
+     permanent since they're the way other programs find the COM object.
+-->
+    <HeatFile ToolPath="$(WixToolPath)" NoLogo="true" File="$(SolutionDir)bin\x86\$(Configuration)\DirectOutputComObject.dll" OutputFile="$(ProjectDir)Generated\RegisterDirectOutputComObjectDll.wxs" DirectoryRefId="DOFDIR" PreprocessorVariable="var.DirectOutputComObject.TargetDir" SuppressRootDirectory="true" GenerateGuidsNow="true" SuppressFragments="true" SuppressUniqueIds="true" RunAsSeparateProcess="$(RunWixToolsOutOfProc)" />
     <!-- Run heat again to generate the Wix script elements for the
     COM type library (.tlb) -->
     <HeatFile ToolPath="$(WixToolPath)" NoLogo="true" File="$(SolutionDir)bin\$(Platform)\$(Configuration)\DirectOutputComObject.tlb" OutputFile="$(ProjectDir)Generated\RegisterDirectOutputComObjectTlb.wxs" DirectoryRefId="DOFDIR" PreprocessorVariable="var.DirectOutputComObject.TargetDir" SuppressRootDirectory="true" GenerateGuidsNow="true" SuppressFragments="true" SuppressUniqueIds="true" RunAsSeparateProcess="$(RunWixToolsOutOfProc)" Transforms="FixGeneratedTlb_$(Platform).xslt" />

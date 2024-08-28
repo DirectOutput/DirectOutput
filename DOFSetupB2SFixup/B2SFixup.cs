@@ -23,7 +23,8 @@ namespace DOFSetupB2SFixup
 
             // Get the DirectOutput install location.  
             String dofPath = session.CustomActionData["INSTALLEDPATH"];
-            session.Log("Installation folder is " + dofPath);
+            String bitness = session.CustomActionData["BITNESS"];
+            session.Log("Installation folder is " + dofPath + ", bitness=" + bitness);
 
             // Look up B2S.Server and try to get the local file system location
             // where it's installed.  Do this by loading the type for "B2S.Server"
