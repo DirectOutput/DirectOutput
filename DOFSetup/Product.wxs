@@ -17,13 +17,13 @@
 	  <?define msiProductName = "DirectOutput64" ?>
 	  <?define msiBitness = "64" ?>
 	  <?define Win64 = "yes" ?>
-	  <?define DirectorySuffix = "64" ?>
+	  <?define BinDirName = "Dof64" ?>
 	<?else ?>
-	  <?define msiUpgradeCode = "75f5d8f8-a58b-4a2c-91db-eeef0a114582" ?>
-  	<?define msiProductName = "DirectOutput" ?>
+	  <?define msiUpgradeCode = "94E0D0EE-C078-42C6-AD9F-4030B329A040" ?>
+  	<?define msiProductName = "DirectOutput32" ?>
   	<?define msiBitness = "32" ?>
 	  <?define Win64 = "no" ?>
-	  <?define DirectorySuffix = "" ?>
+	  <?define BinDirName = "Dof32" ?>
   <?endif ?>
 
 	<Product Id="*"
@@ -64,8 +64,9 @@
 
     <!-- Components to install -->
     <Feature Id="ProductFeature" Title="DirectOutput" Level="1">
-      <ComponentRef Id="DofFiles" />
-      <ComponentRef Id="SampleConfigFiles" />
+			<ComponentRef Id="DofFiles" />
+			<ComponentRef Id="BinFiles" />
+			<ComponentRef Id="SampleConfigFiles" />
       <ComponentRef Id="DirectOutputComObject.dll" />  <!-- from Generated/RegisterDirectOutputComObjectDll.wxs -->
       <ComponentRef Id="DirectOutputComObject.tlb" />  <!-- from Generated/RegisterDirectOutputComObjectTlb.wxs -->
     </Feature>
@@ -170,7 +171,7 @@
     <Property Id="INSTALLFOLDER">
       <RegistrySearch 
         Id="InstallFolder" Type="raw"
-        Root="HKCU" Key="SOFTWARE\DirectOutput\DirectOutput" Name="InstallPath$(var.DirectorySuffix)"/>
+        Root="HKCU" Key="SOFTWARE\DirectOutput\DirectOutput" Name="InstallPath"/>
     </Property>
 
     <!-- 
@@ -185,6 +186,7 @@
       <Directory Id="WINDOWSVOLUME">
         <Directory Id="INSTALLFOLDER" Name="DirectOutput">
           <Directory Id="DOFDIR" >
+						<Directory Id="BINDIR" Name="$(var.BinDirName)" />
             <Directory Id="DOFCONFIGDIR" Name="Config" >
               <Directory Id="DOFCONFIGEXAMPLESDIR" Name="Examples"/>
             </Directory>
@@ -200,14 +202,16 @@
 				
         <!-- save the install folder for subsequent updates -->
         <RegistryKey Root="HKCU" Key="SOFTWARE\DirectOutput\DirectOutput">
-          <RegistryValue Type="string" Name="InstallPath$(var.DirectorySuffix)" Value="[DOFDIR]"/>
+          <RegistryValue Type="string" Name="InstallPath" Value="[DOFDIR]"/>
         </RegistryKey>
 
-        <!-- 
-          DOF has multiple DLL components that always need to be in sync, so it's
-          important to make sure we have a consistent set.  All of the DLL files
-          should thus be explicitly removed, in case we're replacing an existing
-          installation.
+				<!--
+					In the current install scheme, the binary files are stored in Dof32/ 
+					and Dof64/ subfolders, according to the bitness of the install.  Older
+					installs put the binaries in the main install folder.  In case we're
+					installing a new version on top of an existing folder created by an
+					older installer, delete old binaries found in the main folder, to
+				  avoid any confusion from old files hanging around.
         -->
         <RemoveFile Id="RemoveDof" Name="$(var.DirectOutput.TargetFileName)" On="install" />
         <RemoveFile Id="RemoveB2S" Name="$(var.B2SServerPlugin.TargetFileName)" On="install" />
@@ -219,20 +223,12 @@
         <RemoveFile Id="RemoveCfgEd" Name="$(var.GlobalConfigEditor.TargetFileName)" On="install" />
         <RemoveFile Id="RemoveLedTst" Name="$(var.LedControlFileTester.TargetFileName)" On="install" />
         <RemoveFile Id="RemoveProSlv" Name="$(var.ProPinballSlave.TargetFileName)" On="install" />
-				
+
 				<!--
-				  DOF uses a bunch of third-party DLLs as dependencies.  In past versions,
-					these were included as separate DLLs to be installed in the DOF folder.
-					This caused all sorts of problems because DOF doesn't have control over
-					the DLL search path, given that the search path is a function of the
-					application .EXE, and DOF is itself a loaded DLL.  In an attempt to
-					avoid the many deployment problems this caused, we now use the 
-					Costura.Fody system	to embed dependency DLLs in the main DOF DLLs.  
-					This makes it unnecessary to include the dependency DLLs as separate
-					installable files in the setup.  If we're upgrading a system with an
-					old installation, it might have those now-defunct files.  So explicitly
-					delete them to reduce confusion and cruft left behind on the system.
-				-->
+				  while we're at it, remove any ancient loose DLLs that were installed
+					by really old builds (from before we eliminated all loose component
+					DLL files via Costura.Fody bundling)
+			  -->
 				<RemoveFile Id="RemoveNJ" Name="Newtonsoft.Json.dll" On="install" />
 				<RemoveFile Id="RemoveFlee" Name="Ciloci.Flee.dll" On="install" />
 				<RemoveFile Id="RemoveFTD2XX32" Name="FTD2XX32.dll" On="install" />
@@ -241,26 +237,58 @@
 				<RemoveFile Id="RemoveHueCC" Name="Q42.HueApi.ColorConverters.dll" On="install" />
 				<RemoveFile Id="RemoveExts" Name="$(var.Extensions.TargetFileName)" On="install" />
 
-        <File Id="MainDofDll" Source="$(var.DirectOutput.TargetPath)" />
         <File Source="$(var.DirectOutput.TargetDir)DirectOutputShapes.png" />
         <File Source="$(var.DirectOutput.TargetDir)DirectOutputShapes.xml" />
-        <File Source="$(var.B2SServerPlugin.TargetPath)" />
-
-        <!-- NOTE: DirectOutputComObject is included separately via Generated/RegisterDirectOutputComObjectDll.wxs -->
-
-        <File Source="$(var.DirectOutput PinballX Plugin.TargetPath)" />
-        <File Source="$(var.DirectOutputComObjectRegister.TargetPath)" />
-        <File Source="$(var.DirectOutputConfigTester.TargetPath)" />
-        <File Source="$(var.GlobalConfigEditor.TargetPath)" />
-        <File Source="$(var.LedControlFileTester.TargetPath)" />
-
-        <File Source="$(var.ProPinballSlave.TargetPath)" />
-
         <File Source="$(var.SolutionDir)LICENSE" />
       
       </Component>
     </DirectoryRef>
+		
+		<!-- Binary files - these go in a bitness-specific subfolder (Dof32 or Dof64) -->
+		<DirectoryRef Id="BINDIR">
+			<Component Id="BinFiles" Guid="{51DDDA63-C2BC-4399-A804-11C6D4959314}">
 
+				<!-- 
+          DOF has multiple DLL components that always need to be in sync, so it's
+          important to make sure we have a consistent set.  It's safest to explicitly
+          remove old binaries, in case we're replacing an existing installation.
+        -->
+				<RemoveFile Id="RemoveDof2" Name="$(var.DirectOutput.TargetFileName)" On="install" />
+				<RemoveFile Id="RemoveB2S2" Name="$(var.B2SServerPlugin.TargetFileName)" On="install" />
+				<RemoveFile Id="RemoveB2Spi2" Name="B2SServerPluginInterface.dll" On="install" />
+				<RemoveFile Id="RemoveComObj2" Name="DirectOutputComObject.dll" On="install" />
+				<RemoveFile Id="RemovePBX2" Name="$(var.DirectOutput PinballX Plugin.TargetFileName)" On="install" />
+				<RemoveFile Id="RemoveComReg2" Name="$(var.DirectOutputComObjectRegister.TargetFileName)" On="install" />
+				<RemoveFile Id="RemoveCfgTest2" Name="$(var.DirectOutputConfigTester.TargetFileName)" On="install" />
+				<RemoveFile Id="RemoveCfgEd2" Name="$(var.GlobalConfigEditor.TargetFileName)" On="install" />
+				<RemoveFile Id="RemoveLedTst2" Name="$(var.LedControlFileTester.TargetFileName)" On="install" />
+				<RemoveFile Id="RemoveProSlv2" Name="$(var.ProPinballSlave.TargetFileName)" On="install" />
+
+				<!-- remove any old loose DLLs found here as well -->
+				<RemoveFile Id="RemoveNJ2" Name="Newtonsoft.Json.dll" On="install" />
+				<RemoveFile Id="RemoveFlee2" Name="Ciloci.Flee.dll" On="install" />
+				<RemoveFile Id="RemoveFTD2XX322" Name="FTD2XX32.dll" On="install" />
+				<RemoveFile Id="RemovePac2" Name="PacDrive32.dll" On="install" />
+				<RemoveFile Id="RemoveHue2" Name="Q42.HueApi.dll" On="install" />
+				<RemoveFile Id="RemoveHueCC2" Name="Q42.HueApi.ColorConverters.dll" On="install" />
+				<RemoveFile Id="RemoveExts2" Name="$(var.Extensions.TargetFileName)" On="install" />
+
+				<!-- install new files -->
+				<File Id="MainDofDll" Source="$(var.DirectOutput.TargetPath)" />
+			  <File Source="$(var.B2SServerPlugin.TargetPath)" />
+				<File Source="$(var.DirectOutput PinballX Plugin.TargetPath)" />
+				<File Source="$(var.DirectOutputComObjectRegister.TargetPath)" />
+				<File Source="$(var.DirectOutputConfigTester.TargetPath)" />
+				<File Source="$(var.GlobalConfigEditor.TargetPath)" />
+				<File Source="$(var.LedControlFileTester.TargetPath)" />
+				<File Source="$(var.ProPinballSlave.TargetPath)" />
+
+				<!-- NOTE: DirectOutputComObject is included separately via Generated/RegisterDirectOutputComObjectDll.wxs -->
+				
+			</Component>
+		</DirectoryRef>
+
+		<!-- Configuration examples subfolder -->
     <DirectoryRef Id="DOFCONFIGEXAMPLESDIR">
       <Component Id="SampleConfigFiles" Guid="F372286A-B036-471C-AC42-357EBCB9EBD3">
         <File Source="$(var.SolutionDir)config\examples\Cabinet.xml" />
