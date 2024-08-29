@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Reflection;
 using System;
+using System.Windows.Forms.VisualStyles;
 
 // <summary>
 // DirectOutput is the root namespace for the DirectOutput framework. 
@@ -117,41 +118,152 @@ namespace DirectOutput
         }
 
         /// <summary>
-        /// Get the base location to look for configuration files.  If we're running
-        /// in an x64 folder that appears to be a subfolder of a main install folder,
-        /// as indicated by the presence of a "config" folder in the parent, we'll
-        /// look to the parent folder for all configuration files.  This makes it
-        /// relatively easy to install an x86 and x64 versions so that they share a
-        /// common set of config files.  Otherwise, we'll use the folder containing
-        /// the executing DLL.
+        /// Get the DirectOutput install folder location.
+        /// 
+        /// Traditionally, all of the DOF binaries (the "assemblies", in .NET speak)
+        /// were installed in the main install folder, so identifying the install
+        /// folder was simply a matter of getting the path to the active assembly.
+        ///
+        /// More recently, the DOF install convention has been revised to accommodate
+        /// side-by-side 32-bit and 64-bit installs by placing the binaries in
+        /// x86\ and x64\ subfolders under the main install folder.
+        /// 
+        /// This code is designed to work with both configurations, by checking
+        /// for the presence of a Config folder.  We start in the folder containing
+        /// the assembly.  If there's no Config folder there, we look to the parent
+        /// folder, and if we find a Config folder there, we take it that we're in
+        /// the new configuration that segregates the binaries by architecture.
+        /// Otherwise, default to the original flat configuration.
         /// </summary>
         /// <returns>
         /// The path to use for all configuration files, or null if no path can be
         /// identified.
         /// </returns>
-        public static String GetConfigFileLocation()
+        public static String GetInstallFolder()
         {
-            // If we can't identify the assembly folder, return null
+            // Get the full path to the running assembly (i.e., the DOF DLL that
+            // this code is part of).  This is the full name of the DLL file,
+            // with absolute path.  If this is null, return null.
             var assemblyLocation = Assembly.GetExecutingAssembly().Location;
             if (assemblyLocation.IsNullOrEmpty())
                 return null;
 
-            // Check to see if we're installed in an x64 subfolder of what looks
-            // like a main install folder, as indicated by the presence of a Config
-            // folder.
-            if (Path.GetFileName(assemblyLocation).ToLower() == "x64"
-                && (new FileInfo(Path.Combine(assemblyLocation, "../config"))).Exists)
+            // get the path to the assembly
+            var assemblyPath = new FileInfo(assemblyLocation).Directory.FullName;
+
+            // Check for the existence of a Config folder in this directory.  If
+            // there's no such folder, AND there's a Config folder in the parent
+            // directory, assume that we're running in the new install configuration
+            // with x86 and x64 subfolders for the binaries.
+            if (!new FileInfo(Path.Combine(assemblyPath, "Config")).Exists
+                && new FileInfo(Path.Combine(assemblyPath, "..\\Config")).Exists)
             {
-                // this is an x64 sub-folder - use the main parent folder as the config root folder
-                return Path.GetDirectoryName(assemblyLocation);
+                // new configuration with binary subfolders - the assembly is in
+                // a subfolder within the install folder, so the install folder
+                // is the parent of the assembly folder
+                return Path.GetDirectoryName(assemblyPath);
             }
             else
             {
-                // this must be a main install folder - use the DLL location
-                return assemblyLocation;
+                // old flat configuration - the assembly is in the install folder
+                return assemblyPath;
             }
         }
 
+        /// <summary>
+        /// Find the global config file for a given host application. 
+        /// 
+        /// Each application has a separate config file, "GlobalConfig_(X).xml",
+        /// where (X) is the name of the host application as passed in the
+        /// HostingApplicationName parameter.  The parameter is meant to be a
+        /// human-readable name, so the filename is formed by deleting any
+        /// periods and any characters not valid in Windows filenames, including
+        /// any path separator characters.
+        /// 
+        /// The config file is normally stored in (DirectOutput)\Config, where
+        /// (DirectOutput) is the main install folder.  This routine attempts to
+        /// locate the main install folder via GetInstallFolder(), and if that's
+        /// successful, it looks in the Config subfolder.
+        /// 
+        /// If the config file isn't present in the Config folder, we look for
+        /// a .lnk file with the same root name as the config file (i.e., with
+        /// the .xml suffix replaced by .lnk).  If found, this is taken to be
+        /// a shortcut to the folder actually containing the config file.  Note
+        /// that an .xml file in this folder takes priority - any .lnk file is
+        /// ignored if there's also an .xml file.
+        /// 
+        /// Failing any of the above, we look for the .xml file in the current
+        /// working directory, which is usually the directory containing the
+        /// host application (but not always; the working directory can be
+        /// explicitly manipulated by the host application, or can be set by
+        /// the user when launching the application, if using a shortcut).
+        /// </summary>
+        /// <param name="HostingApplicationName">The display name of the host application that's invoking DOF</param>
+        /// <returns>
+        /// The name (with full path) of the config file, suitable for use in
+        /// Pinball.Setup().  This always returns a valid filename, but the
+        /// referenced file isn't guaranteed to exist.
+        /// </returns>
+        public static string GetGlobalConfigFileName(string HostingApplicationName)
+        {
+            // Convert the host application name to a filename suffix, by
+            // deleting periods and invalid file and path characters.
+            string HostAppFilename = HostingApplicationName.Replace(".", "");
+            foreach (char C in Path.GetInvalidFileNameChars())
+                HostAppFilename = HostAppFilename.Replace(C.ToString(), "");
+            foreach (char C in Path.GetInvalidPathChars())
+                HostAppFilename = HostAppFilename.Replace(C.ToString(), "");
+
+            // form the name of the application-specific config file by appending
+            // the host application name suffix
+            var HostAppConfigRootName = "GlobalConfig_{0}".Build(HostAppFilename);
+            var HostAppConfigFileName = HostAppConfigRootName + ".xml";
+
+            // Get the config file location.  Start with the install folder.
+            var installFolder = GetInstallFolder();
+            FileInfo F;
+            if (installFolder == null)
+            {
+                // we can't identify the install folder, so default to the working
+                // directory by returning the root name without a path prefix
+                return HostAppConfigFileName;
+            }
+
+            // look for an .xml file in the Config folder
+            F = new FileInfo(Path.Combine(installFolder, "Config", HostAppConfigFileName));
+            if (F.Exists)
+                return F.FullName;
+
+            // no luck with the .xml file; look for a shortcut (.lnk) to the file
+            FileInfo LnkFile = new FileInfo(Path.Combine(installFolder, "Config", HostAppConfigRootName + ".lnk"));
+            if (LnkFile.Exists)
+            {
+                // there's a link; resolve it
+                string ResolvedLinkPath = ResolveShortcut(LnkFile);
+                if (Directory.Exists(ResolvedLinkPath))
+                {
+                    F = new FileInfo(Path.Combine(ResolvedLinkPath, HostAppConfigFileName));
+                    if (F.Exists)
+                        return F.FullName;
+                }
+            }
+
+            // try looking directly in the install folder
+            F = new FileInfo(Path.Combine(installFolder, HostAppConfigFileName));
+            if (F.Exists)
+                return F.FullName;
+
+            // If we still haven't found the file, give up; we still need a filename,
+            // so set it to the default Config folder location if one exists, otherwise
+            // the install folder.
+            F = new FileInfo(Path.Combine(installFolder, "Config", HostAppConfigFileName));
+            if (!F.Directory.Exists)
+                F = new FileInfo(Path.Combine(installFolder, HostAppConfigFileName));
+
+            // return what we found
+            return F.FullName;
+        }
+		
 		/// <summary>
 		/// Initializes the DirectOutput framework.<br/>
 		/// The method has to be called before any data is sent to DOF.<br/>
@@ -165,66 +277,10 @@ namespace DirectOutput
         {
             if (Pinball == null)
             {
-                //Check config dir for global config file
+                // Get the config file name
+                var F = new FileInfo(GetGlobalConfigFileName(HostingApplicationName));
 
-                string HostAppFilename = HostingApplicationName.Replace(".", "");
-
-                foreach (char C in Path.GetInvalidFileNameChars())
-                {
-                    HostAppFilename = HostAppFilename.Replace(C.ToString(), "");
-                }
-
-                foreach (char C in Path.GetInvalidPathChars())
-                {
-                    HostAppFilename = HostAppFilename.Replace(C.ToString(), "");
-                }
-
-
-                //HostAppFilename = "GlobalConfig_{0}".Build(HostAppFilename);
-
-				// Get the config file location
-                var fileLocation = GetConfigFileLocation();
-				FileInfo F;
-				if (fileLocation != null) {
-
-					F = new FileInfo(Path.Combine(new FileInfo(fileLocation).Directory.FullName, "config", "GlobalConfig_{0}.xml".Build(HostAppFilename)));
-					if (!F.Exists)
-					{
-						//Check if a shortcut to the config dir exists
-						FileInfo LnkFile = new FileInfo(Path.Combine(new FileInfo(fileLocation).Directory.FullName, "config", "GlobalConfig_{0}.lnk".Build(HostAppFilename)));
-						if (LnkFile.Exists)
-						{
-							string ConfigDirPath = ResolveShortcut(LnkFile);
-							if (Directory.Exists(ConfigDirPath))
-							{
-								F = new FileInfo(Path.Combine(ConfigDirPath, "GlobalConfig_{0}.xml".Build(HostAppFilename)));
-							}
-						}
-						if (!F.Exists)
-						{
-							//Check default dir for global config file
-							F = new FileInfo("GlobalConfig_{0}.xml".Build(HostAppFilename));
-							if (!F.Exists)
-							{
-								//Check dll dir for global config file
-								F = new FileInfo(Path.Combine(new FileInfo(fileLocation).Directory.FullName, "GlobalConfig_{0}.xml".Build(HostAppFilename)));
-								if (!F.Exists)
-								{
-									//if global config file does not exist, set filename to config directory.
-									F = new FileInfo(Path.Combine(new FileInfo(fileLocation).Directory.FullName, "config", "GlobalConfig_{0}.xml".Build(HostAppFilename)));
-									if (!F.Directory.Exists)
-									{
-										//If the config dir does not exist set the dll dir for the config
-										F = new FileInfo(Path.Combine(new FileInfo(fileLocation).Directory.FullName, "GlobalConfig_{0}.xml".Build(HostAppFilename)));
-									}
-								}
-							}
-						}
-					}
-				} else {
-					F = new FileInfo("GlobalConfig_{0}.xml".Build(HostAppFilename));
-				}
-
+                // Create and initialize the main Pinball object
                 Pinball = new DirectOutput.Pinball();
 				Pinball.Setup((F.Exists ? F.FullName : ""), TableFilename, RomName);
                 Pinball.Init();

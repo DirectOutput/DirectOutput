@@ -24,7 +24,7 @@ namespace DirectOutput.Frontend
             TableName.Text = (Pinball.Table.TableName.IsNullOrWhiteSpace() ? "<No table name set>" : Pinball.Table.TableName);
             TableFilename.Text = (Pinball.Table.TableFilename.IsNullOrWhiteSpace() ? "<No table file name set>" : Pinball.Table.TableFilename);
             TableRomname.Text = (Pinball.Table.RomName.IsNullOrWhiteSpace() ? "<No rom name set>" : Pinball.Table.RomName);
-            DOFPath.Text = new System.IO.FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).Directory.FullName;
+            DOFPath.Text = DirectOutputHandler.GetInstallFolder();
 
             GlobalConfigFilename.Text = (Pinball.GlobalConfig.GlobalConfigFilename.IsNullOrWhiteSpace() ? "<no global config file set>" : (Pinball.GlobalConfig.GetGlobalConfigFile().Exists ? Pinball.GlobalConfig.GlobalConfigFilename : "<no global config file found>"));
 

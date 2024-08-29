@@ -266,7 +266,7 @@ namespace DirectOutput.Frontend
             }
             else
             {
-                SaveCabinetConfiguration.InitialDirectory = new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName;
+                SaveCabinetConfiguration.InitialDirectory = DirectOutputHandler.GetInstallFolder();
             }
             if (SaveCabinetConfiguration.ShowDialog() == DialogResult.OK)
             {
@@ -279,7 +279,7 @@ namespace DirectOutput.Frontend
                 }
                 catch (Exception E)
                 {
-                    MessageBox.Show("Could not save cabinet config to\n{0}\n\nThe following error occured:\n{1}".Build(SaveCabinetConfiguration.FileName, E.Message), "File save error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Could not save cabinet config to\n{0}\n\nThe following error occurred:\n{1}".Build(SaveCabinetConfiguration.FileName, E.Message), "File save error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
 

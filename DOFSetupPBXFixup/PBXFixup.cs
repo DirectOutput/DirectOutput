@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Xml;
 using System.IO;
 using Microsoft.Win32;
+using System.Reflection.PortableExecutable;
 
 namespace DOFSetupPBXFixup
 {
@@ -22,11 +23,12 @@ namespace DOFSetupPBXFixup
 
             // Get the DirectOutput install location.  
             String dofPath = session.CustomActionData["INSTALLEDPATH"];
-            String bitness = session.CustomActionData["BITNESS"];
-            session.Log("Installation folder is " + dofPath + ", bitness=" + bitness);
+			String binDir = session.CustomActionData["BINDIR"];
+			String bitness = session.CustomActionData["BITNESS"];
+			session.Log("Installation path: " + dofPath + ", binary dir: " + binDir + ", bitness=" + bitness);
 
-            // Find PinballX's install location by searching for its uninstall key
-            String pbxPath = null;
+			// Find PinballX's install location by searching for its uninstall key
+			String pbxPath = null;
             try
             {
                 // Search the uninstall keys.  The subkeys are the Setup package
@@ -57,9 +59,29 @@ namespace DOFSetupPBXFixup
                             object dir = subkey.GetValue("InstallLocation");
                             if (dir != null && dir is string)
                             {
-                                session.Log(".. InstallLocation " + (string)dir);
-                                pbxPath = (string)dir;
-                                break;
+                                // check for an .EXE of the correct same 32/64-bit type as this install set
+                                try
+                                {
+                                    // open the file
+                                    var fs = File.OpenRead(Path.Combine(dir.ToString(), "pinballx.exe"));
+                                    var pe = new PEHeaders(fs);
+                                    if (pe.IsExe)
+                                    {
+                                        bool is64 = pe.IsExe && pe.PEHeader.Magic == PEMagic.PE32Plus;
+                                        if (is64 == (bitness == "64"))
+                                        {
+                                            // success - log it
+                                            session.Log(".. InstallLocation " + (string)dir);
+                                            pbxPath = (string)dir;
+                                            break;
+                                        }
+                                    }
+								}
+                                catch (Exception)
+                                {
+                                    // ignore the error and keep looking
+                                    continue;
+                                }
                             }
                         }
                     }
@@ -83,7 +105,7 @@ namespace DOFSetupPBXFixup
                     Directory.CreateDirectory(pluginsPath);
 
                     String dllName = "DirectOutput PinballX Plugin.dll";
-                    String src = Path.Combine(dofPath, dllName);
+                    String src = Path.Combine(dofPath, binDir, dllName);
                     String dst = Path.Combine(pluginsPath, dllName);
                     try
                     {

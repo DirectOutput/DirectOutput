@@ -126,50 +126,26 @@ Public Class ComObject
     ''' \remark: The DirectOutput framework uses the HostingApplicationName parameter to construct the name of the global config file. The name of the global config file is GlobalConfig_{HostingApplicationName}.xml<br/>
     ''' For more information on global configuration check the page on this topic in the documentation.
     ''' </summary>
-    ''' <param name="HostingApplicationName">Name of the hosting application. The parameter is used to contruct the name of the global config file for which the framework is looking.</param>
+    ''' <param name="HostingApplicationName">Name of the hosting application. The parameter is used to construct the name of the global config file for which the framework is looking.</param>
     ''' <param name="TableFileName">Name of the table file.<br/>If there is no table file available, it is recommended to supply the name and path of a not existing, dummy table file since the system can use this to determine the location of config files (depends on global config settings)</param>
     ''' <param name="GameName">Name of the game / rom name. <br/>If no rom name is available (e.g. for EM tables) you can supply a string which identifies the game uniquely. This para can be used to lookup table configs (depends on global config and the other config files).</param>
     ''' <exception cref="System.Exception">Object has already been initialized. Call Finish() before initializing again.</exception>
     Public Sub Init(HostingApplicationName As String, Optional TableFileName As String = "", Optional GameName As String = "")
         If Pinball Is Nothing Then
             Try
-                Dim HostAppFilename = HostingApplicationName.Replace(".", "")
-
-                For Each C As Char In Path.GetInvalidFileNameChars()
-                    HostAppFilename = HostAppFilename.Replace("" + C, "")
-                Next
-
-                For Each C As Char In Path.GetInvalidPathChars()
-                    HostAppFilename = HostAppFilename.Replace("" + C, "")
-                Next
-                HostAppFilename = "GlobalConfig_{0}".Build(HostAppFilename)
+                ' get the global config file name
                 Dim F As FileInfo
+                F = New FileInfo(DirectOutputHandler.GetGlobalConfigFileName(HostingApplicationName))
 
-                F = New FileInfo(Path.Combine(New FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName, "config", HostAppFilename + ".xml"))
-                If F.Exists = False Then
-                    Dim LnkFile As FileInfo
-                    LnkFile = New FileInfo(Path.Combine(New FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName, "config", HostAppFilename + ".lnk"))
-                    If LnkFile.Exists Then
-                        Dim ConfigDirPath As String
-                        ConfigDirPath = ResolveShortcut(LnkFile)
-                        If Directory.Exists(ConfigDirPath) Then
-                            F = New FileInfo(Path.Combine(ConfigDirPath, HostAppFilename + ".xml"))
-                        End If
-                    End If
-                End If
-
-
-
-
+                ' create and initialize the main DOF Pinball object
                 Pinball = New DirectOutput.Pinball()
-
                 Pinball.Setup(F.FullName, TableFileName, GameName)
                 Pinball.Init()
             Catch E As Exception
 
-                Log.Warning(String.Format("DirectOutputComObject: A exception occured while initializing DOF: {0}", E.Message))
+                Log.Warning(String.Format("DirectOutputComObject: A exception occurred while initializing DOF: {0}", E.Message))
                 Log.Exception(E)
-                Throw (New Exception(String.Format("DirectOutputComObject: A exception occured while initializing DOF: {0}", E.Message)))
+                Throw (New Exception(String.Format("DirectOutputComObject: A exception occurred while initializing DOF: {0}", E.Message)))
             End Try
 
         Else
@@ -216,17 +192,17 @@ Public Class ComObject
     ''' <summary>
     ''' Shows the frontend of the DirectOutput framework.
     ''' </summary>
-    ''' <exception cref="System.Exception">Init has to be called before the frontend is opend.</exception>
+    ''' <exception cref="System.Exception">Init has to be called before the frontend is opened.</exception>
     Public Sub ShowFrontend()
 
         If Pinball IsNot Nothing Then
             Try
                 DirectOutput.Frontend.MainMenu.Open(Pinball)
             Catch ex As Exception
-                System.Windows.Forms.MessageBox.Show("Could not show DirectOutput frontend.\n The following exception occured:\n{0}".Build(ex.Message), "DirectOutput")
+                System.Windows.Forms.MessageBox.Show("Could not show DirectOutput frontend.\n The following exception occurred:\n{0}".Build(ex.Message), "DirectOutput")
             End Try
         Else
-            Throw New Exception("Init has to be called before the frontend is opend.")
+            Throw New Exception("Init has to be called before the frontend is opened.")
         End If
 
     End Sub

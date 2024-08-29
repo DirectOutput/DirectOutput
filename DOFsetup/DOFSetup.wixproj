@@ -211,9 +211,9 @@
      pretty much by design - the GUIDs that it extracts have to be
      permanent since they're the way other programs find the COM object.
 -->
-    <HeatFile ToolPath="$(WixToolPath)" NoLogo="true" File="$(SolutionDir)bin\x86\$(Configuration)\DirectOutputComObject.dll" OutputFile="$(ProjectDir)Generated\RegisterDirectOutputComObjectDll.wxs" DirectoryRefId="DOFDIR" PreprocessorVariable="var.DirectOutputComObject.TargetDir" SuppressRootDirectory="true" GenerateGuidsNow="true" SuppressFragments="true" SuppressUniqueIds="true" RunAsSeparateProcess="$(RunWixToolsOutOfProc)" />
+    <HeatFile ToolPath="$(WixToolPath)" NoLogo="true" File="$(SolutionDir)bin\x86\$(Configuration)\DirectOutputComObject.dll" OutputFile="$(ProjectDir)Generated\RegisterDirectOutputComObjectDll.wxs" DirectoryRefId="BINDIR" PreprocessorVariable="var.DirectOutputComObject.TargetDir" SuppressRootDirectory="true" GenerateGuidsNow="true" SuppressFragments="true" SuppressUniqueIds="true" RunAsSeparateProcess="$(RunWixToolsOutOfProc)" />
     <!-- Run heat again to generate the Wix script elements for the
     COM type library (.tlb) -->
-    <HeatFile ToolPath="$(WixToolPath)" NoLogo="true" File="$(SolutionDir)bin\$(Platform)\$(Configuration)\DirectOutputComObject.tlb" OutputFile="$(ProjectDir)Generated\RegisterDirectOutputComObjectTlb.wxs" DirectoryRefId="DOFDIR" PreprocessorVariable="var.DirectOutputComObject.TargetDir" SuppressRootDirectory="true" GenerateGuidsNow="true" SuppressFragments="true" SuppressUniqueIds="true" RunAsSeparateProcess="$(RunWixToolsOutOfProc)" Transforms="FixGeneratedTlb_$(Platform).xslt" />
+    <HeatFile ToolPath="$(WixToolPath)" NoLogo="true" File="$(SolutionDir)bin\$(Platform)\$(Configuration)\DirectOutputComObject.tlb" OutputFile="$(ProjectDir)Generated\RegisterDirectOutputComObjectTlb.wxs" DirectoryRefId="BINDIR" PreprocessorVariable="var.DirectOutputComObject.TargetDir" SuppressRootDirectory="true" GenerateGuidsNow="true" SuppressFragments="true" SuppressUniqueIds="true" RunAsSeparateProcess="$(RunWixToolsOutOfProc)" Transforms="FixGeneratedTlb_$(Platform).xslt" />
   </Target>
 </Project>

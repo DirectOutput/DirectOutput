@@ -27,12 +27,12 @@ namespace DirectOutput.GlobalConfiguration
         private int _LedWizDefaultMinCommandIntervalMs = 10;
 
         /// <summary>
-        /// Gets or sets the mininimal interval between commands sent to the LedWiz.
+        /// Gets or sets the minimal interval between commands sent to the LedWiz.
         /// This works around a design defect in the LedWiz that makes it misinterpret
         /// commands if USB packets are sent too quickly.  See LedWiz.cs for details.
         /// </summary>
         /// <value>
-        /// The minum interval between commands sent to LedWiz units, in milliseconds.
+        /// The minimum interval between commands sent to LedWiz units, in milliseconds.
         /// </value>
         public int LedWizDefaultMinCommandIntervalMs
         {
@@ -46,7 +46,7 @@ namespace DirectOutput.GlobalConfiguration
         /// <summary>
         /// Gets or sets the minimum duration in milliseconds for LedControl effects occupying one output (e.g. contactors).<br/>
         /// This settings has no effect if a duration or blinking is defined for the LedControlEffect.<br/>
-        /// If this value is not specified in the globalconfig file, 60 miliseconds will be used by default.
+        /// If this value is not specified in the global config file, 60 milliseconds will be used by default.
         /// </summary>
         /// <value>
         /// The minimum effect duration in milliseconds.
@@ -60,9 +60,9 @@ namespace DirectOutput.GlobalConfiguration
         private int _LedControlMinimumRGBEffectDurationMs = 120;
 
         /// <summary>
-        /// Gets or sets the minimum duration in milliseconds for LedControl effects controlling RGB leds.<br/>
+        /// Gets or sets the minimum duration in milliseconds for LedControl effects controlling RGB LEDs.<br/>
         /// This settings has no effect if a duration or blinking is defined for the LedControlEffect.
-        /// If this value is not specified in the globalconfig file, 120 miliseconds will be used by default.
+        /// If this value is not specified in the global config file, 120 milliseconds will be used by default.
         /// </summary>
         /// <value>
         /// The minimum effect duration in milliseconds.
@@ -77,12 +77,12 @@ namespace DirectOutput.GlobalConfiguration
         private int _PacLedDefaultMinCommandIntervalMs = 10;
 
         /// <summary>
-        /// Gets or sets the mininimal interval between commands sent to the PacLed64.
+        /// Gets or sets the minimal interval between commands sent to the PacLed64.
         /// The PacLed appears to have a design defect similar to the LedWiz that requires
         /// a similar workaround of spacing out commands sent to the device.
         /// </summary>
         /// <value>
-        /// The minum interval between commands sent to PacLed units, in milliseconds.
+        /// The minimum interval between commands sent to PacLed units, in milliseconds.
         /// </value>
         public int PacLedDefaultMinCommandIntervalMs
         {
@@ -115,49 +115,48 @@ namespace DirectOutput.GlobalConfiguration
         /// <returns>Dictionary of ini files. Key is the ini file number, value is the ini file.</returns>
         public Dictionary<int, FileInfo> GetIniFilesDictionary(string TableFilename = "")
         {
-           //Build the array of possible paths for the ini files
-
+            // Build the array of possible paths for the ini files
             List<string> LookupPaths = new List<string>();
 
+            // start with the configured path list
             if (!IniFilesPath.IsNullOrWhiteSpace())
             {
                 try
                 {
                     DirectoryInfo DI = new DirectoryInfo(IniFilesPath);
                     if (DI.Exists)
-                    {
                         LookupPaths.Add(DI.FullName);
-                    }
-                } catch (Exception E) {
-                    Log.Exception("The specified IniFilesPath {0} could not be used due to a exception.".Build(IniFilesPath),E);
-                } ;
+                }
+                catch (Exception E) 
+                {
+                    Log.Exception("The specified IniFilesPath {0} could not be used due to a exception.".Build(IniFilesPath), E);
+                }
             }
 
-
+            // add the table file folder, if available
             if (!TableFilename.IsNullOrWhiteSpace())
             {
                 try
                 {
                     if (new FileInfo(TableFilename).Directory.Exists)
-                    {
                         LookupPaths.Add(new FileInfo(TableFilename).Directory.FullName);
-                    }
                 }
                 catch { }
             }
 
+            // add the global config folder
 			if (GetGlobalConfigDirectory() != null)
-			{
 				LookupPaths.Add(GetGlobalConfigDirectory().FullName);
-			}
+
+            // add the working directory
 			LookupPaths.Add(Directory.GetCurrentDirectory());
 
-			if (!Assembly.GetExecutingAssembly().Location.IsNullOrEmpty()) {
-				LookupPaths.Add(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
-			}
+            // add the root DOF install folder
+            var InstallFolder = DirectOutputHandler.GetInstallFolder();
+			if (InstallFolder != null)
+				LookupPaths.Add(InstallFolder);
 
-            //Build the dictionary of ini files
-
+            // Build the dictionary of ini files
             Dictionary<int, FileInfo> IniFiles = new Dictionary<int, FileInfo>();
 
             bool FoundIt = false;
@@ -264,9 +263,9 @@ namespace DirectOutput.GlobalConfiguration
         /// Gets or sets the path and name for the file containing shape definitions.
         /// </summary>
         /// <value>
-        /// The path and name of the file containing shape defintions.
+        /// The path and name of the file containing shape definitions.
         /// </value>
-        public FilePattern ShapeDefintionFilePattern
+        public FilePattern ShapeDefinitionFilePattern
         {
             get { return _ShapeDefinitionFilePattern; }
             set { _ShapeDefinitionFilePattern = value; }
@@ -278,9 +277,9 @@ namespace DirectOutput.GlobalConfiguration
         /// <returns>FileInfo object for the xml file defining the shapes to be used by DOF</returns>
         public FileInfo GetShapeDefinitionFile(string TableFilename="", string RomName="")
         {
-            if (ShapeDefintionFilePattern!=null && !ShapeDefintionFilePattern.Pattern.IsNullOrWhiteSpace() && ShapeDefintionFilePattern.IsValid)
+            if (ShapeDefinitionFilePattern!=null && !ShapeDefinitionFilePattern.Pattern.IsNullOrWhiteSpace() && ShapeDefinitionFilePattern.IsValid)
             {
-                return ShapeDefintionFilePattern.GetFirstMatchingFile(GetReplaceValuesDictionary(TableFilename, RomName));
+                return ShapeDefinitionFilePattern.GetFirstMatchingFile(GetReplaceValuesDictionary(TableFilename, RomName));
             }
             Dictionary<int, FileInfo> IniFilesDict = GetIniFilesDictionary(TableFilename);
             if (IniFilesDict.Count > 0)
@@ -371,7 +370,7 @@ namespace DirectOutput.GlobalConfiguration
         private FilePatternList _TableConfigFilePatterns = new FilePatternList();
 
         /// <summary>
-        /// Gets or sets the config file patterns used to looup the table configuration.
+        /// Gets or sets the config file patterns used to lookup the table configuration.
         /// </summary>
         /// <value>
         /// The table config file patterns.
@@ -384,7 +383,7 @@ namespace DirectOutput.GlobalConfiguration
 
         /// <summary>
         /// Gets a FileInfo object for the table config file.<br/>
-        /// The file is lookued up using the list of the property TableConfigFilePatterns.
+        /// The file is looked up using the list of the property TableConfigFilePatterns.
         /// If more than one file matches the search patterns, only the first file is returned.
         /// </summary>
         /// <param name="FullTableFilename">The table filename (The *.vpt file for the table, not the config file).</param>
@@ -406,7 +405,7 @@ namespace DirectOutput.GlobalConfiguration
 
 
         /// <summary>
-        /// Gets or sets a value indicating whether impotant events in the framework are logged to a file.
+        /// Gets or sets a value indicating whether important events in the framework are logged to a file.
         /// </summary>
         /// <value>
         ///   <c>true</c> if logging is enabled, <c>false</c> if logging is disabled.
@@ -450,6 +449,15 @@ namespace DirectOutput.GlobalConfiguration
         /// - {Date}
         /// - {Time}
         /// 
+        /// Note that {DllDir} is a misnomer; it's actually the installation folder.
+        /// In the newer install configuration, the DLLs are in subfolders that separate
+        /// them by architecture (x86\, x64\).  Since {DllDir} is used in user-editable
+        /// config files for locating assets (e.g., the predefined .png files for matrix
+        /// effects), we have to preserve its semantic meaning of the folder containing
+        /// the asset files.  It's still the parent folder of the DLLs as long as you
+        /// think of the DLL name as a relative path starting with the the x86\ or x64\ 
+        /// subfolder name.
+        /// 
         /// </summary>
         /// <value>
         /// The log file pattern.
@@ -483,17 +491,28 @@ namespace DirectOutput.GlobalConfiguration
         internal Dictionary<string, string> GetReplaceValuesDictionary(string TableFileName = null, string RomName = "")
         {
             Dictionary<string, string> D = new Dictionary<string, string>();
+
+            // add the global config folder
             if (GetGlobalConfigFile() != null)
             {
                 D.Add("GlobalConfigDirectory", GetGlobalConfigDirectory().FullName);
                 D.Add("GlobalConfigDir", GetGlobalConfigDirectory().FullName);
             }
 
-            FileInfo FI = new FileInfo(Assembly.GetExecutingAssembly().Location.IsNullOrEmpty() ? Directory.GetCurrentDirectory() : Assembly.GetExecutingAssembly().Location);
+			// The {DllDir} and {AssemblyDir} variables have actually always been
+            // semantically the install folder, since the main use in user-facing
+            // config files is as the location for predefined asset files (e.g.,
+            // the matrix effect .png files).  In the new x86/x64 combined install
+            // configuration, the literal DLL folder is an architecture-specific
+            // subfolder of the install folder.
+			var InstallDir = DirectOutputHandler.GetInstallFolder();
+			FileInfo FI = new FileInfo(InstallDir.IsNullOrEmpty() ? Directory.GetCurrentDirectory() : InstallDir);
             D.Add("DllDirectory", FI.Directory.FullName);
             D.Add("DllDir", FI.Directory.FullName);
             D.Add("AssemblyDirectory", FI.Directory.FullName);
             D.Add("AssemblyDir", FI.Directory.FullName);
+
+            // add the table folder
             if (!TableFileName.IsNullOrWhiteSpace())
             {
                 FI = new FileInfo(TableFileName);
@@ -505,16 +524,14 @@ namespace DirectOutput.GlobalConfiguration
                     D.Add("TableDirName", FI.Directory.Name);
                 }
 
-                    D.Add("TableName", Path.GetFileNameWithoutExtension(FI.FullName));
+                D.Add("TableName", Path.GetFileNameWithoutExtension(FI.FullName));
             }
+            
+            // add the ROM name
             if (!RomName.IsNullOrWhiteSpace())
-            {
                 D.Add("RomName", RomName);
-            }
-
 
             return D;
-
         }
 
 
@@ -656,7 +673,7 @@ namespace DirectOutput.GlobalConfiguration
 
 
         /// <summary>
-        /// Instanciates a GlobalConfig object from a global configuration in a XML string.
+        /// Instantiates a GlobalConfig object from a global configuration in a XML string.
         /// </summary>
         /// <param name="ConfigXml">XML string</param>
         /// <returns>GlobalConfig object for the specified ConfigXML or null if the XML data can not be deserialized.</returns>

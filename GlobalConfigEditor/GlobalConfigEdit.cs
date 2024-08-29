@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using DirectOutput.GlobalConfiguration;
 using System.IO;
+using DirectOutput;
 
 namespace GlobalConfigEditor
 {
@@ -68,7 +69,7 @@ namespace GlobalConfigEditor
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show("A exception occured when loading the global config file {0}.\nWill use empty global config instead.".Build(Filename), "Global config loading error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("A exception occurred when loading the global config file {0}.\nWill use empty global config instead.".Build(Filename), "Global config loading error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Config = new GlobalConfig();
                 }
             }
@@ -211,7 +212,7 @@ namespace GlobalConfigEditor
         {
             if (ContinueDialog())
             {
-                OpenGlobalConfigDialog.InitialDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+                OpenGlobalConfigDialog.InitialDirectory = DirectOutputHandler.GetInstallFolder();
 
                 if (OpenGlobalConfigDialog.ShowDialog(Owner) == DialogResult.OK)
                 {

@@ -17,13 +17,13 @@
 	  <?define msiProductName = "DirectOutput64" ?>
 	  <?define msiBitness = "64" ?>
 	  <?define Win64 = "yes" ?>
-	  <?define BinDirName = "Dof64" ?>
+	  <?define BinDirName = "x64" ?>
 	<?else ?>
 	  <?define msiUpgradeCode = "94E0D0EE-C078-42C6-AD9F-4030B329A040" ?>
   	<?define msiProductName = "DirectOutput32" ?>
   	<?define msiBitness = "32" ?>
 	  <?define Win64 = "no" ?>
-	  <?define BinDirName = "Dof32" ?>
+	  <?define BinDirName = "x86" ?>
   <?endif ?>
 
 	<Product Id="*"
@@ -149,11 +149,11 @@
     <CustomAction
       Id="SetB2SVars"
       Return="check"
-      Property="B2SFixup" Value="INSTALLEDPATH=[DOFDIR];BITNESS=$(var.msiBitness)" />
+      Property="B2SFixup" Value="INSTALLEDPATH=[DOFDIR];BINDIR=$(var.BinDirName);BITNESS=$(var.msiBitness)" />
     <CustomAction
       Id="SetPBXVars"
       Return="check"
-      Property="PBXFixup" Value="INSTALLEDPATH=[DOFDIR];BITNESS=$(var.msiBitness)" />
+      Property="PBXFixup" Value="INSTALLEDPATH=[DOFDIR];BINDIR=$(var.BinDirName);BITNESS=$(var.msiBitness)" />
 
     <!-- Set up our custom action sequence.  The property setter has to run
          before each C# task. -->
@@ -206,8 +206,8 @@
         </RegistryKey>
 
 				<!--
-					In the current install scheme, the binary files are stored in Dof32/ 
-					and Dof64/ subfolders, according to the bitness of the install.  Older
+					In the current install scheme, the binary files are stored in x86/ 
+					and x64/ subfolders, according to the bitness of the install.  Older
 					installs put the binaries in the main install folder.  In case we're
 					installing a new version on top of an existing folder created by an
 					older installer, delete old binaries found in the main folder, to
@@ -244,7 +244,7 @@
       </Component>
     </DirectoryRef>
 		
-		<!-- Binary files - these go in a bitness-specific subfolder (Dof32 or Dof64) -->
+		<!-- Binary files - these go in a bitness-specific subfolder (x86 or x64) -->
 		<DirectoryRef Id="BINDIR">
 			<Component Id="BinFiles" Guid="{51DDDA63-C2BC-4399-A804-11C6D4959314}">
 

@@ -85,7 +85,7 @@ namespace PinballX
 
 
         /// <summary>
-        /// Instanciates a config object from a cabinet configuration in a XML file.
+        /// Instantiates a config object from a cabinet configuration in a XML file.
         /// </summary>
         /// <param name="FileName">Name of the XML file or null to use the default config filename.</param>
         /// <returns>Config object</returns>
@@ -112,7 +112,7 @@ namespace PinballX
 
 
         /// <summary>
-        /// Instanciates a Cabinet object from a cabinet configuration in a XML string.
+        /// Instantiates a Cabinet object from a cabinet configuration in a XML string.
         /// </summary>
         /// <param name="ConfigXml">XML string</param>
         /// <returns>Cabinet object</returns>

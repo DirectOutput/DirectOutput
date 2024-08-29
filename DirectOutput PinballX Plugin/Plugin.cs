@@ -128,7 +128,7 @@ namespace PinballX
             }
             else
             {
-                Log("No PBX copnfig data found");
+                Log("No PBX config data found");
                 //No ini file found
             }
         }
@@ -192,12 +192,12 @@ namespace PinballX
 
         Dictionary<string, string> RomLookupCache = new Dictionary<string, string>();
 
-        private string GetRom(string GameDecriptionShort)
+        private string GetRom(string GameDescriptionShort)
         {
-            string GameDesc = CleanGameDescription(GameDecriptionShort.ToUpper());
+            string GameDesc = CleanGameDescription(GameDescriptionShort.ToUpper());
 
 
-            if (TableRomNames.Contains(GameDecriptionShort)) return GameDesc;
+            if (TableRomNames.Contains(GameDescriptionShort)) return GameDesc;
 
 
             if (RomLookupCache.ContainsKey(GameDesc)) return RomLookupCache[GameDesc];
@@ -308,10 +308,10 @@ namespace PinballX
         /// <summary>
         /// Initializes the plugin.
         /// This method is called when PinballX loads and initializes the plugin.
-        /// Be sure to return false if a exception ocurres during plugin initialization (plugin will be disabled).
+        /// Be sure to return false if a exception occurs during plugin initialization (plugin will be disabled).
         /// </summary>
         /// <param name="InfoPtr">The InfoPTR for the PinballXInfo struct.</param>
-        /// <returns><c>true</c> if the plugins has been initialized succesfully, otherwise <c>false</c></returns>
+        /// <returns><c>true</c> if the plugins has been initialized successfully, otherwise <c>false</c></returns>
         public bool Initialize(IntPtr InfoPtr)
         {
             PinballXInfo Info = (PinballXInfo)Marshal.PtrToStructure(InfoPtr, typeof(PinballXInfo));
@@ -487,7 +487,7 @@ namespace PinballX
         /// To do nothing return an empty string or the same command line 
         /// </summary>
         /// <param name="InfoPtr">The InfoPTR to the GameInfo structure.</param>
-        /// <returns>Returns the parameters for the command line (modified if required) or a emty string to preserve to or command line paras.</returns>
+        /// <returns>Returns the parameters for the command line (modified if required) or a empty string to preserve to or command line paras.</returns>
         public string Event_Parameters(IntPtr InfoPtr)
         {
 
@@ -666,7 +666,7 @@ namespace PinballX
 
                     case 1:
                         SendAction("PBXScreenSaverStart");
-                        DM.UpdateNamedTableElement("PBXcreenSaver", 1);
+                        DM.UpdateNamedTableElement("PBXScreenSaver", 1);
                         break;
 
                     case 2:
@@ -747,8 +747,8 @@ namespace PinballX
 
         #region PluginInfo Properties
 
-        // Usually it is not necessary to modfy the code for the following properties.
-        // Instead set the correct values for those properties in the PlufinInfo structure.
+        // Usually it is not necessary to modify the code for the following properties.
+        // Instead set the correct values for those properties in the PluginInfo structure.
 
         public string Name
         {
