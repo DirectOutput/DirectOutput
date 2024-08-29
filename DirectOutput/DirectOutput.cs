@@ -144,29 +144,32 @@ namespace DirectOutput
             // Get the full path to the running assembly (i.e., the DOF DLL that
             // this code is part of).  This is the full name of the DLL file,
             // with absolute path.  If this is null, return null.
-            var assemblyLocation = Assembly.GetExecutingAssembly().Location;
-            if (assemblyLocation.IsNullOrEmpty())
+            var AssemblyLocation = Assembly.GetExecutingAssembly().Location;
+            if (AssemblyLocation.IsNullOrEmpty())
                 return null;
 
             // get the path to the assembly
-            var assemblyPath = new FileInfo(assemblyLocation).Directory.FullName;
+            var AssemblyPath = new FileInfo(AssemblyLocation).Directory.FullName;
 
-            // Check for the existence of a Config folder in this directory.  If
-            // there's no such folder, AND there's a Config folder in the parent
-            // directory, assume that we're running in the new install configuration
-            // with x86 and x64 subfolders for the binaries.
-            if (!new FileInfo(Path.Combine(assemblyPath, "Config")).Exists
-                && new FileInfo(Path.Combine(assemblyPath, "..\\Config")).Exists)
+			// Check for the existence of a Config folder in this directory.  If
+			// there's no such folder, AND there's a Config folder in the parent
+			// directory, assume that we're running in the new install configuration
+			// with x86 and x64 subfolders for the binaries.
+			var AssemblyConfigPath = new DirectoryInfo(Path.Combine(AssemblyPath, "Config"));
+            var AssemblyParentConfigPath = new DirectoryInfo(Path.GetFullPath(Path.Combine(AssemblyPath, "..\\Config")));
+			if (!AssemblyConfigPath.Exists && AssemblyParentConfigPath.Exists)
             {
                 // new configuration with binary subfolders - the assembly is in
                 // a subfolder within the install folder, so the install folder
                 // is the parent of the assembly folder
-                return Path.GetDirectoryName(assemblyPath);
+                Log.Write("Install folder lookup: install folder is PARENT of assembly folder (new x86/x64 install configuration)");
+                return Path.GetDirectoryName(AssemblyPath);
             }
             else
             {
                 // old flat configuration - the assembly is in the install folder
-                return assemblyPath;
+                Log.Write("Install folder lookup: install folder is ASSEMBLY folder (original flat install configuration)");
+                return AssemblyPath;
             }
         }
 
@@ -221,7 +224,8 @@ namespace DirectOutput
 
             // Get the config file location.  Start with the install folder.
             var installFolder = GetInstallFolder();
-            FileInfo F;
+            Log.Write("Global config file lookup: install folder is " + installFolder ?? "<null>");
+			FileInfo F;
             if (installFolder == null)
             {
                 // we can't identify the install folder, so default to the working
@@ -232,7 +236,10 @@ namespace DirectOutput
             // look for an .xml file in the Config folder
             F = new FileInfo(Path.Combine(installFolder, "Config", HostAppConfigFileName));
             if (F.Exists)
+            {
+                Log.Write("Global config file lookup: found file under [DirectOutput]\\Config: " + F.FullName);
                 return F.FullName;
+            }
 
             // no luck with the .xml file; look for a shortcut (.lnk) to the file
             FileInfo LnkFile = new FileInfo(Path.Combine(installFolder, "Config", HostAppConfigRootName + ".lnk"));
@@ -240,27 +247,38 @@ namespace DirectOutput
             {
                 // there's a link; resolve it
                 string ResolvedLinkPath = ResolveShortcut(LnkFile);
-                if (Directory.Exists(ResolvedLinkPath))
+				Log.Write("Global config file lookup: found shortcut (.lnk) -> " + ResolvedLinkPath);
+				if (Directory.Exists(ResolvedLinkPath))
                 {
                     F = new FileInfo(Path.Combine(ResolvedLinkPath, HostAppConfigFileName));
                     if (F.Exists)
+                    {
+                        Log.Write("Global config file lookup: using shortcut location: " + F.FullName);
                         return F.FullName;
+                    }
                 }
             }
 
             // try looking directly in the install folder
             F = new FileInfo(Path.Combine(installFolder, HostAppConfigFileName));
             if (F.Exists)
+            {
+                Log.Write("Global config file lookup: found in main install folder: " + F.FullName);
                 return F.FullName;
+            }
 
             // If we still haven't found the file, give up; we still need a filename,
             // so set it to the default Config folder location if one exists, otherwise
             // the install folder.
             F = new FileInfo(Path.Combine(installFolder, "Config", HostAppConfigFileName));
             if (!F.Directory.Exists)
+            {
+                Log.Write("Global config file lookup: Config folder (" + F.Directory.FullName + ") not found, using main install folder: " + F.FullName);
                 F = new FileInfo(Path.Combine(installFolder, HostAppConfigFileName));
+            }
 
             // return what we found
+            Log.Write("Global config file lookup: file not found, using notional default: " + F.FullName);
             return F.FullName;
         }
 		

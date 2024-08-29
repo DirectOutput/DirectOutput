@@ -20,4 +20,4 @@ Imports System.Runtime.InteropServices
 'Die folgende GUID bestimmt die ID der Typbibliothek, wenn dieses Projekt für COM verfügbar gemacht wird
 <Assembly: Guid("f1519cb6-259e-4c8e-84ce-092c4cd69fb1")>
 
-<Assembly: AssemblyVersion("3.1.*")>
+<Assembly: AssemblyVersion("3.2.*")>

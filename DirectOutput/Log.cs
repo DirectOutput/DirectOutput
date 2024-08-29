@@ -56,7 +56,7 @@ namespace DirectOutput
                         Version V = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
                         DateTime BuildDate = new DateTime(2000, 1, 1).AddDays(V.Build).AddSeconds(V.Revision * 2);
                         Logger.WriteLine("DirectOutput Version {0}, built {1}".Build(V.ToString(), BuildDate.ToString("yyyy.MM.dd HH:mm")));
-                        Logger.WriteLine("MJR Grander Unified DOF R3++ edition feat. Djrobx, Rambo3, and Freezy");
+                        Logger.WriteLine("MJR Grander Unified DOF R3++ {0} edition feat. Djrobx, Rambo3, Freezy, and philipellisis", Environment.Is64BitProcess ? "x64" : "x86");
                         Logger.WriteLine("DOF created by SwissLizard | https://github.com/mjrgh/DirectOutput");
 
                         Logger.WriteLine("{0}\t{1}", DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss.fff"), "DirectOutput Logger initialized");
