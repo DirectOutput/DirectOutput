@@ -1,4 +1,4 @@
-# Manifest for DOF release ZIP - Debug x86 configuration
+# Manifest for DOF x64 release ZIP
 
 B2SServerDirectOutputPlugin.dll
 DirectOutputComObject.dll
@@ -13,3 +13,6 @@ RegisterDirectOutputComObject.exe
 
 DirectOutputShapes.png
 DirectOutputShapes.xml
+
+DOFSlave.exe
+ProPinballBridge.dll

@@ -1,0 +1,18 @@
+# Manifest for DOF x86 release ZIP
+
+B2SServerDirectOutputPlugin.dll
+DirectOutputComObject.dll
+DirectOutputComObject.tlb
+DirectOutput PinballX Plugin.dll
+DirectOutput.dll
+
+DirectOutputConfigTester.exe
+GlobalConfigEditor.exe
+LedControlFileTester.exe
+RegisterDirectOutputComObject.exe
+
+DirectOutputShapes.png
+DirectOutputShapes.xml
+
+DOFSlave.exe
+ProPinballBridge.dll
