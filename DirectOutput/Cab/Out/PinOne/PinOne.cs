@@ -6,7 +6,7 @@ using System.IO.Ports;
 namespace DirectOutput.Cab.Out.PinOne
 {
     /// <summary>
-    /// The <a href="https://clevelandsoftwaredesign.com">PinOne Controller</a> is an open-source
+    /// The <a href="https://clevelandsoftwaredesign.com">PinOne Controller</a> is a free for non commercial use
     /// software/hardware project based on the inexpensive, easy to use Arduino microcontroller development platform. Almost any
     /// Arduino based board will work with the software, but the Cleveland Software Design PinOne board is 
     /// specifically designed to work with the software and has all the hardware components already added into it. 
@@ -95,8 +95,9 @@ namespace DirectOutput.Cab.Out.PinOne
         #region ComPort property core parts
         private string _ComPort = "comm1";
         private bool ComPortSet = false;
-        private SerialPort Port = null;
         private object PortLocker = new object();
+        private bool isMaster = false;
+        private PinOneCommunication pinOneCommunication;
 
         /// <summary>
         /// Gets or sets the mininimal interval between command in miliseconds (Default: 1ms).
@@ -206,7 +207,7 @@ namespace DirectOutput.Cab.Out.PinOne
                         buf[0] = 0;             // USB report ID - always 0
                         buf[1] = pfx;			// message prefix
                         Array.Copy(NewOutputValues, i, buf, 2, lim - i);
-                        Port.Write(buf, 0, buf.Length);
+                        pinOneCommunication.Write(buf);
 
                         // the new values are now the current values on the device
                         Array.Copy(NewOutputValues, i, OldOutputValues, i, lim - i);
@@ -238,17 +239,28 @@ namespace DirectOutput.Cab.Out.PinOne
             {
                 lock (PortLocker)
                 {
-                    if (Port != null)
+                    if (pinOneCommunication != null)
                     {
                         DisconnectFromController();
                     }
 
-                    Port = new SerialPort(ComPort, 2000000, Parity.None, 8, StopBits.One);
-                    Port.NewLine = "\r\n";
-                    Port.ReadTimeout = 500;
-                    Port.WriteTimeout = 500;
-                    Port.Open();
-                    Port.DtrEnable = true;
+                    pinOneCommunication = new PinOneCommunication(ComPort);
+                    if (!pinOneCommunication.ConnectToServer())
+                    {
+                        if(pinOneCommunication.CreateServer())
+                        {
+                            isMaster = true;
+                            if (!pinOneCommunication.ConnectToServer())
+                            {
+                                throw new Exception("Unable to connect to server after new creation");
+                            }
+                        } else
+                        {
+                            throw new Exception("Unable to create server");
+                        }
+                        
+
+                    }
                 }
             }
             catch (Exception E)
@@ -266,10 +278,10 @@ namespace DirectOutput.Cab.Out.PinOne
         {
             lock (PortLocker)
             {
-                if (Port != null)
+                if (pinOneCommunication != null)
                 {
-                    Port.Close();
-                    Port = null;
+                    pinOneCommunication.DisconnectFromServer();
+
                 }
 
             }

@@ -21,7 +21,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
     /// </summary>
     public class TeensyStripController : OutputControllerCompleteBase
     {
-        protected int[] NumberOfLedsPerStrip = new int[8];
+        protected int[] NumberOfLedsPerStrip = new int[10];
 
         /// <summary>
         /// Gets or sets the number of leds of ledstrip connected to channel 1 of the Teensy.
@@ -166,6 +166,42 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             set
             {
                 NumberOfLedsPerStrip[7] = value;
+                base.SetupOutputs();
+            }
+        }
+        /// <summary>
+        /// Gets or sets the number of leds of ledstrip connected to channel 9 of the Teensy.
+        /// </summary>
+        /// <value>
+        /// The number of leds on the ledstrip connected to channel 9 of the Teensy.
+        /// </value>
+        public int NumberOfLedsStrip9
+        {
+            get
+            {
+                return NumberOfLedsPerStrip[8];
+            }
+            set
+            {
+                NumberOfLedsPerStrip[8] = value;
+                base.SetupOutputs();
+            }
+        }
+        /// <summary>
+        /// Gets or sets the number of leds of ledstrip connected to channel 10 of the Teensy.
+        /// </summary>
+        /// <value>
+        /// The number of leds on the ledstrip connected to channel 10 of the Teensy.
+        /// </value>
+        public int NumberOfLedsStrip10
+        {
+            get
+            {
+                return NumberOfLedsPerStrip[9];
+            }
+            set
+            {
+                NumberOfLedsPerStrip[9] = value;
                 base.SetupOutputs();
             }
         }
@@ -404,7 +440,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             byte[] AnswerData;
             int BytesRead;
             int SourcePosition = 0;
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 10; i++)
             {
                 int NrOfLedsOnStrip = NumberOfLedsPerStrip[i];
                 if (NrOfLedsOnStrip > 0)
@@ -559,7 +595,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             ComPort.StopBits = ComPortStopBits;
             ComPort.ReadTimeout = ComPortTimeOutMs;
             ComPort.WriteTimeout = ComPortTimeOutMs;
-			ComPort.DtrEnable = ComPortDtrEnable;
+			
 
             try
             {
@@ -573,6 +609,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             try
             {
                 ComPort.Open();
+                ComPort.DtrEnable = ComPortDtrEnable;
             }
             catch (Exception E)
             {
