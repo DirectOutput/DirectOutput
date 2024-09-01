@@ -37,7 +37,7 @@ namespace DirectOutput.Cab
                 }
                 catch (Exception E)
                 {
-                    Log.Exception("A exception occured during auto configuration for output controller(s) of type {0}.".Build(T.Name), E);                    
+                    Log.Exception("A exception occurred during auto configuration for output controller(s) of type {0}.".Build(T.Name), E);                    
                 }
             }
 

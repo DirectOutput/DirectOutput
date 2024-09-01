@@ -282,6 +282,9 @@
     <Compile Include="Cab\Out\PinOne\PinOne.cs" />
     <Compile Include="Cab\Out\PinOne\PinOneAutoConfigurator.cs" />
     <Compile Include="Cab\Out\PinOne\PinOneCommunication.cs" />
+    <Compile Include="Cab\Out\PSPico\PinscapePico.cs" />
+    <Compile Include="Cab\Out\PSPico\PinscapePicoAutoConfigurator.cs" />
+    <Compile Include="Cab\Out\PSPico\PSPico.cs" />
     <Compile Include="Cab\Out\PS\Pinscape.cs" />
     <Compile Include="Cab\Out\PS\PinscapeAutoConfigurator.cs" />
     <Compile Include="Cab\Out\PS\PS.cs" />

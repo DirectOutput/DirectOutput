@@ -374,7 +374,7 @@ namespace DirectOutput.Cab.Out.Pac
                     }
                     catch (Exception E)
                     {
-                        Log.Exception("A error occured when updating PacDrive", E);
+                        Log.Exception("A error occurred when updating PacDrive", E);
                         //Pinball.ThreadInfoList.RecordException(E);
                         FailCnt++;
 

@@ -18,7 +18,7 @@ namespace DirectOutput
         static bool IsInitialized = false;
         static bool IsOk = false;
 
-        private static object Locker = new object();
+        private static readonly object Locker = new object();
 
         private static string _Filename = ".\\DirectOutput.log";
 
@@ -40,7 +40,7 @@ namespace DirectOutput
 
 
         /// <summary>
-        /// Initializes the log using the file defnied in the Filename property.
+        /// Initializes the log using the file defined in the Filename property.
         /// </summary>
         public static void Init()
         {
@@ -101,7 +101,7 @@ namespace DirectOutput
         public static void AfterInit()
         {
             // Discard any pre-log messages, and forget the list so that we
-            // don't collect any more mesages.  We collect pre-log messages
+            // don't collect any more messages.  We collect pre-log messages
             // so that we can log events before the log file is open.  When
             // we reach this point, the log file will have already been opened
             // if there's going to be one at all, and we will have copied the

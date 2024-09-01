@@ -112,7 +112,7 @@ namespace DirectOutput.Cab.Out.DMX.ArtnetEngine
                 }
                 catch (Exception exception1)
                 {
-                    Log.Exception("A exception occured in the ArtNet Engine class.", exception1);
+                    Log.Exception("A exception occurred in the ArtNet Engine class.", exception1);
                     //Error(exception1, new EventArgs());
                 }
 
@@ -149,7 +149,7 @@ namespace DirectOutput.Cab.Out.DMX.ArtnetEngine
                             }
                             else
                             {
-                                Log.Exception("A exception has occured when sending ArtNet data.", E);
+                                Log.Exception("A exception has occurred when sending ArtNet data.", E);
                             }
 
                         }

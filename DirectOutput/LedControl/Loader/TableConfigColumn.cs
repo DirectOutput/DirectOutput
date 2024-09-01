@@ -23,7 +23,7 @@ namespace DirectOutput.LedControl.Loader
         private int _FirstOutputNumber;
 
         /// <summary>
-        /// Gets or sets the number of the first ouput for this column.
+        /// Gets or sets the number of the first output for this column.
         /// </summary>
         /// <value>
         /// The number of the first output for this column.
@@ -98,11 +98,11 @@ namespace DirectOutput.LedControl.Loader
         /// </summary>
         /// <param name="ColumnData">The column data.</param>
         /// <param name="ThrowExceptions">If set to <c>true</c> exceptions are thrown on errors.</param>
-        /// <returns>true if all settings have been parsed successfully, fals if a exception occured during parsing.</returns>
+        /// <returns>true if all settings have been parsed successfully, false if a exception occurred during parsing.</returns>
         /// <exception cref="System.Exception">Could not parse setting {0} in column data {1}.</exception>
         public bool ParseColumnData(string ColumnData, bool ThrowExceptions = false)
         {
-            bool ExceptionOccured = false;
+            bool ExceptionOccurred = false;
             List<string> ColumnConfigs = new List<string>(SplitSettings(ColumnData));
 
             foreach (string CC in ColumnConfigs)
@@ -119,7 +119,7 @@ namespace DirectOutput.LedControl.Loader
                     }
                     catch (Exception E)
                     {
-                        ExceptionOccured = true;
+                        ExceptionOccurred = true;
                         Log.Exception("Could not parse setting {0} in column data {1}.".Build(CC, ColumnData), E);
                         if (ThrowExceptions)
                         {
@@ -128,7 +128,7 @@ namespace DirectOutput.LedControl.Loader
                     }
                 }
             }
-            return !ExceptionOccured;
+            return !ExceptionOccurred;
         }
 
 

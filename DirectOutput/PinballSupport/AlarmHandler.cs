@@ -32,7 +32,7 @@ namespace DirectOutput.PinballSupport
         }
 
         /// <summary>
-        /// Executes all Alarmes which have expired until the specified AlarmTime..
+        /// Executes all Alarms which have expired until the specified AlarmTime..
         /// </summary>
         /// <param name="AlarmTime">The alarm time.</param>
         /// <returns>true if alarms have been executed, false if no alarms have been executed.</returns>
@@ -77,7 +77,7 @@ namespace DirectOutput.PinballSupport
                 }
                 catch (Exception E)
                 {
-                    throw new Exception("A exception occured in IntervalAlarm for AlarmHandler {0} with parameter {1}.".Build(IntervalAlarmHandler.ToString(), Para.ToString().Replace("\n", ",")), E);
+                    throw new Exception("A exception occurred in IntervalAlarm for AlarmHandler {0} with parameter {1}.".Build(IntervalAlarmHandler.ToString(), Para.ToString().Replace("\n", ",")), E);
                 }
             }
 
@@ -105,7 +105,7 @@ namespace DirectOutput.PinballSupport
                 }
                 catch (Exception E)
                 {
-                    throw new Exception("A exception occured in IntervalAlarm for AlarmHandler {0}.".Build(IntervalAlarmHandler.ToString()), E);
+                    throw new Exception("A exception occurred in IntervalAlarm for AlarmHandler {0}.".Build(IntervalAlarmHandler.ToString()), E);
                 }
             }
 
@@ -141,7 +141,7 @@ namespace DirectOutput.PinballSupport
                     }
                     catch (Exception E)
                     {
-                        Log.Exception("A exception occured when excuting the handler for a interval alarm. This interval alarm will be disabled.", E);
+                        Log.Exception("A exception occurred when executing the handler for a interval alarm. This interval alarm will be disabled.", E);
                     }
              
                     AlarmTriggered = true;
@@ -161,7 +161,7 @@ namespace DirectOutput.PinballSupport
 
         /// <summary>
         /// Registers the method specified in IntervalAlarmHandler for interval alarms.<br/>
-        /// Interval alarms are fired repeatedly at the specifed interval. Please note that the interval is likely not absoletely precise.
+        /// Interval alarms are fired repeatedly at the specified interval. Please note that the interval is likely not absolutely precise.
         /// </summary>
         /// <param name="IntervalMs">The alarm interval in milliseconds.</param>
         /// <param name="IntervalAlarmHandler">The handler for the alarm (delegate of parameterless method).</param>
@@ -190,7 +190,7 @@ namespace DirectOutput.PinballSupport
 
         /// <summary>
         /// Registers the method specified in IntervalAlarmHandler for interval alarms.<br />
-        /// Interval alarms are fired repeatedly at the specifed interval. Please note that the interval is likely not absoletely precise.
+        /// Interval alarms are fired repeatedly at the specified interval. Please note that the interval is likely not absolutely precise.
         /// </summary>
         /// <param name="IntervalMs">The alarm interval in milliseconds.</param>
         /// <param name="IntervalAlarmHandler">The handler for the alarm (delegate of method with one parameter of type object).</param>
@@ -245,7 +245,7 @@ namespace DirectOutput.PinballSupport
                 }
                 catch (Exception E)
                 {
-                    Log.Exception("A exception occured for AlarmHandler {0}.".Build(AlarmHandler.ToString()), E);
+                    Log.Exception("A exception occurred for AlarmHandler {0}.".Build(AlarmHandler.ToString()), E);
                 }
             }
 
@@ -272,7 +272,7 @@ namespace DirectOutput.PinballSupport
                 }
                 catch (Exception E)
                 {
-                    Log.Exception("A exception occured for AlarmHandler {0} with parameter {1}.".Build(AlarmHandler.ToString(), Para.ToString().Replace("\n", ",")), E);
+                    Log.Exception("A exception occurred for AlarmHandler {0} with parameter {1}.".Build(AlarmHandler.ToString(), Para.ToString().Replace("\n", ",")), E);
                 }
             }
 
@@ -314,14 +314,14 @@ namespace DirectOutput.PinballSupport
 
 
         /// <summary>
-        /// Registers the specied AlarmHandler for a alarm after the specified duration.
+        /// Registers the specified AlarmHandler for a alarm after the specified duration.
         /// </summary>
         /// <param name="DurationMs">The duration until the alarm fires in milliseconds.</param>
         /// <param name="AlarmHandler">The alarm handler.</param>
-        /// <param name="DontUnregister">If set to <c>true</c> previously registered alarms for the same handler are no unregistered before registering the handler.</param>
-        public void RegisterAlarm(int DurationMs, Action AlarmHandler, bool DontUnregister = false)
+        /// <param name="DoNotUnregister">If set to <c>true</c> previously registered alarms for the same handler are no unregistered before registering the handler.</param>
+        public void RegisterAlarm(int DurationMs, Action AlarmHandler, bool DoNotUnregister = false)
         {
-            RegisterAlarm(DateTime.Now.AddMilliseconds(DurationMs), AlarmHandler, DontUnregister);
+            RegisterAlarm(DateTime.Now.AddMilliseconds(DurationMs), AlarmHandler, DoNotUnregister);
         }
 
         /// <summary>
@@ -329,12 +329,12 @@ namespace DirectOutput.PinballSupport
         /// </summary>
         /// <param name="AlarmTime">The alarm time.</param>
         /// <param name="AlarmHandler">The alarm handler.</param>
-        /// <param name="DontUnregister">If set to <c>true</c>, previously registered alarms for the same AlarmHandler will not be unregistered. If set to <c>false</c>, previously registred alarms for the same AlarmHandler will be unregistered.</param>
-        public void RegisterAlarm(DateTime AlarmTime, Action AlarmHandler, bool DontUnregister = false)
+        /// <param name="DoNotUnregister">If set to <c>true</c>, previously registered alarms for the same AlarmHandler will not be unregistered. If set to <c>false</c>, previously registered alarms for the same AlarmHandler will be unregistered.</param>
+        public void RegisterAlarm(DateTime AlarmTime, Action AlarmHandler, bool DoNotUnregister = false)
         {
             lock (AlarmLocker)
             {
-                if (!DontUnregister) UnregisterAlarm(AlarmHandler);
+                if (!DoNotUnregister) UnregisterAlarm(AlarmHandler);
                 AlarmList.Add(new AlarmSettingNoPara(AlarmTime, AlarmHandler));
             }
         }
@@ -354,15 +354,15 @@ namespace DirectOutput.PinballSupport
 
 
         /// <summary>
-        /// Registers the specied AlarmHandler for a alarm after the specified duration.
+        /// Registers the specified AlarmHandler for a alarm after the specified duration.
         /// </summary>
         /// <param name="DurationMs">The duration until the alarm fires in milliseconds.</param>
         /// <param name="AlarmHandler">The alarm handler.</param>
         /// <param name="Parameter">The parameter value for the alarm.</param>
-        /// <param name="DontUnregister">If set to <c>true</c> previously registered alarms for the same handler are no unregistered before registering the handler.</param>
-        public void RegisterAlarm(int DurationMs, Action<object> AlarmHandler, object Parameter, bool DontUnregister = false)
+        /// <param name="DoNotUnregister">If set to <c>true</c> previously registered alarms for the same handler are no unregistered before registering the handler.</param>
+        public void RegisterAlarm(int DurationMs, Action<object> AlarmHandler, object Parameter, bool DoNotUnregister = false)
         {
-            RegisterAlarm(DateTime.Now.AddMilliseconds(DurationMs), AlarmHandler, Parameter, DontUnregister);
+            RegisterAlarm(DateTime.Now.AddMilliseconds(DurationMs), AlarmHandler, Parameter, DoNotUnregister);
         }
 
         /// <summary>
@@ -371,12 +371,12 @@ namespace DirectOutput.PinballSupport
         /// <param name="AlarmTime">The alarm time.</param>
         /// <param name="AlarmHandler">The alarm handler.</param>
         /// <param name="Parameter">The parameter value for the alarm.</param>
-        /// <param name="DontUnregister">If set to <c>true</c> previously registered alarms for the same handler are no unregistered before registering the handler.</param>
-        public void RegisterAlarm(DateTime AlarmTime, Action<object> AlarmHandler, object Parameter, bool DontUnregister = false)
+        /// <param name="DoNotUnregister">If set to <c>true</c> previously registered alarms for the same handler are no unregistered before registering the handler.</param>
+        public void RegisterAlarm(DateTime AlarmTime, Action<object> AlarmHandler, object Parameter, bool DoNotUnregister = false)
         {
             lock (AlarmLocker)
             {
-                if(!DontUnregister) UnregisterAlarm(AlarmHandler);
+                if(!DoNotUnregister) UnregisterAlarm(AlarmHandler);
                 AlarmList.Add(new AlarmSettingPara(AlarmTime, AlarmHandler, Parameter));
             }
         }
@@ -398,7 +398,7 @@ namespace DirectOutput.PinballSupport
 
 
         /// <summary>
-        /// Inits the object.<br/>
+        /// Initializes the object.<br/>
         /// </summary>
         public void Init(Pinball Pinball)
         {

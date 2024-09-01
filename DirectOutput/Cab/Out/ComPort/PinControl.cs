@@ -111,7 +111,7 @@ namespace DirectOutput.Cab.Out.ComPort
             }
             catch (Exception E)
             {
-                string Msg = "A exception occured while opening comport {2} for {0} {1}.".Build(this.GetType().Name, Name, ComPort);
+                string Msg = "A exception occurred while opening comport {2} for {0} {1}.".Build(this.GetType().Name, Name, ComPort);
                 Log.Exception(Msg, E);
                 throw new Exception(Msg, E);
             }

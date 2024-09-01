@@ -45,7 +45,7 @@ public class NamedPipeServer
                 Console.WriteLine("Waiting for client connection...");
                 await serverStream.WaitForConnectionAsync(serverToken);
 
-                HandleClientConnectionAsync(serverStream);
+                var awaitIgnored = HandleClientConnectionAsync(serverStream);
             }
         });
     }
@@ -103,7 +103,7 @@ public class NamedPipeServer
                     serverStream.Write(Encoding.UTF8.GetBytes(this.comPort), 0, this.comPort.Length);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 serverStream.Disconnect();
                 isRunning = false;

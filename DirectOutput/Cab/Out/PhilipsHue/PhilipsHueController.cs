@@ -447,7 +447,7 @@ namespace DirectOutput.Cab.Out.Pac {
                 try {
                     ResetFadeTime();
                 } catch (Exception E) {
-                    Log.Exception("A exception occured while setting the fadetime for PhilipsHueController {0} to 0.".Build(Index), E);
+                    Log.Exception("A exception occurred while setting the fadetime for PhilipsHueController {0} to 0.".Build(Index), E);
                     throw;
                 }
                 int FailCnt = 0;
@@ -458,7 +458,7 @@ namespace DirectOutput.Cab.Out.Pac {
                         }
                         FailCnt = 0;
                     } catch (Exception E) {
-                        Log.Exception("A error occured when updating PhilipsHueController {0}".Build(Id), E);
+                        Log.Exception("A error occurred when updating PhilipsHueController {0}".Build(Id), E);
                         FailCnt++;
 
                         if (FailCnt > MaxUpdateFailCount) {

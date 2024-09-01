@@ -210,7 +210,7 @@ namespace DirectOutput.Cab.Out
             }
             catch (Exception E)
             {
-                string msg = "A exception occured when verifying the settings for {0} {1}: {2}. Cant initialize.".Build(this.GetType().Name, Name, E.Message);
+                string msg = "A exception occurred when verifying the settings for {0} {1}: {2}. Cant initialize.".Build(this.GetType().Name, Name, E.Message);
                 Log.Exception(msg, E);
                 throw new Exception(msg, E);
             }
@@ -218,7 +218,7 @@ namespace DirectOutput.Cab.Out
             {
                 SetupOutputs();
                 InitUpdaterThread();
-                Log.Write("{0} {1} intialized and updater thread started.".Build(this.GetType().Name, Name));
+                Log.Write("{0} {1} initialized and updater thread started.".Build(this.GetType().Name, Name));
             }
             else
             {
@@ -250,7 +250,7 @@ namespace DirectOutput.Cab.Out
 
         /// <summary>
         /// This method must return the number of configured outputs.
-        /// The method is used internaly to determine the number of output objects which have to be setup. 
+        /// The method is used internally to determine the number of output objects which have to be setup. 
         /// Return a fixed value for output controllers which have a fixed number of outputs. Return the value of a configurable property for controllers with a defineable number of outputs.
         /// </summary>
         /// <returns>The number of outputs to be configured.</returns>
@@ -330,8 +330,8 @@ namespace DirectOutput.Cab.Out
                 }
                 catch (Exception E)
                 {
-                    Log.Exception("A error occured during termination of the {0}: {1}.".Build(UpdaterThread.Name), E);
-                    throw new Exception("A error occured during termination of the {0}: {1}.".Build(UpdaterThread.Name), E);
+                    Log.Exception("A error occurred during termination of the {0}: {1}.".Build(UpdaterThread.Name), E);
+                    throw new Exception("A error occurred during termination of the {0}: {1}.".Build(UpdaterThread.Name), E);
                 }
             }
         }
@@ -505,7 +505,7 @@ namespace DirectOutput.Cab.Out
                 }
                 catch (Exception E)
                 {
-                    Log.Exception("A exception occured in {0} while trying to turn of all outputs for {1} {2}".Build(Thread.CurrentThread.Name, this.GetType().Name, Name), E);
+                    Log.Exception("A exception occurred in {0} while trying to turn of all outputs for {1} {2}".Build(Thread.CurrentThread.Name, this.GetType().Name, Name), E);
                 }
                 try
                 {
@@ -517,7 +517,7 @@ namespace DirectOutput.Cab.Out
             }
             catch (Exception EU)
             {
-                Log.Exception("A exception has occured in {0}. Thread will quit. Message: {1}".Build(Thread.CurrentThread.Name, EU.Message), EU);
+                Log.Exception("A exception has occurred in {0}. Thread will quit. Message: {1}".Build(Thread.CurrentThread.Name, EU.Message), EU);
             }
 
         }

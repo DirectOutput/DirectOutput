@@ -194,7 +194,7 @@ namespace DirectOutput.Cab.Out.FTDIChip
         /// <summary>
         /// Finishes the updater thread.
         /// </summary>
-        /// <exception cref="System.Exception">A error occured during termination of FT245RBitbangController ({0}) updater thread.</exception>
+        /// <exception cref="System.Exception">A error occurred during termination of FT245RBitbangController ({0}) updater thread.</exception>
         private void FinishUpdaterThread()
         {
             if (UpdaterThread != null)
@@ -211,8 +211,8 @@ namespace DirectOutput.Cab.Out.FTDIChip
                 }
                 catch (Exception E)
                 {
-                    Log.Exception("A error occured during termination of FT245RBitbangController ({0}) updater thread.".Build(SerialNumber), E);
-                    throw new Exception("A error occured during termination of FT245RBitbangController ({0}) updater thread.".Build(SerialNumber, E));
+                    Log.Exception("A error occurred during termination of FT245RBitbangController ({0}) updater thread.".Build(SerialNumber), E);
+                    throw new Exception("A error occurred during termination of FT245RBitbangController ({0}) updater thread.".Build(SerialNumber, E));
                 }
             }
         }
@@ -466,7 +466,7 @@ namespace DirectOutput.Cab.Out.FTDIChip
                         }
                         catch (Exception)
                         {
-                            Log.Exception("A exception occured when closing the FTDI chip {0}.".Build(SerialNumber));
+                            Log.Exception("A exception occurred when closing the FTDI chip {0}.".Build(SerialNumber));
                         }
                     }
                     FTDI = null;

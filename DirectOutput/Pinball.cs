@@ -110,10 +110,10 @@ namespace DirectOutput
 
             try
             {
-                Log.Write("Global config filename is \"" + GlobalConfigFilename + "\"");
                 if (!GlobalConfigFilename.IsNullOrWhiteSpace())
                 {
-                    FileInfo GlobalConfigFile = new FileInfo(GlobalConfigFilename);
+					Log.Write("Loading global configuration from {0}".Build(GlobalConfigFilename));
+					FileInfo GlobalConfigFile = new FileInfo(GlobalConfigFilename);
 
                     GlobalConfig = GlobalConfig.GetGlobalConfigFromConfigXmlFile(GlobalConfigFile.FullName);
                     if (GlobalConfig == null)
@@ -128,14 +128,13 @@ namespace DirectOutput
                 }
                 else
                 {
-                    GlobalConfig = new GlobalConfig();
+					Log.Write("Global config filename is unknown; using defaults");
+					GlobalConfig = new GlobalConfig();
                     GlobalConfig.GlobalConfigFilename = GlobalConfigFilename;
                 }
-
             }
             catch (Exception E)
             {
-
                 throw new Exception("DirectOutput framework could not initialize global config.\n Inner exception: {0}".Build(E.Message), E);
             }
 
@@ -156,10 +155,8 @@ namespace DirectOutput
                 }
                 try
                 {
-
                     Log.Filename = GlobalConfig.GetLogFilename((!TableFilename.IsNullOrWhiteSpace() ? new FileInfo(TableFilename).FullName : ""), RomName);
                     Log.Init();
-
                 }
                 catch (Exception E)
                 {
@@ -174,26 +171,13 @@ namespace DirectOutput
             try
             {
                 if (GlobalConfigLoaded)
-                {
-                    Log.Write("Global config loaded from: {0}".Build(GlobalConfigFilename));
-                }
+                    Log.Write("Global config successfully loaded from {0}".Build(GlobalConfigFilename));
+                else if (!GlobalConfigFilename.IsNullOrWhiteSpace())
+                    Log.Write("Could not find or load the global config file {0}".Build(GlobalConfigFilename));
                 else
-                {
-                    if (!GlobalConfigFilename.IsNullOrWhiteSpace())
-                    {
-                        Log.Write("Could not find or load the global config file {0}".Build(GlobalConfigFilename));
-                    }
-                    else
-                    {
-                        Log.Write("No GlobalConfig file loaded. Using newly instantiated GlobalConfig object instead.");
-                    }
-                }
-
-
+                    Log.Write("No GlobalConfig file loaded. Using newly instantiated GlobalConfig object instead.");
 
                 Log.Write("Loading Pinball parts");
-
-
 
                 Log.Write("Loading cabinet");
                 //Load cabinet config
@@ -209,7 +193,6 @@ namespace DirectOutput
                             Cabinet = Cabinet.GetCabinetFromConfigXmlFile(CCF);
 
                             Log.Write("{0} output controller definitions and {1} toy definitions loaded from cabinet config.".Build(Cabinet.OutputControllers.Count,Cabinet.Toys.Count));
-
 
                             Cabinet.CabinetConfigurationFilename = CCF.FullName;
                             if (Cabinet.AutoConfigEnabled)
@@ -230,8 +213,6 @@ namespace DirectOutput
                         catch (Exception E)
                         {
                             Log.Exception("A exception occurred when loading cabinet config file: {0}".Build(CCF.FullName), E);
-
-
                         }
                     }
                     else

@@ -141,7 +141,7 @@ namespace DirectOutput.FX.ConditionFX
             }
             catch (Exception E)
             {
-                Log.Exception("A exception has occured while setting up the variables for condition {0} of effect {1}.".Build(Condition, Name), E);
+                Log.Exception("A exception has occurred while setting up the variables for condition {0} of effect {1}.".Build(Condition, Name), E);
                 return;
 
             }
@@ -153,7 +153,7 @@ namespace DirectOutput.FX.ConditionFX
             }
             catch (Exception E)
             {
-                Log.Exception("A exception has occured while compiling the condition {0} (internaly translated to {2}) of effect {1}.".Build(Condition, Name, C), E);
+                Log.Exception("A exception has occurred while compiling the condition {0} (internally translated to {2}) of effect {1}.".Build(Condition, Name, C), E);
                 return;
             }
 
@@ -187,7 +187,7 @@ namespace DirectOutput.FX.ConditionFX
                 catch (Exception E)
                 {
 
-                    Log.Exception("A exception occured when evaluating the expression {0} of effect {1}. Effect will be deactivated.".Build(ConditionExpression.Text, Name), E);
+                    Log.Exception("A exception occurred when evaluating the expression {0} of effect {1}. Effect will be deactivated.".Build(ConditionExpression.Text, Name), E);
                     ConditionExpression = null;
 
                 }

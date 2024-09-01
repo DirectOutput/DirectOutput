@@ -26,7 +26,7 @@ namespace DirectOutput.Cab.Out.PinOne
         /// <summary>
         /// Gets or sets the unit number of the controller.<br />
         /// The unit number must be unique.<br />
-        /// Setting changes the Name property, if it is blank or if the Name coresponds to "PinOne Controller {Number}".
+        /// Setting changes the Name property, if it is blank or if the Name corresponds to "PinOne Controller {Number}".
         /// </summary>
         /// <value>
         /// The unique unit number of the controller (Range 1-16).
@@ -74,10 +74,10 @@ namespace DirectOutput.Cab.Out.PinOne
         private bool MinCommandIntervalMsSet = false;
 
         /// <summary>
-        /// Gets or sets the mininimal interval between command in miliseconds (Default: 1ms).
+        /// Gets or sets the minimal interval between command in milliseconds (Default: 1ms).
         /// </summary>
         /// <value>
-        /// The mininimal interval between command in miliseconds.  The default is 1ms, which is also the minimum, since it's
+        /// The minimal interval between command in milliseconds.  The default is 1ms, which is also the minimum, since it's
         /// the fastest that USB allows at the hardware protocol level.
         /// </value>
         public int MinCommandIntervalMs
@@ -96,14 +96,14 @@ namespace DirectOutput.Cab.Out.PinOne
         private string _ComPort = "comm1";
         private bool ComPortSet = false;
         private object PortLocker = new object();
-        private bool isMaster = false;
+        // private bool isMaster = false; // not used
         private PinOneCommunication pinOneCommunication;
 
         /// <summary>
-        /// Gets or sets the mininimal interval between command in miliseconds (Default: 1ms).
+        /// Gets or sets the minimal interval between command in milliseconds (Default: 1ms).
         /// </summary>
         /// <value>
-        /// The mininimal interval between command in miliseconds.  The default is 1ms, which is also the minimum, since it's
+        /// The minimal interval between command in milliseconds.  The default is 1ms, which is also the minimum, since it's
         /// the fastest that USB allows at the hardware protocol level.
         /// </value>
         public string ComPort
@@ -122,7 +122,7 @@ namespace DirectOutput.Cab.Out.PinOne
 
         /// <summary>
         /// Initializes the PinOne object.<br />
-        /// This method does also start the workerthread which does the actual update work when Update() is called.<br />
+        /// This method does also start the worker thread which does the actual update work when Update() is called.<br />
         /// This method should only be called once. Subsequent calls have no effect.
         /// </summary>
         /// <param name="Cabinet">The Cabinet object which is using the PinOne instance.</param>
@@ -145,7 +145,7 @@ namespace DirectOutput.Cab.Out.PinOne
 
         /// <summary>
         /// Finishes the PinOne object.<br/>
-        /// Finish does also terminate the workerthread for updates.
+        /// Finish does also terminate the worker thread for updates.
         /// </summary>
         public override void Finish()
         {
@@ -249,7 +249,7 @@ namespace DirectOutput.Cab.Out.PinOne
                     {
                         if(pinOneCommunication.CreateServer())
                         {
-                            isMaster = true;
+                            // isMaster = true; // never used, not assigned
                             if (!pinOneCommunication.ConnectToServer())
                             {
                                 throw new Exception("Unable to connect to server after new creation");
@@ -265,7 +265,7 @@ namespace DirectOutput.Cab.Out.PinOne
             }
             catch (Exception E)
             {
-                string Msg = "A exception occured while opening comport {2} for {0} {1}.".Build(this.GetType().Name, Name, ComPort);
+                string Msg = "A exception occurred while opening comport {2} for {0} {1}.".Build(this.GetType().Name, Name, ComPort);
                 Log.Exception(Msg, E);
                 throw new Exception(Msg, E);
             }

@@ -2,6 +2,7 @@
 using System.Reflection;
 using System;
 using System.Windows.Forms.VisualStyles;
+using System.Collections.Generic;
 
 // <summary>
 // DirectOutput is the root namespace for the DirectOutput framework. 
@@ -162,13 +163,14 @@ namespace DirectOutput
                 // new configuration with binary subfolders - the assembly is in
                 // a subfolder within the install folder, so the install folder
                 // is the parent of the assembly folder
-                Log.Write("Install folder lookup: install folder is PARENT of assembly folder (new x86/x64 install configuration)");
-                return Path.GetDirectoryName(AssemblyPath);
+                var parent = Path.GetDirectoryName(AssemblyPath);
+				LogOnce("InstallFolderLoc", "Install folder lookup: install folder is {0}; this is the PARENT of the assembly folder -> new shared x86/x64 install configuration".Build(parent));
+                return parent;
             }
             else
             {
                 // old flat configuration - the assembly is in the install folder
-                Log.Write("Install folder lookup: install folder is ASSEMBLY folder (original flat install configuration)");
+                LogOnce("InstallFolderLoc", "Install folder lookup: install folder is {0}; this is the ASSEMBLY folder -> original flat install configuration".Build(AssemblyPath));
                 return AssemblyPath;
             }
         }
@@ -224,7 +226,6 @@ namespace DirectOutput
 
             // Get the config file location.  Start with the install folder.
             var installFolder = GetInstallFolder();
-            Log.Write("Global config file lookup: install folder is " + installFolder ?? "<null>");
 			FileInfo F;
             if (installFolder == null)
             {
@@ -237,7 +238,7 @@ namespace DirectOutput
             F = new FileInfo(Path.Combine(installFolder, "Config", HostAppConfigFileName));
             if (F.Exists)
             {
-                Log.Write("Global config file lookup: found file under [DirectOutput]\\Config: " + F.FullName);
+                LogOnce("GlobalConfigLoc", "Global config file lookup: found in Config folder: " + F.FullName);
                 return F.FullName;
             }
 
@@ -247,13 +248,13 @@ namespace DirectOutput
             {
                 // there's a link; resolve it
                 string ResolvedLinkPath = ResolveShortcut(LnkFile);
-				Log.Write("Global config file lookup: found shortcut (.lnk) -> " + ResolvedLinkPath);
+				LogOnce("GlobalConfigLoc", "Global config file lookup: found shortcut ({0}) -> {1}".Build(LnkFile.FullName, ResolvedLinkPath));
 				if (Directory.Exists(ResolvedLinkPath))
                 {
                     F = new FileInfo(Path.Combine(ResolvedLinkPath, HostAppConfigFileName));
                     if (F.Exists)
                     {
-                        Log.Write("Global config file lookup: using shortcut location: " + F.FullName);
+						LogOnce("GlobalConfigLoc", "Global config file lookup: found at shortcut location ({0})".Build(F.FullName));
                         return F.FullName;
                     }
                 }
@@ -263,7 +264,7 @@ namespace DirectOutput
             F = new FileInfo(Path.Combine(installFolder, HostAppConfigFileName));
             if (F.Exists)
             {
-                Log.Write("Global config file lookup: found in main install folder: " + F.FullName);
+                LogOnce("GlobalConfigLoc", "Global config file search: found in main install folder ({0})".Build(F.FullName));
                 return F.FullName;
             }
 
@@ -271,17 +272,31 @@ namespace DirectOutput
             // so set it to the default Config folder location if one exists, otherwise
             // the install folder.
             F = new FileInfo(Path.Combine(installFolder, "Config", HostAppConfigFileName));
-            if (!F.Directory.Exists)
+            if (F.Directory.Exists)
             {
-                Log.Write("Global config file lookup: Config folder (" + F.Directory.FullName + ") not found, using main install folder: " + F.FullName);
+				LogOnce("GlobalConfigLoc", "Global config file search: file not found, but Config folder will be used for other file searches ({0})".Build(F.Directory.FullName));
+			}
+			else
+            {
+				LogOnce("GlobalConfigLoc", "Global config file search: Config folder ({0}) not found, using main install folder for other file searches ({1})".Build(F.Directory.FullName, installFolder));
                 F = new FileInfo(Path.Combine(installFolder, HostAppConfigFileName));
             }
 
             // return what we found
-            Log.Write("Global config file lookup: file not found, using notional default: " + F.FullName);
             return F.FullName;
         }
-		
+
+        // internal one-time detailed info logging
+        static void LogOnce(string key, string message)
+        {
+            if (!OneTimeLogMessages.Contains(key))
+            {
+                OneTimeLogMessages.Add(key);
+                Log.Write(message);
+            }
+        }
+		static HashSet<string> OneTimeLogMessages = new HashSet<string>();
+
 		/// <summary>
 		/// Initializes the DirectOutput framework.<br/>
 		/// The method has to be called before any data is sent to DOF.<br/>

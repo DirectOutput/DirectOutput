@@ -4,7 +4,9 @@
 //////////////////////////////////////////////////////////////////////////////////
 using System;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Security.Policy;
 using Microsoft.Win32.SafeHandles;
 
 namespace DirectOutput.Cab.Out
@@ -17,6 +19,9 @@ namespace DirectOutput.Cab.Out
 		internal const int DIGCF_ALLCLASSES = 0x00000004;
 		internal const int DIGCF_PROFILE = 0x00000008;
 		internal const int DIGCF_DEVICEINTERFACE = 0x00000010;
+
+		// Success status returned from some calls
+		public const int HIDP_STATUS_SUCCESS = (0x11 << 16);
 
 		[Flags]
 		internal enum EFileAttributes : uint
@@ -86,36 +91,43 @@ namespace DirectOutput.Cab.Out
 		[DllImport(@"hid.dll", CharSet = CharSet.Auto, SetLastError = true)]
 		internal static extern void HidD_GetHidGuid(out Guid gHid);
 
-		[DllImport("hid.dll")]
+		[DllImport("hid.dll", CharSet = CharSet.Auto, SetLastError = true)]
 		internal static extern Boolean HidD_GetAttributes(IntPtr HidDeviceObject, ref HIDD_ATTRIBUTES Attributes);
 
-		[DllImport("hid.dll")]
+		[DllImport("hid.dll", CharSet = CharSet.Auto, SetLastError = true)]
 		internal extern static bool HidD_SetOutputReport(
 			IntPtr HidDeviceObject,
 			byte[] lpReportBuffer,
 			uint ReportBufferLength);
 
-		[DllImport("hid.dll")]
+		[DllImport("hid.dll", CharSet = CharSet.Auto, SetLastError = true)]
 		internal extern static bool HidD_GetInputReport(
 			IntPtr HidDeviceObject,
-			byte[] lpREportBuffer,
+			byte[] lpReportBuffer,
 			uint ReportBufferLength);
 
-		[DllImport("hid.dll")]
+		[DllImport("hid.dll", CharSet = CharSet.Auto, SetLastError = true)]
 		internal extern static bool HidD_GetProductString(
 			IntPtr HidDeviceObject,
 			byte[] Buffer,
 			uint BufferLength);
 
-		[DllImport("hid.dll")]
+		[DllImport("hid.dll", CharSet = CharSet.Auto, SetLastError = true)]
 		internal extern static bool HidD_GetSerialNumberString(
 			IntPtr HidDeviceObject, 
 			byte[] Buffer, 
 			int BufferLength);
 
-		[DllImport("hid.dll")]
+		[DllImport("hid.dll", CharSet = CharSet.Auto, SetLastError = true)]
 		internal extern static bool HidD_GetManufacturerString(
 			IntPtr HidDeviceObject,
+			byte[] Buffer,
+			uint BufferLength);
+
+		[DllImport("hid.dll", CharSet = CharSet.Auto, SetLastError = true)]
+		internal extern static bool HidD_GetIndexedString(
+			IntPtr HidDeviceObject,
+			UInt32 StringIndex,
 			byte[] Buffer,
 			uint BufferLength);
 
@@ -130,7 +142,7 @@ namespace DirectOutput.Cab.Out
 		[DllImport(@"setupapi.dll", CharSet = CharSet.Auto, SetLastError = true)]
 		internal static extern Boolean SetupDiEnumDeviceInterfaces(
 			IntPtr hDevInfo,
-			IntPtr devInvo,
+			IntPtr devInfo,
 			ref Guid interfaceClassGuid,
 			UInt32 memberIndex,
 			ref SP_DEVICE_INTERFACE_DATA deviceInterfaceData
@@ -204,6 +216,15 @@ namespace DirectOutput.Cab.Out
 			out UInt32 bytesRead,
 			ref System.Threading.NativeOverlapped lpOverlapped);
 
+		[DllImport("Kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		internal static extern bool GetOverlappedResultEx(
+			IntPtr hFile,
+			ref System.Threading.NativeOverlapped lpOverlapped,
+			out UInt32 lpNumberOfBytesTransferred,
+			UInt32 dwMilliseconds,
+			bool bAlertable);
+
 		[DllImport("kernel32.dll", SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static extern bool CloseHandle(IntPtr hObject);
@@ -251,24 +272,78 @@ namespace DirectOutput.Cab.Out
 			public ushort NumberOutputDataIndices;
 			public ushort NumberFeatureButtonCaps;
 			public ushort NumberFeatureValueCaps;
-			public ushort NumberFeatureDataIndices;        
+			public ushort NumberFeatureDataIndices;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		internal struct HIDP_BUTTON_CAPS
+		{
+			public ushort UsagePage;
+			public byte ReportID;
+			public byte IsAlias;
+			public ushort BitField;
+			public ushort LinkCollection;
+			public ushort LinkUsage;
+			public ushort LinkUsagePage;
+			public byte IsRange;           // true -> UsageMin/UsageMax and DataIndexMin/DataIndexMax give the ranges; false -> UsageMin and DataIndexMin are the single usage/index values
+			public byte IsStringRange;     // true -> StringMin/StringMax give the range; false -> StringMin is the single string index value
+			public byte IsDesignatorRange; // true -> DesignatorMin/DesignatorMax give the range; false -> DesignatorMin is the single value
+			public byte IsAbsolute;
+			public ushort ReportCount;
+			public ushort Reserved2;
+
+			// note - in the original structure, this is a ULONG[9] array
+			public UInt32 Reserved3;
+			public UInt32 Reserved4;
+			public UInt32 Reserved5;
+			public UInt32 Reserved6;
+			public UInt32 Reserved7;
+			public UInt32 Reserved8;
+			public UInt32 Reserved9;
+			public UInt32 Reserved10;
+			public UInt32 Reserved11;
+
+			// Note - in the original structure, the remaining members are
+			// enclosed in a union with 'Range' and 'NotRange' overlays.
+			// in the NotRange overlay, each Min/Max pair is a value/Reserved
+			// pair.  So if we look at it as a flat struct, when a range is
+			// not in effect, the Min contains the single value, and the Max
+			// is unused.
+			public ushort UsageMin;      // lower bound of usage range, or single usage value if !IsRange
+			public ushort UsageMax;
+			public ushort StringMin;     // lower bound of string index range, or single string index if !IsStringRange
+			public ushort StringMax;
+			public ushort DesignatorMin; // lower bound of designator range, or single designator if !IsDesignatorRange
+			public ushort DesignatorMax;
+			public ushort DataIndexMin;  // lower bound of data index range, or single data index if !IsRange
+			public ushort DataIndexMax;
 		}
 
 		[DllImport("Hid.dll", SetLastError = true, CharSet = CharSet.Auto)]
 		internal static extern bool HidD_GetPreparsedData(
 			IntPtr hFile,
-			out IntPtr pp);
+			out IntPtr pPreparsedData);
 
 		[DllImport("Hid.dll", SetLastError = true, CharSet = CharSet.Auto)]
 		internal static extern bool HidD_FreePreparsedData(
-			IntPtr pp);
+			IntPtr preparsedData);
 
 		[DllImport("Hid.dll", SetLastError = true, CharSet = CharSet.Auto)]
 		internal static extern bool HidP_GetCaps(
-			IntPtr pp,
+			IntPtr preparsedData,
 			ref HIDP_CAPS caps);
 
+		[DllImport("Hid.dll", SetLastError = false, CharSet = CharSet.Auto)]
+		internal static extern uint HidP_GetButtonCaps(
+			int inputReportType,   // HidP_Input, HidP_Output, HidP_Feature
+			ref HIDP_BUTTON_CAPS buttonCaps,
+			ref ushort buttonCapsLength,
+			IntPtr preparsedData);
 
+		// HIDP_REPORT_TYPE enumeration
+		public const int HidP_Input = 0;
+		public const int HidP_Output = 1;
+		public const int HidP_Feature = 2;
 	}
 }
 

@@ -364,7 +364,7 @@ namespace DirectOutput.Cab.Out.Pac
                 }
                 catch (Exception E)
                 {
-                    Log.Exception("A exception occured while setting the fadetime for PacUIO {0} to 0.".Build(Index), E);
+                    Log.Exception("A exception occurred while setting the fadetime for PacUIO {0} to 0.".Build(Index), E);
                     throw;
                 }
                 int FailCnt = 0;
@@ -382,7 +382,7 @@ namespace DirectOutput.Cab.Out.Pac
                     }
                     catch (Exception E)
                     {
-                        Log.Exception("A error occured when updating PacUIO {0}".Build(Id), E);
+                        Log.Exception("A error occurred when updating PacUIO {0}".Build(Id), E);
                         //Pinball.ThreadInfoList.RecordException(E);
                         FailCnt++;
 

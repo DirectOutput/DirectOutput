@@ -308,7 +308,7 @@ namespace DirectOutput.Frontend
                 }
                 catch (Exception E)
                 {
-                    MessageBox.Show("Could not save table config to\n{0}\n\nThe following error occured:\n{1}".Build(SaveTableConfigDialog.FileName, E.Message), "File save error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Could not save table config to\n{0}\n\nThe following error occurred:\n{1}".Build(SaveTableConfigDialog.FileName, E.Message), "File save error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }

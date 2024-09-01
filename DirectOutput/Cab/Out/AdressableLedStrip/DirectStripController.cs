@@ -223,7 +223,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         /// <summary>
         /// Finishes the updater thread.
         /// </summary>
-        /// <exception cref="System.Exception">A error occured during termination of DirectStripController updater thread.</exception>
+        /// <exception cref="System.Exception">A error occurred during termination of DirectStripController updater thread.</exception>
         private void FinishUpdaterThread()
         {
             if (UpdaterThread != null)
@@ -240,8 +240,8 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                 }
                 catch (Exception E)
                 {
-                    Log.Exception("A error occured during termination of DirectStripController updater thread.", E);
-                    throw new Exception("A error occured during termination of DirectStripController updater thread.", E);
+                    Log.Exception("A error occurred during termination of DirectStripController updater thread.", E);
+                    throw new Exception("A error occurred during termination of DirectStripController updater thread.", E);
                 }
             }
         }

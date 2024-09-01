@@ -81,37 +81,45 @@ namespace DirectOutput.Cab.Out.LW
         private bool MinCommandIntervalMsSet = false;
 
         /// <summary>
-        /// Gets or sets the mininimal interval between command in miliseconds.
+        /// Gets or sets the minimum interval between command in milliseconds.
         /// 
-        /// The purpose of this minimium interval is to work around a serious design flaw in the
-        /// LedWiz hardware.  The flaw makes the LedWiz misinterpret USB packets if they arrive
+        /// The purpose of this minimum interval is to work around a design flaw in the
+        /// LedWiz firmware.  The flaw makes the LedWiz misinterpret USB packets if they arrive
         /// too quickly.  Observationally, sending packets too quickly makes the LedWiz fire
         /// ports and change brightness levels apparently at random.  It was initially thought
         /// that this was due to lost USB packets or some such hand-wavy gremlin issue, but on
         /// closer inspection, it's not a USB issue at all, but a reproducible and demonstrable
         /// LedWiz defect.  We haven't attempted to reverse-engineer the LedWiz firmware to 
-        /// determine the exact defect, but from testing it's pretty apparent what's going on:
-        /// they failed to protect against concurrent access by the LedWiz firmware and its USB
-        /// wire interface.  If you contrive to send the LedWiz a sequence of packets with
-        /// certain bit patterns, you can demonstrate that the LedWiz incorrectly reads the
-        /// bytes from a new packet using the command code from the prior packet.  This makes
-        /// it misinterpret on/off codes as brightness codes, and vice versa, which leads to
-        /// the observed "random" firing.  It's not actually random - it's quite deterministic -
-        /// but it appears to be random because it's not at all what was intended.
+        /// pinpoint the exact machine-code instruction where things go wrong, but from careful
+        /// observation, it's pretty obvious what's going on: the software fails to protect a
+        /// shared data structure containing the incoming command bytes against concurrent read
+        /// access from the code that updates the ports, and write access from the code that
+        /// processes incoming USB packets.  At a guess, a new incoming USB packet is processed
+        /// in an interrupt handler that writes the packet into a memory location, and the code
+        /// that updates the ports runs at user level, and reads from the same location.  If
+        /// the port update code is interrupted by an incoming packet part of the way through
+        /// the port list, it will incorrectly update the ports with the new command bytes.
+        /// The new packet might contain an entirely different command type that requires the
+        /// bytes to be interpreted as something other than port levels, but the port update
+        /// code doesn't know that, so it just keeps writing what's now garbage data to the
+        /// ports.  You can demonstrate this deterministically by sending contrived sequences 
+        /// of bit patterns to the device, to make the device misinterpret the bytes of a new
+        /// packet using the command code from the previous packet.
         /// 
         /// The workaround is to deliberately throttle the rate of USB packets that we send 
-        /// to the device.  Unfortunately, there's no universal "right" delay rate, because 
-        /// the Windows USB drivers and PC USB hardware cause a lot of variability in the
-        /// actual packet delivery timing.  I suspect based on observations that Windows has 
-        /// some elevator-algorithm optimizations in its USB packet sequencing, to group 
-        /// packets to the same device together, which seriously confounds our attempts to 
-        /// control delivery timing.  To make matters worse, other unrelated applications
-        /// can even somehow have an effect on this (e.g., running PinballX affects USB
-        /// packet timing).  Anyway, due to all of these uncontrollable external factors, 
-        /// there's no minimum timing that's guaranteed to work.  This is one of those 
-        /// cases where you have to find a workable delay time in each specific system
-        /// experimentally (and you might even have to adjust it from time to time as
-        /// your software environment changes).
+        /// to the device.  Unfortunately, the best we can do is reduce the probability of
+        /// triggering the bug.  We can't eliminate it entirely, because we don't have
+        /// complete control over the timing of the physical USB packet delivery; the
+        /// Windows USB driver and the hardware make that somewhat variable.  The Windows
+        /// USB driver seems to deliberately manipulate packet timing, probably as an
+        /// optimization to maximize bus bandwidth by spreading packets across devices
+        /// and ports.  To make matters worse, other unrelated applications can have an
+        /// effect on this (e.g., running PinballX affects USB packet timing).  Due to all
+        /// of these uncontrollable external factors, there's no minimum timing that's 
+        /// guaranteed to work.  This is one of those cases where you have to find a 
+        /// workable delay time in each specific system experimentally, and you might
+        /// even have to adjust it if your software environment changes.  Perhaps the best
+        /// solution is to replace your LedWiz with a better device.
         /// 
         /// The current default is 10ms.  The old default was 1ms, but I've [mjr] increased
         /// it to make it more likely to "just work" on most systems.  Delays below 5ms
@@ -123,6 +131,13 @@ namespace DirectOutput.Cab.Out.LW
         /// perceptible latency or make brightness ramps any less smooth.  And of course 
         /// anyone who does find the longer time to be somehow undesirable can override 
         /// it via the global config.
+        /// 
+        /// Note that the timing bug ONLY affects GENUINE LEDWIZ DEVICES.  It does NOT
+        /// affect the Pinscape LedWiz emulation, nor does it affect any of the open-source
+        /// LedWiz clones.  It has nothing to do with the HID interface or the protocol;
+        /// it's just a bug in the genuine LedWiz's firmware.  If you're using a device 
+        /// that's only PRETENDING to be an LedWiz, such as one of the Arduino LedWiz clones,
+        /// your device doesn't have the bug and shouldn't need the timing workaround.
         /// </summary>
         /// <value>
         /// The minimum interval between command in milliseconds
@@ -976,7 +991,7 @@ namespace DirectOutput.Cab.Out.LW
                     }
                     catch (Exception E)
                     {
-                        Log.Exception("A error occured when updating LedWiz Nr. {0}".Build(Number), E);
+                        Log.Exception("A error occurred when updating LedWiz Nr. {0}".Build(Number), E);
                         //Pinball.ThreadInfoList.RecordException(E);
                         FailCnt++;
 

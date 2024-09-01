@@ -35,7 +35,7 @@ namespace B2SServerPlugin
             catch (Exception E)
             {
 
-                System.Windows.Forms.MessageBox.Show("Could not show DirectOutput frontend.\n The following exception occured:\n{0}".Build(E.Message), "DirectOutput");
+                System.Windows.Forms.MessageBox.Show("Could not show DirectOutput frontend.\n The following exception occurred:\n{0}".Build(E.Message), "DirectOutput");
             }
         }
 
@@ -64,7 +64,7 @@ namespace B2SServerPlugin
 
 
         /// <summary>
-        /// This method is called, when new data from Pinmame becomes available.<br/>
+        /// This method is called, when new data from PinMame becomes available.<br/>
         /// The IDirectPlugin interface requires the implementation of this method.
         /// </summary>
         /// <param name="TableElementTypeChar">Char representing the table element type. Check the \ref DirectOutput.TableElementTypeEnum for valid values.</param>
@@ -80,7 +80,7 @@ namespace B2SServerPlugin
 
         /// <summary>
         /// Finishes the plugin.<br />
-        /// This is the last method called, before the plugin is discarded. This method is also called, after a undhandled exception has occured in the plugin.
+        /// This is the last method called, before the plugin is discarded. This method is also called, after a unhandled exception has occurred in the plugin.
         /// </summary>
         public void PluginFinish()
         {

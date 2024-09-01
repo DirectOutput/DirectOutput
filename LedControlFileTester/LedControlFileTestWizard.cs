@@ -95,7 +95,7 @@ namespace LedControlFileTester
             catch (Exception E)
             {
                 ParsingResults.Rows.Clear();
-                MessageBox.Show("A error has occured when trying to load and parse the ledcontrol file: \n{0}\n\nException:\n{1}".Build(Filename, E.Message));
+                MessageBox.Show("A error has occurred when trying to load and parse the ledcontrol file: \n{0}\n\nException:\n{1}".Build(Filename, E.Message));
                 return false;
             }
         }

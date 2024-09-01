@@ -459,7 +459,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                     }
                     catch (Exception E)
                     {
-                        throw new Exception($"A exception occured while waiting for the ACK after sending the data for channel {i+1} of the {this.GetType().ToString()}.", E);
+                        throw new Exception($"A exception occurred while waiting for the ACK after sending the data for channel {i+1} of the {this.GetType().ToString()}.", E);
                     }
                     if (BytesRead != 1 || AnswerData[0] != (byte)'A')
                     {
@@ -481,7 +481,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             }
             catch (Exception E)
             {
-                throw new Exception($"A exception occured while waiting for the ACK after sending the output command (O) to the {this.GetType().ToString()}", E);
+                throw new Exception($"A exception occurred while waiting for the ACK after sending the output command (O) to the {this.GetType().ToString()}", E);
             }
             if (BytesRead != 1 || AnswerData[0] != (byte)'A')
             {
@@ -603,7 +603,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             }
             catch (Exception E)
             {
-                throw new Exception($"A exception occured while setting the name of the Com-port '{ComPortName}'. Found the following Com-Ports: {string.Join(", ", PortNames)}.  Will not send data to the controller.", E);
+                throw new Exception($"A exception occurred while setting the name of the Com-port '{ComPortName}'. Found the following Com-Ports: {string.Join(", ", PortNames)}.  Will not send data to the controller.", E);
             }
 
             try
@@ -613,7 +613,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             }
             catch (Exception E)
             {
-                throw new Exception($"A exception occured while trying to open the Com-port '{ComPortName}'. Found the following Com-Ports: {string.Join(", ", PortNames)}.  Will not send data to the controller.", E);
+                throw new Exception($"A exception occurred while trying to open the Com-port '{ComPortName}'. Found the following Com-Ports: {string.Join(", ", PortNames)}.  Will not send data to the controller.", E);
             }
 
             //Make sure, the controller is in the expected state (ready to receive commands)
@@ -698,12 +698,12 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             }
             catch (Exception E)
             {
-                throw new Exception($"Expected 1 bytes after outputing the buffer of the {this.GetType().ToString()} to the ledstrips, but the read operation resulted in a exception. Will not send data to the controller.", E);
+                throw new Exception($"Expected 1 bytes after outputting the buffer of the {this.GetType().ToString()} to the ledstrips, but the read operation resulted in a exception. Will not send data to the controller.", E);
             }
 
             if (BytesRead != 1 || ReceiveData[0] != (byte)'A')
             {
-                throw new Exception($"Expected a Ack (A) after outputing the buffer of the {this.GetType().ToString()} to the ledstrips, but received no answer or a unexpected answer. Will not send data to the controller.");
+                throw new Exception($"Expected a Ack (A) after outputting the buffer of the {this.GetType().ToString()} to the ledstrips, but received no answer or a unexpected answer. Will not send data to the controller.");
             }
         }
 
@@ -754,16 +754,16 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                 }
                 catch (TimeoutException TE)
                 {
-                    throw new Exception($"A TimeoutException occured while trying to read byte {ByteNumber + 1} of {NumberOfBytes} from Com-Port {ComPort.PortName}.", TE);
+                    throw new Exception($"A TimeoutException occurred while trying to read byte {ByteNumber + 1} of {NumberOfBytes} from Com-Port {ComPort.PortName}.", TE);
                 }
                 catch (Exception E)
                 {
-                    throw new Exception($"A exception occured while trying to read byte {ByteNumber + 1} of {NumberOfBytes} from Com-Port {ComPort.PortName}.", E);
+                    throw new Exception($"A exception occurred while trying to read byte {ByteNumber + 1} of {NumberOfBytes} from Com-Port {ComPort.PortName}.", E);
                 }
 
                 if (BytesRead != 1)
                 {
-                    throw new Exception($"A exception occured while trying to read byte {ByteNumber + 1} of {NumberOfBytes} from Com-Port {ComPort.PortName}. Tried to read 1 byte, but received {BytesRead} bytes.");
+                    throw new Exception($"A exception occurred while trying to read byte {ByteNumber + 1} of {NumberOfBytes} from Com-Port {ComPort.PortName}. Tried to read 1 byte, but received {BytesRead} bytes.");
                 }
 
                 Buffer[BufferOffset + ByteNumber] = ReadBuffer[0];
