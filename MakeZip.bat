@@ -66,14 +66,8 @@ rem ###   Main build steps
 rem ###
 
 
-rem ###   Current DOF assembly version
-tools\GetAssemblyVersion.exe tag "%DofDllPath%\DirectOutput.dll" >temp.txt
-set /p VersionTag=<temp.txt
-del Temp.txt
-
 rem ###   Announce what we're doing
-echo %VersionTag% %2
-echo -^> %ZipFile%
+echo Creating %ZipFile%...
 echo.
 
 rem ###   Delete any old copy of the ZIP file

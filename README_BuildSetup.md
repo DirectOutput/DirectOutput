@@ -122,15 +122,38 @@ two builds manually in that order.
 
 ## Release process
 
+If you want to build a complete set for release, here's the procedure I use:
+
+1. In Visual Studio, go through each configuration (Debug/x86, Debug/x64,
+Release/x86, Release/x64) and run a **Build > Clean Solution**, to make sure that all old
+build files are removed.
+
+2. Now go through the configurations **in this order**: Debug/x86, Debug/x64,
+Release/x86, Release/x64.  For each, run a **Build > Build Solution**.
+
+   - On each build step, it's a good idea to check that the build actually
+     succeeded, by looking at the end of the Output log window, and confirming that
+     it says "=== Build: N succeeded, 0 failed, 0 skipped ===".  The important
+     thing is the "0 failed" part.
+
+3. Run the MakeZip steps (see below)
+
+4. The Builds\ folder should now have a complete set of .msi and .zip files
+to upload, with the filenames set to show today's date and thee respective
+configurations.  The file naming makes these suitable for uploading to a
+simple flat directory structure on a Web server or other repository.
+
 The .msi files that come out of the Visual Studio build are complete,
 stand-alone MS Setup release bundles, containing all of the necessary files to
 perform a complete install.  These can be posted for download as-is.  A user
 simply downloads the file and double-clicks it, which will launch MS Setup and
 carry out the install.
 
-In addition, you can build a ZIP file containing the install set, for people who
-want to do the install by hand rather than using the .msi files.  The main
-folder contains a script, **MakebinZip.bat**, that builds the .ZIP.  Run it
+You can also, optionally, build a ZIP file containing the install set, for
+people who want to do the install by hand rather than using the .msi files.
+I'm not sure it's worth doing this any more, since the MSI is so much
+more reliable, but so far I've continued distributing the ZIPs out of habit.
+The main folder contains a script, **MakebinZip.bat**, that builds the .ZIP.  Run it
 from a CMD window after completing the Visual Studio build.  You'll need a
 command-line ZIP tool somewhere on your path, named ZIP.EXE.  The script
 takes two arguments, selecting the binaries by the architecture and build 
