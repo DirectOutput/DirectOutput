@@ -96,45 +96,12 @@ namespace B2SServerPlugin
         /// <param name="RomName">Name of the rom.</param>
         public void PluginInit(string TableFilename, string RomName)
         {
+			// Get the config file name
+			var F = new FileInfo(DirectOutputHandler.GetGlobalConfigFileName("B2SServer"));
 
-            //Check config dir for global config file
-            FileInfo F = new FileInfo(Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName, "config", "GlobalConfig_B2SServer.xml"));
-            if (!F.Exists)
-            {
-                //Check if a shortcut to the config dir exists
-                FileInfo LnkFile = new FileInfo(Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName, "config", "GlobalConfig_B2SServer.lnk"));
-                if (LnkFile.Exists)
-                {
-                    string ConfigDirPath = ResolveShortcut(LnkFile);
-                    if (Directory.Exists(ConfigDirPath))
-                    {
-                        F = new FileInfo(Path.Combine(ConfigDirPath, "GlobalConfig_B2SServer.xml"));
-                    }
-                }
-                if (!F.Exists)
-                {
-
-                    //Check table dir for global config file
-                    F = new FileInfo("GlobalConfig_B2SServer.xml");
-                    if (!F.Exists)
-                    {
-                        //Check dll dir for global config file
-                        F = new FileInfo(Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName, "GlobalConfig_B2SServer.xml"));
-                        if (!F.Exists)
-                        {
-                            //if global config file does not exist, set filename to config directory.
-                            F = new FileInfo(Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName, "config", "GlobalConfig_B2SServer.xml"));
-                        }
-                    }
-                }
-            }
-
+            // Initialize the main Pinball object
             Pinball.Setup(F.FullName, TableFilename, RomName);
             Pinball.Init();
-
-          // PluginShowFrontend();
-
-
         }
 
 
