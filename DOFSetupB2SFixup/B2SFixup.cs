@@ -27,35 +27,109 @@ namespace DOFSetupB2SFixup
             String bitness = session.CustomActionData["BITNESS"];
             session.Log("Installation path: " + dofPath + ", binary dir: " + binDir + ", bitness=" + bitness);
 
-            // Look up B2S.Server and try to get the local file system location
-            // where it's installed.  Do this by loading the type for "B2S.Server"
-            // and traversing into Type.Module.Assembly.CodeBase.  This contains
-            // the path to the DLL.  We're looking for a file:/// path.  If it's
-            // not a local file system path, we can't create a shortcut there.
-            session.Log("Finding B2S.Server DLL");
-            var bt = Type.GetTypeFromProgID("B2S.Server");
-            Module module = null;
-            Assembly assembly = null;
-            String codeBase = null;
-            Match m = null;
-            String b2sErr = "The B2S Backglass Server program doesn't appear to be installed "
-                    + "on this computer, or it's not set up correctly for DOF (error details: "
-                    + "{0}). You might want to reinstall Visual Pinball using the VPX "
-                    + "installer and then re-run the DOF installation.";
-            if (bt == null)
-                errors.Add(String.Format(b2sErr, "the registry entry for the server is missing"));
-            else if ((module = bt.Module) == null)
-                errors.Add(String.Format(b2sErr, "the program module can't be loaded"));
-            else if ((assembly = module.Assembly) == null)
-                errors.Add(String.Format(b2sErr, "the program module can't be accessed"));
-            else if ((codeBase = assembly.CodeBase) == null)
-                errors.Add(String.Format(b2sErr, "the installation location is unknown"));
-            else if (!(m = Regex.Match(codeBase, @"^file:///(.*)$")).Success)
-                errors.Add(String.Format(b2sErr, "the installation location isn't on the local disk"));
+			// Try load the registered B2S.Server COM object, so that we can
+			// ask it for its install location.
+			session.Log("Finding B2S.Server DLL");
+			var registeredType = Type.GetTypeFromProgID("B2S.Server");
+            string dllFile = null;
+            if (registeredType == null)
+            {
+                errors.Add("It appears that B2S Backglass Server is not installed "
+                    + "on this system.  DOF requires B2S to be installed before DOF "
+                    + "can run.  After this Setup process finishes, please separately "
+                    + "download and install the " + bitness + "-bit version of B2S "
+                    + "Backglass Server, then re-run this DOF installer.");
+
+                session.Log("GetTypeFromProgID(\"B2S.Server\") failed - B2S is not installed");
+            }
             else
             {
+                // found the type; try creating an instance
+                Object instance = null;
+                try
+                {
+                    // create the instance
+                    instance = System.Activator.CreateInstance(registeredType);
+                }
+                catch (Exception exc)
+                {
+					// If the error is "class not registered", when we perfectly well
+					// found a registered class, it means that B2S isn't installed for
+					// the bitness of the current installer.  This is a weird quirk of
+					// COM that seems like a bug, but it's at least consistent; 
+					// GetTypeFromProgID() returns a valid Type object, but it seems
+					// to be for a generic System.__ComObject class that you can't
+					// actually instantiate.  The only way I can find to tell if we
+					// have such an object is to try to instantiate it and check for
+					// this error.
+					session.Log("Error loading B2S COM object: " + exc.Message);
+					if (exc.Message.Contains("REGDB_E_CLASSNOTREG"))
+                    {
+                        // B2S is registered, but not for the current bitness
+                        errors.Add("It looks like B2S Backglass Server is installed on this "
+                            + "system, but NOT the " + bitness + "-bit version.  " + bitness
+                            + "-bit DOF requires " + bitness + "-bit B2S.  After this Setup exits, "
+                            + "please separately download and install " + bitness + "-bit B2S, "
+                            + "then re-run this DOF install.");
+
+                        session.Log("Note: this error usually indicates that B2S is installed, "
+                            + "but NOT for the " + bitness + "-bit version required by this DOF "
+                            + "install");
+                    }
+                    else
+                    {
+                        // some other error occurred
+                        errors.Add("An error occurred loading the " + bitness
+                            + "-bit B2S Backglass Server.  DOF won't work properly if B2S "
+                            + "isn't installed.  After this Setup exits, you please download "
+                            + "and install the " + bitness + "-bit version of B2S Backglass Server, "
+                            + "then re-run this DOF install.");
+
+                    }
+                }
+
+                // ask it for its DLL path
+                if (instance != null)
+                {
+                    try
+                    {
+                        var dirObj = instance.GetType().InvokeMember(
+                                "B2SServerDirectory", System.Reflection.BindingFlags.GetProperty, null, instance, null, null);
+
+                        if (dirObj != null && dirObj is string s)
+                        {
+                            // got it - get the directory path (minus DLL filename)
+                            dllFile = s;
+                            session.Log("B2S DLL path successfully identified as \"" + dllFile + "\"");
+                        }
+                        else
+                        {
+                            errors.Add("B2S Backglass Server appears to be installed, but the "
+                                + "setup program was unable to determine its install location.  "
+                                + "The installed version of B2S might not be compatible with this "
+                                + "setup program.  You might try re-installing B2S and re-running "
+                                + "this DOF setup.");
+
+                            session.Log("B2S object.B2SServerDirectory returned null or non-string result; can't identify B2S DLL path");
+                        }
+                    }
+                    catch (Exception exc)
+                    {
+                        errors.Add("B2S Backglass Server appears to be installed, but the "
+                            + "setup program was unable to determine its install location.  "
+                            + "The installed version of B2S might not be compatible with this "
+                            + "setup program.  You might try re-installing B2S and re-running "
+                            + "this DOF setup.");
+
+                        session.Log("Error getting property value for B2S object.B2SServerDirectory: " + exc.Message);
+                    }
+                }
+            }
+
+            // check if we found the path
+            if (dllFile != null && dllFile.Length > 0)
+            {
                 // success - extract the file system path
-                String dllFile = m.Groups[1].Value.Replace('/', '\\');
                 String path = Path.GetDirectoryName(dllFile);
                 session.Log("B2S.Server DLL file is " + dllFile);
 
@@ -142,8 +216,8 @@ namespace DOFSetupB2SFixup
                 {
                     errors.Add("Setup was unable to update the B2S settings file to disable "
                         + "errors on startup when backglasses are missing.  This is optional, "
-                        + "but recommended, since it remove unneeded error messages if you "
-                        + "run a DirectOutput-enabled table that doesn't have a backglass "
+                        + "but recommended, since it suppresses superfluous error messages when "
+                        + "you run a DirectOutput-enabled table that doesn't have a backglass "
                         + "installed.  You can update the setting manually if you wish; see "
                         + "the DirectOutput documentation for help.  (This happened while "
                         + "attempting to update \"" + settingsFile + "\"; system error "
