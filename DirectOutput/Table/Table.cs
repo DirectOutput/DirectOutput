@@ -255,7 +255,7 @@ namespace DirectOutput.Table
             {
                 if (ShapeDefinitionFile == null)
                 {
-                    Log.Warning("Could not determin name of shape definition file");
+                    Log.Warning("Could not determine name of shape definition file");
                 }
                 else
                 {

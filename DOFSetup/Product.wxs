@@ -114,6 +114,15 @@
          Note that we have to run this action in Execute="deferred" mode, so
          that it runs after the DOF folder has been created.  The shortcut
          we create won't work if we create it before the folder exists.
+				 
+				 Impersonate="yes" (the default) runs the task at regular USER level,
+				 de-elevating from the Administrator privileges that Setup itself
+				 enables for its own work (necessary because it has to access and
+				 modify protected system resources like registry keys and Program
+				 Files locations).  It's safer to run custom tasks at user level to
+				 protect the system against any bugs the custom code contains.  Our
+				 custom tasks don't require access to anything privileged, so we can
+				 use the de-elevated Impersonate mode.
     -->
     <Binary Id="B2SFixupDLL" SourceFile="$(var.DOFSetupB2SFixup.TargetDir)DOFSetupB2SFixup.CA.dll" />
     <CustomAction
@@ -121,7 +130,8 @@
       Return="check"
       Execute="deferred"
       BinaryKey="B2SFixupDLL"
-      DllEntry="B2SFixup" />
+      DllEntry="B2SFixup"
+			Impersonate="yes" />
     
     <!-- Custom PBXFixup action.  This is another custom action, this time
          for setting up the PinballX plugin.  For this, we have to find
@@ -137,7 +147,8 @@
       Return="check"
       Execute="deferred"
       BinaryKey="PBXFixupDLL"
-      DllEntry="PBXFixup" />
+      DllEntry="PBXFixup"
+			Impersonate="yes" />
     
     <!-- Our B2SFixup and PBXFixup custom tasks have to run deferred, and as 
          a result they don't have access to session.GetTargetPath() to identify 

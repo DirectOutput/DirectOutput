@@ -241,7 +241,7 @@ namespace DirectOutput.Cab.Out.PSPico
 					}
 
 					// send the report
-					psp.Dev.WriteUSB(buf, 100);
+					psp.Dev.WriteUSB("SET OUTPUT PORTS", buf, 100);
 				}
 			}
 		}
@@ -334,14 +334,14 @@ namespace DirectOutput.Cab.Out.PSPico
 					// we don't have to send.
 					byte[] buf = new byte[psp.Dev.outputReportByteLength];
 					buf[0] = psp.Dev.outputReportId;
-					buf[1] = 0x22;
+					buf[1] = 0x21;
 					buf[2] = (byte)l.numToSend;
 					int idx = 3;
 					foreach (var output in l.outputs)
 						buf[idx++] = (byte)output;
 
 					// send the report
-					psp.Dev.WriteUSB(buf, 100);
+					psp.Dev.WriteUSB("SET OUTPUT PORT BLOCK", buf, 100);
 				}
 			}
 		}
@@ -478,7 +478,7 @@ namespace DirectOutput.Cab.Out.PSPico
 				unitName = "NoName";
 
 				// request an identification report (command 0x01, QUERY DEVICE IDENTIFICATION)
-				DeviceRequest(0x01);
+				DeviceRequest("QUERY DEVICE ID", 0x01);
 				bool identified = false;
 				for (int i = 0; i < 16; ++i)
 				{
@@ -506,8 +506,33 @@ namespace DirectOutput.Cab.Out.PSPico
 						numOutputs = ParseReportU16(buf, 45);
 						plungerType = ParseReportU16(buf, 47);
 
+						// report it in the log
 						Log.Write("Pinscape Pico discovery found unit #{0} ({1}), {2} output ports, Pico hardware ID {3}, protocol version {4}".Build(
 							unitNo, unitName, numOutputs, hardwareID, protocolVersion));
+
+						// As long as we're setting up communications with the device, send it
+						// the current wall-clock time, which the firmware can use to implement
+						// time-of-day features.  The device depends on the host to send it the
+						// current time, since the Pico doesn't have its own real-time clock;
+						// and HID doesn't let the device send queries to the host, so the Pico
+						// has to depend on applications sending this information incidentally,
+						// which is what we're doing here.
+						var now = DateTime.Now;
+
+						// SET WALL CLOCK TIME command (see Pinscape Pico source -> USBProtocol/FeedbackControllerProtocol.h)
+						// <0x14:BYTE> <Year:UINT16> <Month:BYTE> <Day:BYTE> <Hour:BYTE> <Minute:BYTE> <Second:BYTE>
+						var timeBuf = new byte[outputReportByteLength];
+						timeBuf[0] = outputReportID;
+						timeBuf[1] = 0x14;             // SET WALL CLOCK TIME command code
+						timeBuf[2] = (byte)(now.Year & 0xFF);
+						timeBuf[3] = (byte)((now.Year >> 8) & 0xFF);
+						timeBuf[4] = (byte)now.Month;
+						timeBuf[5] = (byte)now.Day;
+						timeBuf[6] = (byte)now.Hour;
+						timeBuf[7] = (byte)now.Minute;
+						timeBuf[8] = (byte)now.Second;
+						if (WriteUSB("SET WALL CLOCK TIME", timeBuf, 100))
+							Log.Write("Pinscape Pico: warning: error setting wall clock time");
 
 						// we found the response, so we can stop searching for it
 						identified = true;
@@ -599,7 +624,7 @@ namespace DirectOutput.Cab.Out.PSPico
 				return buf;
 			}
 
-			public bool WriteUSB(byte[] buf, uint timeout_ms)
+			public bool WriteUSB(string desc, byte[] buf, uint timeout_ms)
 			{
 				// retry the write a few times, since we might be able to correct
 				// certain types of errors and retry
@@ -623,14 +648,14 @@ namespace DirectOutput.Cab.Out.PSPico
 						break;
 
 					// write or wait failed - log the error and return failure
-					Log.Write("Pinscape Pico: USB error sending to device: " + GetLastWin32ErrMsg());
+					Log.Write("Pinscape Pico: USB error sending to device ({0}): {1}".Build(desc, GetLastWin32ErrMsg()));
 					return false;
 				}
 
 				// check that the actual byte length written matches the request
 				if (actual != outputReportByteLength)
 				{
-					Log.Write("Pinscape Pico: USB error sending to device: not all bytes sent");
+					Log.Write("Pinscape Pico: USB error sending to device ({0}): not all bytes sent".Build(desc));
 					return false;
 				}
 
@@ -688,17 +713,17 @@ namespace DirectOutput.Cab.Out.PSPico
 			public void AllOff()
 			{
 				// send the ALL PORTS OFF command (command code 0x20)
-				DeviceRequest(0x20);
+				DeviceRequest("ALL PORTS OFF", 0x20);
 			}
 
 			// Send a request to the device
-			public bool DeviceRequest(byte commandId)
+			public bool DeviceRequest(string desc, byte commandId)
 			{
 				// set up the output report
 				byte[] buf = new byte[outputReportByteLength];
 				buf[0] = outputReportId;  // HID report ID
 				buf[1] = commandId;       // command code
-				return WriteUSB(buf, 100);
+				return WriteUSB(desc, buf, 100);
 			}
 
 			public IntPtr fp;                       // file handle to USB device

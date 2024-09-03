@@ -18,11 +18,7 @@ namespace DirectOutput.GlobalConfiguration
     public class GlobalConfig
     {
 
-        
-
         #region IniFiles
-
-
 
         private int _LedWizDefaultMinCommandIntervalMs = 10;
 
@@ -39,7 +35,6 @@ namespace DirectOutput.GlobalConfiguration
             get { return _LedWizDefaultMinCommandIntervalMs; }
             set { _LedWizDefaultMinCommandIntervalMs = value.Limit(0, 1000); }
         }
-
 
         private int _LedControlMinimumEffectDurationMs = 60;
 
@@ -73,7 +68,6 @@ namespace DirectOutput.GlobalConfiguration
             set { _LedControlMinimumRGBEffectDurationMs = value; }
         }
 
-
         private int _PacLedDefaultMinCommandIntervalMs = 10;
 
         /// <summary>
@@ -89,9 +83,6 @@ namespace DirectOutput.GlobalConfiguration
             get { return _PacLedDefaultMinCommandIntervalMs; }
             set { _PacLedDefaultMinCommandIntervalMs = value.Limit(0, 1000); }
         }
-
-
-
 
         private string _IniFilesPath="";
 
@@ -167,7 +158,6 @@ namespace DirectOutput.GlobalConfiguration
                 foreach (string P in LookupPaths) 
                 {
                     DirectoryInfo DI = new DirectoryInfo(P);
-
                     List<FileInfo> Files = new List<FileInfo>();
                     foreach (FileInfo FI in DI.EnumerateFiles())
                     {
@@ -176,7 +166,6 @@ namespace DirectOutput.GlobalConfiguration
                             Files.Add(FI);
                         }
                     }
-
 
                     foreach (FileInfo FI in Files)
                     {
@@ -209,19 +198,18 @@ namespace DirectOutput.GlobalConfiguration
                                     {
                                         Log.Warning("Found more than one ini file with number {0}.".Build(LedWizNr));
                                     }
- 
                                 }
-
                             }
-
                         }
-                    };
-                    if (FoundIt) break;
+                    }
+                    
+                    if (FoundIt) 
+                        break;
                 }
-                if (FoundIt) break;
+
+                if (FoundIt) 
+                    break;
             }
-
-
 
             return IniFiles;
 
@@ -235,22 +223,16 @@ namespace DirectOutput.GlobalConfiguration
         public FileInfo GetTableMappingFile(string TableFilename="")
         {
             Dictionary<int,FileInfo> IniFileDict = GetIniFilesDictionary(TableFilename);
-
             if (IniFileDict != null && IniFileDict.Count > 0)
             {
                 DirectoryInfo DI = IniFileDict.First().Value.Directory;
-
                 FileInfo FI = DI.GetFiles("tablemappings.*").FirstOrDefault();
-
                 return FI;
             }
             else
             {
                 return null;
             }
-
-
-
         }
 
 
@@ -278,24 +260,19 @@ namespace DirectOutput.GlobalConfiguration
         public FileInfo GetShapeDefinitionFile(string TableFilename="", string RomName="")
         {
             if (ShapeDefinitionFilePattern!=null && !ShapeDefinitionFilePattern.Pattern.IsNullOrWhiteSpace() && ShapeDefinitionFilePattern.IsValid)
-            {
                 return ShapeDefinitionFilePattern.GetFirstMatchingFile(GetReplaceValuesDictionary(TableFilename, RomName));
-            }
+
             Dictionary<int, FileInfo> IniFilesDict = GetIniFilesDictionary(TableFilename);
             if (IniFilesDict.Count > 0)
             {
                 FileInfo FI=new FileInfo(Path.Combine(IniFilesDict.Select(KV=>KV.Value).First().Directory.FullName,"DirectOutputShapes.xml"));
                 if (FI.Exists)
-                {
                     return FI;
-                }
-            }
-            FileInfo FII = new FilePattern("{DllDir}\\DirectOutputShapes.xml").GetFirstMatchingFile(GetReplaceValuesDictionary(TableFilename, RomName));
-            if (FII != null && FII.Exists)
-            {
-                return FII;
             }
 
+            FileInfo FII = new FilePattern("{DllDir}\\DirectOutputShapes.xml").GetFirstMatchingFile(GetReplaceValuesDictionary(TableFilename, RomName));
+            if (FII != null && FII.Exists)
+                return FII;
 
             return null;
         }
@@ -332,9 +309,7 @@ namespace DirectOutput.GlobalConfiguration
         public FileInfo GetCabinetConfigFile()
         {
             if (!CabinetConfigFilePattern.Pattern.IsNullOrWhiteSpace() && CabinetConfigFilePattern.IsValid)
-            {
                 return CabinetConfigFilePattern.GetFirstMatchingFile(GetReplaceValuesDictionary());
-            }
    
             return null;
         }
@@ -429,12 +404,8 @@ namespace DirectOutput.GlobalConfiguration
             get { return _ClearLogOnSessionStart; }
             set { _ClearLogOnSessionStart = value; }
         }
-        
-
-
 
         private FilePattern _LogFilePattern = new FilePattern(".\\DirectOutput.log");
-
 
         /// <summary>
         /// Gets or sets the log file pattern.<br/>
@@ -561,7 +532,6 @@ namespace DirectOutput.GlobalConfiguration
             FileInfo FI = GetGlobalConfigFile();
             if (FI == null) return null;
             return FI.Directory;
-
         }
 
 
@@ -638,12 +608,10 @@ namespace DirectOutput.GlobalConfiguration
         /// <returns>GlobalConfig object or null.</returns>
         public static GlobalConfig GetGlobalConfigFromConfigXmlFile(string GlobalConfigFileName)
         {
-
             try
             {
                 if (File.Exists(GlobalConfigFileName))
                 {
-
                     string Xml = General.FileReader.ReadFileToString(GlobalConfigFileName);
 
                     // For debug purposes only: copy the contents to the log to debug file sourcing issues
@@ -652,11 +620,9 @@ namespace DirectOutput.GlobalConfiguration
 
                     GlobalConfig GC = GetGlobalConfigFromGlobalConfigXml(Xml);
                     if (GC != null)
-                    {
                         GC.GlobalConfigFilename = GlobalConfigFileName;
-                    }
-                    return GC;
 
+                    return GC;
                 }
                 else
                 {
@@ -724,9 +690,6 @@ namespace DirectOutput.GlobalConfiguration
         /// </summary>
         public GlobalConfig()
         {
-
-         
-
         }
 
     }
