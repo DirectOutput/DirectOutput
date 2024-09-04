@@ -44,7 +44,7 @@ namespace DirectOutput.LedControl.Setup
         /// <param name="RomName">Name of the rom to be used for the setup.</param>
         public void Setup(LedControlConfigList LedControlConfigList, DirectOutput.Table.Table Table, Cabinet Cabinet, string RomName)
         {
-            Dictionary<int, TableConfig> TableConfigDict = LedControlConfigList.GetTableConfigDictonary(RomName);
+            Dictionary<int, TableConfig> TableConfigDict = LedControlConfigList.GetTableConfigDictionary(RomName);
             Dictionary<int, Dictionary<int, IToy>> ToyAssignments = SetupCabinet(TableConfigDict, Cabinet);
 
 			if (LedControlConfigList.Count > 0 && LedControlConfigList[0].LedControlIniFile != null)

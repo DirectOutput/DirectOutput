@@ -19,7 +19,7 @@ namespace DirectOutput.LedControl.Loader
         /// </summary>
         /// <param name="RomName">Name of the rom.</param>
         /// <returns></returns>
-        public Dictionary<int, TableConfig> GetTableConfigDictonary(string RomName)
+        public Dictionary<int, TableConfig> GetTableConfigDictionary(string RomName)
         {
             Dictionary<int, TableConfig> D = new Dictionary<int, TableConfig>();
 
@@ -74,7 +74,7 @@ namespace DirectOutput.LedControl.Loader
 
 
         /// <summary>
-        /// Determines whether a config for the spcified RomName exists in the configs.
+        /// Determines whether a config for the specified RomName exists in the configs.
         /// </summary>
         /// <param name="RomName">Name of the rom.</param>
         /// <returns>
@@ -82,7 +82,7 @@ namespace DirectOutput.LedControl.Loader
         /// </returns>
         public bool ContainsConfig(string RomName)
         {
-            return GetTableConfigDictonary(RomName).Count > 0;
+            return GetTableConfigDictionary(RomName).Count > 0;
 
         }
 
@@ -103,7 +103,7 @@ namespace DirectOutput.LedControl.Loader
         /// <summary>
         /// Loads a list of ledcontrol.ini files.
         /// </summary>
-        /// <param name="LedControlIniFiles">The sixtionary of ini files to be loaded.</param>
+        /// <param name="LedControlIniFiles">The dictionary of ini files to be loaded.</param>
         /// <param name="ThrowExceptions">if set to <c>true</c> throw exceptions on errors.</param>
         public void LoadLedControlFiles(Dictionary<int, FileInfo> LedControlIniFiles, bool ThrowExceptions = false)
         {

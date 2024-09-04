@@ -65,17 +65,19 @@ yourself some hassle by sticking with what everyone else uses.
 
 **DO NOT** install DOF **anywhere** within the Windows **C:\Program Files**
 tree or any other Windows system folders.  Windows has some special
-security rules for system folders that can make DOF malfunction if
-installed there.  It's best to use a custom folder like C:\DirectOutput.
+security rules for system folders, which can make DOF malfunction if
+installed there.  It's best to use a plain folder like C:\DirectOutput.
 
-In the distant past, some people ran into mysterious problems (that
-were never explained or understood) that *seemed* to be related to
-using path names that contained spaces, and/or were on drives other
-than C:\ (or, more specifically, the drive containing Windows).  If
-DOF is acting weird or just not working, and your install path sounds
-like what I just described, you might try reinstalling in that
-C:\DirectOutput folder as a first troubleshooting step just to rule
-out the mysterious space/E: problem.
+In the distant past, a few people ran into mysterious problems that *seemed*
+to be related to using path names that contained spaces,
+and/or were on drives other than C:\ (or, more precisely, whichever
+drive Windows boots from).  Those problems were never explained, so
+I'm not sure the notion that they were path-related was ever true, but
+that was the best theory anyone could come up with at the time.  So,
+if DOF is acting weird or just not working, and you chose a custom
+install path instead of the basic C:\DirectOutput, you might try
+reinstalling in C:\DirectOutput, just to rule out the path name as the
+source of trouble.
 
 
 ## About DOF
