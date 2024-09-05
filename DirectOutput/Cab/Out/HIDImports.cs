@@ -292,16 +292,9 @@ namespace DirectOutput.Cab.Out
 			public ushort ReportCount;
 			public ushort Reserved2;
 
-			// note - in the original structure, this is a ULONG[9] array
-			public UInt32 Reserved3;
-			public UInt32 Reserved4;
-			public UInt32 Reserved5;
-			public UInt32 Reserved6;
-			public UInt32 Reserved7;
-			public UInt32 Reserved8;
-			public UInt32 Reserved9;
-			public UInt32 Reserved10;
-			public UInt32 Reserved11;
+			// ULONG Reserved3[9] in the SDK struct
+			[MarshalAs(UnmanagedType.ByValArray, ArraySubType = UnmanagedType.U4, SizeConst = 9)]
+			public UInt32[] Reserved3;
 
 			// Note - in the original structure, the remaining members are
 			// enclosed in a union with 'Range' and 'NotRange' overlays.

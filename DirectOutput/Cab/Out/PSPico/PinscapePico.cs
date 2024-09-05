@@ -531,7 +531,7 @@ namespace DirectOutput.Cab.Out.PSPico
 						timeBuf[6] = (byte)now.Hour;
 						timeBuf[7] = (byte)now.Minute;
 						timeBuf[8] = (byte)now.Second;
-						if (WriteUSB("SET WALL CLOCK TIME", timeBuf, 100))
+						if (!WriteUSB("SET WALL CLOCK TIME", timeBuf, 100))
 							Log.Write("Pinscape Pico: warning: error setting wall clock time");
 
 						// we found the response, so we can stop searching for it
