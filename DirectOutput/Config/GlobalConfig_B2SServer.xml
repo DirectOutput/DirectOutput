@@ -11,6 +11,6 @@
     <FilePattern>{GlobalConfigDir}\{TableName}.xml</FilePattern>
   </TableConfigFilePatterns> 
   <EnableLogging>true</EnableLogging>
-  <LogFilePattern>{DllDir}\DirectOutput.log</LogFilePattern>
+  <LogFilePattern>{BinDir}\DirectOutput.log</LogFilePattern>
   <GlobalScriptFilePatterns />
 </GlobalConfig>

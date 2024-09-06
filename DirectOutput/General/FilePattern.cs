@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 
 namespace DirectOutput.General
@@ -92,17 +93,22 @@ namespace DirectOutput.General
         /// <summary>
         /// Returns the pattern with replaced placeholders.
         /// </summary>
-        /// <param name="ReplaceValues">A dictionary containg the replace values.</param>
+        /// <param name="ReplaceValues">A dictionary containing the replace values.</param>
         /// <returns>Pattern with replaced placeholders.</returns>
         public string ReplacePlaceholders(Dictionary<string, string> ReplaceValues = null)
         {
+            if (Regex.Match(Pattern, @"\{(DllDir|DllDirectory|AssemblyDir|AssemblyDirectory)\}").Success)
+            {
+                DirectOutputHandler.LogOnce(this.Pattern,
+                    "Warning: filename substitution variables {DllDir} and {AssemblyDir} are deprecated; "
+                    + "use {InstallDir} for the install folder, or {BinDir} for the executing assembly's binary folder");
+            }
+
             string P = Pattern;
             if (ReplaceValues != null)
             {
                 foreach (KeyValuePair<string, string> KV in ReplaceValues)
-                {
                     P = P.Replace("{" + (KV.Key) + "}", KV.Value);
-                }
             }
             return P;
         }
@@ -181,7 +187,7 @@ namespace DirectOutput.General
                 }
 
                 bool BracketOpen = false;
-                bool JustOpend = false;
+                bool JustOpened = false;
                 foreach (char C in Pattern)
                 {
                     switch (C)
@@ -189,22 +195,22 @@ namespace DirectOutput.General
                         case '{':
                             if (BracketOpen) return false;
                             BracketOpen = true;
-                            JustOpend = true;
+                            JustOpened = true;
                             break;
                         case '}':
                             if (!BracketOpen) return false;
-                            if (JustOpend) return false;
+                            if (JustOpened) return false;
                             BracketOpen = false;
-                            JustOpend = false;
+                            JustOpened = false;
                             break;
                         case '\\':
                         case '*':
                         case '?':
                             if (BracketOpen) return false;
-                            JustOpend = false;
+                            JustOpened = false;
                             break;
                         default:
-                            JustOpend = false;
+                            JustOpened = false;
                             break;
                     }
                 }

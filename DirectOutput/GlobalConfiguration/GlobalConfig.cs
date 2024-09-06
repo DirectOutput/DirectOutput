@@ -265,15 +265,30 @@ namespace DirectOutput.GlobalConfiguration
             Dictionary<int, FileInfo> IniFilesDict = GetIniFilesDictionary(TableFilename);
             if (IniFilesDict.Count > 0)
             {
-                FileInfo FI=new FileInfo(Path.Combine(IniFilesDict.Select(KV=>KV.Value).First().Directory.FullName,"DirectOutputShapes.xml"));
+                // search the path
+                string IniFileDir = IniFilesDict.Select(KV => KV.Value).First().Directory.FullName;
+				FileInfo FI = new FileInfo(Path.Combine(IniFileDir,"DirectOutputShapes.xml"));
+
+                // log the result
+                DirectOutputHandler.LogOnce("ShapeFileSearch1",
+                    "Searching for DirectOutputShapes.xml in .ini file location ({0}): {1}".Build(
+                        IniFileDir, FI.Exists ? "Success" : "Not found"));
+				
+                // return it if we found a match
                 if (FI.Exists)
                     return FI;
             }
 
-            FileInfo FII = new FilePattern("{DllDir}\\DirectOutputShapes.xml").GetFirstMatchingFile(GetReplaceValuesDictionary(TableFilename, RomName));
+            string filePat = "{InstallDir}\\DirectOutputShapes.xml";
+			FileInfo FII = new FilePattern(filePat).GetFirstMatchingFile(GetReplaceValuesDictionary(TableFilename, RomName));
+            DirectOutputHandler.LogOnce("ShapeFileSearch2",
+                "Searching for DirectOutputShapes.xml in {0} => {1}: {2}".Build(
+                filePat, FII?.FullName ?? "<null>", (FII?.Exists ?? false) ? "Success" : "Not found"));
             if (FII != null && FII.Exists)
                 return FII;
 
+
+            DirectOutputHandler.LogOnce("ShapeFileSearch3", "DirectOutputShapes.xml not found; shapes will not be used during this session");
             return null;
         }
 
@@ -411,14 +426,17 @@ namespace DirectOutput.GlobalConfiguration
         /// Gets or sets the log file pattern.<br/>
         /// The log file pattern supports the following placeholders:
         /// 
-        /// - {GlobalConfigDir}
-        /// - {DllDir}
-        /// - {TableDir}
-        /// - {TableName}
-        /// - {RomName}
-        /// - {DateTime}
-        /// - {Date}
-        /// - {Time}
+        /// - {GlobalConfigDir}      - Config folder (subfolder of main install folder)
+        /// - {DllDir}               - DOF main install folder - DEPRECATED, use InstallDir instead
+        /// - {AssemblyDir}          - DOF main install folder - DEPRECATED, use InstallDir instead
+        /// - {InstallDir}           - DOF main install folder
+        /// - {BinDir}               - folder containing current executing assembly DLL/EXE
+        /// - {TableDir}             - pinball table (.vpx) folder when running under VP
+        /// - {TableName}            - pinball table name
+        /// - {RomName}              - ROM name when VPinMame is running
+        /// - {DateTime}             - current date and time, YYYYMMDD hhmmss format
+        /// - {Date}                 - current date, YYYYMMDD format
+        /// - {Time}                 - current time, hhmmss format
         /// 
         /// Note that {DllDir} is a misnomer; it's actually the installation folder.
         /// In the newer install configuration, the DLLs are in subfolders that separate
@@ -427,7 +445,10 @@ namespace DirectOutput.GlobalConfiguration
         /// effects), we have to preserve its semantic meaning of the folder containing
         /// the asset files.  It's still the parent folder of the DLLs as long as you
         /// think of the DLL name as a relative path starting with the the x86\ or x64\ 
-        /// subfolder name.
+        /// subfolder name.  Because the name is a misnomer under the new installation
+        /// layout, this variable should no longer be used - use {InstallDir} instead,
+        /// since that's properly named for its function.  If you actually need the
+        /// executing binary file's location, use {BinDir}.
         /// 
         /// </summary>
         /// <value>
@@ -470,23 +491,49 @@ namespace DirectOutput.GlobalConfiguration
                 D.Add("GlobalConfigDir", GetGlobalConfigDirectory().FullName);
             }
 
-			// The {DllDir} and {AssemblyDir} variables have actually always been
-            // semantically the install folder, since the main use in user-facing
-            // config files is as the location for predefined asset files (e.g.,
-            // the matrix effect .png files).  In the new x86/x64 combined install
-            // configuration, the literal DLL folder is an architecture-specific
-            // subfolder of the install folder.
-			var InstallDir = DirectOutputHandler.GetInstallFolder();
-			FileInfo FI = new FileInfo(InstallDir.IsNullOrEmpty() ? Directory.GetCurrentDirectory() : InstallDir);
-            D.Add("DllDirectory", FI.Directory.FullName);
-            D.Add("DllDir", FI.Directory.FullName);
-            D.Add("AssemblyDirectory", FI.Directory.FullName);
-            D.Add("AssemblyDir", FI.Directory.FullName);
+            // Install folder locations - {DllDir}, {AssemblyDir}
+            //
+            // These are legacy variables that refer to the INSTALL location, despite
+            // the names.  In the original DOF configuration, PRIOR TO the x86/x64
+            // shared installation configuration, the DLL assemblies were installed
+            // directly in the root DOF install folder.  Historically, {DllDir} and
+            // {AssemblyDir} were used in user-facing .xml files to select the
+            // location for asset files, such as the matrix effects "Shapes" files,
+            // so the names were always misnomers: the real purpose of these
+            // variables was to select the asset file location.  In the new shared
+            // setup, where the asset files are in the root DOF install folder, not
+            // the binaries folder.  To maintain compatibility with previous config
+            // files, we need to keep these variables pointing to the asset files.
+            // So the names are now more obviously misnomers, but they really always
+            // were.
+            var InstallDir = DirectOutputHandler.GetInstallFolder();
+            if (InstallDir.IsNullOrEmpty())
+                InstallDir = Directory.GetCurrentDirectory();
+            D.Add("DllDirectory", InstallDir);
+            D.Add("DllDir", InstallDir);
+            D.Add("AssemblyDirectory", InstallDir);
+            D.Add("AssemblyDir", InstallDir);
+
+            // Install folder - {InstallDir}
+            //
+            // This is new to the x86/x64 shared install configuration.  This has
+            // the same value as {DllDir}, for the reasons described above, but we've
+            // added it so that there's a variable with this value that also has the
+            // correct conceptual name.
+            D.Add("InstallDir", InstallDir);
+
+            // Binaries folder - {BinDir}
+            //
+            // This is new to the x86/x64 shared install configuration.  This is
+            // the folder actually containing the DLL/assembly binary that's currently
+            // running.
+            var BinDir = Assembly.GetExecutingAssembly().Location;
+            D.Add("BinDir", BinDir.IsNullOrEmpty() ? InstallDir : Path.GetDirectoryName(BinDir));
 
             // add the table folder
             if (!TableFileName.IsNullOrWhiteSpace())
             {
-                FI = new FileInfo(TableFileName);
+                FileInfo FI = new FileInfo(TableFileName);
                 if (FI.Directory.Exists)
                 {
                     D.Add("TableDirectory", FI.Directory.FullName);
@@ -497,12 +544,19 @@ namespace DirectOutput.GlobalConfiguration
 
                 D.Add("TableName", Path.GetFileNameWithoutExtension(FI.FullName));
             }
-            
+
             // add the ROM name
             if (!RomName.IsNullOrWhiteSpace())
                 D.Add("RomName", RomName);
 
-            return D;
+            // it could be helpful in troubleshooting to see what's in this table
+            DirectOutputHandler.LogOnce("SubstitutionPaths",
+                "Substitution variables: {{DllDir}}={0}; {{InstallDir}}={1}; {{BinDir}}={2}; {{TableDir}}={3}; {{RomName}}={4}".Build(
+                D["DllDir"], D["InstallDir"], D["BinDir"],
+                D.ContainsKey("TableDir") ? D["TableDir"] : "<null>",
+                D.ContainsKey("RomName") ? D["RomName"] : "<null>"));
+
+			return D;
         }
 
 

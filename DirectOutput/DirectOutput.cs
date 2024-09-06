@@ -164,13 +164,13 @@ namespace DirectOutput
                 // a subfolder within the install folder, so the install folder
                 // is the parent of the assembly folder
                 var parent = Path.GetDirectoryName(AssemblyPath);
-				LogOnce("InstallFolderLoc", "Install folder lookup: install folder is {0}; this is the PARENT of the assembly folder -> new shared x86/x64 install configuration".Build(parent));
+				LogOnce("InstallFolderLoc", "Install folder lookup: assembly: {0}, install folder: {1} (PARENT of the assembly folder -> new shared x86/x64 install)".Build(AssemblyLocation, parent));
                 return parent;
             }
             else
             {
                 // old flat configuration - the assembly is in the install folder
-                LogOnce("InstallFolderLoc", "Install folder lookup: install folder is {0}; this is the ASSEMBLY folder -> original flat install configuration".Build(AssemblyPath));
+                LogOnce("InstallFolderLoc", "Install folder lookup: assembly: {0}, install folder: {1} (ASSEMBLY folder -> original flat install configuration)".Build(AssemblyLocation, AssemblyPath));
                 return AssemblyPath;
             }
         }
@@ -286,8 +286,19 @@ namespace DirectOutput
             return F.FullName;
         }
 
+        /// <summary>
+        /// One-time message logging.  Logs a message, identified by a string
+        /// key, <b>only</b> the first time the key is used.  This is useful for
+        /// logging information that's stable throughout a session and thus would
+        /// be redundant if it appeared in the log every time the code path is
+        /// exercised.  After a message is logged under a given key, subsequent
+        /// calls with the same key will do nothing, suppressing the additional
+        /// instances of presumably the same information.
+        /// </summary>
+        /// <param name="key">An arbitrary caller-defined string uniquely identifying the message</param>
+        /// <param name="message">The message text to log</param>
         // internal one-time detailed info logging
-        static void LogOnce(string key, string message)
+        static public void LogOnce(string key, string message)
         {
             if (!OneTimeLogMessages.Contains(key))
             {

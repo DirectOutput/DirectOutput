@@ -3,14 +3,18 @@ rem ===========================================================
 rem
 rem   DOF release ZIP file builder
 rem
-rem   Run with Platform (x86|x64) and Configuration (debug|release) as arguments:
+rem   Usage: MakeZip <cpu> <configuration> <author>
 rem
-rem     MakeReleaseZip x86 debug
+rem   <cpu> = x86 | x64
 rem
+rem   <configuration> = debug | release
 rem
-rem   The list of DOF DLL builds files is taken from
-rem   .\manifest.x86.txt.  Edit that file to add or
-rem   remove files.
+rem   <author> = author ID tag (a short name to embed in the .zip and
+rem   .msi filenames to help identify the source of the files, if you
+rem   plan to distribute them; I use my initials "mjr"
+rem
+rem   The list of DOF DLL builds files is taken from .\manifest.x86.txt
+rem   and .\manifest.x64.txt.  Edit those files to add or remove files.
 rem
 rem ===========================================================
 
@@ -26,16 +30,22 @@ if %2# == release# goto configOK
 echo Invalid configuration - must be one of "debug" or "release"
 goto usageExit
 
+:configOK
+if %3# == # goto usageExit
+
+goto paramsOK
+
 :usageExit
 echo.
-echo Usage: MakeReleaseZip ^<platform^> ^<config^> 
+echo Usage: MakeReleaseZip ^<platform^> ^<config^> ^<author^>
 echo.
 echo platform = x86 ^| x64
 echo config   = debug ^| release
+echo author   = a short author name or initials to include in the generated .msi and .zip filenames
 echo.
 goto EOF
 
-:configOK
+:paramsOK
 
 rem ###   PATH CONFIGURATION
 
@@ -56,7 +66,7 @@ set CurrDate=%TempDate:~0,8%
 set CurrTime=%TempDate:~8,6%
 
 rem ###   Zip file
-set ZipName=DirectOutput-mjr-%1-%2-%CurrDate%.zip
+set ZipName=DirectOutput-%3-%1-%2-%CurrDate%.zip
 set ZipFile=%ZipPath%\%ZipName%
 
 
@@ -86,6 +96,8 @@ zip "%ZipFile%" config\examples\*.xml
 
 
 rem ###   Copy MSI setup to build folder
-copy "%MSIPath%\DOFSetup.msi" "%ZipPath%\DirectOutput-mjr-%1-%2-%CurrDate%.msi"
+copy "%MSIPath%\DOFSetup.msi" "%ZipPath%\DirectOutput-%3-%1-%2-%CurrDate%.msi"
 
 echo.
+
+:EOF

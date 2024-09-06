@@ -122,7 +122,71 @@ two builds manually in that order.
 
 ## Release process
 
-If you want to build a complete set for release, here's the procedure I use:
+The release consists of a set of .msi files (Microsoft Setup install bundles)
+and .zip files.
+
+The .msi files are stand-alone MS Setup release bundles, containing all of the
+necessary files to perform a complete install.  These are ready for distribution
+to users without any further packaging.  A user simply downloads the .msi file
+and double-clicks it, which will launch MS Setup and carry out the install.
+
+You can also, optionally, build .zip files containing the install sets, for
+people who want to do the install by hand rather than using the .msi files.  I'm
+not sure it's worth doing this any more, since the automatic Setup-based install
+is so much more reliable, but so far I've continued distributing the .zip files
+out of habit.
+
+If you're checking changes into git for the release, it's a good idea to **close
+Visual Studio** before doing your final git commit.  Visual Studio sometimes
+postpones writing changes to the project and solution files (among others) until
+you exit, no matter how many times you hit Save All.
+
+
+### New single-script release builder
+
+The new batch script BuildRelease.bat lets you run the entire build-and-release with
+a single command.  This must run from a CMD (DOS box) windows with the following
+environment setup:
+
+- PATH and environment variables for the Visual Studio version you're using
+
+- PATH must include a command-line ZIP.EXE tool
+
+On Windows 10/11, newer versions of Visual Studio automatically create a "Developer
+Command Prompt for VS 20xx" configuration for the Terminal program ("Terminal" is
+the new name for the CMD.EXE/DOS box on Windows 11).  Alternatively, you can use
+the VCVARS.BAT script that Visual Studio traditionally provides in its own install
+directory.  You must provide your own ZIP.EXE tool in a location on the path.
+
+Once you have the CMD window set up, just CD to the main DirectOutput source folder
+and run:
+
+  BuildRelease AUTHOR
+
+where AUTHOR is a short name identifying you as the author of this build.  I use
+my initials "mjr" here.  This gets embedded in the final .zip and .msi filenames
+to help people identify their source once released.  The point of this is just
+to make it easier for people to keep track of where a particular download came
+from, so that if they contact you about a problem, you can sanity-check that
+they're in fact using a file that you built.  Some problems turn out to be as
+simple as "you're using the wrong download".
+
+BuildRelease performs the following steps:
+
+- Clean the Release|x86 and Release|x64 configurations
+
+- Build the Release|x86 and Release|x6r configurations
+
+- Create the release MSI and ZIP files in the .\Builds folder
+
+The MSI and ZIP files are named DirectOutput-AUTHOR-CONFIG-release-YYYYMMDD.msi
+and .zip, where AUTHOR is the AUTHOR tag you included in the BuildRelease
+command, CONFIG is x86 or x64, and YYYYMMDD is today's date. 
+
+
+### Original manual release process
+
+Here's the procedure I used before the single .bat script.
 
 1. In Visual Studio, go through each configuration (Debug/x86, Debug/x64,
 Release/x86, Release/x64) and run a **Build > Clean Solution**, to make sure that all old
@@ -143,30 +207,20 @@ to upload, with the filenames set to show today's date and thee respective
 configurations.  The file naming makes these suitable for uploading to a
 simple flat directory structure on a Web server or other repository.
 
-The .msi files that come out of the Visual Studio build are complete,
-stand-alone MS Setup release bundles, containing all of the necessary files to
-perform a complete install.  These can be posted for download as-is.  A user
-simply downloads the file and double-clicks it, which will launch MS Setup and
-carry out the install.
 
-You can also, optionally, build a ZIP file containing the install set, for
-people who want to do the install by hand rather than using the .msi files.
-I'm not sure it's worth doing this any more, since the MSI is so much
-more reliable, but so far I've continued distributing the ZIPs out of habit.
-The main folder contains a script, **MakebinZip.bat**, that builds the .ZIP.  Run it
-from a CMD window after completing the Visual Studio build.  You'll need a
-command-line ZIP tool somewhere on your path, named ZIP.EXE.  The script
-takes two arguments, selecting the binaries by the architecture and build 
-configuration:
+How to build the ZIP files: The main folder contains a script, **MakebinZip.bat**,
+that builds the .ZIP.  Run it from a CMD window after completing the Visual Studio 
+build.  You'll need a command-line ZIP tool somewhere on your path, named ZIP.EXE.  
+The script takes three arguments, selecting the binaries by the architecture and 
+build configuration, with a third argument giving a short identifier tag (I use
+my initials) to embed in the filenames, to help identify their source if you
+distribute them online.
 
 ```
-MakeZip x86 debug
-MakeZip x86 release
-MakeZip x64 debug
-MakeZip x64 release
+MakeZip x86 debug mjr
+MakeZip x86 release mjr
+MakeZip x64 debug mjr
+MakeZip x64 release mjr
+
 ```
 
-**If you're checking any changes into git,** always close Visual Studio before
-doing your final commit.  Visual Studio sometimes postpones writing changes to
-the project and solution files (among others) until you exit, no matter how many
-times you hit Save All.
