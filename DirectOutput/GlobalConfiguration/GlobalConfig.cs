@@ -270,7 +270,7 @@ namespace DirectOutput.GlobalConfiguration
 				FileInfo FI = new FileInfo(Path.Combine(IniFileDir,"DirectOutputShapes.xml"));
 
                 // log the result
-                DirectOutputHandler.LogOnce("ShapeFileSearch1",
+                Log.Once("ShapeFileSearch1",
                     "Searching for DirectOutputShapes.xml in .ini file location ({0}): {1}".Build(
                         IniFileDir, FI.Exists ? "Success" : "Not found"));
 				
@@ -281,14 +281,14 @@ namespace DirectOutput.GlobalConfiguration
 
             string filePat = "{InstallDir}\\DirectOutputShapes.xml";
 			FileInfo FII = new FilePattern(filePat).GetFirstMatchingFile(GetReplaceValuesDictionary(TableFilename, RomName));
-            DirectOutputHandler.LogOnce("ShapeFileSearch2",
+            Log.Once("ShapeFileSearch2",
                 "Searching for DirectOutputShapes.xml in {0} => {1}: {2}".Build(
                 filePat, FII?.FullName ?? "<null>", (FII?.Exists ?? false) ? "Success" : "Not found"));
             if (FII != null && FII.Exists)
                 return FII;
 
 
-            DirectOutputHandler.LogOnce("ShapeFileSearch3", "DirectOutputShapes.xml not found; shapes will not be used during this session");
+            Log.Once("ShapeFileSearch3", "DirectOutputShapes.xml not found; shapes will not be used during this session");
             return null;
         }
 
@@ -551,7 +551,7 @@ namespace DirectOutput.GlobalConfiguration
 
 
 			// it could be helpful in troubleshooting to see what's in this table
-            DirectOutputHandler.LogOnce("SubstitutionPaths",
+            Log.Once("SubstitutionPaths",
                 "Substitution variables: " + String.Join("; ",
                 new string[] { "DllDir", "InstallDir", "BinDir", "TableDir", "TableName", "RomName" }.Select(
                     key => "{" + key + "}=" + (D.ContainsKey(key) ? D[key] : "<null>"))));

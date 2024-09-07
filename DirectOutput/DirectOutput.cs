@@ -164,13 +164,13 @@ namespace DirectOutput
                 // a subfolder within the install folder, so the install folder
                 // is the parent of the assembly folder
                 var parent = Path.GetDirectoryName(AssemblyPath);
-				LogOnce("InstallFolderLoc", "Install folder lookup: assembly: {0}, install folder: {1} (PARENT of the assembly folder -> new shared x86/x64 install)".Build(AssemblyLocation, parent));
+				Log.Once("InstallFolderLoc", "Install folder lookup: assembly: {0}, install folder: {1} (PARENT of the assembly folder -> new shared x86/x64 install)".Build(AssemblyLocation, parent));
                 return parent;
             }
             else
             {
                 // old flat configuration - the assembly is in the install folder
-                LogOnce("InstallFolderLoc", "Install folder lookup: assembly: {0}, install folder: {1} (ASSEMBLY folder -> original flat install configuration)".Build(AssemblyLocation, AssemblyPath));
+                Log.Once("InstallFolderLoc", "Install folder lookup: assembly: {0}, install folder: {1} (ASSEMBLY folder -> original flat install configuration)".Build(AssemblyLocation, AssemblyPath));
                 return AssemblyPath;
             }
         }
@@ -238,7 +238,7 @@ namespace DirectOutput
             F = new FileInfo(Path.Combine(installFolder, "Config", HostAppConfigFileName));
             if (F.Exists)
             {
-                LogOnce("GlobalConfigLoc", "Global config file lookup: found in Config folder: " + F.FullName);
+                Log.Once("GlobalConfigLoc", "Global config file lookup: found in Config folder: " + F.FullName);
                 return F.FullName;
             }
 
@@ -248,13 +248,13 @@ namespace DirectOutput
             {
                 // there's a link; resolve it
                 string ResolvedLinkPath = ResolveShortcut(LnkFile);
-				LogOnce("GlobalConfigLoc", "Global config file lookup: found shortcut ({0}) -> {1}".Build(LnkFile.FullName, ResolvedLinkPath));
+				Log.Once("GlobalConfigLoc", "Global config file lookup: found shortcut ({0}) -> {1}".Build(LnkFile.FullName, ResolvedLinkPath));
 				if (Directory.Exists(ResolvedLinkPath))
                 {
                     F = new FileInfo(Path.Combine(ResolvedLinkPath, HostAppConfigFileName));
                     if (F.Exists)
                     {
-						LogOnce("GlobalConfigLoc", "Global config file lookup: found at shortcut location ({0})".Build(F.FullName));
+						Log.Once("GlobalConfigLoc", "Global config file lookup: found at shortcut location ({0})".Build(F.FullName));
                         return F.FullName;
                     }
                 }
@@ -264,7 +264,7 @@ namespace DirectOutput
             F = new FileInfo(Path.Combine(installFolder, HostAppConfigFileName));
             if (F.Exists)
             {
-                LogOnce("GlobalConfigLoc", "Global config file search: found in main install folder ({0})".Build(F.FullName));
+                Log.Once("GlobalConfigLoc", "Global config file search: found in main install folder ({0})".Build(F.FullName));
                 return F.FullName;
             }
 
@@ -274,39 +274,17 @@ namespace DirectOutput
             F = new FileInfo(Path.Combine(installFolder, "Config", HostAppConfigFileName));
             if (F.Directory.Exists)
             {
-				LogOnce("GlobalConfigLoc", "Global config file search: file not found, but Config folder will be used for other file searches ({0})".Build(F.Directory.FullName));
+				Log.Once("GlobalConfigLoc", "Global config file search: file not found, but Config folder will be used for other file searches ({0})".Build(F.Directory.FullName));
 			}
 			else
             {
-				LogOnce("GlobalConfigLoc", "Global config file search: Config folder ({0}) not found, using main install folder for other file searches ({1})".Build(F.Directory.FullName, installFolder));
+				Log.Once("GlobalConfigLoc", "Global config file search: Config folder ({0}) not found, using main install folder for other file searches ({1})".Build(F.Directory.FullName, installFolder));
                 F = new FileInfo(Path.Combine(installFolder, HostAppConfigFileName));
             }
 
             // return what we found
             return F.FullName;
         }
-
-        /// <summary>
-        /// One-time message logging.  Logs a message, identified by a string
-        /// key, <b>only</b> the first time the key is used.  This is useful for
-        /// logging information that's stable throughout a session and thus would
-        /// be redundant if it appeared in the log every time the code path is
-        /// exercised.  After a message is logged under a given key, subsequent
-        /// calls with the same key will do nothing, suppressing the additional
-        /// instances of presumably the same information.
-        /// </summary>
-        /// <param name="key">An arbitrary caller-defined string uniquely identifying the message</param>
-        /// <param name="message">The message text to log</param>
-        // internal one-time detailed info logging
-        static public void LogOnce(string key, string message)
-        {
-            if (!OneTimeLogMessages.Contains(key))
-            {
-                OneTimeLogMessages.Add(key);
-                Log.Write(message);
-            }
-        }
-		static HashSet<string> OneTimeLogMessages = new HashSet<string>();
 
 		/// <summary>
 		/// Initializes the DirectOutput framework.<br/>

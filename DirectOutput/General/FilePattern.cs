@@ -99,7 +99,7 @@ namespace DirectOutput.General
         {
             if (Regex.Match(Pattern, @"\{(DllDir|DllDirectory|AssemblyDir|AssemblyDirectory)\}").Success)
             {
-                DirectOutputHandler.LogOnce(this.Pattern,
+                Log.Once("ReplacePlaceholders:" + this.Pattern,
                     "Warning: filename substitution variables {DllDir} and {AssemblyDir} are deprecated; "
                     + "use {InstallDir} for the install folder, or {BinDir} for the executing assembly's binary folder");
             }

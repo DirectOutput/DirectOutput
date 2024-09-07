@@ -174,11 +174,44 @@ namespace DirectOutput
             }
         }
 
-        /// <summary>
-        /// Writes a warning message to the log.
-        /// </summary>
-        /// <param name="Message">The message.</param>
-        public static void Warning(string Message)
+		/// <summary>
+		/// One-time message logging.  Logs a message, identified by a string
+		/// key, <b>only</b> the first time the key is used.  This is useful for
+		/// logging information that's always stable throughout a session, and 
+        /// thus would just repeat the same information over and over if it were
+        /// repeated every time the code path was taken.
+        /// 
+		/// After a message is logged under a given key, subsequent calls with 
+        /// the same key will do nothing, suppressing the additional redundant
+        /// copies of the message.  Note that the message itself isn't considered
+        /// when deciding whether or not the repeat should be suppressed - the
+        /// suppression is based purely on the key.  Use this only when you're
+        /// reasonably certain that the logged information really is unchanging
+        /// throughout any given session.
+		/// </summary>
+		/// <param name="key">An arbitrary caller-defined string uniquely identifying the message</param>
+		/// <param name="message">The message text to log</param>
+		// internal one-time detailed info logging
+		static public void Once(string key, string message)
+		{
+			if (!OneTimeLogMessages.Contains(key))
+			{
+				OneTimeLogMessages.Add(key);
+				Log.Write(message);
+			}
+		}
+
+        // Hash set containing the Once() keys used so far.  Keys are added
+        // to this set as Once() messages are logged, so that repeated
+        // messages with the same keys can be suppressed.
+        protected static HashSet<string> OneTimeLogMessages = new HashSet<string>();
+
+
+		/// <summary>
+		/// Writes a warning message to the log.
+		/// </summary>
+		/// <param name="Message">The message.</param>
+		public static void Warning(string Message)
         {
             Write("Warning: {0}".Build(Message));
         }
