@@ -105,25 +105,24 @@ namespace DirectOutput
         /// <param name="RomName">Name of the rom.</param>
         public void Setup(string GlobalConfigFilename = "", string TableFilename = "", string RomName = "")
         {
-            bool GlobalConfigLoaded = true;
-            //Load the global config
-
             try
             {
                 if (!GlobalConfigFilename.IsNullOrWhiteSpace())
                 {
 					Log.Write("Loading global configuration from {0}".Build(GlobalConfigFilename));
 					FileInfo GlobalConfigFile = new FileInfo(GlobalConfigFilename);
-
                     GlobalConfig = GlobalConfig.GetGlobalConfigFromConfigXmlFile(GlobalConfigFile.FullName);
-                    if (GlobalConfig == null)
+                    if (GlobalConfig != null)
                     {
-                        Log.Write("No global config file loaded");
-                        GlobalConfigLoaded = false;
-
-                        //set new global config object if it config could not be loaded from the file.
-                        GlobalConfig = new GlobalConfig();
+						Log.Write("Global config successfully loaded from {0}".Build(GlobalConfigFilename));
+					}
+                    else
+                    {
+						// failed to load - use a default config
+						Log.Write("No global config file loaded");
+						GlobalConfig = new GlobalConfig();
                     }
+
                     GlobalConfig.GlobalConfigFilename = GlobalConfigFile.FullName;
                 }
                 else
@@ -161,22 +160,15 @@ namespace DirectOutput
                 catch (Exception E)
                 {
                     Console.WriteLine(E.StackTrace);
-                    throw new Exception("DirectOutput framework could initialize the log file.\n Inner exception: {0}".Build(E.Message), E);
+                    throw new Exception("DirectOutput framework could not initialize the log file.\n Inner exception: {0}".Build(E.Message), E);
                 }
             }
 
-            // finalize logger initialization
+            // finish logger initialization
             Log.AfterInit();
 
             try
             {
-                if (GlobalConfigLoaded)
-                    Log.Write("Global config successfully loaded from {0}".Build(GlobalConfigFilename));
-                else if (!GlobalConfigFilename.IsNullOrWhiteSpace())
-                    Log.Write("Could not find or load the global config file {0}".Build(GlobalConfigFilename));
-                else
-                    Log.Write("No GlobalConfig file loaded. Using newly instantiated GlobalConfig object instead.");
-
                 Log.Write("Loading Pinball parts");
 
                 Log.Write("Loading cabinet");

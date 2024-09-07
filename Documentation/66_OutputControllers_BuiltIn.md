@@ -107,6 +107,59 @@ The number of leds on the WS2811 based led strip.
 <c>true</c> if data should be packed bore it is sent to the controller; otherwise <c>false</c> (default). 
             
 
+\section use_DirectOutput_Cab_Out_DudesCab_DudesCab DudesCab
+
+\subsection use_DirectOutput_Cab_Out_DudesCab_DudesCab_summary Summary
+
+The <a href="https://shop.arnoz.com/en/">Dude's Cab Controller</a> is a all-in-one virtual pinball controller
+
+It's based on the RP2040 processor, provide 32 inputs, accelerometer, plunger &amp; Dof support.
+The Dof support provides 128 PWM outputs through up to 8 extension boards.
+Maximum intensity, Flipper logic, Chime logic &amp; Gamma Correction are supported for all outputs
+Each outputs can also have its intensity lowered independently from the Dof values
+As for the Pinscape controller, the communication is fully supported through Hid In/Out protocol with multipart messages support
+The Dude's Cab controllers are registered in the Dof config tool from unit #90 to 94
+
+
+
+
+\subsection use_DirectOutput_Cab_Out_DudesCab_DudesCab_samplexml Sample XML
+
+A configuration section for DudesCab might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<DudesCab>
+  <Name>Name of DudesCab</Name>
+  <NumberOfOutputs>1</NumberOfOutputs>
+  <Number>-1</Number>
+  <MinCommandIntervalMs>1</MinCommandIntervalMs>
+</DudesCab>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_Cab_Out_DudesCab_DudesCab_properties Properties
+
+DudesCab has the following 4 configurable properties:
+
+\subsubsection DirectOutput_Cab_Out_DudesCab_DudesCab_MinCommandIntervalMs MinCommandIntervalMs
+
+The mininimal interval between command in miliseconds.  The default is 1ms, which is also the minimum, since it's
+the fastest that USB allows at the hardware protocol level.
+
+
+
+\subsubsection DirectOutput_Cab_Out_DudesCab_DudesCab_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_Cab_Out_DudesCab_DudesCab_Number Number
+
+The unique unit number of the controller (Range 1-5).
+
+
+
+\subsubsection DirectOutput_Cab_Out_DudesCab_DudesCab_NumberOfOutputs NumberOfOutputs
+
 \section use_DirectOutput_Cab_Out_FTDIChip_FT245RBitbangController FT245RBitbangController
 
 \subsection use_DirectOutput_Cab_Out_FTDIChip_FT245RBitbangController_summary Summary
@@ -126,11 +179,25 @@ A configuration section for FT245RBitbangController might resemble the following
 <FT245RBitbangController>
   <Name>Name of FT245RBitbangController</Name>
   <SerialNumber>SerialNumber string</SerialNumber>
+  <Description>Description string</Description>
+  <Id>0</Id>
 </FT245RBitbangController>
 ~~~~~~~~~~~~~
 \subsection use_DirectOutput_Cab_Out_FTDIChip_FT245RBitbangController_properties Properties
 
-FT245RBitbangController has the following 2 configurable properties:
+FT245RBitbangController has the following 4 configurable properties:
+
+\subsubsection DirectOutput_Cab_Out_FTDIChip_FT245RBitbangController_Description Description
+
+The description string.
+
+
+
+\subsubsection DirectOutput_Cab_Out_FTDIChip_FT245RBitbangController_Id Id
+
+The unique Id of the device (Range 0-9).
+
+
 
 \subsubsection DirectOutput_Cab_Out_FTDIChip_FT245RBitbangController_Name Name
 
@@ -166,6 +233,7 @@ The current implementation of the LedWiz driver uses a separate thread for every
 
 
 
+
 \subsection use_DirectOutput_Cab_Out_LW_LedWiz_samplexml Sample XML
 
 A configuration section for LedWiz might resemble the following structure:
@@ -174,7 +242,7 @@ A configuration section for LedWiz might resemble the following structure:
 <LedWiz>
   <Name>Name of LedWiz</Name>
   <Number>-1</Number>
-  <MinCommandIntervalMs>1</MinCommandIntervalMs>
+  <MinCommandIntervalMs>10</MinCommandIntervalMs>
 </LedWiz>
 ~~~~~~~~~~~~~
 \subsection use_DirectOutput_Cab_Out_LW_LedWiz_properties Properties
@@ -183,10 +251,7 @@ LedWiz has the following 3 configurable properties:
 
 \subsubsection DirectOutput_Cab_Out_LW_LedWiz_MinCommandIntervalMs MinCommandIntervalMs
 
-The mininimal interval between command in miliseconds (Default: 1ms).
-Depending on the mainboard, usb hardware on the board, usb drivers and other factors the LedWiz does sometime tend to loose or misunderstand commands received if the are sent in to short intervals.
-The settings allows to increase the default minmal interval between commands from 1ms to a higher value. Higher values will make problems less likely, but decreases the number of possible updates of the ledwiz outputs in a given time frame.
-It is recommended to use the default interval of 1 ms and only to increase this interval if problems occur (Toys which are sometimes not reacting, random knocks of replay knocker or solenoids).
+The minimum interval between command in milliseconds
 
 
 
@@ -287,12 +352,16 @@ A configuration section for PacLed64 might resemble the following structure:
 ~~~~~~~~~~~~~{.xml}
 <PacLed64>
   <Name>Name of PacLed64</Name>
+  <MinUpdateIntervalMs>10</MinUpdateIntervalMs>
+  <FullUpdateThreshold>30</FullUpdateThreshold>
   <Id>-1</Id>
 </PacLed64>
 ~~~~~~~~~~~~~
 \subsection use_DirectOutput_Cab_Out_Pac_PacLed64_properties Properties
 
-PacLed64 has the following 2 configurable properties:
+PacLed64 has the following 4 configurable properties:
+
+\subsubsection DirectOutput_Cab_Out_Pac_PacLed64_FullUpdateThreshold FullUpdateThreshold
 
 \subsubsection DirectOutput_Cab_Out_Pac_PacLed64_Id Id
 
@@ -300,7 +369,159 @@ The unique Id of the PacLed64 (Range 1-4).
 
 
 
+\subsubsection DirectOutput_Cab_Out_Pac_PacLed64_MinUpdateIntervalMs MinUpdateIntervalMs
+
 \subsubsection DirectOutput_Cab_Out_Pac_PacLed64_Name Name
+
+The name of the item.
+
+
+
+\section use_DirectOutput_Cab_Out_Pac_PacUIO PacUIO
+
+\subsection use_DirectOutput_Cab_Out_Pac_PacUIO_summary Summary
+
+The Ultimate I/O is a output controller with 96 outputs all supporting 256 <a target="_blank" href="https://en.wikipedia.org/wiki/Pulse-width_modulation">pwm</a> levels with a PWM frequency of 100khz. Since the outputs of the unit are constant current drivers providing 20ma each, leds can be connected directly to the outputs (no resistor needed), but booster circuits must be used to driver higher loads (e.g. Cree leds). Up to 2 Ultimate I/O (currently) can technically be used with the DirectOutput framework as supported by the PacDrive SDK (ask Ultimarc for firmware to program second ID), but this has not been tested nor confirmed.
+
+The framework supports auto detection and configuration of these units. If auto config is used, two LedWizEquivalent toys are added for each connected Ultimate I/O. The numbers of the LedWizEquivalents are based on the Id of the PacUIO.
+
+This unit is made and sold by <a target="_blank" href="http://www.ultimarc.com">Ultimarc</a>.
+
+The class was based on PacLed64.cs
+
+\image html PacUIOLogo.png
+
+
+
+\subsection use_DirectOutput_Cab_Out_Pac_PacUIO_samplexml Sample XML
+
+A configuration section for PacUIO might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<PacUIO>
+  <Name>Name of PacUIO</Name>
+  <Id>-1</Id>
+</PacUIO>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_Cab_Out_Pac_PacUIO_properties Properties
+
+PacUIO has the following 2 configurable properties:
+
+\subsubsection DirectOutput_Cab_Out_Pac_PacUIO_Id Id
+
+The unique Id of the PacUIO (Range 0-1).
+
+
+
+\subsubsection DirectOutput_Cab_Out_Pac_PacUIO_Name Name
+
+The name of the item.
+
+
+
+\section use_DirectOutput_Cab_Out_Pac_PhilipsHueController PhilipsHueController
+
+\subsection use_DirectOutput_Cab_Out_Pac_PhilipsHueController_summary Summary
+
+The Philips Hue family consists of Zigbee controlled lights and sensors using a bridge (the Philips Hue "hub").
+
+The framework supports auto detection and configuration of these units.
+
+Philips Hue is made and sold by <a target="_blank" href="http://www2.meethue.com">Philips</a>.
+
+The class was based off PacUIO.cs, and implementation makes use of <a target="_blank" href="https://github.com/Q42/Q42.HueApi">Q42.HueApi</a>.
+As such it retains the 3-channel RGB style inputs, but converts that over to a single-channel #rrggbb hex string.
+Technically a single bridge can control about 50 lights x3 = 150 input channels (sensors are additionally ~60).
+
+Before DOF can start communicating with the bridge it will need a valid key.
+To get a key off the bridge the Link-button on the bridge needs to be pressed, and an dof#pincab "user" needs to be registered in the bridge (whitelist) within 30 seconds.
+This will return a unique key (for instance "2P4R5UT6KAQcpOjFaqwLDrbikEEBsMIHY6z6Gjwg") which can then be used from that point on.
+The same registration on another bridge, or even the same, will create a new key.
+
+To avoid duplicates / spamming the whitelist, and to avoid bugs crashing the bridge, currently this is the suggested approach for getting a key:
+
+Step 1: set static IP to bridge
+Get IP of the bridge. Check your phone Hue App -&gt; Settings -&gt; My Bridge -&gt; Network settings. It should default to DHCP. Change this to a static IP, and make note of it.
+
+Step 2: whitelist DOF using a browser
+Open up the bridge API in a browser using your IP, example (replace IP with your static IP):
+http://10.0.1.174/debug/clip.html
+In the "CLIP API Debugger" it should say something like URL: "/api/1234/" with GET, PUT, POST, and DELETE-buttons.
+Copy &amp; paste the following line into URL-field (not in your browser, but in the CLIP API Debugger):
+/api
+Copy &amp; paste the following into the Message Body textfield:
+{"devicetype":"dof_app#pincab"}
+Next, run over to your bridge and press the physical Link button. You now have 30 seconds to run back to your browser, and press "POST"-button.
+You should now get a username in the Command Response textbox, for example: "ywCNFGOagGoJYtm16Kq4PS1tkGBAd3bj1ajg7uCk". Make note of this.
+
+Step 3: add IP and key to Cabinet.xml
+Open up your Cabinet.xml, and add the following lines in the OutputControllers section, replacing the IP and key with your own:
+<PhilipsHueController><Name>PhilipsHueController</Name><BridgeIP>10.0.1.174</BridgeIP><BridgeKey>ywCNFGOagGoJYtm16Kq4PS1tkGBAd3bj1ajg7uCk</BridgeKey></PhilipsHueController>
+
+Step 4: add lights using http://configtool.vpuniverse.com/login.php
+A bridge can handle about 50 lights. Each light will multiplex RGB (3 channels) on each send, similar to using RGB-buttons on a PacLed64 or UIO.
+To match your output channels to a specific light, use your Android / iOS Philips Hue app and decide which light you need to control.
+Each light should have a number in it, for instance "10. Hue lightstrip 1". That 10-number is the light ID.
+Mapped to the individual RGB-outputs in DOF Config Tool port assignments this means: ((light ID -1) * 3) + 1 = ((10 - 1) *3) + 1 = 27 +1 = 28, resulting in port 28, 29, 30 (R, G, B).
+If your light ID was 3, you'd map it to port 7, 8, 9.
+If your light ID was 1, you'd map it to port 1, 2, 3.
+
+
+If you want to delete the key from your bridge, open up CLIP again, enter the API-URL (replace both keys with your own, they're the same used twice), then press DELETE:
+http://10.0.1.174/debug/clip.html
+/api/ywCNFGOagGoJYtm16Kq4PS1tkGBAd3bj1ajg7uCk/config/whitelist/ywCNFGOagGoJYtm16Kq4PS1tkGBAd3bj1ajg7uCk
+
+
+///
+
+
+
+\subsection use_DirectOutput_Cab_Out_Pac_PhilipsHueController_samplexml Sample XML
+
+A configuration section for PhilipsHueController might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<PhilipsHueController>
+  <Name>Name of PhilipsHueController</Name>
+  <Id>0</Id>
+  <BridgeIP>BridgeIP string</BridgeIP>
+  <BridgeKey>BridgeKey string</BridgeKey>
+  <BridgeDeviceType>dof_app#pincab</BridgeDeviceType>
+</PhilipsHueController>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_Cab_Out_Pac_PhilipsHueController_properties Properties
+
+PhilipsHueController has the following 5 configurable properties:
+
+\subsubsection DirectOutput_Cab_Out_Pac_PhilipsHueController_BridgeDeviceType BridgeDeviceType
+
+Gets or sets active bridge device type / "app id".
+For an API to communicate with a Philips Hue bridge, a first-time pairing mode using BridgeDeviceType as ID is required.
+Once this pairing is complete, a BridgeKey will be generated.
+To start communicating with a bridge, BridgeIP and BridgeKey is required as handshake before controlling lights.
+Ideally this should not be changed / set, only read during initial pairing mode to get the actual key.
+
+
+
+\subsubsection DirectOutput_Cab_Out_Pac_PhilipsHueController_BridgeIP BridgeIP
+
+Gets or sets active bridge IP.
+
+
+
+\subsubsection DirectOutput_Cab_Out_Pac_PhilipsHueController_BridgeKey BridgeKey
+
+Gets or sets active bridge user key.
+
+
+
+\subsubsection DirectOutput_Cab_Out_Pac_PhilipsHueController_Id Id
+
+The unique Id of the PhilipsHueController (Range 0-1).
+
+
+
+\subsubsection DirectOutput_Cab_Out_Pac_PhilipsHueController_Name Name
 
 The name of the item.
 
@@ -342,6 +563,66 @@ The COM port for the controller.
 The name of the item.
 
 
+
+\section use_DirectOutput_Cab_Out_PinOne_PinOne PinOne
+
+\subsection use_DirectOutput_Cab_Out_PinOne_PinOne_summary Summary
+
+The <a href="https://clevelandsoftwaredesign.com">PinOne Controller</a> is a free for non commercial use
+software/hardware project based on the inexpensive, easy to use Arduino microcontroller development platform. Almost any
+Arduino based board will work with the software, but the Cleveland Software Design PinOne board is
+specifically designed to work with the software and has all the hardware components already added into it.
+The ClevelandSoftwareDesign PinOne controller has 63 outputs built into the board that can be utilized by DOF. 31 outputs are
+available in the board and an additional 32 outputs can be added via expansion boards.
+DOF can automatically detect connected PinOne controllers and configure them for use with the framework.
+
+
+
+
+\subsection use_DirectOutput_Cab_Out_PinOne_PinOne_samplexml Sample XML
+
+A configuration section for PinOne might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<PinOne>
+  <Name>PinOne Controller 01</Name>
+  <NumberOfOutputs>63</NumberOfOutputs>
+  <Number>1</Number>
+  <MinCommandIntervalMs>1</MinCommandIntervalMs>
+  <ComPort>ComPort string</ComPort>
+</PinOne>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_Cab_Out_PinOne_PinOne_properties Properties
+
+PinOne has the following 5 configurable properties:
+
+\subsubsection DirectOutput_Cab_Out_PinOne_PinOne_ComPort ComPort
+
+The minimal interval between command in milliseconds.  The default is 1ms, which is also the minimum, since it's
+the fastest that USB allows at the hardware protocol level.
+
+
+
+\subsubsection DirectOutput_Cab_Out_PinOne_PinOne_MinCommandIntervalMs MinCommandIntervalMs
+
+The minimal interval between command in milliseconds.  The default is 1ms, which is also the minimum, since it's
+the fastest that USB allows at the hardware protocol level.
+
+
+
+\subsubsection DirectOutput_Cab_Out_PinOne_PinOne_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_Cab_Out_PinOne_PinOne_Number Number
+
+The unique unit number of the controller (Range 1-16).
+
+
+
+\subsubsection DirectOutput_Cab_Out_PinOne_PinOne_NumberOfOutputs NumberOfOutputs
 
 \section use_DirectOutput_Cab_Out_PS_Pinscape Pinscape
 
@@ -394,7 +675,7 @@ Pinscape has the following 4 configurable properties:
 
 \subsubsection DirectOutput_Cab_Out_PS_Pinscape_MinCommandIntervalMs MinCommandIntervalMs
 
-The mininimal interval between command in miliseconds.  The default is 1ms, which is also the minimum, since it's
+The minimal interval between command in milliseconds.  The default is 1ms, which is also the minimum, since it's
 the fastest that USB allows at the hardware protocol level.
 
 
@@ -412,6 +693,151 @@ The unique unit number of the controller (Range 1-16).
 
 
 \subsubsection DirectOutput_Cab_Out_PS_Pinscape_NumberOfOutputs NumberOfOutputs
+
+\section use_DirectOutput_Cab_Out_PSPico_PinscapePico PinscapePico
+
+\subsection use_DirectOutput_Cab_Out_PSPico_PinscapePico_summary Summary
+
+The <a href="https://gihub.com/mjrgh/PinscapePico/">Pinscape Pico</a> controller is an open-source
+software/hardware project based on the Raspberry Pi Pico.  Pinscape Pico is a sequel to the original
+Pinscape Controller for KL25Z, providing a full set of pinball cabinet I/O features, including analog
+plunger, accelerometer nudging, key/button input, and a flexible array of PWM outputs.
+
+DOF is only concerned with the Pinscape Pico's output controller features.  Pinscape Pico provides a
+custom HID interface for the output controller functions, which DOF uses to send commands to the
+device.  Refer to USBProtocol/FeedbackControllerInterface.h in the Pinscape Pico source repository
+for documentation on the protocol.
+
+DOF can automatically detect connected Pinscape Pico units (by scanning the set of live HID instances)
+and configure them for use with the framework.  No manual user configuration is required to use these
+devices.
+
+
+
+\subsection use_DirectOutput_Cab_Out_PSPico_PinscapePico_samplexml Sample XML
+
+A configuration section for PinscapePico might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<PinscapePico>
+  <Name>Name of PinscapePico</Name>
+  <NumberOfOutputs>1</NumberOfOutputs>
+  <Number>-1</Number>
+  <MinCommandIntervalMs>1</MinCommandIntervalMs>
+</PinscapePico>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_Cab_Out_PSPico_PinscapePico_properties Properties
+
+PinscapePico has the following 4 configurable properties:
+
+\subsubsection DirectOutput_Cab_Out_PSPico_PinscapePico_MinCommandIntervalMs MinCommandIntervalMs
+
+The minimal interval between command in milliseconds.  The default is 1ms, which is also the minimum, since it's
+the fastest that USB allows at the hardware protocol level.
+
+
+
+\subsubsection DirectOutput_Cab_Out_PSPico_PinscapePico_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_Cab_Out_PSPico_PinscapePico_Number Number
+
+The unique unit number of the controller (Range 1-16).
+
+
+
+\subsubsection DirectOutput_Cab_Out_PSPico_PinscapePico_NumberOfOutputs NumberOfOutputs
+
+\section use_DirectOutput_Cab_Out_SSFImpactController_SSFImpactController SSFImpactController
+
+\subsection use_DirectOutput_Cab_Out_SSFImpactController_SSFImpactController_summary Summary
+
+The SSFImpactor supports for using common audio bass shakers to emulate/simulate contractors/solenoids in a Virtual Pinball Cabinet.<br />
+It presents itself as a full set of contactors, etc for assignment via DOF Config. Support, hardware suggestions, layout diagrams and the
+just about friendliest people in the hobby can be found here:  <a href="https://www.facebook.com/groups/SSFeedback/" /><remarks>For help specifically with SSFImpactor look fo Kai "MrKai" Cherry.</remarks>
+
+
+\subsection use_DirectOutput_Cab_Out_SSFImpactController_SSFImpactController_samplexml Sample XML
+
+A configuration section for SSFImpactController might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<SSFImpactController>
+  <Name>Name of SSFImpactController</Name>
+  <FrontExciters>Rear</FrontExciters>
+  <RearExciters>RearCenter</RearExciters>
+  <BassShaker1>RearCenter</BassShaker1>
+  <BassShaker2>Rear</BassShaker2>
+  <LowImpactMode>False</LowImpactMode>
+  <DeviceNumber>-1</DeviceNumber>
+  <ImpactFactor>1</ImpactFactor>
+  <ShakerImpactFactor>1</ShakerImpactFactor>
+  <FlipperLevel>0.25</FlipperLevel>
+  <BumperLevel>0.75</BumperLevel>
+  <SlingsLevel>1</SlingsLevel>
+  <GearLevel>0.65</GearLevel>
+</SSFImpactController>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_Cab_Out_SSFImpactController_SSFImpactController_properties Properties
+
+SSFImpactController has the following 13 configurable properties:
+
+\subsubsection DirectOutput_Cab_Out_SSFImpactController_SSFImpactController_BassShaker1 BassShaker1
+
+One of the ManagedBass.Speaker* enums, or None
+
+
+
+\subsubsection DirectOutput_Cab_Out_SSFImpactController_SSFImpactController_BassShaker2 BassShaker2
+
+One of the ManagedBass.Speaker* enums, or None
+
+
+
+\subsubsection DirectOutput_Cab_Out_SSFImpactController_SSFImpactController_BumperLevel BumperLevel
+
+\subsubsection DirectOutput_Cab_Out_SSFImpactController_SSFImpactController_DeviceNumber DeviceNumber
+
+Number representing the Device
+
+
+
+\subsubsection DirectOutput_Cab_Out_SSFImpactController_SSFImpactController_FlipperLevel FlipperLevel
+
+\subsubsection DirectOutput_Cab_Out_SSFImpactController_SSFImpactController_FrontExciters FrontExciters
+
+One of the ManagedBass.Speaker* enums, i.e.
+
+
+
+\subsubsection DirectOutput_Cab_Out_SSFImpactController_SSFImpactController_GearLevel GearLevel
+
+\subsubsection DirectOutput_Cab_Out_SSFImpactController_SSFImpactController_ImpactFactor ImpactFactor
+
+Number, 0 - 100
+
+
+
+\subsubsection DirectOutput_Cab_Out_SSFImpactController_SSFImpactController_LowImpactMode LowImpactMode
+
+true or false
+
+
+
+\subsubsection DirectOutput_Cab_Out_SSFImpactController_SSFImpactController_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_Cab_Out_SSFImpactController_SSFImpactController_RearExciters RearExciters
+
+\subsubsection DirectOutput_Cab_Out_SSFImpactController_SSFImpactController_ShakerImpactFactor ShakerImpactFactor
+
+\subsubsection DirectOutput_Cab_Out_SSFImpactController_SSFImpactController_SlingsLevel SlingsLevel
 
 \section use_DirectOutput_Cab_Out_AdressableLedStrip_TeensyStripController TeensyStripController
 
@@ -445,19 +871,89 @@ A configuration section for TeensyStripController might resemble the following s
   <NumberOfLedsStrip6>0</NumberOfLedsStrip6>
   <NumberOfLedsStrip7>0</NumberOfLedsStrip7>
   <NumberOfLedsStrip8>0</NumberOfLedsStrip8>
+  <NumberOfLedsStrip9>0</NumberOfLedsStrip9>
+  <NumberOfLedsStrip10>0</NumberOfLedsStrip10>
   <ComPortName>Name of ComPort</ComPortName>
+  <ComPortBaudRate>9600</ComPortBaudRate>
+  <ComPortParity>None</ComPortParity>
+  <ComPortDataBits>8</ComPortDataBits>
+  <ComPortStopBits>One</ComPortStopBits>
   <ComPortTimeOutMs>200</ComPortTimeOutMs>
-  <ComPortDtrEnable>true</ComPortDtrEnable>
+  <ComPortOpenWaitMs>50</ComPortOpenWaitMs>
+  <ComPortHandshakeStartWaitMs>20</ComPortHandshakeStartWaitMs>
+  <ComPortHandshakeEndWaitMs>50</ComPortHandshakeEndWaitMs>
+  <ComPortDtrEnable>false</ComPortDtrEnable>
 </TeensyStripController>
 ~~~~~~~~~~~~~
 \subsection use_DirectOutput_Cab_Out_AdressableLedStrip_TeensyStripController_properties Properties
 
-TeensyStripController has the following 11 configurable properties:
+TeensyStripController has the following 21 configurable properties:
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_TeensyStripController_ComPortBaudRate ComPortBaudRate
+
+The baud rate of the Com port (by default 9600) the Teensy board is using.
+
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_TeensyStripController_ComPortDataBits ComPortDataBits
+
+The DataBits of the Com port (by default 8) the Teensy board is using.
+
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_TeensyStripController_ComPortDtrEnable ComPortDtrEnable
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_TeensyStripController_ComPortHandshakeEndWaitMs ComPortHandshakeEndWaitMs
+
+The COM port wait after write in milliseconds (Valid range 50-500ms, default: 50ms).
+
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_TeensyStripController_ComPortHandshakeStartWaitMs ComPortHandshakeStartWaitMs
+
+The COM port wait before read in milliseconds (Valid range 20-500ms, default: 20ms).
+
+
 
 \subsubsection DirectOutput_Cab_Out_AdressableLedStrip_TeensyStripController_ComPortName ComPortName
 
 The name of the Com port (typicaly COM{Number}) the Teensy board is using.
 
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_TeensyStripController_ComPortOpenWaitMs ComPortOpenWaitMs
+
+The COM port wait on opening in milliseconds (Valid range 50-5000ms, default: 50ms).
+
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_TeensyStripController_ComPortParity ComPortParity
+
+The Parity of the Com port (by default Parity.None) the Teensy board is using.
+
+
+
+The property ComPortParity accepts the following values:
+
+* __None__
+* __Odd__
+* __Even__
+* __Mark__
+* __Space__
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_TeensyStripController_ComPortStopBits ComPortStopBits
+
+The StopBits of the Com port (by default StopBits.One) the Teensy board is using.
+
+
+
+The property ComPortStopBits accepts the following values:
+
+* __None__
+* __One__
+* __Two__
+* __OnePointFive__
 
 
 \subsubsection DirectOutput_Cab_Out_AdressableLedStrip_TeensyStripController_ComPortTimeOutMs ComPortTimeOutMs
@@ -475,6 +971,12 @@ The name of the item.
 \subsubsection DirectOutput_Cab_Out_AdressableLedStrip_TeensyStripController_NumberOfLedsStrip1 NumberOfLedsStrip1
 
 The number of leds on the ledstrip connected to channel 1 of the Teensy.
+
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_TeensyStripController_NumberOfLedsStrip10 NumberOfLedsStrip10
+
+The number of leds on the ledstrip connected to channel 10 of the Teensy.
 
 
 
@@ -517,6 +1019,220 @@ The number of leds on the ledstrip connected to channel 7 of the Teensy.
 \subsubsection DirectOutput_Cab_Out_AdressableLedStrip_TeensyStripController_NumberOfLedsStrip8 NumberOfLedsStrip8
 
 The number of leds on the ledstrip connected to channel 8 of the Teensy.
+
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_TeensyStripController_NumberOfLedsStrip9 NumberOfLedsStrip9
+
+The number of leds on the ledstrip connected to channel 9 of the Teensy.
+
+
+
+\section use_DirectOutput_Cab_Out_AdressableLedStrip_WemosD1MPStripController WemosD1MPStripController
+
+\subsection use_DirectOutput_Cab_Out_AdressableLedStrip_WemosD1MPStripController_summary Summary
+
+The WemosD1MPStripController is a Teensy equivalent board called Wemos D1 Mini Pro (also known as ESP8266), it's cheaper than the Teensy and can support the same amount of Ledstrip and leds per strip.
+
+\image html wemos-d1-mini-pro.jpg
+
+The Wemos D1 Mini Pro firmware made by aetios50, peskopat and yoyofr can be found there <a target="_blank" href="https://github.com/aetios50/PincabLedStrip">aetios50 Github page</a>
+
+You can also find a tutorial (in french for now) explaining the flashing process for the Wemos D1 Mini Pro using these firmware <a target="_blank" href="https://shop.arnoz.com/laboratoire/2019/10/29/flasher-unewemos-d1-mini-pro-pour-lutiliser-dans-son-pincab/">Arnoz' lab Wemos D1 flashing tutorial</a>
+
+There is a great online tool to setup easily both Teensy and Wemos D1 based ledstrips (an english version is also available) <a target="_blank" href="https://shop.arnoz.com/laboratoire/2020/09/17/cacabinet-generator/">Arnoz' cacabinet generator</a>
+
+
+\subsection use_DirectOutput_Cab_Out_AdressableLedStrip_WemosD1MPStripController_samplexml Sample XML
+
+A configuration section for WemosD1MPStripController might resemble the following structure:
+
+~~~~~~~~~~~~~{.xml}
+<WemosD1MPStripController>
+  <Name>Name of WemosD1MPStripController</Name>
+  <NumberOfLedsStrip1>0</NumberOfLedsStrip1>
+  <NumberOfLedsStrip2>0</NumberOfLedsStrip2>
+  <NumberOfLedsStrip3>0</NumberOfLedsStrip3>
+  <NumberOfLedsStrip4>0</NumberOfLedsStrip4>
+  <NumberOfLedsStrip5>0</NumberOfLedsStrip5>
+  <NumberOfLedsStrip6>0</NumberOfLedsStrip6>
+  <NumberOfLedsStrip7>0</NumberOfLedsStrip7>
+  <NumberOfLedsStrip8>0</NumberOfLedsStrip8>
+  <NumberOfLedsStrip9>0</NumberOfLedsStrip9>
+  <NumberOfLedsStrip10>0</NumberOfLedsStrip10>
+  <ComPortName>Name of ComPort</ComPortName>
+  <ComPortBaudRate>9600</ComPortBaudRate>
+  <ComPortParity>None</ComPortParity>
+  <ComPortDataBits>8</ComPortDataBits>
+  <ComPortStopBits>One</ComPortStopBits>
+  <ComPortTimeOutMs>200</ComPortTimeOutMs>
+  <ComPortOpenWaitMs>50</ComPortOpenWaitMs>
+  <ComPortHandshakeStartWaitMs>20</ComPortHandshakeStartWaitMs>
+  <ComPortHandshakeEndWaitMs>50</ComPortHandshakeEndWaitMs>
+  <ComPortDtrEnable>false</ComPortDtrEnable>
+  <SendPerLedstripLength>false</SendPerLedstripLength>
+  <UseCompression>false</UseCompression>
+  <TestOnConnect>false</TestOnConnect>
+</WemosD1MPStripController>
+~~~~~~~~~~~~~
+\subsection use_DirectOutput_Cab_Out_AdressableLedStrip_WemosD1MPStripController_properties Properties
+
+WemosD1MPStripController has the following 24 configurable properties:
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_WemosD1MPStripController_ComPortBaudRate ComPortBaudRate
+
+The baud rate of the Com port (by default 9600) the Teensy board is using.
+
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_WemosD1MPStripController_ComPortDataBits ComPortDataBits
+
+The DataBits of the Com port (by default 8) the Teensy board is using.
+
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_WemosD1MPStripController_ComPortDtrEnable ComPortDtrEnable
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_WemosD1MPStripController_ComPortHandshakeEndWaitMs ComPortHandshakeEndWaitMs
+
+The COM port wait after write in milliseconds (Valid range 50-500ms, default: 50ms).
+
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_WemosD1MPStripController_ComPortHandshakeStartWaitMs ComPortHandshakeStartWaitMs
+
+The COM port wait before read in milliseconds (Valid range 20-500ms, default: 20ms).
+
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_WemosD1MPStripController_ComPortName ComPortName
+
+The name of the Com port (typicaly COM{Number}) the Teensy board is using.
+
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_WemosD1MPStripController_ComPortOpenWaitMs ComPortOpenWaitMs
+
+The COM port wait on opening in milliseconds (Valid range 50-5000ms, default: 50ms).
+
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_WemosD1MPStripController_ComPortParity ComPortParity
+
+The Parity of the Com port (by default Parity.None) the Teensy board is using.
+
+
+
+The property ComPortParity accepts the following values:
+
+* __None__
+* __Odd__
+* __Even__
+* __Mark__
+* __Space__
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_WemosD1MPStripController_ComPortStopBits ComPortStopBits
+
+The StopBits of the Com port (by default StopBits.One) the Teensy board is using.
+
+
+
+The property ComPortStopBits accepts the following values:
+
+* __None__
+* __One__
+* __Two__
+* __OnePointFive__
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_WemosD1MPStripController_ComPortTimeOutMs ComPortTimeOutMs
+
+The COM port timeout in milliseconds (Valid range 1-5000ms, default: 200ms).
+
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_WemosD1MPStripController_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_WemosD1MPStripController_NumberOfLedsStrip1 NumberOfLedsStrip1
+
+The number of leds on the ledstrip connected to channel 1 of the Teensy.
+
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_WemosD1MPStripController_NumberOfLedsStrip10 NumberOfLedsStrip10
+
+The number of leds on the ledstrip connected to channel 10 of the Teensy.
+
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_WemosD1MPStripController_NumberOfLedsStrip2 NumberOfLedsStrip2
+
+The number of leds on the ledstrip connected to channel 2 of the Teensy.
+
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_WemosD1MPStripController_NumberOfLedsStrip3 NumberOfLedsStrip3
+
+The number of leds on the ledstrip connected to channel 3 of the Teensy.
+
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_WemosD1MPStripController_NumberOfLedsStrip4 NumberOfLedsStrip4
+
+The number of leds on the ledstrip connected to channel 4 of the Teensy.
+
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_WemosD1MPStripController_NumberOfLedsStrip5 NumberOfLedsStrip5
+
+The number of leds on the ledstrip connected to channel 5 of the Teensy.
+
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_WemosD1MPStripController_NumberOfLedsStrip6 NumberOfLedsStrip6
+
+The number of leds on the ledstrip connected to channel 6 of the Teensy.
+
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_WemosD1MPStripController_NumberOfLedsStrip7 NumberOfLedsStrip7
+
+The number of leds on the ledstrip connected to channel 7 of the Teensy.
+
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_WemosD1MPStripController_NumberOfLedsStrip8 NumberOfLedsStrip8
+
+The number of leds on the ledstrip connected to channel 8 of the Teensy.
+
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_WemosD1MPStripController_NumberOfLedsStrip9 NumberOfLedsStrip9
+
+The number of leds on the ledstrip connected to channel 9 of the Teensy.
+
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_WemosD1MPStripController_SendPerLedstripLength SendPerLedstripLength
+
+true if the commands are sent
+
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_WemosD1MPStripController_TestOnConnect TestOnConnect
+
+true, will ask for the test at connection stage
+
+
+
+\subsubsection DirectOutput_Cab_Out_AdressableLedStrip_WemosD1MPStripController_UseCompression UseCompression
+
+true, use the compression when it worth it
 
 
 

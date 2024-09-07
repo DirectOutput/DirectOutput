@@ -295,6 +295,17 @@ namespace DirectOutput.Cab.Out.PinOne
             this.ComPort = ComPort;
             this.Number = 1;
         }
+
+        /// <summary>
+        /// Initializes a new instance with no COM port assigned (required for
+        /// documentation builder).
+        /// </summary>
+        public PinOne()
+        {
+            this.ComPort = "";
+            this.Number = 1;
+        }
+
         #endregion
 
 

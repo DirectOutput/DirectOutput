@@ -66,7 +66,9 @@ This tab allows you to turn on and off the logging, specify the name and path fo
 
 The following placeholders can be used in the path and filename for the logfile:
 
-* {DllDir} represents the directory of the DirectOutput.dll.
+* {DllDir} represents the main DirectOutput install folder.  **Deprecated:** use {InstallDir} instead.  This dates back to the original "flat" install configuration, where the DLL files were installed directly in the main DirectOutput folder.  Its name suggests that it's the DLL folder location, but it was actually used in most cases as the starting point for config file paths, so in the new 32/64-bit setup it points to the main folder rather than the actual DLL folder.  This makes its name misleading, so it should no longer be used; the new variables {InstallDir} and {BinDir} should be used instead, since they let you distinguish between the two possibly different folders in the newer 32/64-bit install configuration.
+* {InstallDir} is the main DirectOutput install folder.  In the newer 32/64-bit install setup, the DLLs are located in x86 and x64 subfolders of this main folder.
+* {BinDir} is the folder containing the currently executing DOF DLL (the program "**bin**ary" file).  In the 32/64-bit install setup, this is the x86 or x64 subfolder of the main install folder.
 * {GlobalConfigDir} represents the default global config directory.
 * {TableDir} represents the full path to the directory of the table.
 * {TableDirName} represents the name of the table directory (last part of {TableDir}).

@@ -45,7 +45,7 @@ The name of the output.
 
 \subsection use_DirectOutput_Cab_Toys_Virtual_AnalogAlphaToyGroup_summary Summary
 
-This toys allows the grouping of several AnalogAlpha toys (e.g. <see cref="T:DirectOutput.Cab.Toys.Layer.AnalogAlphaToy" /> or <see cref="!:Lamp" />) into a matrix, which can be controlled by the matrix effects.
+This toys allows the grouping of several AnalogAlpha toys (e.g. <see cref="T:DirectOutput.Cab.Toys.Layer.AnalogAlphaToy" /> or <see cref="T:DirectOutput.Cab.Toys.Hardware.Lamp" />) into a matrix, which can be controlled by the matrix effects.
 
 \note Be sure to define this toy in the config file before the toys, which are listed in the ToyNames array.
 
@@ -185,6 +185,13 @@ The name of the output.
 
 \section use_DirectOutput_Cab_Toys_Hardware_Lamp Lamp
 
+\subsection use_DirectOutput_Cab_Toys_Hardware_Lamp_summary Summary
+
+Lamp toy.<br />
+Just a simple wrapper for the <see cref="T:DirectOutput.Cab.Toys.Layer.AnalogAlphaToy" />.
+
+
+
 \subsection use_DirectOutput_Cab_Toys_Hardware_Lamp_samplexml Sample XML
 
 A configuration section for Lamp might resemble the following structure:
@@ -241,12 +248,18 @@ A configuration section for LedStrip might resemble the following structure:
   <ColorOrder>RBG</ColorOrder>
   <FirstLedNumber>1</FirstLedNumber>
   <FadingCurveName>Linear</FadingCurveName>
+  <BrightnessGammaCorrection>2.2</BrightnessGammaCorrection>
+  <Brightness>100</Brightness>
   <OutputControllerName>Name of OutputController</OutputControllerName>
 </LedStrip>
 ~~~~~~~~~~~~~
 \subsection use_DirectOutput_Cab_Toys_Hardware_LedStrip_properties Properties
 
-LedStrip has the following 8 configurable properties:
+LedStrip has the following 10 configurable properties:
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_LedStrip_Brightness Brightness
+
+\subsubsection DirectOutput_Cab_Toys_Hardware_LedStrip_BrightnessGammaCorrection BrightnessGammaCorrection
 
 \subsubsection DirectOutput_Cab_Toys_Hardware_LedStrip_ColorOrder ColorOrder
 
@@ -541,7 +554,7 @@ Name of the IOutput for red.
 
 \subsection use_DirectOutput_Cab_Toys_Virtual_RGBAToyGroup_summary Summary
 
-This toys allows the grouping of several RGBA toys (e.g. <see cref="T:DirectOutput.Cab.Toys.Layer.RGBAToy" /> or <see cref="!:RGBLed" />) into a matrix, which can be controlled by the matrix effects.
+This toys allows the grouping of several RGBA toys (e.g. <see cref="T:DirectOutput.Cab.Toys.Layer.RGBAToy" /> or <see cref="T:DirectOutput.Cab.Toys.Hardware.RGBLed" />) into a matrix, which can be controlled by the matrix effects.
 
 \note Be sure to define this toy in the config file before the toys, which are listed in the ToyNames array.
 

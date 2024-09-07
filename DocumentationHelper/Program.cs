@@ -30,7 +30,7 @@ namespace DocumentationHelper
 
             }
 
-            S.WriteToFile(@"..\..\..\Documentation\64_Toys_BuiltIn.md");
+            S.WriteToFile(@"..\..\Documentation\64_Toys_BuiltIn.md");
 
 
             Types = new DirectOutput.General.TypeList(AppDomain.CurrentDomain.GetAssemblies().ToList().SelectMany(s => s.GetTypes()).Where(p => typeof(DirectOutput.FX.IEffect).IsAssignableFrom(p) && !p.IsAbstract));
@@ -49,7 +49,7 @@ namespace DocumentationHelper
 
             }
 
-            S.WriteToFile(@"..\..\..\Documentation\61_FX_BuiltIn.md");
+            S.WriteToFile(@"..\..\Documentation\61_FX_BuiltIn.md");
 
             Types = new DirectOutput.General.TypeList(AppDomain.CurrentDomain.GetAssemblies().ToList().SelectMany(s => s.GetTypes()).Where(p => typeof(DirectOutput.Cab.Out.IOutputController).IsAssignableFrom(p) && !p.IsAbstract));
 
@@ -66,7 +66,7 @@ namespace DocumentationHelper
 
             }
 
-            S.WriteToFile(@"..\..\..\Documentation\66_OutputControllers_BuiltIn.md");
+            S.WriteToFile(@"..\..\Documentation\66_OutputControllers_BuiltIn.md");
 
 
 

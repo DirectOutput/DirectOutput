@@ -549,12 +549,12 @@ namespace DirectOutput.GlobalConfiguration
             if (!RomName.IsNullOrWhiteSpace())
                 D.Add("RomName", RomName);
 
-            // it could be helpful in troubleshooting to see what's in this table
+
+			// it could be helpful in troubleshooting to see what's in this table
             DirectOutputHandler.LogOnce("SubstitutionPaths",
-                "Substitution variables: {{DllDir}}={0}; {{InstallDir}}={1}; {{BinDir}}={2}; {{TableDir}}={3}; {{RomName}}={4}".Build(
-                D["DllDir"], D["InstallDir"], D["BinDir"],
-                D.ContainsKey("TableDir") ? D["TableDir"] : "<null>",
-                D.ContainsKey("RomName") ? D["RomName"] : "<null>"));
+                "Substitution variables: " + String.Join("; ",
+                new string[] { "DllDir", "InstallDir", "BinDir", "TableDir", "TableName", "RomName" }.Select(
+                    key => "{" + key + "}=" + (D.ContainsKey(key) ? D[key] : "<null>"))));
 
 			return D;
         }
@@ -655,7 +655,7 @@ namespace DirectOutput.GlobalConfiguration
 
 
         /// <summary>
-        /// Instanciates a GlobalConfig object from a global configuration in a XML file.<br/>
+        /// Instantiates a GlobalConfig object from a global configuration in a XML file.<br/>
         /// If the global config file does not exist or can not be loaded, null will be returned.
         /// </summary>
         /// <param name="GlobalConfigFileName">Name of the global config XML file.</param>
