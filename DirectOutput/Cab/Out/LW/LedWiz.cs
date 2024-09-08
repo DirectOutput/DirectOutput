@@ -394,33 +394,40 @@ namespace DirectOutput.Cab.Out.LW
 									{
 										// presume this is an LedWiz unit, then look for reasons it's not
 										bool ok = true;
+                                        string okBecause = null;
 
 										// read the product name string
 										String name = "<not available>";
-										byte[] nameBuf = new byte[128];
-										if (HIDImports.HidD_GetProductString(fp, nameBuf, 128))
+										byte[] nameBuf = new byte[256];
+										if (HIDImports.HidD_GetProductString(fp, nameBuf, (uint)nameBuf.Length))
 											name = System.Text.Encoding.Unicode.GetString(nameBuf).TrimEnd('\0');
 
 										// read the manufacturer name string
 										String manuf = "<not available>";
-										byte[] manufBuf = new byte[128];
-										if (HIDImports.HidD_GetManufacturerString(fp, manufBuf, 128))
+										byte[] manufBuf = new byte[256];
+										if (HIDImports.HidD_GetManufacturerString(fp, manufBuf, (uint)manufBuf.Length))
 											manuf = System.Text.Encoding.Unicode.GetString(manufBuf).TrimEnd('\0');
 
-										Log.Write("LedWiz-like device at VID=" + (ushort)attrs.VendorID
-											+ ", PID=" + (ushort)attrs.ProductID
-											+ ", product string=" + name
-											+ ", manufacturer string=" + manuf);
+                                        // For debugging, log the HID device ID details.  Developers creating LedWiz
+                                        // clones might find this useful if DOF isn't recognizing their device as an
+                                        // LedWiz, so that they can confirm that the device is at least showing up in
+                                        // the HID enumeration, and to help narrow down why the recognition tests fail.
+                                        Log.Write("LedWiz discovery: scanning HID at VID/PID: {0:X4}/{1:X4}, product string: {2}, manufacturer: {3}".Build(
+                                            attrs.VendorID, attrs.ProductID, name, manuf));
 
-										// Check for the vendor code
+										// Check the vendor code (and possibly the product string) to see
+                                        // if this device's ID codes match the profile for an LedWiz or a
+                                        // known clone.
 										if (attrs.VendorID == 0xFAFA)
 										{
-											// original LedWiz vendor ID
+                                            // original LedWiz vendor ID
+                                            okBecause = "recognized by LedWiz vendor ID";
 										}
 										else if (attrs.VendorID == 0x20A0
 											&& Regex.IsMatch(manuf, @"(?i)zebsboards"))
 										{
-											// Zeb's plunger device VID, and the product string matches
+                                            // Zeb's plunger device VID, and the product string matches
+                                            okBecause = "recognized by ZebsBoards vendor ID and manufacturer string";
 										}
 										else
 										{
@@ -428,7 +435,11 @@ namespace DirectOutput.Cab.Out.LW
 											ok = false;
 										}
 
-										// check that the PID is in range for an LedWiz
+										// Check that the PID is in range for an LedWiz.  GGG assigned
+                                        // a range of 16 PIDs in the VID=FAFA space to the LedWiz,
+                                        // 00F0..00FF.  The PID also has significance as the "unit
+                                        // number", to distinguish multiple LedWiz units in the same
+                                        // system when addressing output commands to a device.
 										ok &= (attrs.ProductID >= 0x00F0 && attrs.ProductID < 0x00FF);
 
 										// Infer the unit number from the product ID.  The product ID
@@ -459,11 +470,6 @@ namespace DirectOutput.Cab.Out.LW
 											// get the device caps
 											HIDImports.HIDP_CAPS caps = new HIDImports.HIDP_CAPS();
 											HIDImports.HidP_GetCaps(ppdata, ref caps);
-
-											Log.Write("HID caps: usage page=" + caps.UsagePage
-												+ ", usage=" + caps.Usage
-												+ ", number of link collection nodes=" + caps.NumberLinkCollectionNodes
-												+ ", output report byte length=" + caps.OutputReportByteLength);
 
 											// Check that we have the expected output report length
 											ok &= (caps.OutputReportByteLength == 9);
@@ -508,19 +514,21 @@ namespace DirectOutput.Cab.Out.LW
 												if (d.unitNo == unitNo)
 												{
 													ok = false;
-													Log.Warning("LedWiz device \"" + name + "\" (VID "
-														+ (ushort)attrs.VendorID + ", PID "
-														+ (ushort)attrs.ProductID + ", LedWiz unit #" + unitNo
-														+ ") conflicts with previously enumerated device \""
-														+ d.productName + "\"; \"" 
-														+ name + "\" will be ignored for this session");
+                                                    Log.Warning(("LedWiz discovery: \"{0}\" (VID/PID {1:X4}/{2:X4}, LedWiz unit #{3}) "
+                                                        + "passed LedWiz recognition tests, but its unit number conflicts with the "
+                                                        + "previously discovered device \"{4}\"; {0} will be ignored for this session").Build(
+                                                        name, attrs.VendorID, attrs.ProductID, unitNo, d.productName));
 												}
 											}
 										}
 
-										// if we passed all tests, add this device to the list
-										if (ok)
-											deviceList.Add(new LWDEVICE(unitNo, diDetail.DevicePath, name));
+                                        // if we passed all tests, add this device to the list
+                                        if (ok)
+                                        {
+                                            Log.Write("LedWiz recognition test passed for \"{0}\" (VID/PID {1:X4}/{2:X4}, manufacturer {3}) as LW unit #{4}; {5}".Build(
+                                                name, attrs.VendorID, attrs.ProductID, manuf, unitNo, okBecause));
+                                            deviceList.Add(new LWDEVICE(unitNo, diDetail.DevicePath, name));
+                                        }
 									}
 
 									// done with the file handle

@@ -191,7 +191,6 @@ namespace DirectOutput
 		/// </summary>
 		/// <param name="key">An arbitrary caller-defined string uniquely identifying the message</param>
 		/// <param name="message">The message text to log</param>
-		// internal one-time detailed info logging
 		static public void Once(string key, string message)
 		{
 			if (!OneTimeLogMessages.Contains(key))
