@@ -71,8 +71,8 @@ namespace DirectOutput.Cab.Out.PSPico
 							if (!Cabinet.Toys.Contains(lwe.Name))
 							{
 								Cabinet.Toys.Add(lwe);
-								Log.Write("Added LedWizEquivalent #{0} with name {1} for Pinscape Pico #{2}".Build(
-									lwe.LedWizNumber, lwe.Name, p.Number) + ", {0}".Build(p.NumberOfOutputs));
+								Log.Write("Added LedWizEquivalent #{0} with name {1} for Pinscape Pico #{2}, {3} output ports".Build(
+									lwe.LedWizNumber, lwe.Name, p.Number, p.NumberOfOutputs));
 							}
 						}
 					}

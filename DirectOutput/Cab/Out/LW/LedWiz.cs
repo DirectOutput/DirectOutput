@@ -412,8 +412,9 @@ namespace DirectOutput.Cab.Out.LW
                                         // clones might find this useful if DOF isn't recognizing their device as an
                                         // LedWiz, so that they can confirm that the device is at least showing up in
                                         // the HID enumeration, and to help narrow down why the recognition tests fail.
-                                        Log.Write("LedWiz discovery: scanning HID at VID/PID: {0:X4}/{1:X4}, product string: {2}, manufacturer: {3}".Build(
-                                            attrs.VendorID, attrs.ProductID, name, manuf));
+                                        Log.Instrumentation("LedWizDiscovery",
+                                            $"Scanning HID at VID/PID: {attrs.VendorID:X4}/{attrs.ProductID:X4}, "
+                                            + $"product string: {name}, manufacturer: {manuf}");
 
 										// Check the vendor code (and possibly the product string) to see
                                         // if this device's ID codes match the profile for an LedWiz or a
@@ -514,10 +515,9 @@ namespace DirectOutput.Cab.Out.LW
 												if (d.unitNo == unitNo)
 												{
 													ok = false;
-                                                    Log.Warning(("LedWiz discovery: \"{0}\" (VID/PID {1:X4}/{2:X4}, LedWiz unit #{3}) "
-                                                        + "passed LedWiz recognition tests, but its unit number conflicts with the "
-                                                        + "previously discovered device \"{4}\"; {0} will be ignored for this session").Build(
-                                                        name, attrs.VendorID, attrs.ProductID, unitNo, d.productName));
+                                                    Log.Warning($"LedWiz discovery: \"{name}\" (VID/PID {attrs.VendorID:X4}/{attrs.ProductID:X4}, "
+                                                        + $"LedWiz unit #{unitNo}) passed LedWiz recognition tests, but its unit number conflicts with the "
+                                                        + $"previously discovered device \"{d.productName}\"; \"{name}\" will be ignored for this session");
 												}
 											}
 										}
@@ -525,8 +525,8 @@ namespace DirectOutput.Cab.Out.LW
                                         // if we passed all tests, add this device to the list
                                         if (ok)
                                         {
-                                            Log.Write("LedWiz recognition test passed for \"{0}\" (VID/PID {1:X4}/{2:X4}, manufacturer {3}) as LW unit #{4}; {5}".Build(
-                                                name, attrs.VendorID, attrs.ProductID, manuf, unitNo, okBecause));
+                                            Log.Write($"LedWiz discovery: recognition tests passed for \"{name}\" (VID/PID {attrs.VendorID:X4}/{attrs.ProductID:X4}, "
+                                                + $"manufacturer {manuf}) as LW unit #{unitNo}; {okBecause}");
                                             deviceList.Add(new LWDEVICE(unitNo, diDetail.DevicePath, name));
                                         }
 									}

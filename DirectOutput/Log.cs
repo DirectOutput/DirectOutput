@@ -20,7 +20,7 @@ namespace DirectOutput
 
         private static string _Filename = ".\\DirectOutput.log";
 
-        private static string[] _ActiveInstrumentations = new string[0];
+        private static HashSet<string> _ActiveInstrumentations = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
         // collection of records from before the log file was set up, to allow
         // logging and debugging of initial config file setup
@@ -41,10 +41,12 @@ namespace DirectOutput
         public static string Instrumentations
         {
             set {
-                if (value.IsNullOrEmpty())
-                    _ActiveInstrumentations = new string[0];
-                else
-                    _ActiveInstrumentations = value.Split(',');
+                if (!value.IsNullOrEmpty())
+                {
+                    _ActiveInstrumentations.Clear();
+                    foreach (var s in value.Split(','))
+                        _ActiveInstrumentations.Add(s.Trim());
+                }
             }
         }
 
@@ -69,20 +71,22 @@ namespace DirectOutput
                             #endif
                         ;
 
+                        string instrumentationsEnabledNote = (_ActiveInstrumentations.Count != 0) ?
+                            $"; Instrumentations enabled: {string.Join(", ", _ActiveInstrumentations)}" : "";
+						
                         Logger.WriteLine("---------------------------------------------------------------------------------");
                         Version V = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
                         DateTime BuildDate = new DateTime(2000, 1, 1).AddDays(V.Build).AddSeconds(V.Revision * 2);
-                        Logger.WriteLine("DirectOutput Version {0}, {1}-{2}, built {3}".Build(
+                        Logger.WriteLine("DirectOutput Framework - Version {0}, {1}-{2}, built {3}".Build(
                             V.ToString(), Environment.Is64BitProcess ? "x64" : "x86", BuildConfiguration,
                             BuildDate.ToString("yyyy.MM.dd HH:mm")));
-                        Logger.WriteLine("MJR Grander Unified DOF R3++ edition feat. Djrobx, Rambo3, Vroonsh, CSD, and Freezy");
-                        Logger.WriteLine("DOF created by SwissLizard | https://github.com/mjrgh/DirectOutput");
-                        if (_ActiveInstrumentations.Length > 0) {
-                            Logger.WriteLine($"Active instrumentations : {string.Join(",", _ActiveInstrumentations)}");
-                        }
-                        Logger.WriteLine("{0}\t{1}", DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss.fff"), "DirectOutput Logger initialized");
+						Logger.WriteLine("DOF created by SwissLizard / MIT License");
+						Logger.WriteLine("MJR Grander Unified DOF R3++ edition feat. Djrobx, Rambo3, Vroonsh, CSD, and Freezy");
+                        Logger.WriteLine("https://github.com/mjrgh/DirectOutput");
+                        Logger.WriteLine("{0}\t{1}", DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss.fff"), 
+                            $"DirectOutput logger initialized{instrumentationsEnabledNote}");
 
-                        IsOk = true;
+						IsOk = true;
 
                         // copy the pre-log-file items to the log
                         if (PreLogFileLog != null)
@@ -242,23 +246,18 @@ namespace DirectOutput
             lock (Locker)
             {
                 if (!Message.IsNullOrWhiteSpace())
-                {
                     Write("EXCEPTION: {0}".Build(Message));
-                }
+
                 Write("EXCEPTION: Thread: {0}".Build(Thread.CurrentThread.Name));
                 if (E != null)
                 {
                     Write("EXCEPTION: Message: {0} --> {1}".Build(E.GetType().Name, E.Message));
 
                     foreach (string S in E.StackTrace.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
-                    {
-                        Write("EXCEPTION: Stacktrace: {0}".Build(S));
-                    }
+                        Write("EXCEPTION: Stack trace: {0}".Build(S));
 
                     if (E.TargetSite != null)
-                    {
-                        Write("EXCEPTION: Targetsite: {0}".Build(E.TargetSite.ToString()));
-                    }
+                        Write("EXCEPTION: Target site: {0}".Build(E.TargetSite.ToString()));
 
                     try
                     {
@@ -274,17 +273,10 @@ namespace DirectOutput
                     }
                     catch { }
 
-                    int Level = 1;
-                    while (E.InnerException != null)
+                    for (int Level = 1; E.InnerException != null && Level <= 20; ++Level)
                     {
                         E = E.InnerException;
                         Write("EXCEPTION: InnerException {0}: {1} --> {2}".Build(Level, E.GetType().Name, E.Message));
-                        Level++;
-
-                        if (Level > 20)
-                        {
-                            break;
-                        }
                     }
                 }
             }
@@ -300,29 +292,30 @@ namespace DirectOutput
         }
 
         /// <summary>
-        /// Writes the specified instrumentation debug message to the log file.
-        /// If a key is provided, it'll check if it's one of the active instrumentations provided by the GlobalConfig to log it.
+        /// Writes the specified instrumentation debug message to the log file, ONLY IF the
+        /// provided key is one of the keys specified in the &lt;Instrumentation&gt; element
+        /// in the GlobalConfig.xml file.  If the key isn't listed there, the message is
+        /// suppressed.  This can be used for debugging messages that you don't want to
+        /// include in the log EXCEPT during development work, or when helping a user
+        /// troubleshoot a problem that requires visibility into low-level details.  This
+        /// is especially useful for messages that are generated many times during a
+        /// session, such as messages generated every time an output port is triggered.
         /// </summary>
-        /// <param name="key">The instrumentation key.</param>
+        /// <param name="key">The instrumentation key.  This is an arbitrary string identifying the instrumentation source, to determine whether or not to include the message in the log.</param>
         /// <param name="Message">The message to be written to the log file.</param>
-        public static void Instrumentation(string key, string Message = "")
+        public static void Instrumentation(string key, string Message)
         {
-            if (key.IsNullOrEmpty()) {
-                Write($"Debug : {Message}");
-            } else {
-                if (!_ActiveInstrumentations.FirstOrDefault(I => string.Compare(I, key, StringComparison.InvariantCultureIgnoreCase) == 0).IsNullOrEmpty()) {
-                    Write($"Debug [{key}] : {Message}");
-                }
-            }
+            if (_ActiveInstrumentations.Contains(key))
+                Write($"Debug [{key}]: {Message}");
         }
 
         /// <summary>
         /// Writes the specified debug message to the log file.
         /// </summary>
         /// <param name="Message">The message to be written to the log file.</param>
-        public static void Debug(string Message = "")
+        public static void Debug(string Message)
         {
-            Instrumentation(null, Message);
+            Write($"Debug: {Message}");
         }
 
     }
