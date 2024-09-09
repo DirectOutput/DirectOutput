@@ -226,7 +226,7 @@ namespace DirectOutput.FX.MatrixFX
                 if (AreaLeft > AreaRight) { Tmp = AreaRight; AreaRight = AreaLeft; AreaLeft = AreaRight; }
                 if (AreaTop > AreaBottom) { Tmp = AreaBottom; AreaBottom = AreaTop; AreaTop = Tmp; }
 
-                Log.Debug("MatrixBase for {12}. Calculated area size: AreaDef(L:{0}, T:{1}, W:{2}, H:{3}), Matrix(W:{4}, H:{5}), ResultArea(Left: {6}, Top:{7}, Right:{8}, Bottom:{9}, Width:{10}, Height:{11})".Build(new object[] { Left, Top, Width, Height, Matrix.Height, Matrix.Width, AreaLeft, AreaTop, AreaRight, AreaBottom, AreaWidth, AreaHeight, this.GetType().Name }));
+                Log.Instrumentation("MX", "MatrixBase for {12}. Calculated area size: AreaDef(L:{0}, T:{1}, W:{2}, H:{3}), Matrix(W:{4}, H:{5}), ResultArea(Left: {6}, Top:{7}, Right:{8}, Bottom:{9}, Width:{10}, Height:{11})".Build(new object[] { Left, Top, Width, Height, Matrix.Height, Matrix.Width, AreaLeft, AreaTop, AreaRight, AreaBottom, AreaWidth, AreaHeight, this.GetType().Name }));
 
             }
 

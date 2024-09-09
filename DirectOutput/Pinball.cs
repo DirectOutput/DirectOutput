@@ -155,6 +155,7 @@ namespace DirectOutput
                 try
                 {
                     Log.Filename = GlobalConfig.GetLogFilename((!TableFilename.IsNullOrWhiteSpace() ? new FileInfo(TableFilename).FullName : ""), RomName);
+                    Log.Instrumentations = GlobalConfig.Instrumentation;
                     Log.Init();
                 }
                 catch (Exception E)
@@ -214,7 +215,7 @@ namespace DirectOutput
                 }
                 if (Cabinet == null)
                 {
-                    Log.Write("No cabinet config file loaded. Will use AutoConfig.");
+                    Log.Warning("No cabinet config file loaded. Will use AutoConfig.");
                     //default to a new cabinet object if the config cant be loaded
                     Cabinet = new Cabinet();
                     Cabinet.AutoConfig();
@@ -334,8 +335,7 @@ namespace DirectOutput
                     }
                     else
                     {
-
-                        Log.Write("Cant load config from directoutput.ini or ledcontrol.ini file(s) since no RomName was supplied. No ledcontrol config will be loaded.");
+                        Log.Warning("Cant load config from directoutput.ini or ledcontrol.ini file(s) since no RomName was supplied. No ledcontrol config will be loaded.");
                     }
 
                 }

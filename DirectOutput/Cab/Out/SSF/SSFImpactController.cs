@@ -284,7 +284,7 @@ namespace DirectOutput.Cab.Out.SSFImpactController
 
                         if ((stream == 0) && (Bass.LastError == Errors.Speaker))
                         {
-                            Log.Write("Unable to assign FrontExciters stream to speakers: " + _FrontExciters);
+                            Log.Warning("Unable to assign FrontExciters stream to speakers: " + _FrontExciters);
                         }
 
 
@@ -295,13 +295,13 @@ namespace DirectOutput.Cab.Out.SSFImpactController
                         stream = Bass.CreateStream(ssfStream.ToArray(), 0, ssfStream.Length, (BassFlags)_FrontExciterPair);
                         if ((stream == 0) && (Bass.LastError == Errors.Speaker))
                         {
-                             Log.Write("Unable to assign FrontExciters stream to speakers: " + _FrontExciters);
+                             Log.Warning("Unable to assign FrontExciters stream to speakers: " + _FrontExciters);
                         }
 
                         stream1 = Bass.CreateStream(ssfStream.ToArray(), 0, ssfStream.Length, (BassFlags)_RearExciterPair);
                         if ((stream1 == 0) && (Bass.LastError == Errors.Speaker))
                         {
-                            Log.Write("Unable to assign RearExciters stream to speakers: " + _RearExciters);
+                            Log.Warning("Unable to assign RearExciters stream to speakers: " + _RearExciters);
                         }
 
 
@@ -329,7 +329,7 @@ namespace DirectOutput.Cab.Out.SSFImpactController
                 }
                 catch (Exception e)
                 {
-                    Log.Write("Could Not Initialze Bass - " + e.Message);
+                    Log.Error("Could Not Initialze Bass - " + e.Message);
                 }
             }
 
@@ -361,7 +361,7 @@ namespace DirectOutput.Cab.Out.SSFImpactController
             }
             catch (Exception)
             {
-                Log.Write("Bass subsystem was not initialized");
+                Log.Error("Bass subsystem was not initialized");
             }
 
         }
@@ -472,7 +472,7 @@ namespace DirectOutput.Cab.Out.SSFImpactController
             catch (Exception e)
             {
 
-                Log.Write("UPDATE EXCEPTION:: " + e.Message);
+                Log.Error("UPDATE EXCEPTION:: " + e.Message);
             }
 
         }
@@ -734,7 +734,7 @@ namespace DirectOutput.Cab.Out.SSFImpactController
                     Log.Write("BassShaker set to speaker:" + SSFImpactController.SpeakerNames[(BassFlags)_ShakerChannel1]);
                     if ((running == 0) && (Bass.LastError == Errors.Speaker))
                     {
-                        Log.Write("Unable to assign Shaker1 stream to speakers: " + _BassShaker1);
+                        Log.Warning("Unable to assign Shaker1 stream to speakers: " + _BassShaker1);
                         return;
                     }
                 }
@@ -745,7 +745,7 @@ namespace DirectOutput.Cab.Out.SSFImpactController
                     Log.Write("Additional BassShaker set to speaker:" + SSFImpactController.SpeakerNames[(BassFlags)_ShakerChannel2]);
                     if ((running2 == 0) && (Bass.LastError == Errors.Speaker))
                     {
-                        Log.Write("Unable to assign Shaker2 stream to speakers: " + _BassShaker2);
+                        Log.Warning("Unable to assign Shaker2 stream to speakers: " + _BassShaker2);
                         return;
                     }
                 }
@@ -794,7 +794,7 @@ namespace DirectOutput.Cab.Out.SSFImpactController
             }
             catch (Exception)
             {
-                Log.Write("Could Not Initialze Bass. SSFImpactor disabled for events.");
+                Log.Error("Could Not Initialze Bass. SSFImpactor disabled for events.");
                 return;
             }
 

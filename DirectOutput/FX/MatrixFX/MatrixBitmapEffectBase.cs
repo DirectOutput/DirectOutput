@@ -190,7 +190,7 @@ namespace DirectOutput.FX.MatrixFX
 
                     if (BM.Frames.ContainsKey(BitmapFrameNumber))
                     {
-                        Log.Debug("BitmapEffectBase. Grabbing image clip: W: {0}, H:{1}, BML: {2}, BMT: {3}, BMW: {4}, BMH: {5}".Build(new object[] { AreaWidth, AreaHeight, BitmapLeft, BitmapTop, BitmapWidth, BitmapHeight }));
+                        Log.Instrumentation("MX", "BitmapEffectBase. Grabbing image clip: W: {0}, H:{1}, BML: {2}, BMT: {3}, BMW: {4}, BMH: {5}".Build(new object[] { AreaWidth, AreaHeight, BitmapLeft, BitmapTop, BitmapWidth, BitmapHeight }));
                         Pixels = BM.Frames[BitmapFrameNumber].GetClip(AreaWidth, AreaHeight, BitmapLeft, BitmapTop, BitmapWidth, BitmapHeight, DataExtractMode).Pixels;
 
                     }

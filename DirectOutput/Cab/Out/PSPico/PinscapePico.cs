@@ -532,7 +532,7 @@ namespace DirectOutput.Cab.Out.PSPico
 						timeBuf[7] = (byte)now.Minute;
 						timeBuf[8] = (byte)now.Second;
 						if (!WriteUSB("SET WALL CLOCK TIME", timeBuf, 100))
-							Log.Write("Pinscape Pico: warning: error setting wall clock time");
+							Log.Warning("Pinscape Pico: error setting wall clock time");
 
 						// we found the response, so we can stop searching for it
 						identified = true;
@@ -543,7 +543,7 @@ namespace DirectOutput.Cab.Out.PSPico
 				// make sure we identified the device
 				if (!identified)
 				{
-					Log.Write(("ERROR: Pinscape Pico VID/PID {X4/X4} did not respond to identification query; "
+					Log.Error(("Pinscape Pico VID/PID {X4/X4} did not respond to identification query; "
 						+ "this device's output port configuration is unknown, so no port updates will be sent "
 						+ "to it during this session").Build(
 						vendorID, productID));
@@ -609,14 +609,14 @@ namespace DirectOutput.Cab.Out.PSPico
 						break;
 
 					// read or wait failed - log the error and return failure
-					Log.Write("Pinscape Pico: USB error reading from device: " + GetLastWin32ErrMsg());
+					Log.Error("Pinscape Pico: USB error reading from device: " + GetLastWin32ErrMsg());
 					return null;
 				}
 
 				// check that the actual byte length read matches the request
 				if (actual != inputReportByteLength)
 				{
-					Log.Write("Pinscape Pico: USB error reading from device: not all bytes received");
+					Log.Error("Pinscape Pico: USB error reading from device: not all bytes received");
 					return null;
 				}
 					
@@ -648,14 +648,14 @@ namespace DirectOutput.Cab.Out.PSPico
 						break;
 
 					// write or wait failed - log the error and return failure
-					Log.Write("Pinscape Pico: USB error sending to device ({0}): {1}".Build(desc, GetLastWin32ErrMsg()));
+					Log.Error("Pinscape Pico: USB error sending to device ({0}): {1}".Build(desc, GetLastWin32ErrMsg()));
 					return false;
 				}
 
 				// check that the actual byte length written matches the request
 				if (actual != outputReportByteLength)
 				{
-					Log.Write("Pinscape Pico: USB error sending to device ({0}): not all bytes sent".Build(desc));
+					Log.Error("Pinscape Pico: USB error sending to device ({0}): not all bytes sent".Build(desc));
 					return false;
 				}
 
@@ -676,7 +676,7 @@ namespace DirectOutput.Cab.Out.PSPico
 				if (Marshal.GetLastWin32Error() == ERROR_INVALID_HANDLE)
 				{
 					// try opening a new handle on the device path
-					Log.Write("Pinscape Pico: invalid handle on read; trying to reopen handle");
+					Log.Error("Pinscape Pico: invalid handle on read; trying to reopen handle");
 					IntPtr fp2 = OpenFile();
 
 					// if that succeeded, replace the old handle with the new one and retry the read

@@ -174,7 +174,7 @@ namespace DirectOutput.Cab.Out.LW
         /// <param name="Cabinet">The Cabinet object which is using the LedWiz instance.</param>
         public override void Init(Cabinet Cabinet)
         {
-            Log.Debug("Initializing LedWiz Nr. {0:00}".Build(Number));
+            Log.Write("Initializing LedWiz Nr. {0:00}".Build(Number));
             AddOutputs();
             if (!MinCommandIntervalMsSet && Cabinet.Owner.ConfigurationSettings.ContainsKey("LedWizDefaultMinCommandIntervalMs") && Cabinet.Owner.ConfigurationSettings["LedWizDefaultMinCommandIntervalMs"] is int)
             {
@@ -193,7 +193,7 @@ namespace DirectOutput.Cab.Out.LW
         /// </summary>
         public override void Finish()
         {
-            Log.Debug("Finishing LedWiz Nr. {0:00}".Build(Number));
+            Log.Write("Finishing LedWiz Nr. {0:00}".Build(Number));
             LedWizUnits[Number].Finish();
             LedWizUnits[Number].ShutdownLighting();
             Log.Write("LedWiz Nr. {0:00} finished and updater thread stopped.".Build(Number));
@@ -1172,10 +1172,10 @@ namespace DirectOutput.Cab.Out.LW
 						// if that failed, give it a moment before trying again
 						Thread.Sleep(RetryWait[tries]);
 					}
-					Log.Write(String.Format("LedWiz {0} WriteUSB failed after {1} retries", Number, RetryWait.Length));
+					Log.Error(String.Format("LedWiz {0} WriteUSB failed after {1} retries", Number, RetryWait.Length));
 				}
 				else
-					Log.Write(String.Format("LedWiz {0} WriteUSB has no file handle", Number));
+					Log.Error(String.Format("LedWiz {0} WriteUSB has no file handle", Number));
 			}
 
             private bool IsPresent

@@ -342,12 +342,12 @@ namespace DirectOutput.Cab.Out.PS
 						if (TryReopenHandle())
 							continue;
 
-						Log.Write("Pinscape Controller USB error reading from device: " + GetLastWin32ErrMsg());
+						Log.Error("Pinscape Controller USB error reading from device: " + GetLastWin32ErrMsg());
 						return null;
 					}
 					else if (actual != inputReportByteLength)
 					{
-						Log.Write("Pinscape Controller USB error reading from device: not all bytes received");
+						Log.Error("Pinscape Controller USB error reading from device: not all bytes received");
 						return null;
 					}
 					else
@@ -371,7 +371,7 @@ namespace DirectOutput.Cab.Out.PS
 				if (Marshal.GetLastWin32Error() == 6)
 				{
 					// try opening a new handle on the device path
-					Log.Write("Pinscape Controller: invalid handle on read; trying to reopen handle");
+					Log.Error("Pinscape Controller: invalid handle on read; trying to reopen handle");
 					IntPtr fp2 = OpenFile();
 
 					// if that succeeded, replace the old handle with the new one and retry the read
@@ -421,12 +421,12 @@ namespace DirectOutput.Cab.Out.PS
 						if (TryReopenHandle())
 							continue;
 
-						Log.Write("Pinscape Controller USB error sending request to device: " + GetLastWin32ErrMsg());
+						Log.Error("Pinscape Controller USB error sending request to device: " + GetLastWin32ErrMsg());
 						return false;
 					}
 					else if (actual != 9)
 					{
-						Log.Write("Pinscape Controller USB error sending request: not all bytes sent");
+						Log.Error("Pinscape Controller USB error sending request: not all bytes sent");
 						return false;
 					}
 					else

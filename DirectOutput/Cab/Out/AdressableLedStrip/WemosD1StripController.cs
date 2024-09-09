@@ -79,7 +79,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                     int nbleds = NumberOfLedsPerStrip[numled];
                     if (nbleds > 0) {
                         CommandData = new byte[5] { (byte)'Z', (byte)numled, (byte)(NumberOfLedsPerStrip.Length - 1), (byte)(nbleds >> 8), (byte)(nbleds & 255) };
-                        Log.Debug($"Resize ledstrip {numled} to {nbleds} leds.");
+                        Log.Write($"Resize ledstrip {numled} to {nbleds} leds.");
                         ComPort.Write(CommandData, 0, 5);
                         ReceiveData = new byte[1];
                         BytesRead = -1;
@@ -98,7 +98,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
 
             if (TestOnConnect) {
                 CommandData = new byte[1] { (byte)'T' };
-                Log.Debug($"Send a test request to the controller");
+                Log.Write($"Send a test request to the controller");
                 ComPort.Write(CommandData, 0, 1);
 
                 //Temporary wait before asking the Ack

@@ -1,11 +1,9 @@
-﻿// Use #define DebugLog or #undef DebugLog to turn debug log messages on or off.
-#define DEBUGLOG
-
-using System;
+﻿using System;
 using System.IO;
 using System.Diagnostics;
 using System.Threading;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DirectOutput
 {
@@ -21,6 +19,8 @@ namespace DirectOutput
         private static readonly object Locker = new object();
 
         private static string _Filename = ".\\DirectOutput.log";
+
+        private static string[] _ActiveInstrumentations = new string[0];
 
         // collection of records from before the log file was set up, to allow
         // logging and debugging of initial config file setup
@@ -38,6 +38,15 @@ namespace DirectOutput
             set { _Filename = value; }
         }
 
+        public static string Instrumentations
+        {
+            set {
+                if (value.IsNullOrEmpty())
+                    _ActiveInstrumentations = new string[0];
+                else
+                    _ActiveInstrumentations = value.Split(',');
+            }
+        }
 
         /// <summary>
         /// Initializes the log using the file defined in the Filename property.
@@ -68,7 +77,9 @@ namespace DirectOutput
                             BuildDate.ToString("yyyy.MM.dd HH:mm")));
                         Logger.WriteLine("MJR Grander Unified DOF R3++ edition feat. Djrobx, Rambo3, Vroonsh, CSD, and Freezy");
                         Logger.WriteLine("DOF created by SwissLizard | https://github.com/mjrgh/DirectOutput");
-
+                        if (_ActiveInstrumentations.Length > 0) {
+                            Logger.WriteLine($"Active instrumentations : {string.Join(",", _ActiveInstrumentations)}");
+                        }
                         Logger.WriteLine("{0}\t{1}", DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss.fff"), "DirectOutput Logger initialized");
 
                         IsOk = true;
@@ -163,15 +174,21 @@ namespace DirectOutput
         /// <param name="Message">The message.</param>
         public static void Write(string Message)
         {
-            if (Message.IsNullOrWhiteSpace())
-            {
+            if (Message.IsNullOrWhiteSpace()) {
                 WriteRaw("{0}\t{1}".Build(DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss.fff"), ""));
-            }
-            else
-            {
+            } else {
                 foreach (string M in Message.Split(new[] { '\r', '\n' }))
                     WriteRaw("{0}\t{1}".Build(DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss.fff"), M));
             }
+        }
+
+        /// <summary>
+        /// Writes an error message to the log.
+        /// </summary>
+        /// <param name="Message">The message.</param>
+        public static void Error(string Message)
+        {
+            Write("Error: {0}".Build(Message));
         }
 
 		/// <summary>
@@ -282,17 +299,30 @@ namespace DirectOutput
             Exception("", E);
         }
 
+        /// <summary>
+        /// Writes the specified instrumentation debug message to the log file.
+        /// If a key is provided, it'll check if it's one of the active instrumentations provided by the GlobalConfig to log it.
+        /// </summary>
+        /// <param name="key">The instrumentation key.</param>
+        /// <param name="Message">The message to be written to the log file.</param>
+        public static void Instrumentation(string key, string Message = "")
+        {
+            if (key.IsNullOrEmpty()) {
+                Write($"Debug : {Message}");
+            } else {
+                if (!_ActiveInstrumentations.FirstOrDefault(I => string.Compare(I, key, StringComparison.InvariantCultureIgnoreCase) == 0).IsNullOrEmpty()) {
+                    Write($"Debug [{key}] : {Message}");
+                }
+            }
+        }
 
-        //TODO: Make conditional compilation work
         /// <summary>
         /// Writes the specified debug message to the log file.
-        /// \note The calls to this method are only executed, if the DebugLog symbol is defined. Generally this will only be active in special debug releases. The statement to define or undefine the DebugLog symbol can be found on the top of the code of this class.
         /// </summary>
         /// <param name="Message">The message to be written to the log file.</param>
-        // [Conditional("DEBUGLOG")]
         public static void Debug(string Message = "")
         {
-            Write("Debug: {0}".Build(Message));
+            Instrumentation(null, Message);
         }
 
     }

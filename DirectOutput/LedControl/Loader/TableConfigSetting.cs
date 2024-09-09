@@ -396,7 +396,7 @@ namespace DirectOutput.LedControl.Loader
                                 }
                                 else
                                 {
-                                    Log.Write("Failed: " + E);
+                                    Log.Error("Failed: " + E);
                                     ParseOK = false;
                                     break;
                                 }

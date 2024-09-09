@@ -113,7 +113,7 @@ namespace DirectOutput
                 Pinball.Finish();
                 Pinball = null;
             } else {
-                Log.Write("DirectOutput.Finish: Pinball is null, unable to shut down cab!");
+                Log.Error("DirectOutput.Finish: Pinball is null, unable to shut down cab!");
             }
 
         }
