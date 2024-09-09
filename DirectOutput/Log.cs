@@ -300,12 +300,16 @@ namespace DirectOutput
         /// troubleshoot a problem that requires visibility into low-level details.  This
         /// is especially useful for messages that are generated many times during a
         /// session, such as messages generated every time an output port is triggered.
+        ///
+        /// The &lt;Instrumentation&gt; element in the config file can also be set to a
+        /// single asterisk (*) to enable ALL of the instrumentation keys.  That means
+        /// that you shouldn't use "*" as an actual message key, of course.
         /// </summary>
         /// <param name="key">The instrumentation key.  This is an arbitrary string identifying the instrumentation source, to determine whether or not to include the message in the log.</param>
         /// <param name="Message">The message to be written to the log file.</param>
         public static void Instrumentation(string key, string Message)
         {
-            if (_ActiveInstrumentations.Contains(key))
+            if (_ActiveInstrumentations.Contains(key) || _ActiveInstrumentations.Contains("*"))
                 Write($"Debug [{key}]: {Message}");
         }
 

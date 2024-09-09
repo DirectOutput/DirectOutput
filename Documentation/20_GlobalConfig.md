@@ -83,9 +83,31 @@ The following placeholders can be used in the path and filename for the logfile:
 
 \image html GlobalConfigEditor_misc.png "Misc tab"
 
-In the Misc tab you can change the default intervall between commands which are sent to LedWiz units. For most installations 1ms should be just fine, but depending on the mainboard, usb hardware on the board, usb drivers and other factors the LedWiz does sometime tend to loose or misunderstand commands received if the are sent in to short intervals.
-This settings allows to increase the default minmal interval between commands from 1ms to a higher value. Higher values will make problems less likely, but decreases the number of possible updates of the ledwiz outputs in a given time frame.
+In the Misc tab you can change the default interval between commands which are sent to LedWiz units. For most installations 1ms should be just fine, but depending on the mainboard, usb hardware on the board, usb drivers and other factors the LedWiz does sometime tend to loose or misunderstand commands received if the are sent in to short intervals.
+This settings allows to increase the default minimum interval between commands from 1ms to a higher value. Higher values will make problems less likely, but decreases the number of possible updates of the ledwiz outputs in a given time frame.
 It is recommended to use the default interval of 1 ms and only to increase this interval if problems occur (Toys which are sometimes not reacting, random knocks of replay knocker or solenoids).
+
+
+\section Log file instrumentation
+
+The `<Instrumentation>` element lets you specify a list of "instrumentation keys", separated by
+commas.  These are short strings that the DOF program code uses internally to identify certain
+low-level debugging messages that aren't needed during normal use, so they're normally excluded
+from the log, to avoid overly bloating the log file with unnecessary technical details that
+are normally only of interest to the developers while working on the code.  However, it's
+sometimes useful to see some of those details when troubleshooting a problem, so the
+`<Instrumentation>` element lets you selectively enable specific ones.  You should only
+need to add this to your config file if a developer advises you to do so, in which case
+they should also tell you exactly what strings to include here.
+
+You can enable **all** of the low-level debug messages by setting this value
+to a single asterisk, `*`.
+
+Since this setting is mostly for the developers' use, we won't provide
+a list of the available keys here (and such a list would quickly go
+out of date if we did provide one, since new keys are likely to be
+added fairly often).  If you want the full list, search the source
+code for the string `Log.Instrumentation`.
 
 
 \section globalconfig_fileformat File format
@@ -104,5 +126,6 @@ Global config files are save in xml format. A typical global config file might l
   <EnableLogging>true</EnableLogging>
   <ClearLogOnSessionStart>false</ClearLogOnSessionStart>
   <LogFilePattern>{DllDir}\DirectOutput.log</LogFilePattern>
+  <Instrumentation>DudesCab, LedWizDiscovery</Instrumentation>
 </GlobalConfig>
 ~~~~~~~~~~~~~
