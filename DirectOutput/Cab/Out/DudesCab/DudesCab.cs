@@ -6,7 +6,6 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace DirectOutput.Cab.Out.DudesCab
 {
@@ -143,58 +142,71 @@ namespace DirectOutput.Cab.Out.DudesCab
             return true;
         }
 
-        private bool firstInit = true;
+        protected List<byte> OutputBuffer = new List<byte>();
+
+        private void Instrumentation(string Message)
+        {
+            Log.Instrumentation("DudesCab", Message);
+        }
 
         /// <summary>
         /// Send updated outputs to the physical device.
         /// </summary>
         protected override void UpdateOutputs(byte[] NewOutputValues)
         {
-            byte extensionChangeMask = 0;
-            ushort[] outputsChangeMask = new ushort[Dev.MaxExtensions];
-            List<byte> changedOutputs = new List<byte>();
+            if (NewOutputValues.All(x => x == 0)) {
+                Dev.AllOff();
+            } else {
+                OutputBuffer.Clear();
+                OutputBuffer.Add(0); //extension mask
+                int nbValuesToSend = 0;
 
-            List<byte> outputBuffer = new List<byte>();
-            outputBuffer.Add(0); //extension mask
+                byte extMask = 0;
+                byte oldExtMask = 0xFF;
+                int outputMaskOffset = 0;
+                ushort outputMask = 0;
 
-            for (int numExt = 0; numExt < Dev.MaxExtensions; numExt++) {
-                outputsChangeMask[numExt] = 0;
-                int maskOffset = outputBuffer.Count;
-                outputBuffer.Add(0);//Low bits of output mask
-                outputBuffer.Add(0);//High bits of output mask
-
-                for (int numOuput = 0; numOuput < Dev.PwmMaxOutputsPerExtension; numOuput++) {
-                    int outputOffset = numExt * Dev.PwmMaxOutputsPerExtension + numOuput;
-                    if (NewOutputValues[outputOffset] != OldOutputValues[outputOffset]) {
-                        //If the DudesCab has a configured extension for this output
-                        if ((Dev.PwmExtensionsMask & (byte)(1 << numExt)) != 0) {
-                            extensionChangeMask |= (byte)(1 << numExt);
-                            outputsChangeMask[numExt] |= (ushort)(1 << numOuput);
-                            outputBuffer.Add(NewOutputValues[outputOffset]);
-                            Log.Instrumentation("DudesCab", $"Output {outputOffset + 1} ({OldOutputValues[outputOffset]}=>{NewOutputValues[outputOffset]}) is sent to an extension ({numExt + 1})");
-                        } else {
-                            if (!firstInit) {
-                                Log.Warning($"Output {outputOffset + 1} ({OldOutputValues[outputOffset]}=>{NewOutputValues[outputOffset]}) is sent to an extension ({numExt + 1}) which wasn't configured on the DudesCab Controller, Please check your Controller or Dof settings");
+                for (int numDofOutput = 0; numDofOutput < NewOutputValues.Length; numDofOutput++) {
+                    if (NewOutputValues[numDofOutput] != OldOutputValues[numDofOutput]) {
+                        byte extNum = (byte)(numDofOutput / Dev.PwmMaxOutputsPerExtension);
+                        byte outputNum = (byte)(numDofOutput % Dev.PwmMaxOutputsPerExtension);
+                        Instrumentation($"Prepare Dof Value to send : DOF #{numDofOutput} {OldOutputValues[numDofOutput]} => {NewOutputValues[numDofOutput]}, Extension #{extNum}, Output #{outputNum}");
+                        extMask |= (byte)(1 << extNum);
+                        if (oldExtMask != extMask) {
+                            //New extension add output masks placeholders
+                            oldExtMask = extMask;
+                            //Set previous outputmask if available
+                            if (outputMask != 0) {
+                                OutputBuffer[outputMaskOffset] = (byte)(outputMask & 0xFF);
+                                OutputBuffer[outputMaskOffset + 1] = (byte)((outputMask >> 8) & 0xFF);
+                                Instrumentation($"        Changed OutputMask 0x{outputMask:X4}");
+                                outputMask = 0;
                             }
+                            Instrumentation($"    Extension {extNum} has changes");
+                            outputMaskOffset = OutputBuffer.Count;
+                            OutputBuffer.Add(0);//Low bits of output mask
+                            OutputBuffer.Add(0);//High bits of output mask
                         }
+
+                        outputMask |= (ushort)(1 << outputNum);
+                        OutputBuffer.Add(NewOutputValues[numDofOutput]);
+                        nbValuesToSend++;
                     }
                 }
 
-                if (outputsChangeMask[numExt] != 0) {
-                    Log.Instrumentation("DudesCab", $"Extenstion {numExt + 1} OutputsMask {(int)outputsChangeMask[numExt]:X4}");
-                    outputBuffer[maskOffset] = (byte)(outputsChangeMask[numExt] & 0xFF);
-                    outputBuffer[maskOffset + 1] = (byte)((outputsChangeMask[numExt] >> 8) & 0xFF);
-                } else {
-                    outputBuffer.RemoveRange(outputBuffer.Count - 2, 2);
+                //set last outputmask & extmask
+                if (outputMask != 0) {
+                    OutputBuffer[outputMaskOffset] = (byte)(outputMask & 0xFF);
+                    OutputBuffer[outputMaskOffset + 1] = (byte)((outputMask >> 8) & 0xFF);
+                    Instrumentation($"        Changed OutputMask 0x{outputMask:X4}");
                 }
+                OutputBuffer[0] = extMask;
+                Instrumentation($"    ExtenstionMask 0x{OutputBuffer[0]:X2}");
+
+                Instrumentation($"{nbValuesToSend} Dof Values to send to Dude's cab");
+                Dev.SendCommand(Device.HIDReportType.RT_PWM_OUTPUTS, OutputBuffer.ToArray());
             }
 
-            if (extensionChangeMask != 0) {
-                outputBuffer[0] = extensionChangeMask;
-                Log.Instrumentation("DudesCab", $"ExtenstionMask {outputBuffer[0]:X2}");
-                Dev.SendCommand(Device.HIDReportType.RT_PWM_OUTPUTS, outputBuffer.ToArray());
-            }
-            firstInit = false;
             Array.Copy(NewOutputValues, OldOutputValues, OldOutputValues.Length);
         }
 
@@ -261,10 +273,9 @@ namespace DirectOutput.Cab.Out.DudesCab
                 return unitNo;
             }
 
-            public int NumOutputs()
-            {
-                return numOutputs;
-            }
+            private int _NumOutputs = 128;
+
+            public int NumOutputs() => _NumOutputs;
 
             static readonly int hidCommandPrefixSize = 5;
 
@@ -293,24 +304,59 @@ namespace DirectOutput.Cab.Out.DudesCab
                 SendCommand(HIDReportType.RT_HANDSHAKE);
                 answer = ReadUSB().Skip(hidCommandPrefixSize).ToArray();
                 string handShake = Encoding.UTF8.GetString(answer).TrimEnd('\0');
-                Log.Write($"{name} says : {handShake}");
+                var splits = handShake.Split('|');
+                if (splits.Length > 1) {
+                    this.name = splits[0];
+                    handShake = splits[1];
+                } else {
+                    Log.Warning($"Old Dude's Cab handshake, you should update your firmware");
+                }
+                Log.Write($"{this.name} says : {handShake}");
 
                 //Ask for Card Infos
                 SendCommand(HIDReportType.RT_INFOS);
                 answer = ReadUSB().Skip(hidCommandPrefixSize).ToArray();
-                Log.Write($"DudesCab Controller Informations : v{answer[0]}.{answer[1]}.{answer[2]}, unit #{answer[3]}, Max extensions {answer[4]}");
+                Log.Write($"DudesCab Controller Informations : Name [{this.name}], v{answer[0]}.{answer[1]}.{answer[2]}, unit #{answer[3]}, Max extensions {answer[4]}");
                 unitNo = answer[3];
                 MaxExtensions = answer[4];
 
+                //// presume we have the standard DudesCab complement of 128 outputs
+                this._NumOutputs = 128;
+
                 //Ask for Pwm Configuration
                 SendCommand(HIDReportType.RT_PWM_GETEXTENSIONSINFOS);
-                answer = ReadUSB().Skip(hidCommandPrefixSize).ToArray();
+                answer = ReadUSB().ToArray();
+                var answersize = answer[hidCommandPrefixSize-1];
+                answer = answer.Skip(hidCommandPrefixSize).ToArray();
                 PwmMaxOutputsPerExtension = answer[0];
                 PwmExtensionsMask = answer[1];
-                Log.Write($"    Pwm Informations : Max outputs per extensions {PwmMaxOutputsPerExtension}, Extesnion Mask {(int)PwmExtensionsMask:X2}");
+                Log.Write($"    Pwm Informations : Max outputs per extensions {PwmMaxOutputsPerExtension}, Extension Mask 0x{(int)PwmExtensionsMask:X2}");
+                if (answersize > 2) {
+                    //Get Outputmasks and process remaps
+                    var nbMasks = answer[2];
+                    var maskSize = answer[3];
+                    var masks = new ushort[nbMasks];
+                    for (int mask = 0; mask < nbMasks; mask++) {
+                        masks[mask] = (ushort)(answer[4 + (2 * mask)] + (answer[4 + (2 * mask) + 1] << 8));
+                    }
+                    var curMask = 0;
 
-                //// presume we have the standard DudesCab complement of 128 outputs
-                this.numOutputs = 128;
+                    this._NumOutputs = 0;
+                    for (var ext = 0; ext < MaxExtensions; ext++) {
+                        if ((PwmExtensionsMask & (byte)(1 << ext)) != 0) {
+                            for (var output = 0; output < PwmMaxOutputsPerExtension; output++) {
+                                if ((masks[curMask] & (ushort)(1 << output)) != 0) {
+                                    this._NumOutputs = Math.Max(this._NumOutputs, (ext * PwmMaxOutputsPerExtension) + output);
+                                }
+                            }
+                            curMask++;
+                        }
+                    }
+                    Log.Write($"    Output configuration received, highest configured output is #{this._NumOutputs +1}");
+                } else {
+                    Log.Warning($"No output configuration received, {this._NumOutputs} will be used, you should update your DudesCab firmware");
+                }
+
             }
 
             private System.Threading.NativeOverlapped ov;
@@ -326,10 +372,10 @@ namespace DirectOutput.Cab.Out.DudesCab
                         if (TryReopenHandle())
                             continue;
 
-                        Log.Write("DudesCab Controller USB error reading from device: " + GetLastWin32ErrMsg());
+                        Log.Error("DudesCab Controller USB error reading from device: " + GetLastWin32ErrMsg());
                         return null;
                     } else if (actual != rptLen) {
-                        Log.Write("DudesCab Controller USB error reading from device: not all bytes received");
+                        Log.Error("DudesCab Controller USB error reading from device: not all bytes received");
                         return null;
                     } else
                         return buf;
@@ -348,10 +394,10 @@ namespace DirectOutput.Cab.Out.DudesCab
                         if (TryReopenHandle())
                             continue;
 
-                        Log.Write("DudesCab Controller USB error sending request to device: " + GetLastWin32ErrMsg());
+                        Log.Error("DudesCab Controller USB error sending request to device: " + GetLastWin32ErrMsg());
                         return false;
                     } else if (actual != caps.OutputReportByteLength) {
-                        Log.Write("DudesCab Controller USB error sending request: not all bytes sent");
+                        Log.Error("DudesCab Controller USB error sending request: not all bytes sent");
                         return false;
                     } else {
                         return true;
@@ -382,7 +428,7 @@ namespace DirectOutput.Cab.Out.DudesCab
                 // if the last error is 6 ("invalid handle"), try re-opening it
                 if (Marshal.GetLastWin32Error() == 6) {
                     // try opening a new handle on the device path
-                    Log.Write("DudesCab Controller: invalid handle on read; trying to reopen handle");
+                    Log.Error("DudesCab Controller: invalid handle on read; trying to reopen handle");
                     IntPtr fp2 = OpenFile();
 
                     // if that succeeded, replace the old handle with the new one and retry the read
@@ -449,7 +495,6 @@ namespace DirectOutput.Cab.Out.DudesCab
             public ushort productID;
             public short version;
             public short unitNo;
-            public int numOutputs;
             internal HIDImports.HIDP_CAPS caps = new HIDImports.HIDP_CAPS();
             public int MaxExtensions = 0;
             public int PwmMaxOutputsPerExtension = 0;
