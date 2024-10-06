@@ -41,6 +41,69 @@
 		  Compressed="yes"
 		  InstallScope="perUser" />
 
+		<!-- 
+		  Ensure that UAC is enabled.  When it's disabled, the install
+			will APPEAR to work, but the changes in the Windows kernel
+			related to registry virtualization when UAC is disabled will
+			screw up the install in subtle ways.  In particular, the COM
+			object registration won't work correctly.  This is extremely
+			difficult to troubleshoot when it happens, because there are
+			no error messages or other signs of trouble - the	registry
+			updates just go missing without the slightest complaint, and
+			things mysteriously don't work afterwords.
+			
+			We REALLY shouldn't have to worry about users screwing with
+			UAC settings these days, since that was a Windows Vista thing
+			that's long since history.  There were a few years after Vista
+			was released when people legitimately had to go through
+			contortions	with UAC and Run As Administrator to deal with old
+			programs that hadn't yet been updated to work with the higher 
+			security model introduced in Vista.  But it's been almost 20 
+			years now, so there's just no excuse for any current software
+			to ask you turn off UAC as part of its routine usage.  Any
+			program that can't run in a normal, modern Windows environment
+			with UAC enabled is just broken.  Despite this, there are
+			STILL people on the forums handing out advice telling people
+			to turn off UAC and use Run As Administrator mode all the time.
+			It's bad advice, but what can you do.  The correct way to deal 
+			with a program that doesn't work with UAC is to not run that
+			program.  Get a new version that's been fixed to follow
+			modern Windows coding standards, or switch to a different
+			program.
+			
+		  ONLY in case the mode detection fails, the user can override 
+			the test by specifying UACOVERRIDE=1 on the command line:
+			
+			   DofSetup-xxxx.msi UACOVERRIDE=1
+				 
+		  That will bypass the test and allow the install to run without
+			checking for UAC.  This is NOT meant to allow the user to override
+			the UAC test if UAC is actually disabled - if I wanted to do that,
+			I would have made this a warning dialog that you can click through.
+			This is INTENTIONALLY a secret, expert feature, because I don't
+			want users to glibly click through in TL;DR mode without carefully
+			thinking about it.  The override is ONLY for users who actually
+			have UAC enabled properly, but for whom our test yields a false
+			negative saying that UAC is disabled.  Anyone in that situation
+			can ask for help on the forums and I'll privately point them to
+			the override syntax if appropriate.  (Note to other developers:
+			the "privately" part is important.  If the override syntax gets
+			posted in a forum thread, 90% of people who see it will think
+			it's just part of the standard thing you type to run the
+			installer, without understanding its purpose, and the UAC check
+			will lose its value.)
+		-->
+		<Property Id="UACENABLED">
+			<RegistrySearch 
+				Id="UACEnabledVal" Type="raw" Root="HKLM" 
+				Key="Software\Microsoft\Windows\CurrentVersion\Policies\System" 
+				Name="EnableLUA"/>
+		</Property>
+		<Condition
+			Message="ERROR: UAC is disabled on this system. The DOF install won't work properly when UAC is disabled. Please enable UAC and run the install again.">
+			<![CDATA[UACENABLED ~= "#1" OR UACOVERRIDE]]>
+		</Condition>
+		
     <!--
       MSI's default settings allow multiple versions of a program to be
       installed alongside one another simultaneously.  That's what you want
