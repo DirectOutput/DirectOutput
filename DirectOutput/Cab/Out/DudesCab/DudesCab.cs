@@ -346,13 +346,13 @@ namespace DirectOutput.Cab.Out.DudesCab
                         if ((PwmExtensionsMask & (byte)(1 << ext)) != 0) {
                             for (var output = 0; output < PwmMaxOutputsPerExtension; output++) {
                                 if ((masks[curMask] & (ushort)(1 << output)) != 0) {
-                                    this._NumOutputs = Math.Max(this._NumOutputs, (ext * PwmMaxOutputsPerExtension) + output);
+                                    this._NumOutputs = Math.Max(this._NumOutputs, (ext * PwmMaxOutputsPerExtension) + output + 1);
                                 }
                             }
                             curMask++;
                         }
                     }
-                    Log.Write($"    Output configuration received, highest configured output is #{this._NumOutputs +1}");
+                    Log.Write($"    Output configuration received, highest configured output is #{this._NumOutputs}");
                 } else {
                     Log.Warning($"No output configuration received, {this._NumOutputs} will be used, you should update your DudesCab firmware");
                 }
