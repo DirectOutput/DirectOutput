@@ -243,6 +243,7 @@
     <Compile Include="Cab\Out\AdressableLedStrip\LedStripOutput.cs" />
     <Compile Include="Cab\Out\AdressableLedStrip\DirectStripController.cs" />
     <Compile Include="Cab\Out\AdressableLedStrip\TeensyStripController.cs" />
+    <Compile Include="Cab\Out\AdressableLedStrip\UMXController.cs" />
     <Compile Include="Cab\Out\AdressableLedStrip\WemosD1StripController.cs" />
     <Compile Include="Cab\Out\AdressableLedStrip\WS2811StripController.cs" />
     <Compile Include="Cab\Out\ComPort\GenericCom.cs" />
