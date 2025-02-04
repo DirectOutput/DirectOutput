@@ -1,5 +1,7 @@
-﻿using System;
+﻿using DirectOutput.Cab.Out.AdressableLedStrip;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -245,19 +247,20 @@ namespace DirectOutput.Cab.Out.DudesCab
         public class Device
         {
             static byte RID_OUTPUTS = 3;
-            internal enum HIDReportType
+            public enum HIDReportType
             {
                 RT_HANDSHAKE = 1,
-                RT_INFOS,        
+                RT_INFOS,
 
                 //PWM
-                RT_PWM_GETEXTENSIONSINFOS, 
-                RT_PWM_ALLOFF, 
-                RT_PWM_OUTPUTS, 
+                RT_PWM_GETINFOS,
+                RT_PWM_ALLOFF,
+                RT_PWM_OUTPUTS,
 
-                //MX (not implemented yet)
-                RT_MX_GETEXTENSIONSINFOS, 
-                RT_MX_ALLOFF, 
+                //MX 
+                RT_MX_HANDSHAKE,
+                RT_MX_GETINFOS,
+                RT_MX_ALLOFF,
                 RT_MX_OUTPUTS,
 
                 RT_MAX
@@ -277,7 +280,7 @@ namespace DirectOutput.Cab.Out.DudesCab
 
             public int NumOutputs() => _NumOutputs;
 
-            static readonly int hidCommandPrefixSize = 5;
+            static public readonly int hidCommandPrefixSize = 5;
 
             public Device(IntPtr fp, string path, string name, string serial, ushort vendorID, ushort productID, short version)
             {
@@ -324,7 +327,7 @@ namespace DirectOutput.Cab.Out.DudesCab
                 this._NumOutputs = 128;
 
                 //Ask for Pwm Configuration
-                SendCommand(HIDReportType.RT_PWM_GETEXTENSIONSINFOS);
+                SendCommand(HIDReportType.RT_PWM_GETINFOS);
                 answer = ReadUSB().ToArray();
                 var answersize = answer[hidCommandPrefixSize-1];
                 answer = answer.Skip(hidCommandPrefixSize).ToArray();
@@ -362,6 +365,10 @@ namespace DirectOutput.Cab.Out.DudesCab
             private System.Threading.NativeOverlapped ov;
             public byte[] ReadUSB()
             {
+                byte[] incomingData = new byte[0];
+
+                HIDReportType receivedCommand = HIDReportType.RT_MAX;
+
                 for (int tries = 0; tries < 3; ++tries) {
                     uint rptLen = caps.InputReportByteLength;
                     byte[] buf = new byte[rptLen];
@@ -377,8 +384,27 @@ namespace DirectOutput.Cab.Out.DudesCab
                     } else if (actual != rptLen) {
                         Log.Error("DudesCab Controller USB error reading from device: not all bytes received");
                         return null;
-                    } else
-                        return buf;
+                    } else {
+                        byte rid = buf[0];
+                        if (receivedCommand == HIDReportType.RT_MAX)
+                            receivedCommand = (HIDReportType)buf[1];
+                        byte numpart = buf[2];
+                        byte nbparts = buf[3];
+                        byte received = buf[4];
+
+                        if (rid == Device.RID_OUTPUTS) {
+                            if (receivedCommand == (HIDReportType)buf[1]) {
+                                if (numpart == 0) {
+                                    incomingData = buf.Take(received+ hidCommandPrefixSize).ToArray();
+                                } else {
+                                    incomingData = incomingData.Concat(buf.Skip(hidCommandPrefixSize).Take(received).ToArray());
+                                }
+                                if (numpart == nbparts - 1) {
+                                    return incomingData;
+                                }
+                            }
+                        }
+                    }
                 }
 
                 // don't retry more than a few times
@@ -455,6 +481,7 @@ namespace DirectOutput.Cab.Out.DudesCab
             public void AllOff()
             {
                 SendCommand(HIDReportType.RT_PWM_ALLOFF);
+                SendCommand(HIDReportType.RT_MX_ALLOFF);
             }
 
             internal void SendCommand(HIDReportType command, byte[] parameters = null)
@@ -488,6 +515,7 @@ namespace DirectOutput.Cab.Out.DudesCab
             }
 
             public IntPtr fp;
+            public IntPtr fpMX;
             public string path;
             public string name;
             public string serial;
@@ -550,9 +578,6 @@ namespace DirectOutput.Cab.Out.DudesCab
                     HIDImports.HIDD_ATTRIBUTES attrs = new HIDImports.HIDD_ATTRIBUTES();
                     attrs.Size = Marshal.SizeOf(attrs);
                     if (HIDImports.HidD_GetAttributes(fp, ref attrs)) {
-                        // presume this is a DudesCab Controller, then look for reasons it's not
-                        bool ok = true;
-
                         // read the product name string
                         String name = "<not available>";
                         byte[] nameBuf = new byte[128];
@@ -566,21 +591,27 @@ namespace DirectOutput.Cab.Out.DudesCab
                             serial = System.Text.Encoding.Unicode.GetString(serialBuf).TrimEnd('\0');
 
                         // If the vendor and product ID match a DudesCab and
-                        // product name matches "DudesCab Outputs", which id the specific Hid entrypoint for DirectOutput
-                        // and does not have the same serial number as an already enumerated DudesCab (dual cards in enumeration happened)
-                        // then it's a DudesCab controller.
+                        // product name matches "DudesCab Outputs" or "DudesCab MX Outputs", which are the specific Hid entrypoints for DirectOutput
+                        // then it's a DudesCab or DudesCabMX controller.
                         bool isDude = (attrs.VendorID == DudesCab.VendorID && attrs.ProductID == DudesCab.ProductID);
-                        ok &= (isDude && Regex.IsMatch(name, @"DudesCab Outputs"));
-                        ok &= !devices.Any(D => string.Compare(D.serial, serial, StringComparison.InvariantCultureIgnoreCase) == 0);
+                        if (isDude) {
+                            var isDof = Regex.IsMatch(name, @"DudesCab Outputs", RegexOptions.IgnoreCase);
+                            if (isDof) {
+                                var newDevice = new Device(fp, diDetail.DevicePath, name, serial, attrs.VendorID, attrs.ProductID, attrs.VersionNumber);
+                                if (isDof) {
+                                    if (!devices.Any(D => string.Compare(D.serial, serial, StringComparison.InvariantCultureIgnoreCase) == 0)) {
+                                        // add a DudesCab device
+                                        devices.Add(newDevice);
 
-                        // If we passed all tests, this is the output controller interface for
-                        // a DudesCab controller device, so add the device to our list.
-                        if (ok) {
-                            // add the device to our list
-                            devices.Add(new Device(fp, diDetail.DevicePath, name, serial, attrs.VendorID, attrs.ProductID, attrs.VersionNumber));
-
-                            // the device list object owns the handle now
-                            fp = System.IntPtr.Zero;
+                                        // Add a new UMXControll
+                                        var dudeUMX = new UMXDudesCabDevice();
+                                        dudeUMX.Device = newDevice;
+                                        UMXControllerAutoConfigurator.AddUMXDevice(dudeUMX);
+                                    }
+                                } 
+                                // the device list object owns the handle now
+                                fp = System.IntPtr.Zero;
+                            }
                         }
                     }
 

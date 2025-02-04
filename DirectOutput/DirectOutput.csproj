@@ -252,6 +252,7 @@
     <Compile Include="Cab\Out\DMX\ArtNet.cs" />
     <Compile Include="Cab\Out\DudesCab\DudesCab.cs" />
     <Compile Include="Cab\Out\DudesCab\DudesCabAutoConfigurator.cs" />
+    <Compile Include="Cab\Out\DudesCab\UMXDudesCabDevice.cs" />
     <Compile Include="Cab\Out\FTDIChip\FT245RBitbangController.cs" />
     <Compile Include="Cab\Out\FTDIChip\FTDIChip.cs" />
     <Compile Include="Cab\Out\HIDImports.cs" />

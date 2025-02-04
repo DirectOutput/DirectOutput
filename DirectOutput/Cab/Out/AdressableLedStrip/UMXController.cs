@@ -11,9 +11,112 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using DirectOutput.Cab.Out.DudesCab;
+using System.Xml.Linq;
+using DirectOutput.FX;
+using DirectOutput.General;
+using DirectOutput.Cab.Toys.Layer;
+using System.Drawing.Imaging;
+using DirectOutput.Cab.Toys.Hardware;
+using System.Windows.Forms;
 
 namespace DirectOutput.Cab.Out.AdressableLedStrip
 {
+    public abstract class UMXDevice
+    {
+        public enum UMXCommand
+        {
+            UMX_Handshake,
+            UMX_GetInfos,
+            UMX_AllOff,
+            UMX_SendStripsData
+        }
+
+        public class LedStripSplit
+        {
+            public int DataLine { get; set; } = 0;
+            public int NbLeds { get; set; } = 0;
+        }
+
+        public class LedStripDescriptor
+        {
+            public string Name { get; set; } = string.Empty;
+            public int Width { get; set; } = 0;
+            public int Height { get; set; } = 0;
+            public int NbLeds => Width * Height;
+            public int FirstLedIndex { get; set; } = 0;
+            public byte DofOutputNum { get; set; } = 0;
+
+            public Curve.CurveTypeEnum FadeMode { get; set; } = Curve.CurveTypeEnum.SwissLizardsLedCurve;
+            public LedStripArrangementEnum Arrangement { get; set; } = LedStripArrangementEnum.LeftRightTopDown;
+            public RGBOrderEnum ColorOrder { get; set; } = RGBOrderEnum.RBG;
+            public byte Brightness { get; set; } = 100;
+            public List<LedStripSplit> Splits { get; set; } = new List<LedStripSplit>();
+            public int FirstDataline => Splits.Count == 0 ? 0 : Splits.Min(S => S.DataLine);
+        }
+
+        public List<LedStripDescriptor> LedStrips = new List<LedStripDescriptor>();
+
+        public override string ToString()
+        {
+            return $"{name} (unit {unitNo}, ledWiz {ledWizEquivalent}, {numOutputs} outputs)";
+        }
+
+        public int UnitNo()
+        {
+            return unitNo;
+        }
+
+        public int NumOutputs()
+        {
+            return numOutputs;
+        }
+
+        protected void ComputeNumOutputs()
+        {
+            if (numOutputs > 0) 
+                return;
+            numOutputs = 0;
+            foreach(var ledstrip in LedStrips) {
+                numOutputs += ledstrip.Width * ledstrip.Height * 3;
+            }
+        }
+
+        internal bool VerifySettings()
+        {
+            return true;
+        }
+
+        public abstract void Initialize();
+        public abstract void SendCommand(UMXCommand command, byte[] parameters = null);
+
+
+        public string name;
+        public short unitNo;
+        public bool enabled;
+        public int maxNbLeds = int.MaxValue;
+        public int nbLedsUpdatePerLine = int.MaxValue;
+        public int ledWizEquivalent;
+        public int numOutputs = 0;
+        public bool testOnReset = false;
+        public bool testButton = false;
+        public byte testBrightness = 100;
+        public bool activityLed = false;
+    }
+
+    public class UMXSerialDevice : UMXDevice
+    {
+        public override void Initialize()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void SendCommand(UMXCommand command, byte[] parameters = null)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public class UMXController : OutputControllerCompleteBase
     {
         /// <summary>
@@ -72,141 +175,77 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
 
         protected override void ConnectToController()
         {
-            throw new NotImplementedException();
+            this.OldOutputValues = Enumerable.Repeat((byte)255, this.Dev.NumOutputs()).ToArray();
         }
 
         protected override void DisconnectFromController()
         {
-            throw new NotImplementedException();
+            Dev?.SendCommand(UMXDevice.UMXCommand.UMX_AllOff);
         }
 
         protected override int GetNumberOfConfiguredOutputs()
         {
-            throw new NotImplementedException();
+            return Dev.NumOutputs();
         }
 
         protected override void UpdateOutputs(byte[] OutputValues)
         {
-            throw new NotImplementedException();
+            
         }
 
         protected override bool VerifySettings()
         {
-            throw new NotImplementedException();
+            if (Dev == null) return false;
+
+            if (Dev.NumOutputs() == 0) return false;
+
+            if (!Dev.VerifySettings()) return false;
+
+            return true;
+        }
+
+        public void UpdateCabinetFromConfig(Cabinet cabinet)
+        {
+            if (!cabinet.Toys.Any(T => T is LedWizEquivalent && ((LedWizEquivalent)T).LedWizNumber == Dev.ledWizEquivalent)) {
+                //Create LedwizEquivalent
+                LedWizEquivalent LWE = new LedWizEquivalent();
+                LWE.LedWizNumber = Dev.ledWizEquivalent;
+                LWE.Name = $"{Dev.name}#{Dev.unitNo} Equivalent";
+
+                if (!cabinet.Toys.Contains(LWE.Name)) {
+                    cabinet.Toys.Add(LWE);
+                    Log.Write("Added LedwizEquivalent Nr. {0} with name {1} for UMXController Nr. {2}".Build(
+                        LWE.LedWizNumber, LWE.Name, Dev.unitNo) + ", {0}".Build(Dev.LedStrips.Count));
+                }
+
+                //Sort Ledstrip per DataLines
+                Dev.LedStrips.Sort((L1,L2) => L1.FirstDataline-L2.FirstDataline);
+
+                foreach(var ledstripDesc in Dev.LedStrips) {
+                    var ledstrip = new LedStrip() {
+                        Brightness = ledstripDesc.Brightness,
+                        ColorOrder = ledstripDesc.ColorOrder,
+                        FirstLedNumber = ledstripDesc.FirstLedIndex+1,
+                        Height = ledstripDesc.Height,
+                        Width = ledstripDesc.Width,
+                        LedStripArrangement = ledstripDesc.Arrangement,
+                        FadingCurveName = ledstripDesc.FadeMode.ToString(),
+                        Name = $"Ledstrip_StartLed{ledstripDesc.FirstLedIndex + 1}",
+                        OutputControllerName = Name
+                    };
+
+                    cabinet.Toys.Add(ledstrip);
+
+                    LedWizEquivalentOutput LWEO = new LedWizEquivalentOutput() { OutputName = ledstrip.Name, LedWizEquivalentOutputNumber = ledstripDesc.DofOutputNum };
+                    LWE.Outputs.Add(LWEO);
+                }
+            }
+
         }
 
         #region Device
-        public class Device
-        {
-            public override string ToString()
-            {
-                return name + " (unit " + UnitNo() + ")";
-            }
-
-            public int UnitNo()
-            {
-                return unitNo;
-            }
-
-            public int NumOutputs()
-            {
-                return numOutputs;
-            }
-
-            public Device(string path, string name, string serial, string comPort, ushort vendorID, ushort productID, short version)
-            {
-                // remember the settings
-                this.path = path;
-                this.name = name;
-                this.serial = serial;
-                this.comPort = comPort;
-                this.vendorID = vendorID;
-                this.productID = productID;
-                this.version = version;
-
-                //byte[] answer = null;
-
-                ////Send HandShake
-                //SendCommand(HIDReportType.RT_HANDSHAKE);
-                //answer = ReadUSB().Skip(hidCommandPrefixSize).ToArray();
-                //string handShake = Encoding.UTF8.GetString(answer).TrimEnd('\0');
-                //Log.Write($"{name} says : {handShake}");
-
-                ////Ask for Card Infos
-                //SendCommand(HIDReportType.RT_INFOS);
-                //answer = ReadUSB().Skip(hidCommandPrefixSize).ToArray();
-                //Log.Write($"DudesCab Controller Informations : v{answer[0]}.{answer[1]}.{answer[2]}, unit #{answer[3]}, Max extensions {answer[4]}");
-                //unitNo = answer[3];
-                //MaxExtensions = answer[4];
-
-                ////Ask for Pwm Configuration
-                //SendCommand(HIDReportType.RT_PWM_GETEXTENSIONSINFOS);
-                //answer = ReadUSB().Skip(hidCommandPrefixSize).ToArray();
-                //PwmMaxOutputsPerExtension = answer[0];
-                //PwmExtensionsMask = answer[1];
-                //Log.Write($"    Pwm Informations : Max outputs per extensions {PwmMaxOutputsPerExtension}, Extesnion Mask {(int)PwmExtensionsMask:X2}");
-
-                ////// presume we have the standard DudesCab complement of 128 outputs
-                //this.numOutputs = 128;
-            }
-
-            ~Device()
-            {
-                //if (fp.ToInt32() != 0 && fp.ToInt32() != -1) {
-                //    HIDImports.CloseHandle(fp);
-                //    fp = IntPtr.Zero;
-                //}
-            }
-
-            //public void AllOff()
-            //{
-            //    SendCommand(HIDReportType.RT_PWM_ALLOFF);
-            //}
-
-            //internal void SendCommand(HIDReportType command, byte[] parameters = null)
-            //{
-            //    byte[] data = new byte[0];
-            //    if (parameters != null) {
-            //        data = data.ToList().Concat(parameters).ToArray();
-            //    }
-
-            //    //Compute how many parts will be needed to send the command, based on the provided DudesCab caps.
-            //    byte bufferOffset = 5;
-            //    byte partSize = (byte)(caps.OutputReportByteLength - bufferOffset);
-            //    byte nbParts = (byte)((data.Length / partSize) + 1);
-
-            //    //Write the command to USB , splitted into chuncks of caps.OutputReportByteLength
-            //    for (byte i = 0; i < nbParts; i++) {
-            //        byte[] sendData = new byte[bufferOffset];
-            //        sendData[0] = RID_OUTPUTS;
-            //        sendData[1] = (byte)command;
-            //        sendData[2] = i;
-            //        sendData[3] = nbParts;
-            //        byte toSend = (byte)(data.Length > partSize ? partSize : data.Length);
-            //        sendData[4] = toSend;
-            //        var dataPart = data.Take(toSend).ToArray();
-            //        sendData = sendData.Concat(dataPart).ToArray();
-            //        data = data.Skip(toSend).ToArray();
-            //        WriteUSB(sendData);
-            //    }
-            //}
-
-            public string path;
-            public string name;
-            public string serial;
-            public string comPort;
-            public ushort vendorID;
-            public ushort productID;
-            public short version;
-            public short unitNo;
-            public int numOutputs;
-            public int MaxExtensions = 0;
-            public int PwmMaxOutputsPerExtension = 0;
-            public byte PwmExtensionsMask = 0;
-        }
-
         // my device
-        private Device Dev;
+        private UMXDevice Dev;
         #endregion
     }
 
@@ -226,12 +265,20 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             Devices = FindDevices();
         }
 
-        private static List<UMXController.Device> Devices;
+        private static List<UMXDevice> Devices;
+
+        public static void AddUMXDevice(UMXDevice dev)
+        {
+            if (!Devices.Contains(dev)) {
+                dev.unitNo = (short)(Devices.Count + 1);
+                Devices.Add(dev);
+            }
+        }
 
         /// <summary>
         /// Get the list of all DudesCab devices discovered in the system from the Windows USB device scan.
         /// </summary>
-        public static List<UMXController.Device> AllDevices()
+        public static List<UMXDevice> AllDevices()
         {
             return Devices;
         }
@@ -249,18 +296,18 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         }
 
         // Search the Windows USB HID device set for DudesCab controllers
-        private static List<UMXController.Device> FindDevices()
+        private static List<UMXDevice> FindDevices()
         {
             // set up an empty return list
-            List<UMXController.Device> devices = new List<UMXController.Device>();
+            List<UMXDevice> devices = new List<UMXDevice>();
 
             // get the list of devices matching the HID class GUID
             //            Guid guid = new Guid("{88BAE032-5A81-49f0-BC3D-A4FF138216D6}"); ;
-        Guid guid = new Guid("{86E0D1E0-8089-11D0-9CE4-08003E301F73}");
-        //public static readonly Guid GuidForPortsClass = new Guid("{4D36E978-E325-11CE-BFC1-08002BE10318}");
-        //public static readonly Guid GuidForUsbHub = new Guid("{F18A0E88-C30C-11D0-8815-00A0C906BED8}");
-        //            HIDImports.HidD_GetHidGuid(out guid);
-        IntPtr hdev = HIDImports.SetupDiGetClassDevs(ref guid, null, IntPtr.Zero, HIDImports.DIGCF_DEVICEINTERFACE);
+            Guid guid = new Guid("{86E0D1E0-8089-11D0-9CE4-08003E301F73}");
+            //public static readonly Guid GuidForPortsClass = new Guid("{4D36E978-E325-11CE-BFC1-08002BE10318}");
+            //public static readonly Guid GuidForUsbHub = new Guid("{F18A0E88-C30C-11D0-8815-00A0C906BED8}");
+            //            HIDImports.HidD_GetHidGuid(out guid);
+            IntPtr hdev = HIDImports.SetupDiGetClassDevs(ref guid, null, IntPtr.Zero, HIDImports.DIGCF_DEVICEINTERFACE);
 
             // set up the attribute structure buffer
             HIDImports.SP_DEVICE_INTERFACE_DATA diData = new HIDImports.SP_DEVICE_INTERFACE_DATA();
@@ -359,32 +406,15 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         /// <param name="Cabinet">The cabinet object to which the automatically detected IOutputController objects are added if necessary.</param>
         public void AutoConfig(Cabinet Cabinet)
         {
-            const int UnitBias = 89;
             List<int> Preconfigured = new List<int>(Cabinet.OutputControllers.Where(OC => OC is UMXController).Select(C => ((UMXController)C).Number));
-            IEnumerable<int> Numbers = UMXControllerAutoConfigurator.AllDevices().Select(d => d.UnitNo());
-            foreach (int N in Numbers) {
-                if (!Preconfigured.Contains(N)) {
-                    UMXController umxC = new UMXController(N);
+            foreach (var device in UMXControllerAutoConfigurator.AllDevices()) {
+                if (!Preconfigured.Contains(device.UnitNo())) {
+                    UMXController umxC = new UMXController(device.UnitNo());
                     if (!Cabinet.OutputControllers.Contains(umxC.Name)) {
                         Cabinet.OutputControllers.Add(umxC);
-                        Log.Write("Detected and added DudesCab Controller Nr. {0} with name {1}".Build(umxC.Number, umxC.Name));
-
-                        if (!Cabinet.Toys.Any(T => T is LedWizEquivalent && ((LedWizEquivalent)T).LedWizNumber == umxC.Number + UnitBias)) {
-                            LedWizEquivalent LWE = new LedWizEquivalent();
-                            LWE.LedWizNumber = umxC.Number + UnitBias;
-                            LWE.Name = "{0} Equivalent".Build(umxC.Name);
-
-                            //for (int i = 1; i <= umxC.NumberOfOutputs; i++) {
-                            //    LedWizEquivalentOutput LWEO = new LedWizEquivalentOutput() { OutputName = "{0}\\{0}.{1:00}".Build(umxC.Name, i), LedWizEquivalentOutputNumber = i };
-                            //    LWE.Outputs.Add(LWEO);
-                            //}
-
-                            //if (!Cabinet.Toys.Contains(LWE.Name)) {
-                            //    Cabinet.Toys.Add(LWE);
-                            //    Log.Write("Added LedwizEquivalent Nr. {0} with name {1} for DudesCab Controller Nr. {2}".Build(
-                            //        LWE.LedWizNumber, LWE.Name, umxC.Number) + ", {0}".Build(umxC.NumberOfOutputs));
-                            //}
-                        }
+                        Log.Write("Detected and added UMX Controller Nr. {0} with name {1}".Build(umxC.Number, umxC.Name));
+                        device.Initialize();
+                        umxC.UpdateCabinetFromConfig(Cabinet);
                     }
                 }
             }
