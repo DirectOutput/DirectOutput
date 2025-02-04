@@ -106,10 +106,16 @@ namespace DirectOutput.Cab.Out.DudesCab
                     LedStrips.Add(ledstrip);
                 }
                 ComputeNumOutputs();
+                BuildDataLines();
                 Log.Write($"{LedStrips.Count} ledstrips ({totalLeds} leds, {numOutputs} outputs) configured");
             } catch (Exception e) {
                 throw new Exception(e.Message);
             }
+        }
+
+        private void BuildDataLines()
+        {
+            
         }
 
         public override void SendCommand(UMXCommand command, byte[] parameters = null)
