@@ -309,7 +309,12 @@ namespace DirectOutput
         /// <param name="Message">The message to be written to the log file.</param>
         public static void Instrumentation(string key, string Message)
         {
-            if (_ActiveInstrumentations.Contains(key) || _ActiveInstrumentations.Contains("*"))
+            bool writeMessage = _ActiveInstrumentations.Contains("*");
+            if (!writeMessage) {
+                var keys = key.Split(',');
+                writeMessage = keys.Intersect(_ActiveInstrumentations, StringComparer.OrdinalIgnoreCase).Count() == keys.Count();
+            }
+            if (writeMessage)
                 Write($"Debug [{key}]: {Message}");
         }
 
