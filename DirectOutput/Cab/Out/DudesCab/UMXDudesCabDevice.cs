@@ -14,41 +14,12 @@ namespace DirectOutput.Cab.Out.DudesCab
 {
     public class UMXDudesCabDevice : UMXDevice
     {
-        internal bool ReadBool(byte[] data, ref int index)
-        {
-            return data[index++] > 0 ? true : false;
-        }
-        internal byte ReadByte(byte[] data, ref int index)
-        {
-            return data[index++];
-        }
-        internal short ReadShort(byte[] data, ref int index)
-        {
-            return (short)(data[index++] | (data[index++] << 8));
-        }
-        internal int ReadLong(byte[] data, ref int index)
-        {
-            return (data[index++] | (data[index++] << 8) | (data[index++] << 16) | (data[index++] << 24));
-        }
-
-        internal string ReadString(byte[] data, ref int index)
-        {
-            string strRead = string.Empty;
-            byte len = data[index++];
-            if (len > 0) {
-                for (int i = 0; i < len; i++) {
-                    strRead += (char)data[index++];
-                }
-            }
-            return strRead;
-        }
-
         public override void Initialize()
         {
             byte[] answer = null;
 
             //Handshak
-            _device.SendCommand(HIDReportType.RT_MX_HANDSHAKE);
+            _device.SendCommand(HIDReportTypeMx.RT_UMXHANDSHAKE);
             answer = _device.ReadUSB().ToArray();
             answer = answer.Skip(hidCommandPrefixSize).ToArray();
             string handShake = Encoding.UTF8.GetString(answer).Trim('\0');
@@ -56,18 +27,19 @@ namespace DirectOutput.Cab.Out.DudesCab
             name = $"UMXDudesCab[{_device.name}]";
 
             //Ask for Configuration
-            _device.SendCommand(HIDReportType.RT_MX_GETINFOS);
+            _device.SendCommand(HIDReportTypeMx.RT_MX_GETINFOS);
             answer = _device.ReadUSB().ToArray();
             answer = answer.Skip(hidCommandPrefixSize).ToArray();
             try {
                 int index = 0;
                 enabled = ReadBool(answer, ref index);
+                maxDataLines = ReadByte(answer, ref index);
                 maxNbLeds = ReadLong(answer, ref index);
                 nbLedsUpdatePerLine = ReadLong(answer, ref index);
                 ledWizEquivalent = ReadByte(answer, ref index); ;
                 testOnReset = ReadBool(answer, ref index);
                 testBrightness = ReadByte(answer, ref index);
-                Log.Write($"Name: {name}, Enabled: {enabled}, MaxNbLeds: {maxNbLeds}, Max Parallel Led Updates: {nbLedsUpdatePerLine}/s");
+                Log.Write($"Name: {name}, Enabled: {enabled}, MaxDataLines: {maxDataLines}, MaxNbLeds: {maxNbLeds}, Max Parallel Led Updates: {nbLedsUpdatePerLine}/s");
                 Log.Write($"LedWizEquivalent: {ledWizEquivalent}, TestOnReset: {testOnReset}, TestBrightness: {testBrightness}");
                 var nbLedstrips = ReadByte(answer, ref index);
                 Log.Write($"{nbLedstrips} ledstrips :");
@@ -106,21 +78,31 @@ namespace DirectOutput.Cab.Out.DudesCab
                     LedStrips.Add(ledstrip);
                 }
                 ComputeNumOutputs();
-                BuildDataLines();
                 Log.Write($"{LedStrips.Count} ledstrips ({totalLeds} leds, {numOutputs} outputs) configured");
             } catch (Exception e) {
                 throw new Exception(e.Message);
             }
         }
 
-        private void BuildDataLines()
-        {
-            
-        }
-
         public override void SendCommand(UMXCommand command, byte[] parameters = null)
         {
-            throw new NotImplementedException();
+            switch (command) {
+                case UMXCommand.UMX_SendStripsData:
+                    _device.SendCommand(HIDReportTypeMx.RT_MX_OUTPUTS, parameters);
+                    break;
+
+                case UMXCommand.UMX_AllOff:
+                    _device.SendCommand(HIDReportTypeMx.RT_MX_ALLOFF, parameters);
+                    break;
+
+                case UMXCommand.UMX_Handshake:
+                    _device.SendCommand(HIDReportTypeMx.RT_UMXHANDSHAKE, parameters);
+                    break;
+
+                case UMXCommand.UMX_GetInfos:
+                    _device.SendCommand(HIDReportTypeMx.RT_MX_GETINFOS, parameters);
+                    break;
+            }
         }
 
         DudesCab.Device _device = null;

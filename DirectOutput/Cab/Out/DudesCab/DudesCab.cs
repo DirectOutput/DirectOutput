@@ -246,8 +246,14 @@ namespace DirectOutput.Cab.Out.DudesCab
 
         public class Device
         {
-            static byte RID_OUTPUTS = 3;
-            public enum HIDReportType
+            public enum RIDType : byte
+            {
+                None = 0,
+                RIDOutputs = 3,
+                RIDOutputsMx = 5
+            };
+
+            public enum HIDReportType : byte
             {
                 RT_HANDSHAKE = 1,
                 RT_INFOS,
@@ -257,18 +263,26 @@ namespace DirectOutput.Cab.Out.DudesCab
                 RT_PWM_ALLOFF,
                 RT_PWM_OUTPUTS,
 
+                RT_MAX
+            };
+
+            public enum HIDReportTypeMx : byte
+            {
+                RT_HANDSHAKE = 1,
+                RT_INFOS,
+
                 //MX 
-                RT_MX_HANDSHAKE,
+                RT_UMXHANDSHAKE,
                 RT_MX_GETINFOS,
                 RT_MX_ALLOFF,
                 RT_MX_OUTPUTS,
 
                 RT_MAX
-            };
+            }
 
             public override string ToString()
             {
-                return name + " (unit " + UnitNo() + ")";
+                return $"{devicename} (name: {name} unit:{UnitNo()})";
             }
 
             public int UnitNo()
@@ -276,18 +290,48 @@ namespace DirectOutput.Cab.Out.DudesCab
                 return unitNo;
             }
 
+            public static bool ReadBool(byte[] data, ref int index)
+            {
+                return data[index++] > 0 ? true : false;
+            }
+            public static byte ReadByte(byte[] data, ref int index)
+            {
+                return data[index++];
+            }
+            public static short ReadShort(byte[] data, ref int index)
+            {
+                return (short)(data[index++] | (data[index++] << 8));
+            }
+            public static int ReadLong(byte[] data, ref int index)
+            {
+                return (data[index++] | (data[index++] << 8) | (data[index++] << 16) | (data[index++] << 24));
+            }
+            public static string ReadString(byte[] data, ref int index)
+            {
+                string strRead = string.Empty;
+                byte len = data[index++];
+                if (len > 0) {
+                    for (int i = 0; i < len; i++) {
+                        strRead += (char)data[index++];
+                    }
+                }
+                return strRead;
+            }
+
+
             private int _NumOutputs = 128;
 
             public int NumOutputs() => _NumOutputs;
 
             static public readonly int hidCommandPrefixSize = 5;
 
-            public Device(IntPtr fp, string path, string name, string serial, ushort vendorID, ushort productID, short version)
+            public Device(RIDType rid, IntPtr fp, string path, string name, string serial, ushort vendorID, ushort productID, short version)
             {
                 // remember the settings
+                this.deviceRid = rid;
                 this.fp = fp;
                 this.path = path;
-                this.name = name;
+                this.devicename = name;
                 this.serial = serial;
                 this.vendorID = vendorID;
                 this.productID = productID;
@@ -319,47 +363,10 @@ namespace DirectOutput.Cab.Out.DudesCab
                 //Ask for Card Infos
                 SendCommand(HIDReportType.RT_INFOS);
                 answer = ReadUSB().Skip(hidCommandPrefixSize).ToArray();
-                Log.Write($"DudesCab Controller Informations : Name [{this.name}], v{answer[0]}.{answer[1]}.{answer[2]}, unit #{answer[3]}, Max extensions {answer[4]}");
+                Log.Write($"DudesCab Controller Informations : Device [{this.devicename},RID:{this.deviceRid}] Name [{this.name}], v{answer[0]}.{answer[1]}.{answer[2]}, unit #{answer[3]}, Max extensions {answer[4]}");
                 unitNo = answer[3];
                 MaxExtensions = answer[4];
-
-                //// presume we have the standard DudesCab complement of 128 outputs
-                this._NumOutputs = 128;
-
-                //Ask for Pwm Configuration
-                SendCommand(HIDReportType.RT_PWM_GETINFOS);
-                answer = ReadUSB().ToArray();
-                var answersize = answer[hidCommandPrefixSize-1];
-                answer = answer.Skip(hidCommandPrefixSize).ToArray();
-                PwmMaxOutputsPerExtension = answer[0];
-                PwmExtensionsMask = answer[1];
-                Log.Write($"    Pwm Informations : Max outputs per extensions {PwmMaxOutputsPerExtension}, Extension Mask 0x{(int)PwmExtensionsMask:X2}");
-                if (answersize > 2) {
-                    //Get Outputmasks and process remaps
-                    var nbMasks = answer[2];
-                    var maskSize = answer[3];
-                    var masks = new ushort[nbMasks];
-                    for (int mask = 0; mask < nbMasks; mask++) {
-                        masks[mask] = (ushort)(answer[4 + (2 * mask)] + (answer[4 + (2 * mask) + 1] << 8));
-                    }
-                    var curMask = 0;
-
-                    this._NumOutputs = 0;
-                    for (var ext = 0; ext < MaxExtensions; ext++) {
-                        if ((PwmExtensionsMask & (byte)(1 << ext)) != 0) {
-                            for (var output = 0; output < PwmMaxOutputsPerExtension; output++) {
-                                if ((masks[curMask] & (ushort)(1 << output)) != 0) {
-                                    this._NumOutputs = Math.Max(this._NumOutputs, (ext * PwmMaxOutputsPerExtension) + output + 1);
-                                }
-                            }
-                            curMask++;
-                        }
-                    }
-                    Log.Write($"    Output configuration received, highest configured output is #{this._NumOutputs}");
-                } else {
-                    Log.Warning($"No output configuration received, {this._NumOutputs} will be used, you should update your DudesCab firmware");
-                }
-
+                firmwareVersion = new Version(answer[0], answer[1], answer[2]);
             }
 
             private System.Threading.NativeOverlapped ov;
@@ -367,7 +374,7 @@ namespace DirectOutput.Cab.Out.DudesCab
             {
                 byte[] incomingData = new byte[0];
 
-                HIDReportType receivedCommand = HIDReportType.RT_MAX;
+                byte receivedCommand = 0;
 
                 for (int tries = 0; tries < 3; ++tries) {
                     uint rptLen = caps.InputReportByteLength;
@@ -386,16 +393,17 @@ namespace DirectOutput.Cab.Out.DudesCab
                         return null;
                     } else {
                         byte rid = buf[0];
-                        if (receivedCommand == HIDReportType.RT_MAX)
-                            receivedCommand = (HIDReportType)buf[1];
-                        byte numpart = buf[2];
-                        byte nbparts = buf[3];
-                        byte received = buf[4];
 
-                        if (rid == Device.RID_OUTPUTS) {
-                            if (receivedCommand == (HIDReportType)buf[1]) {
+                        if (rid == (byte)deviceRid) {
+                            byte numpart = buf[2];
+                            if (numpart == 0)
+                                receivedCommand = buf[1];
+                            byte nbparts = buf[3];
+                            byte received = buf[4];
+
+                            if (receivedCommand == buf[1]) {
                                 if (numpart == 0) {
-                                    incomingData = buf.Take(received+ hidCommandPrefixSize).ToArray();
+                                    incomingData = buf.Take(received + hidCommandPrefixSize).ToArray();
                                 } else {
                                     incomingData = incomingData.Concat(buf.Skip(hidCommandPrefixSize).Take(received).ToArray());
                                 }
@@ -442,6 +450,47 @@ namespace DirectOutput.Cab.Out.DudesCab
                 }
             }
 
+            public void ReadPwmOutputsConfig()
+            {
+                //// presume we have the standard DudesCab complement of 128 outputs
+                this._NumOutputs = 128;
+
+                byte[] answer = null;
+                //Ask for Pwm Configuration
+                SendCommand(HIDReportType.RT_PWM_GETINFOS);
+                answer = ReadUSB().ToArray();
+                var answersize = answer[hidCommandPrefixSize - 1];
+                answer = answer.Skip(hidCommandPrefixSize).ToArray();
+                PwmMaxOutputsPerExtension = answer[0];
+                PwmExtensionsMask = answer[1];
+                Log.Write($"    Pwm Informations : Max outputs per extensions {PwmMaxOutputsPerExtension}, Extension Mask 0x{(int)PwmExtensionsMask:X2}");
+                if (answersize > 2) {
+                    //Get Outputmasks and process remaps
+                    var nbMasks = answer[2];
+                    var maskSize = answer[3];
+                    var masks = new ushort[nbMasks];
+                    for (int mask = 0; mask < nbMasks; mask++) {
+                        masks[mask] = (ushort)(answer[4 + (2 * mask)] + (answer[4 + (2 * mask) + 1] << 8));
+                    }
+                    var curMask = 0;
+
+                    this._NumOutputs = 0;
+                    for (var ext = 0; ext < MaxExtensions; ext++) {
+                        if ((PwmExtensionsMask & (byte)(1 << ext)) != 0) {
+                            for (var output = 0; output < PwmMaxOutputsPerExtension; output++) {
+                                if ((masks[curMask] & (ushort)(1 << output)) != 0) {
+                                    this._NumOutputs = Math.Max(this._NumOutputs, (ext * PwmMaxOutputsPerExtension) + output + 1);
+                                }
+                            }
+                            curMask++;
+                        }
+                    }
+                    Log.Write($"    Output configuration received, highest configured output is #{this._NumOutputs}");
+                } else {
+                    Log.Warning($"No output configuration received, {this._NumOutputs} will be used, you should update your DudesCab firmware");
+                }
+            }
+
             private IntPtr OpenFile()
             {
                 return HIDImports.CreateFile(
@@ -454,7 +503,7 @@ namespace DirectOutput.Cab.Out.DudesCab
                 // if the last error is 6 ("invalid handle"), try re-opening it
                 if (Marshal.GetLastWin32Error() == 6) {
                     // try opening a new handle on the device path
-                    Log.Error("DudesCab Controller: invalid handle on read; trying to reopen handle");
+                    Log.Error($"DudesCab Controller ({name}): invalid handle on read; trying to reopen handle");
                     IntPtr fp2 = OpenFile();
 
                     // if that succeeded, replace the old handle with the new one and retry the read
@@ -481,17 +530,32 @@ namespace DirectOutput.Cab.Out.DudesCab
             public void AllOff()
             {
                 SendCommand(HIDReportType.RT_PWM_ALLOFF);
-                SendCommand(HIDReportType.RT_MX_ALLOFF);
+                SendCommand(HIDReportTypeMx.RT_MX_ALLOFF);
             }
 
-            internal void SendCommand(HIDReportType command, byte[] parameters = null)
+            internal void SendCommand(HIDReportType command, byte[] paramaters = null)
+            {
+                SendCommand(deviceRid, (byte)command, paramaters);
+            }
+
+            internal void SendCommand(HIDReportTypeMx command, byte[] paramaters = null)
+            {
+                if (SupportMx())
+                    SendCommand(deviceRid, (byte)command, paramaters);
+            }
+
+            private void SendCommand(RIDType rid, byte command, byte[] parameters = null)
             {
                 byte[] data = new byte[0];
                 if (parameters != null) {
                     data = data.ToList().Concat(parameters).ToArray();
                 }
 
-                Log.Instrumentation("DudesCab", $"DudesCab SendCommand: {command}, [{string.Join(",", data.ToArray())}]");
+                if (rid == RIDType.RIDOutputs) {
+                    Log.Instrumentation("DudesCab", $"DudesCab SendCommand: {command}, [{string.Join(",", data.ToArray())}]");
+                } else {
+                    Log.Instrumentation("DudesCab,Mx", $"DudesCab SendCommand: {command}, [{string.Join(",", data.ToArray())}]");
+                }
 
                 //Compute how many parts will be needed to send the command, based on the provided DudesCab caps.
                 byte bufferOffset = 5;
@@ -501,8 +565,8 @@ namespace DirectOutput.Cab.Out.DudesCab
                 //Write the command to USB , splitted into chuncks of caps.OutputReportByteLength
                 for (byte i = 0; i < nbParts; i++) {
                     byte[] sendData = new byte[bufferOffset];
-                    sendData[0] = RID_OUTPUTS;
-                    sendData[1] = (byte)command;
+                    sendData[0] = (byte)rid;
+                    sendData[1] = command;
                     sendData[2] = i;
                     sendData[3] = nbParts;
                     byte toSend = (byte)(data.Length > partSize ? partSize : data.Length);
@@ -515,8 +579,8 @@ namespace DirectOutput.Cab.Out.DudesCab
             }
 
             public IntPtr fp;
-            public IntPtr fpMX;
             public string path;
+            public string devicename;
             public string name;
             public string serial;
             public ushort vendorID;
@@ -524,9 +588,18 @@ namespace DirectOutput.Cab.Out.DudesCab
             public short version;
             public short unitNo;
             internal HIDImports.HIDP_CAPS caps = new HIDImports.HIDP_CAPS();
+            public RIDType  deviceRid = RIDType.RIDOutputs;
             public int MaxExtensions = 0;
             public int PwmMaxOutputsPerExtension = 0;
             public byte PwmExtensionsMask = 0;
+            public Version firmwareVersion = new Version(0,0,0);
+
+            private readonly Version minimalMxVersion = new Version(1,2,0);
+
+            internal bool SupportMx()
+            {
+                return firmwareVersion >= minimalMxVersion;
+            }
         }
 
         #endregion
@@ -546,6 +619,7 @@ namespace DirectOutput.Cab.Out.DudesCab
         private static List<Device> FindDevices()
         {
             // set up an empty return list
+            List<Device> dudedevices = new List<Device>();
             List<Device> devices = new List<Device>();
 
             // get the list of devices matching the HID class GUID
@@ -595,20 +669,30 @@ namespace DirectOutput.Cab.Out.DudesCab
                         // then it's a DudesCab or DudesCabMX controller.
                         bool isDude = (attrs.VendorID == DudesCab.VendorID && attrs.ProductID == DudesCab.ProductID);
                         if (isDude) {
-                            var isDof = Regex.IsMatch(name, @"DudesCab Outputs", RegexOptions.IgnoreCase);
-                            if (isDof) {
-                                var newDevice = new Device(fp, diDetail.DevicePath, name, serial, attrs.VendorID, attrs.ProductID, attrs.VersionNumber);
-                                if (isDof) {
-                                    if (!devices.Any(D => string.Compare(D.serial, serial, StringComparison.InvariantCultureIgnoreCase) == 0)) {
-                                        // add a DudesCab device
-                                        devices.Add(newDevice);
-
-                                        // Add a new UMXControll
+                            var deviceRid = Device.RIDType.None;
+                            if (string.Compare(name, "DudesCab Outputs", StringComparison.InvariantCultureIgnoreCase) == 0)
+                                deviceRid = Device.RIDType.RIDOutputs;
+                            else if (string.Compare(name, "DudesCab Outputs MX", StringComparison.InvariantCultureIgnoreCase) == 0)
+                                deviceRid = Device.RIDType.RIDOutputsMx;
+                            if (deviceRid != Device.RIDType.None && 
+                                !dudedevices.Any(D =>
+                                    D.deviceRid == deviceRid &&
+                                    string.Compare(D.serial, serial, StringComparison.InvariantCultureIgnoreCase) == 0 &&
+                                    string.Compare(D.devicename, name, StringComparison.InvariantCultureIgnoreCase) == 0
+                                    )) {
+                                var newDevice = new Device(deviceRid, fp, diDetail.DevicePath, name, serial, attrs.VendorID, attrs.ProductID, attrs.VersionNumber);
+                                dudedevices.Add(newDevice);
+                                if (deviceRid == Device.RIDType.RIDOutputs) {
+                                    newDevice.ReadPwmOutputsConfig();
+                                    devices.Add(newDevice);
+                                } else if (deviceRid == Device.RIDType.RIDOutputsMx) {
+                                    if (newDevice.SupportMx()) {
+                                        // Add a new UMXDevice
                                         var dudeUMX = new UMXDudesCabDevice();
                                         dudeUMX.Device = newDevice;
                                         UMXControllerAutoConfigurator.AddUMXDevice(dudeUMX);
                                     }
-                                } 
+                                }
                                 // the device list object owns the handle now
                                 fp = System.IntPtr.Zero;
                             }
