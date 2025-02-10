@@ -112,6 +112,9 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
 
         internal void UpdateOutputs(byte[] outputValues)
         {
+            if (!enabled) 
+                return;
+
             //Clear current values
             foreach(DataLine line in DataLines) {
                 if (line.NbValues > 0) {
@@ -197,7 +200,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                         newList.Add(b);
                     }
                 }
-            } catch (Exception e) {
+            } catch {
                 newList.Clear();
             }
             return newList;

@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using static DirectOutput.Cab.Out.DudesCab.DudesCab.Device;
 
 namespace DirectOutput.Cab.Out.DudesCab
 {
@@ -236,8 +237,13 @@ namespace DirectOutput.Cab.Out.DudesCab
         protected override void DisconnectFromController()
         {
             // if we've generated any updates, send an All Off signal
-            if (InUseState == InUseStates.Running)
+            if (InUseState == InUseStates.Running) {
+                if (Log.HasInstrumentations("DudesCab")) {
+                    Log.Write($"Clear the DudesCab forced LogLevel");
+                    Dev.SendCommand(HIDCommonReportType.RT_FORCELOGLEVEL, new byte[] { (byte)DudesCabLogLevel.None });
+                }
                 Dev.AllOff();
+            }
         }
 
         #endregion
@@ -253,13 +259,28 @@ namespace DirectOutput.Cab.Out.DudesCab
                 RIDOutputsMx = 5
             };
 
-            public enum HIDReportType : byte
+            public enum HIDCommonReportType : byte
             {
                 RT_HANDSHAKE = 1,
-                RT_INFOS,
+                RT_VERSION,
+                RT_GetSTATUS,
+                RT_FORCELOGLEVEL,
+                RT_MAX
+            };
 
+            public enum DudesCabLogLevel : byte
+            {
+                None = 0,
+                Errors,
+                Warnings,
+                Infos,
+                Debug
+            };
+
+            public enum HIDReportType : byte
+            {
                 //PWM
-                RT_PWM_GETINFOS,
+                RT_PWM_GETINFOS = HIDCommonReportType.RT_MAX,
                 RT_PWM_ALLOFF,
                 RT_PWM_OUTPUTS,
 
@@ -268,11 +289,8 @@ namespace DirectOutput.Cab.Out.DudesCab
 
             public enum HIDReportTypeMx : byte
             {
-                RT_HANDSHAKE = 1,
-                RT_INFOS,
-
                 //MX 
-                RT_UMXHANDSHAKE,
+                RT_UMXHANDSHAKE = HIDCommonReportType.RT_MAX,
                 RT_MX_GETINFOS,
                 RT_MX_ALLOFF,
                 RT_MX_OUTPUTS,
@@ -348,7 +366,7 @@ namespace DirectOutput.Cab.Out.DudesCab
                 byte[] answer = null;
 
                 //Send HandShake
-                SendCommand(HIDReportType.RT_HANDSHAKE);
+                SendCommand(HIDCommonReportType.RT_HANDSHAKE);
                 answer = ReadUSB().Skip(hidCommandPrefixSize).ToArray();
                 string handShake = Encoding.UTF8.GetString(answer).TrimEnd('\0');
                 var splits = handShake.Split('|');
@@ -361,12 +379,18 @@ namespace DirectOutput.Cab.Out.DudesCab
                 Log.Write($"{this.name} says : {handShake}");
 
                 //Ask for Card Infos
-                SendCommand(HIDReportType.RT_INFOS);
+                SendCommand(HIDCommonReportType.RT_VERSION);
                 answer = ReadUSB().Skip(hidCommandPrefixSize).ToArray();
                 Log.Write($"DudesCab Controller Informations : Device [{this.devicename},RID:{this.deviceRid}] Name [{this.name}], v{answer[0]}.{answer[1]}.{answer[2]}, unit #{answer[3]}, Max extensions {answer[4]}");
                 unitNo = answer[3];
                 MaxExtensions = answer[4];
                 firmwareVersion = new Version(answer[0], answer[1], answer[2]);
+
+                //Force Logging from the card if there is a DudesCab Instrumentation
+                if (Log.HasInstrumentations("DudesCab")) {
+                    Log.Write($"Forcing DudesCab LogLevel to DEBUG due to Instrumentation activation");
+                    SendCommand(HIDCommonReportType.RT_FORCELOGLEVEL, new byte[] { (byte)DudesCabLogLevel.Debug });
+                }
             }
 
             private System.Threading.NativeOverlapped ov;
@@ -534,6 +558,10 @@ namespace DirectOutput.Cab.Out.DudesCab
                 SendCommand(HIDReportTypeMx.RT_MX_ALLOFF);
             }
 
+            internal void SendCommand(HIDCommonReportType command, byte[] paramaters = null)
+            {
+                SendCommand(deviceRid, (byte)command, paramaters);
+            }
             internal void SendCommand(HIDReportType command, byte[] paramaters = null)
             {
                 SendCommand(deviceRid, (byte)command, paramaters);

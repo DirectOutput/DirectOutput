@@ -292,30 +292,39 @@ namespace DirectOutput
         }
 
         /// <summary>
+        /// Will return if all provided instrumentation keys are part of the instrumentations provided
+        /// in the GlobalConfig.xml file.
+        ///
+        /// The &lt;Instrumentation&gt; element in the config file can also be set to a
+        /// single asterisk (*) to enable ALL of the instrumentation keys.  That means
+        /// that you shouldn't use "*" as an actual message key, of course.
+        /// </summary>
+        /// <param name="keys">The instrumentation keys.  This is an arbitrary string identifying the instrumentation source, to determine whether or not to include the message in the log.</param>
+        public static bool HasInstrumentations(string keys)
+        {
+            if (_ActiveInstrumentations.Contains("*"))
+                return true;
+            var keysSplit= keys.Split(',');
+            return keysSplit.Intersect(_ActiveInstrumentations, StringComparer.OrdinalIgnoreCase).Count() == keysSplit.Count();
+        }
+
+        /// <summary>
         /// Writes the specified instrumentation debug message to the log file, ONLY IF the
-        /// provided key is one of the keys specified in the &lt;Instrumentation&gt; element
-        /// in the GlobalConfig.xml file.  If the key isn't listed there, the message is
+        /// provided keys are all present within the keys specified in the &lt;Instrumentation&gt; element
+        /// in the GlobalConfig.xml file.  If the keys aren't listed there, the message is
         /// suppressed.  This can be used for debugging messages that you don't want to
         /// include in the log EXCEPT during development work, or when helping a user
         /// troubleshoot a problem that requires visibility into low-level details.  This
         /// is especially useful for messages that are generated many times during a
         /// session, such as messages generated every time an output port is triggered.
         ///
-        /// The &lt;Instrumentation&gt; element in the config file can also be set to a
-        /// single asterisk (*) to enable ALL of the instrumentation keys.  That means
-        /// that you shouldn't use "*" as an actual message key, of course.
         /// </summary>
-        /// <param name="key">The instrumentation key.  This is an arbitrary string identifying the instrumentation source, to determine whether or not to include the message in the log.</param>
+        /// <param name="keys">The instrumentation keys.  This is an arbitrary string identifying the instrumentation source, to determine whether or not to include the message in the log.</param>
         /// <param name="Message">The message to be written to the log file.</param>
-        public static void Instrumentation(string key, string Message)
+        public static void Instrumentation(string keys, string Message)
         {
-            bool writeMessage = _ActiveInstrumentations.Contains("*");
-            if (!writeMessage) {
-                var keys = key.Split(',');
-                writeMessage = keys.Intersect(_ActiveInstrumentations, StringComparer.OrdinalIgnoreCase).Count() == keys.Count();
-            }
-            if (writeMessage)
-                Write($"Debug [{key}]: {Message}");
+            if (HasInstrumentations(keys))
+                Write($"Debug [{keys}]: {Message}");
         }
 
         /// <summary>
