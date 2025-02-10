@@ -375,8 +375,8 @@ namespace DirectOutput.Cab.Out.DudesCab
                 byte[] incomingData = new byte[0];
 
                 byte receivedCommand = 0;
-
-                for (int tries = 0; tries < 3; ++tries) {
+                DateTime startRead = DateTime.Now;
+                while (DateTime.Now - startRead < TimeSpan.FromSeconds(10)) {
                     uint rptLen = caps.InputReportByteLength;
                     byte[] buf = new byte[rptLen];
                     buf[0] = 0x00;
@@ -421,7 +421,8 @@ namespace DirectOutput.Cab.Out.DudesCab
 
             public bool WriteUSB(byte[] buf)
             {
-                for (int tries = 0; tries < 3; ++tries) {
+                DateTime startRead = DateTime.Now;
+                while (DateTime.Now - startRead < TimeSpan.FromSeconds(10)) {
                     UInt32 actual;
                     if (HIDImports.WriteFile(fp, buf, caps.OutputReportByteLength, out actual, ref ov) == 0) {
                         // try re-opening the handle, if it's an "invalid handle" error

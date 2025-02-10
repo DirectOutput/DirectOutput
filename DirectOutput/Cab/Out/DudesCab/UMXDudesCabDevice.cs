@@ -66,7 +66,7 @@ namespace DirectOutput.Cab.Out.DudesCab
                     }
                     curLedIndex += ledstrip.NbLeds;
                     totalLeds += ledstrip.NbLeds;
-                    Log.Write($"\t{numStrip} => W/H:{ledstrip.Width}*{ledstrip.Height} ({ledstrip.NbLeds} leds), FirstLed: {ledstrip.FirstLedIndex}, Dof:{ledstrip.DofOutputNum}, Brightness:{ledstrip.Brightness} [{ledstrip.FadeMode},{ledstrip.Arrangement},{ledstrip.ColorOrder}]");
+                    Log.Write($"\t[{numStrip}] {ledstrip.Name} => W/H:{ledstrip.Width}/{ledstrip.Height} ({ledstrip.NbLeds} leds), FirstLed: {ledstrip.FirstLedIndex}, Dof:{ledstrip.DofOutputNum}, Brightness:{ledstrip.Brightness} [{ledstrip.FadeMode},{ledstrip.Arrangement},{ledstrip.ColorOrder}]");
                     if (nbSplits == 1) {
                         Log.Write($"\t\t1 split : {ledstrip.Splits.Last().NbLeds} leds on line {ledstrip.Splits.Last().DataLine}");
                     } else {
