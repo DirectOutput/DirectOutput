@@ -238,7 +238,7 @@ namespace DirectOutput.Cab.Out.DudesCab
         {
             // if we've generated any updates, send an All Off signal
             if (InUseState == InUseStates.Running) {
-                if (Log.HasInstrumentations("DudesCab")) {
+                if (Log.HasInstrumentations("DudesCabLog")) {
                     Log.Write($"Clear the DudesCab forced LogLevel");
                     Dev.SendCommand(HIDCommonReportType.RT_FORCELOGLEVEL, new byte[] { (byte)DudesCabLogLevel.None });
                 }
@@ -387,7 +387,7 @@ namespace DirectOutput.Cab.Out.DudesCab
                 firmwareVersion = new Version(answer[0], answer[1], answer[2]);
 
                 //Force Logging from the card if there is a DudesCab Instrumentation
-                if (Log.HasInstrumentations("DudesCab")) {
+                if (Log.HasInstrumentations("DudesCabLog")) {
                     Log.Write($"Forcing DudesCab LogLevel to DEBUG due to Instrumentation activation");
                     SendCommand(HIDCommonReportType.RT_FORCELOGLEVEL, new byte[] { (byte)DudesCabLogLevel.Debug });
                 }
@@ -397,7 +397,6 @@ namespace DirectOutput.Cab.Out.DudesCab
             public byte[] ReadUSB()
             {
                 byte[] incomingData = new byte[0];
-
                 byte receivedCommand = 0;
                 DateTime startRead = DateTime.Now;
                 while (DateTime.Now - startRead < TimeSpan.FromSeconds(10)) {
@@ -555,7 +554,6 @@ namespace DirectOutput.Cab.Out.DudesCab
             public void AllOff()
             {
                 SendCommand(HIDReportType.RT_PWM_ALLOFF);
-                SendCommand(HIDReportTypeMx.RT_MX_ALLOFF);
             }
 
             internal void SendCommand(HIDCommonReportType command, byte[] paramaters = null)

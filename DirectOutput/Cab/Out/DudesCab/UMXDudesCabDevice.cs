@@ -87,13 +87,40 @@ namespace DirectOutput.Cab.Out.DudesCab
         public override void SendCommand(UMXCommand command, byte[] parameters = null)
         {
             switch (command) {
-                case UMXCommand.UMX_SendStripsData:
+                case UMXCommand.UMX_SendStripsData: {
                     _device.SendCommand(HIDReportTypeMx.RT_MX_OUTPUTS, parameters);
-                    break;
 
-                case UMXCommand.UMX_AllOff:
+                    byte[] ack = new byte[0];
+                    try {
+                        ack = _device.ReadUSB();
+                    } catch (Exception E) {
+                        throw new Exception($"A exception occurred while waiting for the ACK after sending the data of the {this.GetType().ToString()}.", E);
+                    }
+                    if (ack[0] != (byte)RIDType.RIDOutputsMx ||
+                        ack[1] != (byte)HIDReportTypeMx.RT_MX_OUTPUTS || 
+                        ack[hidCommandPrefixSize] != (byte)'A') {
+                        throw new Exception($"Received no answer or a unexpected answer while waiting for the ACK after sending the data of the {this.GetType().ToString()}.");
+                    }
+
+                }
+                break;
+
+                case UMXCommand.UMX_AllOff: {
                     _device.SendCommand(HIDReportTypeMx.RT_MX_ALLOFF, parameters);
-                    break;
+
+                    byte[] ack = new byte[0];
+                    try {
+                        ack = _device.ReadUSB();
+                    } catch (Exception E) {
+                        throw new Exception($"A exception occurred while waiting for the ACK after sending the data of the {this.GetType().ToString()}.", E);
+                    }
+                    if (ack[0] != (byte)RIDType.RIDOutputsMx ||
+                        ack[1] != (byte)HIDReportTypeMx.RT_MX_ALLOFF ||
+                        ack[hidCommandPrefixSize] != (byte)'A') {
+                        throw new Exception($"Received no answer or a unexpected answer while waiting for the ACK after sending the data of the {this.GetType().ToString()}.");
+                    }
+                }
+                break;
 
                 case UMXCommand.UMX_Handshake:
                     _device.SendCommand(HIDReportTypeMx.RT_UMXHANDSHAKE, parameters);
@@ -101,6 +128,9 @@ namespace DirectOutput.Cab.Out.DudesCab
 
                 case UMXCommand.UMX_GetInfos:
                     _device.SendCommand(HIDReportTypeMx.RT_MX_GETINFOS, parameters);
+                    break;
+
+                default:
                     break;
             }
         }

@@ -156,6 +156,8 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                             sendBuffer.Add((byte)(line.NbLeds >> 8));
                             sendBuffer.AddRange(line.Values);
                         }
+
+                        line.Values.CopyTo(line.OldValues, 0);
                     }
                 }
             }
