@@ -147,6 +147,16 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                 }
             }
 
+            if (Dev?.testOnConnect != UMXDevice.TestMode.None) {
+                int duration = 4000;
+                byte[] parameters = new byte[] {
+                    (byte)(duration & 0xFF),
+                    (byte)((duration >> 8) & 0xFF),
+                    (byte)((duration >> 16) & 0xFF),
+                    (byte)((duration >> 24) & 0xFF),
+                };
+                Dev?.SendCommand(UMXDevice.UMXCommand.UMX_StartTest, parameters);
+            }
         }
 
         #region Device

@@ -35,12 +35,14 @@ namespace DirectOutput.Cab.Out.DudesCab
                 enabled = ReadBool(answer, ref index);
                 maxDataLines = ReadByte(answer, ref index);
                 maxNbLeds = ReadLong(answer, ref index);
+                ledChipset = (LedChipset)ReadByte(answer, ref index);
                 nbLedsUpdatePerLine = ReadLong(answer, ref index);
                 ledWizEquivalent = ReadByte(answer, ref index); ;
-                testOnReset = ReadBool(answer, ref index);
+                testOnReset = (TestMode)ReadByte(answer, ref index);
+                testOnConnect = (TestMode)ReadByte(answer, ref index);
                 testBrightness = ReadByte(answer, ref index);
-                Log.Write($"Name: {name}, Enabled: {enabled}, MaxDataLines: {maxDataLines}, MaxNbLeds: {maxNbLeds}, Max Parallel Led Updates: {nbLedsUpdatePerLine}/s");
-                Log.Write($"LedWizEquivalent: {ledWizEquivalent}, TestOnReset: {testOnReset}, TestBrightness: {testBrightness}");
+                Log.Write($"Name: {name}, Enabled: {enabled}, MaxDataLines: {maxDataLines}, MaxNbLeds: {maxNbLeds}, LedChipset: {ledChipset},Max Parallel Led Updates: {nbLedsUpdatePerLine}/s");
+                Log.Write($"LedWizEquivalent: {ledWizEquivalent}, TestOnReset: {testOnReset}, TestOnConnect: {testOnConnect}, TestBrightness: {testBrightness}");
                 var nbLedstrips = ReadByte(answer, ref index);
                 Log.Write($"{nbLedstrips} ledstrips :");
                 int curLedIndex = 0;
@@ -79,6 +81,10 @@ namespace DirectOutput.Cab.Out.DudesCab
                 }
                 ComputeNumOutputs();
                 Log.Write($"{LedStrips.Count} ledstrips ({totalLeds} leds, {numOutputs} outputs) configured");
+
+                if (testOnConnect != TestMode.None) {
+                    _device.SendCommand(HIDReportTypeMx.RT_MX_RUNTEST, new byte[] { (byte)testOnConnect });
+                }
             } catch (Exception e) {
                 throw new Exception(e.Message);
             }
@@ -87,39 +93,12 @@ namespace DirectOutput.Cab.Out.DudesCab
         public override void SendCommand(UMXCommand command, byte[] parameters = null)
         {
             switch (command) {
-                case UMXCommand.UMX_SendStripsData: {
+                case UMXCommand.UMX_SendStripsData:
                     _device.SendCommand(HIDReportTypeMx.RT_MX_OUTPUTS, parameters);
-
-                    byte[] ack = new byte[0];
-                    try {
-                        ack = _device.ReadUSB();
-                    } catch (Exception E) {
-                        throw new Exception($"A exception occurred while waiting for the ACK after sending the data of the {this.GetType().ToString()}.", E);
-                    }
-                    if (ack[0] != (byte)RIDType.RIDOutputsMx ||
-                        ack[1] != (byte)HIDReportTypeMx.RT_MX_OUTPUTS || 
-                        ack[hidCommandPrefixSize] != (byte)'A') {
-                        throw new Exception($"Received no answer or a unexpected answer while waiting for the ACK after sending the data of the {this.GetType().ToString()}.");
-                    }
-
-                }
                 break;
 
-                case UMXCommand.UMX_AllOff: {
+                case UMXCommand.UMX_AllOff:
                     _device.SendCommand(HIDReportTypeMx.RT_MX_ALLOFF, parameters);
-
-                    byte[] ack = new byte[0];
-                    try {
-                        ack = _device.ReadUSB();
-                    } catch (Exception E) {
-                        throw new Exception($"A exception occurred while waiting for the ACK after sending the data of the {this.GetType().ToString()}.", E);
-                    }
-                    if (ack[0] != (byte)RIDType.RIDOutputsMx ||
-                        ack[1] != (byte)HIDReportTypeMx.RT_MX_ALLOFF ||
-                        ack[hidCommandPrefixSize] != (byte)'A') {
-                        throw new Exception($"Received no answer or a unexpected answer while waiting for the ACK after sending the data of the {this.GetType().ToString()}.");
-                    }
-                }
                 break;
 
                 case UMXCommand.UMX_Handshake:

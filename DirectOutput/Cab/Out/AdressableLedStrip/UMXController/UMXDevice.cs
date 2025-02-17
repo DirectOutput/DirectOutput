@@ -19,6 +19,24 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             UMX_SendStripsData
         }
 
+        public enum TestMode
+        {
+            None,
+            RGB,
+            Colors,
+            RGBLaser
+        }
+
+        public enum LedChipset
+        {
+            WS2811,
+            WS2812,
+            WS2812B,
+            WS2813,
+            WS2815,
+            SK6812
+        }
+
         public class LedStripSplit
         {
             public int DataLine { get; set; } = 0;
@@ -114,6 +132,11 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         {
             if (!enabled) 
                 return;
+
+            if (outputValues.All(x => x == 0)) {
+                SendCommand(UMXCommand.UMX_AllOff);
+                return;
+            }
 
             //Clear current values
             foreach(DataLine line in DataLines) {
@@ -216,11 +239,12 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         public bool enabled;
         public byte maxDataLines = 0;
         public int maxNbLeds = int.MaxValue;
+        public LedChipset ledChipset = LedChipset.WS2812B;
         public int nbLedsUpdatePerLine = int.MaxValue;
         public int ledWizEquivalent;
         public int numOutputs = 0;
-        public bool testOnReset = false;
-        public bool testButton = false;
+        public TestMode testOnReset = TestMode.None;
+        public TestMode testOnConnect = TestMode.None;
         public byte testBrightness = 100;
         public bool activityLed = false;
     }

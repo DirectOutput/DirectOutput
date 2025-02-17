@@ -294,6 +294,7 @@ namespace DirectOutput.Cab.Out.DudesCab
                 RT_MX_GETINFOS,
                 RT_MX_ALLOFF,
                 RT_MX_OUTPUTS,
+                RT_MX_RUNTEST,
 
                 RT_MAX
             }
@@ -444,8 +445,8 @@ namespace DirectOutput.Cab.Out.DudesCab
 
             public bool WriteUSB(byte[] buf)
             {
-                DateTime startRead = DateTime.Now;
-                while (DateTime.Now - startRead < TimeSpan.FromSeconds(10)) {
+                DateTime startWrite = DateTime.Now;
+                while (DateTime.Now - startWrite < TimeSpan.FromSeconds(10)) {
                     UInt32 actual;
                     if (HIDImports.WriteFile(fp, buf, caps.OutputReportByteLength, out actual, ref ov) == 0) {
                         // try re-opening the handle, if it's an "invalid handle" error
