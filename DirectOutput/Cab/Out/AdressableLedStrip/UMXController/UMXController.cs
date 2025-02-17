@@ -148,8 +148,9 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             }
 
             if (Dev?.testOnConnect != UMXDevice.TestMode.None) {
-                int duration = 4000;
+                int duration = 3000;
                 byte[] parameters = new byte[] {
+                    (byte)(Dev?.testOnConnect),
                     (byte)(duration & 0xFF),
                     (byte)((duration >> 8) & 0xFF),
                     (byte)((duration >> 16) & 0xFF),

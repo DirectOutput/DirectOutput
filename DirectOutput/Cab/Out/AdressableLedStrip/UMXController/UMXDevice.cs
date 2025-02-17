@@ -16,7 +16,8 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             UMX_Handshake,
             UMX_GetInfos,
             UMX_AllOff,
-            UMX_SendStripsData
+            UMX_SendStripsData,
+            UMX_StartTest
         }
 
         public enum TestMode

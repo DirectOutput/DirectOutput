@@ -81,10 +81,6 @@ namespace DirectOutput.Cab.Out.DudesCab
                 }
                 ComputeNumOutputs();
                 Log.Write($"{LedStrips.Count} ledstrips ({totalLeds} leds, {numOutputs} outputs) configured");
-
-                if (testOnConnect != TestMode.None) {
-                    _device.SendCommand(HIDReportTypeMx.RT_MX_RUNTEST, new byte[] { (byte)testOnConnect });
-                }
             } catch (Exception e) {
                 throw new Exception(e.Message);
             }
@@ -96,6 +92,10 @@ namespace DirectOutput.Cab.Out.DudesCab
                 case UMXCommand.UMX_SendStripsData:
                     _device.SendCommand(HIDReportTypeMx.RT_MX_OUTPUTS, parameters);
                 break;
+
+                case UMXCommand.UMX_StartTest:
+                    _device.SendCommand(HIDReportTypeMx.RT_MX_RUNTEST, parameters);
+                    break;
 
                 case UMXCommand.UMX_AllOff:
                     _device.SendCommand(HIDReportTypeMx.RT_MX_ALLOFF, parameters);
