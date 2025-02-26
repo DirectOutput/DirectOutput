@@ -15,6 +15,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         {
             UMX_Handshake,
             UMX_GetInfos,
+            UMX_GetConfig,
             UMX_AllOff,
             UMX_SendStripsData,
             UMX_StartTest
@@ -93,7 +94,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             return true;
         }
 
-        internal class DataLine
+        public class DataLine
         {
             public int NbLeds = 0;
             public int NbValues = 0;
@@ -101,7 +102,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             public byte[] Values;
         }
 
-        DataLine[] DataLines = null;
+        public DataLine[] DataLines = null;
 
         public void ResetDataLines()
         {
@@ -238,15 +239,18 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         public string name;
         public short unitNo;
         public bool enabled;
+        public Version umxVersion;
         public byte maxDataLines = 0;
         public int maxNbLeds = int.MaxValue;
         public LedChipset ledChipset = LedChipset.WS2812B;
-        public int nbLedsUpdatePerLine = int.MaxValue;
         public int ledWizEquivalent;
         public int numOutputs = 0;
         public TestMode testOnReset = TestMode.None;
+        public byte testOnResetDuration = 0;
         public TestMode testOnConnect = TestMode.None;
+        public byte testOnConnectDuration = 0;
         public byte testBrightness = 100;
+        public int totalLeds = 0;
         public bool activityLed = false;
     }
 }

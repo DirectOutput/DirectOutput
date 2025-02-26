@@ -4,6 +4,7 @@ using DirectOutput.FX;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using static DirectOutput.Cab.Out.AdressableLedStrip.UMXDevice;
@@ -18,7 +19,7 @@ namespace DirectOutput.Cab.Out.DudesCab
         {
             byte[] answer = null;
 
-            //Handshak
+            //Handshake
             _device.SendCommand(HIDReportTypeMx.RT_UMXHANDSHAKE);
             answer = _device.ReadUSB().ToArray();
             answer = answer.Skip(hidCommandPrefixSize).ToArray();
@@ -26,27 +27,36 @@ namespace DirectOutput.Cab.Out.DudesCab
             Log.Write($"UMX Handshake : {handShake}");
             name = $"UMXDudesCab[{_device.name}]";
 
-            //Ask for Configuration
+            //Ask for Informations
             _device.SendCommand(HIDReportTypeMx.RT_MX_GETINFOS);
             answer = _device.ReadUSB().ToArray();
             answer = answer.Skip(hidCommandPrefixSize).ToArray();
             try {
                 int index = 0;
-                enabled = ReadBool(answer, ref index);
+                umxVersion = new Version(ReadByte(answer, ref index), ReadByte(answer, ref index), ReadByte(answer, ref index));
                 maxDataLines = ReadByte(answer, ref index);
-                maxNbLeds = ReadLong(answer, ref index);
+                maxNbLeds = ReadShort(answer, ref index);
+            } catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }
+
+            //Ask for Configuration
+            _device.SendCommand(HIDReportTypeMx.RT_MX_GETCONFIG);
+            answer = _device.ReadUSB().ToArray();
+            answer = answer.Skip(hidCommandPrefixSize).ToArray();
+            totalLeds = 0;
+            try {
+                int index = 0;
+                enabled = ReadBool(answer, ref index);
                 ledChipset = (LedChipset)ReadByte(answer, ref index);
-                nbLedsUpdatePerLine = ReadLong(answer, ref index);
                 ledWizEquivalent = ReadByte(answer, ref index); ;
                 testOnReset = (TestMode)ReadByte(answer, ref index);
+                testOnResetDuration = ReadByte(answer, ref index);
                 testOnConnect = (TestMode)ReadByte(answer, ref index);
+                testOnConnectDuration = ReadByte(answer, ref index);
                 testBrightness = ReadByte(answer, ref index);
-                Log.Write($"Name: {name}, Enabled: {enabled}, MaxDataLines: {maxDataLines}, MaxNbLeds: {maxNbLeds}, LedChipset: {ledChipset},Max Parallel Led Updates: {nbLedsUpdatePerLine}/s");
-                Log.Write($"LedWizEquivalent: {ledWizEquivalent}, TestOnReset: {testOnReset}, TestOnConnect: {testOnConnect}, TestBrightness: {testBrightness}");
                 var nbLedstrips = ReadByte(answer, ref index);
-                Log.Write($"{nbLedstrips} ledstrips :");
                 int curLedIndex = 0;
-                int totalLeds = 0;
                 for (int numStrip = 0; numStrip < nbLedstrips; numStrip++) {
                     var ledstrip = new LedStripDescriptor() {
                         Name = ReadString(answer, ref index),
@@ -68,19 +78,9 @@ namespace DirectOutput.Cab.Out.DudesCab
                     }
                     curLedIndex += ledstrip.NbLeds;
                     totalLeds += ledstrip.NbLeds;
-                    Log.Write($"\t[{numStrip}] {ledstrip.Name} => W/H:{ledstrip.Width}/{ledstrip.Height} ({ledstrip.NbLeds} leds), FirstLed: {ledstrip.FirstLedIndex}, Dof:{ledstrip.DofOutputNum}, Brightness:{ledstrip.Brightness} [{ledstrip.FadeMode},{ledstrip.Arrangement},{ledstrip.ColorOrder}]");
-                    if (nbSplits == 1) {
-                        Log.Write($"\t\t1 split : {ledstrip.Splits.Last().NbLeds} leds on line {ledstrip.Splits.Last().DataLine}");
-                    } else {
-                        Log.Write($"\t\t{nbSplits} splits :");
-                        foreach(var split in ledstrip.Splits) {
-                            Log.Write($"\t\t\t{split.NbLeds} leds on line {split.DataLine}");
-                        }
-                    }
                     LedStrips.Add(ledstrip);
                 }
                 ComputeNumOutputs();
-                Log.Write($"{LedStrips.Count} ledstrips ({totalLeds} leds, {numOutputs} outputs) configured");
             } catch (Exception e) {
                 throw new Exception(e.Message);
             }
@@ -107,6 +107,10 @@ namespace DirectOutput.Cab.Out.DudesCab
 
                 case UMXCommand.UMX_GetInfos:
                     _device.SendCommand(HIDReportTypeMx.RT_MX_GETINFOS, parameters);
+                    break;
+
+                case UMXCommand.UMX_GetConfig:
+                    _device.SendCommand(HIDReportTypeMx.RT_MX_GETCONFIG, parameters);
                     break;
 
                 default:

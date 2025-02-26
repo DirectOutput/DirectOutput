@@ -19,6 +19,7 @@ using DirectOutput.Cab.Toys.Layer;
 using System.Drawing.Imaging;
 using DirectOutput.Cab.Toys.Hardware;
 using System.Windows.Forms;
+using static DirectOutput.Cab.Out.AdressableLedStrip.UMXDevice;
 
 namespace DirectOutput.Cab.Out.AdressableLedStrip
 {
@@ -110,7 +111,28 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         public void UpdateCabinetFromConfig(Cabinet cabinet)
         {
             Dev?.Initialize();
+            Log.Write($"UMX Infos : Name {Dev?.name}, UMX Version {Dev?.umxVersion}, MaxDataLines {Dev?.maxDataLines}, MaxNbLeds {Dev?.maxNbLeds}");
+            Log.Write($"UMX Config :\nEnabled {Dev?.enabled}, LedChipset {Dev?.ledChipset}, LedWizEquivalent {Dev?.ledWizEquivalent}");
+            Log.Write($"TestOnReset {Dev?.testOnReset}({Dev?.testOnResetDuration}s), TestOnConnect {Dev?.testOnConnect}({Dev?.testOnConnectDuration}s), TestBrightness: {Dev?.testBrightness}");
+            Log.Write($"{Dev?.LedStrips.Count} ledstrips :");
+            for (int numstrip = 0; numstrip < Dev?.LedStrips.Count; numstrip++) {
+                var ledstrip = Dev?.LedStrips[numstrip];
+                Log.Write($"\t[{numstrip}] {ledstrip.Name} => W/H:{ledstrip.Width}/{ledstrip.Height} ({ledstrip.NbLeds} leds), FirstLed: {ledstrip.FirstLedIndex}, Dof:{ledstrip.DofOutputNum}, Brightness:{ledstrip.Brightness} [{ledstrip.FadeMode},{ledstrip.Arrangement},{ledstrip.ColorOrder}]");
+                if (ledstrip.Splits.Count == 1) {
+                    Log.Write($"\t\t1 split : {ledstrip.Splits.Last().NbLeds} leds on line {ledstrip.Splits.Last().DataLine}");
+                } else {
+                    Log.Write($"\t\t{ledstrip.Splits.Count} splits :");
+                    foreach (var split in ledstrip.Splits) {
+                        Log.Write($"\t\t\t{split.NbLeds} leds on line {split.DataLine}");
+                    }
+                }
+            }
+            Log.Write($"{Dev?.totalLeds} leds, {Dev?.NumOutputs()} outputs configured");
             Dev?.CreateDataLines();
+            Log.Instrumentation("UMX", $"{Dev?.DataLines.Length} Output lines generated");
+            foreach(var line in Dev?.DataLines) {
+                Log.Instrumentation("UMX", $"\t{line.NbLeds} leds");
+            }
 
             if (!cabinet.Toys.Any(T => T is LedWizEquivalent && ((LedWizEquivalent)T).LedWizNumber == Dev.ledWizEquivalent)) {
                 //Create LedwizEquivalent
@@ -148,13 +170,9 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             }
 
             if (Dev?.testOnConnect != UMXDevice.TestMode.None) {
-                int duration = 3000;
                 byte[] parameters = new byte[] {
                     (byte)(Dev?.testOnConnect),
-                    (byte)(duration & 0xFF),
-                    (byte)((duration >> 8) & 0xFF),
-                    (byte)((duration >> 16) & 0xFF),
-                    (byte)((duration >> 24) & 0xFF),
+                    (byte)(Dev?.testOnConnectDuration),
                 };
                 Dev?.SendCommand(UMXDevice.UMXCommand.UMX_StartTest, parameters);
             }

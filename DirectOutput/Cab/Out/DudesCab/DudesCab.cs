@@ -262,10 +262,12 @@ namespace DirectOutput.Cab.Out.DudesCab
             public enum HIDCommonReportType : byte
             {
                 RT_HANDSHAKE = 1,
+                RT_SETADMIN,
                 RT_VERSION,
-                RT_GetSTATUS,
+                RT_GETSTATUS,
                 RT_FORCELOGLEVEL,
-                RT_MAX
+                RT_MAX,
+                RT_GETINFOS_OLDPROTOCOL = 4
             };
 
             public enum DudesCabLogLevel : byte
@@ -292,6 +294,7 @@ namespace DirectOutput.Cab.Out.DudesCab
                 //MX 
                 RT_UMXHANDSHAKE = HIDCommonReportType.RT_MAX,
                 RT_MX_GETINFOS,
+                RT_MX_GETCONFIG,
                 RT_MX_ALLOFF,
                 RT_MX_OUTPUTS,
                 RT_MX_RUNTEST,
