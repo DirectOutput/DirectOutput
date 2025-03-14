@@ -625,7 +625,7 @@ namespace DirectOutput.Cab.Out.DudesCab
             public byte PwmExtensionsMask = 0;
             public Version firmwareVersion = new Version(0,0,0);
 
-            private readonly Version minimalMxVersion = new Version(1,2,0);
+            private readonly Version minimalMxVersion = new Version(1,9,0);
 
             internal bool SupportMx()
             {
