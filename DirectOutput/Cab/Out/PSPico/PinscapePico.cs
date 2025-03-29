@@ -295,7 +295,7 @@ namespace DirectOutput.Cab.Out.PSPico
 					{
 						// out of space in the old list; add a new one
 						AddList(port);
-						cur.Add(port, changed);
+						cur.Add(value, changed);
 					}
 				}
 				else if (cur != null)
@@ -397,7 +397,7 @@ namespace DirectOutput.Cab.Out.PSPico
 			// there's no real need to optimize for reduced port update
 			// count.  But we have the information, so we  might as well
 			// use it.)
-			if (contiguousGroup.PacketCount <= randomGroup.PacketCount
+			if (contiguousGroup.PacketCount < randomGroup.PacketCount
 				|| (contiguousGroup.PacketCount <= randomGroup.PacketCount && contiguousGroup.PortCount < randomGroup.PortCount))
 				contiguousGroup.Send(this);
 			else

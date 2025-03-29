@@ -42,7 +42,7 @@ namespace DirectOutput.Cab.Out
 		/// sees for that single device, to set all of its ports to a known initial state (usually
 		/// this means just turning off all of the ports).  DOF handles each device interface on a
 		/// separate thread, so the sequencing of those initialization commands across the multiple
-		/// spoofed interfaces to the one device is unpredicatble.  So the result can be that thread 
+		/// spoofed interfaces to the one device is unpredictable.  So the result can be that thread 
 		/// T1 for interface I1 sends its initialization commands, and then gets some value updates
 		/// from the host to turn on some outputs - turn on the START button light, say - and *then*
 		/// thread T2 for interface I2 sends *its* initialization commands, turning the outputs back
