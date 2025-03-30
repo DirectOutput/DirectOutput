@@ -236,7 +236,7 @@ namespace DirectOutput.Cab.Out.PSPico
 					int idx = 3;
 					foreach (var output in l.outputs)
 					{
-						buf[idx++] = (byte)output.Key;
+						buf[idx++] = (byte)(output.Key + 1);
 						buf[idx++] = (byte)output.Value;
 					}
 
@@ -323,8 +323,9 @@ namespace DirectOutput.Cab.Out.PSPico
 					//   [0] -> HID report ID prefix
 					//   [1] -> command ID 0x21, SET OUTPUT PORT BLOCK
 					//   [2] -> number of ports in packet
-					//   [3] -> first port value
-					//   [4] -> second port value
+					//   [3] -> first port number
+					//   [4] -> first port value
+					//   [5] -> second port value
 					//   ...
 					//   [63] -> 60th port value
 					//
@@ -336,7 +337,8 @@ namespace DirectOutput.Cab.Out.PSPico
 					buf[0] = psp.Dev.outputReportId;
 					buf[1] = 0x21;
 					buf[2] = (byte)l.numToSend;
-					int idx = 3;
+					buf[3] = (byte)(l.firstPortNum + 1);
+					int idx = 4;
 					foreach (var output in l.outputs)
 						buf[idx++] = (byte)output;
 
@@ -626,6 +628,8 @@ namespace DirectOutput.Cab.Out.PSPico
 
 			public bool WriteUSB(string desc, byte[] buf, uint timeout_ms)
 			{
+				Log.Instrumentation("PinscapePico", "PS Pico Write {0} : {1}".Build(desc, String.Join(", ", buf.Select(b => "{0:X2}".Build(b)))));
+
 				// retry the write a few times, since we might be able to correct
 				// certain types of errors and retry
 				uint actual = 0;
