@@ -266,6 +266,7 @@ namespace DirectOutput.Cab.Out.DudesCab
                 RT_VERSION,
                 RT_GETSTATUS,
                 RT_FORCELOGLEVEL,
+                RT_RESETCARD,
                 RT_MAX,
                 RT_GETINFOS_OLDPROTOCOL = 4
             };
