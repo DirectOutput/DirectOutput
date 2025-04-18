@@ -135,11 +135,6 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             if (!enabled) 
                 return;
 
-            if (outputValues.All(x => x == 0)) {
-                SendCommand(UMXCommand.UMX_AllOff);
-                return;
-            }
-
             //Clear current values
             foreach(DataLine line in DataLines) {
                 if (line.NbValues > 0) {

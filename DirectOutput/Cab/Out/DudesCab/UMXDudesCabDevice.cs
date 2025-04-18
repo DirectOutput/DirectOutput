@@ -56,6 +56,7 @@ namespace DirectOutput.Cab.Out.DudesCab
                 testOnConnectDuration = ReadByte(answer, ref index);
                 testBrightness = ReadByte(answer, ref index);
                 var nbLedstrips = ReadByte(answer, ref index);
+                LedStrips.Clear();
                 int curLedIndex = 0;
                 for (int numStrip = 0; numStrip < nbLedstrips; numStrip++) {
                     var ledstrip = new LedStripDescriptor() {

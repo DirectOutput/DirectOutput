@@ -84,7 +84,9 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
 
         protected override void DisconnectFromController()
         {
-            Dev?.SendCommand(UMXDevice.UMXCommand.UMX_AllOff);
+            if (InUseState == InUseStates.Running) {
+                Dev?.SendCommand(UMXDevice.UMXCommand.UMX_AllOff);
+            }
         }
 
         protected override int GetNumberOfConfiguredOutputs()
@@ -147,7 +149,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                 }
 
                 //Sort Ledstrip per DataLines
-                Dev.LedStrips.Sort((L1,L2) => L1.FirstDataline-L2.FirstDataline);
+                //Dev.LedStrips.Sort((L1,L2) => L1.FirstDataline-L2.FirstDataline);
 
                 foreach(var ledstripDesc in Dev.LedStrips) {
                     var ledstrip = new LedStrip() {
