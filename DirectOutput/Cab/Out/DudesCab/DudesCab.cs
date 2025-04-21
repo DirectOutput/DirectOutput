@@ -242,6 +242,10 @@ namespace DirectOutput.Cab.Out.DudesCab
                     Log.Write($"Clear the DudesCab forced LogLevel");
                     Dev.SendCommand(HIDCommonReportType.RT_FORCELOGLEVEL, new byte[] { (byte)DudesCabLogLevel.None });
                 }
+                if (Log.HasInstrumentations("DudesCabProfile")) {
+                    Log.Write($"Clear the DudesCab forced profiling");
+                    Dev.SendCommand(HIDCommonReportType.RT_SETPROFILING, new byte[] { 0 });
+                }
                 Dev.AllOff();
             }
         }
@@ -267,6 +271,9 @@ namespace DirectOutput.Cab.Out.DudesCab
                 RT_GETSTATUS,
                 RT_FORCELOGLEVEL,
                 RT_RESETCARD,
+                RT_SETPROFILING,
+                RT_GETPROFILING,
+                RT_COMMONCOMMANDS_END = 99,
                 RT_MAX,
                 RT_GETINFOS_OLDPROTOCOL = 4
             };
@@ -395,6 +402,11 @@ namespace DirectOutput.Cab.Out.DudesCab
                 if (Log.HasInstrumentations("DudesCabLog")) {
                     Log.Write($"Forcing DudesCab LogLevel to DEBUG due to Instrumentation activation");
                     SendCommand(HIDCommonReportType.RT_FORCELOGLEVEL, new byte[] { (byte)DudesCabLogLevel.Debug });
+                }
+                //Force Profiling from the card if there is a DudesCab Instrumentation
+                if (Log.HasInstrumentations("DudesCabProfile")) {
+                    Log.Write($"Forcing DudesCab Profiling to true due to Instrumentation activation");
+                    SendCommand(HIDCommonReportType.RT_SETPROFILING, new byte[] { 1 });
                 }
             }
 
