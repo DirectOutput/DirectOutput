@@ -34,6 +34,11 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             }
         }
 
+        public static void RemoveAllUMXDevices(Type deviceType)
+        {
+            Devices.RemoveAll(D => D.GetType() == deviceType);
+        }
+
         /// <summary>
         /// Get the list of all DudesCab devices discovered in the system from the Windows USB device scan.
         /// </summary>

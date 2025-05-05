@@ -79,6 +79,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
 
         protected override void ConnectToController()
         {
+            DisconnectFromController();
             Dev?.ResetDataLines();
         }
 

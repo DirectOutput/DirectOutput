@@ -4,6 +4,7 @@ using DirectOutput.FX;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,33 +20,38 @@ namespace DirectOutput.Cab.Out.DudesCab
         {
             byte[] answer = null;
 
-            //Handshake
-            _device.SendCommand(HIDReportTypeMx.RT_UMXHANDSHAKE);
-            answer = _device.ReadUSB().ToArray();
-            answer = answer.Skip(hidCommandPrefixSize).ToArray();
-            string handShake = Encoding.UTF8.GetString(answer).Trim('\0');
-            Log.Write($"UMX Handshake : {handShake}");
-            name = $"UMXDudesCab[{_device.name}]";
-
-            //Ask for Informations
-            _device.SendCommand(HIDReportTypeMx.RT_MX_GETINFOS);
-            answer = _device.ReadUSB().ToArray();
-            answer = answer.Skip(hidCommandPrefixSize).ToArray();
             try {
+                //Handshake
+                _device.SendCommand(HIDReportTypeMx.RT_UMXHANDSHAKE);
+                answer = _device.ReadUSB((byte)HIDReportTypeMx.RT_UMXHANDSHAKE).ToArray();
+                answer = answer.Skip(hidCommandPrefixSize).ToArray();
+                string handShake = Encoding.UTF8.GetString(answer).Trim('\0');
+                Log.Write($"UMX Handshake : {handShake}");
+                name = $"UMXDudesCab[{_device.name}]";
+            } catch (Exception ex) {
+                throw new Exception($"Exception during Handshake of UMXDudesCabDevice (answer size {answer.Length} bytes): {ex.Message}");
+            }
+
+            try {
+                //Ask for Informations
+                _device.SendCommand(HIDReportTypeMx.RT_MX_GETINFOS);
+                answer = _device.ReadUSB((byte)HIDReportTypeMx.RT_MX_GETINFOS).ToArray();
+                answer = answer.Skip(hidCommandPrefixSize).ToArray();
+
                 int index = 0;
                 umxVersion = new Version(ReadByte(answer, ref index), ReadByte(answer, ref index), ReadByte(answer, ref index));
                 maxDataLines = ReadByte(answer, ref index);
                 maxNbLeds = ReadShort(answer, ref index);
             } catch (Exception ex) {
-                throw new Exception(ex.Message);
+                throw new Exception($"Exception during GetInfos of UMXDudesCabDevice {_device.name} (answer [{string.Join(",", answer)}]) : {ex.Message}");
             }
 
-            //Ask for Configuration
-            _device.SendCommand(HIDReportTypeMx.RT_MX_GETCONFIG);
-            answer = _device.ReadUSB().ToArray();
-            answer = answer.Skip(hidCommandPrefixSize).ToArray();
-            totalLeds = 0;
-            try {
+            try { 
+                //Ask for Configuration
+                _device.SendCommand(HIDReportTypeMx.RT_MX_GETCONFIG);
+                answer = _device.ReadUSB((byte)HIDReportTypeMx.RT_MX_GETCONFIG).ToArray();
+                answer = answer.Skip(hidCommandPrefixSize).ToArray();
+                totalLeds = 0;
                 int index = 0;
                 enabled = ReadBool(answer, ref index);
                 ledChipset = (LedChipset)ReadByte(answer, ref index);
@@ -82,8 +88,8 @@ namespace DirectOutput.Cab.Out.DudesCab
                     LedStrips.Add(ledstrip);
                 }
                 ComputeNumOutputs();
-            } catch (Exception e) {
-                throw new Exception(e.Message);
+            } catch (Exception ex) {
+                throw new Exception($"Exception during GetConfig of UMXDudesCabDevice {_device.name} (answer size {answer.Length} bytes): {ex.Message}");
             }
         }
 

@@ -128,7 +128,6 @@ namespace DirectOutput.Cab.Out.DudesCab
         /// </summary>
         public override void Finish()
         {
-            Dev.AllOff();
             base.Finish();
         }
         #endregion
@@ -157,7 +156,10 @@ namespace DirectOutput.Cab.Out.DudesCab
         /// </summary>
         protected override void UpdateOutputs(byte[] NewOutputValues)
         {
-            if (NewOutputValues.All(x => x == 0)) {
+            if (Dev == null)
+                return;
+
+            if (!NewOutputValues.SequenceEqual(OldOutputValues) && NewOutputValues.All(x => x == 0)) {
                 Dev.AllOff();
             } else {
                 OutputBuffer.Clear();
@@ -229,6 +231,7 @@ namespace DirectOutput.Cab.Out.DudesCab
         /// </summary>
         protected override void ConnectToController()
         {
+            DisconnectFromController();
         }
 
         /// <summary>
@@ -247,6 +250,7 @@ namespace DirectOutput.Cab.Out.DudesCab
                     Dev.SendCommand(HIDCommonReportType.RT_SETPROFILING, new byte[] { 0 });
                 }
                 Dev.AllOff();
+                Dev = null;
             }
         }
 
@@ -379,7 +383,7 @@ namespace DirectOutput.Cab.Out.DudesCab
 
                 //Send HandShake
                 SendCommand(HIDCommonReportType.RT_HANDSHAKE);
-                answer = ReadUSB().Skip(hidCommandPrefixSize).ToArray();
+                answer = ReadUSB((byte)HIDCommonReportType.RT_HANDSHAKE).Skip(hidCommandPrefixSize).ToArray();
                 string handShake = Encoding.UTF8.GetString(answer).TrimEnd('\0');
                 var splits = handShake.Split('|');
                 if (splits.Length > 1) {
@@ -392,7 +396,7 @@ namespace DirectOutput.Cab.Out.DudesCab
 
                 //Ask for Card Infos
                 SendCommand(HIDCommonReportType.RT_VERSION);
-                answer = ReadUSB().Skip(hidCommandPrefixSize).ToArray();
+                answer = ReadUSB((byte)HIDCommonReportType.RT_VERSION).Skip(hidCommandPrefixSize).ToArray();
                 Log.Write($"DudesCab Controller Informations : Device [{this.devicename},RID:{this.deviceRid}] Name [{this.name}], v{answer[0]}.{answer[1]}.{answer[2]}, unit #{answer[3]}, Max extensions {answer[4]}");
                 unitNo = answer[3];
                 MaxExtensions = answer[4];
@@ -411,7 +415,21 @@ namespace DirectOutput.Cab.Out.DudesCab
             }
 
             private System.Threading.NativeOverlapped ov;
-            public byte[] ReadUSB()
+
+            public byte[] ReadUSB(byte command)
+            {
+                byte[] answer = new byte[0];
+                try {
+                    while (answer.Length < 2 || answer[1] != command) {
+                        answer = ReadUSB();
+                    }
+                } catch(Exception ex) {
+                    throw new Exception($"Exception during answer retrieval for command {command} on UMXDudesCabDevice {name} RID {deviceRid}: {ex.Message}");
+                }
+                return answer;
+            }
+
+            private byte[] ReadUSB()
             {
                 byte[] incomingData = new byte[0];
                 byte receivedCommand = 0;
@@ -499,7 +517,7 @@ namespace DirectOutput.Cab.Out.DudesCab
                 byte[] answer = null;
                 //Ask for Pwm Configuration
                 SendCommand(HIDReportType.RT_PWM_GETINFOS);
-                answer = ReadUSB().ToArray();
+                answer = ReadUSB((byte)HIDReportType.RT_PWM_GETINFOS).ToArray();
                 var answersize = answer[hidCommandPrefixSize - 1];
                 answer = answer.Skip(hidCommandPrefixSize).ToArray();
                 PwmMaxOutputsPerExtension = answer[0];
@@ -662,6 +680,9 @@ namespace DirectOutput.Cab.Out.DudesCab
         // Search the Windows USB HID device set for DudesCab controllers
         private static List<Device> FindDevices()
         {
+            //Cleanup UMX Devices from Dudescab
+            UMXControllerAutoConfigurator.RemoveAllUMXDevices(typeof(UMXDudesCabDevice));
+
             // set up an empty return list
             List<Device> dudedevices = new List<Device>();
             List<Device> devices = new List<Device>();
