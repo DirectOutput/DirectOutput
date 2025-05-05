@@ -17,6 +17,11 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         {
             throw new NotImplementedException();
         }
+
+        public override void WaitAck(byte command)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

@@ -186,6 +186,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                 byte[] buffer = new byte[] { nbChangedLines };
                 buffer = buffer.Concat(sendBuffer).ToArray();
                 SendCommand(UMXCommand.UMX_SendStripsData, buffer);
+                WaitAck((byte)UMXCommand.UMX_SendStripsData);
             }
         }
 
@@ -228,8 +229,11 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             return newList;
         }
 
+        #region Abstract Methods
         public abstract void Initialize();
         public abstract void SendCommand(UMXCommand command, byte[] parameters = null);
+        public abstract void WaitAck(byte command);
+        #endregion
 
         public string name;
         public short unitNo;

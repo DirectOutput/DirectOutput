@@ -125,6 +125,18 @@ namespace DirectOutput.Cab.Out.DudesCab
             }
         }
 
+        public override void WaitAck(byte command)
+        {
+            return;
+            byte[] answer = _device.ReadUSB(command).ToArray();
+            if (answer.Length != hidCommandPrefixSize+1) {
+                throw new Exception($"The {this.GetType().ToString()} did not send the expected {hidCommandPrefixSize + 1} bytes containing the acknowledge. Received {answer.Length} bytes instead. Will not send data to the controller");
+            }
+            if (answer[hidCommandPrefixSize] != 'A') {
+                throw new Exception($"The {this.GetType().ToString()} did not send a ACK. Will not send data to the controller");
+            }
+        }
+
         DudesCab.Device _device = null;
 
         public DudesCab.Device Device
