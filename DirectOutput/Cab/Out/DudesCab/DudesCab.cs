@@ -159,60 +159,63 @@ namespace DirectOutput.Cab.Out.DudesCab
             if (Dev == null)
                 return;
 
-            if (!NewOutputValues.SequenceEqual(OldOutputValues) && NewOutputValues.All(x => x == 0)) {
-                Dev.AllOff();
-            } else {
-                OutputBuffer.Clear();
-                OutputBuffer.Add(0); //extension mask
-                int nbValuesToSend = 0;
+            if (!NewOutputValues.SequenceEqual(OldOutputValues)) {
+                if (NewOutputValues.All(x => x == 0)) {
+                    Dev.AllOff();
+                    Thread.Sleep(200);
+                } else {
+                    OutputBuffer.Clear();
+                    OutputBuffer.Add(0); //extension mask
+                    int nbValuesToSend = 0;
 
-                byte extMask = 0;
-                byte oldExtMask = 0xFF;
-                int outputMaskOffset = 0;
-                ushort outputMask = 0;
+                    byte extMask = 0;
+                    byte oldExtMask = 0xFF;
+                    int outputMaskOffset = 0;
+                    ushort outputMask = 0;
 
-                for (int numDofOutput = 0; numDofOutput < NewOutputValues.Length; numDofOutput++) {
-                    if (NewOutputValues[numDofOutput] != OldOutputValues[numDofOutput]) {
-                        byte extNum = (byte)(numDofOutput / Dev.PwmMaxOutputsPerExtension);
-                        byte outputNum = (byte)(numDofOutput % Dev.PwmMaxOutputsPerExtension);
-                        Instrumentation($"Prepare Dof Value to send : DOF #{numDofOutput} {OldOutputValues[numDofOutput]} => {NewOutputValues[numDofOutput]}, Extension #{extNum}, Output #{outputNum}");
-                        extMask |= (byte)(1 << extNum);
-                        if (oldExtMask != extMask) {
-                            //New extension add output masks placeholders
-                            oldExtMask = extMask;
-                            //Set previous outputmask if available
-                            if (outputMask != 0) {
-                                OutputBuffer[outputMaskOffset] = (byte)(outputMask & 0xFF);
-                                OutputBuffer[outputMaskOffset + 1] = (byte)((outputMask >> 8) & 0xFF);
-                                Instrumentation($"        Changed OutputMask 0x{outputMask:X4}");
-                                outputMask = 0;
+                    for (int numDofOutput = 0; numDofOutput < NewOutputValues.Length; numDofOutput++) {
+                        if (NewOutputValues[numDofOutput] != OldOutputValues[numDofOutput]) {
+                            byte extNum = (byte)(numDofOutput / Dev.PwmMaxOutputsPerExtension);
+                            byte outputNum = (byte)(numDofOutput % Dev.PwmMaxOutputsPerExtension);
+                            Instrumentation($"Prepare Dof Value to send : DOF #{numDofOutput} {OldOutputValues[numDofOutput]} => {NewOutputValues[numDofOutput]}, Extension #{extNum}, Output #{outputNum}");
+                            extMask |= (byte)(1 << extNum);
+                            if (oldExtMask != extMask) {
+                                //New extension add output masks placeholders
+                                oldExtMask = extMask;
+                                //Set previous outputmask if available
+                                if (outputMask != 0) {
+                                    OutputBuffer[outputMaskOffset] = (byte)(outputMask & 0xFF);
+                                    OutputBuffer[outputMaskOffset + 1] = (byte)((outputMask >> 8) & 0xFF);
+                                    Instrumentation($"        Changed OutputMask 0x{outputMask:X4}");
+                                    outputMask = 0;
+                                }
+                                Instrumentation($"    Extension {extNum} has changes");
+                                outputMaskOffset = OutputBuffer.Count;
+                                OutputBuffer.Add(0);//Low bits of output mask
+                                OutputBuffer.Add(0);//High bits of output mask
                             }
-                            Instrumentation($"    Extension {extNum} has changes");
-                            outputMaskOffset = OutputBuffer.Count;
-                            OutputBuffer.Add(0);//Low bits of output mask
-                            OutputBuffer.Add(0);//High bits of output mask
+
+                            outputMask |= (ushort)(1 << outputNum);
+                            OutputBuffer.Add(NewOutputValues[numDofOutput]);
+                            nbValuesToSend++;
                         }
-
-                        outputMask |= (ushort)(1 << outputNum);
-                        OutputBuffer.Add(NewOutputValues[numDofOutput]);
-                        nbValuesToSend++;
                     }
+
+                    //set last outputmask & extmask
+                    if (outputMask != 0) {
+                        OutputBuffer[outputMaskOffset] = (byte)(outputMask & 0xFF);
+                        OutputBuffer[outputMaskOffset + 1] = (byte)((outputMask >> 8) & 0xFF);
+                        Instrumentation($"        Changed OutputMask 0x{outputMask:X4}");
+                    }
+                    OutputBuffer[0] = extMask;
+                    Instrumentation($"    ExtenstionMask 0x{OutputBuffer[0]:X2}");
+
+                    Instrumentation($"{nbValuesToSend} Dof Values to send to Dude's cab");
+                    Dev.SendCommand(Device.HIDReportType.RT_PWM_OUTPUTS, OutputBuffer.ToArray());
                 }
 
-                //set last outputmask & extmask
-                if (outputMask != 0) {
-                    OutputBuffer[outputMaskOffset] = (byte)(outputMask & 0xFF);
-                    OutputBuffer[outputMaskOffset + 1] = (byte)((outputMask >> 8) & 0xFF);
-                    Instrumentation($"        Changed OutputMask 0x{outputMask:X4}");
-                }
-                OutputBuffer[0] = extMask;
-                Instrumentation($"    ExtenstionMask 0x{OutputBuffer[0]:X2}");
-
-                Instrumentation($"{nbValuesToSend} Dof Values to send to Dude's cab");
-                Dev.SendCommand(Device.HIDReportType.RT_PWM_OUTPUTS, OutputBuffer.ToArray());
+                Array.Copy(NewOutputValues, OldOutputValues, OldOutputValues.Length);
             }
-
-            Array.Copy(NewOutputValues, OldOutputValues, OldOutputValues.Length);
         }
 
         byte[] OldOutputValues;
