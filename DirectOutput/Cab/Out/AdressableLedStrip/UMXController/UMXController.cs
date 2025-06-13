@@ -131,6 +131,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             Log.Write($"UMX Infos : Name {Dev?.name}, UMX Version {Dev?.umxVersion}, MaxDataLines {Dev?.maxDataLines}, MaxNbLeds {Dev?.maxNbLeds}");
             Log.Write($"UMX Config :\nEnabled {Dev?.enabled}, LedChipset {Dev?.ledChipset}, LedWizEquivalent {Dev?.ledWizEquivalent}");
             Log.Write($"TestOnReset {Dev?.testOnReset}({Dev?.testOnResetDuration}s), TestOnConnect {Dev?.testOnConnect}({Dev?.testOnConnectDuration}s), TestBrightness: {Dev?.testBrightness}");
+            Log.Write($"CompressionRatio {Dev?.compressionRatio}%");
             Log.Write($"{Dev?.LedStrips.Count} ledstrips :");
             for (int numstrip = 0; numstrip < Dev?.LedStrips.Count; numstrip++) {
                 var ledstrip = Dev?.LedStrips[numstrip];

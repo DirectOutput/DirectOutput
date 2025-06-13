@@ -16,6 +16,8 @@ namespace DirectOutput.Cab.Out.DudesCab
 {
     public class UMXDudesCabDevice : UMXDevice
     {
+        public const byte CompressionRatioVersion = 7;
+
         public override void Initialize()
         {
             byte[] answer = null;
@@ -61,6 +63,8 @@ namespace DirectOutput.Cab.Out.DudesCab
                 testOnConnect = (TestMode)ReadByte(answer, ref index);
                 testOnConnectDuration = ReadByte(answer, ref index);
                 testBrightness = ReadByte(answer, ref index);
+                if (_device.configVersion >= CompressionRatioVersion)
+                    compressionRatio = ReadByte(answer, ref index);
                 var nbLedstrips = ReadByte(answer, ref index);
                 LedStrips.Clear();
                 int curLedIndex = 0;

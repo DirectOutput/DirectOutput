@@ -164,7 +164,9 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                         nbChangedLines++;
                         sendBuffer.Add((byte)numLine);
                         List<byte> compressedLine = CompressDataLineValues(line.Values);
-                        if (compressedLine.Count < (int)((float)line.Values.Length * 0.75f)) {
+                        float compRatio = (float)compressedLine.Count / line.Values.Length;
+                        if (compRatio < compressionRatio * 0.01f) {
+                            Log.Instrumentation("UMX", $"Send compressed Mx Data (ratio {compRatio * 100:F2}%)");
                             sendBuffer.Add((byte)1);
                             sendBuffer.Add((byte)(compressedLine.Count & 0xFF));
                             sendBuffer.Add((byte)(compressedLine.Count >> 8));
@@ -250,6 +252,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         public TestMode testOnConnect = TestMode.None;
         public byte testOnConnectDuration = 0;
         public byte testBrightness = 100;
+        public byte compressionRatio = 75;
         public int totalLeds = 0;
         public bool activityLed = false;
     }

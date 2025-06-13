@@ -404,6 +404,8 @@ namespace DirectOutput.Cab.Out.DudesCab
                 unitNo = answer[3];
                 MaxExtensions = answer[4];
                 firmwareVersion = new Version(answer[0], answer[1], answer[2]);
+                if (answer.Length >= 6)
+                    configVersion = answer[5];
 
                 //Force Logging from the card if there is a DudesCab Instrumentation
                 if (Log.HasInstrumentations("DudesCabLog")) {
@@ -658,6 +660,7 @@ namespace DirectOutput.Cab.Out.DudesCab
             public int PwmMaxOutputsPerExtension = 0;
             public byte PwmExtensionsMask = 0;
             public Version firmwareVersion = new Version(0,0,0);
+            public byte configVersion = 0;
 
             private readonly Version minimalMxVersion = new Version(1,9,0);
 
