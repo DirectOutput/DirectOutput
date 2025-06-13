@@ -114,6 +114,20 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         public void UpdateCabinetFromConfig(Cabinet cabinet)
         {
             Dev?.Initialize();
+
+            if (!Dev?.Enabled ?? false) {
+                Log.Write($"UMX Device {Dev?.name} is disabled, UMXController {Name} #{Number} won't be added to cabinet");
+                return;
+            }
+
+            if (cabinet.OutputControllers.Contains(Name)) {
+                Log.Write($"UMX Controller {Name} already exists in the cabinet, won't add a new one");
+                return;
+            }
+
+            Log.Write($"Detected and added UMX Controller Nr. {Number} with name {Name}");
+            cabinet.OutputControllers.Add(this);
+
             Log.Write($"UMX Infos : Name {Dev?.name}, UMX Version {Dev?.umxVersion}, MaxDataLines {Dev?.maxDataLines}, MaxNbLeds {Dev?.maxNbLeds}");
             Log.Write($"UMX Config :\nEnabled {Dev?.enabled}, LedChipset {Dev?.ledChipset}, LedWizEquivalent {Dev?.ledWizEquivalent}");
             Log.Write($"TestOnReset {Dev?.testOnReset}({Dev?.testOnResetDuration}s), TestOnConnect {Dev?.testOnConnect}({Dev?.testOnConnectDuration}s), TestBrightness: {Dev?.testBrightness}");

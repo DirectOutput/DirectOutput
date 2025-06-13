@@ -174,11 +174,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             foreach (var device in UMXControllerAutoConfigurator.AllDevices()) {
                 if (!Preconfigured.Contains(device.UnitNo())) {
                     UMXController umxC = new UMXController(device.UnitNo());
-                    if (!Cabinet.OutputControllers.Contains(umxC.Name)) {
-                        Cabinet.OutputControllers.Add(umxC);
-                        Log.Write("Detected and added UMX Controller Nr. {0} with name {1}".Build(umxC.Number, umxC.Name));
-                        umxC.UpdateCabinetFromConfig(Cabinet);
-                    }
+                    umxC.UpdateCabinetFromConfig(Cabinet);
                 }
             }
         }

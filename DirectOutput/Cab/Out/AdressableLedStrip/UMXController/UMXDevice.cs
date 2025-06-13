@@ -69,6 +69,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             return $"{name} (unit {unitNo}, ledWiz {ledWizEquivalent}, {numOutputs} outputs)";
         }
 
+        public bool Enabled => enabled;
         public int UnitNo()
         {
             return unitNo;
