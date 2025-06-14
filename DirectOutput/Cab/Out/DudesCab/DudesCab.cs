@@ -273,8 +273,8 @@ namespace DirectOutput.Cab.Out.DudesCab
             public enum HIDCommonReportType : byte
             {
                 RT_HANDSHAKE = 1,
-                RT_SETADMIN,
                 RT_VERSION,
+                RT_SETADMIN,
                 RT_GETSTATUS,
                 RT_FORCELOGLEVEL,
                 RT_RESETCARD,
@@ -282,7 +282,6 @@ namespace DirectOutput.Cab.Out.DudesCab
                 RT_GETPROFILING,
                 RT_COMMONCOMMANDS_END = 99,
                 RT_MAX,
-                RT_GETINFOS_OLDPROTOCOL = 4
             };
 
             public enum DudesCabLogLevel : byte
@@ -301,7 +300,11 @@ namespace DirectOutput.Cab.Out.DudesCab
                 RT_PWM_ALLOFF,
                 RT_PWM_OUTPUTS,
 
-                RT_MAX
+                RT_MAX,
+
+                RT_PWM_OLD_GETINFOS = 3,
+                RT_PWM_OLD_ALLOFF = 4,
+                RT_PWM_OLD_OUTPUTS = 5,
             };
 
             public enum HIDReportTypeMx : byte
@@ -423,13 +426,14 @@ namespace DirectOutput.Cab.Out.DudesCab
 
             public byte[] ReadUSB(byte command)
             {
+                byte remapCommand = (byte)RemapPwmCommand((HIDReportType)command);
                 byte[] answer = new byte[0];
                 try {
-                    while (answer.Length < 2 || answer[1] != command) {
+                    while (answer.Length < 2 || answer[1] != remapCommand) {
                         answer = ReadUSB();
                     }
                 } catch(Exception ex) {
-                    throw new Exception($"Exception during answer retrieval for command {command} on UMXDudesCabDevice {name} RID {deviceRid}: {ex.Message}");
+                    throw new Exception($"Exception during answer retrieval for command {command} (remap:{remapCommand}) on UMXDudesCabDevice {name} RID {deviceRid}: {ex.Message}");
                 }
                 return answer;
             }
@@ -598,11 +602,13 @@ namespace DirectOutput.Cab.Out.DudesCab
 
             internal void SendCommand(HIDCommonReportType command, byte[] paramaters = null)
             {
+                if (firmwareVersion < newProtocolVersion && command > HIDCommonReportType.RT_VERSION)
+                    return;
                 SendCommand(deviceRid, (byte)command, paramaters);
             }
             internal void SendCommand(HIDReportType command, byte[] paramaters = null)
             {
-                SendCommand(deviceRid, (byte)command, paramaters);
+                SendCommand(deviceRid, (byte)RemapPwmCommand(command), paramaters);
             }
 
             internal void SendCommand(HIDReportTypeMx command, byte[] paramaters = null)
@@ -663,10 +669,26 @@ namespace DirectOutput.Cab.Out.DudesCab
             public byte configVersion = 0;
 
             private readonly Version minimalMxVersion = new Version(1,9,0);
+            private readonly Version newProtocolVersion = new Version(1, 9, 14);
 
             internal bool SupportMx()
             {
                 return firmwareVersion >= minimalMxVersion;
+            }
+
+            protected HIDReportType RemapPwmCommand(HIDReportType Command)
+            {
+                if (firmwareVersion < newProtocolVersion) {
+                    switch (Command) {
+                        case HIDReportType.RT_PWM_GETINFOS:
+                            return HIDReportType.RT_PWM_OLD_GETINFOS;
+                        case HIDReportType.RT_PWM_ALLOFF:
+                            return HIDReportType.RT_PWM_OLD_ALLOFF;
+                        case HIDReportType.RT_PWM_OUTPUTS:
+                            return HIDReportType.RT_PWM_OLD_OUTPUTS;
+                    }
+                }
+                return Command;
             }
         }
 
