@@ -196,6 +196,8 @@ namespace DirectOutput.Cab.Out.DudesCab
                             outputMask |= (ushort)(1 << outputNum);
                             OutputBuffer.Add(NewOutputValues[numDofOutput]);
                             nbValuesToSend++;
+                        } else {
+                            Instrumentation($"You are sending Pwm updates to a disabled output or a missing extension (ext: {extNum+1}, output: {outputNum+1}), it could be a wrong configuration or a missmatch with your config on dofconfigtool site.");
                         }
                     }
                 }
