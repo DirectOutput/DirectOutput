@@ -273,8 +273,8 @@ namespace DirectOutput.Cab.Out.DudesCab
             public enum HIDCommonReportType : byte
             {
                 RT_HANDSHAKE = 1,
-                RT_VERSION,
                 RT_SETADMIN,
+                RT_VERSION,
                 RT_GETSTATUS,
                 RT_FORCELOGLEVEL,
                 RT_RESETCARD,
@@ -282,6 +282,8 @@ namespace DirectOutput.Cab.Out.DudesCab
                 RT_GETPROFILING,
                 RT_COMMONCOMMANDS_END = 99,
                 RT_MAX,
+
+                RT_OLD_VERSION = 2
             };
 
             public enum DudesCabLogLevel : byte
@@ -392,11 +394,25 @@ namespace DirectOutput.Cab.Out.DudesCab
                 answer = ReadUSB((byte)HIDCommonReportType.RT_HANDSHAKE).Skip(hidCommandPrefixSize).ToArray();
                 string handShake = Encoding.UTF8.GetString(answer).TrimEnd('\0');
                 var splits = handShake.Split('|');
-                if (splits.Length > 1) {
-                    this.name = splits[0];
-                    handShake = splits[1];
-                } else {
-                    Log.Warning($"Old Dude's Cab handshake, you should update your firmware");
+                switch(splits.Length) {
+                    case 1:
+                        Log.Warning($"Old Dude's Cab handshake, you should update your firmware");
+                        break;
+
+                    case 2:
+                        Log.Warning($"Old Dude's Cab handshake, you should update your firmware");
+                        this.name = splits[0];
+                        handShake = splits[1];
+                        break;
+                    case 3: {
+                        this.name = splits[0];
+                        handShake = splits[1];
+                        var numbers = splits[2].Split('.');
+                        if (numbers.Length == 3) {
+                            firmwareVersion = new Version(int.Parse(numbers[0]), int.Parse(numbers[1]), int.Parse(numbers[2]));
+                        }
+                        break;
+                    }
                 }
                 Log.Write($"{this.name} says : {handShake}");
 
@@ -426,7 +442,7 @@ namespace DirectOutput.Cab.Out.DudesCab
 
             public byte[] ReadUSB(byte command)
             {
-                byte remapCommand = (byte)RemapPwmCommand((HIDReportType)command);
+                byte remapCommand = RemapIncomingCommand(command);
                 byte[] answer = new byte[0];
                 try {
                     while (answer.Length < 2 || answer[1] != remapCommand) {
@@ -602,9 +618,7 @@ namespace DirectOutput.Cab.Out.DudesCab
 
             internal void SendCommand(HIDCommonReportType command, byte[] paramaters = null)
             {
-                if (firmwareVersion < newProtocolVersion && command > HIDCommonReportType.RT_VERSION)
-                    return;
-                SendCommand(deviceRid, (byte)command, paramaters);
+                SendCommand(deviceRid, (byte)RemapCommonCommand(command), paramaters);
             }
             internal void SendCommand(HIDReportType command, byte[] paramaters = null)
             {
@@ -669,11 +683,22 @@ namespace DirectOutput.Cab.Out.DudesCab
             public byte configVersion = 0;
 
             private readonly Version minimalMxVersion = new Version(1,9,0);
-            private readonly Version newProtocolVersion = new Version(1, 9, 14);
+            private readonly Version newProtocolVersion = new Version(1,9,0);
 
             internal bool SupportMx()
             {
                 return firmwareVersion >= minimalMxVersion;
+            }
+
+            protected HIDCommonReportType RemapCommonCommand(HIDCommonReportType Command)
+            {
+                if (firmwareVersion < newProtocolVersion) {
+                    switch (Command) {
+                        case HIDCommonReportType.RT_VERSION:
+                            return HIDCommonReportType.RT_OLD_VERSION;
+                    }
+                }
+                return Command;
             }
 
             protected HIDReportType RemapPwmCommand(HIDReportType Command)
@@ -686,6 +711,23 @@ namespace DirectOutput.Cab.Out.DudesCab
                             return HIDReportType.RT_PWM_OLD_ALLOFF;
                         case HIDReportType.RT_PWM_OUTPUTS:
                             return HIDReportType.RT_PWM_OLD_OUTPUTS;
+                    }
+                }
+                return Command;
+            }
+
+            protected byte RemapIncomingCommand(byte Command)
+            {
+                if (firmwareVersion < newProtocolVersion) {
+                    switch (Command) {
+                        case (byte)HIDCommonReportType.RT_VERSION:
+                            return (byte)HIDCommonReportType.RT_OLD_VERSION;
+                        case (byte)HIDReportType.RT_PWM_GETINFOS:
+                            return (byte)HIDReportType.RT_PWM_OLD_GETINFOS;
+                        case (byte)HIDReportType.RT_PWM_ALLOFF:
+                            return (byte)HIDReportType.RT_PWM_OLD_ALLOFF;
+                        case (byte)HIDReportType.RT_PWM_OUTPUTS:
+                            return (byte)HIDReportType.RT_PWM_OLD_OUTPUTS;
                     }
                 }
                 return Command;
