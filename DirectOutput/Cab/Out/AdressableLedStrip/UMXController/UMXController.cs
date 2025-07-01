@@ -98,15 +98,17 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         }
 
         DateTime lastTime = DateTime.MinValue;
-        int LongestDataLineDelayMs = 16;
+        protected readonly int MinDataLineDelayMs = 5;
+        protected int LongestDataLineDelayMs = 16;
 
         protected override void UpdateOutputs(byte[] OutputValues)
         {
-            if (lastTime == DateTime.MinValue || (DateTime.Now - lastTime).TotalMilliseconds > LongestDataLineDelayMs) {
+            int delay = (int)(DateTime.Now - lastTime).TotalMilliseconds;
+            if (lastTime == DateTime.MinValue || delay >= LongestDataLineDelayMs) {
                 Dev?.UpdateOutputs(OutputValues);
                 lastTime = DateTime.Now;
             } else {
-                Thread.Sleep(LongestDataLineDelayMs - (int)(DateTime.Now - lastTime).TotalMilliseconds);
+                Thread.Sleep(LongestDataLineDelayMs - delay);
             }
         }
 
@@ -163,7 +165,8 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             }
             int ledsRefresh = LedsCaps.FirstOrDefault(C => C.Item1 == Dev?.ledChipset)?.Item2 ?? 30000;
             LongestDataLineDelayMs = Dev?.LongestDataLineNbLeds > 0 ? 1000 / (ledsRefresh / Dev?.LongestDataLineNbLeds) ?? 16 : 16;
-            Log.Instrumentation("UMX", $"\tLongest Dataline is {Dev?.LongestDataLineNbLeds} leds (controller delay is set at {LongestDataLineDelayMs} ms");
+            LongestDataLineDelayMs = Math.Max(LongestDataLineDelayMs, MinDataLineDelayMs);
+            Log.Instrumentation("UMX", $"\tLongest Dataline is {Dev?.LongestDataLineNbLeds} leds (controller delay is set at {LongestDataLineDelayMs} ms)");
 
             if (!cabinet.Toys.Any(T => T is LedWizEquivalent && ((LedWizEquivalent)T).LedWizNumber == Dev.ledWizEquivalent)) {
                 //Create LedwizEquivalent
