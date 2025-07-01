@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using static DirectOutput.Cab.Out.AdressableLedStrip.UMXDevice;
@@ -99,46 +100,47 @@ namespace DirectOutput.Cab.Out.DudesCab
 
         public override void SendCommand(UMXCommand command, byte[] parameters = null)
         {
+            var dudeCommand = UMXToDudeCommand(command);
+            _device.SendCommand(dudeCommand, parameters);
+        }
+
+        private HIDReportTypeMx UMXToDudeCommand(UMXCommand command)
+        {
             switch (command) {
                 case UMXCommand.UMX_SendStripsData:
-                    _device.SendCommand(HIDReportTypeMx.RT_MX_OUTPUTS, parameters);
-                break;
+                    return HIDReportTypeMx.RT_MX_OUTPUTS;
 
                 case UMXCommand.UMX_StartTest:
-                    _device.SendCommand(HIDReportTypeMx.RT_MX_RUNTEST, parameters);
-                    break;
+                    return HIDReportTypeMx.RT_MX_RUNTEST;
 
                 case UMXCommand.UMX_AllOff:
-                    _device.SendCommand(HIDReportTypeMx.RT_MX_ALLOFF, parameters);
-                break;
+                    return HIDReportTypeMx.RT_MX_ALLOFF;
 
                 case UMXCommand.UMX_Handshake:
-                    _device.SendCommand(HIDReportTypeMx.RT_UMXHANDSHAKE, parameters);
-                    break;
+                    return HIDReportTypeMx.RT_UMXHANDSHAKE;
 
                 case UMXCommand.UMX_GetInfos:
-                    _device.SendCommand(HIDReportTypeMx.RT_MX_GETINFOS, parameters);
-                    break;
+                    return HIDReportTypeMx.RT_MX_GETINFOS;
 
                 case UMXCommand.UMX_GetConfig:
-                    _device.SendCommand(HIDReportTypeMx.RT_MX_GETCONFIG, parameters);
-                    break;
+                    return HIDReportTypeMx.RT_MX_GETCONFIG;
 
                 default:
-                    break;
+                    throw new Exception($"Invalid UMX to Dude command remap [{command}]");
             }
         }
 
         public override void WaitAck(byte command)
         {
             return;
-            byte[] answer = _device.ReadUSB(command).ToArray();
+            byte[] answer = _device.ReadUSB((byte)UMXToDudeCommand((UMXCommand)command)).ToArray();
             if (answer.Length != hidCommandPrefixSize+1) {
                 throw new Exception($"The {this.GetType().ToString()} did not send the expected {hidCommandPrefixSize + 1} bytes containing the acknowledge. Received {answer.Length} bytes instead. Will not send data to the controller");
             }
             if (answer[hidCommandPrefixSize] != 'A') {
                 throw new Exception($"The {this.GetType().ToString()} did not send a ACK. Will not send data to the controller");
             }
+            Log.Instrumentation("DudesCab,Mx", $"Received Ack");
         }
 
         DudesCab.Device _device = null;

@@ -39,6 +39,14 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             SK6812
         }
 
+        public static readonly List<Tuple<LedChipset, int>> LedsCaps = new List<Tuple<LedChipset, int>>() {
+            new Tuple<LedChipset, int>(LedChipset.WS2811, 30000),
+            new Tuple<LedChipset, int>(LedChipset.WS2812, 30000),
+            new Tuple<LedChipset, int>(LedChipset.WS2812B, 30000),
+            new Tuple<LedChipset, int>(LedChipset.WS2813, 30000),
+            new Tuple<LedChipset, int>(LedChipset.SK6812, 30000),
+        };
+
         public class LedStripSplit
         {
             public int DataLine { get; set; } = 0;
@@ -105,6 +113,8 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
 
         public DataLine[] DataLines = null;
 
+        public int LongestDataLineNbLeds = 0;
+
         public void ResetDataLines()
         {
             foreach (DataLine line in DataLines) {
@@ -114,6 +124,8 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
 
         public void CreateDataLines()
         {
+            LongestDataLineNbLeds = 0;
+
             DataLines = new DataLine[maxDataLines];
             for (int num = 0; num < maxDataLines; num++) {
                 DataLines[num] = new DataLine();
@@ -122,6 +134,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             foreach(var ledstrip in LedStrips) {
                 foreach(var split in ledstrip.Splits) {
                     DataLines[split.DataLine].NbLeds += split.NbLeds;
+                    LongestDataLineNbLeds = Math.Max(LongestDataLineNbLeds, DataLines[split.DataLine].NbLeds);
                 }
             }
 

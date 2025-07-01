@@ -499,6 +499,7 @@ namespace DirectOutput.Cab.Out.DudesCab
                 }
 
                 // don't retry more than a few times
+                Log.Error("DudesCab Controller USB error reading from device: timed out");
                 return null;
             }
 

@@ -20,6 +20,8 @@ using System.Drawing.Imaging;
 using DirectOutput.Cab.Toys.Hardware;
 using System.Windows.Forms;
 using static DirectOutput.Cab.Out.AdressableLedStrip.UMXDevice;
+using System.Threading;
+using System.Runtime.Remoting.Messaging;
 
 namespace DirectOutput.Cab.Out.AdressableLedStrip
 {
@@ -95,9 +97,17 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             return Dev.NumOutputs();
         }
 
+        DateTime lastTime = DateTime.MinValue;
+        int LongestDataLineDelayMs = 16;
+
         protected override void UpdateOutputs(byte[] OutputValues)
         {
-            Dev?.UpdateOutputs(OutputValues);
+            if (lastTime == DateTime.MinValue || (DateTime.Now - lastTime).TotalMilliseconds > LongestDataLineDelayMs) {
+                Dev?.UpdateOutputs(OutputValues);
+                lastTime = DateTime.Now;
+            } else {
+                Thread.Sleep(LongestDataLineDelayMs - (int)(DateTime.Now - lastTime).TotalMilliseconds);
+            }
         }
 
         protected override bool VerifySettings()
@@ -151,6 +161,9 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             foreach(var line in Dev?.DataLines) {
                 Log.Instrumentation("UMX", $"\t{line.NbLeds} leds");
             }
+            int ledsRefresh = LedsCaps.FirstOrDefault(C => C.Item1 == Dev?.ledChipset)?.Item2 ?? 30000;
+            LongestDataLineDelayMs = Dev?.LongestDataLineNbLeds > 0 ? 1000 / (ledsRefresh / Dev?.LongestDataLineNbLeds) ?? 16 : 16;
+            Log.Instrumentation("UMX", $"\tLongest Dataline is {Dev?.LongestDataLineNbLeds} leds (controller delay is set at {LongestDataLineDelayMs} ms");
 
             if (!cabinet.Toys.Any(T => T is LedWizEquivalent && ((LedWizEquivalent)T).LedWizNumber == Dev.ledWizEquivalent)) {
                 //Create LedwizEquivalent
@@ -163,9 +176,6 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                     Log.Write("Added LedwizEquivalent Nr. {0} with name {1} for UMXController Nr. {2}".Build(
                         LWE.LedWizNumber, LWE.Name, Dev.unitNo) + ", {0}".Build(Dev.LedStrips.Count));
                 }
-
-                //Sort Ledstrip per DataLines
-                //Dev.LedStrips.Sort((L1,L2) => L1.FirstDataline-L2.FirstDataline);
 
                 foreach(var ledstripDesc in Dev.LedStrips) {
                     var ledstrip = new LedStrip() {
