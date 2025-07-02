@@ -299,7 +299,7 @@ namespace DirectOutput.LedControl.Setup
                                             }
                                             else
                                             {
-                                                Log.Warning("No color valid color definition found for area effect. Skipped setting {0} in column {1} for LedWizEqivalent number {2}.".Build(SettingNumber, TCC.Number, LedWizNr));
+                                                Log.Warning("Invalid color definition \"{0}\" found for area effect. Skipped setting {1} in column {2} for LedWizEqivalent number {3}.".Build(TCS.ColorName, SettingNumber, TCC.Number, LedWizNr));
 
                                             }
                                         }

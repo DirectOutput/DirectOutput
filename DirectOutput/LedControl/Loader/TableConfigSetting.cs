@@ -1,6 +1,7 @@
-﻿using System;
+﻿using DirectOutput.FX.MatrixFX;
+using System;
 using System.Linq;
-using DirectOutput.FX.MatrixFX;
+using System.Text.RegularExpressions;
 
 namespace DirectOutput.LedControl.Loader
 {
@@ -291,7 +292,7 @@ namespace DirectOutput.LedControl.Loader
         /// </exception>
         public void ParseSettingData(string SettingData)
         {
-            string S = SettingData.Trim().ToUpper();
+            string S = SettingData.Trim();
 
             if (S.StartsWith("("))
             {
@@ -314,7 +315,7 @@ namespace DirectOutput.LedControl.Loader
 
                 if (ClosingBracketPos > 0)
                 {
-                    Condition = S.Substring(0, ClosingBracketPos + 1);
+                    Condition = S.Substring(0, ClosingBracketPos + 1).ToUpper();
                     OutputControl = OutputControlEnum.Condition;
                     S = S.Substring(Condition.Length).Trim();
                     //TODO: Maybe add a check for the condition validity
@@ -358,13 +359,13 @@ namespace DirectOutput.LedControl.Loader
                 }
                 if (TriggerEndPos == -1) TriggerEndPos = S.Length;
 
-                string Trigger = S.Substring(0, TriggerEndPos).Trim();
+                string Trigger = S.Substring(0, TriggerEndPos).ToUpper().Trim();
 
 
 
                 //Get output state and table element (if applicable)
                 bool ParseOK = true;
-                switch (Trigger.ToUpper())
+                switch (Trigger)
                 {
                     case "ON":
                     case "1":
@@ -468,7 +469,7 @@ namespace DirectOutput.LedControl.Loader
                 }
                 else if (Parts[PartNr].Length > 3 && Parts[PartNr].Substring(0, 3).ToUpper() == "APC")
                 {
-                    ColorName2 = Parts[PartNr].Substring(3);
+                    ColorName2 = Parts[PartNr].Substring(3).ToUpper();
                     IsPlasma = true;
                     IsArea = true;
                 }
@@ -482,7 +483,7 @@ namespace DirectOutput.LedControl.Loader
 
                 else if (Parts[PartNr].Length > 3 && Parts[PartNr].Substring(0, 3).ToUpper() == "SHP" )
                 {
-                    ShapeName = Parts[PartNr].Substring(3).Trim();
+                    ShapeName = Parts[PartNr].Substring(3).Trim().ToUpper();
                     IsArea = true;
                 }
                 else if (Parts[PartNr].Length > 3 && Parts[PartNr].Substring(0, 3).ToUpper() == "ABT" && Parts[PartNr].Substring(3).IsInteger())
@@ -745,10 +746,21 @@ namespace DirectOutput.LedControl.Loader
                     }
                     IntegerCnt++;
                 }
-                else if (PartNr == 0)
+                // if Parts[PartNr] starts with # and a HTML-style hex color value we assume a color.
+                else if (Regex.IsMatch(Parts[PartNr], @"^#"))
                 {
-                    //This should be a color
-                    ColorName = Parts[PartNr];
+                    if (!Regex.IsMatch(Parts[PartNr], @"^#[0-9A-Fa-f]{6,8}$"))
+                    {
+                        Log.Warning("Invalid '#' HTML-style color code \"{0}\", #rrggbb or #rrggbbaa required".Build(Parts[PartNr]));
+                        throw new Exception("Invalid '#' HTML-style color code \"{0}\", #rrggbb or #rrggbbaa required".Build(Parts[PartNr]));
+                    }
+                    // This should be a HTML-style hex color string
+                    ColorName = Parts[PartNr].ToUpper();
+                }
+                // if Parts[PartNr] contains only capital and small caps letters or underscore we assume a color
+                else if (Parts[PartNr].Length > 2 && Regex.IsMatch(Parts[PartNr], @"^[A-Za-z_]+$"))
+                {
+                    ColorName = Parts[PartNr].ToUpper();
                 }
                 else
                 {
