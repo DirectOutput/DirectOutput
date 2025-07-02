@@ -1,0 +1,114 @@
+name: Generate Documentation
+
+on:
+  push:
+    branches: [ master ]
+    paths:
+      - 'Documentation/**'
+      - 'DirectOutput/**'
+      - 'DocumentationHelper/**'
+      - 'DoxygenConfig/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build-docs:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '6.0.x'
+        
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+        
+    - name: Install Doxygen
+      run: |
+        choco install doxygen.install graphviz
+        
+    - name: Restore NuGet packages
+      run: |
+        nuget restore DirectOutput.sln
+        
+    - name: Build DirectOutput (to generate XML docs)
+      run: |
+        msbuild DirectOutput/DirectOutput.csproj /p:Configuration=Debug /p:Platform=x86
+        
+    - name: Copy XML documentation to expected location
+      run: |
+        mkdir -Force "bin\Release"
+        copy "bin\Debug\DirectOutput.xml" "bin\Release\DirectOutput.XML"
+        
+    - name: Build DocumentationHelper
+      run: |
+        msbuild DocumentationHelper/DocumentationHelper.csproj /p:Configuration=Release /p:Platform=x86
+        
+    - name: Generate dynamic documentation files
+      run: |
+        cd bin/Release
+        ./DocumentationHelper.exe
+        
+    - name: Generate documentation with Doxygen
+      timeout-minutes: 10
+      run: |
+        cd DoxygenConfig
+        & "C:\Program Files\doxygen\bin\doxygen.exe" DoxygenConfigFile_GitHubActions
+        
+    - name: Verify documentation generated
+      run: |
+        if (Test-Path "DirectOutput_Docu") { 
+          echo "Documentation generated successfully"
+          echo "Generated files:"
+          Get-ChildItem "DirectOutput_Docu" -Recurse -Name | Select-Object -First 10
+        } else { 
+          echo "DirectOutput_Docu directory not found"
+          exit 1
+        }
+        
+    - name: Setup Pages
+      uses: actions/configure-pages@v4
+      
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: './DirectOutput_Docu'
+        
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-docs
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: github-pages
+          path: ./docs-artifact
+          
+      - name: Extract artifact
+        run: |
+          cd docs-artifact
+          tar -xf artifact.tar
+          
+      - name: Deploy to gh-pages branch
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs-artifact
+          force_orphan: true

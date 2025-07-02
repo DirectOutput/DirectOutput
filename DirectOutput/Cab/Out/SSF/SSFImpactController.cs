@@ -16,7 +16,7 @@ namespace DirectOutput.Cab.Out.SSFImpactController
     /// <summary>
     /// The SSFImpactor supports for using common audio bass shakers to emulate/simulate contractors/solenoids in a Virtual Pinball Cabinet.<br/>
     /// It presents itself as a full set of contactors, etc for assignment via DOF Config. Support, hardware suggestions, layout diagrams and the
-    /// just about friendliest people in the hobby can be found here:  <a href="https://www.facebook.com/groups/SSFeedback/"/>
+    /// just about friendliest people in the hobby can be found here: <a href="https://www.facebook.com/groups/SSFeedback/">https://www.facebook.com/groups/SSFeedback/</a>
     /// <remarks>For help specifically with SSFImpactor look fo Kai "MrKai" Cherry.</remarks>
     /// </summary>
     public class SSFImpactController : OutputControllerBase, IOutputController
