@@ -7,11 +7,11 @@ namespace PinballX
     public struct PluginInfo
     {
         public const string Name = "DirectOutput PinballX Plugin";
-        public const string Version = "1";
-        public const string Author = "Swisslizard";
+        public const string Version = "2.0";
+        public const string Author = "Swisslizard (modified by Mike da Spike)";
 
         public const string Description = "DirectOutput PinballX Plugin";
-        public const string PluginVersion = "1.0";
+        public const string PluginVersion = "2.0";
 
         public string Dummy;
     }

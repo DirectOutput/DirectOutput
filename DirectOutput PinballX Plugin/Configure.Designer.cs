@@ -42,8 +42,11 @@
             this.DOFVersionText = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.EnableLogCheckBox = new System.Windows.Forms.CheckBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.SuspendLayout();
             // 
             // OKButton
@@ -111,7 +114,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(17, 203);
+            this.label2.Location = new System.Drawing.Point(17, 256);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(35, 13);
             this.label2.TabIndex = 26;
@@ -121,7 +124,7 @@
             // 
             this.DOFStateText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.DOFStateText.Location = new System.Drawing.Point(71, 200);
+            this.DOFStateText.Location = new System.Drawing.Point(71, 253);
             this.DOFStateText.Name = "DOFStateText";
             this.DOFStateText.ReadOnly = true;
             this.DOFStateText.Size = new System.Drawing.Size(644, 20);
@@ -130,7 +133,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(20, 229);
+            this.label3.Location = new System.Drawing.Point(20, 282);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(32, 13);
             this.label3.TabIndex = 28;
@@ -140,7 +143,7 @@
             // 
             this.DOFPathText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.DOFPathText.Location = new System.Drawing.Point(71, 226);
+            this.DOFPathText.Location = new System.Drawing.Point(71, 279);
             this.DOFPathText.Name = "DOFPathText";
             this.DOFPathText.ReadOnly = true;
             this.DOFPathText.Size = new System.Drawing.Size(644, 20);
@@ -150,7 +153,7 @@
             // 
             this.DOFVersionText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.DOFVersionText.Location = new System.Drawing.Point(71, 252);
+            this.DOFVersionText.Location = new System.Drawing.Point(71, 305);
             this.DOFVersionText.Name = "DOFVersionText";
             this.DOFVersionText.ReadOnly = true;
             this.DOFVersionText.Size = new System.Drawing.Size(644, 20);
@@ -159,7 +162,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(20, 255);
+            this.label4.Location = new System.Drawing.Point(20, 308);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(45, 13);
             this.label4.TabIndex = 30;
@@ -168,7 +171,7 @@
             // EnableLogCheckBox
             // 
             this.EnableLogCheckBox.AutoSize = true;
-            this.EnableLogCheckBox.Location = new System.Drawing.Point(23, 290);
+            this.EnableLogCheckBox.Location = new System.Drawing.Point(23, 343);
             this.EnableLogCheckBox.Name = "EnableLogCheckBox";
             this.EnableLogCheckBox.Size = new System.Drawing.Size(76, 17);
             this.EnableLogCheckBox.TabIndex = 32;
@@ -176,11 +179,33 @@
             this.EnableLogCheckBox.UseVisualStyleBackColor = true;
             this.EnableLogCheckBox.CheckedChanged += new System.EventHandler(this.EnableLogCheckBox_CheckedChanged);
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(515, 184);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(167, 13);
+            this.label5.TabIndex = 33;
+            this.label5.Text = "(modified by Mike DA Spike)";
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
+            this.pictureBox3.Location = new System.Drawing.Point(432, 167);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(80, 80);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox3.TabIndex = 34;
+            this.pictureBox3.TabStop = false;
+            // 
             // Configure
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(736, 428);
+            this.Controls.Add(this.pictureBox3);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.EnableLogCheckBox);
             this.Controls.Add(this.DOFVersionText);
             this.Controls.Add(this.label4);
@@ -199,6 +224,7 @@
             this.Text = "DirectOutput Plugin Configuration";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -207,7 +233,7 @@
         #endregion
 
         private System.Windows.Forms.Button OKButton;
-        private new System.Windows.Forms.Button CancelButton;
+        private System.Windows.Forms.Button CancelButton;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Label label8;
@@ -219,5 +245,7 @@
         private System.Windows.Forms.TextBox DOFVersionText;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckBox EnableLogCheckBox;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.PictureBox pictureBox3;
     }
 }
