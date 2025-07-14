@@ -1,0 +1,7 @@
+<map id="DirectOutput.General.FilePattern" name="DirectOutput.General.FilePattern">
+<area shape="rect" id="Node000001" title="A file pattern class used to lookup files matching a specified pattern." alt="" coords="83,80,252,123"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,167,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="111,41,149,78,145,82,108,45"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="191,5,306,32"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="227,45,190,82,186,78,223,41"/>
+</map>

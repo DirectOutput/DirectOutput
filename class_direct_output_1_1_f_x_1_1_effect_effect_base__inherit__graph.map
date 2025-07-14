@@ -1,0 +1,32 @@
+<map id="DirectOutput.FX.EffectEffectBase" name="DirectOutput.FX.EffectEffectBase">
+<area shape="rect" id="Node000001" title="Base class for effects targeting another effect." alt="" coords="728,313,947,340"/>
+<area shape="rect" id="Node000006" href="$class_direct_output_1_1_f_x_1_1_condition_f_x_1_1_table_element_condition_effect.html" title="This effect evaluates the condition specified in the Condition property." alt="" coords="995,5,1205,48"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="845,297,865,246,895,182,938,115,964,85,993,58,1011,46,1014,51,996,62,968,88,942,119,900,184,870,248,850,299"/>
+<area shape="rect" id="Node000007" href="$class_direct_output_1_1_f_x_1_1_timmed_f_x_1_1_blink_effect.html" title="Blink effect which triggers a TargetEffect at specified intervalls with active (org value of TableEle..." alt="" coords="1006,72,1194,115"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="851,298,874,259,906,213,946,165,993,124,1013,113,1016,118,996,129,950,169,910,216,878,262,855,301"/>
+<area shape="rect" id="Node000008" href="$class_direct_output_1_1_f_x_1_1_timmed_f_x_1_1_delay_effect.html" title="The effect fires a assigned target effect after a specified delay. &#160;The original values supplied when..." alt="" coords="1006,139,1194,181"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="860,300,917,246,954,216,993,191,1018,180,1020,184,996,196,957,221,921,250,863,304"/>
+<area shape="rect" id="Node000009" href="$class_direct_output_1_1_f_x_1_1_timmed_f_x_1_1_duration_effect.html" title="Duration effect which triggers a specified target effect for a specified duration...." alt="" coords="1006,205,1194,248"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="882,304,994,258,1026,246,1028,251,996,262,884,309"/>
+<area shape="rect" id="Node000010" href="$class_direct_output_1_1_f_x_1_1_timmed_f_x_1_1_extend_duration_effect.html" title="The extend duration effect triggers another effect for a duration which is extebnded by the number of..." alt="" coords="1006,272,1194,315"/>
+<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="962,308,1005,303,1006,308,962,313"/>
+<area shape="rect" id="Node000011" href="$class_direct_output_1_1_f_x_1_1_timmed_f_x_1_1_fade_effect.html" title="This effect fades towards the value passed to the effect in the TableElementData of the trigger metho..." alt="" coords="1006,339,1194,381"/>
+<area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="962,340,1006,345,1005,351,962,345"/>
+<area shape="rect" id="Node000012" href="$class_direct_output_1_1_f_x_1_1_timmed_f_x_1_1_max_duration_effect.html" title="Limits the max duration of the effect to the specified number of milliseconds." alt="" coords="1006,405,1194,448"/>
+<area shape="poly" id="edge12_Node000001_Node000012" title=" " alt="" coords="884,344,996,391,1028,402,1026,407,994,396,882,349"/>
+<area shape="rect" id="Node000013" href="$class_direct_output_1_1_f_x_1_1_timmed_f_x_1_1_min_duration_effect.html" title="This effect enforces a minimum duration on the effect calls. &#160;Calls which are setting a effect to act..." alt="" coords="1006,472,1194,515"/>
+<area shape="poly" id="edge13_Node000001_Node000013" title=" " alt="" coords="863,350,921,404,957,433,996,458,1020,469,1018,474,993,462,954,437,917,408,860,353"/>
+<area shape="rect" id="Node000014" href="$class_direct_output_1_1_f_x_1_1_value_f_x_1_1_value_invert_effect.html" title="Inverts the trigger value of the effect before the target effect is called (e.g. 0 becomes 255,..." alt="" coords="1013,539,1186,581"/>
+<area shape="poly" id="edge14_Node000001_Node000014" title=" " alt="" coords="855,353,878,391,910,437,950,484,996,524,1016,536,1013,540,993,529,946,488,906,441,874,394,851,355"/>
+<area shape="rect" id="Node000015" href="$class_direct_output_1_1_f_x_1_1_value_f_x_1_1_value_map_full_range_effect.html" title="This effects maps the trigger value to the full range of 0 &#45; 255. If the trigger value is 0,..." alt="" coords="1013,605,1186,648"/>
+<area shape="poly" id="edge15_Node000001_Node000015" title=" " alt="" coords="850,354,870,405,900,469,942,535,968,565,996,591,1014,603,1011,607,993,595,964,569,938,538,895,471,865,407,845,356"/>
+<area shape="rect" id="Node000002" href="$class_direct_output_1_1_f_x_1_1_effect_base.html" title="Abstract base class for IEffect objects. &#160;This class inherits NamedItemBase and implements IEffect." alt="" coords="496,313,680,340"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="696,324,728,324,728,329,696,329"/>
+<area shape="rect" id="Node000003" href="$class_direct_output_1_1_general_1_1_generic_1_1_named_item_base.html" title="Abstract base class for named items. &#160;Implements the name property and the necessary events." alt="" coords="251,276,448,319"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="464,309,496,313,495,318,463,314"/>
+<area shape="rect" id="Node000004" href="$interface_direct_output_1_1_general_1_1_generic_1_1_i_named_item.html" title="Interface for items which can be added the the NamedItemList." alt="" coords="5,305,203,348"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="218,310,250,307,250,312,218,316"/>
+<area shape="rect" id="Node000005" href="$interface_direct_output_1_1_f_x_1_1_i_effect.html" title="Common interface for all effects. &#160;If a new effect is implemented it is best to inherit from the abst..." alt="" coords="270,343,428,369"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="218,338,270,344,269,349,218,343"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="443,342,495,335,496,341,444,347"/>
+</map>

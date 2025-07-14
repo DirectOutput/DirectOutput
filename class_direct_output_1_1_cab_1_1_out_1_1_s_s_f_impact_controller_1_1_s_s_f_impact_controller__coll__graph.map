@@ -1,0 +1,21 @@
+<map id="DirectOutput.Cab.Out.SSFImpactController.SSFImpactController" name="DirectOutput.Cab.Out.SSFImpactController.SSFImpactController">
+<area shape="rect" id="Node000001" title="The SSFImpactor supports for using common audio bass shakers to emulate/simulate contractors/solenoid..." alt="" coords="860,131,1078,173"/>
+<area shape="rect" id="Node000002" href="$class_direct_output_1_1_cab_1_1_out_1_1_output_controller_base.html" title="Abstract OutputController base class to be used for IOutputController implementations...." alt="" coords="533,13,724,56"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="740,46,789,57,837,72,892,99,939,128,936,132,890,103,835,77,788,62,739,51"/>
+<area shape="rect" id="Node000003" href="$class_direct_output_1_1_general_1_1_generic_1_1_named_item_base.html" title="Abstract base class for named items. &#160;Implements the name property and the necessary events." alt="" coords="262,5,460,48"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="476,27,533,29,533,34,475,33"/>
+<area shape="rect" id="Node000004" href="$interface_direct_output_1_1_general_1_1_generic_1_1_i_named_item.html" title="Interface for items which can be added the the NamedItemList." alt="" coords="5,40,203,83"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="218,43,262,37,262,43,218,49"/>
+<area shape="rect" id="Node000005" href="$interface_direct_output_1_1_cab_1_1_out_1_1_i_output_controller.html" title="Common interface for all outputcontrollers. Only classes implementing this interface can be used as o..." alt="" coords="264,72,459,115"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="218,73,263,78,263,84,218,78"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="474,93,645,101,836,120,879,127,878,133,836,125,645,106,474,98"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="473,66,532,53,533,58,475,71"/>
+<area shape="rect" id="Node000006" href="$class_direct_output_1_1_cab_1_1_out_1_1_s_s_f_impact_controller_1_1_sound_bank.html" title=" " alt="" coords="520,131,738,173"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="754,149,860,149,860,155,754,155"/>
+<area shape="rect" id="Node000007" href="$class_direct_output_1_1_cab_1_1_out_1_1_s_s_f_impact_controller_1_1_faker.html" title="The Faker is a software implementation of a variable shaker motor." alt="" coords="520,197,738,240"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="753,195,835,179,871,171,872,177,837,184,754,200"/>
+<area shape="rect" id="Node000008" href="$class_direct_output_1_1_cab_1_1_out_1_1_s_s_f_impact_controller_1_1_s_s_f_gear.html" title=" " alt="" coords="520,264,738,307"/>
+<area shape="poly" id="edge9_Node000001_Node000008" title=" " alt="" coords="736,257,835,223,887,198,932,172,935,176,889,202,837,228,737,262"/>
+<area shape="rect" id="Node000009" href="$class_direct_output_1_1_cab_1_1_out_1_1_s_s_f_impact_controller_1_1_s_s_fnoid.html" title="The SSFNoid is a simple class for storing state information on the virtual contactors." alt="" coords="252,264,470,307"/>
+<area shape="poly" id="edge10_Node000008_Node000009" title=" " alt="" coords="486,283,519,283,519,288,486,288"/>
+</map>

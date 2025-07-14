@@ -1,0 +1,7 @@
+<map id="DirectOutput.Cab.Toys.IToyUpdatable" name="DirectOutput.Cab.Toys.IToyUpdatable">
+<area shape="rect" id="Node000001" title="Interface for toys which need a update method which is used to update their outputs." alt="" coords="12,171,196,213"/>
+<area shape="rect" id="Node000002" href="$interface_direct_output_1_1_cab_1_1_toys_1_1_i_toy.html" title="Common interface for all toy implementations. &#160;The abstract class ToyBase implements this interface." alt="" coords="12,96,196,123"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="107,138,107,170,101,170,101,138"/>
+<area shape="rect" id="Node000003" href="$interface_direct_output_1_1_general_1_1_generic_1_1_i_named_item.html" title="Interface for items which can be added the the NamedItemList." alt="" coords="5,5,203,48"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="107,64,107,95,101,95,101,64"/>
+</map>

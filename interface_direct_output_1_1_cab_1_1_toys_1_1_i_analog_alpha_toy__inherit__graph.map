@@ -1,0 +1,19 @@
+<map id="DirectOutput.Cab.Toys.IAnalogAlphaToy" name="DirectOutput.Cab.Toys.IAnalogAlphaToy">
+<area shape="rect" id="Node000001" title="Common interface for toys supporting analog alpha layers." alt="" coords="159,261,362,304"/>
+<area shape="rect" id="Node000005" href="$class_direct_output_1_1_cab_1_1_toys_1_1_layer_1_1_analog_alpha_toy.html" title="This toy handles analog values (0&#45;255) in a layer structure including alpha value (0=completely trans..." alt="" coords="163,352,358,395"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="263,320,263,352,258,352,258,320"/>
+<area shape="rect" id="Node000002" href="$interface_direct_output_1_1_cab_1_1_toys_1_1_layer_1_1_i_layer_toy-1-g.html" title=" " alt="" coords="155,171,366,213"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="263,229,263,261,258,261,258,229"/>
+<area shape="rect" id="Node000003" href="$interface_direct_output_1_1_cab_1_1_toys_1_1_i_toy.html" title="Common interface for all toy implementations. &#160;The abstract class ToyBase implements this interface." alt="" coords="168,96,352,123"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="263,138,263,170,258,170,258,138"/>
+<area shape="rect" id="Node000004" href="$interface_direct_output_1_1_general_1_1_generic_1_1_i_named_item.html" title="Interface for items which can be added the the NamedItemList." alt="" coords="162,5,359,48"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="263,64,263,95,258,95,258,64"/>
+<area shape="rect" id="Node000006" href="$class_direct_output_1_1_cab_1_1_toys_1_1_hardware_1_1_lamp.html" title="Lamp toy. &#160;Just a simple wrapper for the AnalogAlphaToy." alt="" coords="5,451,257,477"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="219,406,151,452,148,448,216,401"/>
+<area shape="rect" id="Node000007" href="$class_direct_output_1_1_cab_1_1_toys_1_1_hardware_1_1_motor.html" title="Motor toy supporting max. and min. power, max. runtime and kickstart settings. &#160;The settings of this ..." alt="" coords="281,443,501,485"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="305,401,362,440,359,444,302,406"/>
+<area shape="rect" id="Node000008" href="$class_direct_output_1_1_cab_1_1_toys_1_1_hardware_1_1_gear_motor.html" title="GearMotor toy supporting max. and min. power, max. runtime and kickstart settings...." alt="" coords="159,533,378,576"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="352,497,299,535,296,531,349,492"/>
+<area shape="rect" id="Node000009" href="$class_direct_output_1_1_cab_1_1_toys_1_1_hardware_1_1_shaker.html" title="Shaker toy with settings for minimum and maximum power, fading curves, max runtime and kickstart." alt="" coords="403,533,622,576"/>
+<area shape="poly" id="edge8_Node000007_Node000009" title=" " alt="" coords="433,492,485,531,482,535,430,497"/>
+</map>

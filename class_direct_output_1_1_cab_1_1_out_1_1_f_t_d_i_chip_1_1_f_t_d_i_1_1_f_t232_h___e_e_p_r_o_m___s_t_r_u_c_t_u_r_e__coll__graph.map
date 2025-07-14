@@ -1,0 +1,5 @@
+<map id="DirectOutput.Cab.Out.FTDIChip.FTDI.FT232H_EEPROM_STRUCTURE" name="DirectOutput.Cab.Out.FTDIChip.FTDI.FT232H_EEPROM_STRUCTURE">
+<area shape="rect" id="Node000001" title="EEPROM structure specific to FT232H devices. Inherits from FT_EEPROM_DATA." alt="" coords="5,96,264,139"/>
+<area shape="rect" id="Node000002" href="$class_direct_output_1_1_cab_1_1_out_1_1_f_t_d_i_chip_1_1_f_t_d_i_1_1_f_t___e_e_p_r_o_m___d_a_t_a.html" title="Common EEPROM elements for all devices. Inherited to specific device type EEPROMs." alt="" coords="28,5,241,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="137,64,137,96,132,96,132,64"/>
+</map>

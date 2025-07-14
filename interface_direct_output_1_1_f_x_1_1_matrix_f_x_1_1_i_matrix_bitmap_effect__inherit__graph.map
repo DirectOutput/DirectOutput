@@ -1,0 +1,25 @@
+<map id="DirectOutput.FX.MatrixFX.IMatrixBitmapEffect" name="DirectOutput.FX.MatrixFX.IMatrixBitmapEffect">
+<area shape="rect" id="Node000001" title=" " alt="" coords="682,215,860,257"/>
+<area shape="rect" id="Node000005" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_matrix_bitmap_animation_effect_base-1-g.html" title=" " alt="" coords="908,136,1128,195"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="862,207,913,193,914,198,863,212"/>
+<area shape="rect" id="Node000009" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_matrix_bitmap_effect_base-1-g.html" title="Outputs a defined part of a bitmap on a area of a matrix." alt="" coords="929,248,1106,307"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="875,251,929,260,928,265,875,256"/>
+<area shape="rect" id="Node000002" href="$interface_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_i_matrix_effect.html" title=" " alt="" coords="457,215,634,257"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="650,233,682,233,682,239,650,239"/>
+<area shape="rect" id="Node000003" href="$interface_direct_output_1_1_f_x_1_1_i_effect.html" title="Common interface for all effects. &#160;If a new effect is implemented it is best to inherit from the abst..." alt="" coords="251,223,409,249"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="425,233,456,233,456,239,425,239"/>
+<area shape="rect" id="Node000004" href="$interface_direct_output_1_1_general_1_1_generic_1_1_i_named_item.html" title="Interface for items which can be added the the NamedItemList." alt="" coords="5,215,203,257"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="218,233,250,233,250,239,218,239"/>
+<area shape="rect" id="Node000006" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_analog_alpha_matrix_bitmap_animation_effect.html" title="Displays parts of a bitmap as a animation on a matrix of AnalogAlpha elements. Check the docu on the ..." alt="" coords="1190,5,1420,64"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="1078,125,1175,74,1203,62,1205,67,1177,78,1080,130"/>
+<area shape="rect" id="Node000007" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_r_g_b_a_matrix_bitmap_animation_effect.html" title="The RGBAMatrixBitmapAnimationEffect displays a anmation which is based on a image file on the definea..." alt="" coords="1191,88,1419,131"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="1143,138,1192,129,1193,134,1144,144"/>
+<area shape="rect" id="Node000008" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_r_g_b_a_matrix_color_scale_bitmap_animation_effect.html" title="This displays a defined part of a bitmap as a animation in the given colors on a area of a RGBAtoy Ma..." alt="" coords="1176,155,1434,213"/>
+<area shape="poly" id="edge7_Node000005_Node000008" title=" " alt="" coords="1144,171,1176,173,1175,178,1144,176"/>
+<area shape="rect" id="Node000010" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_analog_alpha_matrix_bitmap_effect.html" title="Displays a defined part of a bitmap on a area of a AnalogAlpha Matrix." alt="" coords="1202,237,1408,280"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="1122,268,1202,263,1202,268,1122,273"/>
+<area shape="rect" id="Node000011" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_r_g_b_a_matrix_bitmap_effect.html" title="The RGBAMatrixBitmapEffect displays a defined part of a bitmap on a area of a RGBAtoy Matrix." alt="" coords="1216,304,1394,347"/>
+<area shape="poly" id="edge10_Node000009_Node000011" title=" " alt="" coords="1122,292,1216,308,1215,313,1121,297"/>
+<area shape="rect" id="Node000012" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_r_g_b_a_matrix_color_scale_bitmap_effect.html" title="The RGBAMatrixBitmapEffect displays a defined part of a bitmap in the given colors on a area of a RGB..." alt="" coords="1188,371,1422,413"/>
+<area shape="poly" id="edge11_Node000009_Node000012" title=" " alt="" coords="1084,312,1177,356,1211,368,1209,373,1175,361,1082,317"/>
+</map>

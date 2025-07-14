@@ -1,0 +1,5 @@
+<map id="DirectOutput.Cab.Out.PSPico.PinscapePicoAutoConfigurator" name="DirectOutput.Cab.Out.PSPico.PinscapePicoAutoConfigurator">
+<area shape="rect" id="Node000001" title="This class is used to detect and configure Pinscape Pico output controllers automatically." alt="" coords="5,96,206,139"/>
+<area shape="rect" id="Node000002" href="$interface_direct_output_1_1_cab_1_1_out_1_1_i_auto_config_output_controller.html" title="Interface for classes used to automatically detect and configure output controllers." alt="" coords="14,5,197,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="108,64,108,96,103,96,103,64"/>
+</map>

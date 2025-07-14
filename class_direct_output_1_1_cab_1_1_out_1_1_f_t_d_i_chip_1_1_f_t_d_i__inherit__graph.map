@@ -1,0 +1,5 @@
+<map id="DirectOutput.Cab.Out.FTDIChip.FTDI" name="DirectOutput.Cab.Out.FTDIChip.FTDI">
+<area shape="rect" id="Node000001" title="Class wrapper for FTD2XX.DLL." alt="" coords="5,80,249,107"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="82,5,172,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="130,48,130,80,124,80,124,48"/>
+</map>

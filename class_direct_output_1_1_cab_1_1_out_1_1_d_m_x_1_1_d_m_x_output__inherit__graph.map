@@ -1,0 +1,13 @@
+<map id="DirectOutput.Cab.Out.DMX.DMXOutput" name="DirectOutput.Cab.Out.DMX.DMXOutput">
+<area shape="rect" id="Node000001" title="IOutput implementation for DMX. &#160;Inherits from Output and adds the DmxChannel property." alt="" coords="164,261,350,304"/>
+<area shape="rect" id="Node000002" href="$class_direct_output_1_1_cab_1_1_out_1_1_output.html" title="Basic IOutput implementation." alt="" coords="95,187,286,213"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="213,224,243,259,238,263,209,227"/>
+<area shape="rect" id="Node000003" href="$class_direct_output_1_1_general_1_1_generic_1_1_named_item_base.html" title="Abstract base class for named items. &#160;Implements the name property and the necessary events." alt="" coords="5,96,203,139"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="139,148,179,184,175,188,136,152"/>
+<area shape="rect" id="Node000004" href="$interface_direct_output_1_1_general_1_1_generic_1_1_i_named_item.html" title="Interface for items which can be added the the NamedItemList." alt="" coords="115,5,312,48"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="178,60,131,97,128,93,175,56"/>
+<area shape="rect" id="Node000005" href="$interface_direct_output_1_1_cab_1_1_out_1_1_i_output.html" title="Common interface for outputs of any output controller. The Output class implements this interface and..." alt="" coords="226,104,422,131"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="252,56,310,101,307,106,249,60"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="321,147,301,214,274,262,270,259,296,212,316,145"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="292,141,213,189,210,184,289,137"/>
+</map>

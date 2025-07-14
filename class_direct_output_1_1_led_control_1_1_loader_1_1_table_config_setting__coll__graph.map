@@ -1,0 +1,5 @@
+<map id="DirectOutput.LedControl.Loader.TableConfigSetting" name="DirectOutput.LedControl.Loader.TableConfigSetting">
+<area shape="rect" id="Node000001" title="A single setting from a LedControl.ini file." alt="" coords="5,120,180,163"/>
+<area shape="rect" id="Node000002" href="$class_direct_output_1_1_led_control_1_1_loader_1_1_color_config.html" title="Color configuration from a LedControl file." alt="" coords="9,5,176,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="95,64,95,120,90,120,90,64"/>
+</map>

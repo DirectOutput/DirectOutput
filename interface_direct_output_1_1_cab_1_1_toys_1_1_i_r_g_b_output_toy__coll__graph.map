@@ -1,0 +1,7 @@
+<map id="DirectOutput.Cab.Toys.IRGBOutputToy" name="DirectOutput.Cab.Toys.IRGBOutputToy">
+<area shape="rect" id="Node000001" title="Common interface for RGB toys supporting several layers of color with alpha value." alt="" coords="5,171,258,197"/>
+<area shape="rect" id="Node000002" href="$interface_direct_output_1_1_cab_1_1_toys_1_1_i_toy.html" title="Common interface for all toy implementations. &#160;The abstract class ToyBase implements this interface." alt="" coords="39,96,224,123"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,138,134,170,129,170,129,138"/>
+<area shape="rect" id="Node000003" href="$interface_direct_output_1_1_general_1_1_generic_1_1_i_named_item.html" title="Interface for items which can be added the the NamedItemList." alt="" coords="33,5,230,48"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="134,64,134,95,129,95,129,64"/>
+</map>

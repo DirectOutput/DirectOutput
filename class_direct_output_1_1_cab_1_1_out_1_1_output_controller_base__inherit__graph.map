@@ -1,0 +1,30 @@
+<map id="DirectOutput.Cab.Out.OutputControllerBase" name="DirectOutput.Cab.Out.OutputControllerBase">
+<area shape="rect" id="Node000001" title="Abstract OutputController base class to be used for IOutputController implementations...." alt="" coords="496,272,687,315"/>
+<area shape="rect" id="Node000005" href="$class_direct_output_1_1_cab_1_1_out_1_1_adressable_led_strip_1_1_direct_strip_controller.html" title="This output controller class is used to control the direct strip controller by Swisslizard." alt="" coords="746,5,963,48"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="603,257,622,211,650,158,687,104,709,79,734,58,753,46,755,51,737,62,713,83,691,107,654,160,626,213,608,259"/>
+<area shape="rect" id="Node000007" href="$class_direct_output_1_1_cab_1_1_out_1_1_f_t_d_i_chip_1_1_f_t245_r_bitbang_controller.html" title="This is a generic output controller class which are based on the FT245R chip (http://www...." alt="" coords="748,72,961,115"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="611,257,661,190,695,154,734,124,756,113,758,118,737,129,699,158,666,193,616,261"/>
+<area shape="rect" id="Node000008" href="$class_direct_output_1_1_cab_1_1_out_1_1_l_w_1_1_led_wiz.html" title="The LedWiz is a easy to use outputcontroller with 32 outputs which all support 49 pwm levels with a P..." alt="" coords="767,139,942,181"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="628,260,677,224,734,191,766,178,768,183,737,196,680,229,631,264"/>
+<area shape="rect" id="Node000009" href="$class_direct_output_1_1_cab_1_1_out_1_1_null_output_controller_1_1_null_output_controller.html" title="This is a dummy output controller not doing anthing with the data it receives. &#160;It is mainly thought ..." alt="" coords="735,205,974,248"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="693,265,767,246,768,251,694,270"/>
+<area shape="rect" id="Node000010" href="$class_direct_output_1_1_cab_1_1_out_1_1_pac_1_1_pac_drive.html" title="The PacDrive is a simple output controller with 16 digital/on off outputs." alt="" coords="765,272,944,315"/>
+<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="702,291,764,291,764,296,702,296"/>
+<area shape="rect" id="Node000011" href="$class_direct_output_1_1_cab_1_1_out_1_1_pac_1_1_pac_led64.html" title="The PacLed64 is a output controller with 64 outputs all supporting 256 pwm levels with a PWM frequenc..." alt="" coords="765,339,944,381"/>
+<area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="694,316,768,335,767,341,693,322"/>
+<area shape="rect" id="Node000012" href="$class_direct_output_1_1_cab_1_1_out_1_1_pac_1_1_pac_u_i_o.html" title="The Ultimate I/O is a output controller with 96 outputs all supporting 256 pwm levels with a PWM freq..." alt="" coords="765,405,944,448"/>
+<area shape="poly" id="edge12_Node000001_Node000012" title=" " alt="" coords="631,322,680,358,737,391,765,403,763,408,734,396,677,362,628,327"/>
+<area shape="rect" id="Node000013" href="$class_direct_output_1_1_cab_1_1_out_1_1_pac_1_1_philips_hue_controller.html" title="The Philips Hue family consists of Zigbee controlled lights and sensors using a bridge (the Philips H..." alt="" coords="765,472,944,515"/>
+<area shape="poly" id="edge13_Node000001_Node000013" title=" " alt="" coords="616,326,666,393,699,428,737,458,766,472,763,477,734,462,695,432,661,397,611,329"/>
+<area shape="rect" id="Node000014" href="$class_direct_output_1_1_cab_1_1_out_1_1_s_s_f_impact_controller_1_1_s_s_f_impact_controller.html" title="The SSFImpactor supports for using common audio bass shakers to emulate/simulate contractors/solenoid..." alt="" coords="745,539,964,581"/>
+<area shape="poly" id="edge14_Node000001_Node000014" title=" " alt="" coords="608,328,626,373,654,426,691,480,713,504,737,525,755,536,753,540,734,529,709,507,687,483,650,429,622,375,603,330"/>
+<area shape="rect" id="Node000002" href="$class_direct_output_1_1_general_1_1_generic_1_1_named_item_base.html" title="Abstract base class for named items. &#160;Implements the name property and the necessary events." alt="" coords="251,239,448,281"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="464,273,496,278,495,283,463,278"/>
+<area shape="rect" id="Node000003" href="$interface_direct_output_1_1_general_1_1_generic_1_1_i_named_item.html" title="Interface for items which can be added the the NamedItemList." alt="" coords="5,272,203,315"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="218,275,250,271,251,276,218,280"/>
+<area shape="rect" id="Node000004" href="$interface_direct_output_1_1_cab_1_1_out_1_1_i_output_controller.html" title="Common interface for all outputcontrollers. Only classes implementing this interface can be used as o..." alt="" coords="252,305,447,348"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="218,306,252,311,251,316,218,311"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="462,308,495,304,496,309,463,314"/>
+<area shape="rect" id="Node000006" href="$class_direct_output_1_1_cab_1_1_out_1_1_adressable_led_strip_1_1_w_s2811_strip_controller.html" title="The WS2811StripController class is just a simple wrapper around the DirectStripController class...." alt="" coords="1022,5,1239,48"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="979,24,1021,24,1021,29,979,29"/>
+</map>

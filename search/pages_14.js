@@ -1,0 +1,15 @@
+var searchData=
+[
+  ['w_20o_20b2s_20server_20backglass_0',['Tables w/o B2S.Server Backglass',['../tableconfig.html#tableconfig_nobackglass',1,'']]],
+  ['way_1',['The easy way',['../tableconfig.html#tableconfig_VPEMtableelements_easy',1,'']]],
+  ['welcome_20to_20the_20directoutput_20framework_20r3_20for_20virtual_20pinball_20cabinets_2',['Welcome to the DirectOutput framework R3 for virtual pinball cabinets',['../index.html#autotoc_md11',1,'']]],
+  ['wemosd1mpstripcontroller_3',['WemosD1MPStripController',['../outputcontrollers_builtin.html#use_DirectOutput_Cab_Out_AdressableLedStrip_WemosD1MPStripController',1,'']]],
+  ['what_20is_20where_4',['What is where',['../sourcecode.html#sourcecode_where',1,'']]],
+  ['where_5',['What is where',['../sourcecode.html#sourcecode_where',1,'']]],
+  ['width_6',['Width',['../fx_builtin.html#DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapAnimationEffect_Width',1,'Width'],['../fx_builtin.html#DirectOutput_FX_MatrixFX_AnalogAlphaMatrixBitmapEffect_Width',1,'Width'],['../fx_builtin.html#DirectOutput_FX_MatrixFX_AnalogAlphaMatrixFlickerEffect_Width',1,'Width'],['../fx_builtin.html#DirectOutput_FX_MatrixFX_AnalogAlphaMatrixShiftEffect_Width',1,'Width'],['../fx_builtin.html#DirectOutput_FX_MatrixFX_AnalogAlphaMatrixValueEffect_Width',1,'Width'],['../fx_builtin.html#DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect_Width',1,'Width'],['../fx_builtin.html#DirectOutput_FX_MatrixFX_RGBAMatrixBitmapEffect_Width',1,'Width'],['../fx_builtin.html#DirectOutput_FX_MatrixFX_RGBAMatrixColorEffect_Width',1,'Width'],['../fx_builtin.html#DirectOutput_FX_MatrixFX_RGBAMatrixColorScaleBitmapAnimationEffect_Width',1,'Width'],['../fx_builtin.html#DirectOutput_FX_MatrixFX_RGBAMatrixColorScaleBitmapEffect_Width',1,'Width'],['../fx_builtin.html#DirectOutput_FX_MatrixFX_RGBAMatrixColorScaleShapeEffect_Width',1,'Width'],['../fx_builtin.html#DirectOutput_FX_MatrixFX_RGBAMatrixFlickerEffect_Width',1,'Width'],['../fx_builtin.html#DirectOutput_FX_MatrixFX_RGBAMatrixPlasmaEffect_Width',1,'Width'],['../fx_builtin.html#DirectOutput_FX_MatrixFX_RGBAMatrixShapeEffect_Width',1,'Width'],['../fx_builtin.html#DirectOutput_FX_MatrixFX_RGBAMatrixShiftEffect_Width',1,'Width'],['../toy_builtin.html#DirectOutput_Cab_Toys_Hardware_LedStrip_Width',1,'Width']]],
+  ['within_20hosting_20application_20directory_20structure_7',['Installation within hosting application directory structure',['../installation.html#installation_installation_hostappdir',1,'']]],
+  ['wix_20setup_20optional_20required_20only_20for_20msi_20creation_8',['WiX setup (optional - required only for .msi creation)',['../md__d_1_2a_2_direct_output_2_direct_output_2_r_e_a_d_m_e___build_setup.html#autotoc_md22',1,'']]],
+  ['works_9',['How it works',['../inifiles.html#inifiles_howitworks',1,'']]],
+  ['ws2811_20addressable_20ledstrip_20controller_10',['WS2811 addressable LedStrip controller',['../hardware.html#hardware_WS2811',1,'']]],
+  ['ws2811stripcontroller_11',['WS2811StripController',['../outputcontrollers_builtin.html#use_DirectOutput_Cab_Out_AdressableLedStrip_WS2811StripController',1,'']]]
+];

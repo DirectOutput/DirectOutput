@@ -1,0 +1,7 @@
+<map id="DirectOutput.FX.MatrixFX.BitmapShapes.Shape" name="DirectOutput.FX.MatrixFX.BitmapShapes.Shape">
+<area shape="rect" id="Node000001" title=" " alt="" coords="15,187,193,229"/>
+<area shape="rect" id="Node000002" href="$class_direct_output_1_1_general_1_1_generic_1_1_named_item_base.html" title="Abstract base class for named items. &#160;Implements the name property and the necessary events." alt="" coords="5,96,203,139"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="107,154,107,186,101,186,101,154"/>
+<area shape="rect" id="Node000003" href="$interface_direct_output_1_1_general_1_1_generic_1_1_i_named_item.html" title="Interface for items which can be added the the NamedItemList." alt="" coords="5,5,203,48"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="107,64,107,96,101,96,101,64"/>
+</map>

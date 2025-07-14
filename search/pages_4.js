@@ -1,0 +1,27 @@
+var searchData=
+[
+  ['e_20g_20sainsmart_0',['FT245RL based controllers (e.g. SainSmart)',['../hardware.html#hardware_FT245bitbang',1,'']]],
+  ['easy_20way_1',['The easy way',['../tableconfig.html#tableconfig_VPEMtableelements_easy',1,'']]],
+  ['editor_2',['Global config editor',['../globalconfig2.html#globalconfig_editor',1,'']]],
+  ['effect_20effects_3',['Stacking/chaining of effect effects',['../fx.html#fx_stacking',1,'']]],
+  ['effect_20parameter_4',['Plasma Effect Parameter',['../inifiles.html#inifiles_plasmaeffectpara',1,'']]],
+  ['effect_20parameters_5',['Shape Effect Parameters',['../inifiles.html#inifiles_shapeeffectpara',1,'']]],
+  ['effect_20parameters_6',['Matrix/area effect parameters',['../inifiles.html#inifiles_matrix',1,'']]],
+  ['effect_20paras_7',['Effect Paras',['../inifiles.html#inifiles_bitmapeffectpara',1,'Bitmap Effect Paras'],['../inifiles.html#inifiles_flickereffectpara',1,'Flicker Effect Paras'],['../inifiles.html#inifiles_shifteffectpara',1,'Shift Effect Paras']]],
+  ['effects_8',['Effects',['../fx_builtin.html',1,'Built in Effects'],['../md__d_1_2a_2_direct_output_2_direct_output_2_documentation_250___architecture.html#architecture_effects',1,'Effects']]],
+  ['effects_9',['effects',['../fx.html#fx_builtinfx',1,'Built in effects'],['../contribute.html#autotoc_md1',1,'Create more effects'],['../fx.html#fx_customeffects',1,'Custom effects'],['../fx.html#fx_implementationguideline',1,'Implementation guidelines for effects'],['../fx.html#fx_stacking',1,'Stacking/chaining of effect effects']]],
+  ['effects_20fx_10',['Effects/FX',['../fx.html',1,'']]],
+  ['effects_20section_11',['Effects section',['../tableconfigfile.html#tableconfigfile_configfilestructureeffects',1,'']]],
+  ['effects_20section_12',['Assigned static effects section',['../tableconfigfile.html#tableconfigfile_configfilestructurestaticeffects',1,'']]],
+  ['electro_20mechanical_20em_20tables_20and_20original_20tables_13',['VP electro mechanical (EM) tables and original tables',['../tableconfig.html#tableconfig_VPEM',1,'']]],
+  ['element_20status_20updates_14',['Table element status updates',['../tableconfig.html#tableconfig_VPEMtableelements',1,'']]],
+  ['elements_20section_15',['Table elements section',['../tableconfigfile.html#tableconfigfile_configfilestructuretableelements',1,'']]],
+  ['em_20tables_20and_20original_20tables_16',['VP electro mechanical (EM) tables and original tables',['../tableconfig.html#tableconfig_VPEM',1,'']]],
+  ['example_17',['example',['../configexamples.html#configexamples_teensystripcontrollerfadecurve',1,'Fade curve example'],['../configexamples.html#configexamples_teensystripcontroller',1,'TeensyStripController example']]],
+  ['example_20cabinet_20configuration_18',['Example cabinet configuration',['../cabinetconfig.html#cabinetconfig_example',1,'']]],
+  ['examples_19',['examples',['../configexamples.html',1,'Cabinet Configuration examples'],['../inifiles.html#inifiles_settingsexamples',1,'Setting examples']]],
+  ['examples_20templates_20',['Config Examples/Templates',['../configexamples.html#configexamples_examples',1,'']]],
+  ['extend_20ss_20tables_21',['Extend SS tables',['../tableconfig.html#tableconfig_VPSSextend',1,'']]],
+  ['extenddurationeffect_22',['ExtendDurationEffect',['../fx_builtin.html#use_DirectOutput_FX_TimmedFX_ExtendDurationEffect',1,'']]],
+  ['extending_20and_20changing_20the_20source_20code_20guidelines_23',['Extending and changing the source code (guidelines)',['../sourcecode.html#sourcecode_extend',1,'']]]
+];

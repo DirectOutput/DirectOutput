@@ -1,0 +1,57 @@
+<map id="DirectOutput.FX.MatrixFX.MatrixEffectBase&lt; MatrixElementType &gt;" name="DirectOutput.FX.MatrixFX.MatrixEffectBase&lt; MatrixElementType &gt;">
+<area shape="rect" id="Node000001" title="Base class for effects targeting a matrix of toys (e.g. addressable ledstrip)" alt="" coords="728,604,946,663"/>
+<area shape="rect" id="Node000007" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_matrix_bitmap_animation_effect_base-1-g.html" title=" " alt="" coords="999,117,1219,176"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="855,589,913,465,991,316,1040,239,1084,175,1088,178,1044,242,996,319,918,467,860,591"/>
+<area shape="rect" id="Node000011" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_matrix_bitmap_effect_base-1-g.html" title="Outputs a defined part of a bitmap on a area of a matrix." alt="" coords="1020,329,1198,388"/>
+<area shape="poly" id="edge12_Node000001_Node000011" title=" " alt="" coords="874,591,992,466,1074,386,1078,390,996,470,878,594"/>
+<area shape="rect" id="Node000015" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_matrix_flicker_effect_base-1-g.html" title="Does create random flickering with a defineable density, durations and value within the spefied area ..." alt="" coords="1020,480,1198,539"/>
+<area shape="poly" id="edge16_Node000001_Node000015" title=" " alt="" coords="902,594,993,548,1020,537,1022,542,995,553,905,598"/>
+<area shape="rect" id="Node000018" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_matrix_plasma_effect_base-1-g.html" title=" " alt="" coords="1020,563,1198,621"/>
+<area shape="poly" id="edge19_Node000001_Node000018" title=" " alt="" coords="961,612,1019,603,1020,608,962,617"/>
+<area shape="rect" id="Node000020" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_matrix_shift_effect_base-1-g.html" title="Base class for effects shift values through a matrix of elements." alt="" coords="1020,645,1198,704"/>
+<area shape="poly" id="edge21_Node000001_Node000020" title=" " alt="" coords="962,650,1020,659,1019,664,961,655"/>
+<area shape="rect" id="Node000023" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_matrix_value_effect_base-1-g.html" title="Base class for effects setting all elements a specified area of a matrix toy to the same specific val..." alt="" coords="1020,728,1198,787"/>
+<area shape="poly" id="edge24_Node000001_Node000023" title=" " alt="" coords="905,668,995,714,1022,725,1020,730,993,718,902,673"/>
+<area shape="rect" id="Node000026" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_r_g_b_a_matrix_color_scale_shape_effect.html" title="Displays a shape on a RGBA matrix (typically a ledstrip array). The color of the displayed shape is c..." alt="" coords="994,811,1224,853"/>
+<area shape="poly" id="edge27_Node000001_Node000026" title=" " alt="" coords="869,673,923,737,958,769,995,796,1017,808,1015,812,992,801,954,773,920,741,865,677"/>
+<area shape="rect" id="Node000027" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_r_g_b_a_matrix_shape_effect.html" title="Displays a shape on a RGBA matrix (typically a ledstrip matrix). The color of the displayed shape is ..." alt="" coords="1020,877,1198,920"/>
+<area shape="poly" id="edge28_Node000001_Node000027" title=" " alt="" coords="859,676,881,720,911,771,949,821,995,863,1021,878,1019,882,992,867,945,824,907,774,876,723,854,678"/>
+<area shape="rect" id="Node000002" href="$class_direct_output_1_1_f_x_1_1_effect_base.html" title="Abstract base class for IEffect objects. &#160;This class inherits NamedItemBase and implements IEffect." alt="" coords="496,591,680,617"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="696,614,728,618,728,623,695,619"/>
+<area shape="rect" id="Node000003" href="$class_direct_output_1_1_general_1_1_generic_1_1_named_item_base.html" title="Abstract base class for named items. &#160;Implements the name property and the necessary events." alt="" coords="251,583,448,625"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="464,601,496,601,496,607,464,607"/>
+<area shape="rect" id="Node000004" href="$interface_direct_output_1_1_general_1_1_generic_1_1_i_named_item.html" title="Interface for items which can be added the the NamedItemList." alt="" coords="5,612,203,655"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="218,617,250,613,250,618,218,622"/>
+<area shape="rect" id="Node000005" href="$interface_direct_output_1_1_f_x_1_1_i_effect.html" title="Common interface for all effects. &#160;If a new effect is implemented it is best to inherit from the abst..." alt="" coords="270,649,428,676"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="218,644,270,651,269,656,218,650"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="421,643,530,615,532,620,422,648"/>
+<area shape="rect" id="Node000006" href="$interface_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_i_matrix_effect.html" title=" " alt="" coords="500,641,677,684"/>
+<area shape="poly" id="edge7_Node000006_Node000005" title=" " alt="" coords="444,660,499,660,499,665,444,665"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="692,648,728,644,728,649,693,653"/>
+<area shape="rect" id="Node000008" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_analog_alpha_matrix_bitmap_animation_effect.html" title="Displays parts of a bitmap as a animation on a matrix of AnalogAlpha elements. Check the docu on the ..." alt="" coords="1286,5,1516,64"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="1187,108,1271,74,1303,62,1305,67,1273,78,1189,113"/>
+<area shape="rect" id="Node000009" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_r_g_b_a_matrix_bitmap_animation_effect.html" title="The RGBAMatrixBitmapAnimationEffect displays a anmation which is based on a image file on the definea..." alt="" coords="1287,88,1515,131"/>
+<area shape="poly" id="edge10_Node000007_Node000009" title=" " alt="" coords="1234,128,1286,121,1287,127,1235,133"/>
+<area shape="rect" id="Node000010" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_r_g_b_a_matrix_color_scale_bitmap_animation_effect.html" title="This displays a defined part of a bitmap as a animation in the given colors on a area of a RGBAtoy Ma..." alt="" coords="1272,155,1530,213"/>
+<area shape="poly" id="edge11_Node000007_Node000010" title=" " alt="" coords="1234,160,1272,165,1271,170,1234,165"/>
+<area shape="rect" id="Node000012" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_analog_alpha_matrix_bitmap_effect.html" title="Displays a defined part of a bitmap on a area of a AnalogAlpha Matrix." alt="" coords="1298,237,1504,280"/>
+<area shape="poly" id="edge13_Node000011_Node000012" title=" " alt="" coords="1190,320,1271,289,1309,278,1310,283,1273,295,1192,325"/>
+<area shape="rect" id="Node000013" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_r_g_b_a_matrix_bitmap_effect.html" title="The RGBAMatrixBitmapEffect displays a defined part of a bitmap on a area of a RGBAtoy Matrix." alt="" coords="1312,304,1490,347"/>
+<area shape="poly" id="edge14_Node000011_Node000013" title=" " alt="" coords="1213,344,1312,333,1312,338,1213,349"/>
+<area shape="rect" id="Node000014" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_r_g_b_a_matrix_color_scale_bitmap_effect.html" title="The RGBAMatrixBitmapEffect displays a defined part of a bitmap in the given colors on a area of a RGB..." alt="" coords="1284,371,1518,413"/>
+<area shape="poly" id="edge15_Node000011_Node000014" title=" " alt="" coords="1213,368,1284,376,1283,381,1212,373"/>
+<area shape="rect" id="Node000016" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_analog_alpha_matrix_flicker_effect.html" title="Does create random flickering with a defineable density, durations and value within the spefied area ..." alt="" coords="1300,437,1503,480"/>
+<area shape="poly" id="edge17_Node000015_Node000016" title=" " alt="" coords="1212,489,1299,474,1300,479,1213,494"/>
+<area shape="rect" id="Node000017" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_r_g_b_a_matrix_flicker_effect.html" title="Does create random flickering with a defineable density, durations and color within the spefied area ..." alt="" coords="1312,504,1490,547"/>
+<area shape="poly" id="edge18_Node000015_Node000017" title=" " alt="" coords="1213,512,1312,518,1312,523,1213,518"/>
+<area shape="rect" id="Node000019" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_r_g_b_a_matrix_plasma_effect.html" title="Displayes a classical plasma effect on a RGBA matrix/ledstrip array. For more details on the math of ..." alt="" coords="1312,571,1490,613"/>
+<area shape="poly" id="edge20_Node000018_Node000019" title=" " alt="" coords="1213,589,1312,589,1312,595,1213,595"/>
+<area shape="rect" id="Node000021" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_analog_alpha_matrix_shift_effect.html" title="Same kind of effect like the RGBAMatrixShift effect, but for AnalogAlpha elements (just about everyth..." alt="" coords="1306,637,1497,680"/>
+<area shape="poly" id="edge22_Node000020_Node000021" title=" " alt="" coords="1213,666,1305,661,1305,667,1213,672"/>
+<area shape="rect" id="Node000022" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_r_g_b_a_matrix_shift_effect.html" title=" " alt="" coords="1312,704,1490,747"/>
+<area shape="poly" id="edge23_Node000020_Node000022" title=" " alt="" coords="1213,690,1312,707,1311,713,1213,695"/>
+<area shape="rect" id="Node000024" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_analog_alpha_matrix_value_effect.html" title="Sets the spefied area of matrix to the specified values depending on the trigger value." alt="" coords="1303,771,1499,813"/>
+<area shape="poly" id="edge25_Node000023_Node000024" title=" " alt="" coords="1213,767,1303,778,1303,783,1213,772"/>
+<area shape="rect" id="Node000025" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_r_g_b_a_matrix_color_effect.html" title="Sets the spefied area of matrix to the specified colors depending on the trigger value." alt="" coords="1312,837,1490,880"/>
+<area shape="poly" id="edge26_Node000023_Node000025" title=" " alt="" coords="1212,791,1225,796,1249,810,1273,823,1313,836,1311,841,1271,828,1247,815,1223,801,1210,795"/>
+</map>

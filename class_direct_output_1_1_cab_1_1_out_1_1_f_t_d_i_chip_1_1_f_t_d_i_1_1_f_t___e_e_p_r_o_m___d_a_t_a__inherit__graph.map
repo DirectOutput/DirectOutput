@@ -1,0 +1,17 @@
+<map id="DirectOutput.Cab.Out.FTDIChip.FTDI.FT_EEPROM_DATA" name="DirectOutput.Cab.Out.FTDIChip.FTDI.FT_EEPROM_DATA">
+<area shape="rect" id="Node000001" title="Common EEPROM elements for all devices. Inherited to specific device type EEPROMs." alt="" coords="5,205,219,248"/>
+<area shape="rect" id="Node000002" href="$class_direct_output_1_1_cab_1_1_out_1_1_f_t_d_i_chip_1_1_f_t_d_i_1_1_f_t2232_h___e_e_p_r_o_m___s_t_r_u_c_t_u_r_e.html" title="EEPROM structure specific to FT2232H devices. Inherits from FT_EEPROM_DATA." alt="" coords="281,5,546,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="133,191,188,122,224,87,265,58,289,46,292,51,268,62,228,91,192,126,137,194"/>
+<area shape="rect" id="Node000003" href="$class_direct_output_1_1_cab_1_1_out_1_1_f_t_d_i_chip_1_1_f_t_d_i_1_1_f_t2232___e_e_p_r_o_m___s_t_r_u_c_t_u_r_e.html" title="EEPROM structure specific to FT2232 devices. Inherits from FT_EEPROM_DATA." alt="" coords="286,72,541,115"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="151,193,204,157,266,124,298,113,299,118,268,129,206,162,154,198"/>
+<area shape="rect" id="Node000004" href="$class_direct_output_1_1_cab_1_1_out_1_1_f_t_d_i_chip_1_1_f_t_d_i_1_1_f_t232_b___e_e_p_r_o_m___s_t_r_u_c_t_u_r_e.html" title="EEPROM structure specific to FT232B and FT245B devices. Inherits from FT_EEPROM_DATA." alt="" coords="285,139,542,181"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="226,199,313,179,314,185,227,204"/>
+<area shape="rect" id="Node000005" href="$class_direct_output_1_1_cab_1_1_out_1_1_f_t_d_i_chip_1_1_f_t_d_i_1_1_f_t232_h___e_e_p_r_o_m___s_t_r_u_c_t_u_r_e.html" title="EEPROM structure specific to FT232H devices. Inherits from FT_EEPROM_DATA." alt="" coords="284,205,542,248"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="234,224,284,224,284,229,234,229"/>
+<area shape="rect" id="Node000006" href="$class_direct_output_1_1_cab_1_1_out_1_1_f_t_d_i_chip_1_1_f_t_d_i_1_1_f_t232_r___e_e_p_r_o_m___s_t_r_u_c_t_u_r_e.html" title="EEPROM structure specific to FT232R and FT245R devices. Inherits from FT_EEPROM_DATA." alt="" coords="284,272,542,315"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="227,249,314,269,313,274,226,255"/>
+<area shape="rect" id="Node000007" href="$class_direct_output_1_1_cab_1_1_out_1_1_f_t_d_i_chip_1_1_f_t_d_i_1_1_f_t4232_h___e_e_p_r_o_m___s_t_r_u_c_t_u_r_e.html" title="EEPROM structure specific to FT4232H devices. Inherits from FT_EEPROM_DATA." alt="" coords="281,339,546,381"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="154,256,206,292,268,324,299,336,298,341,266,329,204,296,151,260"/>
+<area shape="rect" id="Node000008" href="$class_direct_output_1_1_cab_1_1_out_1_1_f_t_d_i_chip_1_1_f_t_d_i_1_1_f_t___x_s_e_r_i_e_s___e_e_p_r_o_m___s_t_r_u_c_t_u_r_e.html" title="EEPROM structure specific to X&#45;Series devices. Inherits from FT_EEPROM_DATA." alt="" coords="267,405,560,448"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="137,259,192,327,228,362,268,391,292,402,289,407,265,396,224,366,188,331,133,263"/>
+</map>

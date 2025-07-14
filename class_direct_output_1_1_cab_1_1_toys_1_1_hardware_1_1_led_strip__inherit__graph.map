@@ -1,0 +1,21 @@
+<map id="DirectOutput.Cab.Toys.Hardware.LedStrip" name="DirectOutput.Cab.Toys.Hardware.LedStrip">
+<area shape="rect" id="Node000001" title="Represents a adressable led strip." alt="" coords="1002,123,1221,165"/>
+<area shape="rect" id="Node000002" href="$class_direct_output_1_1_cab_1_1_toys_1_1_toy_base_updatable.html" title="Base class for toys which need update calls to update the state of their assigned outputs...." alt="" coords="764,64,944,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="960,107,1015,119,1014,125,959,112"/>
+<area shape="rect" id="Node000003" href="$class_direct_output_1_1_cab_1_1_toys_1_1_toy_base.html" title="Base class for IToy implementations." alt="" coords="496,13,706,40"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="677,41,764,62,763,67,676,47"/>
+<area shape="rect" id="Node000004" href="$class_direct_output_1_1_general_1_1_generic_1_1_named_item_base.html" title="Abstract base class for named items. &#160;Implements the name property and the necessary events." alt="" coords="251,5,448,48"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="464,24,495,24,495,29,464,29"/>
+<area shape="rect" id="Node000005" href="$interface_direct_output_1_1_general_1_1_generic_1_1_i_named_item.html" title="Interface for items which can be added the the NamedItemList." alt="" coords="5,35,203,77"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="218,40,250,36,250,41,218,45"/>
+<area shape="rect" id="Node000006" href="$interface_direct_output_1_1_cab_1_1_toys_1_1_i_toy.html" title="Common interface for all toy implementations. &#160;The abstract class ToyBase implements this interface." alt="" coords="257,72,442,99"/>
+<area shape="poly" id="edge6_Node000006_Node000005" title=" " alt="" coords="218,67,257,72,257,77,218,72"/>
+<area shape="poly" id="edge9_Node000001_Node000006" title=" " alt="" coords="416,100,496,116,632,130,769,138,1001,143,1001,148,768,144,632,136,496,121,415,105"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="424,65,540,38,541,43,425,71"/>
+<area shape="rect" id="Node000007" href="$interface_direct_output_1_1_cab_1_1_toys_1_1_i_toy_updatable.html" title="Interface for toys which need a update method which is used to update their outputs." alt="" coords="509,64,693,107"/>
+<area shape="poly" id="edge8_Node000007_Node000006" title=" " alt="" coords="457,83,508,83,508,88,457,88"/>
+<area shape="rect" id="Node000008" href="$interface_direct_output_1_1_cab_1_1_toys_1_1_i_matrix_toy-1-g.html" title="Interface for toys having a matrix of elements (e.g. ledstrips)" alt="" coords="754,181,954,224"/>
+<area shape="poly" id="edge11_Node000008_Node000006" title=" " alt="" coords="385,105,436,135,497,160,562,177,630,188,754,199,754,204,629,193,561,182,495,165,434,139,382,110"/>
+<area shape="poly" id="edge7_Node000002_Node000007" title=" " alt="" coords="709,83,763,83,763,88,709,88"/>
+<area shape="poly" id="edge10_Node000001_Node000008" title=" " alt="" coords="965,175,1014,163,1015,169,966,180"/>
+</map>

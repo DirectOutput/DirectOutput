@@ -1,0 +1,23 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,297,48,324"/>
+<area shape="rect" id="Node000001" href="$class_direct_output_1_1_cab_1_1_toys_1_1_l_w_equivalent_1_1_led_wiz_equivalent_output_list.html" title="List of LedWizEquivalentOutput objects." alt="" coords="96,5,339,48"/>
+<area shape="poly" id="edge222_Node000000_Node000001" title=" " alt="" coords="24,282,27,234,36,174,57,112,73,83,94,58,108,47,112,51,98,62,78,86,62,114,41,175,32,234,30,282"/>
+<area shape="rect" id="Node000002" href="$class_direct_output_1_1_general_1_1_file_pattern_list.html" title="A list of file patterns." alt="" coords="133,72,302,115"/>
+<area shape="poly" id="edge223_Node000000_Node000002" title=" " alt="" coords="28,281,34,245,46,203,65,161,94,125,112,112,131,103,133,108,114,117,98,129,70,164,51,205,39,247,33,282"/>
+<area shape="rect" id="Node000003" href="$class_direct_output_1_1_general_1_1_thread_info_list.html" title="List of ThreadInfo objects. &#160;This class is used by DOF for thread monitoring." alt="" coords="123,139,312,181"/>
+<area shape="poly" id="edge224_Node000000_Node000003" title=" " alt="" coords="35,281,57,235,74,211,94,191,122,175,124,180,97,195,78,215,61,238,40,283"/>
+<area shape="rect" id="Node000004" href="$class_direct_output_1_1_general_1_1_type_list.html" title="List for Type objects." alt="" coords="119,205,316,232"/>
+<area shape="poly" id="edge225_Node000000_Node000004" title=" " alt="" coords="45,284,67,261,94,242,122,230,124,235,97,246,71,265,49,287"/>
+<area shape="rect" id="Node000005" href="$class_direct_output_1_1_led_control_1_1_loader_1_1_color_config_list.html" title="List of color configurations from a ledcontrol.ini file." alt="" coords="134,256,300,299"/>
+<area shape="poly" id="edge226_Node000000_Node000005" title=" " alt="" coords="62,302,133,289,134,295,63,307"/>
+<area shape="rect" id="Node000006" href="$class_direct_output_1_1_led_control_1_1_loader_1_1_led_control_config_list.html" title="List of LedControlConfig objects loaded from LedControl.ini files." alt="" coords="124,323,310,365"/>
+<area shape="poly" id="edge227_Node000000_Node000006" title=" " alt="" coords="64,314,124,325,123,330,63,320"/>
+<area shape="rect" id="Node000007" href="$class_direct_output_1_1_led_control_1_1_loader_1_1_table_config_column.html" title="Column in a LedControl.ini file. &#160;Is a list of TableConfigSettingObjects for that column." alt="" coords="128,389,306,432"/>
+<area shape="poly" id="edge228_Node000000_Node000007" title=" " alt="" coords="50,334,71,356,97,375,129,389,127,394,94,380,68,360,46,338"/>
+<area shape="rect" id="Node000008" href="$class_direct_output_1_1_led_control_1_1_loader_1_1_table_config_column_list.html" title="List of columns of a LedCOntrol.ini file. &#160;Inherits List&gt;T&lt;." alt="" coords="118,456,317,499"/>
+<area shape="poly" id="edge229_Node000000_Node000008" title=" " alt="" coords="37,338,59,391,76,419,97,442,119,455,116,460,94,446,71,422,54,394,32,340"/>
+<area shape="rect" id="Node000009" href="$class_direct_output_1_1_led_control_1_1_loader_1_1_table_config_list.html" title="A list of table configs from a ini file." alt="" coords="134,523,300,565"/>
+<area shape="poly" id="edge230_Node000000_Node000009" title=" " alt="" coords="32,339,37,378,48,423,68,470,81,490,97,509,115,521,135,530,133,535,112,526,94,513,77,494,63,472,43,425,32,379,27,340"/>
+<area shape="rect" id="Node000010" href="$class_pinball_x_1_1_table2_rom_mapping_1_1_table_name_mappings.html" title=" " alt="" coords="121,589,314,632"/>
+<area shape="poly" id="edge231_Node000000_Node000010" title=" " alt="" coords="34,339,57,468,75,534,86,559,98,575,122,593,119,597,94,579,81,561,70,535,52,469,29,340"/>
+</map>

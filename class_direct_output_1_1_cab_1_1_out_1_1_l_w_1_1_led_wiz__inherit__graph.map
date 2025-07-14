@@ -1,0 +1,15 @@
+<map id="DirectOutput.Cab.Out.LW.LedWiz" name="DirectOutput.Cab.Out.LW.LedWiz">
+<area shape="rect" id="Node000001" title="The LedWiz is a easy to use outputcontroller with 32 outputs which all support 49 pwm levels with a P..." alt="" coords="735,72,910,115"/>
+<area shape="rect" id="Node000002" href="$class_direct_output_1_1_cab_1_1_out_1_1_output_controller_base.html" title="Abstract OutputController base class to be used for IOutputController implementations...." alt="" coords="496,13,687,56"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="693,58,736,69,735,74,692,63"/>
+<area shape="rect" id="Node000003" href="$class_direct_output_1_1_general_1_1_generic_1_1_named_item_base.html" title="Abstract base class for named items. &#160;Implements the name property and the necessary events." alt="" coords="251,5,448,48"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="464,28,496,29,495,34,463,33"/>
+<area shape="rect" id="Node000004" href="$interface_direct_output_1_1_general_1_1_generic_1_1_i_named_item.html" title="Interface for items which can be added the the NamedItemList." alt="" coords="5,39,203,81"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="218,42,250,37,251,43,218,47"/>
+<area shape="rect" id="Node000005" href="$interface_direct_output_1_1_cab_1_1_out_1_1_i_output_controller.html" title="Common interface for all outputcontrollers. Only classes implementing this interface can be used as o..." alt="" coords="252,72,447,115"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="218,73,252,77,251,83,218,78"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="463,91,735,91,735,96,463,96"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="454,65,500,54,501,59,455,70"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="546,131,637,157"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="651,128,734,110,735,115,652,134"/>
+</map>

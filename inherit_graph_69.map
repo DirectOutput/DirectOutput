@@ -1,0 +1,25 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,299,57,325"/>
+<area shape="rect" id="Node000001" href="$class_direct_output_1_1_frontend_1_1_available_effects_info.html" title=" " alt="" coords="112,5,319,48"/>
+<area shape="poly" id="edge34_Node000000_Node000001" title=" " alt="" coords="30,283,33,235,44,175,65,113,82,84,103,58,117,46,121,51,107,62,86,87,70,115,49,176,38,235,35,283"/>
+<area shape="rect" id="Node000002" href="$class_direct_output_1_1_frontend_1_1_available_toys_info.html" title=" " alt="" coords="112,72,319,115"/>
+<area shape="poly" id="edge35_Node000000_Node000002" title=" " alt="" coords="33,283,40,247,53,205,73,162,103,125,118,113,122,117,107,129,78,165,58,207,45,248,38,284"/>
+<area shape="rect" id="Node000003" href="$class_direct_output_1_1_frontend_1_1_cabinet_info.html" title=" " alt="" coords="105,139,326,165"/>
+<area shape="poly" id="edge36_Node000000_Node000003" title=" " alt="" coords="37,283,60,228,79,199,103,175,123,163,126,168,106,179,83,203,65,230,42,285"/>
+<area shape="rect" id="Node000004" href="$class_direct_output_1_1_frontend_1_1_main_menu.html" title=" " alt="" coords="108,189,322,216"/>
+<area shape="poly" id="edge37_Node000000_Node000004" title=" " alt="" coords="46,284,71,253,103,226,128,214,131,219,106,230,74,257,50,287"/>
+<area shape="rect" id="Node000005" href="$class_direct_output_1_1_frontend_1_1_table_info.html" title=" " alt="" coords="112,240,319,267"/>
+<area shape="poly" id="edge38_Node000000_Node000005" title=" " alt="" coords="70,290,104,276,143,265,145,270,106,281,72,295"/>
+<area shape="rect" id="Node000006" href="$class_direct_output_config_tester_1_1_config_tester.html" title=" " alt="" coords="129,291,302,333"/>
+<area shape="poly" id="edge39_Node000000_Node000006" title=" " alt="" coords="72,309,128,309,128,315,72,315"/>
+<area shape="rect" id="Node000007" href="$class_direct_output_config_tester_1_1_open_config_dialog.html" title=" " alt="" coords="129,357,302,400"/>
+<area shape="poly" id="edge40_Node000000_Node000007" title=" " alt="" coords="71,328,106,343,139,354,137,359,104,348,69,333"/>
+<area shape="rect" id="Node000008" href="$class_global_config_editor_1_1_global_config_edit.html" title=" " alt="" coords="130,424,301,467"/>
+<area shape="poly" id="edge41_Node000000_Node000008" title=" " alt="" coords="48,338,72,375,88,394,106,410,131,423,128,428,103,414,84,398,68,379,43,341"/>
+<area shape="rect" id="Node000009" href="$class_led_control_file_tester_1_1_led_control_file_test_wizard.html" title="This is the main form of the LedControlFileTester application. &#160;&#160;It contains all functionality of the..." alt="" coords="132,491,298,533"/>
+<area shape="poly" id="edge42_Node000000_Node000009" title=" " alt="" coords="40,340,48,372,61,409,80,445,106,477,133,493,130,498,103,481,76,448,56,411,43,374,35,342"/>
+<area shape="rect" id="Node000010" href="$class_pinball_x_1_1_configure.html" title=" " alt="" coords="151,557,280,584"/>
+<area shape="poly" id="edge43_Node000000_Node000010" title=" " alt="" coords="35,340,39,385,50,440,71,496,87,521,106,543,127,557,151,565,149,570,125,562,103,547,83,524,67,498,45,442,34,386,30,341"/>
+<area shape="rect" id="Node000011" href="$class_update_notification_1_1_notification.html" title=" " alt="" coords="116,608,315,635"/>
+<area shape="poly" id="edge44_Node000000_Node000011" title=" " alt="" coords="39,341,48,403,62,479,82,549,94,576,107,594,122,605,119,610,103,598,89,579,77,551,57,480,43,404,33,342"/>
+</map>

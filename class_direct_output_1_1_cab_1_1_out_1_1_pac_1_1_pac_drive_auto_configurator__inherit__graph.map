@@ -1,0 +1,5 @@
+<map id="DirectOutput.Cab.Out.Pac.PacDriveAutoConfigurator" name="DirectOutput.Cab.Out.Pac.PacDriveAutoConfigurator">
+<area shape="rect" id="Node000001" title="Detectes and configures a PacDrive unit." alt="" coords="7,96,187,139"/>
+<area shape="rect" id="Node000002" href="$interface_direct_output_1_1_cab_1_1_out_1_1_i_auto_config_output_controller.html" title="Interface for classes used to automatically detect and configure output controllers." alt="" coords="5,5,189,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="100,64,100,96,94,96,94,64"/>
+</map>

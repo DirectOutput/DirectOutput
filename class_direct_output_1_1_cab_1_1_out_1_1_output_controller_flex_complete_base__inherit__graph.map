@@ -1,0 +1,23 @@
+<map id="DirectOutput.Cab.Out.OutputControllerFlexCompleteBase" name="DirectOutput.Cab.Out.OutputControllerFlexCompleteBase">
+<area shape="rect" id="Node000001" title=" " alt="" coords="990,105,1181,148"/>
+<area shape="rect" id="Node000007" href="$class_direct_output_1_1_cab_1_1_out_1_1_dudes_cab_1_1_dudes_cab.html" title="The Dude&#39;s Cab Controller is a all&#45;in&#45;one virtual pinball controller." alt="" coords="1234,5,1424,48"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="1142,96,1228,58,1258,46,1260,51,1230,62,1145,101"/>
+<area shape="rect" id="Node000008" href="$class_direct_output_1_1_cab_1_1_out_1_1_p_s_1_1_pinscape.html" title="The Pinscape Controller is an open&#45;source software/hardware project based on the inexpensive and powe..." alt="" coords="1242,72,1416,115"/>
+<area shape="poly" id="edge9_Node000001_Node000008" title=" " alt="" coords="1196,109,1241,103,1242,108,1197,114"/>
+<area shape="rect" id="Node000009" href="$class_direct_output_1_1_cab_1_1_out_1_1_p_s_pico_1_1_pinscape_pico.html" title="The Pinscape Pico controller is an open&#45;source software/hardware project based on the Raspberry Pi Pi..." alt="" coords="1229,139,1429,181"/>
+<area shape="poly" id="edge10_Node000001_Node000009" title=" " alt="" coords="1197,139,1229,144,1228,149,1196,145"/>
+<area shape="rect" id="Node000010" href="$class_direct_output_1_1_cab_1_1_out_1_1_pin_one_1_1_pin_one.html" title="The PinOne Controller is a free for non commercial use software/hardware project based on the inexpen..." alt="" coords="1244,205,1415,248"/>
+<area shape="poly" id="edge11_Node000001_Node000010" title=" " alt="" coords="1145,153,1230,191,1260,202,1258,207,1228,196,1142,157"/>
+<area shape="rect" id="Node000002" href="$class_direct_output_1_1_cab_1_1_out_1_1_output_controller_complete_base.html" title="This abstract class implement the full base logic for a output controller with a separate thread for ..." alt="" coords="750,105,942,148"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="958,124,989,124,989,129,958,129"/>
+<area shape="rect" id="Node000003" href="$class_direct_output_1_1_general_1_1_generic_1_1_named_item_base.html" title="Abstract base class for named items. &#160;Implements the name property and the necessary events." alt="" coords="500,47,697,89"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="707,91,753,102,752,107,705,96"/>
+<area shape="rect" id="Node000004" href="$interface_direct_output_1_1_general_1_1_generic_1_1_i_named_item.html" title="Interface for items which can be added the the NamedItemList." alt="" coords="5,76,203,119"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="218,88,499,71,499,77,218,93"/>
+<area shape="rect" id="Node000005" href="$interface_direct_output_1_1_cab_1_1_out_1_1_i_output_controller.html" title="Common interface for all outputcontrollers. Only classes implementing this interface can be used as o..." alt="" coords="251,105,446,148"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="219,108,250,112,250,118,218,114"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="462,124,750,124,750,129,462,129"/>
+<area shape="rect" id="Node000006" href="$interface_direct_output_1_1_cab_1_1_out_1_1_i_supports_set_values.html" title="This interface defines additional methods for output controllers which allow for direct modification ..." alt="" coords="494,164,702,207"/>
+<area shape="poly" id="edge7_Node000006_Node000005" title=" " alt="" coords="458,150,505,161,504,166,456,155"/>
+<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="705,157,752,146,753,151,707,162"/>
+</map>

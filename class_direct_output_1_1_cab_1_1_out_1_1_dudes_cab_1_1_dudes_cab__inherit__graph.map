@@ -1,0 +1,17 @@
+<map id="DirectOutput.Cab.Out.DudesCab.DudesCab" name="DirectOutput.Cab.Out.DudesCab.DudesCab">
+<area shape="rect" id="Node000001" title="The Dude&#39;s Cab Controller is a all&#45;in&#45;one virtual pinball controller." alt="" coords="1229,64,1419,107"/>
+<area shape="rect" id="Node000002" href="$class_direct_output_1_1_cab_1_1_out_1_1_output_controller_flex_complete_base.html" title=" " alt="" coords="990,64,1181,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1196,83,1228,83,1228,88,1196,88"/>
+<area shape="rect" id="Node000003" href="$class_direct_output_1_1_cab_1_1_out_1_1_output_controller_complete_base.html" title="This abstract class implement the full base logic for a output controller with a separate thread for ..." alt="" coords="750,64,942,107"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="958,83,989,83,989,88,958,88"/>
+<area shape="rect" id="Node000004" href="$class_direct_output_1_1_general_1_1_generic_1_1_named_item_base.html" title="Abstract base class for named items. &#160;Implements the name property and the necessary events." alt="" coords="500,5,697,48"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="707,50,753,61,752,66,705,55"/>
+<area shape="rect" id="Node000005" href="$interface_direct_output_1_1_general_1_1_generic_1_1_i_named_item.html" title="Interface for items which can be added the the NamedItemList." alt="" coords="5,35,203,77"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="218,47,499,30,499,35,218,52"/>
+<area shape="rect" id="Node000006" href="$interface_direct_output_1_1_cab_1_1_out_1_1_i_output_controller.html" title="Common interface for all outputcontrollers. Only classes implementing this interface can be used as o..." alt="" coords="251,64,446,107"/>
+<area shape="poly" id="edge6_Node000006_Node000005" title=" " alt="" coords="219,67,250,71,250,76,218,72"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="462,83,750,83,750,88,462,88"/>
+<area shape="rect" id="Node000007" href="$interface_direct_output_1_1_cab_1_1_out_1_1_i_supports_set_values.html" title="This interface defines additional methods for output controllers which allow for direct modification ..." alt="" coords="494,123,702,165"/>
+<area shape="poly" id="edge8_Node000007_Node000006" title=" " alt="" coords="458,108,505,119,504,125,456,113"/>
+<area shape="poly" id="edge7_Node000003_Node000007" title=" " alt="" coords="705,116,752,105,753,110,707,121"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="DirectOutput.General.Color.RGBColorNamed" name="DirectOutput.General.Color.RGBColorNamed">
+<area shape="rect" id="Node000001" title="Named RGBColor object." alt="" coords="112,96,295,139"/>
+<area shape="rect" id="Node000002" href="$class_direct_output_1_1_general_1_1_color_1_1_r_g_b_color.html" title="This class stores information on RGB colors used for toys and effects (e.g. RGBLed)." alt="" coords="5,5,189,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="135,56,180,93,177,97,132,60"/>
+<area shape="rect" id="Node000003" href="$interface_direct_output_1_1_general_1_1_generic_1_1_i_named_item.html" title="Interface for items which can be added the the NamedItemList." alt="" coords="213,5,410,48"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="277,60,231,97,227,93,273,56"/>
+</map>

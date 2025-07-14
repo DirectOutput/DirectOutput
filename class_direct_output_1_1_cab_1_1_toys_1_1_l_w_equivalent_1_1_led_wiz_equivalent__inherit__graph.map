@@ -1,0 +1,13 @@
+<map id="DirectOutput.Cab.Toys.LWEquivalent.LedWizEquivalent" name="DirectOutput.Cab.Toys.LWEquivalent.LedWizEquivalent">
+<area shape="rect" id="Node000001" title="The LEDWizEquivalent toy is only used by the framework when ini files are used for the configuration ..." alt="" coords="125,261,368,304"/>
+<area shape="rect" id="Node000002" href="$class_direct_output_1_1_cab_1_1_toys_1_1_toy_base.html" title="Base class for IToy implementations." alt="" coords="71,187,281,213"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="199,223,231,259,227,263,195,227"/>
+<area shape="rect" id="Node000003" href="$class_direct_output_1_1_general_1_1_generic_1_1_named_item_base.html" title="Abstract base class for named items. &#160;Implements the name property and the necessary events." alt="" coords="5,96,203,139"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="134,149,167,184,163,188,130,152"/>
+<area shape="rect" id="Node000004" href="$interface_direct_output_1_1_general_1_1_generic_1_1_i_named_item.html" title="Interface for items which can be added the the NamedItemList." alt="" coords="112,5,309,48"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="176,60,131,97,127,93,173,56"/>
+<area shape="rect" id="Node000005" href="$interface_direct_output_1_1_cab_1_1_toys_1_1_i_toy.html" title="Common interface for all toy implementations. &#160;The abstract class ToyBase implements this interface." alt="" coords="226,104,411,131"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="249,56,305,102,302,106,245,60"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="317,146,308,179,296,215,266,262,261,260,291,212,303,178,311,145"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="284,141,199,189,197,184,282,136"/>
+</map>

@@ -1,0 +1,10 @@
+<map id="DirectOutput.Cab.Toys.ToyBase" name="DirectOutput.Cab.Toys.ToyBase">
+<area shape="rect" id="Node000001" title="Base class for IToy implementations." alt="" coords="106,187,316,213"/>
+<area shape="rect" id="Node000002" href="$class_direct_output_1_1_general_1_1_generic_1_1_named_item_base.html" title="Abstract base class for named items. &#160;Implements the name property and the necessary events." alt="" coords="5,96,203,139"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="145,146,196,184,192,188,142,151"/>
+<area shape="rect" id="Node000003" href="$interface_direct_output_1_1_general_1_1_generic_1_1_i_named_item.html" title="Interface for items which can be added the the NamedItemList." alt="" coords="112,5,309,48"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="176,60,131,97,127,93,173,56"/>
+<area shape="rect" id="Node000004" href="$interface_direct_output_1_1_cab_1_1_toys_1_1_i_toy.html" title="Common interface for all toy implementations. &#160;The abstract class ToyBase implements this interface." alt="" coords="226,104,411,131"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="249,56,305,102,302,106,245,60"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="291,142,229,188,226,184,288,138"/>
+</map>

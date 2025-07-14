@@ -1,0 +1,27 @@
+var searchData=
+[
+  ['manual_20release_20process_0',['Original manual release process',['../md__d_1_2a_2_direct_output_2_direct_output_2_r_e_a_d_m_e___build_setup.html#autotoc_md26',1,'']]],
+  ['matrix_20area_20effect_20parameters_1',['Matrix/area effect parameters',['../inifiles.html#inifiles_matrix',1,'']]],
+  ['matrix_20paras_2',['General Matrix Paras',['../inifiles.html#inifiles_matrixeffectpara',1,'']]],
+  ['maxdurationeffect_3',['MaxDurationEffect',['../fx_builtin.html#use_DirectOutput_FX_TimmedFX_MaxDurationEffect',1,'']]],
+  ['maxdurationms_4',['MaxDurationMs',['../fx_builtin.html#DirectOutput_FX_TimmedFX_MaxDurationEffect_MaxDurationMs',1,'']]],
+  ['maxflickerdurationms_5',['MaxFlickerDurationMs',['../fx_builtin.html#DirectOutput_FX_MatrixFX_AnalogAlphaMatrixFlickerEffect_MaxFlickerDurationMs',1,'MaxFlickerDurationMs'],['../fx_builtin.html#DirectOutput_FX_MatrixFX_RGBAMatrixFlickerEffect_MaxFlickerDurationMs',1,'MaxFlickerDurationMs']]],
+  ['maxpower_6',['MaxPower',['../toy_builtin.html#DirectOutput_Cab_Toys_Hardware_GearMotor_MaxPower',1,'MaxPower'],['../toy_builtin.html#DirectOutput_Cab_Toys_Hardware_Motor_MaxPower',1,'MaxPower'],['../toy_builtin.html#DirectOutput_Cab_Toys_Hardware_Shaker_MaxPower',1,'MaxPower']]],
+  ['maxruntimems_7',['MaxRunTimeMs',['../toy_builtin.html#DirectOutput_Cab_Toys_Hardware_GearMotor_MaxRunTimeMs',1,'MaxRunTimeMs'],['../toy_builtin.html#DirectOutput_Cab_Toys_Hardware_Motor_MaxRunTimeMs',1,'MaxRunTimeMs'],['../toy_builtin.html#DirectOutput_Cab_Toys_Hardware_Shaker_MaxRunTimeMs',1,'MaxRunTimeMs']]],
+  ['mechanical_20em_20tables_20and_20original_20tables_8',['VP electro mechanical (EM) tables and original tables',['../tableconfig.html#tableconfig_VPEM',1,'']]],
+  ['migrating_20to_20newer_20visual_20studio_20versions_9',['Migrating to newer Visual Studio versions',['../md__d_1_2a_2_direct_output_2_direct_output_2_r_e_a_d_m_e___build_setup.html#autotoc_md21',1,'']]],
+  ['mincommandintervalms_10',['MinCommandIntervalMs',['../outputcontrollers_builtin.html#DirectOutput_Cab_Out_DudesCab_DudesCab_MinCommandIntervalMs',1,'MinCommandIntervalMs'],['../outputcontrollers_builtin.html#DirectOutput_Cab_Out_LW_LedWiz_MinCommandIntervalMs',1,'MinCommandIntervalMs'],['../outputcontrollers_builtin.html#DirectOutput_Cab_Out_PinOne_PinOne_MinCommandIntervalMs',1,'MinCommandIntervalMs'],['../outputcontrollers_builtin.html#DirectOutput_Cab_Out_PS_Pinscape_MinCommandIntervalMs',1,'MinCommandIntervalMs'],['../outputcontrollers_builtin.html#DirectOutput_Cab_Out_PSPico_PinscapePico_MinCommandIntervalMs',1,'MinCommandIntervalMs']]],
+  ['mindurationeffect_11',['MinDurationEffect',['../fx_builtin.html#use_DirectOutput_FX_TimmedFX_MinDurationEffect',1,'']]],
+  ['mindurationms_12',['MinDurationMs',['../fx_builtin.html#DirectOutput_FX_TimmedFX_MinDurationEffect_MinDurationMs',1,'']]],
+  ['minflickerdurationms_13',['MinFlickerDurationMs',['../fx_builtin.html#DirectOutput_FX_MatrixFX_AnalogAlphaMatrixFlickerEffect_MinFlickerDurationMs',1,'MinFlickerDurationMs'],['../fx_builtin.html#DirectOutput_FX_MatrixFX_RGBAMatrixFlickerEffect_MinFlickerDurationMs',1,'MinFlickerDurationMs']]],
+  ['minpower_14',['MinPower',['../toy_builtin.html#DirectOutput_Cab_Toys_Hardware_GearMotor_MinPower',1,'MinPower'],['../toy_builtin.html#DirectOutput_Cab_Toys_Hardware_Motor_MinPower',1,'MinPower'],['../toy_builtin.html#DirectOutput_Cab_Toys_Hardware_Shaker_MinPower',1,'MinPower']]],
+  ['minupdateintervalms_15',['MinUpdateIntervalMs',['../outputcontrollers_builtin.html#DirectOutput_Cab_Out_Pac_PacLed64_MinUpdateIntervalMs',1,'']]],
+  ['misc_20tab_16',['Misc tab',['../globalconfig2.html#globalconfig_misc',1,'']]],
+  ['model_17',['Object model',['../md__d_1_2a_2_direct_output_2_direct_output_2_documentation_250___architecture.html#architecture_objectmodel',1,'']]],
+  ['more_20and_20better_20toys_18',['Add more and better toys',['../contribute.html#autotoc_md2',1,'']]],
+  ['more_20effects_19',['Create more effects',['../contribute.html#autotoc_md1',1,'']]],
+  ['more_20output_20controllers_20',['Add more output controllers',['../contribute.html#autotoc_md3',1,'']]],
+  ['motor_21',['Motor',['../toy_builtin.html#use_DirectOutput_Cab_Toys_Hardware_Motor',1,'']]],
+  ['msi_20creation_22',['WiX setup (optional - required only for .msi creation)',['../md__d_1_2a_2_direct_output_2_direct_output_2_r_e_a_d_m_e___build_setup.html#autotoc_md22',1,'']]],
+  ['multithreading_23',['Multithreading',['../md__d_1_2a_2_direct_output_2_direct_output_2_documentation_250___architecture.html#architecture_multithreading',1,'']]]
+];

@@ -1,0 +1,11 @@
+<map id="DirectOutput.Cab.Toys.IRGBOutputToy" name="DirectOutput.Cab.Toys.IRGBOutputToy">
+<area shape="rect" id="Node000001" title="Common interface for RGB toys supporting several layers of color with alpha value." alt="" coords="5,171,258,197"/>
+<area shape="rect" id="Node000004" href="$class_direct_output_1_1_cab_1_1_toys_1_1_layer_1_1_r_g_b_a_toy.html" title="Thie RGBAToy controls RGB leds and other gadgets displaying RGB colors. &#160;&#160;The RGBAToy has multilayer ..." alt="" coords="34,245,229,288"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="134,213,134,245,129,245,129,213"/>
+<area shape="rect" id="Node000002" href="$interface_direct_output_1_1_cab_1_1_toys_1_1_i_toy.html" title="Common interface for all toy implementations. &#160;The abstract class ToyBase implements this interface." alt="" coords="39,96,224,123"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,138,134,170,129,170,129,138"/>
+<area shape="rect" id="Node000003" href="$interface_direct_output_1_1_general_1_1_generic_1_1_i_named_item.html" title="Interface for items which can be added the the NamedItemList." alt="" coords="33,5,230,48"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="134,64,134,95,129,95,129,64"/>
+<area shape="rect" id="Node000005" href="$class_direct_output_1_1_cab_1_1_toys_1_1_hardware_1_1_r_g_b_led.html" title="Toy controlling a RGB led. &#160;This is just a simple wrapper around the RGBAToy." alt="" coords="22,336,241,379"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="134,304,134,336,129,336,129,304"/>
+</map>

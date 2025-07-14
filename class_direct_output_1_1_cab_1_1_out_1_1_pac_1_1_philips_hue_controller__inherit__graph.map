@@ -1,0 +1,13 @@
+<map id="DirectOutput.Cab.Out.Pac.PhilipsHueController" name="DirectOutput.Cab.Out.Pac.PhilipsHueController">
+<area shape="rect" id="Node000001" title="The Philips Hue family consists of Zigbee controlled lights and sensors using a bridge (the Philips H..." alt="" coords="168,277,347,320"/>
+<area shape="rect" id="Node000002" href="$class_direct_output_1_1_cab_1_1_out_1_1_output_controller_base.html" title="Abstract OutputController base class to be used for IOutputController implementations...." alt="" coords="95,187,286,229"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="217,240,244,275,240,279,213,243"/>
+<area shape="rect" id="Node000003" href="$class_direct_output_1_1_general_1_1_generic_1_1_named_item_base.html" title="Abstract base class for named items. &#160;Implements the name property and the necessary events." alt="" coords="5,96,203,139"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="136,148,173,184,169,188,133,152"/>
+<area shape="rect" id="Node000004" href="$interface_direct_output_1_1_general_1_1_generic_1_1_i_named_item.html" title="Interface for items which can be added the the NamedItemList." alt="" coords="115,5,312,48"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="178,60,131,97,128,93,175,56"/>
+<area shape="rect" id="Node000005" href="$interface_direct_output_1_1_cab_1_1_out_1_1_i_output_controller.html" title="Common interface for all outputcontrollers. Only classes implementing this interface can be used as o..." alt="" coords="226,96,422,139"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="253,56,300,93,296,97,249,60"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="321,155,314,192,301,230,275,278,270,276,296,228,308,190,316,153"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="282,150,223,188,220,184,279,145"/>
+</map>

@@ -1,0 +1,92 @@
+<map id="DirectOutput.FX.IEffect" name="DirectOutput.FX.IEffect">
+<area shape="rect" id="Node000001" title="Common interface for all effects. &#160;If a new effect is implemented it is best to inherit from the abst..." alt="" coords="251,800,409,827"/>
+<area shape="rect" id="Node000003" href="$class_direct_output_1_1_f_x_1_1_effect_base.html" title="Abstract base class for IEffect objects. &#160;This class inherits NamedItemBase and implements IEffect." alt="" coords="457,505,641,532"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="348,786,536,531,540,534,352,789"/>
+<area shape="rect" id="Node000043" href="$interface_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_i_matrix_effect.html" title=" " alt="" coords="460,1053,638,1096"/>
+<area shape="poly" id="edge42_Node000001_Node000043" title=" " alt="" coords="354,837,532,1051,528,1054,350,840"/>
+<area shape="rect" id="Node000002" href="$interface_direct_output_1_1_general_1_1_generic_1_1_i_named_item.html" title="Interface for items which can be added the the NamedItemList." alt="" coords="5,792,203,835"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="218,811,250,811,250,816,218,816"/>
+<area shape="rect" id="Node000004" href="$class_direct_output_1_1_f_x_1_1_analog_toy_f_x_1_1_analog_toy_effect_base.html" title="Base class for effects controlling a single AnalogToy object." alt="" coords="739,227,921,269"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="574,492,805,268,808,272,577,496"/>
+<area shape="rect" id="Node000006" href="$class_direct_output_1_1_f_x_1_1_effect_effect_base.html" title="Base class for effects targeting another effect." alt="" coords="721,447,939,473"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="620,499,689,483,747,471,748,477,690,488,621,504"/>
+<area shape="rect" id="Node000017" href="$class_direct_output_1_1_f_x_1_1_list_f_x_1_1_list_effect.html" title="This effect triggers a list of other effect when it is triggered." alt="" coords="738,497,922,540"/>
+<area shape="poly" id="edge16_Node000003_Node000017" title=" " alt="" coords="657,516,738,516,738,521,657,521"/>
+<area shape="rect" id="Node000018" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_matrix_effect_base-1-g.html" title="Base class for effects targeting a matrix of toys (e.g. addressable ledstrip)" alt="" coords="721,1045,939,1104"/>
+<area shape="poly" id="edge17_Node000003_Node000018" title=" " alt="" coords="567,545,816,1044,811,1046,562,547"/>
+<area shape="rect" id="Node000040" href="$class_direct_output_1_1_f_x_1_1_null_f_x_1_1_null_effect.html" title="The NullEffect is a empty effect no doing anything." alt="" coords="736,564,924,607"/>
+<area shape="poly" id="edge39_Node000003_Node000040" title=" " alt="" coords="624,533,690,549,737,561,736,566,689,555,622,539"/>
+<area shape="rect" id="Node000041" href="$class_direct_output_1_1_f_x_1_1_r_g_b_a_f_x_1_1_r_g_b_a_effect_base.html" title="Base class for effects using RGBA toys." alt="" coords="689,95,971,121"/>
+<area shape="poly" id="edge40_Node000003_Node000041" title=" " alt="" coords="556,490,573,435,601,364,639,286,687,213,715,184,746,158,802,120,805,124,749,162,718,187,691,216,644,289,606,366,578,437,561,492"/>
+<area shape="rect" id="Node000005" href="$class_direct_output_1_1_f_x_1_1_analog_toy_f_x_1_1_analog_toy_value_effect.html" title="This effect controlls sets the value and alpha channel of a analog alpha toy based on the trigger val..." alt="" coords="1052,72,1234,115"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="869,215,937,169,1018,124,1051,112,1053,117,1020,129,940,173,873,219"/>
+<area shape="rect" id="Node000007" href="$class_direct_output_1_1_f_x_1_1_condition_f_x_1_1_table_element_condition_effect.html" title="This effect evaluates the condition specified in the Condition property." alt="" coords="1038,605,1248,648"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="955,472,972,483,985,496,992,510,998,538,1003,566,1009,579,1020,591,1039,604,1036,608,1017,595,1005,582,998,567,993,539,987,512,981,499,969,487,952,477"/>
+<area shape="rect" id="Node000008" href="$class_direct_output_1_1_f_x_1_1_timmed_f_x_1_1_blink_effect.html" title="Blink effect which triggers a TargetEffect at specified intervalls with active (org value of TableEle..." alt="" coords="1049,672,1237,715"/>
+<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="955,471,972,483,990,505,998,527,1000,549,998,572,998,616,1005,637,1020,658,1050,677,1047,682,1017,662,1000,640,993,617,993,572,994,550,993,528,985,507,969,487,952,475"/>
+<area shape="rect" id="Node000009" href="$class_direct_output_1_1_f_x_1_1_timmed_f_x_1_1_delay_effect.html" title="The effect fires a assigned target effect after a specified delay. &#160;The original values supplied when..." alt="" coords="1049,739,1237,781"/>
+<area shape="poly" id="edge8_Node000006_Node000009" title=" " alt="" coords="955,470,973,483,994,513,1003,544,1003,575,999,605,994,636,993,666,1001,695,1021,725,1034,736,1050,745,1047,749,1031,741,1017,728,996,698,988,666,989,635,993,604,998,574,998,545,990,516,969,487,952,475"/>
+<area shape="rect" id="Node000010" href="$class_direct_output_1_1_f_x_1_1_timmed_f_x_1_1_duration_effect.html" title="Duration effect which triggers a specified target effect for a specified duration...." alt="" coords="1049,139,1237,181"/>
+<area shape="poly" id="edge9_Node000006_Node000010" title=" " alt="" coords="851,433,906,365,968,280,981,255,988,233,998,212,1017,191,1047,174,1050,179,1020,195,1002,215,993,235,986,257,973,283,911,369,855,436"/>
+<area shape="rect" id="Node000011" href="$class_direct_output_1_1_f_x_1_1_timmed_f_x_1_1_extend_duration_effect.html" title="The extend duration effect triggers another effect for a duration which is extebnded by the number of..." alt="" coords="1049,205,1237,248"/>
+<area shape="poly" id="edge10_Node000006_Node000011" title=" " alt="" coords="846,433,875,394,914,346,962,298,1017,258,1047,244,1049,249,1020,262,966,303,918,350,879,397,850,436"/>
+<area shape="rect" id="Node000012" href="$class_direct_output_1_1_f_x_1_1_timmed_f_x_1_1_fade_effect.html" title="This effect fades towards the value passed to the effect in the TableElementData of the trigger metho..." alt="" coords="1049,272,1237,315"/>
+<area shape="poly" id="edge11_Node000006_Node000012" title=" " alt="" coords="856,434,926,379,971,350,1018,324,1047,312,1049,317,1020,329,974,354,930,384,860,438"/>
+<area shape="rect" id="Node000013" href="$class_direct_output_1_1_f_x_1_1_timmed_f_x_1_1_max_duration_effect.html" title="Limits the max duration of the effect to the specified number of milliseconds." alt="" coords="1049,339,1237,381"/>
+<area shape="poly" id="edge12_Node000006_Node000013" title=" " alt="" coords="881,438,1018,391,1057,379,1058,384,1019,396,883,443"/>
+<area shape="rect" id="Node000014" href="$class_direct_output_1_1_f_x_1_1_timmed_f_x_1_1_min_duration_effect.html" title="This effect enforces a minimum duration on the effect calls. &#160;Calls which are setting a effect to act..." alt="" coords="1049,405,1237,448"/>
+<area shape="poly" id="edge13_Node000006_Node000014" title=" " alt="" coords="955,444,1048,434,1048,439,955,449"/>
+<area shape="rect" id="Node000015" href="$class_direct_output_1_1_f_x_1_1_value_f_x_1_1_value_invert_effect.html" title="Inverts the trigger value of the effect before the target effect is called (e.g. 0 becomes 255,..." alt="" coords="1056,472,1230,515"/>
+<area shape="poly" id="edge14_Node000006_Node000015" title=" " alt="" coords="955,471,1056,481,1055,487,954,476"/>
+<area shape="rect" id="Node000016" href="$class_direct_output_1_1_f_x_1_1_value_f_x_1_1_value_map_full_range_effect.html" title="This effects maps the trigger value to the full range of 0 &#45; 255. If the trigger value is 0,..." alt="" coords="1056,539,1230,581"/>
+<area shape="poly" id="edge15_Node000006_Node000016" title=" " alt="" coords="955,476,972,483,987,493,997,504,1006,514,1020,524,1057,540,1055,544,1017,529,1002,518,993,507,984,497,969,488,953,481"/>
+<area shape="rect" id="Node000019" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_matrix_bitmap_animation_effect_base-1-g.html" title=" " alt="" coords="1033,1429,1253,1488"/>
+<area shape="poly" id="edge18_Node000018_Node000019" title=" " alt="" coords="864,1115,973,1273,996,1312,1021,1348,1063,1391,1105,1427,1101,1431,1059,1394,1017,1351,991,1314,968,1276,859,1118"/>
+<area shape="rect" id="Node000023" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_matrix_bitmap_effect_base-1-g.html" title="Outputs a defined part of a bitmap on a area of a matrix." alt="" coords="1054,1279,1232,1337"/>
+<area shape="poly" id="edge22_Node000018_Node000023" title=" " alt="" coords="867,1114,934,1185,976,1222,1020,1255,1058,1276,1055,1280,1017,1260,972,1226,930,1189,863,1118"/>
+<area shape="rect" id="Node000027" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_matrix_flicker_effect_base-1-g.html" title="Does create random flickering with a defineable density, durations and value within the spefied area ..." alt="" coords="1054,1187,1232,1245"/>
+<area shape="poly" id="edge26_Node000018_Node000027" title=" " alt="" coords="896,1110,956,1142,1020,1172,1055,1186,1053,1191,1018,1177,953,1146,894,1114"/>
+<area shape="rect" id="Node000030" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_matrix_plasma_effect_base-1-g.html" title=" " alt="" coords="1054,805,1232,864"/>
+<area shape="poly" id="edge29_Node000018_Node000030" title=" " alt="" coords="859,1031,926,952,969,910,1017,874,1053,856,1055,861,1020,878,973,914,930,955,863,1035"/>
+<area shape="rect" id="Node000032" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_matrix_shift_effect_base-1-g.html" title="Base class for effects shift values through a matrix of elements." alt="" coords="1054,888,1232,947"/>
+<area shape="poly" id="edge31_Node000018_Node000032" title=" " alt="" coords="884,1034,947,994,1018,956,1053,942,1055,946,1020,961,950,999,887,1039"/>
+<area shape="rect" id="Node000035" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_matrix_value_effect_base-1-g.html" title="Base class for effects setting all elements a specified area of a matrix toy to the same specific val..." alt="" coords="1054,971,1232,1029"/>
+<area shape="poly" id="edge34_Node000018_Node000035" title=" " alt="" coords="953,1043,1053,1019,1054,1024,954,1048"/>
+<area shape="rect" id="Node000038" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_r_g_b_a_matrix_color_scale_shape_effect.html" title="Displays a shape on a RGBA matrix (typically a ledstrip array). The color of the displayed shape is c..." alt="" coords="1028,1053,1258,1096"/>
+<area shape="poly" id="edge37_Node000018_Node000038" title=" " alt="" coords="954,1072,1027,1072,1027,1077,954,1077"/>
+<area shape="rect" id="Node000039" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_r_g_b_a_matrix_shape_effect.html" title="Displays a shape on a RGBA matrix (typically a ledstrip matrix). The color of the displayed shape is ..." alt="" coords="1054,1120,1232,1163"/>
+<area shape="poly" id="edge38_Node000018_Node000039" title=" " alt="" coords="954,1098,1054,1120,1053,1125,953,1104"/>
+<area shape="rect" id="Node000020" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_analog_alpha_matrix_bitmap_animation_effect.html" title="Displays parts of a bitmap as a animation on a matrix of AnalogAlpha elements. Check the docu on the ..." alt="" coords="1330,1587,1559,1645"/>
+<area shape="poly" id="edge19_Node000019_Node000020" title=" " alt="" coords="1194,1495,1251,1535,1316,1572,1342,1584,1340,1589,1314,1577,1249,1539,1191,1499"/>
+<area shape="rect" id="Node000021" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_r_g_b_a_matrix_bitmap_animation_effect.html" title="The RGBAMatrixBitmapAnimationEffect displays a anmation which is based on a image file on the definea..." alt="" coords="1330,1437,1558,1480"/>
+<area shape="poly" id="edge20_Node000019_Node000021" title=" " alt="" coords="1269,1456,1330,1456,1330,1461,1269,1461"/>
+<area shape="rect" id="Node000022" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_r_g_b_a_matrix_color_scale_bitmap_animation_effect.html" title="This displays a defined part of a bitmap as a animation in the given colors on a area of a RGBAtoy Ma..." alt="" coords="1315,1504,1573,1563"/>
+<area shape="poly" id="edge21_Node000019_Node000022" title=" " alt="" coords="1268,1487,1324,1501,1322,1506,1267,1492"/>
+<area shape="rect" id="Node000024" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_analog_alpha_matrix_bitmap_effect.html" title="Displays a defined part of a bitmap on a area of a AnalogAlpha Matrix." alt="" coords="1342,1371,1547,1413"/>
+<area shape="poly" id="edge23_Node000023_Node000024" title=" " alt="" coords="1247,1336,1316,1356,1358,1367,1356,1373,1314,1361,1246,1341"/>
+<area shape="rect" id="Node000025" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_r_g_b_a_matrix_bitmap_effect.html" title="The RGBAMatrixBitmapEffect displays a defined part of a bitmap on a area of a RGBAtoy Matrix." alt="" coords="1356,1237,1533,1280"/>
+<area shape="poly" id="edge24_Node000023_Node000025" title=" " alt="" coords="1247,1288,1355,1271,1355,1276,1247,1294"/>
+<area shape="rect" id="Node000026" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_r_g_b_a_matrix_color_scale_bitmap_effect.html" title="The RGBAMatrixBitmapEffect displays a defined part of a bitmap in the given colors on a area of a RGB..." alt="" coords="1327,1304,1561,1347"/>
+<area shape="poly" id="edge25_Node000023_Node000026" title=" " alt="" coords="1248,1311,1327,1316,1327,1321,1247,1317"/>
+<area shape="rect" id="Node000028" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_analog_alpha_matrix_flicker_effect.html" title="Does create random flickering with a defineable density, durations and value within the spefied area ..." alt="" coords="1342,1104,1546,1147"/>
+<area shape="poly" id="edge27_Node000027_Node000028" title=" " alt="" coords="1245,1179,1314,1156,1355,1145,1356,1150,1316,1161,1247,1184"/>
+<area shape="rect" id="Node000029" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_r_g_b_a_matrix_flicker_effect.html" title="Does create random flickering with a defineable density, durations and color within the spefied area ..." alt="" coords="1356,1171,1533,1213"/>
+<area shape="poly" id="edge28_Node000027_Node000029" title=" " alt="" coords="1247,1205,1355,1196,1355,1202,1248,1210"/>
+<area shape="rect" id="Node000031" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_r_g_b_a_matrix_plasma_effect.html" title="Displayes a classical plasma effect on a RGBA matrix/ledstrip array. For more details on the math of ..." alt="" coords="1356,771,1533,813"/>
+<area shape="poly" id="edge30_Node000030_Node000031" title=" " alt="" coords="1247,817,1355,802,1355,807,1247,823"/>
+<area shape="rect" id="Node000033" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_analog_alpha_matrix_shift_effect.html" title="Same kind of effect like the RGBAMatrixShift effect, but for AnalogAlpha elements (just about everyth..." alt="" coords="1348,904,1540,947"/>
+<area shape="poly" id="edge32_Node000032_Node000033" title=" " alt="" coords="1247,917,1348,920,1348,925,1247,923"/>
+<area shape="rect" id="Node000034" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_r_g_b_a_matrix_shift_effect.html" title=" " alt="" coords="1356,837,1533,880"/>
+<area shape="poly" id="edge33_Node000032_Node000034" title=" " alt="" coords="1246,895,1354,873,1355,879,1247,900"/>
+<area shape="rect" id="Node000036" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_analog_alpha_matrix_value_effect.html" title="Sets the spefied area of matrix to the specified values depending on the trigger value." alt="" coords="1346,971,1542,1013"/>
+<area shape="poly" id="edge35_Node000035_Node000036" title=" " alt="" coords="1247,995,1345,992,1346,997,1248,1000"/>
+<area shape="rect" id="Node000037" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_r_g_b_a_matrix_color_effect.html" title="Sets the spefied area of matrix to the specified colors depending on the trigger value." alt="" coords="1356,1037,1533,1080"/>
+<area shape="poly" id="edge36_Node000035_Node000037" title=" " alt="" coords="1247,1018,1355,1039,1354,1044,1246,1023"/>
+<area shape="rect" id="Node000042" href="$class_direct_output_1_1_f_x_1_1_r_g_b_a_f_x_1_1_r_g_b_a_color_effect.html" title="The effects sets the color of a RGBAToy based on the trigger value." alt="" coords="1019,5,1267,48"/>
+<area shape="poly" id="edge41_Node000041_Node000042" title=" " alt="" coords="899,88,1057,46,1059,51,900,93"/>
+<area shape="poly" id="edge46_Node000043_Node000018" title=" " alt="" coords="653,1072,721,1072,721,1077,653,1077"/>
+<area shape="rect" id="Node000044" href="$interface_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_i_matrix_bitmap_effect.html" title=" " alt="" coords="741,1287,919,1329"/>
+<area shape="poly" id="edge43_Node000043_Node000044" title=" " alt="" coords="590,1104,804,1284,801,1288,586,1108"/>
+<area shape="poly" id="edge44_Node000044_Node000019" title=" " alt="" coords="891,1334,1081,1426,1079,1431,889,1339"/>
+<area shape="poly" id="edge45_Node000044_Node000023" title=" " alt="" coords="934,1305,1054,1305,1054,1311,934,1311"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="B2SServerPlugin.Plugin" name="B2SServerPlugin.Plugin">
+<area shape="rect" id="Node000001" title="Plugin is the IDirectPlugin interface implementation required by the B2S Server." alt="" coords="45,80,206,107"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,102,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="79,41,115,78,111,81,75,45"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="125,5,272,32"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="177,45,140,82,136,78,173,41"/>
+</map>

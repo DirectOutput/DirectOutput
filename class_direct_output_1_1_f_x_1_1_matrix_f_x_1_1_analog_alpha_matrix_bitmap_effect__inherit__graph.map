@@ -1,0 +1,22 @@
+<map id="DirectOutput.FX.MatrixFX.AnalogAlphaMatrixBitmapEffect" name="DirectOutput.FX.MatrixFX.AnalogAlphaMatrixBitmapEffect">
+<area shape="rect" id="Node000001" title="Displays a defined part of a bitmap on a area of a AnalogAlpha Matrix." alt="" coords="1219,51,1424,93"/>
+<area shape="rect" id="Node000002" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_matrix_bitmap_effect_base-1-g.html" title="Outputs a defined part of a bitmap on a area of a matrix." alt="" coords="994,43,1171,101"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1187,69,1219,69,1219,75,1187,75"/>
+<area shape="rect" id="Node000003" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_matrix_effect_base-1-g.html" title="Base class for effects targeting a matrix of toys (e.g. addressable ledstrip)" alt="" coords="728,5,946,64"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="962,51,994,56,993,61,961,56"/>
+<area shape="rect" id="Node000004" href="$class_direct_output_1_1_f_x_1_1_effect_base.html" title="Abstract base class for IEffect objects. &#160;This class inherits NamedItemBase and implements IEffect." alt="" coords="496,21,680,48"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="696,32,728,32,728,37,696,37"/>
+<area shape="rect" id="Node000005" href="$class_direct_output_1_1_general_1_1_generic_1_1_named_item_base.html" title="Abstract base class for named items. &#160;Implements the name property and the necessary events." alt="" coords="251,13,448,56"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="464,32,496,32,496,37,464,37"/>
+<area shape="rect" id="Node000006" href="$interface_direct_output_1_1_general_1_1_generic_1_1_i_named_item.html" title="Interface for items which can be added the the NamedItemList." alt="" coords="5,43,203,85"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="218,48,250,44,250,49,218,53"/>
+<area shape="rect" id="Node000007" href="$interface_direct_output_1_1_f_x_1_1_i_effect.html" title="Common interface for all effects. &#160;If a new effect is implemented it is best to inherit from the abst..." alt="" coords="270,80,428,107"/>
+<area shape="poly" id="edge7_Node000007_Node000006" title=" " alt="" coords="218,75,270,81,269,86,218,80"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="421,73,530,46,532,51,422,78"/>
+<area shape="rect" id="Node000008" href="$interface_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_i_matrix_effect.html" title=" " alt="" coords="500,72,677,115"/>
+<area shape="poly" id="edge9_Node000008_Node000007" title=" " alt="" coords="444,91,499,91,499,96,444,96"/>
+<area shape="poly" id="edge8_Node000003_Node000008" title=" " alt="" coords="692,66,727,58,729,63,693,71"/>
+<area shape="rect" id="Node000009" href="$interface_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_i_matrix_bitmap_effect.html" title=" " alt="" coords="748,88,926,131"/>
+<area shape="poly" id="edge11_Node000009_Node000008" title=" " alt="" coords="693,97,748,101,748,106,692,103"/>
+<area shape="poly" id="edge10_Node000002_Node000009" title=" " alt="" coords="941,91,993,83,994,88,942,96"/>
+</map>

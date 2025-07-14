@@ -1,0 +1,23 @@
+<map id="DirectOutput.Cab.Out.IAutoConfigOutputController" name="DirectOutput.Cab.Out.IAutoConfigOutputController">
+<area shape="rect" id="Node000001" title="Interface for classes used to automatically detect and configure output controllers." alt="" coords="5,305,189,348"/>
+<area shape="rect" id="Node000002" href="$class_direct_output_1_1_cab_1_1_out_1_1_dudes_cab_1_1_dudes_cab_auto_configurator.html" title="This class is used to detect and configure DudesCab output controllers automatically." alt="" coords="265,5,474,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="104,289,121,237,147,174,185,111,208,83,235,58,264,41,266,46,238,62,212,87,189,115,152,177,126,239,110,291"/>
+<area shape="rect" id="Node000003" href="$class_direct_output_1_1_cab_1_1_out_1_1_f_t_d_i_chip_1_1_f_t245_r_bitbang_controller_auto_configurator.html" title="This class detects all connected FT245RBitbangController units and configures them." alt="" coords="237,72,503,115"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="111,290,130,251,158,206,193,162,235,124,256,113,259,117,238,129,197,166,162,209,135,254,116,292"/>
+<area shape="rect" id="Node000004" href="$class_direct_output_1_1_cab_1_1_out_1_1_l_w_1_1_led_wiz_auto_configurator.html" title="This class is used to detect and configure LedWiz output controllers automatically." alt="" coords="283,139,457,181"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="122,292,171,239,202,213,235,191,281,172,283,177,238,196,205,217,175,243,126,295"/>
+<area shape="rect" id="Node000005" href="$class_direct_output_1_1_cab_1_1_out_1_1_p_s_1_1_pinscape_auto_configurator.html" title="This class automatically detects and configures Pinscape Controllers (for KL25Z)." alt="" coords="283,205,457,248"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="150,296,236,258,281,243,283,248,238,262,152,300"/>
+<area shape="rect" id="Node000006" href="$class_direct_output_1_1_cab_1_1_out_1_1_p_s_pico_1_1_pinscape_pico_auto_configurator.html" title="This class is used to detect and configure Pinscape Pico output controllers automatically." alt="" coords="270,272,470,315"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="203,311,269,303,270,308,204,316"/>
+<area shape="rect" id="Node000007" href="$class_direct_output_1_1_cab_1_1_out_1_1_pac_1_1_pac_drive_auto_configurator.html" title="Detectes and configures a PacDrive unit." alt="" coords="280,339,460,381"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="204,337,280,346,280,352,204,342"/>
+<area shape="rect" id="Node000008" href="$class_direct_output_1_1_cab_1_1_out_1_1_pac_1_1_pac_led64_auto_configurator.html" title="This class detects all connected PacLed64 units and configures them." alt="" coords="280,405,460,448"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="152,353,238,391,281,404,279,409,236,396,150,358"/>
+<area shape="rect" id="Node000009" href="$class_direct_output_1_1_cab_1_1_out_1_1_pac_1_1_pac_u_i_o_auto_configurator.html" title="This class detects all connected Ultimate I/O units and configures them." alt="" coords="280,472,460,515"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="126,358,175,410,205,436,238,458,281,475,279,480,235,462,202,440,171,414,122,362"/>
+<area shape="rect" id="Node000010" href="$class_direct_output_1_1_cab_1_1_out_1_1_pac_1_1_philips_hue_auto_configurator.html" title="Detects and configures a Philips Hue bridge unit." alt="" coords="279,539,461,581"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="116,361,135,400,162,444,197,488,238,524,279,544,277,549,235,529,193,491,158,447,130,402,111,363"/>
+<area shape="rect" id="Node000011" href="$class_direct_output_1_1_cab_1_1_out_1_1_pin_one_1_1_pin_one_auto_configurator.html" title=" " alt="" coords="275,605,465,648"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="110,363,126,414,152,476,189,539,212,567,238,591,275,611,273,616,235,596,208,570,185,542,147,479,121,416,104,364"/>
+</map>

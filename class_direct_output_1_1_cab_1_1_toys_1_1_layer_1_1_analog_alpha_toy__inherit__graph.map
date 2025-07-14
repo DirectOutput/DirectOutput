@@ -1,0 +1,33 @@
+<map id="DirectOutput.Cab.Toys.Layer.AnalogAlphaToy" name="DirectOutput.Cab.Toys.Layer.AnalogAlphaToy">
+<area shape="rect" id="Node000001" title="This toy handles analog values (0&#45;255) in a layer structure including alpha value (0=completely trans..." alt="" coords="1006,128,1201,171"/>
+<area shape="rect" id="Node000011" href="$class_direct_output_1_1_cab_1_1_toys_1_1_hardware_1_1_lamp.html" title="Lamp toy. &#160;Just a simple wrapper for the AnalogAlphaToy." alt="" coords="1249,107,1500,133"/>
+<area shape="poly" id="edge14_Node000001_Node000011" title=" " alt="" coords="1217,134,1248,131,1249,136,1217,140"/>
+<area shape="rect" id="Node000012" href="$class_direct_output_1_1_cab_1_1_toys_1_1_hardware_1_1_motor.html" title="Motor toy supporting max. and min. power, max. runtime and kickstart settings. &#160;The settings of this ..." alt="" coords="1265,157,1484,200"/>
+<area shape="poly" id="edge15_Node000001_Node000012" title=" " alt="" coords="1217,159,1265,164,1264,169,1216,164"/>
+<area shape="rect" id="Node000002" href="$class_direct_output_1_1_cab_1_1_toys_1_1_toy_base_updatable.html" title="Base class for toys which need update calls to update the state of their assigned outputs...." alt="" coords="766,61,946,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="953,106,1022,125,1021,130,952,111"/>
+<area shape="rect" id="Node000003" href="$class_direct_output_1_1_cab_1_1_toys_1_1_toy_base.html" title="Base class for IToy implementations." alt="" coords="496,13,706,40"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="681,41,766,60,765,65,680,47"/>
+<area shape="rect" id="Node000004" href="$class_direct_output_1_1_general_1_1_generic_1_1_named_item_base.html" title="Abstract base class for named items. &#160;Implements the name property and the necessary events." alt="" coords="251,5,448,48"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="464,24,495,24,495,29,464,29"/>
+<area shape="rect" id="Node000005" href="$interface_direct_output_1_1_general_1_1_generic_1_1_i_named_item.html" title="Interface for items which can be added the the NamedItemList." alt="" coords="5,35,203,77"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="218,40,250,36,250,41,218,45"/>
+<area shape="rect" id="Node000006" href="$interface_direct_output_1_1_cab_1_1_toys_1_1_i_toy.html" title="Common interface for all toy implementations. &#160;The abstract class ToyBase implements this interface." alt="" coords="257,72,442,99"/>
+<area shape="poly" id="edge6_Node000006_Node000005" title=" " alt="" coords="218,67,257,72,257,77,218,72"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="424,65,540,38,541,43,425,71"/>
+<area shape="rect" id="Node000007" href="$interface_direct_output_1_1_cab_1_1_toys_1_1_i_toy_updatable.html" title="Interface for toys which need a update method which is used to update their outputs." alt="" coords="509,64,693,107"/>
+<area shape="poly" id="edge8_Node000007_Node000006" title=" " alt="" coords="457,83,508,83,508,88,457,88"/>
+<area shape="rect" id="Node000009" href="$interface_direct_output_1_1_cab_1_1_toys_1_1_layer_1_1_i_layer_toy-1-g.html" title=" " alt="" coords="496,131,706,173"/>
+<area shape="poly" id="edge11_Node000009_Node000006" title=" " alt="" coords="418,101,518,127,517,133,417,106"/>
+<area shape="rect" id="Node000010" href="$interface_direct_output_1_1_cab_1_1_toys_1_1_i_single_output_toy.html" title=" " alt="" coords="756,195,956,237"/>
+<area shape="poly" id="edge13_Node000010_Node000006" title=" " alt="" coords="378,107,430,148,463,167,497,183,562,201,630,212,696,217,756,218,756,224,696,223,630,217,561,206,495,188,460,172,427,152,374,111"/>
+<area shape="poly" id="edge7_Node000002_Node000007" title=" " alt="" coords="709,82,765,81,765,86,709,87"/>
+<area shape="rect" id="Node000008" href="$interface_direct_output_1_1_cab_1_1_toys_1_1_i_analog_alpha_toy.html" title="Common interface for toys supporting analog alpha layers." alt="" coords="754,128,958,171"/>
+<area shape="poly" id="edge9_Node000001_Node000008" title=" " alt="" coords="973,147,1005,147,1005,152,973,152"/>
+<area shape="poly" id="edge10_Node000008_Node000009" title=" " alt="" coords="722,148,754,148,754,153,722,153"/>
+<area shape="poly" id="edge12_Node000001_Node000010" title=" " alt="" coords="952,187,1021,169,1022,174,953,193"/>
+<area shape="rect" id="Node000013" href="$class_direct_output_1_1_cab_1_1_toys_1_1_hardware_1_1_gear_motor.html" title="GearMotor toy supporting max. and min. power, max. runtime and kickstart settings...." alt="" coords="1548,124,1768,167"/>
+<area shape="poly" id="edge16_Node000012_Node000013" title=" " alt="" coords="1500,161,1547,156,1548,161,1500,167"/>
+<area shape="rect" id="Node000014" href="$class_direct_output_1_1_cab_1_1_toys_1_1_hardware_1_1_shaker.html" title="Shaker toy with settings for minimum and maximum power, fading curves, max runtime and kickstart." alt="" coords="1548,191,1768,233"/>
+<area shape="poly" id="edge17_Node000012_Node000014" title=" " alt="" coords="1500,191,1548,196,1547,202,1500,196"/>
+</map>

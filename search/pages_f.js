@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['r3_20for_20virtual_20pinball_20cabinets_0',['Welcome to the DirectOutput framework R3 for virtual pinball cabinets',['../index.html#autotoc_md11',1,'']]],
+  ['rearexciters_1',['RearExciters',['../outputcontrollers_builtin.html#DirectOutput_Cab_Out_SSFImpactController_SSFImpactController_RearExciters',1,'']]],
+  ['recommended_2',['Installation in own directory (Recommended)',['../installation.html#installation_installation_owndir',1,'']]],
+  ['release_20builder_3',['New single-script release builder',['../md__d_1_2a_2_direct_output_2_direct_output_2_r_e_a_d_m_e___build_setup.html#autotoc_md25',1,'']]],
+  ['release_20process_4',['Release process',['../md__d_1_2a_2_direct_output_2_direct_output_2_r_e_a_d_m_e___build_setup.html#autotoc_md24',1,'']]],
+  ['release_20process_5',['Original manual release process',['../md__d_1_2a_2_direct_output_2_direct_output_2_r_e_a_d_m_e___build_setup.html#autotoc_md26',1,'']]],
+  ['report_20bugs_20and_20issues_6',['Report bugs and issues',['../contribute.html#contribute_bugs',1,'']]],
+  ['requests_7',['Contribute your code/Pull requests',['../sourcecode.html#sourcecode_pull',1,'']]],
+  ['required_20only_20for_20msi_20creation_8',['WiX setup (optional - required only for .msi creation)',['../md__d_1_2a_2_direct_output_2_direct_output_2_r_e_a_d_m_e___build_setup.html#autotoc_md22',1,'']]],
+  ['requirements_9',['Requirements',['../installation.html#installation_requirements',1,'']]],
+  ['retriggerbehaviour_10',['RetriggerBehaviour',['../fx_builtin.html#DirectOutput_FX_TimmedFX_DurationEffect_RetriggerBehaviour',1,'RetriggerBehaviour'],['../fx_builtin.html#DirectOutput_FX_TimmedFX_MaxDurationEffect_RetriggerBehaviour',1,'RetriggerBehaviour'],['../fx_builtin.html#DirectOutput_FX_TimmedFX_MinDurationEffect_RetriggerBehaviour',1,'RetriggerBehaviour']]],
+  ['rgbacoloreffect_11',['RGBAColorEffect',['../fx_builtin.html#use_DirectOutput_FX_RGBAFX_RGBAColorEffect',1,'']]],
+  ['rgbamatrixbitmapanimationeffect_12',['RGBAMatrixBitmapAnimationEffect',['../fx_builtin.html#use_DirectOutput_FX_MatrixFX_RGBAMatrixBitmapAnimationEffect',1,'']]],
+  ['rgbamatrixbitmapeffect_13',['RGBAMatrixBitmapEffect',['../fx_builtin.html#use_DirectOutput_FX_MatrixFX_RGBAMatrixBitmapEffect',1,'']]],
+  ['rgbamatrixcoloreffect_14',['RGBAMatrixColorEffect',['../fx_builtin.html#use_DirectOutput_FX_MatrixFX_RGBAMatrixColorEffect',1,'']]],
+  ['rgbamatrixcolorscalebitmapanimationeffect_15',['RGBAMatrixColorScaleBitmapAnimationEffect',['../fx_builtin.html#use_DirectOutput_FX_MatrixFX_RGBAMatrixColorScaleBitmapAnimationEffect',1,'']]],
+  ['rgbamatrixcolorscalebitmapeffect_16',['RGBAMatrixColorScaleBitmapEffect',['../fx_builtin.html#use_DirectOutput_FX_MatrixFX_RGBAMatrixColorScaleBitmapEffect',1,'']]],
+  ['rgbamatrixcolorscaleshapeeffect_17',['RGBAMatrixColorScaleShapeEffect',['../fx_builtin.html#use_DirectOutput_FX_MatrixFX_RGBAMatrixColorScaleShapeEffect',1,'']]],
+  ['rgbamatrixflickereffect_18',['RGBAMatrixFlickerEffect',['../fx_builtin.html#use_DirectOutput_FX_MatrixFX_RGBAMatrixFlickerEffect',1,'']]],
+  ['rgbamatrixplasmaeffect_19',['RGBAMatrixPlasmaEffect',['../fx_builtin.html#use_DirectOutput_FX_MatrixFX_RGBAMatrixPlasmaEffect',1,'']]],
+  ['rgbamatrixshapeeffect_20',['RGBAMatrixShapeEffect',['../fx_builtin.html#use_DirectOutput_FX_MatrixFX_RGBAMatrixShapeEffect',1,'']]],
+  ['rgbamatrixshifteffect_21',['RGBAMatrixShiftEffect',['../fx_builtin.html#use_DirectOutput_FX_MatrixFX_RGBAMatrixShiftEffect',1,'']]],
+  ['rgbatoy_22',['RGBAToy',['../toy_builtin.html#use_DirectOutput_Cab_Toys_Layer_RGBAToy',1,'']]],
+  ['rgbatoygroup_23',['RGBAToyGroup',['../toy_builtin.html#use_DirectOutput_Cab_Toys_Virtual_RGBAToyGroup',1,'']]],
+  ['rgbled_24',['RGBLed',['../toy_builtin.html#use_DirectOutput_Cab_Toys_Hardware_RGBLed',1,'']]]
+];

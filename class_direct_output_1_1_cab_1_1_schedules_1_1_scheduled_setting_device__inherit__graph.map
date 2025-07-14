@@ -1,0 +1,5 @@
+<map id="DirectOutput.Cab.Schedules.ScheduledSettingDevice" name="DirectOutput.Cab.Schedules.ScheduledSettingDevice">
+<area shape="rect" id="Node000001" title=" " alt="" coords="8,96,200,139"/>
+<area shape="rect" id="Node000002" href="$interface_direct_output_1_1_general_1_1_generic_1_1_i_named_item.html" title="Interface for items which can be added the the NamedItemList." alt="" coords="5,5,203,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="107,64,107,96,101,96,101,64"/>
+</map>

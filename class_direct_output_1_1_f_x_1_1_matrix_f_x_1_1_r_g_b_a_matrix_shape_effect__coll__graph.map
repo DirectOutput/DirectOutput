@@ -1,0 +1,17 @@
+<map id="DirectOutput.FX.MatrixFX.RGBAMatrixShapeEffect" name="DirectOutput.FX.MatrixFX.RGBAMatrixShapeEffect">
+<area shape="rect" id="Node000001" title="Displays a shape on a RGBA matrix (typically a ledstrip matrix). The color of the displayed shape is ..." alt="" coords="118,384,295,427"/>
+<area shape="rect" id="Node000002" href="$class_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_matrix_effect_base-1-g.html" title="Base class for effects targeting a matrix of toys (e.g. addressable ledstrip)" alt="" coords="98,277,315,336"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="209,351,209,384,204,384,204,351"/>
+<area shape="rect" id="Node000003" href="$class_direct_output_1_1_f_x_1_1_effect_base.html" title="Abstract base class for IEffect objects. &#160;This class inherits NamedItemBase and implements IEffect." alt="" coords="12,195,196,221"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="130,230,178,275,175,279,127,234"/>
+<area shape="rect" id="Node000004" href="$class_direct_output_1_1_general_1_1_generic_1_1_named_item_base.html" title="Abstract base class for named items. &#160;Implements the name property and the necessary events." alt="" coords="5,96,203,139"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="107,154,107,194,101,194,101,154"/>
+<area shape="rect" id="Node000005" href="$interface_direct_output_1_1_general_1_1_generic_1_1_i_named_item.html" title="Interface for items which can be added the the NamedItemList." alt="" coords="105,5,303,48"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="171,60,129,97,126,93,168,56"/>
+<area shape="rect" id="Node000006" href="$interface_direct_output_1_1_f_x_1_1_i_effect.html" title="Common interface for all effects. &#160;If a new effect is implemented it is best to inherit from the abst..." alt="" coords="226,104,384,131"/>
+<area shape="poly" id="edge6_Node000006_Node000005" title=" " alt="" coords="240,56,293,102,289,106,237,60"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="264,140,134,197,132,192,261,135"/>
+<area shape="rect" id="Node000007" href="$interface_direct_output_1_1_f_x_1_1_matrix_f_x_1_1_i_matrix_effect.html" title=" " alt="" coords="221,187,398,229"/>
+<area shape="poly" id="edge8_Node000007_Node000006" title=" " alt="" coords="309,146,311,186,306,186,304,147"/>
+<area shape="poly" id="edge7_Node000002_Node000007" title=" " alt="" coords="278,242,239,279,235,275,275,238"/>
+</map>

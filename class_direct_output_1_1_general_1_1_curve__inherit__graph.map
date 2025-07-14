@@ -1,0 +1,9 @@
+<map id="DirectOutput.General.Curve" name="DirectOutput.General.Curve">
+<area shape="rect" id="Node000001" title="Represents a curve which can be used to map values (e.g. adjust a brighnetss value of a led to the br..." alt="" coords="102,187,285,213"/>
+<area shape="rect" id="Node000002" href="$class_direct_output_1_1_general_1_1_generic_1_1_named_item_base.html" title="Abstract base class for named items. &#160;Implements the name property and the necessary events." alt="" coords="5,96,203,139"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="140,147,181,184,178,188,136,151"/>
+<area shape="rect" id="Node000003" href="$interface_direct_output_1_1_general_1_1_generic_1_1_i_named_item.html" title="Interface for items which can be added the the NamedItemList." alt="" coords="5,5,203,48"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="107,64,107,96,101,96,101,64"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="226,104,342,131"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="260,143,209,189,205,185,257,139"/>
+</map>

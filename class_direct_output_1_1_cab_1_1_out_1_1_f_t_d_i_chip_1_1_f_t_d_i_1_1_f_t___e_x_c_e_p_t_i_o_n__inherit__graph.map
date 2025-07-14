@@ -1,0 +1,5 @@
+<map id="DirectOutput.Cab.Out.FTDIChip.FTDI.FT_EXCEPTION" name="DirectOutput.Cab.Out.FTDIChip.FTDI.FT_EXCEPTION">
+<area shape="rect" id="Node000001" title="Exceptions thrown by errors within the FTDI class." alt="" coords="5,80,219,123"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="72,5,152,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,48,115,80,109,80,109,48"/>
+</map>

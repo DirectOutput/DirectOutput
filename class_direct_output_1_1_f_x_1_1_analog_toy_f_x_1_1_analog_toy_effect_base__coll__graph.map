@@ -1,0 +1,12 @@
+<map id="DirectOutput.FX.AnalogToyFX.AnalogToyEffectBase" name="DirectOutput.FX.AnalogToyFX.AnalogToyEffectBase">
+<area shape="rect" id="Node000001" title="Base class for effects controlling a single AnalogToy object." alt="" coords="113,261,295,304"/>
+<area shape="rect" id="Node000002" href="$class_direct_output_1_1_f_x_1_1_effect_base.html" title="Abstract base class for IEffect objects. &#160;This class inherits NamedItemBase and implements IEffect." alt="" coords="112,187,296,213"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="207,229,207,261,201,261,201,229"/>
+<area shape="rect" id="Node000003" href="$class_direct_output_1_1_general_1_1_generic_1_1_named_item_base.html" title="Abstract base class for named items. &#160;Implements the name property and the necessary events." alt="" coords="5,96,203,139"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="143,147,190,184,187,188,140,151"/>
+<area shape="rect" id="Node000004" href="$interface_direct_output_1_1_general_1_1_generic_1_1_i_named_item.html" title="Interface for items which can be added the the NamedItemList." alt="" coords="105,5,303,48"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="171,60,129,97,126,93,168,56"/>
+<area shape="rect" id="Node000005" href="$interface_direct_output_1_1_f_x_1_1_i_effect.html" title="Common interface for all effects. &#160;If a new effect is implemented it is best to inherit from the abst..." alt="" coords="226,104,384,131"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="240,56,293,102,289,106,237,60"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="279,143,221,189,218,184,276,139"/>
+</map>

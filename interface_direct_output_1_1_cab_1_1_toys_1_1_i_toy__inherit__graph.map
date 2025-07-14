@@ -1,0 +1,57 @@
+<map id="DirectOutput.Cab.Toys.IToy" name="DirectOutput.Cab.Toys.IToy">
+<area shape="rect" id="Node000001" title="Common interface for all toy implementations. &#160;The abstract class ToyBase implements this interface." alt="" coords="251,240,435,266"/>
+<area shape="rect" id="Node000003" href="$class_direct_output_1_1_cab_1_1_toys_1_1_hardware_1_1_led_strip.html" title="Represents a adressable led strip." alt="" coords="1087,52,1306,94"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="354,224,374,188,402,146,438,105,482,72,522,52,563,36,650,15,739,5,828,4,914,10,993,21,1121,48,1120,54,992,26,913,15,828,9,740,10,651,20,565,41,524,57,484,77,442,109,406,149,378,191,359,227"/>
+<area shape="rect" id="Node000004" href="$interface_direct_output_1_1_cab_1_1_toys_1_1_i_matrix_toy-1-g.html" title="Interface for toys having a matrix of elements (e.g. ledstrips)" alt="" coords="805,56,1005,98"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="360,225,410,167,444,138,482,115,522,98,563,86,649,71,732,65,805,66,805,71,732,70,649,76,565,91,523,104,484,119,447,142,413,171,364,228"/>
+<area shape="rect" id="Node000005" href="$class_direct_output_1_1_cab_1_1_toys_1_1_virtual_1_1_toy_group_base-1-g.html" title="This toys allows the grouping of several toys into a matrix, which can be controlled by matrix effect..." alt="" coords="1075,118,1318,161"/>
+<area shape="poly" id="edge32_Node000001_Node000005" title=" " alt="" coords="369,227,419,189,450,172,482,158,531,147,596,139,753,131,924,130,1074,133,1074,138,924,135,754,136,596,145,532,153,484,163,452,177,422,194,372,231"/>
+<area shape="rect" id="Node000008" href="$interface_direct_output_1_1_cab_1_1_toys_1_1_i_r_g_b_output_toy.html" title="Common interface for RGB toys supporting several layers of color with alpha value." alt="" coords="483,341,735,368"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="383,272,430,296,484,320,544,338,542,343,482,325,428,301,380,277"/>
+<area shape="rect" id="Node000011" href="$interface_direct_output_1_1_cab_1_1_toys_1_1_i_single_output_toy.html" title=" " alt="" coords="510,462,709,505"/>
+<area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="359,279,378,316,406,361,442,406,485,444,512,459,509,464,481,448,438,409,402,364,374,319,354,281"/>
+<area shape="rect" id="Node000017" href="$interface_direct_output_1_1_cab_1_1_toys_1_1_i_toy_updatable.html" title="Interface for toys which need a update method which is used to update their outputs." alt="" coords="517,173,701,216"/>
+<area shape="poly" id="edge17_Node000001_Node000017" title=" " alt="" coords="421,233,516,212,517,217,422,238"/>
+<area shape="rect" id="Node000019" href="$class_direct_output_1_1_cab_1_1_toys_1_1_l_w_equivalent_1_1_led_wiz_equivalent.html" title="The LEDWizEquivalent toy is only used by the framework when ini files are used for the configuration ..." alt="" coords="783,240,1027,282"/>
+<area shape="poly" id="edge23_Node000001_Node000019" title=" " alt="" coords="422,267,483,276,609,282,735,276,783,272,783,278,735,281,609,287,483,281,422,272"/>
+<area shape="rect" id="Node000020" href="$interface_direct_output_1_1_cab_1_1_toys_1_1_layer_1_1_i_layer_toy-1-g.html" title=" " alt="" coords="504,392,714,434"/>
+<area shape="poly" id="edge24_Node000001_Node000020" title=" " alt="" coords="367,276,417,328,449,355,484,377,509,389,507,393,482,382,446,359,414,332,363,280"/>
+<area shape="rect" id="Node000023" href="$class_direct_output_1_1_cab_1_1_toys_1_1_toy_base.html" title="Base class for IToy implementations." alt="" coords="504,240,714,266"/>
+<area shape="poly" id="edge29_Node000001_Node000023" title=" " alt="" coords="451,250,503,250,503,256,451,256"/>
+<area shape="rect" id="Node000002" href="$interface_direct_output_1_1_general_1_1_generic_1_1_i_named_item.html" title="Interface for items which can be added the the NamedItemList." alt="" coords="5,232,203,274"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="218,250,250,250,250,256,218,256"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="1020,73,1086,72,1086,77,1020,78"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="1021,99,1094,115,1093,120,1020,104"/>
+<area shape="rect" id="Node000006" href="$class_direct_output_1_1_cab_1_1_toys_1_1_virtual_1_1_analog_alpha_toy_group.html" title="This toys allows the grouping of several AnalogAlpha toys (e.g. AnalogAlphaToy or DirectOutput...." alt="" coords="1392,152,1592,194"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="1334,152,1392,159,1391,164,1333,158"/>
+<area shape="rect" id="Node000007" href="$class_direct_output_1_1_cab_1_1_toys_1_1_virtual_1_1_r_g_b_a_toy_group.html" title="This toys allows the grouping of several RGBA toys (e.g. RGBAToy or DirectOutput.Cab...." alt="" coords="1392,85,1592,128"/>
+<area shape="poly" id="edge7_Node000005_Node000007" title=" " alt="" coords="1333,121,1391,115,1392,120,1334,127"/>
+<area shape="rect" id="Node000009" href="$class_direct_output_1_1_cab_1_1_toys_1_1_layer_1_1_r_g_b_a_toy.html" title="Thie RGBAToy controls RGB leds and other gadgets displaying RGB colors. &#160;&#160;The RGBAToy has multilayer ..." alt="" coords="1099,298,1294,341"/>
+<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="751,343,1098,323,1098,328,751,349"/>
+<area shape="rect" id="Node000010" href="$class_direct_output_1_1_cab_1_1_toys_1_1_hardware_1_1_r_g_b_led.html" title="Toy controlling a RGB led. &#160;This is just a simple wrapper around the RGBAToy." alt="" coords="1382,298,1601,341"/>
+<area shape="poly" id="edge10_Node000009_Node000010" title=" " alt="" coords="1310,317,1382,317,1382,322,1310,322"/>
+<area shape="rect" id="Node000012" href="$class_direct_output_1_1_cab_1_1_toys_1_1_layer_1_1_analog_alpha_toy.html" title="This toy handles analog values (0&#45;255) in a layer structure including alpha value (0=completely trans..." alt="" coords="1099,408,1294,450"/>
+<area shape="poly" id="edge12_Node000011_Node000012" title=" " alt="" coords="724,479,869,473,1026,460,1098,448,1099,453,1027,465,869,479,725,485"/>
+<area shape="rect" id="Node000013" href="$class_direct_output_1_1_cab_1_1_toys_1_1_hardware_1_1_lamp.html" title="Lamp toy. &#160;Just a simple wrapper for the AnalogAlphaToy." alt="" coords="1366,453,1617,480"/>
+<area shape="poly" id="edge13_Node000012_Node000013" title=" " alt="" coords="1310,441,1381,450,1380,455,1309,446"/>
+<area shape="rect" id="Node000014" href="$class_direct_output_1_1_cab_1_1_toys_1_1_hardware_1_1_motor.html" title="Motor toy supporting max. and min. power, max. runtime and kickstart settings. &#160;The settings of this ..." alt="" coords="1382,386,1601,429"/>
+<area shape="poly" id="edge14_Node000012_Node000014" title=" " alt="" coords="1309,418,1381,413,1382,418,1309,423"/>
+<area shape="rect" id="Node000015" href="$class_direct_output_1_1_cab_1_1_toys_1_1_hardware_1_1_gear_motor.html" title="GearMotor toy supporting max. and min. power, max. runtime and kickstart settings...." alt="" coords="1665,353,1885,396"/>
+<area shape="poly" id="edge15_Node000014_Node000015" title=" " alt="" coords="1617,390,1664,385,1665,390,1617,395"/>
+<area shape="rect" id="Node000016" href="$class_direct_output_1_1_cab_1_1_toys_1_1_hardware_1_1_shaker.html" title="Shaker toy with settings for minimum and maximum power, fading curves, max runtime and kickstart." alt="" coords="1665,420,1885,462"/>
+<area shape="poly" id="edge16_Node000014_Node000016" title=" " alt="" coords="1617,420,1665,425,1664,431,1617,425"/>
+<area shape="rect" id="Node000018" href="$class_direct_output_1_1_cab_1_1_toys_1_1_toy_base_updatable.html" title="Base class for toys which need update calls to update the state of their assigned outputs...." alt="" coords="815,173,995,216"/>
+<area shape="poly" id="edge18_Node000017_Node000018" title=" " alt="" coords="717,192,815,192,815,197,717,197"/>
+<area shape="poly" id="edge19_Node000018_Node000003" title=" " alt="" coords="954,163,1011,132,1074,104,1107,92,1108,97,1076,109,1013,137,957,167"/>
+<area shape="poly" id="edge22_Node000018_Node000005" title=" " alt="" coords="1010,172,1078,159,1079,164,1011,177"/>
+<area shape="poly" id="edge21_Node000018_Node000009" title=" " alt="" coords="1010,218,1028,225,1101,260,1162,295,1159,300,1098,265,1026,230,1008,223"/>
+<area shape="poly" id="edge20_Node000018_Node000012" title=" " alt="" coords="1011,213,1028,226,1042,241,1050,257,1056,288,1060,319,1066,335,1077,351,1110,382,1147,405,1144,409,1107,386,1073,355,1061,337,1055,320,1050,288,1045,258,1038,244,1025,230,1007,217"/>
+<area shape="rect" id="Node000021" href="$interface_direct_output_1_1_cab_1_1_toys_1_1_i_analog_alpha_toy.html" title="Common interface for toys supporting analog alpha layers." alt="" coords="803,408,1007,450"/>
+<area shape="poly" id="edge25_Node000020_Node000021" title=" " alt="" coords="730,417,803,421,803,426,730,422"/>
+<area shape="rect" id="Node000022" href="$interface_direct_output_1_1_cab_1_1_toys_1_1_i_r_g_b_a_toy.html" title="Common interface for RGB toys supporting several layers of color with alpha value." alt="" coords="794,357,1016,384"/>
+<area shape="poly" id="edge27_Node000020_Node000022" title=" " alt="" coords="729,393,807,382,808,387,730,398"/>
+<area shape="poly" id="edge26_Node000021_Node000012" title=" " alt="" coords="1022,426,1098,426,1098,432,1022,432"/>
+<area shape="poly" id="edge28_Node000022_Node000009" title=" " alt="" coords="1001,351,1098,334,1099,339,1001,356"/>
+<area shape="poly" id="edge31_Node000023_Node000018" title=" " alt="" coords="695,233,814,209,815,215,696,239"/>
+<area shape="poly" id="edge30_Node000023_Node000019" title=" " alt="" coords="730,253,783,255,783,260,730,259"/>
+</map>

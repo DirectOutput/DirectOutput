@@ -1,0 +1,7 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" title=" " alt="" coords="31,5,127,32"/>
+<area shape="rect" id="Node000001" href="$class_b2_s_server_plugin_1_1_plugin.html" title="Plugin is the IDirectPlugin interface implementation required by the B2S Server." alt="" coords="201,31,361,57"/>
+<area shape="poly" id="edge219_Node000000_Node000001" title=" " alt="" coords="143,24,201,31,200,37,142,29"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,56,153,83"/>
+<area shape="poly" id="edge220_Node000002_Node000001" title=" " alt="" coords="167,56,200,51,200,57,168,61"/>
+</map>

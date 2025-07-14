@@ -1,0 +1,25 @@
+<map id="DirectOutput.Cab.Toys.Layer.ILayerToy&lt; LayerElementType &gt;" name="DirectOutput.Cab.Toys.Layer.ILayerToy&lt; LayerElementType &gt;">
+<area shape="rect" id="Node000001" title=" " alt="" coords="483,89,693,132"/>
+<area shape="rect" id="Node000004" href="$interface_direct_output_1_1_cab_1_1_toys_1_1_i_analog_alpha_toy.html" title="Common interface for toys supporting analog alpha layers." alt="" coords="750,59,954,101"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="708,94,750,89,750,94,709,99"/>
+<area shape="rect" id="Node000010" href="$interface_direct_output_1_1_cab_1_1_toys_1_1_i_r_g_b_a_toy.html" title="Common interface for RGB toys supporting several layers of color with alpha value." alt="" coords="741,127,963,153"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="709,121,741,125,741,130,709,127"/>
+<area shape="rect" id="Node000002" href="$interface_direct_output_1_1_cab_1_1_toys_1_1_i_toy.html" title="Common interface for all toy implementations. &#160;The abstract class ToyBase implements this interface." alt="" coords="251,97,435,124"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="451,108,482,108,482,113,451,113"/>
+<area shape="rect" id="Node000003" href="$interface_direct_output_1_1_general_1_1_generic_1_1_i_named_item.html" title="Interface for items which can be added the the NamedItemList." alt="" coords="5,89,203,132"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="218,108,250,108,250,113,218,113"/>
+<area shape="rect" id="Node000005" href="$class_direct_output_1_1_cab_1_1_toys_1_1_layer_1_1_analog_alpha_toy.html" title="This toy handles analog values (0&#45;255) in a layer structure including alpha value (0=completely trans..." alt="" coords="1011,56,1206,99"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="969,76,1010,76,1010,81,970,81"/>
+<area shape="rect" id="Node000006" href="$class_direct_output_1_1_cab_1_1_toys_1_1_hardware_1_1_lamp.html" title="Lamp toy. &#160;Just a simple wrapper for the AnalogAlphaToy." alt="" coords="1254,5,1505,32"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="1217,49,1253,41,1308,30,1309,35,1255,47,1218,55"/>
+<area shape="rect" id="Node000007" href="$class_direct_output_1_1_cab_1_1_toys_1_1_hardware_1_1_motor.html" title="Motor toy supporting max. and min. power, max. runtime and kickstart settings. &#160;The settings of this ..." alt="" coords="1270,56,1489,99"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="1222,75,1270,75,1270,80,1222,80"/>
+<area shape="rect" id="Node000008" href="$class_direct_output_1_1_cab_1_1_toys_1_1_hardware_1_1_gear_motor.html" title="GearMotor toy supporting max. and min. power, max. runtime and kickstart settings...." alt="" coords="1553,23,1773,65"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="1505,60,1552,54,1553,60,1505,65"/>
+<area shape="rect" id="Node000009" href="$class_direct_output_1_1_cab_1_1_toys_1_1_hardware_1_1_shaker.html" title="Shaker toy with settings for minimum and maximum power, fading curves, max runtime and kickstart." alt="" coords="1553,89,1773,132"/>
+<area shape="poly" id="edge8_Node000007_Node000009" title=" " alt="" coords="1505,89,1553,95,1552,100,1505,95"/>
+<area shape="rect" id="Node000011" href="$class_direct_output_1_1_cab_1_1_toys_1_1_layer_1_1_r_g_b_a_toy.html" title="Thie RGBAToy controls RGB leds and other gadgets displaying RGB colors. &#160;&#160;The RGBAToy has multilayer ..." alt="" coords="1011,123,1206,165"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="978,139,1010,140,1010,145,978,145"/>
+<area shape="rect" id="Node000012" href="$class_direct_output_1_1_cab_1_1_toys_1_1_hardware_1_1_r_g_b_led.html" title="Toy controlling a RGB led. &#160;This is just a simple wrapper around the RGBAToy." alt="" coords="1270,123,1489,165"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="1222,141,1270,141,1270,147,1222,147"/>
+</map>

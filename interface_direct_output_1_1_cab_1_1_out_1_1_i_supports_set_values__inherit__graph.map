@@ -1,0 +1,31 @@
+<map id="DirectOutput.Cab.Out.ISupportsSetValues" name="DirectOutput.Cab.Out.ISupportsSetValues">
+<area shape="rect" id="Node000001" title="This interface defines additional methods for output controllers which allow for direct modification ..." alt="" coords="494,105,702,148"/>
+<area shape="rect" id="Node000004" href="$class_direct_output_1_1_cab_1_1_out_1_1_adressable_led_strip_1_1_direct_strip_controller.html" title="This output controller class is used to control the direct strip controller by Swisslizard." alt="" coords="750,39,968,81"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="698,98,772,79,773,85,700,104"/>
+<area shape="rect" id="Node000006" href="$class_direct_output_1_1_cab_1_1_out_1_1_output_controller_complete_base.html" title="This abstract class implement the full base logic for a output controller with a separate thread for ..." alt="" coords="763,139,955,181"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="718,139,763,145,763,150,717,145"/>
+<area shape="rect" id="Node000002" href="$interface_direct_output_1_1_cab_1_1_out_1_1_i_output_controller.html" title="Common interface for all outputcontrollers. Only classes implementing this interface can be used as o..." alt="" coords="251,105,446,148"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="462,124,494,124,494,129,462,129"/>
+<area shape="rect" id="Node000003" href="$interface_direct_output_1_1_general_1_1_generic_1_1_i_named_item.html" title="Interface for items which can be added the the NamedItemList." alt="" coords="5,105,203,148"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="219,124,250,124,250,129,219,129"/>
+<area shape="rect" id="Node000005" href="$class_direct_output_1_1_cab_1_1_out_1_1_adressable_led_strip_1_1_w_s2811_strip_controller.html" title="The WS2811StripController class is just a simple wrapper around the DirectStripController class...." alt="" coords="1016,5,1233,48"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="983,42,1015,38,1015,43,984,47"/>
+<area shape="rect" id="Node000007" href="$class_direct_output_1_1_cab_1_1_out_1_1_adressable_led_strip_1_1_teensy_strip_controller.html" title="The TeensyStripController is used to control up to 8 WS2811/WS2812 based ledstrips with up to 1100 le..." alt="" coords="1016,72,1233,115"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="961,132,1036,113,1037,118,962,137"/>
+<area shape="rect" id="Node000009" href="$class_direct_output_1_1_cab_1_1_out_1_1_com_port_1_1_pin_control.html" title="PinControl is a Arduniobased output controller by http://www.vpforums.org/index.php?..." alt="" coords="1034,139,1214,181"/>
+<area shape="poly" id="edge8_Node000006_Node000009" title=" " alt="" coords="970,157,1034,157,1034,163,970,163"/>
+<area shape="rect" id="Node000010" href="$class_direct_output_1_1_cab_1_1_out_1_1_d_m_x_1_1_art_net.html" title="Artnet is a industry standard protocol used to control DMX lighting effects over ethernet...." alt="" coords="1031,205,1218,248"/>
+<area shape="poly" id="edge9_Node000006_Node000010" title=" " alt="" coords="962,183,1037,202,1036,207,961,188"/>
+<area shape="rect" id="Node000011" href="$class_direct_output_1_1_cab_1_1_out_1_1_output_controller_flex_complete_base.html" title=" " alt="" coords="1029,272,1220,315"/>
+<area shape="poly" id="edge10_Node000006_Node000011" title=" " alt="" coords="902,188,956,224,1017,258,1045,269,1043,274,1015,262,953,228,899,193"/>
+<area shape="rect" id="Node000008" href="$class_direct_output_1_1_cab_1_1_out_1_1_adressable_led_strip_1_1_wemos_d1_m_p_strip_controller.html" title="The WemosD1MPStripController is a Teensy equivalent board called Wemos D1 Mini Pro (also known as ESP..." alt="" coords="1281,72,1518,115"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="1248,91,1281,91,1281,96,1248,96"/>
+<area shape="rect" id="Node000012" href="$class_direct_output_1_1_cab_1_1_out_1_1_dudes_cab_1_1_dudes_cab.html" title="The Dude&#39;s Cab Controller is a all&#45;in&#45;one virtual pinball controller." alt="" coords="1304,172,1495,215"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="1219,263,1232,258,1255,241,1280,224,1308,213,1310,218,1282,229,1258,245,1234,262,1221,268"/>
+<area shape="rect" id="Node000013" href="$class_direct_output_1_1_cab_1_1_out_1_1_p_s_1_1_pinscape.html" title="The Pinscape Controller is an open&#45;source software/hardware project based on the inexpensive and powe..." alt="" coords="1312,239,1487,281"/>
+<area shape="poly" id="edge12_Node000011_Node000013" title=" " alt="" coords="1235,277,1312,268,1312,273,1236,283"/>
+<area shape="rect" id="Node000014" href="$class_direct_output_1_1_cab_1_1_out_1_1_p_s_pico_1_1_pinscape_pico.html" title="The Pinscape Pico controller is an open&#45;source software/hardware project based on the Raspberry Pi Pi..." alt="" coords="1300,305,1500,348"/>
+<area shape="poly" id="edge13_Node000011_Node000014" title=" " alt="" coords="1236,304,1299,312,1299,317,1235,309"/>
+<area shape="rect" id="Node000015" href="$class_direct_output_1_1_cab_1_1_out_1_1_pin_one_1_1_pin_one.html" title="The PinOne Controller is a free for non commercial use software/hardware project based on the inexpen..." alt="" coords="1314,372,1485,415"/>
+<area shape="poly" id="edge14_Node000011_Node000015" title=" " alt="" coords="1187,319,1282,357,1317,369,1315,374,1280,363,1185,324"/>
+</map>

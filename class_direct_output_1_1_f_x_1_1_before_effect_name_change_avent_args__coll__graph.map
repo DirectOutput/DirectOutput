@@ -1,0 +1,7 @@
+<map id="DirectOutput.FX.BeforeEffectNameChangeAventArgs" name="DirectOutput.FX.BeforeEffectNameChangeAventArgs">
+<area shape="rect" id="Node000001" title="EventArgs for the BeforeEffectNameChanged event." alt="" coords="17,155,209,197"/>
+<area shape="rect" id="Node000002" href="$class_direct_output_1_1_f_x_1_1_effect_event_args.html" title="The EffectEventArgs class is used for events triggered by IEffect objects." alt="" coords="5,80,221,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="116,122,116,154,110,154,110,122"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="72,5,154,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="116,48,116,80,110,80,110,48"/>
+</map>

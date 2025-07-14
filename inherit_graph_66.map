@@ -1,0 +1,23 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,264,88,291"/>
+<area shape="rect" id="Node000001" href="$class_direct_output_1_1_cab_1_1_out_1_1_output_event_args.html" title="EventArgs for events of IOutput objects." alt="" coords="148,5,339,48"/>
+<area shape="poly" id="edge23_Node000000_Node000001" title=" " alt="" coords="49,249,57,207,73,156,98,103,114,79,134,58,150,46,153,51,137,62,118,83,102,106,78,157,62,208,54,250"/>
+<area shape="rect" id="Node000002" href="$class_direct_output_1_1_cab_1_1_toys_1_1_toy_event_args.html" title="EventArgs for events of IToy objects." alt="" coords="153,72,334,115"/>
+<area shape="poly" id="edge24_Node000000_Node000002" title=" " alt="" coords="55,248,84,186,106,153,134,125,152,113,155,117,137,129,110,156,88,189,59,250"/>
+<area shape="rect" id="Node000003" href="$class_direct_output_1_1_f_x_1_1_effect_event_args.html" title="The EffectEventArgs class is used for events triggered by IEffect objects." alt="" coords="136,139,351,165"/>
+<area shape="poly" id="edge25_Node000000_Node000003" title=" " alt="" coords="62,250,92,211,112,191,134,175,159,163,162,168,137,180,115,195,96,214,66,253"/>
+<area shape="rect" id="Node000005" href="$class_direct_output_1_1_general_1_1_generic_1_1_insert_event_args-1-g.html" title="Eventargs of BeforeInsert and AfterInsert events." alt="" coords="145,189,342,232"/>
+<area shape="poly" id="edge27_Node000000_Node000005" title=" " alt="" coords="96,255,135,241,169,230,171,235,137,247,98,261"/>
+<area shape="rect" id="Node000006" href="$class_direct_output_1_1_general_1_1_generic_1_1_name_change_event_args.html" title="EventArgs for name change events." alt="" coords="145,256,342,299"/>
+<area shape="poly" id="edge28_Node000000_Node000006" title=" " alt="" coords="103,275,144,275,144,280,103,280"/>
+<area shape="rect" id="Node000007" href="$class_direct_output_1_1_general_1_1_generic_1_1_remove_event_args-1-g.html" title="EventErgs for remove events." alt="" coords="145,323,342,365"/>
+<area shape="poly" id="edge29_Node000000_Node000007" title=" " alt="" coords="98,294,137,308,171,320,169,325,135,313,96,299"/>
+<area shape="rect" id="Node000008" href="$class_direct_output_1_1_general_1_1_generic_1_1_set_event_args-1-g.html" title="Event args for Set events." alt="" coords="145,389,342,432"/>
+<area shape="poly" id="edge30_Node000000_Node000008" title=" " alt="" coords="67,302,97,340,137,375,158,386,156,391,134,380,93,344,63,305"/>
+<area shape="rect" id="Node000009" href="$class_direct_output_1_1_general_1_1_generic_1_1_validate_item_event_args-1-g.html" title="EventArgs for ValidateItem event." alt="" coords="145,456,342,499"/>
+<area shape="poly" id="edge31_Node000000_Node000009" title=" " alt="" coords="58,305,69,337,86,374,108,411,137,442,154,453,151,458,134,446,104,414,81,376,64,339,53,307"/>
+<area shape="rect" id="Node000010" href="$class_direct_output_1_1_table_1_1_table_element_value_changed_event_args.html" title="EventArgs object for TableElementValueChanged events." alt="" coords="136,523,350,565"/>
+<area shape="poly" id="edge32_Node000000_Node000010" title=" " alt="" coords="53,306,61,350,76,405,101,461,117,486,137,509,153,520,149,524,134,513,113,489,96,463,71,407,56,352,48,307"/>
+<area shape="rect" id="Node000004" href="$class_direct_output_1_1_f_x_1_1_before_effect_name_change_avent_args.html" title="EventArgs for the BeforeEffectNameChanged event." alt="" coords="399,131,591,173"/>
+<area shape="poly" id="edge26_Node000003_Node000004" title=" " alt="" coords="367,149,399,149,399,155,367,155"/>
+</map>

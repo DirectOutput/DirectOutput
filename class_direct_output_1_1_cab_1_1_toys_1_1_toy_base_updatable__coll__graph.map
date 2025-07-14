@@ -1,0 +1,15 @@
+<map id="DirectOutput.Cab.Toys.ToyBaseUpdatable" name="DirectOutput.Cab.Toys.ToyBaseUpdatable">
+<area shape="rect" id="Node000001" title="Base class for toys which need update calls to update the state of their assigned outputs...." alt="" coords="131,277,311,320"/>
+<area shape="rect" id="Node000002" href="$class_direct_output_1_1_cab_1_1_toys_1_1_toy_base.html" title="Base class for IToy implementations." alt="" coords="5,195,216,221"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="140,229,197,275,194,279,136,233"/>
+<area shape="rect" id="Node000003" href="$class_direct_output_1_1_general_1_1_generic_1_1_named_item_base.html" title="Abstract base class for named items. &#160;Implements the name property and the necessary events." alt="" coords="12,96,209,139"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="113,154,113,194,108,194,108,154"/>
+<area shape="rect" id="Node000004" href="$interface_direct_output_1_1_general_1_1_generic_1_1_i_named_item.html" title="Interface for items which can be added the the NamedItemList." alt="" coords="118,5,316,48"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="183,60,137,97,134,93,179,56"/>
+<area shape="rect" id="Node000005" href="$interface_direct_output_1_1_cab_1_1_toys_1_1_i_toy.html" title="Common interface for all toy implementations. &#160;The abstract class ToyBase implements this interface." alt="" coords="233,104,417,131"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="255,56,312,102,308,106,252,60"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="282,139,142,197,140,192,280,134"/>
+<area shape="rect" id="Node000006" href="$interface_direct_output_1_1_cab_1_1_toys_1_1_i_toy_updatable.html" title="Interface for toys which need a update method which is used to update their outputs." alt="" coords="240,187,424,229"/>
+<area shape="poly" id="edge7_Node000006_Node000005" title=" " alt="" coords="330,146,333,186,328,186,325,147"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="296,241,249,279,245,275,293,237"/>
+</map>
