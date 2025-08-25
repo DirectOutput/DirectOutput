@@ -25,7 +25,13 @@ using System.Runtime.Remoting.Messaging;
 
 namespace DirectOutput.Cab.Out.AdressableLedStrip
 {
-
+    /// <summary>
+    /// The UMXController will do the bridge between DirectOutput and any <see cref="UMXDevice"/>.
+    /// It'll automatically build <see cref="LedStrip"/> toys in the cabinet based on the <see cref="UMXDevice"/> configuration.
+    /// It'll also compute each <see cref="DataLine"/> from the config and setup <see cref="OutputList"/> accordingly.
+    /// 
+    /// For now, only the <see cref="DudesCab.DudesCab"/> has an UMX implementation.
+    /// </summary>
     public class UMXController : OutputControllerCompleteBase
     {
         /// <summary>

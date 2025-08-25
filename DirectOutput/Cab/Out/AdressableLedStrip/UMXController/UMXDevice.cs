@@ -9,6 +9,31 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace DirectOutput.Cab.Out.AdressableLedStrip
 {
+    /// <summary>
+    /// The UMXDevice is a base class for any implementation of the UMX (Unified MX) protocol for adressable leds effects.
+    /// It's meant to be the common facade for the <see cref="UMXController"/>.
+    /// 
+    /// It has all the basis to build <see cref="LedStripDescriptor"/> toys from the configuration sent by the implemented device.
+    /// The big difference from usual Adressable leds controllers is that the device has its own configuration so there is no need for cabinet.xml file anymore.
+    /// You only need to implement the 3 main methods to have a functionnal UMX Device:
+    ///    - <see cref="Initialize"/> : will retrieve the config and build the LedstripDescriptors list
+    ///    - <see cref="SendCommand"/> : will send the UMXCommand to the UMXDevice
+    ///    - <see cref="WaitAck"/> : wait for the acknowledgment from the UMXDevice after sending a command
+    ///    
+    /// UMXDevices protocol commands (command numbers can be remapped by the implementation) : 
+    /// The 3 first one are not yet used by the <see cref="UMXDevice"/> base class, it's up to the implementation to manage them in the Initialize method.
+    ///    - UMXHandshake, UMXGetInfos, UMXGetConfig 
+    /// UMX_AllOff: reset the device leds, called only when disconnecting the device
+    /// UMX_SendStripsData: will send either uncompressed or compressed data depending on the compressionRatio set by the config
+    ///    For each line with changed data (all words or ints are little endian) : 
+    ///    - line number (1 byte)
+    ///    Depending on line compression
+    ///         - Uncompressed data : 0 (1 byte), nb leds (1 word), byte[nbleds*3]
+    ///         - Compressed data : 1 (1 byte), compressed size (1 word), nb leds (1 word)
+    ///             - bytes[compressed size] : nb leds (1 word), byte[3] color to duplicate
+    /// UMX_StartTest : will start a test using the <see cref="TestMode"/> enums with a duration in seconds
+    /// 
+    /// </summary>
     public abstract class UMXDevice
     {
         public enum UMXCommand

@@ -15,6 +15,10 @@ using static DirectOutput.General.Curve;
 
 namespace DirectOutput.Cab.Out.DudesCab
 {
+    /// <summary>
+    /// UMXDudesCabDevice is the <see cref="DudesCab"/> version of the <see cref="UMXDevice"/>
+    /// It handles communication with the <see cref="DudesCab"/> to support UMX Protocol
+    /// </summary>
     public class UMXDudesCabDevice : UMXDevice
     {
         public const byte CompressionRatioVersion = 7;
@@ -132,15 +136,6 @@ namespace DirectOutput.Cab.Out.DudesCab
 
         public override void WaitAck(byte command)
         {
-            return;
-            byte[] answer = _device.ReadUSB((byte)UMXToDudeCommand((UMXCommand)command)).ToArray();
-            if (answer.Length != hidCommandPrefixSize+1) {
-                throw new Exception($"The {this.GetType().ToString()} did not send the expected {hidCommandPrefixSize + 1} bytes containing the acknowledge. Received {answer.Length} bytes instead. Will not send data to the controller");
-            }
-            if (answer[hidCommandPrefixSize] != 'A') {
-                throw new Exception($"The {this.GetType().ToString()} did not send a ACK. Will not send data to the controller");
-            }
-            Log.Instrumentation("DudesCab,Mx", $"Received Ack");
         }
 
         DudesCab.Device _device = null;
