@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using System.Windows.Forms;
 
 /// <summary>
@@ -19,7 +20,13 @@ namespace DirectOutputComObjectRegister
         {
             string Result = "";
 
+#if PLATFORM_X86
             string RegAsm = Path.Combine(Environment.ExpandEnvironmentVariables("%systemroot%"), "Microsoft.NET", "Framework", System.Runtime.InteropServices.RuntimeEnvironment.GetSystemVersion(), "regasm.exe");
+#elif PLATFORM_X64
+            string RegAsm = Path.Combine(Environment.ExpandEnvironmentVariables("%systemroot%"), "Microsoft.NET", "Framework64", System.Runtime.InteropServices.RuntimeEnvironment.GetSystemVersion(), "regasm.exe");
+#else
+            string RegAsm = "<Invalid Compilation Target>";
+#endif
             if (File.Exists(RegAsm))
             {
                 string ComObject = Path.Combine(new FileInfo(System.Reflection.Assembly.GetEntryAssembly().Location).Directory.FullName, "DirectOutputComObject.dll");
