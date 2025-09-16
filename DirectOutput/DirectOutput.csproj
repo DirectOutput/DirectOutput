@@ -243,6 +243,9 @@
     <Compile Include="Cab\Out\AdressableLedStrip\LedStripOutput.cs" />
     <Compile Include="Cab\Out\AdressableLedStrip\DirectStripController.cs" />
     <Compile Include="Cab\Out\AdressableLedStrip\TeensyStripController.cs" />
+    <Compile Include="Cab\Out\AdressableLedStrip\UMXController\UMXController.cs" />
+    <Compile Include="Cab\Out\AdressableLedStrip\UMXController\UMXControllerAutoConfigurator.cs" />
+    <Compile Include="Cab\Out\AdressableLedStrip\UMXController\UMXDevice.cs" />
     <Compile Include="Cab\Out\AdressableLedStrip\WemosD1StripController.cs" />
     <Compile Include="Cab\Out\AdressableLedStrip\WS2811StripController.cs" />
     <Compile Include="Cab\Out\ComPort\GenericCom.cs" />
@@ -251,6 +254,7 @@
     <Compile Include="Cab\Out\DMX\ArtNet.cs" />
     <Compile Include="Cab\Out\DudesCab\DudesCab.cs" />
     <Compile Include="Cab\Out\DudesCab\DudesCabAutoConfigurator.cs" />
+    <Compile Include="Cab\Out\DudesCab\UMXDudesCabDevice.cs" />
     <Compile Include="Cab\Out\FTDIChip\FT245RBitbangController.cs" />
     <Compile Include="Cab\Out\FTDIChip\FTDIChip.cs" />
     <Compile Include="Cab\Out\HIDImports.cs" />
