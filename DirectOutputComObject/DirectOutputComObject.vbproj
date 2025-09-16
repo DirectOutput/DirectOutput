@@ -325,20 +325,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if exist "$(SolutionDir)tlbexp.exe" (
-      "$(SolutionDir)tlbexp" "$(TargetPath)" /out:"$(TargetDir)$(TargetName).tlb"
-) else (
-  where /q tlbexp
-  if not errorlevel 1 (
-      tlbexp "$(TargetPath)" /out:"$(TargetDir)$(TargetName).tlb"
-  ) else (
-     echo **** ERROR: Some additional build system setup is required
-     echo Please find a copy of tlbexp.exe and copy it into a location on your PATH, or
-     echo directly in $(SolutionDir)
-     echo This tool is normally found in the Windows SDK.
-  )
-)
-</PostBuildEvent>
+    <PostBuildEvent>call "$(DevEnvDir)..\Tools\VsDevCmd.bat"
+tlbexp "$(TargetPath)" /out:"$(TargetDir)$(TargetName).tlb"</PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\Fody.6.7.0\build\Fody.targets" Condition="Exists('..\packages\Fody.6.7.0\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
