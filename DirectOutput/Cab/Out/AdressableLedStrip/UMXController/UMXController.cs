@@ -37,11 +37,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         /// <summary>
         /// Initializes a new instance of the <see cref="UMXController"/> class with a given unit number.
         /// </summary>
-        /// <param name="Number">The number of the UMX controller.</param>
-        public UMXController(int Number)
-        {
-            this.Number = Number;
-        }
+        public UMXController(){}
 
 
         #region Number
