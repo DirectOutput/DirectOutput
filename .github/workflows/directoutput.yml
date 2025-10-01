@@ -1,0 +1,526 @@
+name: DirectOutput Build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: pwsh
+
+jobs:
+  build:
+    name: Build DirectOutput Release (x86 then x64)
+    runs-on: windows-2022
+    outputs:
+      version-tag: ${{ steps.version.outputs.tag }}
+      base-version: ${{ steps.version.outputs.base_version }}
+    # strategy:
+    #   fail-fast: false
+    #   matrix:
+    #     include:
+    #       - platform: x86
+    #         config: Release
+    #       - platform: x64
+    #         config: Release
+    #       # - platform: x86
+    #       #   config: Debug
+    #       # - platform: x64
+    #       #   config: Debug
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup MSBuild and Visual Studio
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Add Visual Studio to PATH and setup C++ environment
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x86  # Start with x86 for initial setup
+          
+      - name: Verify C++ build environment
+        run: |
+          Write-Host "=== C++ Build Environment Check ==="
+          
+          # Check for cl.exe compiler
+          try {
+            $clVersion = & cl 2>&1 | Select-String "Microsoft.*Compiler"
+            Write-Host "✅ Found C++ Compiler: $clVersion"
+          } catch {
+            Write-Error "❌ C++ Compiler (cl.exe) not found"
+            exit 1
+          }
+          
+          # Check for link.exe linker
+          try {
+            $linkVersion = & link 2>&1 | Select-String "Microsoft.*Linker"
+            Write-Host "✅ Found Linker: $linkVersion"
+          } catch {
+            Write-Error "❌ Linker (link.exe) not found"
+            exit 1
+          }
+          
+          # List available VS installations
+          $vsWhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+          if (Test-Path $vsWhere) {
+            Write-Host "=== Available Visual Studio Installations ==="
+            & $vsWhere -products * -format json | ConvertFrom-Json | ForEach-Object {
+              Write-Host "Product: $($_.displayName) - Version: $($_.installationVersion)"
+            }
+          }
+          
+          Write-Host "=== Environment Variables ==="
+          Write-Host "VSCMD_ARG_TGT_ARCH: $env:VSCMD_ARG_TGT_ARCH"
+          Write-Host "WindowsSDKVersion: $env:WindowsSDKVersion"
+
+      - name: Install WiX Toolset v3.14
+        run: |
+          # Download and install WiX Toolset v3.14.0 command-line tools
+          Write-Host "Downloading WiX Toolset v3.14.0..."
+          try {
+            Invoke-WebRequest -Uri "https://github.com/wixtoolset/wix3/releases/download/wix314rtm/wix314.exe" -OutFile "wix314.exe" -UseBasicParsing
+            Write-Host "Downloaded WiX installer: $(Get-Item wix314.exe | Select-Object Name, Length)"
+          } catch {
+            Write-Error "Failed to download WiX installer: $($_.Exception.Message)"
+            exit 1
+          }
+          
+          Write-Host "Installing WiX Toolset command-line tools..."
+          try {
+            $process = Start-Process -FilePath ".\wix314.exe" -ArgumentList "/quiet" -Wait -PassThru
+            Write-Host "WiX installer exit code: $($process.ExitCode)"
+            if ($process.ExitCode -ne 0) {
+              Write-Error "WiX installer failed with exit code: $($process.ExitCode)"
+              exit 1
+            }
+          } catch {
+            Write-Error "Failed to run WiX installer: $($_.Exception.Message)"
+            exit 1
+          }
+          
+          # Verify command-line tools installation
+          $wixPath = "C:\Program Files (x86)\WiX Toolset v3.14\bin"
+          if (Test-Path $wixPath) {
+            Write-Host "WiX Toolset command-line tools installed successfully at: $wixPath"
+            # Add WiX to PATH for this step and subsequent steps
+            echo "$wixPath" >> $env:GITHUB_PATH
+            # Also set environment variable that MSBuild looks for
+            echo "WIX=$($wixPath.Replace('\bin', ''))" >> $env:GITHUB_ENV
+            
+            # Verify key WiX tools are available
+            $tools = @("candle.exe", "light.exe", "heat.exe")
+            foreach ($tool in $tools) {
+              if (Test-Path "$wixPath\$tool") {
+                Write-Host "✅ Found $tool"
+              } else {
+                Write-Warning "⚠️ Missing $tool"
+              }
+            }
+          } else {
+            Write-Error "WiX Toolset command-line tools installation failed - path not found: $wixPath"
+            exit 1
+          }
+          
+          # Install WiX v3 - Visual Studio 2022 Extension
+          Write-Host "Installing WiX v3 - Visual Studio 2022 Extension..."
+          
+          # Download the WiX VS2022 extension VSIX file
+          try {
+            $vsixUrl = "https://marketplace.visualstudio.com/_apis/public/gallery/publishers/WixToolset/vsextensions/WixToolsetVisualStudio2022Extension/1.0.0.22/vspackage"
+            $vsixPath = "WixToolsetVisualStudio2022Extension.vsix"
+            Invoke-WebRequest -Uri $vsixUrl -OutFile $vsixPath -UseBasicParsing
+            Write-Host "Downloaded WiX VS extension: $(Get-Item $vsixPath | Select-Object Name, Length)"
+          } catch {
+            Write-Warning "Failed to download WiX VS extension: $($_.Exception.Message)"
+            Write-Host "Continuing without VS extension - command-line tools should still work"
+            return
+          }
+          
+          # Install the VSIX extension using VSIXInstaller
+          $vsixInstaller = $null
+          
+          # First, let's see what VS installations are actually available
+          Write-Host "=== Searching for Visual Studio installations ==="
+          $vs2022Path = "${env:ProgramFiles}\Microsoft Visual Studio\2022"
+          $vs2022x86Path = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\2022"
+          
+          # Check both Program Files locations
+          $vsBasePaths = @($vs2022Path, $vs2022x86Path)
+          $vsEditions = @("Enterprise", "Professional", "Community", "BuildTools")
+          
+          foreach ($basePath in $vsBasePaths) {
+            if (Test-Path $basePath) {
+              Write-Host "Found VS base path: $basePath"
+              Get-ChildItem $basePath -Directory -ErrorAction SilentlyContinue | ForEach-Object {
+                Write-Host "  Available edition: $($_.Name)"
+              }
+              
+              foreach ($edition in $vsEditions) {
+                $testPath = "$basePath\$edition\Common7\IDE\VSIXInstaller.exe"
+                if (Test-Path $testPath) {
+                  $vsixInstaller = $testPath
+                  Write-Host "✅ Found VSIXInstaller for $edition edition at: $testPath"
+                  break
+                }
+              }
+              if ($vsixInstaller) { break }
+            }
+          }
+          
+          # If still not found, try to use vswhere to locate VS
+          if (-not $vsixInstaller) {
+            $vsWhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+            if (Test-Path $vsWhere) {
+              Write-Host "Using vswhere to locate Visual Studio..."
+              $vsInstallations = & $vsWhere -products * -requires Microsoft.VisualStudio.Workload.MSBuildTools -format json | ConvertFrom-Json
+              foreach ($installation in $vsInstallations) {
+                $testPath = "$($installation.installationPath)\Common7\IDE\VSIXInstaller.exe"
+                if (Test-Path $testPath) {
+                  $vsixInstaller = $testPath
+                  Write-Host "✅ Found VSIXInstaller via vswhere at: $testPath"
+                  break
+                }
+              }
+            }
+          }
+          
+          if ($vsixInstaller) {
+            try {
+              Write-Host "Installing WiX VS2022 extension using: $vsixInstaller"
+              $process = Start-Process -FilePath $vsixInstaller -ArgumentList "/quiet", "/admin", $vsixPath -Wait -PassThru
+              Write-Host "VSIX installer exit code: $($process.ExitCode)"
+              if ($process.ExitCode -eq 0) {
+                Write-Host "✅ WiX VS2022 extension installation completed successfully"
+              } else {
+                Write-Warning "⚠️ WiX VS2022 extension installation may have failed (exit code: $($process.ExitCode))"
+              }
+            } catch {
+              Write-Warning "Failed to install WiX VS extension: $($_.Exception.Message)"
+            }
+          } else {
+            Write-Warning "VSIXInstaller not found in any Visual Studio installation."
+            Write-Host "=== Diagnostic Information ==="
+            Write-Host "Checked paths:"
+            foreach ($basePath in @("${env:ProgramFiles}\Microsoft Visual Studio\2022", "${env:ProgramFiles(x86)}\Microsoft Visual Studio\2022")) {
+              Write-Host "  Base: $basePath"
+              if (Test-Path $basePath) {
+                Get-ChildItem $basePath -Directory -ErrorAction SilentlyContinue | ForEach-Object {
+                  $vsixPath = "$($_.FullName)\Common7\IDE\VSIXInstaller.exe"
+                  $exists = Test-Path $vsixPath
+                  Write-Host "    $($_.Name): VSIXInstaller exists = $exists"
+                  if ($exists) {
+                    Write-Host "      Path: $vsixPath"
+                  }
+                }
+              } else {
+                Write-Host "    (Directory does not exist)"
+              }
+            }
+            Write-Warning "WiX extension will not be installed, but command-line tools should still work for MSBuild."
+          }
+
+      - name: Download and setup NuGet
+        run: |
+          Invoke-WebRequest -Uri "https://dist.nuget.org/win-x86-commandline/latest/nuget.exe" -OutFile "nuget.exe"
+
+      - name: Restore NuGet packages
+        run: |
+          .\nuget.exe restore DirectOutput.sln
+
+      - name: Update Assembly Version
+        id: version
+        run: |
+          # Extract base version from SharedAssemblyInfo.cs
+          $sharedAssemblyInfo = "AssemblyInfo/SharedAssemblyInfo.cs"
+          $content = Get-Content $sharedAssemblyInfo -Raw
+          
+          # Extract version using regex - looking for [assembly: AssemblyVersion("x.y.*")]
+          if ($content -match '\[assembly:\s*AssemblyVersion\("([0-9]+\.[0-9]+)\.\*"\)\]') {
+            $BASE_VERSION = $matches[1]
+            Write-Host "Extracted base version from AssemblyInfo: $BASE_VERSION"
+          } else {
+            Write-Error "Could not extract base version from AssemblyInfo file"
+            exit 1
+          }
+          
+          $SHA7 = "${{ github.sha }}".Substring(0, 7)
+          $VERSION_SHORT = "$BASE_VERSION.${{ github.run_number }}.0"
+          $VERSION_LONG = "$BASE_VERSION.${{ github.run_number }}.0-$SHA7"
+          
+          Write-Host "VERSION_SHORT: $VERSION_SHORT"
+          Write-Host "VERSION_LONG: $VERSION_LONG"
+          
+          # Update SharedAssemblyInfo.cs - use the extracted base version in the regex
+          $content = $content + "`n[assembly: AssemblyFileVersion(`"$VERSION_SHORT`")]`n[assembly: AssemblyInformationalVersion(`"$VERSION_LONG`")]"
+          Set-Content $sharedAssemblyInfo $content
+          
+          echo "tag=$VERSION_LONG" >> $env:GITHUB_OUTPUT
+          echo "short_version=$VERSION_SHORT" >> $env:GITHUB_OUTPUT
+          echo "base_version=$BASE_VERSION" >> $env:GITHUB_OUTPUT
+
+      - name: Fix NuGet package references
+        run: |
+          # Fix missing System.Reflection.Metadata reference for DOFSetupPBXFixup
+          Write-Host "Adding System.Reflection.Metadata NuGet package to DOFSetupPBXFixup..."
+          
+          # Create packages.config for DOFSetupPBXFixup if it doesn't exist
+          echo '<?xml version="1.0" encoding="utf-8"?>' > DOFSetupPBXFixup\packages.config
+          echo '<packages>' >> DOFSetupPBXFixup\packages.config
+          echo '  <package id="System.Reflection.Metadata" version="8.0.0" targetFramework="net48" />' >> DOFSetupPBXFixup\packages.config
+          echo '</packages>' >> DOFSetupPBXFixup\packages.config
+          
+          # Install the package with explicit directories
+          Write-Host "Restoring NuGet packages for DOFSetupPBXFixup..."
+          .\nuget.exe restore DOFSetupPBXFixup\DOFSetupPBXFixup.csproj -PackagesDirectory packages -SolutionDirectory .
+          
+          # Also install the specific package directly
+          .\nuget.exe install System.Reflection.Metadata -Version 8.0.0 -OutputDirectory packages -Framework net48
+          
+          # Verify package was installed
+          if (Test-Path "packages\System.Reflection.Metadata.8.0.0") {
+            Write-Host "✅ System.Reflection.Metadata package installed successfully"
+            Get-ChildItem "packages\System.Reflection.Metadata.8.0.0\lib" -Recurse -Name "*.dll" | ForEach-Object { Write-Host "  Found: $_" }
+          } else {
+            Write-Error "❌ System.Reflection.Metadata package not found in packages directory"
+          }
+          
+          # Fix the project reference to include HintPath
+          Write-Host "Fixing System.Reflection.Metadata reference in DOFSetupPBXFixup.csproj..."
+          $projectFile = "DOFSetupPBXFixup\DOFSetupPBXFixup.csproj"
+          $content = Get-Content $projectFile -Raw
+          
+          # Replace the hardcoded reference with proper NuGet package reference
+          $oldRef = 'System.Reflection.Metadata, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />'
+          $newRef = 'System.Reflection.Metadata, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"><HintPath>..\packages\System.Reflection.Metadata.8.0.0\lib\net462\System.Reflection.Metadata.dll</HintPath><Private>True</Private></Reference>'
+          
+          $content = $content -replace $oldRef, $newRef
+          Set-Content $projectFile $content
+          Write-Host "✅ Updated project reference with HintPath"
+
+      - name: Build DirectOutput solution (x86 first, then x64)
+        run: |
+          # Build x86 first (as required by README_BuildSetup.md)
+          Write-Host ">>> Building Release|x86 (required first for WiX dependencies)"
+          
+          # Clean x86 first
+          Write-Host "Cleaning x86 build..."
+          msbuild DirectOutput.sln -t:Clean -p:Configuration=Release -p:Platform=x86 -v:minimal -nologo
+          if ($LASTEXITCODE -ne 0) { 
+            Write-Error "x86 Clean failed"
+            exit $LASTEXITCODE 
+          }
+          
+          # Build x86 solution
+          Write-Host "Building x86 solution..."
+          msbuild DirectOutput.sln -t:Build -p:Configuration=Release -p:Platform=x86 -v:minimal -nologo
+          if ($LASTEXITCODE -ne 0) { 
+            Write-Error "x86 Solution build failed"
+            exit $LASTEXITCODE 
+          }
+          Write-Host "✅ x86 build completed successfully"
+          
+          # Now build x64 (can read from x86 files as needed)
+          Write-Host ">>> Building Release|x64 (can now use x86 dependencies)"
+          
+          # Clean x64
+          Write-Host "Cleaning x64 build..."
+          msbuild DirectOutput.sln -t:Clean -p:Configuration=Release -p:Platform=x64 -v:minimal -nologo
+          if ($LASTEXITCODE -ne 0) { 
+            Write-Error "x64 Clean failed"
+            exit $LASTEXITCODE 
+          }
+          
+          # Build x64 solution
+          Write-Host "Building x64 solution..."
+          msbuild DirectOutput.sln -t:Build -p:Configuration=Release -p:Platform=x64 -v:minimal -nologo
+          if ($LASTEXITCODE -ne 0) { 
+            Write-Error "x64 Solution build failed"
+            exit $LASTEXITCODE 
+          }
+          Write-Host "✅ x64 build completed successfully"
+          
+          Write-Host "✅ All builds completed successfully (x86 and x64)"
+
+      - name: Create ZIP release packages
+        run: |
+          # Create ZIP packages for both x86 and x64
+          @("x86", "x64") | ForEach-Object {
+            $platform = $_
+            $config = "Release"
+            
+            Write-Host "Creating ZIP package for $platform..."
+            
+            # Create output directory for ZIP package
+            $outputDir = "output-zip-$platform-$config"
+            New-Item -ItemType Directory -Path $outputDir -Force
+            
+            # Define source directory for binaries
+            $binDir = "bin\$platform\$config"
+            
+            # Read manifest file and copy files
+            $manifestFile = "manifest.$platform.txt"
+            if (Test-Path $manifestFile) {
+              Get-Content $manifestFile | Where-Object { $_ -notmatch "^#" -and $_.Trim() -ne "" } | ForEach-Object {
+                $sourceFile = Join-Path $binDir $_
+                
+                # Handle x64 naming issue: MainDofDll -> DirectOutput.dll
+                if ($platform -eq "x64" -and $_ -eq "DirectOutput.dll") {
+                  $alternativeFile = Join-Path $binDir "MainDofDll"
+                  if (-not (Test-Path $sourceFile) -and (Test-Path $alternativeFile)) {
+                    Write-Host "Found x64 naming issue: copying MainDofDll as DirectOutput.dll"
+                    Copy-Item $alternativeFile (Join-Path $outputDir "DirectOutput.dll") -Force
+                    Write-Host "Copied: $alternativeFile -> DirectOutput.dll"
+                    return
+                  }
+                }
+                
+                if (Test-Path $sourceFile) {
+                  Copy-Item $sourceFile $outputDir -Force
+                  Write-Host "Copied: $sourceFile"
+                } else {
+                  Write-Warning "File not found: $sourceFile"
+                }
+              }
+            }
+            
+            # Copy additional files
+            if (Test-Path "LICENSE") {
+              Copy-Item "LICENSE" $outputDir -Force
+            }
+            
+            # Copy config examples
+            if (Test-Path "config\examples") {
+              New-Item -ItemType Directory -Path "$outputDir\config\examples" -Force
+              Copy-Item "config\examples\*.xml" "$outputDir\config\examples" -Force -ErrorAction SilentlyContinue
+            }
+            
+            Write-Host "✅ ZIP package created for $platform"
+          }
+
+      - name: Create MSI release packages
+        run: |
+          # Create MSI packages for both x86 and x64
+          @("x86", "x64") | ForEach-Object {
+            $platform = $_
+            $config = "Release"
+            
+            Write-Host "Creating MSI package for $platform..."
+            
+            # Create output directory for MSI package
+            $outputDir = "output-msi-$platform-$config"
+            New-Item -ItemType Directory -Path $outputDir -Force
+            
+            # Copy MSI installer
+            $msiPath = "DOFSetup\bin\$platform\$config\DOFSetup.msi"
+            if (Test-Path $msiPath) {
+              $SHA7 = "${{ github.sha }}".Substring(0, 7)
+              $DATE = Get-Date -Format "yyyyMMdd"
+              $msiName = "DirectOutput-$platform-$config-$DATE-$SHA7.msi"
+              Copy-Item $msiPath "$outputDir\$msiName" -Force
+              Write-Host "Created MSI package: $msiName"
+            } else {
+              Write-Warning "MSI installer not found at: $msiPath (this may be expected for $platform)"
+              # Create an empty directory so the upload step doesn't fail
+              Write-Host "Note: MSI might only be created for x86 due to WiX limitations"
+            }
+            
+            Write-Host "✅ MSI package processing completed for $platform"
+          }
+
+      - name: Upload x86 ZIP artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: DirectOutput-${{ steps.version.outputs.tag }}-Release-x86.zip
+          path: output-zip-x86-Release
+          if-no-files-found: warn
+
+      - name: Upload x64 ZIP artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: DirectOutput-${{ steps.version.outputs.tag }}-Release-x64.zip
+          path: output-zip-x64-Release
+          if-no-files-found: warn
+
+      - name: Upload x86 MSI artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: DirectOutput-${{ steps.version.outputs.tag }}-Release-x86.msi
+          path: output-msi-x86-Release
+          if-no-files-found: warn
+
+      - name: Upload x64 MSI artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: DirectOutput-${{ steps.version.outputs.tag }}-Release-x64.msi
+          path: output-msi-x64-Release
+          if-no-files-found: warn
+
+  create-github-release:
+    name: Create GitHub Release
+    runs-on: windows-2022
+    needs: build
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main') && startsWith(github.ref, 'refs/tags/')
+    
+    steps:
+      - name: Download all build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Prepare release files
+        run: |
+          # Use version information from build job outputs
+          $VERSION_LONG = "${{ needs.build.outputs.version-tag }}"
+          $BASE_VERSION = "${{ needs.build.outputs.base-version }}"
+          $DATE = Get-Date -Format "yyyyMMdd"
+          
+          Write-Host "Using version from build job: $VERSION_LONG (base: $BASE_VERSION)"
+          
+          # Create release directory
+          New-Item -ItemType Directory -Path "release" -Force
+          
+          # Process ZIP artifacts and create final ZIP packages
+          @("x86", "x64") | ForEach-Object {
+            $platform = $_
+            $zipArtifactPath = "artifacts\DirectOutput-$VERSION_LONG-Release-$platform.zip"
+            
+            if (Test-Path $zipArtifactPath) {
+              $zipName = "DirectOutput-release-$platform-$DATE.zip"
+              $zipPath = "release\$zipName"
+              
+              # Create ZIP using PowerShell
+              Compress-Archive -Path "$zipArtifactPath\*" -DestinationPath $zipPath -Force
+              Write-Host "Prepared release ZIP: $zipPath"
+            } else {
+              Write-Warning "ZIP artifact not found: $zipArtifactPath"
+            }
+          }
+          
+          # Copy MSI installers directly (no zipping needed for MSI files)
+          @("x86", "x64") | ForEach-Object {
+            $platform = $_
+            $msiArtifactPath = "artifacts\DirectOutput-$VERSION_LONG-Release-$platform.msi"
+            
+            if (Test-Path $msiArtifactPath) {
+              Get-ChildItem "$msiArtifactPath\*.msi" | ForEach-Object {
+                Copy-Item $_.FullName "release\" -Force
+                Write-Host "Copied MSI file: $($_.Name)"
+              }
+            } else {
+              Write-Warning "MSI artifact not found: $msiArtifactPath (may be expected for $platform due to WiX limitations)"
+            }
+          }
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: release/*
+          tag_name: ${{ github.ref_name }}
+          name: DirectOutput ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
