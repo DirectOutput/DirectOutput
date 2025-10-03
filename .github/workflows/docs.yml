@@ -58,7 +58,7 @@ jobs:
         
     - name: Generate dynamic documentation files
       run: |
-        cd bin/Release
+        cd bin/x86/Release
         ./DocumentationHelper.exe
         
     - name: Generate documentation with Doxygen
@@ -112,3 +112,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs-artifact
           force_orphan: true
+
