@@ -36,7 +36,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                     //Because Autoconfig are not sorted, this one could already have done its AutoConfig call before some implementations
                     //So adding new controller to cabinet there, didn't happen with Dude's cab UMX implementation.
                     if (inited && cabinet != null) {
-                        UMXController umxC = new UMXController(dev.UnitNo());
+                        UMXController umxC = new UMXController() { Number = dev.UnitNo() };
                         Log.Instrumentation("UMX", $"Adding new device {dev.name} & controller {umxC.Name} to cabinet after UMXControllerAutoConfigurator initialization");
                         umxC.UpdateCabinetFromConfig(cabinet);
                     }
@@ -69,7 +69,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             List<int> Preconfigured = new List<int>(Cabinet.OutputControllers.Where(OC => OC is UMXController).Select(C => ((UMXController)C).Number));
             foreach (var device in UMXControllerAutoConfigurator.AllDevices()) {
                 if (!Preconfigured.Contains(device.UnitNo())) {
-                    UMXController umxC = new UMXController(device.UnitNo());
+                    UMXController umxC = new UMXController() { Number = device.UnitNo() };
                     umxC.UpdateCabinetFromConfig(cabinet);
                 }
             }
