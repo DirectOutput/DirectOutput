@@ -1,385 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <!-- Platform-specific variables matching original WiX 3 installer -->
+  <?if $(var.Platform)=x64 ?>
+    <?define msiUpgradeCode = "A7EAB3EB-6524-4173-B5D8-25FC867BD29E" ?>
+    <?define msiProductName = "DirectOutput64" ?>
+    <?define msiBitness = "64" ?>
+    <?define Win64 = "yes" ?>
+    <?define BinDirName = "x64" ?>
+    <?define ProgramFilesFolder = "ProgramFiles64Folder" ?>
+  <?else?>
+    <?define msiUpgradeCode = "94E0D0EE-C078-42C6-AD9F-4030B329A040" ?>
+    <?define msiProductName = "DirectOutput32" ?>
+    <?define msiBitness = "32" ?>
+    <?define Win64 = "no" ?>
+    <?define BinDirName = "x86" ?>
+    <?define ProgramFilesFolder = "ProgramFilesFolder" ?>
+  <?endif?>
 
-	<!--
-	  Assign separate UpgradeCode values for 32- and 64-bit, so that MSI
-		treats these as distinct products.  The UpgradeCode is the primary
-		key that MS Setup uses to identify a product across different versions,
-		and we define things in such a way that Setup will only allow one
-		version of each UpgradeCode to be installed, to ensure that there's
-		no confusion from having multiple copies of the COM Object installed.
-		But we DO want to allow having a 32-bit and a 64-bit version installed
-		on the same machine simultaneously, so each bitness version needs its
-		own UpgradeCode.
-	-->
-	<?if $(var.Platform)=x64 ?>
-	  <?define msiUpgradeCode = "A7EAB3EB-6524-4173-B5D8-25FC867BD29E" ?>
-	  <?define msiProductName = "DirectOutput64" ?>
-	  <?define msiBitness = "64" ?>
-	  <?define Win64 = "yes" ?>
-	  <?define BinDirName = "x64" ?>
-	<?else ?>
-	  <?define msiUpgradeCode = "94E0D0EE-C078-42C6-AD9F-4030B329A040" ?>
-  	<?define msiProductName = "DirectOutput32" ?>
-  	<?define msiBitness = "32" ?>
-	  <?define Win64 = "no" ?>
-	  <?define BinDirName = "x86" ?>
-  <?endif ?>
-
-	<Product Id="*"
-      Name="$(var.msiProductName)"
-      Language="1033"
-      Version="!(bind.FileVersion.MainDofDll)"
-      Manufacturer="DirectOutput"
-      UpgradeCode="$(var.msiUpgradeCode)">
-		
-		<?define DOFCOMObjectGUID="A23BFDBC-9A8A-46C0-8672-60F23D54FFB6"?>
-
-    <Package 
-			Description="DirectOutput" 
-		  InstallerVersion="200"
-		  Compressed="yes"
-		  InstallScope="perUser" />
-
-		<!-- 
-		  Ensure that UAC is enabled.  When it's disabled, the install
-			will APPEAR to work, but the changes in the Windows kernel
-			related to registry virtualization when UAC is disabled will
-			screw up the install in subtle ways.  In particular, the COM
-			object registration won't work correctly.  This is extremely
-			difficult to troubleshoot when it happens, because there are
-			no error messages or other signs of trouble - the	registry
-			updates just go missing without the slightest complaint, and
-			things mysteriously don't work afterwords.
-			
-			We REALLY shouldn't have to worry about users screwing with
-			UAC settings these days, since that was a Windows Vista thing
-			that's long since history.  There were a few years after Vista
-			was released when people legitimately had to go through
-			contortions	with UAC and Run As Administrator to deal with old
-			programs that hadn't yet been updated to work with the higher 
-			security model introduced in Vista.  But it's been almost 20 
-			years now, so there's just no excuse for any current software
-			to ask you turn off UAC as part of its routine usage.  Any
-			program that can't run in a normal, modern Windows environment
-			with UAC enabled is just broken.  Despite this, there are
-			STILL people on the forums handing out advice telling people
-			to turn off UAC and use Run As Administrator mode all the time.
-			It's bad advice, but what can you do.  The correct way to deal 
-			with a program that doesn't work with UAC is to not run that
-			program.  Get a new version that's been fixed to follow
-			modern Windows coding standards, or switch to a different
-			program.
-			
-		  ONLY in case the mode detection fails, the user can override 
-			the test by specifying UACOVERRIDE=1 on the command line:
-			
-			   DofSetup-xxxx.msi UACOVERRIDE=1
-				 
-		  That will bypass the test and allow the install to run without
-			checking for UAC.  This is NOT meant to allow the user to override
-			the UAC test if UAC is actually disabled - if I wanted to do that,
-			I would have made this a warning dialog that you can click through.
-			This is INTENTIONALLY a secret, expert feature, because I don't
-			want users to glibly click through in TL;DR mode without carefully
-			thinking about it.  The override is ONLY for users who actually
-			have UAC enabled properly, but for whom our test yields a false
-			negative saying that UAC is disabled.  Anyone in that situation
-			can ask for help on the forums and I'll privately point them to
-			the override syntax if appropriate.  (Note to other developers:
-			the "privately" part is important.  If the override syntax gets
-			posted in a forum thread, 90% of people who see it will think
-			it's just part of the standard thing you type to run the
-			installer, without understanding its purpose, and the UAC check
-			will lose its value.)
-		-->
-		<Property Id="UACENABLED">
-			<RegistrySearch 
-				Id="UACEnabledVal" Type="raw" Root="HKLM" 
-				Key="Software\Microsoft\Windows\CurrentVersion\Policies\System" 
-				Name="EnableLUA"/>
-		</Property>
-		<Condition
-			Message="ERROR: UAC is disabled on this system. The DOF install won't work properly when UAC is disabled. Please enable UAC and run the install again.">
-			<![CDATA[UACENABLED ~= "#1" OR UACOVERRIDE]]>
-		</Condition>
-		
-    <!--
-      MSI's default settings allow multiple versions of a program to be
-      installed alongside one another simultaneously.  That's what you want
-      for most applications, but not for DOF.  DOF's design makes it highly
-      problematic if multiple versions are installed, since DOF consists of
-      a bunch C# DLLs that have to be in sync with each other, and it hooks
-      into other programs (B2S, PBX) via registry keys and file shortcuts.
-      It's the global nature of those file references that makes it such a
-      problem to have multiple copies of DOF around.  So we override the
-      defaults to try to ensure that only one copy is ever installed.
-      In particular, we set AllowDowngrades="yes" to allow the user to 
-      switch to newer or older DOF versions at any time.  This prevents
-      MSI from creating a new installed product record if installing an
-      older (or equal) version.
-    -->
-    <MajorUpgrade 
-      AllowDowngrades="yes"
-      IgnoreRemoveFailure="no"
-      Schedule="afterInstallInitialize" />
-    <MediaTemplate EmbedCab="yes" />
-
-    <!-- Components to install -->
-    <Feature Id="ProductFeature" Title="DirectOutput" Level="1">
-			<ComponentRef Id="DofFiles" />
-			<ComponentRef Id="BinFiles" />
-			<ComponentRef Id="SampleConfigFiles" />
-      <ComponentRef Id="DirectOutputComObject.dll" />  <!-- from Generated/RegisterDirectOutputComObjectDll.wxs -->
-      <ComponentRef Id="DirectOutputComObject.tlb" />  <!-- from Generated/RegisterDirectOutputComObjectTlb.wxs -->
-    </Feature>
+  <Package Name="$(var.msiProductName)" Language="1033" Version="3.2.9407.22473" Manufacturer="DirectOutput" UpgradeCode="$(var.msiUpgradeCode)" InstallerVersion="200" Scope="perUser">
+    <SummaryInformation Keywords="Installer" Description="DirectOutput $(var.msiBitness)-bit Framework" Manufacturer="DirectOutput" />
     
-    <!--
-        Generated/RegisterDirectOutputComObjectDll.wxs is generated automatically
-        by a special target in the project file.  You can't see the target from
-        within the Visual Studio IDE, but you can see it if you edit the source
-        (DOFSetup.wixproj).  See <Target Name="BeforeBuild"> - the registration
-        entry is generated by a <HeatFile> target therein.
-        
-        <HeatFile> invokes a WiX tool that extracts the COM object registration
-        data from the DLL and generates a WiX file with suitable entries to add
-        the registration entries to the MSI script.  The tool also includes the
-        DLL file itself in the build, so we don't have to include it manually.
-        
-        We use the <HeatFile> approach because it's the "right" way of handling 
-        COM object registration in WiX.  I don't like the way the target is
-        hidden from the IDE view, but this is by far the most automatic way to
-        do this and ensures that everything stays up to date, so it seems like
-        an equitable trade.
-    -->
-    
-    <!-- At run time, show the dialog UI to select the destination folder -->
-    <Property Id="WIXUI_INSTALLDIR" Value="DOFDIR" />
-    <UIRef Id="WixUI_InstallDirCustom" />
-
-    <!-- Custom license file for the dialog UI -->
-    <WixVariable Id="WixUILicenseRtf" Value="res\DOFLicense.rtf" />
-    
-    <!-- Custom UI dialog bitmaps -->
-    <WixVariable Id="WixUIBannerBmp" Value="res\Banner.bmp" />
-    <WixVariable Id="WixUIDialogBmp" Value="res\DialogSide.bmp" />
-
-    <!-- Custom B2SFixup Action.  This is a separate WiX C# Custom Action 
-         project.  The custom action does the special B2S plugin setup 
-         required for DOF: it finds the B2S DLL from its COM object 
-         registration; creates the Plugins\DirectOutput shortcut to the
-         new DOF folder; enables plugins in the B2S registry settings; and 
-         edits the B2S config file to suppress missing backglass warnings.  
-         This is all weird custom stuff outside of the normal MSI scope, 
-         which is why we need to do it with a custom action instead of the
-         normal WiX declarative model.
-         
-         Note that we have to run this action in Execute="deferred" mode, so
-         that it runs after the DOF folder has been created.  The shortcut
-         we create won't work if we create it before the folder exists.
-				 
-				 Impersonate="yes" (the default) runs the task at regular USER level,
-				 de-elevating from the Administrator privileges that Setup itself
-				 enables for its own work (necessary because it has to access and
-				 modify protected system resources like registry keys and Program
-				 Files locations).  It's safer to run custom tasks at user level to
-				 protect the system against any bugs the custom code contains.  Our
-				 custom tasks don't require access to anything privileged, so we can
-				 use the de-elevated Impersonate mode.
-    -->
-    <Binary Id="B2SFixupDLL" SourceFile="$(var.DOFSetupB2SFixup.TargetDir)DOFSetupB2SFixup.CA.dll" />
-    <CustomAction
-      Id="B2SFixup"
-      Return="check"
-      Execute="deferred"
-      BinaryKey="B2SFixupDLL"
-      DllEntry="B2SFixup"
-			Impersonate="yes" />
-    
-    <!-- Custom PBXFixup action.  This is another custom action, this time
-         for setting up the PinballX plugin.  For this, we have to find
-         the PBX install folder, the only good way to do which seems to be
-         from the uninstall records in the registry; copy our plugin DLL
-         to the PBX install folder's Plugins directory; and edit the PBX
-         .INI file to add the DOF plugin if it's not already there, and 
-         enable it in either case.
-    -->
-    <Binary Id="PBXFixupDLL" SourceFile="$(var.DOFSetupPBXFixup.TargetDir)DOFSetupPBXFixup.CA.dll" />
-    <CustomAction
-      Id="PBXFixup"
-      Return="check"
-      Execute="deferred"
-      BinaryKey="PBXFixupDLL"
-      DllEntry="PBXFixup"
-			Impersonate="yes" />
-    
-    <!-- Our B2SFixup and PBXFixup custom tasks have to run deferred, and as 
-         a result they don't have access to session.GetTargetPath() to identify 
-         the install folder.  (That seems to be an MSI limitation, not WiX.)
-         To pass the folder path, we have to use a property, which we can do
-         with ANOTHER Custom Action.  We can access the property listed in 
-         Value="" from the C# code via session.CustomActionData[].
-    -->
-    <CustomAction
-      Id="SetB2SVars"
-      Return="check"
-      Property="B2SFixup" Value="INSTALLEDPATH=[DOFDIR];BINDIR=$(var.BinDirName);BITNESS=$(var.msiBitness)" />
-    <CustomAction
-      Id="SetPBXVars"
-      Return="check"
-      Property="PBXFixup" Value="INSTALLEDPATH=[DOFDIR];BINDIR=$(var.BinDirName);BITNESS=$(var.msiBitness)" />
-
-    <!-- Set up our custom action sequence.  The property setter has to run
-         before each C# task. -->
-    <InstallExecuteSequence>
-      <Custom Action="SetB2SVars" Before="B2SFixup" />
-      <Custom Action="B2SFixup" Before="InstallFinalize">NOT REMOVE="ALL"</Custom>
-      <Custom Action="SetPBXVars" Before="PBXFixup" />
-      <Custom Action="PBXFixup" Before="InstallFinalize">NOT REMOVE="ALL"</Custom>
-    </InstallExecuteSequence>
-
-  </Product>
-
-  <Fragment>
-    <!-- Retrieve the old install folder from the registry, if set -->
-    <Property Id="INSTALLFOLDER">
-      <RegistrySearch 
-        Id="InstallFolder" Type="raw"
-        Root="HKCU" Key="SOFTWARE\DirectOutput\DirectOutput" Name="InstallPath"/>
+    <!-- Retrieve the old install folder from the registry, if set (per-user only) -->
+    <Property Id="INSTALLFOLDER" Value="C:\DirectOutput">
+      <RegistrySearch Id="InstallFolder" Type="raw" Root="HKCU" Key="SOFTWARE\DirectOutput\DirectOutput" Name="InstallPath" />
     </Property>
-
-    <!-- 
-      Install folder root - default to X:\DirectOutput (where X: is the
-      Windows install volume).  Note that the RegistrySearch property
-      setting above will override this if the key exists, so we'll
-      propose installing in same current folder if a previous version
-      already exists.
-    -->
-    <!-- <SetDirectory Id="INSTALLFOLDER" Value="[WindowsVolume]DirectOutput" /> -->
-    <Directory Id="TARGETDIR" Name="SourceDir">
-      <Directory Id="WINDOWSVOLUME">
-        <Directory Id="INSTALLFOLDER" Name="DirectOutput">
-          <Directory Id="DOFDIR" >
-						<Directory Id="BINDIR" Name="$(var.BinDirName)" />
-            <Directory Id="DOFCONFIGDIR" Name="Config" >
-              <Directory Id="DOFCONFIGEXAMPLESDIR" Name="Examples"/>
-            </Directory>
-          </Directory>
-        </Directory>
-      </Directory>
-    </Directory>
-  </Fragment>
-
-  <Fragment>
-    <DirectoryRef Id="DOFDIR">
-      <Component Id="DofFiles" Guid="F1126C16-DACD-4D27-9C20-C5589D53EE2A">
-				
-        <!-- save the install folder for subsequent updates -->
-        <RegistryKey Root="HKCU" Key="SOFTWARE\DirectOutput\DirectOutput">
-          <RegistryValue Type="string" Name="InstallPath" Value="[DOFDIR]"/>
-        </RegistryKey>
-
-				<!--
-					In the current install scheme, the binary files are stored in x86/ 
-					and x64/ subfolders, according to the bitness of the install.  Older
-					installs put the binaries in the main install folder.  In case we're
-					installing a new version on top of an existing folder created by an
-					older installer, delete old binaries found in the main folder, to
-				  avoid any confusion from old files hanging around.
-        -->
-        <RemoveFile Id="RemoveDof" Name="$(var.DirectOutput.TargetFileName)" On="install" />
-        <RemoveFile Id="RemoveB2S" Name="$(var.B2SServerPlugin.TargetFileName)" On="install" />
-        <RemoveFile Id="RemoveB2Spi" Name="B2SServerPluginInterface.dll" On="install" />
-        <RemoveFile Id="RemoveComObj" Name="DirectOutputComObject.dll" On="install" />
-        <RemoveFile Id="RemovePBX" Name="$(var.DirectOutput PinballX Plugin.TargetFileName)" On="install" />
-        <RemoveFile Id="RemoveComReg" Name="$(var.DirectOutputComObjectRegister.TargetFileName)" On="install" />
-        <RemoveFile Id="RemoveCfgTest" Name="$(var.DirectOutputConfigTester.TargetFileName)" On="install" />
-        <RemoveFile Id="RemoveCfgEd" Name="$(var.GlobalConfigEditor.TargetFileName)" On="install" />
-        <RemoveFile Id="RemoveLedTst" Name="$(var.LedControlFileTester.TargetFileName)" On="install" />
-        <RemoveFile Id="RemoveProSlv" Name="$(var.ProPinballSlave.TargetFileName)" On="install" />
-
-				<!--
-				  while we're at it, remove any ancient loose DLLs that were installed
-					by really old builds (from before we eliminated all loose component
-					DLL files via Costura.Fody bundling)
-			  -->
-				<RemoveFile Id="RemoveNJ" Name="Newtonsoft.Json.dll" On="install" />
-				<RemoveFile Id="RemoveFlee" Name="Ciloci.Flee.dll" On="install" />
-				<RemoveFile Id="RemoveFTD2XX32" Name="FTD2XX32.dll" On="install" />
-				<RemoveFile Id="RemovePac" Name="PacDrive32.dll" On="install" />
-				<RemoveFile Id="RemoveHue" Name="Q42.HueApi.dll" On="install" />
-				<RemoveFile Id="RemoveHueCC" Name="Q42.HueApi.ColorConverters.dll" On="install" />
-				<RemoveFile Id="RemoveExts" Name="$(var.Extensions.TargetFileName)" On="install" />
-
-        <File Source="$(var.DirectOutput.TargetDir)DirectOutputShapes.png" />
-        <File Source="$(var.DirectOutput.TargetDir)DirectOutputShapes.xml" />
-        <File Source="$(var.SolutionDir)LICENSE" />
-      
-      </Component>
-    </DirectoryRef>
-		
-		<!-- Binary files - these go in a bitness-specific subfolder (x86 or x64) -->
-		<DirectoryRef Id="BINDIR">
-			<Component Id="BinFiles" Guid="{51DDDA63-C2BC-4399-A804-11C6D4959314}">
-
-				<!-- 
-          DOF has multiple DLL components that always need to be in sync, so it's
-          important to make sure we have a consistent set.  It's safest to explicitly
-          remove old binaries, in case we're replacing an existing installation.
-        -->
-				<RemoveFile Id="RemoveDof2" Name="$(var.DirectOutput.TargetFileName)" On="install" />
-				<RemoveFile Id="RemoveB2S2" Name="$(var.B2SServerPlugin.TargetFileName)" On="install" />
-				<RemoveFile Id="RemoveB2Spi2" Name="B2SServerPluginInterface.dll" On="install" />
-				<RemoveFile Id="RemoveComObj2" Name="DirectOutputComObject.dll" On="install" />
-				<RemoveFile Id="RemovePBX2" Name="$(var.DirectOutput PinballX Plugin.TargetFileName)" On="install" />
-				<RemoveFile Id="RemoveComReg2" Name="$(var.DirectOutputComObjectRegister.TargetFileName)" On="install" />
-				<RemoveFile Id="RemoveCfgTest2" Name="$(var.DirectOutputConfigTester.TargetFileName)" On="install" />
-				<RemoveFile Id="RemoveCfgEd2" Name="$(var.GlobalConfigEditor.TargetFileName)" On="install" />
-				<RemoveFile Id="RemoveLedTst2" Name="$(var.LedControlFileTester.TargetFileName)" On="install" />
-				<RemoveFile Id="RemoveProSlv2" Name="$(var.ProPinballSlave.TargetFileName)" On="install" />
-
-				<!-- remove any old loose DLLs found here as well -->
-				<RemoveFile Id="RemoveNJ2" Name="Newtonsoft.Json.dll" On="install" />
-				<RemoveFile Id="RemoveFlee2" Name="Ciloci.Flee.dll" On="install" />
-				<RemoveFile Id="RemoveFTD2XX322" Name="FTD2XX32.dll" On="install" />
-				<RemoveFile Id="RemovePac2" Name="PacDrive32.dll" On="install" />
-				<RemoveFile Id="RemoveHue2" Name="Q42.HueApi.dll" On="install" />
-				<RemoveFile Id="RemoveHueCC2" Name="Q42.HueApi.ColorConverters.dll" On="install" />
-				<RemoveFile Id="RemoveExts2" Name="$(var.Extensions.TargetFileName)" On="install" />
-
-				<!-- install new files -->
-				<File Id="MainDofDll" Source="$(var.DirectOutput.TargetPath)" />
-			  <File Source="$(var.B2SServerPlugin.TargetPath)" />
-				<File Source="$(var.DirectOutput PinballX Plugin.TargetPath)" />
-				<File Source="$(var.DirectOutputComObjectRegister.TargetPath)" />
-				<File Source="$(var.DirectOutputConfigTester.TargetPath)" />
-				<File Source="$(var.GlobalConfigEditor.TargetPath)" />
-				<File Source="$(var.LedControlFileTester.TargetPath)" />
-				<File Source="$(var.ProPinballSlave.TargetPath)" />
-
-				<!-- NOTE: DirectOutputComObject is included separately via Generated/RegisterDirectOutputComObjectDll.wxs -->
-				
-			</Component>
-		</DirectoryRef>
-
-		<!-- Configuration examples subfolder -->
-    <DirectoryRef Id="DOFCONFIGEXAMPLESDIR">
-      <Component Id="SampleConfigFiles" Guid="F372286A-B036-471C-AC42-357EBCB9EBD3">
-        <File Source="$(var.SolutionDir)config\examples\Cabinet.xml" />
-        <File Source="$(var.SolutionDir)config\examples\GlobalConfig_B2SServer.xml" />
-      </Component>
-    </DirectoryRef>
-  </Fragment>
-
-  <Fragment>
-    <UI Id="WixUI_InstallDirCustom">
+    
+    <!-- Standard upgrade handling for per-user installations -->
+    <MajorUpgrade 
+      DowngradeErrorMessage="A newer version of [ProductName] is already installed." 
+      AllowSameVersionUpgrades="yes"
+      RemoveFeatures="ALL" />
+    
+    <!-- Ensure we can upgrade from any previous version with same upgrade code -->
+    <Upgrade Id="$(var.msiUpgradeCode)">
+      <UpgradeVersion Minimum="1.0.0.0" Maximum="3.2.9407.22473" 
+                      IncludeMinimum="yes" IncludeMaximum="no" 
+                      Property="PREVIOUSVERSIONSINSTALLED" 
+                      MigrateFeatures="yes" />
+    </Upgrade>
+    
+    <MediaTemplate EmbedCab="yes" />
+    
+    <!-- Basic installer properties -->
+    <Property Id="ARPPRODUCTICON" Value="DirectOutputIcon" />
+    <Icon Id="DirectOutputIcon" SourceFile="..\DirectOutput\DirectOutputIcon_32.ico" />
+    
+    <!-- Enable basic Windows Installer UI with directory selection -->
+    <Property Id="MSIUSEREALADMINDETECTION" Value="1" />
+    
+    <!-- Custom UI with embedded bitmaps -->
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+    
+    <!-- WiX UI customization variables -->
+    <WixVariable Id="WixUICostingPopupOptOut" Value="1" Overridable="yes" />
+    <WixVariable Id="WixUILicenseRtf" Value="Res\DOFLicense.rtf" />
+    <WixVariable Id="WixUIBannerBmp" Value="Res\Banner.bmp" />
+    <WixVariable Id="WixUIDialogBmp" Value="Res\DialogSide.bmp" />
+    
+    <!-- UI bitmap resources with standard WiX names -->
+    <Binary Id="WixUI_Bmp_Banner" SourceFile="Res\Banner.bmp" />
+    <Binary Id="WixUI_Bmp_Dialog" SourceFile="Res\DialogSide.bmp" />
+    
+    <UI>
       <TextStyle Id="WixUI_Font_Normal" FaceName="Tahoma" Size="8" />
       <TextStyle Id="WixUI_Font_Bigger" FaceName="Tahoma" Size="12" />
       <TextStyle Id="WixUI_Font_Title" FaceName="Tahoma" Size="9" Bold="yes" />
-
+      
       <Property Id="DefaultUIFont" Value="WixUI_Font_Normal" />
-      <Property Id="WixUI_Mode" Value="InstallDir" />
-
+      
+      <!-- Reference standard dialogs -->
       <DialogRef Id="BrowseDlg" />
       <DialogRef Id="DiskCostDlg" />
       <DialogRef Id="ErrorDlg" />
@@ -390,37 +79,151 @@
       <DialogRef Id="ProgressDlg" />
       <DialogRef Id="ResumeDlg" />
       <DialogRef Id="UserExit" />
-
-      <Publish Dialog="BrowseDlg" Control="OK" Event="DoAction" Value="WixUIValidatePath" Order="3">1</Publish>
-      <Publish Dialog="BrowseDlg" Control="OK" Event="SpawnDialog" Value="InvalidDirDlg" Order="4"><![CDATA[NOT WIXUI_DONTVALIDATEPATH AND WIXUI_INSTALLDIR_VALID<>"1"]]></Publish>
-
-      <Publish Dialog="ExitDialog" Control="Finish" Event="EndDialog" Value="Return" Order="999">1</Publish>
-
-      <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="InstallDirDlg">NOT Installed</Publish>
-      <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg">Installed AND PATCH</Publish>
-
-      <Publish Dialog="InstallDirDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg">1</Publish>
-      <Publish Dialog="InstallDirDlg" Control="Next" Event="SetTargetPath" Value="[WIXUI_INSTALLDIR]" Order="1">1</Publish>
-      <Publish Dialog="InstallDirDlg" Control="Next" Event="DoAction" Value="WixUIValidatePath" Order="2">NOT WIXUI_DONTVALIDATEPATH</Publish>
-      <Publish Dialog="InstallDirDlg" Control="Next" Event="SpawnDialog" Value="InvalidDirDlg" Order="3"><![CDATA[NOT WIXUI_DONTVALIDATEPATH AND WIXUI_INSTALLDIR_VALID<>"1"]]></Publish>
-      <Publish Dialog="InstallDirDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg" Order="4">WIXUI_DONTVALIDATEPATH OR WIXUI_INSTALLDIR_VALID="1"</Publish>
-      <Publish Dialog="InstallDirDlg" Control="ChangeFolder" Property="_BrowseProperty" Value="[WIXUI_INSTALLDIR]" Order="1">1</Publish>
-      <Publish Dialog="InstallDirDlg" Control="ChangeFolder" Event="SpawnDialog" Value="BrowseDlg" Order="2">1</Publish>
-
-      <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="InstallDirDlg" Order="1">NOT Installed</Publish>
-      <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Order="2">Installed AND NOT PATCH</Publish>
-      <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="2">Installed AND PATCH</Publish>
-
-      <Publish Dialog="MaintenanceWelcomeDlg" Control="Next" Event="NewDialog" Value="MaintenanceTypeDlg">1</Publish>
-
-      <Publish Dialog="MaintenanceTypeDlg" Control="RepairButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
-      <Publish Dialog="MaintenanceTypeDlg" Control="RemoveButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
-      <Publish Dialog="MaintenanceTypeDlg" Control="Back" Event="NewDialog" Value="MaintenanceWelcomeDlg">1</Publish>
-
-      <Property Id="ARPNOMODIFY" Value="1" />
+      
+      <!-- Welcome and Install Directory dialogs -->
+      <DialogRef Id="WelcomeDlg" />
+      <DialogRef Id="InstallDirDlg" />
+      <DialogRef Id="VerifyReadyDlg" />
+      
+      <!-- Fixed dialog flow that properly updates INSTALLFOLDER -->
+      <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="InstallDirDlg" />
+      <Publish Dialog="InstallDirDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" />
+      <Publish Dialog="InstallDirDlg" Control="Next" Event="SetTargetPath" Value="[WIXUI_INSTALLDIR]" Order="1" />
+      <Publish Dialog="InstallDirDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg" Order="2" />
+      <Publish Dialog="InstallDirDlg" Control="ChangeFolder" Property="_BrowseProperty" Value="[WIXUI_INSTALLDIR]" Order="1" />
+      <Publish Dialog="InstallDirDlg" Control="ChangeFolder" Event="SpawnDialog" Value="BrowseDlg" Order="2" />
+      <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="InstallDirDlg" Order="1" Condition="NOT Installed" />
+      <Publish Dialog="BrowseDlg" Control="OK" Event="SetTargetPath" Value="[_BrowseProperty]" Order="1" />
+      <!-- This is the key fix - properly set INSTALLFOLDER when browse dialog closes -->
+      <Publish Dialog="BrowseDlg" Control="OK" Event="DoAction" Value="SetInstallFolder" Order="2" />
     </UI>
+    
+    <!-- Custom action to properly update INSTALLFOLDER from browse selection -->
+    <CustomAction Id="SetInstallFolder" Property="INSTALLFOLDER" Value="[_BrowseProperty]" Execute="immediate" />
+    
+    <Feature Id="ProductFeature" Title="DirectOutput" Level="1">
+      <ComponentGroupRef Id="ProductComponents" />
+    </Feature>
+    
+    <!-- Custom Actions for PinballX and B2S Server Integration -->
+    <Binary Id="B2SFixupDLL" SourceFile="..\DOFSetupB2SFixup\bin\$(var.Platform)\$(var.Configuration)\DOFSetupB2SFixup.dll" />
+    <CustomAction Id="B2SFixup" Return="ignore" Execute="deferred" DllEntry="B2SFixup" Impersonate="yes" BinaryRef="B2SFixupDLL" />
+    
+    <Binary Id="PBXFixupDLL" SourceFile="..\DOFSetupPBXFixup\bin\$(var.Platform)\$(var.Configuration)\DOFSetupPBXFixup.dll" />
+    <CustomAction Id="PBXFixup" Return="ignore" Execute="deferred" DllEntry="PBXFixup" Impersonate="yes" BinaryRef="PBXFixupDLL" />
+    
+    <!-- Property setters for custom actions -->
+    <CustomAction Id="SetB2SVars" Return="check" Property="B2SFixup" Value="INSTALLEDPATH=[DOFDIR];BINDIR=$(var.BinDirName);BITNESS=$(var.msiBitness)" />
+    <CustomAction Id="SetPBXVars" Return="check" Property="PBXFixup" Value="INSTALLEDPATH=[DOFDIR];BINDIR=$(var.BinDirName);BITNESS=$(var.msiBitness)" />
 
-    <UIRef Id="WixUI_Common" />
+    <!-- Custom action execution sequence -->
+    <InstallExecuteSequence>
+      <Custom Action="SetB2SVars" Before="B2SFixup" />
+      <Custom Action="B2SFixup" Before="InstallFinalize" Condition="NOT REMOVE=&quot;ALL&quot;" />
+      <Custom Action="SetPBXVars" Before="PBXFixup" />
+      <Custom Action="PBXFixup" Before="InstallFinalize" Condition="NOT REMOVE=&quot;ALL&quot;" />
+    </InstallExecuteSequence>
+  </Package>
+
+  <Fragment>
+    <!-- Install to user-selected folder with x86/x64 subdirectories for coexistence -->
+    <Directory Id="WINDOWSVOLUME">
+      <Directory Id="INSTALLFOLDER">
+        <Directory Id="DOFDIR">
+          <!-- Platform-specific subdirectory for executables -->
+          <Directory Id="BINDIR" Name="$(var.BinDirName)" />
+          <!-- Configuration directory -->
+          <Directory Id="DOFCONFIGDIR" Name="Config">
+            <Directory Id="DOFCONFIGEXAMPLESDIR" Name="Examples" />
+          </Directory>
+        </Directory>
+      </Directory>
+    </Directory>
   </Fragment>
 
+  <Fragment>
+    <ComponentGroup Id="ProductComponents">
+      <!-- Core DirectOutput DLL in platform subdirectory (BinFiles) -->
+      <Component Id="DirectOutputDll" Directory="BINDIR" Guid="*">
+        <File Id="DirectOutputDll" Source="..\bin\$(var.Platform)\Release\DirectOutput.dll" KeyPath="yes" />
+      </Component>
+      
+      <!-- Configuration files in Config folder (SampleConfigFiles) -->
+      <Component Id="CabinetXml" Directory="DOFCONFIGDIR" Guid="*">
+        <File Id="CabinetXml" Source="..\config\examples\Cabinet.xml" KeyPath="yes" />
+      </Component>
+      
+      <Component Id="GlobalConfigB2S" Directory="DOFCONFIGDIR" Guid="*">
+        <File Id="GlobalConfigB2S" Source="..\config\examples\GlobalConfig_B2SServer.xml" KeyPath="yes" />
+      </Component>
+      
+      <!-- COM Object files in root DirectOutput folder -->
+      <Component Id="ComObjectDll" Directory="DOFDIR" Guid="*">
+        <File Id="ComObjectDll" Source="..\bin\$(var.Platform)\Release\DirectOutputComObject.dll" KeyPath="yes" />
+        <RegistryKey Root="HKCR" Key="CLSID\{A23BFDBC-9A8A-46C0-8672-60F23D54FFB6}">
+          <RegistryValue Type="string" Value="DirectOutput COM Object" />
+          <RegistryKey Key="InprocServer32">
+            <RegistryValue Type="string" Value="[#ComObjectDll]" />
+            <RegistryValue Name="ThreadingModel" Type="string" Value="Both" />
+          </RegistryKey>
+        </RegistryKey>
+      </Component>
+      
+      <Component Id="ComObjectTlb" Directory="DOFDIR" Guid="*">
+        <File Id="ComObjectTlb" Source="..\bin\$(var.Platform)\Release\DirectOutputComObject.tlb" KeyPath="yes" />
+      </Component>
+      
+      <!-- Resources in root DirectOutput folder (DofFiles) -->
+      <Component Id="DirectOutputShapesPng" Directory="DOFDIR" Guid="*">
+        <File Id="DirectOutputShapesPng" Source="..\bin\$(var.Platform)\Release\DirectOutputShapes.png" KeyPath="yes" />
+      </Component>
+      
+      <Component Id="DirectOutputShapesXml" Directory="DOFDIR" Guid="*">
+        <File Id="DirectOutputShapesXml" Source="..\bin\$(var.Platform)\Release\DirectOutputShapes.xml" KeyPath="yes" />
+      </Component>
+      
+      <!-- License in root DirectOutput folder (DofFiles) -->
+      <Component Id="LicenseFile" Directory="DOFDIR" Guid="*">
+        <File Id="LicenseFile" Source="..\LICENSE" KeyPath="yes" />
+      </Component>
+      
+      <!-- B2S Server Plugin in platform subdirectory (BinFiles) -->
+      <Component Id="B2SServerPluginDll" Directory="BINDIR" Guid="*">
+        <File Id="B2SServerPluginDll" Source="..\bin\$(var.Platform)\Release\B2SServerDirectOutputPlugin.dll" KeyPath="yes" />
+      </Component>
+      
+      <!-- PinballX Plugin in platform subdirectory (BinFiles) -->
+      <Component Id="PinballXPluginDll" Directory="BINDIR" Guid="*">
+        <File Id="PinballXPluginDll" Source="..\bin\$(var.Platform)\Release\DirectOutput PinballX Plugin.dll" KeyPath="yes" />
+      </Component>
+      
+      <!-- Tools in platform subdirectory (BinFiles) -->
+      <Component Id="RegisterComObjectExe" Directory="BINDIR" Guid="*">
+        <File Id="RegisterComObjectExe" Source="..\bin\$(var.Platform)\Release\RegisterDirectOutputComObject.exe" KeyPath="yes" />
+      </Component>
+      
+      <Component Id="ConfigTesterExe" Directory="BINDIR" Guid="*">
+        <File Id="ConfigTesterExe" Source="..\bin\$(var.Platform)\Release\DirectOutputConfigTester.exe" KeyPath="yes" />
+      </Component>
+      
+      <Component Id="GlobalConfigEditorExe" Directory="BINDIR" Guid="*">
+        <File Id="GlobalConfigEditorExe" Source="..\bin\$(var.Platform)\Release\GlobalConfigEditor.exe" KeyPath="yes" />
+      </Component>
+      
+      <Component Id="LedControlFileTesterExe" Directory="BINDIR" Guid="*">
+        <File Id="LedControlFileTesterExe" Source="..\bin\$(var.Platform)\Release\LedControlFileTester.exe" KeyPath="yes" />
+      </Component>
+      
+      <Component Id="DOFSlaveExe" Directory="BINDIR" Guid="*">
+        <File Id="DOFSlaveExe" Source="..\bin\$(var.Platform)\Release\DOFSlave.exe" KeyPath="yes" />
+      </Component>
+      
+      <!-- Registry entry to save install path -->
+      <Component Id="RegistryEntries" Directory="DOFDIR" Guid="*">
+        <RegistryKey Root="HKCU" Key="SOFTWARE\DirectOutput\DirectOutput">
+          <RegistryValue Type="string" Name="InstallPath" Value="[DOFDIR]" KeyPath="yes" />
+        </RegistryKey>
+      </Component>
+    </ComponentGroup>
+  </Fragment>
 </Wix>

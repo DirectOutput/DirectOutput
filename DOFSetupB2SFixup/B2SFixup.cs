@@ -1,13 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
-using Microsoft.Deployment.WindowsInstaller;
-using System.Text.RegularExpressions;
+using WixToolset.Dtf.WindowsInstaller;
 using System.Reflection;
 using System.Xml;
 using System.IO;
 using Microsoft.Win32;
-using IWshRuntimeLibrary;
 
 namespace DOFSetupB2SFixup
 {
@@ -146,12 +143,12 @@ namespace DOFSetupB2SFixup
                     // delete any old shortcut
                     System.IO.File.Delete(shortcutFile);
 
-                    // Create the shortcut
-                    var shell = new WshShell();
-                    IWshShortcut shortcut = shell.CreateShortcut(shortcutFile);
-                    shortcut.Description = "DirectOutput";
-                    shortcut.TargetPath = Path.Combine(dofPath, binDir);
-                    shortcut.Save();
+                    // Create the shortcut using dynamic COM
+                    var shell = Activator.CreateInstance(Type.GetTypeFromProgID("WScript.Shell"));
+                    dynamic shortcut = shell.GetType().InvokeMember("CreateShortcut", BindingFlags.InvokeMethod, null, shell, new object[] { shortcutFile });
+                    shortcut.GetType().InvokeMember("Description", BindingFlags.SetProperty, null, shortcut, new object[] { "DirectOutput" });
+                    shortcut.GetType().InvokeMember("TargetPath", BindingFlags.SetProperty, null, shortcut, new object[] { Path.Combine(dofPath, binDir) });
+                    shortcut.GetType().InvokeMember("Save", BindingFlags.InvokeMethod, null, shortcut, null);
                 }
                 catch (Exception exc)
                 {
