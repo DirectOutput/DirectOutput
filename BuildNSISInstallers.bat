@@ -13,6 +13,8 @@ if not exist "%MAKENSIS%" (
     exit /b 1
 )
 
+if not exist "Output" mkdir Output
+
 REM Build 32-bit installer
 echo.
 echo Building 32-bit installer...

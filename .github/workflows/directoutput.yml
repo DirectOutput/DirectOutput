@@ -16,18 +16,6 @@ jobs:
     outputs:
       version-tag: ${{ steps.version.outputs.tag }}
       base-version: ${{ steps.version.outputs.base_version }}
-    # strategy:
-    #   fail-fast: false
-    #   matrix:
-    #     include:
-    #       - platform: x86
-    #         config: Release
-    #       - platform: x64
-    #         config: Release
-    #       # - platform: x86
-    #       #   config: Debug
-    #       # - platform: x64
-    #       #   config: Debug
 
     steps:
       - name: Checkout repository
@@ -120,7 +108,7 @@ jobs:
           $content = Get-Content $sharedAssemblyInfo -Raw
           
           # Extract version using regex - looking for [assembly: AssemblyVersion("x.y.*")]
-          if ($content -match '\[assembly:\s*AssemblyVersion\("([0-9]+\.[0-9]+)\.\*"\)\]') {
+          if ($content -match '\[assembly:\s*AssemblyVersion\("([0-9]+\.[0-9]+\.[0-9]+)\.\*"\)\]') {
             $BASE_VERSION = $matches[1]
             Write-Host "Extracted base version from AssemblyInfo: $BASE_VERSION"
           } else {
@@ -129,8 +117,9 @@ jobs:
           }
           
           $SHA7 = "${{ github.sha }}".Substring(0, 7)
-          $VERSION_SHORT = "$BASE_VERSION.${{ github.run_number }}.0"
-          $VERSION_LONG = "$BASE_VERSION.${{ github.run_number }}.0-$SHA7"
+          $VERSION_SHORT = "$BASE_VERSION"
+          $VERSION_MIDDLE = "$BASE_VERSION.${{ github.run_number }}"
+          $VERSION_LONG = "$BASE_VERSION.${{ github.run_number }}-$SHA7"
           
           Write-Host "VERSION_SHORT: $VERSION_SHORT"
           Write-Host "VERSION_LONG: $VERSION_LONG"
@@ -141,6 +130,7 @@ jobs:
           
           echo "tag=$VERSION_LONG" >> $env:GITHUB_OUTPUT
           echo "short_version=$VERSION_SHORT" >> $env:GITHUB_OUTPUT
+          echo "file_version=$VERSION_MIDDLE" >> $env:GITHUB_OUTPUT
           echo "base_version=$BASE_VERSION" >> $env:GITHUB_OUTPUT
 
       - name: Restore DOFFixupRunner runtime assets
@@ -292,6 +282,13 @@ jobs:
             exit 1
           }
 
+          $productVersion = "${{ steps.version.outputs.short_version }}"
+          if ([string]::IsNullOrWhiteSpace($productVersion)) {
+            Write-Error "❌ Product version from version step is empty"
+            exit 1
+          }
+          $fileVersion = "${{ steps.version.outputs.file_version }}"
+
           # Clean previous NSIS outputs
           if (Test-Path "Output") {
             Get-ChildItem "Output" -Filter "*.exe" -ErrorAction SilentlyContinue | Remove-Item -Force -ErrorAction SilentlyContinue
@@ -313,7 +310,7 @@ jobs:
 
             Write-Host "Creating NSIS installer for $platform (ARCH=$arch)..."
 
-            & $nsisExe "/DARCH=$arch" "DOFInstaller.nsi"
+            & $nsisExe "/DARCH=$arch" "/DPRODUCT_VERSION=$productVersion" "/DFILE_VERSION=$fileVersion" "DOFInstaller.nsi"
             if ($LASTEXITCODE -ne 0) {
               Write-Error "❌ NSIS build failed for $platform with exit code $LASTEXITCODE"
               exit $LASTEXITCODE

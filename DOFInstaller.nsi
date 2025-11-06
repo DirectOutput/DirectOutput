@@ -1,10 +1,15 @@
 ; DirectOutput Framework NSIS Installer
 
 !define PRODUCT_NAME "DirectOutput Framework"
+!ifndef PRODUCT_VERSION
 !define PRODUCT_VERSION "3.9.9"
+!endif
 !define PRODUCT_PUBLISHER "Swisslizard & the DirectOutput team"
 !define PRODUCT_WEB_SITE "https://github.com/DirectOutput/DirectOutput"
 !define COPYRIGHTYEAR "2025"
+!ifndef FILE_VERSION
+!define FILE_VERSION "${PRODUCT_VERSION}.0"
+!endif
 
 ; Architecture handling
 !ifndef ARCH
@@ -44,7 +49,7 @@ VIProductVersion "${PRODUCT_VERSION}.0"
 VIAddVersionKey "ProductName" "${PRODUCT_NAME}"
 VIAddVersionKey "ProductVersion" "${PRODUCT_VERSION}"
 VIAddVersionKey "CompanyName" "${PRODUCT_PUBLISHER}"
-VIAddVersionKey "FileDescription" "${PRODUCT_NAME} Installer"
+VIAddVersionKey "FileDescription" "${PRODUCT_NAME}  ${ARCH} Installer"
 VIAddVersionKey "FileVersion" "${PRODUCT_VERSION}.0"
 VIAddVersionKey "LegalCopyright" "Copyright © ${COPYRIGHTYEAR} ${PRODUCT_PUBLISHER}"
 
@@ -57,7 +62,7 @@ VIAddVersionKey "LegalCopyright" "Copyright © ${COPYRIGHTYEAR} ${PRODUCT_PUBLIS
 
 ; Pages
 !insertmacro MUI_PAGE_WELCOME
-!insertmacro MUI_PAGE_LICENSE "DOFSetup\Res\DOFLicense.rtf"
+!insertmacro MUI_PAGE_LICENSE "LICENSE"
 !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_INSTFILES
 !insertmacro MUI_PAGE_FINISH
