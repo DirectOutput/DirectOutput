@@ -1,36 +1,45 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.Deployment.WindowsInstaller;
-using System.Text.RegularExpressions;
-using System.Reflection;
 using System.Xml;
 using System.IO;
 using Microsoft.Win32;
 using IWshRuntimeLibrary;
+using System.Runtime.InteropServices;
 
 namespace DOFSetupB2SFixup
 {
+    [ComVisible(true)]
+    [Guid("BD1C6E2C-7B46-4EC3-BAF0-1E8C6A4F8E24")]
     public class CustomActions
     {
-        [CustomAction]
-        public static ActionResult B2SFixup(Session session)
+        /// <summary>
+        /// Performs the B2S/DOF integration steps outside of WiX.
+        /// Returns an error string (multiple messages separated by blank lines) or null on success.
+        /// </summary>
+        public static string Run(string dofPath, string binDir, string bitness)
         {
-            session.Log("Begin B2S -> DOF connection setup");
+            var errors = new List<string>();
+            var log = new StringBuilder();
 
-            // No errors yet
-            List<String> errors = new List<String>();
+            void Log(string message) => log.AppendLine($"[B2SFixup] {message}");
 
-            // Get the DirectOutput install location.  
-            String dofPath = session.CustomActionData["INSTALLEDPATH"];
-            String binDir = session.CustomActionData["BINDIR"];
-            String bitness = session.CustomActionData["BITNESS"];
-            session.Log("Installation path: " + dofPath + ", binary dir: " + binDir + ", bitness=" + bitness);
+            Log("Begin B2S -> DOF connection setup");
 
-			// Try load the registered B2S.Server COM object, so that we can
-			// ask it for its install location.
-			session.Log("Finding B2S.Server DLL");
-			var registeredType = Type.GetTypeFromProgID("B2S.Server");
+            if (string.IsNullOrWhiteSpace(dofPath))
+                errors.Add("Installation path not supplied.");
+            if (string.IsNullOrWhiteSpace(binDir))
+                errors.Add("Binary directory not supplied.");
+            if (string.IsNullOrWhiteSpace(bitness))
+                errors.Add("Bitness not supplied.");
+
+            if (errors.Count > 0)
+                return Finish(log, dofPath, errors);
+
+            Log($"Installation path: {dofPath}, binary dir: {binDir}, bitness={bitness}");
+
+            Log("Finding B2S.Server DLL");
+            var registeredType = Type.GetTypeFromProgID("B2S.Server");
             string dllFile = null;
             if (registeredType == null)
             {
@@ -40,16 +49,16 @@ namespace DOFSetupB2SFixup
                     + "download and install the " + bitness + "-bit version of B2S "
                     + "Backglass Server, then re-run this DOF installer.");
 
-                session.Log("GetTypeFromProgID(\"B2S.Server\") failed - B2S is not installed");
+                Log("GetTypeFromProgID(\"B2S.Server\") failed - B2S is not installed");
             }
             else
             {
                 // found the type; try creating an instance
-                Object instance = null;
+                object instance = null;
                 try
                 {
                     // create the instance
-                    instance = System.Activator.CreateInstance(registeredType);
+                    instance = Activator.CreateInstance(registeredType);
                 }
                 catch (Exception exc)
                 {
@@ -62,8 +71,8 @@ namespace DOFSetupB2SFixup
 					// actually instantiate.  The only way I can find to tell if we
 					// have such an object is to try to instantiate it and check for
 					// this error.
-					session.Log("Error loading B2S COM object: " + exc.Message);
-					if (exc.Message.Contains("REGDB_E_CLASSNOTREG"))
+                    Log("Error loading B2S COM object: " + exc.Message);
+                    if (exc.Message.Contains("REGDB_E_CLASSNOTREG"))
                     {
                         // B2S is registered, but not for the current bitness
                         errors.Add("It looks like B2S Backglass Server is installed on this "
@@ -72,7 +81,7 @@ namespace DOFSetupB2SFixup
                             + "please separately download and install " + bitness + "-bit B2S, "
                             + "then re-run this DOF install.");
 
-                        session.Log("Note: this error usually indicates that B2S is installed, "
+                        Log("Note: this error usually indicates that B2S is installed, "
                             + "but NOT for the " + bitness + "-bit version required by this DOF "
                             + "install");
                     }
@@ -96,11 +105,11 @@ namespace DOFSetupB2SFixup
                         var dirObj = instance.GetType().InvokeMember(
                                 "B2SServerDirectory", System.Reflection.BindingFlags.GetProperty, null, instance, null, null);
 
-                        if (dirObj != null && dirObj is string s)
+                        if (dirObj is string s && s.Length > 0)
                         {
                             // got it - get the directory path (minus DLL filename)
                             dllFile = s;
-                            session.Log("B2S DLL path successfully identified as \"" + dllFile + "\"");
+                            Log($"B2S DLL path successfully identified as \"{dllFile}\"");
                         }
                         else
                         {
@@ -110,7 +119,7 @@ namespace DOFSetupB2SFixup
                                 + "setup program.  You might try re-installing B2S and re-running "
                                 + "this DOF setup.");
 
-                            session.Log("B2S object.B2SServerDirectory returned null or non-string result; can't identify B2S DLL path");
+                            Log("B2S object.B2SServerDirectory returned null or non-string result; can't identify B2S DLL path");
                         }
                     }
                     catch (Exception exc)
@@ -121,23 +130,22 @@ namespace DOFSetupB2SFixup
                             + "setup program.  You might try re-installing B2S and re-running "
                             + "this DOF setup.");
 
-                        session.Log("Error getting property value for B2S object.B2SServerDirectory: " + exc.Message);
+                        Log("Error getting property value for B2S object.B2SServerDirectory: " + exc.Message);
                     }
                 }
             }
 
             // check if we found the path
-            if (dllFile != null && dllFile.Length > 0)
+            if (!string.IsNullOrEmpty(dllFile))
             {
-                // success - extract the file system path
-                String path = Path.GetDirectoryName(dllFile);
-                session.Log("B2S.Server DLL file is " + dllFile);
+                var path = Path.GetDirectoryName(dllFile);
+                Log("B2S.Server DLL file is " + dllFile);
 
                 // Create a shortcut to the DirectOutput install directory in the
                 // B2S Plugins folder.  The shortcut must be named DirectOutput.lnk.
-                session.Log("Creating B2S Plugins\\DirectOutput.lnk");
-                String pluginsDir = Path.Combine(path, bitness == "64" ? "Plugins64" : "Plugins");
-                String shortcutFile = Path.Combine(pluginsDir, "DirectOutput.lnk");
+                Log("Creating B2S Plugins\\DirectOutput.lnk");
+                var pluginsDir = Path.Combine(path, bitness == "64" ? "Plugins64" : "Plugins");
+                var shortcutFile = Path.Combine(pluginsDir, "DirectOutput.lnk");
                 try
                 {
                     // Create the Plugins folder if it doesn't already exist
@@ -148,7 +156,7 @@ namespace DOFSetupB2SFixup
 
                     // Create the shortcut
                     var shell = new WshShell();
-                    IWshShortcut shortcut = shell.CreateShortcut(shortcutFile);
+                    var shortcut = (IWshShortcut)shell.CreateShortcut(shortcutFile);
                     shortcut.Description = "DirectOutput";
                     shortcut.TargetPath = Path.Combine(dofPath, binDir);
                     shortcut.Save();
@@ -162,16 +170,19 @@ namespace DOFSetupB2SFixup
                         + "\".  You can create this shortcut manually if you wish; see the "
                         + "DirectOutput documentation for help.  (System error details: "
                         + exc.Message + ".)");
+
+                    Log("Shortcut creation failed: " + exc.Message);
                 }
 
                 // Enable B2S plug-ins by setting the registry key DWORD value "Plugins"
                 // under key HKEY_CURRENT_USER\Software\B2S
-                session.Log("Enabling B2S plugins (setting HKCU\\Software\\B2S\\Plugins to 1)");
+                Log("Enabling B2S plugins (setting HKCU\\Software\\B2S\\Plugins to 1)");
                 try
                 {
-                    RegistryKey b2sKey = Registry.CurrentUser.CreateSubKey("Software\\B2S");
-                    if (b2sKey != null)
-                        b2sKey.SetValue("Plugins", 1, RegistryValueKind.DWord);
+                    using (var b2sKey = Registry.CurrentUser.CreateSubKey(@"Software\B2S"))
+                    {
+                        b2sKey?.SetValue("Plugins", 1, RegistryValueKind.DWord);
+                    }
                 }
                 catch (Exception exc)
                 {
@@ -181,26 +192,27 @@ namespace DOFSetupB2SFixup
                         + "(Error details: error updating registry key "
                        + "HKEY_CURRENT_USER\\Software\\B2S\\Plugins; system error details: "
                        + exc.Message + ".)");
+
+                    Log("Registry update failed: " + exc.Message);
                 }
 
                 // Fix up B2STableSettings.xml to turn off "backglass not found" error
                 // messages.  A table might want to load B2S.Server as the controller 
                 // even if it doesn't have a backglass to display, purely for DOF access.
-                session.Log("Turning off B2S \"missing backglass\" load error (in B2STableSettings.xml)");
-                String settingsFile = Path.Combine(path, "B2STableSettings.xml");
+                Log("Turning off B2S \"missing backglass\" load error (in B2STableSettings.xml)");
+                var settingsFile = Path.Combine(path, "B2STableSettings.xml");
                 try
                 {
                     // load the file
-                    XmlDocument doc = new XmlDocument();
+                    var doc = new XmlDocument();
                     doc.Load(settingsFile);
 
                     // make sure we have a valid root node
-                    XmlNode rootNode = doc.DocumentElement.SelectSingleNode("/B2STableSettings");
+                    var rootNode = doc.DocumentElement?.SelectSingleNode("/B2STableSettings");
                     if (rootNode != null)
                     {
                         // find ShowStartUpError
-                        XmlNode errNode = rootNode.SelectSingleNode("/B2STableSettings/ShowStartupError");
-
+                        var errNode = rootNode.SelectSingleNode("/B2STableSettings/ShowStartupError");
                         // if it doesn't exist, add it
                         if (errNode == null)
                             errNode = rootNode.AppendChild(doc.CreateElement("ShowStartupError"));
@@ -222,23 +234,36 @@ namespace DOFSetupB2SFixup
                         + "the DirectOutput documentation for help.  (This happened while "
                         + "attempting to update \"" + settingsFile + "\"; system error "
                         + "details: " + exc.Message + ".)");
+
+                    Log("Settings update failed: " + exc.Message);
                 }
             }
 
             // if there are any errors, show them
-            if (errors.Count != 0)
+            if (errors.Count == 0)
+                Log("Fixup completed successfully.");
+
+            return Finish(log, dofPath, errors);
+        }
+
+        private static string Finish(StringBuilder log, string dofPath, List<string> errors)
+        {
+            try
             {
-                String msg = "";
-                foreach (var err in errors)
+                if (!string.IsNullOrWhiteSpace(dofPath))
                 {
-                    if (msg != "")
-                        msg += "\r\n\r\n";
-                    msg += err;
+                    var logPath = Path.Combine(dofPath, "B2SFixup.log");
+                    System.IO.File.WriteAllText(logPath, log.ToString(), Encoding.UTF8);
                 }
-                session.Message(InstallMessage.Error, new Record { FormatString = msg });
+            }
+            catch
+            {
+                // Ignore logging failures.
             }
 
-            return ActionResult.Success;
+            return errors.Count == 0
+                ? null
+                : string.Join("\r\n\r\n", errors);
         }
     }
 }

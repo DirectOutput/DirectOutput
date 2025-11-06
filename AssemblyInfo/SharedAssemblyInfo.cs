@@ -72,11 +72,11 @@ using System.Runtime.InteropServices;
 // common setup problem users have is mismatched components, so let's try to
 // make things easier on users by using consistent component IDs.
 //
-[assembly: AssemblyVersion("3.2.*")]
+[assembly: AssemblyVersion("3.3.*")]
 
 
 // DOF-wide settings
 [assembly: AssemblyCompany("DirectOutput")]
-[assembly: AssemblyCopyright("Copyright ©  2012-2024 Swisslizard")]
+[assembly: AssemblyCopyright("Copyright © 2012-2025 Swisslizard")]
 [assembly: AssemblyTrademark("")]
 

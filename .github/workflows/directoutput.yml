@@ -1,0 +1,437 @@
+name: DirectOutput Build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: pwsh
+
+jobs:
+  build:
+    name: Build DirectOutput Release (x86 then x64)
+    runs-on: windows-2022
+    outputs:
+      version-tag: ${{ steps.version.outputs.tag }}
+      base-version: ${{ steps.version.outputs.base_version }}
+    # strategy:
+    #   fail-fast: false
+    #   matrix:
+    #     include:
+    #       - platform: x86
+    #         config: Release
+    #       - platform: x64
+    #         config: Release
+    #       # - platform: x86
+    #       #   config: Debug
+    #       # - platform: x64
+    #       #   config: Debug
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup MSBuild and Visual Studio
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Add Visual Studio to PATH and setup C++ environment
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x86  # Start with x86 for initial setup
+          
+      - name: Verify C++ build environment
+        run: |
+          Write-Host "=== C++ Build Environment Check ==="
+          
+          # Check for cl.exe compiler
+          try {
+            $clVersion = & cl 2>&1 | Select-String "Microsoft.*Compiler"
+            Write-Host "✅ Found C++ Compiler: $clVersion"
+          } catch {
+            Write-Error "❌ C++ Compiler (cl.exe) not found"
+            exit 1
+          }
+          
+          # Check for link.exe linker
+          try {
+            $linkVersion = & link 2>&1 | Select-String "Microsoft.*Linker"
+            Write-Host "✅ Found Linker: $linkVersion"
+          } catch {
+            Write-Error "❌ Linker (link.exe) not found"
+            exit 1
+          }
+          
+          # List available VS installations
+          $vsWhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+          if (Test-Path $vsWhere) {
+            Write-Host "=== Available Visual Studio Installations ==="
+            & $vsWhere -products * -format json | ConvertFrom-Json | ForEach-Object {
+              Write-Host "Product: $($_.displayName) - Version: $($_.installationVersion)"
+            }
+          }
+          
+          Write-Host "=== Environment Variables ==="
+          Write-Host "VSCMD_ARG_TGT_ARCH: $env:VSCMD_ARG_TGT_ARCH"
+          Write-Host "WindowsSDKVersion: $env:WindowsSDKVersion"
+
+      - name: Install NSIS
+        run: |
+          Write-Host "Installing NSIS via Chocolatey..."
+          choco install nsis -y
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            packages
+            ~\.nuget\packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/packages.config', '**/*.csproj') }}
+          restore-keys: |
+            nuget-${{ runner.os }}-
+
+      - name: Download and setup NuGet
+        run: |
+          Invoke-WebRequest -Uri "https://dist.nuget.org/win-x86-commandline/latest/nuget.exe" -OutFile "nuget.exe"
+
+      - name: Restore NuGet packages
+        run: |
+          .\nuget.exe restore DirectOutput.sln
+
+      - name: Ensure DOFSetupPBXFixup dependencies
+        run: |
+          $metadataPackage = "packages/System.Reflection.Metadata.8.0.0"
+          $immutablePackage = "packages/System.Collections.Immutable.8.0.0"
+
+          if ((Test-Path $metadataPackage) -and (Test-Path $immutablePackage)) {
+            Write-Host "Required DOFSetupPBXFixup packages already present."
+            return
+          }
+
+          Write-Host "Restoring missing DOFSetupPBXFixup packages..."
+          .\nuget.exe restore "DOFSetupPBXFixup\DOFSetupPBXFixup.csproj" -PackagesDirectory packages
+
+      - name: Update Assembly Version
+        id: version
+        run: |
+          # Extract base version from SharedAssemblyInfo.cs
+          $sharedAssemblyInfo = "AssemblyInfo/SharedAssemblyInfo.cs"
+          $content = Get-Content $sharedAssemblyInfo -Raw
+          
+          # Extract version using regex - looking for [assembly: AssemblyVersion("x.y.*")]
+          if ($content -match '\[assembly:\s*AssemblyVersion\("([0-9]+\.[0-9]+)\.\*"\)\]') {
+            $BASE_VERSION = $matches[1]
+            Write-Host "Extracted base version from AssemblyInfo: $BASE_VERSION"
+          } else {
+            Write-Error "Could not extract base version from AssemblyInfo file"
+            exit 1
+          }
+          
+          $SHA7 = "${{ github.sha }}".Substring(0, 7)
+          $VERSION_SHORT = "$BASE_VERSION.${{ github.run_number }}.0"
+          $VERSION_LONG = "$BASE_VERSION.${{ github.run_number }}.0-$SHA7"
+          
+          Write-Host "VERSION_SHORT: $VERSION_SHORT"
+          Write-Host "VERSION_LONG: $VERSION_LONG"
+          
+          # Update SharedAssemblyInfo.cs - use the extracted base version in the regex
+          $content = $content + "`n[assembly: AssemblyFileVersion(`"$VERSION_SHORT`")]`n[assembly: AssemblyInformationalVersion(`"$VERSION_LONG`")]"
+          Set-Content $sharedAssemblyInfo $content
+          
+          echo "tag=$VERSION_LONG" >> $env:GITHUB_OUTPUT
+          echo "short_version=$VERSION_SHORT" >> $env:GITHUB_OUTPUT
+          echo "base_version=$BASE_VERSION" >> $env:GITHUB_OUTPUT
+
+      - name: Restore DOFFixupRunner runtime assets
+        run: |
+          $project = "DOFFixupRunner\DOFFixupRunner.csproj"
+          Write-Host "Restoring runtime-specific assets for DOFFixupRunner..."
+          dotnet restore $project --runtime win-x86
+          dotnet restore $project --runtime win-x64
+
+      - name: Build DirectOutput solution (x86 first, then x64)
+        run: |
+          # Build x86 first (as required by README_BuildSetup.md)
+          Write-Host ">>> Building Release|x86 (required first for packaging prerequisites)"
+          
+          # Clean x86 first
+          Write-Host "Cleaning x86 build..."
+          msbuild DirectOutput.sln -t:Clean -p:Configuration=Release -p:Platform=x86 -v:minimal -nologo
+          if ($LASTEXITCODE -ne 0) { 
+            Write-Error "x86 Clean failed"
+            exit $LASTEXITCODE 
+          }
+
+          # Clean x64
+          Write-Host "Cleaning x64 build..."
+          msbuild DirectOutput.sln -t:Clean -p:Configuration=Release -p:Platform=x64 -v:minimal -nologo
+          if ($LASTEXITCODE -ne 0) { 
+            Write-Error "x64 Clean failed"
+            exit $LASTEXITCODE 
+          }
+          
+          # Build x86 solution
+          Write-Host "Building x86 solution..."
+          msbuild DirectOutput.sln -t:Build -p:Configuration=Release -p:Platform=x86 -v:minimal -nologo
+          if ($LASTEXITCODE -ne 0) { 
+            Write-Error "x86 Solution build failed"
+            exit $LASTEXITCODE 
+          }
+          Write-Host "✅ x86 build completed successfully"
+          
+          # Now build x64 (can read from x86 files as needed)
+          Write-Host ">>> Building Release|x64 (can now use x86 dependencies)"
+                    
+          # Build x64 solution
+          Write-Host "Building x64 solution..."
+          msbuild DirectOutput.sln -t:Build -p:Configuration=Release -p:Platform=x64 -v:minimal -nologo
+          if ($LASTEXITCODE -ne 0) { 
+            Write-Error "x64 Solution build failed"
+            exit $LASTEXITCODE 
+          }
+          Write-Host "✅ x64 build completed successfully"
+          
+          # Fix x64 naming issue and verify build outputs
+          Write-Host ">>> Post-build verification and fixes"
+          
+          # Check what files were actually created
+          @("x86", "x64") | ForEach-Object {
+            $platform = $_
+            $binDir = "bin\$platform\Release"
+            Write-Host "Contents of $binDir`:"
+            if (Test-Path $binDir) {
+              Get-ChildItem $binDir | Select-Object Name, Length | Format-Table -AutoSize
+            } else {
+              Write-Warning "$binDir does not exist!"
+            }
+          }
+          
+          # Check for COM object files
+          @("x86", "x64") | ForEach-Object {
+            $platform = $_
+            $comDll = "bin\$platform\Release\DirectOutputComObject.dll"
+            $comTlb = "bin\$platform\Release\DirectOutputComObject.tlb"
+            
+            if (Test-Path $comDll) {
+              Write-Host "✅ Found COM DLL: $comDll"
+            } else {
+              Write-Warning "❌ Missing COM DLL: $comDll"
+            }
+            
+            if (Test-Path $comTlb) {
+              Write-Host "✅ Found COM TLB: $comTlb"
+            } else {
+              Write-Warning "❌ Missing COM TLB: $comTlb"
+            }
+          }
+          
+          Write-Host "✅ All builds completed successfully (x86 and x64)"
+
+      - name: Create ZIP release packages
+        run: |
+          # Create ZIP packages for both x86 and x64
+          @("x86", "x64") | ForEach-Object {
+            $platform = $_
+            $config = "Release"
+            
+            Write-Host "Creating ZIP package for $platform..."
+            
+            # Create output directory for ZIP package
+            $outputDir = "output-zip-$platform-$config"
+            New-Item -ItemType Directory -Path $outputDir -Force
+            
+            # Define source directory for binaries
+            $binDir = "bin\$platform\$config"
+            
+            # Read manifest file and copy files
+            $manifestFile = "manifest.$platform.txt"
+            if (Test-Path $manifestFile) {
+              Get-Content $manifestFile | Where-Object { $_ -notmatch "^#" -and $_.Trim() -ne "" } | ForEach-Object {
+                $sourceFile = Join-Path $binDir $_
+                
+                # Handle x64 naming issue: MainDofDll -> DirectOutput.dll
+                if ($platform -eq "x64" -and $_ -eq "DirectOutput.dll") {
+                  $alternativeFile = Join-Path $binDir "MainDofDll"
+                  if (-not (Test-Path $sourceFile) -and (Test-Path $alternativeFile)) {
+                    Write-Host "Found x64 naming issue: copying MainDofDll as DirectOutput.dll"
+                    Copy-Item $alternativeFile (Join-Path $outputDir "DirectOutput.dll") -Force
+                    Write-Host "Copied: $alternativeFile -> DirectOutput.dll"
+                    return
+                  }
+                }
+                
+                if (Test-Path $sourceFile) {
+                  Copy-Item $sourceFile $outputDir -Force
+                  Write-Host "Copied: $sourceFile"
+                } else {
+                  Write-Warning "File not found: $sourceFile"
+                }
+              }
+            }
+            
+            # Copy additional files
+            if (Test-Path "LICENSE") {
+              Copy-Item "LICENSE" $outputDir -Force
+            }
+            
+            # Copy config examples
+            if (Test-Path "config\examples") {
+              New-Item -ItemType Directory -Path "$outputDir\config\examples" -Force
+              Copy-Item "config\examples\*.xml" "$outputDir\config\examples" -Force -ErrorAction SilentlyContinue
+            }
+            
+            Write-Host "✅ ZIP package created for $platform"
+          }
+
+      - name: Create NSIS installers
+        run: |
+          $nsisExe = Join-Path "${env:ProgramFiles(x86)}" "NSIS\makensis.exe"
+          if (-not (Test-Path $nsisExe)) {
+            Write-Error "❌ NSIS executable not found at $nsisExe"
+            exit 1
+          }
+
+          # Clean previous NSIS outputs
+          if (Test-Path "Output") {
+            Get-ChildItem "Output" -Filter "*.exe" -ErrorAction SilentlyContinue | Remove-Item -Force -ErrorAction SilentlyContinue
+          }
+          New-Item -ItemType Directory -Path "Output" -Force | Out-Null
+
+          $SHA7 = "${{ github.sha }}".Substring(0, 7)
+          $DATE = Get-Date -Format "yyyyMMdd"
+          $config = "Release"
+
+          $targets = @(
+            @{ Platform = "x86"; Arch = "32" },
+            @{ Platform = "x64"; Arch = "64" }
+          )
+
+          foreach ($target in $targets) {
+            $platform = $target.Platform
+            $arch = $target.Arch
+
+            Write-Host "Creating NSIS installer for $platform (ARCH=$arch)..."
+
+            & $nsisExe "/DARCH=$arch" "DOFInstaller.nsi"
+            if ($LASTEXITCODE -ne 0) {
+              Write-Error "❌ NSIS build failed for $platform with exit code $LASTEXITCODE"
+              exit $LASTEXITCODE
+            }
+
+            $sourceInstaller = "Output\DOFSetup-NSIS-$($arch)bit-Setup.exe"
+            if (-not (Test-Path $sourceInstaller)) {
+              Write-Error "❌ Expected NSIS installer not found at $sourceInstaller"
+              exit 1
+            }
+
+            $outputDir = "output-nsis-$platform-$config"
+            if (Test-Path $outputDir) {
+              Remove-Item $outputDir -Recurse -Force
+            }
+            New-Item -ItemType Directory -Path $outputDir -Force | Out-Null
+
+            $installerName = "DirectOutput-$platform-$config-$DATE-$SHA7.exe"
+            Copy-Item $sourceInstaller "$outputDir\$installerName" -Force
+            Write-Host "✅ Created NSIS installer: $installerName"
+          }
+
+      - name: Upload x86 ZIP artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: DirectOutput-${{ steps.version.outputs.tag }}-Release-x86.zip
+          path: output-zip-x86-Release
+          if-no-files-found: warn
+
+      - name: Upload x64 ZIP artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: DirectOutput-${{ steps.version.outputs.tag }}-Release-x64.zip
+          path: output-zip-x64-Release
+          if-no-files-found: warn
+
+      - name: Upload x86 NSIS installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: DirectOutput-${{ steps.version.outputs.tag }}-Release-x86.exe
+          path: output-nsis-x86-Release
+          if-no-files-found: warn
+
+      - name: Upload x64 NSIS installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: DirectOutput-${{ steps.version.outputs.tag }}-Release-x64.exe
+          path: output-nsis-x64-Release
+          if-no-files-found: warn
+
+  create-github-release:
+    name: Create GitHub Release
+    runs-on: windows-2022
+    needs: build
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main') && startsWith(github.ref, 'refs/tags/')
+    
+    steps:
+      - name: Download all build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Prepare release files
+        run: |
+          # Use version information from build job outputs
+          $VERSION_LONG = "${{ needs.build.outputs.version-tag }}"
+          $BASE_VERSION = "${{ needs.build.outputs.base-version }}"
+          $DATE = Get-Date -Format "yyyyMMdd"
+          
+          Write-Host "Using version from build job: $VERSION_LONG (base: $BASE_VERSION)"
+          
+          # Create release directory
+          New-Item -ItemType Directory -Path "release" -Force
+          
+          # Process ZIP artifacts and create final ZIP packages (only for ZIP files)
+          @("x86", "x64") | ForEach-Object {
+            $platform = $_
+            $zipArtifactPath = "artifacts\DirectOutput-$VERSION_LONG-Release-$platform.zip"
+            
+            if (Test-Path $zipArtifactPath) {
+              $zipName = "DirectOutput-release-$platform-$DATE.zip"
+              $zipPath = "release\$zipName"
+              
+              # Create ZIP using PowerShell
+              Compress-Archive -Path "$zipArtifactPath\*" -DestinationPath $zipPath -Force
+              Write-Host "Prepared release ZIP: $zipPath"
+            } else {
+              Write-Warning "ZIP artifact not found: $zipArtifactPath"
+            }
+          }
+          
+          # Copy NSIS installers directly (extract from artifact folders)
+          @("x86", "x64") | ForEach-Object {
+            $platform = $_
+            $installerArtifactPath = "artifacts\DirectOutput-$VERSION_LONG-Release-$platform.exe"
+            
+            if (Test-Path $installerArtifactPath) {
+              # GitHub Actions artifacts are downloaded as folders, so inspect their contents
+              Write-Host "Looking for NSIS installers in artifact folder: $installerArtifactPath"
+              Get-ChildItem "$installerArtifactPath" -Recurse -Filter "*.exe" | ForEach-Object {
+                $destPath = "release\$($_.Name)"
+                Copy-Item $_.FullName $destPath -Force
+                Write-Host "Copied NSIS installer: $($_.Name) -> $destPath"
+              }
+            } else {
+              Write-Warning "NSIS artifact folder not found: $installerArtifactPath"
+            }
+          }
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: release/*
+          tag_name: ${{ github.ref_name }}
+          name: DirectOutput ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+

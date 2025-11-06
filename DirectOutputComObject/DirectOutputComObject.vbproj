@@ -325,8 +325,12 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
-    <PostBuildEvent>call "$(DevEnvDir)..\Tools\VsDevCmd.bat"
-tlbexp "$(TargetPath)" /out:"$(TargetDir)$(TargetName).tlb"</PostBuildEvent>
+    <PostBuildEvent>call "$(ProjectDir)..\Tools\VsDevCmd.bat"
+if "$(PlatformTarget)"=="x64" (
+  tlbexp "$(TargetPath)" /out:"$(TargetDir)$(TargetName).tlb" /win64
+) else (
+  tlbexp "$(TargetPath)" /out:"$(TargetDir)$(TargetName).tlb" /win32
+)</PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\Fody.6.7.0\build\Fody.targets" Condition="Exists('..\packages\Fody.6.7.0\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

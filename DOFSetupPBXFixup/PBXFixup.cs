@@ -1,34 +1,43 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
-using Microsoft.Deployment.WindowsInstaller;
-using System.Text.RegularExpressions;
-using System.Reflection;
-using System.Xml;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Xml;
 using Microsoft.Win32;
+using System.Reflection.Metadata;
 using System.Reflection.PortableExecutable;
 
 namespace DOFSetupPBXFixup
 {
+    [ComVisible(true)]
+    [Guid("F4F2DA2E-9F7E-487A-8F29-0C7D6AA18D6A")]
     public class CustomActions
     {
-        [CustomAction]
-        public static ActionResult PBXFixup(Session session)
+        public static string Run(string dofPath, string binDir, string bitness)
         {
-            session.Log("Begin PinballX -> DOF connection setup");
+            var errors = new List<string>();
+            var log = new StringBuilder();
 
-            // No errors yet
-            List<String> errors = new List<string>();
+            void Log(string message) => log.AppendLine($"[PBXFixup] {message}");
 
-            // Get the DirectOutput install location.  
-            String dofPath = session.CustomActionData["INSTALLEDPATH"];
-			String binDir = session.CustomActionData["BINDIR"];
-			String bitness = session.CustomActionData["BITNESS"];
-			session.Log("Installation path: " + dofPath + ", binary dir: " + binDir + ", bitness=" + bitness);
+            Log("Begin PinballX -> DOF connection setup");
 
-			// Find PinballX's install location by searching for its uninstall key
-			String pbxPath = null;
+            if (string.IsNullOrWhiteSpace(dofPath))
+                errors.Add("Installation path not supplied.");
+            if (string.IsNullOrWhiteSpace(binDir))
+                errors.Add("Binary directory not supplied.");
+            if (string.IsNullOrWhiteSpace(bitness))
+                errors.Add("Bitness not supplied.");
+
+            if (errors.Count > 0)
+                return Finish(log, dofPath, errors);
+
+            Log("Installation path: " + dofPath + ", binary dir: " + binDir + ", bitness=" + bitness);
+
+		// Find PinballX's install location by searching for its uninstall key
+		String pbxPath = null;
             try
             {
                 // Search the uninstall keys.  The subkeys are the Setup package
@@ -37,50 +46,54 @@ namespace DOFSetupPBXFixup
                 // that's a separate closed-source project that we can't make
                 // that sort of assumption about, so we'll do this heuristically,
                 // by searching for some values it's known to set.
-                session.Log("Searching for PinballX install entry");
+                Log("Searching for PinballX install entry");
                 String keyname = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall";
                 RegistryKey mainkey = Registry.LocalMachine.OpenSubKey(keyname);
-                foreach (String subkeyname in mainkey.GetSubKeyNames())
+                if (mainkey != null)
                 {
-                    // open this key
-                    RegistryKey subkey = mainkey.OpenSubKey(subkeyname);
-
-                    // check DisplayIcon
-                    object icon = subkey.GetValue("DisplayIcon");
-                    if (icon != null && icon is string && Regex.IsMatch((string)icon, @".*\\PinballX\.exe$"))
+                    foreach (String subkeyname in mainkey.GetSubKeyNames())
                     {
-                        // looks good - check the program name
-                        session.Log("Found matching DisplayIcon under " + keyname + "\\" + subkeyname + " -> " + (string)icon);
-                        object name = subkey.GetValue("DisplayName");
-                        if (name != null && name is string && Regex.IsMatch((string)name, @"^PinballX(\s*$|\s+\d+\.\d+.*)"))
+                        // open this key
+                        RegistryKey subkey = mainkey.OpenSubKey(subkeyname);
+
+                        // check DisplayIcon
+                        object icon = subkey?.GetValue("DisplayIcon");
+                        if (icon is string iconPath && Regex.IsMatch(iconPath, @".*\\PinballX\.exe$"))
                         {
-                            // got it - get the install location
-                            session.Log(".. DisplayName is " + (string)name);
-                            object dir = subkey.GetValue("InstallLocation");
-                            if (dir != null && dir is string)
+                            Log("Found matching DisplayIcon under " + keyname + "\\" + subkeyname + " -> " + iconPath);
+                            object name = subkey.GetValue("DisplayName");
+                            if (name is string displayName && Regex.IsMatch(displayName, @"^PinballX(\s*$|\s+\d+\.\d+.*)"))
                             {
-                                // check for an .EXE of the correct same 32/64-bit type as this install set
-                                try
+                                Log(".. DisplayName is " + displayName);
+                                object dir = subkey.GetValue("InstallLocation");
+                                if (dir is string installLocation)
                                 {
-                                    // open the file
-                                    var fs = File.OpenRead(Path.Combine(dir.ToString(), "pinballx.exe"));
-                                    var pe = new PEHeaders(fs);
-                                    if (pe.IsExe)
+                                    try
                                     {
-                                        bool is64 = pe.IsExe && pe.PEHeader.Magic == PEMagic.PE32Plus;
-                                        if (is64 == (bitness == "64"))
+                                        using (var fs = File.OpenRead(Path.Combine(installLocation, "pinballx.exe")))
                                         {
-                                            // success - log it
-                                            session.Log(".. InstallLocation " + (string)dir);
-                                            pbxPath = (string)dir;
-                                            break;
+                                            using (var peReader = new PEReader(fs))
+                                            {
+                                                var headers = peReader.PEHeaders;
+                                                if (headers.IsExe)
+                                                {
+                                                    bool is64 = headers.PEHeader.Magic == PEMagic.PE32Plus;
+                                                    if (is64 == (bitness == "64"))
+                                                    {
+                                                        // success - log it
+                                                        Log(".. InstallLocation " + installLocation);
+                                                        pbxPath = installLocation;
+                                                        break;
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
-								}
-                                catch (Exception)
-                                {
+                                    catch (Exception)
+                                    {
                                     // ignore the error and keep looking
-                                    continue;
+                                        continue;
+                                    }
                                 }
                             }
                         }
@@ -97,7 +110,7 @@ namespace DOFSetupPBXFixup
             // if we found it, do the rest of the setup
             if (pbxPath != null)
             {
-                session.Log("Install entry found, path is " + pbxPath);
+                Log("Install entry found, path is " + pbxPath);
                 String pluginsPath = Path.Combine(pbxPath, "Plugins");
                 try
                 {
@@ -110,23 +123,23 @@ namespace DOFSetupPBXFixup
                     try
                     {
                         // copy the plugin DLL
-                        session.Log("Copying DOF PBX plugin: " + src + " -> " + dst);
+                        Log("Copying DOF PBX plugin: " + src + " -> " + dst);
                         File.Copy(src, dst, true);
 
                         String iniFile = Path.Combine(pbxPath, @"Config\PinballX.ini");
-                        session.Log("Checking for PBX INI file (" + iniFile + ")");
+                        Log("Checking for PBX INI file (" + iniFile + ")");
                         try
                         {
                             // load the PinballX INI file
                             String[] ini = { };
                             if (File.Exists(iniFile))
                             {
-                                session.Log("INI file exists; reading it");
+                                Log("INI file exists; reading it");
                                 ini = File.ReadAllLines(iniFile, Encoding.Unicode);
                             }
 
                             // scan for an existing mention of our plugin
-                            session.Log("Scanning INI file for DOF plugin section");
+                            Log("Scanning INI file for DOF plugin section");
                             int pluginSectNo = -1;
                             int maxPluginSectNo = 0;
                             int pluginSectLineNo = -1;
@@ -157,7 +170,7 @@ namespace DOFSetupPBXFixup
                                 {
                                     // this is our section!
                                     ourPluginSectLineNo = pluginSectLineNo;
-                                    session.Log("DOF plugin section found (line " + (ourPluginSectLineNo + 1) + ")");
+                                    Log("DOF plugin section found (line " + (ourPluginSectLineNo + 1) + ")");
 
                                     // no need to scan any further
                                     break;
@@ -165,7 +178,7 @@ namespace DOFSetupPBXFixup
                             }
 
                             // Rebuild the array, inserting our text as needed
-                            session.Log("Updating INI file contents");
+                            Log("Updating INI file contents");
                             List<String> newIni = new List<string>();
                             bool inOurSect = false;
                             bool foundEnabled = false;
@@ -176,7 +189,7 @@ namespace DOFSetupPBXFixup
                                 if (i == ourPluginSectLineNo)
                                 {
                                     // entering our section
-                                    session.Log("Entering our section on rewrite");
+                                    Log("Entering our section on rewrite");
                                     inOurSect = true;
                                 }
                                 else if (inOurSect && Regex.IsMatch(l, @"(?i)\s*\[Plugin_(\d+)\]\s*"))
@@ -185,7 +198,7 @@ namespace DOFSetupPBXFixup
                                     inOurSect = false;
 
                                     // if we didn't find an Enabled line in our section, add one
-                                    session.Log("Exiting our section; foundEnabled=" + foundEnabled);
+                                    Log("Exiting our section; foundEnabled=" + foundEnabled);
                                     if (!foundEnabled)
                                         newIni.Add("Enabled=True");
                                 }
@@ -194,7 +207,7 @@ namespace DOFSetupPBXFixup
                                 if (inOurSect && Regex.IsMatch(l, @"(?i)\s*Enabled\s*=.*"))
                                 {
                                     // it's our enabled line - change it to Enabled=True
-                                    session.Log(". found Enabled line (" + (i+1) + ")");
+                                    Log(". found Enabled line (" + (i+1) + ")");
                                     l = "Enabled=True";
                                     foundEnabled = true;
                                 }
@@ -208,7 +221,7 @@ namespace DOFSetupPBXFixup
                             if (ourPluginSectLineNo == -1)
                             {
                                 int n = maxPluginSectNo + 1;
-                                session.Log("DOF plugin section not found in INI file; adding it as #" + n);
+                                Log("DOF plugin section not found in INI file; adding it as #" + n);
                                 newIni.Add("[Plugin_" + n + "]");
                                 newIni.Add("Name=DirectOutput PinballX Plugin.dll");
                                 newIni.Add("Enabled=True");
@@ -217,7 +230,7 @@ namespace DOFSetupPBXFixup
                             // rewrite the file
                             try
                             {
-                                session.Log("Rewriting PBX INI file -> " + iniFile);
+                                Log("Rewriting PBX INI file -> " + iniFile);
                                 File.WriteAllLines(iniFile, newIni, Encoding.Unicode);
                             }
                             catch (Exception exc)
@@ -249,25 +262,30 @@ namespace DOFSetupPBXFixup
             else
             {
                 // note that it wasn't found
-                session.Log("No PinballX installer entry found in registry; skipping PinballX setup");
+                Log("No PinballX installer entry found in registry; skipping PinballX setup");
             }
 
-            // if there are any errors, show them
-            if (errors.Count != 0)
+            return Finish(log, dofPath, errors);
+        }
+
+        private static string Finish(StringBuilder log, string dofPath, List<string> errors)
+        {
+            try
             {
-				String msg = "";
-				String padding = "";
-				foreach (var err in errors)
-				{
-					msg += padding + err;
-					padding = "\r\n\r\n";
-				}
-
-                session.Message(InstallMessage.Error, new Record { FormatString = msg });
+                if (!string.IsNullOrWhiteSpace(dofPath))
+                {
+                    var logPath = Path.Combine(dofPath, "PinballXFixup.log");
+                    File.WriteAllText(logPath, log.ToString(), Encoding.UTF8);
+                }
+            }
+            catch
+            {
+                // ignore logging failures
             }
 
-            // done
-            return ActionResult.Success;
+            return errors.Count == 0
+                ? null
+                : string.Join("\r\n\r\n", errors);
         }
     }
 }
