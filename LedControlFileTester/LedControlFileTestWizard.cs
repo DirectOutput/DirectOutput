@@ -65,7 +65,7 @@ namespace LedControlFileTester
                 DirectOutput.Log.Filename = TempLogFile;
                 DirectOutput.Log.Init();
 
-                LedControlConfig L = new LedControlConfig(Filename, 1);
+                LedControlConfig L = new LedControlConfig(Filename, 1, string.Empty);
 
                 DirectOutput.Log.Finish();
 

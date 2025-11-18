@@ -81,6 +81,7 @@ namespace DirectOutput.LedControl.Loader
         /// Parses the ledcontrol.ini file.
         /// </summary>
         /// <param name="LedControlIniFile">The ledcontrol.ini FileInfo object.</param>
+        /// <param name="RomName">Specify a rom name at loading stage to ignore parsing of non matching lines</param>
         /// <param name="ThrowExceptions">if set to <c>true</c> [throw exceptions].</param>
         /// <exception cref="System.Exception">
         /// File {0} does not contain data.
@@ -91,7 +92,7 @@ namespace DirectOutput.LedControl.Loader
         /// or
         /// Section {0} of file {1} does not have the same number of columns in all lines.
         /// </exception>
-        private void ParseLedControlIni(FileInfo LedControlIniFile, bool ThrowExceptions = false)
+        private void ParseLedControlIni(FileInfo LedControlIniFile, string RomName, bool ThrowExceptions = false)
         {
             string[] ColorStartStrings = { "[Colors DOF]", "[Colors LedWiz]" };
             string[] OutStartStrings = { "[Config DOF]", "[Config outs]" };
@@ -277,7 +278,7 @@ namespace DirectOutput.LedControl.Loader
 
             ColorConfigurations.ParseLedControlData(ColorData, ThrowExceptions);
 
-            TableConfigurations.ParseLedcontrolData(OutData, ThrowExceptions);
+            TableConfigurations.ParseLedcontrolData(OutData, RomName, ThrowExceptions);
 
             //ResolveOutputNumbers();
             ResolveRGBColors();
@@ -443,6 +444,7 @@ namespace DirectOutput.LedControl.Loader
         /// </summary>
         /// <param name="LedControlIniFilename">The ledcontrol.ini filename.</param>
         /// <param name="LedWizNumber">The number of the LedWizEquivalent to be used.</param>
+        /// <param name="RomName">Specify a rom name at loading stage to ignore parsing of non matching lines</param>
         /// <param name="ThrowExceptions">if set to <c>true</c> [throw exceptions].</param>
         /// <exception cref="System.Exception">File {0} does not contain data.
         /// or
@@ -451,10 +453,10 @@ namespace DirectOutput.LedControl.Loader
         /// File {1} does not contain data in the {0} section.
         /// or
         /// Section {0} of file {1} does not have the same number of columns in all lines.</exception>
-        public LedControlConfig(string LedControlIniFilename, int LedWizNumber, bool ThrowExceptions = false)
+        public LedControlConfig(string LedControlIniFilename, int LedWizNumber, string RomName, bool ThrowExceptions = false)
             : this()
         {
-            ParseLedControlIni(new FileInfo(LedControlIniFilename), ThrowExceptions);
+            ParseLedControlIni(new FileInfo(LedControlIniFilename), RomName, ThrowExceptions);
             this.LedWizNumber = LedWizNumber;
         }
 
@@ -464,6 +466,7 @@ namespace DirectOutput.LedControl.Loader
         /// </summary>
         /// <param name="LedControlIniFile">The ledcontrol.ini FileInfo object.</param>
         /// <param name="LedWizNumber">The number of the LedWizEquivalent to be used.</param>
+        /// <param name="RomName">Specify a rom name at loading stage to ignore parsing of non matching lines</param>
         /// <param name="ThrowExceptions">if set to <c>true</c> [throw exceptions].</param>
         /// <exception cref="System.Exception">File {0} does not contain data.
         /// or
@@ -472,10 +475,10 @@ namespace DirectOutput.LedControl.Loader
         /// File {1} does not contain data in the {0} section.
         /// or
         /// Section {0} of file {1} does not have the same number of columns in all lines.</exception>
-        public LedControlConfig(FileInfo LedControlIniFile, int LedWizNumber, bool ThrowExceptions = false)
+        public LedControlConfig(FileInfo LedControlIniFile, int LedWizNumber, string RomName, bool ThrowExceptions = false)
             : this()
         {
-            ParseLedControlIni(LedControlIniFile, ThrowExceptions);
+            ParseLedControlIni(LedControlIniFile, RomName, ThrowExceptions);
             this.LedWizNumber = LedWizNumber;
         }
 
