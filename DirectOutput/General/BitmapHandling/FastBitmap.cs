@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using System.IO;
 
 namespace DirectOutput.General.BitmapHandling
 {
@@ -358,7 +359,25 @@ namespace DirectOutput.General.BitmapHandling
             GC.Collect();
         }
 
-
+        /// <summary>
+        /// Load the Fastbitmap using a Binary Reader.
+        /// <param name="Reader">The binary reader.</param>
+        /// </summary>
+        public void Load(BinaryReader Reader)
+        {
+            int W = Reader.ReadInt32();
+            int H = Reader.ReadInt32();
+            SetFrameSize(W, H);
+            PixelData[,] P = Pixels;
+            for (int y = 0; y < Height; y++) {
+                for (int x = 0; x < Width; x++) {
+                    P[x, y].Alpha = Reader.ReadByte();
+                    P[x, y].Red = Reader.ReadByte();
+                    P[x, y].Green = Reader.ReadByte();
+                    P[x, y].Blue = Reader.ReadByte();
+                }
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FastBitmap"/> class.
