@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 
@@ -119,7 +121,7 @@ namespace DirectOutput.General
         /// </summary>
         /// <param name="ReplaceValues">Dictionary containing key/value pairs used to replace placeholders in the form {PlaceHolder} in the pattern.</param>
         /// <returns>The list of files matching the value of the property Pattern or a empty list if no file matches the pattern.</returns>
-        public List<FileInfo> GetMatchingFiles(Dictionary<string, string> ReplaceValues = null)
+        public List<FileInfo> GetMatchingFiles(Dictionary<string, string> ReplaceValues = null, List<string> ExcludeExtensions = null)
         {
             if (Pattern.IsNullOrWhiteSpace()) return new List<FileInfo>();
 
@@ -131,11 +133,13 @@ namespace DirectOutput.General
 
                 DirectoryInfo FilesDirectory = new DirectoryInfo((Path.GetDirectoryName(P).IsNullOrWhiteSpace() ? "." : Path.GetDirectoryName(P)));
 
-                if (FilesDirectory.Exists)
-                {
-                    return FilesDirectory.GetFiles(Path.GetFileName(P)).ToList<FileInfo>();
-                }
-                else
+                if (FilesDirectory.Exists) {
+                    List<FileInfo> Files = FilesDirectory.GetFiles(Path.GetFileName(P)).ToList<FileInfo>();
+                    Files.RemoveAll(FI => ExcludeExtensions != null &&
+                                    ExcludeExtensions.Contains(FI.Extension, StringComparer.InvariantCultureIgnoreCase)
+                                    );
+                    return Files;
+                } else
                 {
                     return new List<FileInfo>();
                 }
@@ -151,9 +155,9 @@ namespace DirectOutput.General
         /// </summary>
         /// <param name="ReplaceValues">Dictionary containing key/value pairs used to replace placeholders in the form {PlaceHolder} in the pattern.</param>
         /// <returns>The first file matching the value of the Pattern property or null if no file matches the pattern.</returns>
-        public FileInfo GetFirstMatchingFile(Dictionary<string, string> ReplaceValues = null)
+        public FileInfo GetFirstMatchingFile(Dictionary<string, string> ReplaceValues = null, List<string> ExcludeExtensions = null)
         {
-            List<FileInfo> L = GetMatchingFiles(ReplaceValues);
+            List<FileInfo> L = GetMatchingFiles(ReplaceValues, ExcludeExtensions);
             if (L.Count > 0)
             {
                 return L[0];
