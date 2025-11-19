@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DirectOutput.LedControl.Loader
 {
@@ -88,7 +89,26 @@ namespace DirectOutput.LedControl.Loader
             }
             return false;
         }
-    
-    
+
+        /// <summary>
+        /// Returns the best matching config for the provided romname
+        /// </summary>
+        /// <param name="RomName">Name of the rom.</param>
+        /// <returns>
+        ///   The TableConfig if there is one matching, otherwise, <c>null</c>.
+        /// </returns>
+        internal TableConfig GetBestMatchingConfig(string RomName)
+        {
+            TableConfig bestMatchingConfig = this.FirstOrDefault(TC=>string.Compare(TC.ShortRomName, RomName, StringComparison.InvariantCultureIgnoreCase) == 0);
+            if (bestMatchingConfig == null) 
+            {
+                bestMatchingConfig = this.FirstOrDefault(TC => RomName.ToUpper().StartsWith("{0}_".Build(TC.ShortRomName.ToUpper())));
+
+                if (bestMatchingConfig == null) {
+                    bestMatchingConfig = this.FirstOrDefault(TC => RomName.StartsWith(TC.ShortRomName));
+                }
+            }
+            return bestMatchingConfig;
+        }
     }
 }

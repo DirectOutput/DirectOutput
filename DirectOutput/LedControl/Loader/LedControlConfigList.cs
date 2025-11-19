@@ -25,14 +25,10 @@ namespace DirectOutput.LedControl.Loader
 
             foreach (LedControlConfig LCC in this)
             {
-
-                foreach (TableConfig TC in LCC.TableConfigurations)
-                {
-                    if (TC.IsRomNameMatching(RomName))
-                    {
-                        D.Add(LCC.LedWizNumber, TC);
-                        break;
-                    }
+                TableConfig TC = LCC.TableConfigurations.GetBestMatchingConfig(RomName);
+                if (TC != null) {
+                    D.Add(LCC.LedWizNumber, TC);
+                    break;
                 }
             }
 
