@@ -28,7 +28,6 @@ namespace DirectOutput.LedControl.Loader
                 TableConfig TC = LCC.TableConfigurations.GetBestMatchingConfig(RomName);
                 if (TC != null) {
                     D.Add(LCC.LedWizNumber, TC);
-                    break;
                 }
             }
 
