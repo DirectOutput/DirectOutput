@@ -102,10 +102,10 @@ namespace DirectOutput.LedControl.Loader
             TableConfig bestMatchingConfig = this.FirstOrDefault(TC=>string.Compare(TC.ShortRomName, RomName, StringComparison.InvariantCultureIgnoreCase) == 0);
             if (bestMatchingConfig == null) 
             {
-                bestMatchingConfig = this.FirstOrDefault(TC => RomName.ToUpper().StartsWith("{0}_".Build(TC.ShortRomName.ToUpper())));
+                bestMatchingConfig = this.FirstOrDefault(TC => RomName.StartsWith("{0}_".Build(TC.ShortRomName), StringComparison.InvariantCultureIgnoreCase));
 
                 if (bestMatchingConfig == null) {
-                    bestMatchingConfig = this.FirstOrDefault(TC => RomName.StartsWith(TC.ShortRomName));
+                    bestMatchingConfig = this.FirstOrDefault(TC => RomName.StartsWith(TC.ShortRomName, StringComparison.InvariantCultureIgnoreCase));
                 }
             }
             return bestMatchingConfig;

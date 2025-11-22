@@ -40,8 +40,8 @@ namespace DirectOutput.LedControl.Loader
             return (
                 RomName.IsNullOrEmpty() ||
                 string.Compare(RomName, ShortRomName, StringComparison.InvariantCultureIgnoreCase) == 0 ||
-                RomName.ToUpper().StartsWith(ShortRomName.ToUpper()) ||
-                RomName.ToUpper().StartsWith("{0}_".Build(ShortRomName.ToUpper()))
+                RomName.StartsWith(ShortRomName, StringComparison.InvariantCultureIgnoreCase) ||
+                RomName.StartsWith("{0}_".Build(ShortRomName), StringComparison.InvariantCultureIgnoreCase)
                 );
         }
 
