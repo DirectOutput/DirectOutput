@@ -51,7 +51,7 @@ namespace DirectOutput.General.BitmapHandling
                     }
                 }
             } catch (Exception E) {
-                throw new Exception($"Could not load cached image file {CachedImageFilePath} to the FastBitmapList.\n{E}");
+                throw new Exception($"Could not load cached image file {CachedImageFilePath} to the FastBitmapList.\nYou can delete it so it can ge generated again.\n{E}");
             }
 
             return false;
