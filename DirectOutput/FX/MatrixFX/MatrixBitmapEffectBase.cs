@@ -159,6 +159,7 @@ namespace DirectOutput.FX.MatrixFX
 
         private bool InitOK = false;
 
+        private readonly List<string> ExtensionExclusion = new List<string>() { FastImage.RawImageExtension };
 
         /// <summary>
         /// Initializes the effect.
@@ -174,7 +175,7 @@ namespace DirectOutput.FX.MatrixFX
             //TODO: Insert replace values for file pattern
             if (BitmapFilePattern.IsValid)
             {
-                FileInfo FI = BitmapFilePattern.GetFirstMatchingFile(Table.Pinball.GlobalConfig.GetReplaceValuesDictionary());
+                FileInfo FI = BitmapFilePattern.GetFirstMatchingFile(Table.Pinball.GlobalConfig.GetReplaceValuesDictionary(), ExtensionExclusion);
                 if (FI!=null && FI.Exists)
                 {
                     FastImage BM;

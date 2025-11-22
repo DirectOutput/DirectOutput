@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DirectOutput.LedControl.Loader
 {
@@ -12,14 +13,15 @@ namespace DirectOutput.LedControl.Loader
         /// Parses several lines of LedControlData.
         /// </summary>
         /// <param name="TableConfigDataFromLedControlIni">The table config data from led control ini.</param>
+        /// <param name="RomName">Specify a rom name at loading stage to ignore parsing of non matching lines</param>
         /// <param name="ThrowExceptions">if set to <c>true</c> [throw exceptions].</param>
-        public void ParseLedcontrolData(IEnumerable<string> TableConfigDataFromLedControlIni, bool ThrowExceptions = true)
+        public void ParseLedcontrolData(IEnumerable<string> TableConfigDataFromLedControlIni, string RomName, bool ThrowExceptions = true)
         {
             foreach (string Data in TableConfigDataFromLedControlIni)
             {
                 if (!Data.IsNullOrWhiteSpace())
                 {
-                    ParseLedcontrolData(Data, ThrowExceptions);
+                    ParseLedcontrolData(Data, RomName, ThrowExceptions);
                 }
             }
         }
@@ -29,18 +31,19 @@ namespace DirectOutput.LedControl.Loader
         /// Parses a line of LedControl data contaning the config for a table.
         /// </summary>
         /// <param name="TableConfigDataLineFromLedControlIni">The table config data line from led control ini.</param>
+        /// <param name="RomName">Specify a rom name at loading stage to ignore parsing of non matching lines</param>
         /// <param name="ThrowExceptions">if set to <c>true</c> [throw exceptions].</param>
         /// <exception cref="System.Exception">
         /// Could not load table config from data line: {0}
         /// or
         /// Table with ShortRomName {0} has already been loaded.
         /// </exception>
-        public void ParseLedcontrolData(string TableConfigDataLineFromLedControlIni, bool ThrowExceptions = true)
+        public void ParseLedcontrolData(string TableConfigDataLineFromLedControlIni, string RomName, bool ThrowExceptions = true)
         {
             TableConfig TC=null;
             try
             {
-                TC = new TableConfig(TableConfigDataLineFromLedControlIni, ThrowExceptions);
+                TC = new TableConfig(TableConfigDataLineFromLedControlIni, RomName, ThrowExceptions);
 
             }
             catch (Exception E)
@@ -52,7 +55,7 @@ namespace DirectOutput.LedControl.Loader
                 }
                 
             };
-            if (TC != null)
+            if (TC != null && !TC.ShortRomName.IsNullOrEmpty())
             {
                 if (Contains(TC.ShortRomName))
                 {
@@ -86,7 +89,26 @@ namespace DirectOutput.LedControl.Loader
             }
             return false;
         }
-    
-    
+
+        /// <summary>
+        /// Returns the best matching config for the provided romname
+        /// </summary>
+        /// <param name="RomName">Name of the rom.</param>
+        /// <returns>
+        ///   The TableConfig if there is one matching, otherwise, <c>null</c>.
+        /// </returns>
+        internal TableConfig GetBestMatchingConfig(string RomName)
+        {
+            TableConfig bestMatchingConfig = this.FirstOrDefault(TC=>string.Compare(TC.ShortRomName, RomName, StringComparison.InvariantCultureIgnoreCase) == 0);
+            if (bestMatchingConfig == null) 
+            {
+                bestMatchingConfig = this.FirstOrDefault(TC => RomName.StartsWith("{0}_".Build(TC.ShortRomName), StringComparison.InvariantCultureIgnoreCase));
+
+                if (bestMatchingConfig == null) {
+                    bestMatchingConfig = this.FirstOrDefault(TC => RomName.StartsWith(TC.ShortRomName, StringComparison.InvariantCultureIgnoreCase));
+                }
+            }
+            return bestMatchingConfig;
+        }
     }
 }

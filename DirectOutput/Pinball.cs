@@ -274,7 +274,7 @@ namespace DirectOutput
                         LedControlConfigList L = new LedControlConfigList();
                         if (LedControlIniFiles.Count > 0)
                         {
-                            L.LoadLedControlFiles(LedControlIniFiles, false);
+                            L.LoadLedControlFiles(LedControlIniFiles, RomName, false);
                             Log.Write("{0} directoutputconfig.ini or ledcontrol.ini files loaded.".Build(LedControlIniFiles.Count));
                         }
                         else

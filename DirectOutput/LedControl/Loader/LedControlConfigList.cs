@@ -23,52 +23,14 @@ namespace DirectOutput.LedControl.Loader
         {
             Dictionary<int, TableConfig> D = new Dictionary<int, TableConfig>();
 
-            bool FoundMatch = false;
             foreach (LedControlConfig LCC in this)
             {
-
-                foreach (TableConfig TC in LCC.TableConfigurations)
-                {
-                    if (RomName.ToUpper() == TC.ShortRomName.ToUpper())
-                    {
-                        D.Add(LCC.LedWizNumber, TC);
-                        FoundMatch = true;
-                        break;
-                    }
+                TableConfig TC = LCC.TableConfigurations.GetBestMatchingConfig(RomName);
+                if (TC != null) {
+                    D.Add(LCC.LedWizNumber, TC);
                 }
             }
 
-            if (FoundMatch) return D;
-
-            foreach (LedControlConfig LCC in this)
-            {
-
-                foreach (TableConfig TC in LCC.TableConfigurations)
-                {
-                    if (RomName.ToUpper().StartsWith("{0}_".Build(TC.ShortRomName.ToUpper())))
-                    {
-                        D.Add(LCC.LedWizNumber, TC);
-                        FoundMatch = true;
-                        break;
-                    }
-                }
-            }
-
-            if (FoundMatch) return D;
-
-            foreach (LedControlConfig LCC in this)
-            {
-
-                foreach (TableConfig TC in LCC.TableConfigurations)
-                {
-                    if (RomName.StartsWith(TC.ShortRomName))
-                    {
-                        D.Add(LCC.LedWizNumber, TC);
-
-                        break;
-                    }
-                }
-            }
             return D;
         }
 
@@ -91,12 +53,13 @@ namespace DirectOutput.LedControl.Loader
         /// Loads a list of ledcontrol.ini files.
         /// </summary>
         /// <param name="LedControlFilenames">The list of ledcontrol.ini files</param>
+        /// <param name="RomName">Specify a rom name at loading stage to ignore parsing of non matching lines</param>
         /// <param name="ThrowExceptions">if set to <c>true</c> throw exceptions on errors.</param>
-        public void LoadLedControlFiles(IList<string> LedControlFilenames, bool ThrowExceptions = false)
+        public void LoadLedControlFiles(IList<string> LedControlFilenames, string RomName, bool ThrowExceptions = false)
         {
             for (int i = 0; i < LedControlFilenames.Count; i++)
             {
-                LoadLedControlFile(LedControlFilenames[i], i + 1, ThrowExceptions);
+                LoadLedControlFile(LedControlFilenames[i], i + 1, RomName, ThrowExceptions);
             }
         }
 
@@ -104,12 +67,13 @@ namespace DirectOutput.LedControl.Loader
         /// Loads a list of ledcontrol.ini files.
         /// </summary>
         /// <param name="LedControlIniFiles">The dictionary of ini files to be loaded.</param>
+        /// <param name="RomName">Specify a rom name at loading stage to ignore parsing of non matching lines</param>
         /// <param name="ThrowExceptions">if set to <c>true</c> throw exceptions on errors.</param>
-        public void LoadLedControlFiles(Dictionary<int, FileInfo> LedControlIniFiles, bool ThrowExceptions = false)
+        public void LoadLedControlFiles(Dictionary<int, FileInfo> LedControlIniFiles, string RomName, bool ThrowExceptions = false)
         {
             foreach (KeyValuePair<int,FileInfo> F in LedControlIniFiles)
             {
-                LoadLedControlFile(F.Value.FullName, F.Key, ThrowExceptions);
+                LoadLedControlFile(F.Value.FullName, F.Key, RomName, ThrowExceptions);
             }
         }
 
@@ -119,12 +83,13 @@ namespace DirectOutput.LedControl.Loader
         /// </summary>
         /// <param name="LedControlFilename">The ledcontrol.ini filename.</param>
         /// <param name="LedWizNumber">The number of the LedWizEquivalent to be used for the output of the configuration in the file.</param>
+        /// <param name="RomName">Specify a rom name at loading stage to ignore parsing of non matching lines</param>
         /// <param name="ThrowExceptions">if set to <c>true</c> throws exceptions on errors.</param>
-        public void LoadLedControlFile(string LedControlFilename, int LedWizNumber, bool ThrowExceptions = false)
+        public void LoadLedControlFile(string LedControlFilename, int LedWizNumber, string RomName, bool ThrowExceptions = false)
         {
             Log.Write("Loading LedControl file {0}".Build(LedControlFilename));
 
-            LedControlConfig LCC = new LedControlConfig(LedControlFilename, LedWizNumber, ThrowExceptions);
+            LedControlConfig LCC = new LedControlConfig(LedControlFilename, LedWizNumber, RomName, ThrowExceptions);
             Add(LCC);
         }
 
@@ -137,11 +102,12 @@ namespace DirectOutput.LedControl.Loader
         /// Initializes a new instance of the <see cref="LedControlConfigList"/> class.
         /// </summary>
         /// <param name="LedControlFilenames">The filenames of the ledcontrol.ini files to be loaded.</param>
+        /// <param name="RomName">Specify a rom name at loading stage to ignore parsing of non matching lines</param>
         /// <param name="ThrowExceptions">if set to <c>true</c> exceptions on loading the files are shown.</param>
-        public LedControlConfigList(IList<string> LedControlFilenames, bool ThrowExceptions = false)
+        public LedControlConfigList(IList<string> LedControlFilenames, string RomName, bool ThrowExceptions = false)
             : this()
         {
-            LoadLedControlFiles(LedControlFilenames, ThrowExceptions);
+            LoadLedControlFiles(LedControlFilenames, RomName, ThrowExceptions);
         }
 
 
