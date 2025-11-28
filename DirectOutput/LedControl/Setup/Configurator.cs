@@ -59,6 +59,7 @@ namespace DirectOutput.LedControl.Setup
             foreach (KeyValuePair<int, TableConfig> KV in TableConfigDict)
             {
                 int LedWizNr = KV.Key;
+                Log.Write($"Setup table for LedWiz #{LedWizNr}");
                 if (ToyAssignments.ContainsKey(LedWizNr))
                 {
                     TableConfig TC = KV.Value;

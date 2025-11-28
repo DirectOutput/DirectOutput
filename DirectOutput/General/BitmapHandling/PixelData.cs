@@ -27,6 +27,15 @@ namespace DirectOutput.General.BitmapHandling
             return new RGBAColor(Red, Green, Blue, Alpha);
         }
 
+        internal void Colorize(RGBAColor ActiveColor, RGBAColor InactiveColor)
+        {
+            double Brightness = ((double)(Red + Green + Blue) / 3).Limit(0, 255);
+
+            Red = (byte)(InactiveColor.Red + (int)((float)(ActiveColor.Red - InactiveColor.Red) * Brightness / 255)).Limit(0, 255);
+            Green = (byte)(InactiveColor.Green + (int)((float)(ActiveColor.Green - InactiveColor.Green) * Brightness / 255)).Limit(0, 255);
+            Blue = (byte)(InactiveColor.Blue + (int)((float)(ActiveColor.Blue - InactiveColor.Blue) * Brightness / 255)).Limit(0, 255);
+            Alpha = (byte)(InactiveColor.Alpha + (int)((float)(ActiveColor.Alpha - InactiveColor.Alpha) * Brightness / 255)).Limit(0, 255);
+        }
 
         public PixelData(byte Red, byte Green, byte Blue, byte Alpha)
         {

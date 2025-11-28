@@ -308,6 +308,7 @@ namespace DirectOutput.FX.MatrixFX
 
         private bool InitOK = false;
 
+        private readonly List<string> ExtensionExclusion = new List<string>() { FastImage.RawImageExtension };
 
         /// <summary>
         /// Initializes the effect.
@@ -324,7 +325,7 @@ namespace DirectOutput.FX.MatrixFX
             if (BitmapFilePattern.IsValid)
             {
 
-                string Filename = BitmapFilePattern.GetFirstMatchingFile(Table.Pinball.GlobalConfig.GetReplaceValuesDictionary())?.FullName ?? string.Empty;
+                string Filename = BitmapFilePattern.GetFirstMatchingFile(Table.Pinball.GlobalConfig.GetReplaceValuesDictionary(), ExtensionExclusion)?.FullName ?? string.Empty;
                 if (!Filename.IsNullOrWhiteSpace())
                 {
                     FastImage BM;
@@ -355,7 +356,7 @@ namespace DirectOutput.FX.MatrixFX
                                 for (int s = 0; s < StepCount; s++)
                                 {
                                     
-                                    Pixels[s] = BM.Frames[BitmapFrameNumber + s].GetClip(AreaWidth, AreaHeight, BitmapLeft, BitmapTop, BitmapWidth, BitmapHeight, DataExtractMode).Pixels;
+                                    Pixels[s] = BM.Frames[BitmapFrameNumber + s].GetClip(AreaWidth, AreaHeight, BitmapLeft, BitmapTop, BitmapWidth, BitmapHeight, DataExtractMode, UseCache: Table.Pinball.GlobalConfig.FastInitialization).Pixels;
                                 }
 
 
@@ -369,7 +370,7 @@ namespace DirectOutput.FX.MatrixFX
 
                                 for (int s = 0; s < StepCount; s++)
                                 {
-                                    Pixels[s] = BM.Frames[BitmapFrameNumber].GetClip(AreaWidth, AreaHeight, BitmapLeft+s*AnimationStepSize, BitmapTop, BitmapWidth, BitmapHeight, DataExtractMode).Pixels;
+                                    Pixels[s] = BM.Frames[BitmapFrameNumber].GetClip(AreaWidth, AreaHeight, BitmapLeft+s*AnimationStepSize, BitmapTop, BitmapWidth, BitmapHeight, DataExtractMode, UseCache: Table.Pinball.GlobalConfig.FastInitialization).Pixels;
                                 }
 
                                 break;
@@ -379,7 +380,7 @@ namespace DirectOutput.FX.MatrixFX
 
                                 for (int s = 0; s < StepCount; s++)
                                 {
-                                    Pixels[s] = BM.Frames[BitmapFrameNumber].GetClip(AreaWidth, AreaHeight, BitmapLeft, BitmapTop + s * AnimationStepSize, BitmapWidth, BitmapHeight, DataExtractMode).Pixels;
+                                    Pixels[s] = BM.Frames[BitmapFrameNumber].GetClip(AreaWidth, AreaHeight, BitmapLeft, BitmapTop + s * AnimationStepSize, BitmapWidth, BitmapHeight, DataExtractMode, UseCache: Table.Pinball.GlobalConfig.FastInitialization).Pixels;
                                 }
 
                                 break;
@@ -388,7 +389,7 @@ namespace DirectOutput.FX.MatrixFX
                                 Pixels = new PixelData[StepCount][,];
                                 for (int s = 0; s < StepCount; s++)
                                 {
-                                    Pixels[s] = BM.Frames[BitmapFrameNumber].GetClip(AreaWidth, AreaHeight, BitmapLeft, BitmapTop, BitmapWidth, BitmapHeight, DataExtractMode).Pixels;
+                                    Pixels[s] = BM.Frames[BitmapFrameNumber].GetClip(AreaWidth, AreaHeight, BitmapLeft, BitmapTop, BitmapWidth, BitmapHeight, DataExtractMode, UseCache: Table.Pinball.GlobalConfig.FastInitialization).Pixels;
                                 }
                                 break;
                         }

@@ -236,6 +236,7 @@ namespace DirectOutput.Table
         public void Init(Pinball Pinball)
         {
             this.Pinball = Pinball;
+            Bitmaps.UseCache = this.Pinball.GlobalConfig.FastInitialization;
 
             FileInfo ShapeDefinitionFile = Pinball.GlobalConfig.GetShapeDefinitionFile();
             if (ShapeDefinitionFile != null && ShapeDefinitionFile.Exists)

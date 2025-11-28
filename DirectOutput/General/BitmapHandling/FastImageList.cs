@@ -23,7 +23,7 @@ namespace DirectOutput.General.BitmapHandling
                     {
                         try
                         {
-                            FastImage F = new FastImage(Name);
+                            FastImage F = new FastImage(Name, UseCache);
                             Add(F);
                             return F;
                         }
@@ -48,11 +48,12 @@ namespace DirectOutput.General.BitmapHandling
             set { _DontAddIfMissing = value; }
         }
 
+        private bool _UseCache = false;
 
-
-
-
-
-
+        public Boolean UseCache
+        {
+            get { return _UseCache; }
+            set { _UseCache = value; }
+        }
     }
 }

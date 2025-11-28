@@ -32,8 +32,6 @@ namespace DirectOutput.General.Generic
                     _Name = value;
                     AfterNameChange(OldName, value);
                     OnAfterNameChanged(OldName, value);
-
-            
                 }
             }
         }

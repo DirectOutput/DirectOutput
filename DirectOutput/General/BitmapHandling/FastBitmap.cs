@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using System.IO;
 
 namespace DirectOutput.General.BitmapHandling
 {
@@ -57,6 +58,42 @@ namespace DirectOutput.General.BitmapHandling
             //return new PixelData();
         }
 
+        private struct ClipSetting : IEquatable<ClipSetting>
+        {
+            public int DestWidth;
+            public int DestHeight;
+            public int SrcLeft;
+            public int SrcTop;
+            public int SrcWidth;
+            public int SrcHeight;
+            public FastBitmapDataExtractModeEnum ExtractMode;
+
+            public ClipSetting(int dstWidth, int dstHeight, int srcLeft, int srcTop, int srcWidth, int srcHeight, FastBitmapDataExtractModeEnum extractMode)
+            {
+                DestWidth = dstWidth;
+                DestHeight = dstHeight;
+                SrcLeft = srcLeft;
+                SrcTop = srcTop;
+                SrcWidth = srcWidth;
+                SrcHeight = srcHeight;
+                ExtractMode = extractMode;
+            }
+
+            public bool Equals(ClipSetting other)
+            {
+                return (
+                    this.DestWidth == other.DestWidth && 
+                    this.DestHeight == other.DestHeight &&
+                    this.SrcLeft == other.SrcLeft &&
+                    this.SrcTop == other.SrcTop &&
+                    this.SrcWidth == other.SrcWidth &&
+                    this.SrcHeight == other.SrcHeight &&
+                    this.ExtractMode == other.ExtractMode
+                );
+            }
+        }
+
+        private Dictionary<ClipSetting, FastBitmap> cachedClips = new Dictionary<ClipSetting, FastBitmap>();
 
 
         /// <summary>
@@ -69,10 +106,10 @@ namespace DirectOutput.General.BitmapHandling
         /// <param name="SourceWidth">Width of the source area.</param>
         /// <param name="SourceHeight">Height of the source area.</param>
         /// <param name="DataExtractMode">The data extract mode enum.</param>
+        /// <param name="UseCache">Keep extracted clips in local cache for future identical requests.</param>
         /// <returns>FastBitmap object with a specified size representing a defineable section of the current object</returns>
-        public FastBitmap GetClip(int ResultWidth, int ResultHeight, int SourceLeft = 0, int SourceTop = 0, int SourceWidth = -1, int SourceHeight = -1, FastBitmapDataExtractModeEnum DataExtractMode = FastBitmapDataExtractModeEnum.SinglePixelCenter)
+        public FastBitmap GetClip(int ResultWidth, int ResultHeight, int SourceLeft = 0, int SourceTop = 0, int SourceWidth = -1, int SourceHeight = -1, FastBitmapDataExtractModeEnum DataExtractMode = FastBitmapDataExtractModeEnum.SinglePixelCenter, bool UseCache = false)
         {
-
             SourceLeft = SourceLeft.Limit(0, Width - 1);
             SourceTop = SourceTop.Limit(0, Height - 1);
             SourceWidth = (SourceWidth < 0 ? Width - SourceLeft : SourceWidth);
@@ -80,194 +117,184 @@ namespace DirectOutput.General.BitmapHandling
             ResultWidth = ResultWidth.Limit(0, int.MaxValue);
             ResultHeight = ResultHeight.Limit(0, int.MaxValue);
 
-            FastBitmap F = new FastBitmap();
-            F.SetFrameSize(ResultWidth, ResultHeight);
-            PixelData[,] D = F.Pixels;
+            ClipSetting clipSetting = new ClipSetting(ResultWidth, ResultHeight, SourceLeft, SourceTop, SourceWidth, SourceHeight, DataExtractMode);
+            FastBitmap cachedClip = UseCache ? cachedClips.FirstOrDefault(KV => KV.Key.Equals(clipSetting)).Value : null;
+            if (cachedClip != null) {
+                return new FastBitmap(cachedClip);
+            } else {
+                FastBitmap F = new FastBitmap();
+                F.SetFrameSize(ResultWidth, ResultHeight);
+                PixelData[,] D = F.Pixels;
 
-            switch (DataExtractMode)
-            {
-                case FastBitmapDataExtractModeEnum.BlendPixels:
+                switch (DataExtractMode) {
+                    case FastBitmapDataExtractModeEnum.BlendPixels:
 
-                    float Red = 0;
-                    float Green = 0;
-                    float Blue = 0;
-                    float Alpha = 0;
-                    float Weight = 0;
+                        float Red = 0;
+                        float Green = 0;
+                        float Blue = 0;
+                        float Alpha = 0;
+                        float Weight = 0;
 
-                    float PixelSourceWidth = (float)SourceWidth / ResultWidth;
-                    float PixelSourceHeight = (float)SourceHeight / ResultHeight;
-                    float PixelSourceCount = PixelSourceWidth * PixelSourceHeight;
+                        float PixelSourceWidth = (float)SourceWidth / ResultWidth;
+                        float PixelSourceHeight = (float)SourceHeight / ResultHeight;
+                        float PixelSourceCount = PixelSourceWidth * PixelSourceHeight;
 
 
-                    for (int y = 0; y < ResultHeight; y++)
-                    {
-                        float PixelSourceTop = SourceTop+ y * PixelSourceHeight;
-                        float PixelSourceBottom = PixelSourceTop + PixelSourceHeight;
-    
+                        for (int y = 0; y < ResultHeight; y++) {
+                            float PixelSourceTop = SourceTop + y * PixelSourceHeight;
+                            float PixelSourceBottom = PixelSourceTop + PixelSourceHeight;
 
-                        for (int x = 0; x < ResultWidth; x++)
-                        {
-                            int PSR = 0;
-                            int PSB = 0;
-                            float PixelSourceLeft = SourceLeft+x * PixelSourceWidth;
-                            float PixelSourceRight = PixelSourceLeft + PixelSourceWidth;
-                            Red = 0;
-                            Green = 0;
-                            Blue = 0;
-                            Alpha = 0;
 
-                            if (!PixelSourceTop.IsIntegral())
-                            {
-                                //Upper left corner
-                                if (!PixelSourceLeft.IsIntegral())
-                                {
-                                    PixelData PD = GetPixel((int)PixelSourceLeft.Floor(), (int)PixelSourceTop.Floor());
-                                    Weight = (PixelSourceTop.Ceiling() - PixelSourceTop) * (PixelSourceLeft.Ceiling() - PixelSourceLeft);
-                                    Red += PD.Red * Weight;
-                                    Green += PD.Green * Weight;
-                                    Blue += PD.Blue * Weight;
-                                    Alpha += PD.Alpha * Weight;
+                            for (int x = 0; x < ResultWidth; x++) {
+                                int PSR = 0;
+                                int PSB = 0;
+                                float PixelSourceLeft = SourceLeft + x * PixelSourceWidth;
+                                float PixelSourceRight = PixelSourceLeft + PixelSourceWidth;
+                                Red = 0;
+                                Green = 0;
+                                Blue = 0;
+                                Alpha = 0;
+
+                                if (!PixelSourceTop.IsIntegral()) {
+                                    //Upper left corner
+                                    if (!PixelSourceLeft.IsIntegral()) {
+                                        PixelData PD = GetPixel((int)PixelSourceLeft.Floor(), (int)PixelSourceTop.Floor());
+                                        Weight = (PixelSourceTop.Ceiling() - PixelSourceTop) * (PixelSourceLeft.Ceiling() - PixelSourceLeft);
+                                        Red += PD.Red * Weight;
+                                        Green += PD.Green * Weight;
+                                        Blue += PD.Blue * Weight;
+                                        Alpha += PD.Alpha * Weight;
+                                    }
+
+                                    //Upper edge
+                                    PSR = (int)PixelSourceRight.Floor();
+                                    Weight = (PixelSourceTop.Ceiling() - PixelSourceTop);
+                                    for (int xs = (int)PixelSourceLeft.Ceiling(); xs < PSR; xs++) {
+                                        PixelData PD = GetPixel(xs, (int)PixelSourceTop.Floor());
+                                        Red += PD.Red * Weight;
+                                        Green += PD.Green * Weight;
+                                        Blue += PD.Blue * Weight;
+                                        Alpha += PD.Alpha * Weight;
+                                    }
+
+                                    //Upper right corner
+                                    if (!PixelSourceRight.IsIntegral()) {
+                                        Weight = (PixelSourceTop.Ceiling() - PixelSourceTop) * (PixelSourceRight - PixelSourceRight.Floor());
+                                        PixelData PD = GetPixel((int)PixelSourceRight.Floor(), (int)PixelSourceTop.Floor());
+                                        Red += PD.Red * Weight;
+                                        Green += PD.Green * Weight;
+                                        Blue += PD.Blue * Weight;
+                                        Alpha += PD.Alpha * Weight;
+                                    }
                                 }
 
-                                //Upper edge
-                                PSR = (int)PixelSourceRight.Floor();
-                                Weight = (PixelSourceTop.Ceiling() - PixelSourceTop);
-                                for (int xs = (int)PixelSourceLeft.Ceiling(); xs < PSR; xs++)
-                                {
-                                    PixelData PD = GetPixel(xs, (int)PixelSourceTop.Floor());
-                                    Red += PD.Red * Weight;
-                                    Green += PD.Green * Weight;
-                                    Blue += PD.Blue * Weight;
-                                    Alpha += PD.Alpha * Weight;
-                                }
-
-                                //Upper right corner
-                                if (!PixelSourceRight.IsIntegral())
-                                {
-                                    Weight = (PixelSourceTop.Ceiling() - PixelSourceTop) * (PixelSourceRight - PixelSourceRight.Floor());
-                                    PixelData PD = GetPixel((int)PixelSourceRight.Floor(), (int)PixelSourceTop.Floor());
-                                    Red += PD.Red * Weight;
-                                    Green += PD.Green * Weight;
-                                    Blue += PD.Blue * Weight;
-                                    Alpha += PD.Alpha * Weight;
-                                }
-                            }
-
-                            PSB = (int)PixelSourceBottom.Floor();
-                            PSR = (int)PixelSourceRight.Floor();
-                            for (int ys = (int)PixelSourceTop.Ceiling(); ys < PSB; ys++)
-                            {
-                                //Left edge
-                                if (!PixelSourceLeft.IsIntegral())
-                                {
-                                    PixelData PD = GetPixel((int)PixelSourceLeft.Floor(), ys);
-                                    Weight = (PixelSourceLeft.Ceiling() - PixelSourceLeft);
-                                    Red += PD.Red * Weight;
-                                    Green += PD.Green * Weight;
-                                    Blue += PD.Blue * Weight;
-                                    Alpha += PD.Alpha * Weight;
-                                }
-
-                                //full pixels
-                                for (int xs = (int)PixelSourceLeft.Ceiling(); xs < PSR; xs++)
-                                {
-                                    PixelData PD = GetPixel(xs, ys);
-                                    Red += PD.Red;
-                                    Green += PD.Green;
-                                    Blue += PD.Blue;
-                                    Alpha += PD.Alpha;
-                                }
-
-                                //Right edge
-                                if (!PixelSourceRight.IsIntegral())
-                                {
-                                    Weight = (PixelSourceRight - PSR);
-                                    PixelData PD = GetPixel(PSR, ys);
-                                    Red += PD.Red * Weight;
-                                    Green += PD.Green * Weight;
-                                    Blue += PD.Blue * Weight;
-                                    Alpha += PD.Alpha * Weight;
-                                }
-                            }
-
-
-                            if (!PixelSourceBottom.IsIntegral())
-                            {
                                 PSB = (int)PixelSourceBottom.Floor();
                                 PSR = (int)PixelSourceRight.Floor();
+                                for (int ys = (int)PixelSourceTop.Ceiling(); ys < PSB; ys++) {
+                                    //Left edge
+                                    if (!PixelSourceLeft.IsIntegral()) {
+                                        PixelData PD = GetPixel((int)PixelSourceLeft.Floor(), ys);
+                                        Weight = (PixelSourceLeft.Ceiling() - PixelSourceLeft);
+                                        Red += PD.Red * Weight;
+                                        Green += PD.Green * Weight;
+                                        Blue += PD.Blue * Weight;
+                                        Alpha += PD.Alpha * Weight;
+                                    }
 
-                                //Lower left corner
-                                if (!PixelSourceLeft.IsIntegral())
-                                {
-                                    PixelData PD = GetPixel((int)PixelSourceLeft.Floor(), PSB);
-                                    Weight = (PixelSourceBottom - PSB) * (PixelSourceLeft.Ceiling() - PixelSourceLeft);
-                                    Red += PD.Red * Weight;
-                                    Green += PD.Green * Weight;
-                                    Blue += PD.Blue * Weight;
-                                    Alpha += PD.Alpha * Weight;
+                                    //full pixels
+                                    for (int xs = (int)PixelSourceLeft.Ceiling(); xs < PSR; xs++) {
+                                        PixelData PD = GetPixel(xs, ys);
+                                        Red += PD.Red;
+                                        Green += PD.Green;
+                                        Blue += PD.Blue;
+                                        Alpha += PD.Alpha;
+                                    }
+
+                                    //Right edge
+                                    if (!PixelSourceRight.IsIntegral()) {
+                                        Weight = (PixelSourceRight - PSR);
+                                        PixelData PD = GetPixel(PSR, ys);
+                                        Red += PD.Red * Weight;
+                                        Green += PD.Green * Weight;
+                                        Blue += PD.Blue * Weight;
+                                        Alpha += PD.Alpha * Weight;
+                                    }
                                 }
 
-                                //Lower edge
-                      
 
-                                Weight = (PixelSourceBottom - PSB);
-                                for (int xs = (int)PixelSourceLeft.Ceiling(); xs < PSR; xs++)
-                                {
-                                    PixelData PD = GetPixel(xs, PSB);
-                                    Red += PD.Red * Weight;
-                                    Green += PD.Green * Weight;
-                                    Blue += PD.Blue * Weight;
-                                    Alpha += PD.Alpha * Weight;
-                                }
+                                if (!PixelSourceBottom.IsIntegral()) {
+                                    PSB = (int)PixelSourceBottom.Floor();
+                                    PSR = (int)PixelSourceRight.Floor();
 
-                                //Lower right corner
-                                if (!PixelSourceRight.IsIntegral())
-                                {
-                                    Weight = (PixelSourceBottom - PSB) * (PixelSourceRight - PSR);
-                                    PixelData PD = GetPixel(PSR, PSB);
-                                    Red += PD.Red * Weight;
-                                    Green += PD.Green * Weight;
-                                    Blue += PD.Blue * Weight;
-                                    Alpha += PD.Alpha * Weight;
+                                    //Lower left corner
+                                    if (!PixelSourceLeft.IsIntegral()) {
+                                        PixelData PD = GetPixel((int)PixelSourceLeft.Floor(), PSB);
+                                        Weight = (PixelSourceBottom - PSB) * (PixelSourceLeft.Ceiling() - PixelSourceLeft);
+                                        Red += PD.Red * Weight;
+                                        Green += PD.Green * Weight;
+                                        Blue += PD.Blue * Weight;
+                                        Alpha += PD.Alpha * Weight;
+                                    }
+
+                                    //Lower edge
+
+
+                                    Weight = (PixelSourceBottom - PSB);
+                                    for (int xs = (int)PixelSourceLeft.Ceiling(); xs < PSR; xs++) {
+                                        PixelData PD = GetPixel(xs, PSB);
+                                        Red += PD.Red * Weight;
+                                        Green += PD.Green * Weight;
+                                        Blue += PD.Blue * Weight;
+                                        Alpha += PD.Alpha * Weight;
+                                    }
+
+                                    //Lower right corner
+                                    if (!PixelSourceRight.IsIntegral()) {
+                                        Weight = (PixelSourceBottom - PSB) * (PixelSourceRight - PSR);
+                                        PixelData PD = GetPixel(PSR, PSB);
+                                        Red += PD.Red * Weight;
+                                        Green += PD.Green * Weight;
+                                        Blue += PD.Blue * Weight;
+                                        Alpha += PD.Alpha * Weight;
+                                    }
                                 }
+                                D[x, y] = new PixelData((byte)(Red / PixelSourceCount).Limit(0, 255), (byte)(Green / PixelSourceCount).Limit(0, 255), (byte)(Blue / PixelSourceCount).Limit(0, 255), (byte)(Alpha / PixelSourceCount).Limit(0, 255));
                             }
-                            D[x, y] = new PixelData((byte)(Red / PixelSourceCount).Limit(0, 255), (byte)(Green / PixelSourceCount).Limit(0, 255), (byte)(Blue / PixelSourceCount).Limit(0, 255), (byte)(Alpha / PixelSourceCount).Limit(0, 255));
+
+                        }
+                        break;
+                    case FastBitmapDataExtractModeEnum.SinglePixelTopLeft:
+                    case FastBitmapDataExtractModeEnum.SinglePixelCenter:
+                    default:
+                        float XSource = 0;
+
+                        float XSourceBase = 0;
+                        float YSource = 0;
+                        float XStep = (float)SourceWidth / ResultWidth;
+                        float YStep = (float)SourceHeight / ResultHeight;
+
+                        if (DataExtractMode == FastBitmapDataExtractModeEnum.SinglePixelCenter) {
+                            XSourceBase = XStep / 2;
+                            YSource = YStep / 2;
                         }
 
-                    }
-                    break;
-                case FastBitmapDataExtractModeEnum.SinglePixelTopLeft:
-                case FastBitmapDataExtractModeEnum.SinglePixelCenter:
-                default:
-                    float XSource = 0;
-
-                    float XSourceBase = 0;
-                    float YSource = 0;
-                    float XStep = (float)SourceWidth / ResultWidth;
-                    float YStep = (float)SourceHeight / ResultHeight;
-
-                    if (DataExtractMode == FastBitmapDataExtractModeEnum.SinglePixelCenter)
-                    {
-                        XSourceBase = XStep / 2;
-                        YSource = YStep / 2;
-                    }
-
-                    for (int y = 0; y < ResultHeight; y++)
-                    {
-                        XSource = XSourceBase;
-                        for (int x = 0; x < ResultWidth; x++)
-                        {
-                            D[x, y] = GetPixel(XSource.RoundToInt(), YSource.RoundToInt());
-                            XSource += XStep;
+                        for (int y = 0; y < ResultHeight; y++) {
+                            XSource = XSourceBase;
+                            for (int x = 0; x < ResultWidth; x++) {
+                                D[x, y] = GetPixel(XSource.RoundToInt(), YSource.RoundToInt());
+                                XSource += XStep;
+                            }
+                            YSource += YStep;
                         }
-                        YSource += YStep;
-                    }
 
-                    break;
+                        break;
+                }
+
+                if (UseCache) {
+                    cachedClips.Add(clipSetting, new FastBitmap(F));
+                }
+                return F;
             }
-
-
-            return F;
         }
 
 
@@ -358,7 +385,25 @@ namespace DirectOutput.General.BitmapHandling
             GC.Collect();
         }
 
-
+        /// <summary>
+        /// Load the Fastbitmap using a Binary Reader.
+        /// <param name="Reader">The binary reader.</param>
+        /// </summary>
+        public void Load(BinaryReader Reader)
+        {
+            int W = Reader.ReadInt32();
+            int H = Reader.ReadInt32();
+            SetFrameSize(W, H);
+            PixelData[,] P = Pixels;
+            for (int y = 0; y < Height; y++) {
+                for (int x = 0; x < Width; x++) {
+                    P[x, y].Alpha = Reader.ReadByte();
+                    P[x, y].Red = Reader.ReadByte();
+                    P[x, y].Green = Reader.ReadByte();
+                    P[x, y].Blue = Reader.ReadByte();
+                }
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FastBitmap"/> class.
@@ -381,6 +426,12 @@ namespace DirectOutput.General.BitmapHandling
         public FastBitmap(Image Image)
         {
             Load(Image);
+        }
+
+        public FastBitmap(FastBitmap other)
+        {
+            SetFrameSize(other.Width, other.Height);    
+            Array.Copy(other.Pixels, Pixels, other.Pixels.Length);
         }
     }
 }

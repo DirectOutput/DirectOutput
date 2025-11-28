@@ -74,29 +74,12 @@ namespace DirectOutput.FX.MatrixFX
             {
                 for (int Y = 0; Y <= Pixels.GetUpperBound(1); Y++)
                 {
-
                     for (int X = 0; X <= Pixels.GetUpperBound(0); X++)
                     {
-                        PixelData P = Pixels[X, Y];
-
-                        double Brightness = ((double)(P.Red + P.Green + P.Blue) / 3).Limit(0, 255);
-
-                        P.Red = (byte)(InactiveColor.Red + (int)((float)(ActiveColor.Red - InactiveColor.Red) * Brightness / 255)).Limit(0, 255);
-                        P.Green = (byte)(InactiveColor.Green + (int)((float)(ActiveColor.Green - InactiveColor.Green) * Brightness / 255)).Limit(0, 255);
-                        P.Blue = (byte)(InactiveColor.Blue + (int)((float)(ActiveColor.Blue - InactiveColor.Blue) * Brightness / 255)).Limit(0, 255);
-                        P.Alpha = (byte)(InactiveColor.Alpha + (int)((float)(ActiveColor.Alpha - InactiveColor.Alpha) * Brightness / 255)).Limit(0, 255);
-                        Pixels[X, Y] = P;
-
+                        Pixels[X, Y].Colorize(ActiveColor, InactiveColor);
                     }
-
                 }
-
-
             }
-
         }
-
-
-
     }
 }

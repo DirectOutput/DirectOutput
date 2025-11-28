@@ -487,7 +487,21 @@ namespace DirectOutput.GlobalConfiguration
 
         #endregion
 
+        #region FastInit
+        private bool _FastInitialization = true;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether important events in the framework are logged to a file.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if logging is enabled, <c>false</c> if logging is disabled.
+        /// </value>
+        public bool FastInitialization
+        {
+            get { return _FastInitialization; }
+            set { _FastInitialization = value; }
+        }
+        #endregion 
 
         internal Dictionary<string, string> GetReplaceValuesDictionary(string TableFileName = null, string RomName = "")
         {

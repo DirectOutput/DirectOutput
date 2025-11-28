@@ -159,6 +159,7 @@ namespace DirectOutput.FX.MatrixFX
 
         private bool InitOK = false;
 
+        private readonly List<string> ExtensionExclusion = new List<string>() { FastImage.RawImageExtension };
 
         /// <summary>
         /// Initializes the effect.
@@ -174,7 +175,7 @@ namespace DirectOutput.FX.MatrixFX
             //TODO: Insert replace values for file pattern
             if (BitmapFilePattern.IsValid)
             {
-                FileInfo FI = BitmapFilePattern.GetFirstMatchingFile(Table.Pinball.GlobalConfig.GetReplaceValuesDictionary());
+                FileInfo FI = BitmapFilePattern.GetFirstMatchingFile(Table.Pinball.GlobalConfig.GetReplaceValuesDictionary(), ExtensionExclusion);
                 if (FI!=null && FI.Exists)
                 {
                     FastImage BM;
@@ -191,7 +192,7 @@ namespace DirectOutput.FX.MatrixFX
                     if (BM.Frames.ContainsKey(BitmapFrameNumber))
                     {
                         Log.Instrumentation("MX", "BitmapEffectBase. Grabbing image clip: W: {0}, H:{1}, BML: {2}, BMT: {3}, BMW: {4}, BMH: {5}".Build(new object[] { AreaWidth, AreaHeight, BitmapLeft, BitmapTop, BitmapWidth, BitmapHeight }));
-                        Pixels = BM.Frames[BitmapFrameNumber].GetClip(AreaWidth, AreaHeight, BitmapLeft, BitmapTop, BitmapWidth, BitmapHeight, DataExtractMode).Pixels;
+                        Pixels = BM.Frames[BitmapFrameNumber].GetClip(AreaWidth, AreaHeight, BitmapLeft, BitmapTop, BitmapWidth, BitmapHeight, DataExtractMode, UseCache: Table.Pinball.GlobalConfig.FastInitialization).Pixels;
 
                     }
                     else
