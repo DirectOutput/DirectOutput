@@ -77,6 +77,6 @@ using System.Runtime.InteropServices;
 
 // DOF-wide settings
 [assembly: AssemblyCompany("DirectOutput")]
-[assembly: AssemblyCopyright("Copyright © 2012-2025 Swisslizard")]
+[assembly: AssemblyCopyright("Copyright © 2012-2026 Swisslizard")]
 [assembly: AssemblyTrademark("")]
 

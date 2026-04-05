@@ -6,7 +6,7 @@
 !endif
 !define PRODUCT_PUBLISHER "Swisslizard & the DirectOutput team"
 !define PRODUCT_WEB_SITE "https://github.com/DirectOutput/DirectOutput"
-!define COPYRIGHTYEAR "2025"
+!define COPYRIGHTYEAR "2026"
 !ifndef FILE_VERSION
 !define FILE_VERSION "${PRODUCT_VERSION}.0"
 !endif
