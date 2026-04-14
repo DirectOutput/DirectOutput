@@ -37,7 +37,7 @@ goto paramsOK
 
 :usageExit
 echo.
-echo Usage: MakeReleaseZip ^<platform^> ^<config^> ^<author^>
+echo Usage: MakeZip ^<platform^> ^<config^> ^<author^>
 echo.
 echo platform = x86 ^| x64
 echo config   = debug ^| release
