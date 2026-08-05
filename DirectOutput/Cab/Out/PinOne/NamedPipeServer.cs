@@ -4,7 +4,6 @@ using System.IO.Pipes;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using PerCederberg.Grammatica.Runtime;
 
 public class NamedPipeServer
 {
@@ -17,20 +16,28 @@ public class NamedPipeServer
 
     public NamedPipeServer(string comPort)
     {
-
         this.comPort = comPort;
         serialPort = new SerialPort(comPort, 2000000, Parity.None, 8, StopBits.One);
         serialPort.NewLine = "\r\n";
-        serialPort.ReadTimeout = 500;
-        serialPort.WriteTimeout = 500;
-        serialPort.Open();
-        serialPort.DtrEnable = true;
-    }
 
+        // TIMEOUTS REDUCED: Prevents the 500ms freezing during lag!
+        serialPort.ReadTimeout = 50;
+        serialPort.WriteTimeout = 50;
+
+        try
+        {
+            serialPort.Open();
+            serialPort.DtrEnable = true;
+        }
+        catch (Exception ex)
+        {
+            // Soft-Fail: If the port is missing at startup, log it but don't crash
+            Console.WriteLine($"[PinOne Watchdog] Initial startup warning: Could not open {comPort}. Will retry automatically. ({ex.Message})");
+        }
+    }
 
     public void StartServer()
     {
-
         Task.Run(async () =>
         {
             while (isRunning)
@@ -43,15 +50,19 @@ public class NamedPipeServer
                     PipeOptions.Asynchronous);
 
                 Console.WriteLine("Waiting for client connection...");
-                await serverStream.WaitForConnectionAsync(serverToken);
-
-                var awaitIgnored = HandleClientConnectionAsync(serverStream);
+                try
+                {
+                    await serverStream.WaitForConnectionAsync(serverToken);
+                    var awaitIgnored = HandleClientConnectionAsync(serverStream);
+                }
+                catch (Exception ex)
+                {
+                    // Safely catches cancellation exceptions during shutdown
+                    if (isRunning) Console.WriteLine($"[PinOne Watchdog] Server stream error: {ex.Message}");
+                }
             }
         });
     }
-
-
-
 
     private async Task HandleClientConnectionAsync(NamedPipeServerStream serverStream)
     {
@@ -62,13 +73,26 @@ public class NamedPipeServer
             {
                 var request = new byte[1024];
                 int bytesRead = await serverStream.ReadAsync(request, 0, request.Length, clientToken);
+                if (bytesRead == 0) break; // Client disconnected cleanly
+
                 string requestStr = Encoding.UTF8.GetString(request, 0, bytesRead);
 
                 // Process request
                 if (requestStr.StartsWith("CONNECT"))
                 {
                     Console.WriteLine("Requesting Connect");
-                    serialPort.Open();
+                    try
+                    {
+                        if (!serialPort.IsOpen)
+                        {
+                            serialPort.Open();
+                            serialPort.DtrEnable = true;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"[PinOne Watchdog] Connect request failed to open port: {ex.Message}");
+                    }
                     serverStream.Write(Encoding.UTF8.GetBytes("OK"), 0, 2);
                 }
                 else if (requestStr.StartsWith("STOP_SERVER"))
@@ -84,51 +108,86 @@ public class NamedPipeServer
                 else if (requestStr.StartsWith("WRITE"))
                 {
                     var bytesToWrite = Convert.FromBase64String(requestStr.Substring(6));
-                    serialPort.Write(bytesToWrite, 0, bytesToWrite.Length);
-                    serverStream.Write(Encoding.UTF8.GetBytes("OK"), 0, 2);
+
+                    try
+                    {
+                        // Auto-Reconnect under the hood, without disturbing the client!
+                        if (!serialPort.IsOpen)
+                        {
+                            serialPort.Open();
+                            serialPort.DtrEnable = true;
+                        }
+                        serialPort.Write(bytesToWrite, 0, bytesToWrite.Length);
+                    }
+                    catch (TimeoutException ex)
+                    {
+                        // Soft-Fail: Ignore Windows stutters/timeouts
+                        Console.WriteLine($"[PinOne Warning] Soft-Fail: USB stutter or timeout detected, frame dropped. ({ex.Message})");
+                    }
+                    catch (Exception ex)
+                    {
+                        // Hard-Fail: EMI Glitch. Close port so it opens cleanly in the next loop.
+                        Console.WriteLine($"[PinOne Critical] Hard-Fail: Hardware connection dropped (EMI Glitch?). Closing port for auto-recovery. ({ex.Message})");
+                        try { serialPort.Close(); } catch { }
+                    }
+
+                    // LIFESAVER: We ALWAYS report "OK" to the client. 
+                    // This ensures the 300ms loop of death in the DOF thread is never triggered!
+                    try { serverStream.Write(Encoding.UTF8.GetBytes("OK"), 0, 2); } catch { }
                 }
                 else if (requestStr.StartsWith("READLINE"))
                 {
-                    string response = serialPort.ReadLine();
-                    serverStream.Write(Encoding.UTF8.GetBytes(response), 0, response.Length);
+                    string response = "";
+                    try
+                    {
+                        if (!serialPort.IsOpen)
+                        {
+                            serialPort.Open();
+                            serialPort.DtrEnable = true;
+                        }
+                        response = serialPort.ReadLine();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"[PinOne Warning] ReadLine failed: {ex.Message}");
+                        try { serialPort.Close(); } catch { }
+                    }
+                    try { serverStream.Write(Encoding.UTF8.GetBytes(response), 0, response.Length); } catch { }
                 }
                 else if (requestStr.StartsWith("CHECK"))
                 {
                     string response = serialPort.IsOpen ? "TRUE" : "FALSE";
-                    serverStream.Write(Encoding.UTF8.GetBytes(response), 0, response.Length);
+                    try { serverStream.Write(Encoding.UTF8.GetBytes(response), 0, response.Length); } catch { }
                 }
                 else if (requestStr.StartsWith("COMPORT"))
                 {
                     Console.WriteLine("Requesting com port");
-                    serverStream.Write(Encoding.UTF8.GetBytes(this.comPort), 0, this.comPort.Length);
+                    try { serverStream.Write(Encoding.UTF8.GetBytes(this.comPort), 0, this.comPort.Length); } catch { }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                // If the pipe breaks, the server is NO LONGER completely terminated (isRunning = false).
+                // It only disconnects this specific client and immediately waits for the next one!
+                Console.WriteLine($"[PinOne Watchdog] Client pipe disconnected unexpectedly: {ex.Message}");
                 serverStream.Disconnect();
-                isRunning = false;
+                completed = true;
             }
-            finally
-            {
-                //Console.WriteLine("cleaning up, closing ports");
-            }
-
         }
-        if (isRunning == false)
+
+        if (serverStream.IsConnected)
         {
-
             serverStream.Disconnect();
-            serverStream.Close();
-            
         }
+        serverStream.Close();
     }
 
     public void StopServer()
     {
-        serialPort.Close();
         isRunning = false;
-        clientToken.ThrowIfCancellationRequested();
-        serverToken.ThrowIfCancellationRequested();
+        try { serialPort.Close(); } catch { }
+        try { clientToken.ThrowIfCancellationRequested(); } catch { }
+        try { serverToken.ThrowIfCancellationRequested(); } catch { }
         Thread.Sleep(300);
     }
 }

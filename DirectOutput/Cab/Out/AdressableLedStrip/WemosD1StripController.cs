@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,7 +32,8 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
         public bool SendPerLedstripLength
         {
             get { return _SendPerLedstripLength; }
-            set {
+            set
+            {
                 _SendPerLedstripLength = value;
             }
         }
@@ -74,29 +75,37 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             base.SetupController();
 
             //Send number of leds per leds strips 
-            if (SendPerLedstripLength) {
-                for (var numled = 0; numled < NumberOfLedsPerStrip.Length; ++numled) {
+            if (SendPerLedstripLength)
+            {
+                for (var numled = 0; numled < NumberOfLedsPerStrip.Length; ++numled)
+                {
                     int nbleds = NumberOfLedsPerStrip[numled];
-                    if (nbleds > 0) {
+                    if (nbleds > 0)
+                    {
                         CommandData = new byte[5] { (byte)'Z', (byte)numled, (byte)(NumberOfLedsPerStrip.Length - 1), (byte)(nbleds >> 8), (byte)(nbleds & 255) };
                         Log.Write($"Resize ledstrip {numled} to {nbleds} leds.");
                         ComPort.Write(CommandData, 0, 5);
                         ReceiveData = new byte[1];
                         BytesRead = -1;
-                        try {
+                        try
+                        {
                             BytesRead = ReadPortWait(ReceiveData, 0, 1);
-                        } catch (Exception E) {
+                        }
+                        catch (Exception E)
+                        {
                             throw new Exception($"Expected 1 bytes after setting the number of leds for ledstrip {numled} , but the read operation resulted in a exception. Will not send data to the controller.", E);
                         }
 
-                        if (BytesRead != 1 || ReceiveData[0] != (byte)'A') {
+                        if (BytesRead != 1 || ReceiveData[0] != (byte)'A')
+                        {
                             throw new Exception($"Expected a Ack (A) after setting the number of leds for ledstrip {numled}, but received no answer or a unexpected answer ({(char)ReceiveData[0]}). Will not send data to the controller.");
                         }
                     }
                 }
             }
 
-            if (TestOnConnect) {
+            if (TestOnConnect)
+            {
                 CommandData = new byte[1] { (byte)'T' };
                 Log.Write($"Send a test request to the controller");
                 ComPort.Write(CommandData, 0, 1);
@@ -106,13 +115,17 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
 
                 ReceiveData = new byte[1];
                 BytesRead = -1;
-                try {
+                try
+                {
                     BytesRead = ReadPortWait(ReceiveData, 0, 1);
-                } catch (Exception E) {
+                }
+                catch (Exception E)
+                {
                     throw new Exception($"Expected 1 bytes after requesting a test sequence, but the read operation resulted in a exception. Will not send data to the controller.", E);
                 }
 
-                if (BytesRead != 1 || ReceiveData[0] != (byte)'A') {
+                if (BytesRead != 1 || ReceiveData[0] != (byte)'A')
+                {
                     throw new Exception($"Expected a Ack (A) after requesting a test sequence, but received no answer or a unexpected answer ({(char)ReceiveData[0]}). Will not send data to the controller.");
                 }
 
@@ -126,27 +139,33 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
 
         protected override void SendLedstripData(byte[] OutputValues, int TargetPosition)
         {
-            if (UseCompression) {
+            if (UseCompression)
+            {
                 //Try a simple color based RLE compression
                 CompressedData.Clear();
                 UncompressedData.Clear();
                 UncompressedData.AddRange(OutputValues);
 
-                while (UncompressedData.Count > 0) {
-                    if (UncompressedData.Count == 3) {
+                while (UncompressedData.Count > 0)
+                {
+                    if (UncompressedData.Count == 3)
+                    {
                         CompressedData.Add(1);
                         CompressedData.Add(UncompressedData[0]);
                         CompressedData.Add(UncompressedData[1]);
                         CompressedData.Add(UncompressedData[2]);
                         UncompressedData.RemoveRange(0, 3);
-                    } else {
+                    }
+                    else
+                    {
                         byte r = UncompressedData[0];
                         byte g = UncompressedData[1];
                         byte b = UncompressedData[2];
                         UncompressedData.RemoveRange(0, 3);
                         int value = (r << 16) | (g << 8) | b;
                         int cnt = 1;
-                        while (UncompressedData.Count > 0 && ((UncompressedData[0] << 16) | (UncompressedData[1] << 8) | UncompressedData[2]) == value && cnt < byte.MaxValue-1) {
+                        while (UncompressedData.Count > 0 && ((UncompressedData[0] << 16) | (UncompressedData[1] << 8) | UncompressedData[2]) == value && cnt < byte.MaxValue - 1)
+                        {
                             UncompressedData.RemoveRange(0, 3);
                             cnt++;
                         }
@@ -158,7 +177,8 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
 
                 }
 
-                if (CompressedData.Count < OutputValues.Length) {
+                if (CompressedData.Count < OutputValues.Length)
+                {
                     var nbData = CompressedData.Count / 4;
                     var nbLeds = OutputValues.Length / 3;
                     byte[] CommandData = new byte[7] {  (byte)'Q',
@@ -168,11 +188,89 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
                                                     };
                     ComPort.Write(CommandData, 0, 7);
                     ComPort.Write(CompressedData.ToArray(), 0, CompressedData.Count);
-                } else {
+                }
+                else
+                {
                     base.SendLedstripData(OutputValues, TargetPosition);
                 }
-            } else {
+            }
+            else
+            {
                 base.SendLedstripData(OutputValues, TargetPosition);
+            }
+        }
+
+        /// <summary>
+        /// Updates the outputs and implements a High-Availability Watchdog and Soft-Fail mechanism
+        /// to protect against Windows USB stutters and EMI disconnects.
+        /// </summary>
+        /// <param name="OutputValues">The OutputValues.</param>
+        protected override void UpdateOutputs(byte[] OutputValues)
+        {
+            if (ComPort == null || !ComPort.IsOpen) return;
+
+            try
+            {
+                // Rely on the base class to handle the standard frame transmission and ACK reading
+                base.UpdateOutputs(OutputValues);
+            }
+            catch (TimeoutException)
+            {
+                // -----------------------------------------------------------------
+                // WATCHDOG SOFT-FAIL LAYER
+                // -----------------------------------------------------------------
+                // Catches Windows USB stutters or minor desyncs. Instead of freezing 
+                // the DirectOutput thread, it drops the current frame, purges the 
+                // buffer, and smoothly proceeds to the next incoming frame.
+                Log.Write("[Watchdog Warning] Timeout detected. Soft-failing frame and continuing...");
+                try { ComPort.DiscardInBuffer(); } catch { }
+            }
+            catch (Exception E)
+            {
+                // -----------------------------------------------------------------
+                // WATCHDOG AUTOMATED HARDWARE RECOVERY LAYER 
+                // -----------------------------------------------------------------
+                // Catches hard crashes (e.g., physical EMI disconnects or IOExceptions).
+                // Automatically attempts to reset the COM port and re-flash the hardware setup.
+                Log.Write($"[Watchdog Critical] Hardware transmission crashed ({E.Message}). Starting automated hot-plug recovery...");
+
+                bool reconnectionSuccessful = false;
+                int maxAttempts = 15;
+                int delayBetweenAttemptsMs = 1000;
+
+                for (int attempt = 1; attempt <= maxAttempts; attempt++)
+                {
+                    Log.Write($"[Watchdog] Reconnection attempt {attempt}/{maxAttempts}...");
+                    try
+                    {
+                        if (ComPort.IsOpen)
+                        {
+                            ComPort.Close();
+                        }
+
+                        Thread.Sleep(delayBetweenAttemptsMs);
+
+                        ComPort.Open();
+
+                        // Re-flash the initial configuration since the controller might have rebooted
+                        SetupController();
+
+                        reconnectionSuccessful = true;
+                        Log.Write("[Watchdog] Recovery successful! Port re-opened and setup flashed. Resuming normal operation.");
+                        break;
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Write($"[Watchdog] Attempt {attempt} failed: {ex.Message}");
+                    }
+                }
+
+                if (!reconnectionSuccessful)
+                {
+                    Log.Write("[Watchdog Critical] Recovery failed after maximum attempts. Controller might be permanently disconnected.");
+                    // Throw the original exception to let DOF handle the fatal crash since recovery failed
+                    throw new Exception($"Watchdog recovery failed after {maxAttempts} attempts. Original error: {E.Message}", E);
+                }
             }
         }
     }
