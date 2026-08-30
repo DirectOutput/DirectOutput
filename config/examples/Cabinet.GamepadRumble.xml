@@ -1,0 +1,194 @@
+<?xml version="1.0"?>
+<!--
+  Example cabinet config for the GamepadRumble output controller.
+
+  It turns DOF output activity into vibration on an XInput gamepad, so setups
+  without any feedback hardware (desktop, VR) still get game-accurate haptics.
+
+  To use it:
+    1. In the DOF config tool, define one LedWiz and assign the toys you want.
+       The port order below assumes the usual assignment:
+         1 = Shaker      2 = Knocker        3 = Gear (motors)
+         4 / 5 = Flippers                   6 / 7 = Slingshots
+         8 and up = Bumpers
+    2. Copy this file to your DOF config folder as Cabinet.xml.
+    3. Make sure GlobalConfig_B2SServer.xml points at it, e.g.
+         <CabinetConfigFilePattern>C:\DirectOutput\Config\Cabinet.xml</CabinetConfigFilePattern>
+       Without that entry the cabinet config is ignored and auto config is used,
+       so the controller would never be created.
+-->
+<Cabinet xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>Gamepad Rumble</Name>
+
+  <OutputControllers>
+    <GamepadRumble>
+      <Name>GamepadRumble</Name>
+
+      <!-- XInput slot of the controller (0-3). -->
+      <ControllerIndex>0</ControllerIndex>
+
+      <!-- Overall strength in percent (0-300). -->
+      <Strength>100</Strength>
+
+      <!-- Per port weighting in percent as "port=percent" pairs, comma
+           separated. Ports that are not listed use 100%. Because port numbers
+           mean the same thing on every table, whole categories can be toned
+           down here. Gear motors are driven by the raw solenoid state and run
+           for as long as the mechanism runs, so they are halved by default. -->
+      <PortWeights>3=50</PortWeights>
+
+      <!-- Fade for sustained outputs. Anything that stays on for longer than
+           SustainMs is faded over SustainFadeMs down to SustainLevel percent.
+           Short hits (knocker, bumpers, slingshots) are never affected.
+           SustainLevel 0 means a continuously running motor gives one clear
+           kick when it starts and then goes quiet. -->
+      <SustainMs>500</SustainMs>
+      <SustainFadeMs>800</SustainFadeMs>
+      <SustainLevel>0</SustainLevel>
+
+      <NumberOfOutputs>32</NumberOfOutputs>
+    </GamepadRumble>
+  </OutputControllers>
+
+  <Toys>
+    <!-- Routes the virtual "LedWiz 1" from the config tool to the outputs of
+         the GamepadRumble controller. Without this the ini file data would
+         have nowhere to go. -->
+    <LedWizEquivalent>
+      <Name>LedWizEquivalent 1</Name>
+      <Outputs>
+        <LedWizEquivalentOutput>
+          <OutputName>GamepadRumble\GamepadRumble.1</OutputName>
+          <LedWizEquivalentOutputNumber>1</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>GamepadRumble\GamepadRumble.2</OutputName>
+          <LedWizEquivalentOutputNumber>2</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>GamepadRumble\GamepadRumble.3</OutputName>
+          <LedWizEquivalentOutputNumber>3</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>GamepadRumble\GamepadRumble.4</OutputName>
+          <LedWizEquivalentOutputNumber>4</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>GamepadRumble\GamepadRumble.5</OutputName>
+          <LedWizEquivalentOutputNumber>5</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>GamepadRumble\GamepadRumble.6</OutputName>
+          <LedWizEquivalentOutputNumber>6</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>GamepadRumble\GamepadRumble.7</OutputName>
+          <LedWizEquivalentOutputNumber>7</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>GamepadRumble\GamepadRumble.8</OutputName>
+          <LedWizEquivalentOutputNumber>8</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>GamepadRumble\GamepadRumble.9</OutputName>
+          <LedWizEquivalentOutputNumber>9</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>GamepadRumble\GamepadRumble.10</OutputName>
+          <LedWizEquivalentOutputNumber>10</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>GamepadRumble\GamepadRumble.11</OutputName>
+          <LedWizEquivalentOutputNumber>11</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>GamepadRumble\GamepadRumble.12</OutputName>
+          <LedWizEquivalentOutputNumber>12</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>GamepadRumble\GamepadRumble.13</OutputName>
+          <LedWizEquivalentOutputNumber>13</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>GamepadRumble\GamepadRumble.14</OutputName>
+          <LedWizEquivalentOutputNumber>14</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>GamepadRumble\GamepadRumble.15</OutputName>
+          <LedWizEquivalentOutputNumber>15</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>GamepadRumble\GamepadRumble.16</OutputName>
+          <LedWizEquivalentOutputNumber>16</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>GamepadRumble\GamepadRumble.17</OutputName>
+          <LedWizEquivalentOutputNumber>17</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>GamepadRumble\GamepadRumble.18</OutputName>
+          <LedWizEquivalentOutputNumber>18</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>GamepadRumble\GamepadRumble.19</OutputName>
+          <LedWizEquivalentOutputNumber>19</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>GamepadRumble\GamepadRumble.20</OutputName>
+          <LedWizEquivalentOutputNumber>20</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>GamepadRumble\GamepadRumble.21</OutputName>
+          <LedWizEquivalentOutputNumber>21</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>GamepadRumble\GamepadRumble.22</OutputName>
+          <LedWizEquivalentOutputNumber>22</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>GamepadRumble\GamepadRumble.23</OutputName>
+          <LedWizEquivalentOutputNumber>23</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>GamepadRumble\GamepadRumble.24</OutputName>
+          <LedWizEquivalentOutputNumber>24</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>GamepadRumble\GamepadRumble.25</OutputName>
+          <LedWizEquivalentOutputNumber>25</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>GamepadRumble\GamepadRumble.26</OutputName>
+          <LedWizEquivalentOutputNumber>26</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>GamepadRumble\GamepadRumble.27</OutputName>
+          <LedWizEquivalentOutputNumber>27</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>GamepadRumble\GamepadRumble.28</OutputName>
+          <LedWizEquivalentOutputNumber>28</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>GamepadRumble\GamepadRumble.29</OutputName>
+          <LedWizEquivalentOutputNumber>29</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>GamepadRumble\GamepadRumble.30</OutputName>
+          <LedWizEquivalentOutputNumber>30</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>GamepadRumble\GamepadRumble.31</OutputName>
+          <LedWizEquivalentOutputNumber>31</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+        <LedWizEquivalentOutput>
+          <OutputName>GamepadRumble\GamepadRumble.32</OutputName>
+          <LedWizEquivalentOutputNumber>32</LedWizEquivalentOutputNumber>
+        </LedWizEquivalentOutput>
+      </Outputs>
+      <LedWizNumber>1</LedWizNumber>
+    </LedWizEquivalent>
+  </Toys>
+
+  <AutoConfigEnabled>false</AutoConfigEnabled>
+</Cabinet>
