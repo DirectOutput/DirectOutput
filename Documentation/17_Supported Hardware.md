@@ -98,3 +98,20 @@ The FT245RL (http://www.ftdichip.com/Products/ICs/FT245R.htm) is a USB interface
 The SainSmart USB relay boards (http://www.sainsmart.com/arduino-compatibles-1/relay/usb-relay.html) are compatible with DOF, but other hardware which is based on the same controller chip might be compatible as well. Generally controller units which is exclusively using the FT245R (no extra cpu on board) and having max. 8 output ports are likely to be compatible. Please let me know, if you have tested other hardware successfully, so I can ammend the docu.
 
 \image html SainSmart8PortUsbRelay.jpg SainSmart 8port USB relay board
+
+
+\section hardware_gamepadrumble XInput gamepad (no cabinet hardware)
+
+Setups without any feedback hardware, which is the usual situation for desktop
+and virtual reality players, can use the vibration motors of an XInput gamepad
+(an Xbox controller or a compatible pad) as their feedback device.
+
+This does not replace a cabinet, but it does make the whole configuration
+database of the framework useful for players who own nothing but a controller:
+the shaker, the knocker, gear motors, slingshots and bumpers of over a thousand
+tables are felt in the hands, and no contactors, boards or wiring are involved.
+
+The gamepad only has to be connected and recognized by Windows. Since there is
+no hardware to detect, the controller is not auto configured and has to be added
+to the cabinet configuration. See ef outputcontrollers_builtin for the
+configuration of the GamepadRumble output controller.

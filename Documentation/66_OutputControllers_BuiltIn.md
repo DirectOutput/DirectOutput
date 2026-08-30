@@ -1,4 +1,4 @@
-Built in Output controllers  {#outputcontrollers_builtin}
+﻿Built in Output controllers  {#outputcontrollers_builtin}
 ==========
 \section use_DirectOutput_Cab_Out_DMX_ArtNet ArtNet
 
@@ -208,6 +208,168 @@ The name of the item.
 \subsubsection DirectOutput_Cab_Out_FTDIChip_FT245RBitbangController_SerialNumber SerialNumber
 
 The serial number of the FT245R chip which is to be controlled.
+
+
+
+\section use_DirectOutput_Cab_Out_GamepadRumble_GamepadRumble GamepadRumble
+
+\subsection use_DirectOutput_Cab_Out_GamepadRumble_GamepadRumble_summary Summary
+
+This output controller does not drive any cabinet hardware. Instead it turns the
+output activity of the framework into vibration on an XInput gamepad (an Xbox
+controller or any compatible pad).
+
+It is meant for setups that have no feedback hardware at all, which is the normal
+situation for desktop and virtual reality players. The configuration database of
+the framework already knows which ROM event drives which toy for well over a
+thousand tables, so sending those outputs to the rumble motors of a gamepad gives
+game accurate feedback - the shaker, the knocker, gear motors, slingshots and
+bumpers are all felt in the hands - without installing a single contactor.
+
+The controller takes the strongest of its active outputs and uses it to drive the
+vibration motors. No drivers or additional software are needed; the gamepad only
+has to be connected and recognized by Windows.
+
+\subsection use_DirectOutput_Cab_Out_GamepadRumble_GamepadRumble_setup Setup
+
+Since there is no physical hardware to detect, the controller has to be defined
+in the cabinet configuration, and the outputs of a LedWizEquivalent toy have to
+be routed to it. The steps are:
+
+-# Use the <a target="_blank" href="https://configtool.vpuniverse.com">DOF config tool</a>
+   to define a single LedWiz and assign the toys you want to feel. A useful
+   assignment is: port 1 shaker, port 2 knocker, port 3 gear, ports 4 and 5 the
+   flippers, ports 6 and 7 the slingshots and ports 8 and up the bumpers. The
+   default value of the PortWeights property described below assumes this order.
+-# Generate the config and place the resulting directoutputconfig.ini in the
+   config directory of the framework, as described on \ref ledcontrolfiles.
+-# Create a cabinet configuration containing the controller and a matching
+   LedWizEquivalent toy (see the sample below), and make sure the global
+   configuration points at it through its CabinetConfigFilePattern property. If
+   that property is missing, the cabinet configuration is ignored and auto
+   configuration is used instead, in which case this controller is never created.
+
+A ready to use example is included with the framework as
+config/examples/Cabinet.GamepadRumble.xml.
+
+\subsection use_DirectOutput_Cab_Out_GamepadRumble_GamepadRumble_sustain A note on continuously running effects
+
+Some toys follow the raw solenoid state and therefore stay active for as long as
+the mechanism runs. A good example is the train in Cactus Canyon, where the gear
+column of the configuration contains no duration at all, so the output stays on
+while the train travels along its track.
+
+For a real cabinet this is exactly right, since the motor is supposed to keep
+running. A gamepad buzzing at full power for the same length of time is merely
+unpleasant. The controller therefore fades outputs that stay on for longer than
+SustainMs down towards SustainLevel, while short hits like a knocker or a bumper
+are never affected. With SustainLevel set to zero a starting motor produces one
+clear kick and then goes quiet, which keeps the information without the nuisance.
+
+The PortWeights property serves the same purpose in a coarser way, by allowing
+whole categories of feedback to be weighted differently.
+
+\subsection use_DirectOutput_Cab_Out_GamepadRumble_GamepadRumble_samplexml Sample XML
+
+The controller section of the cabinet configuration:
+
+~~~~~~~~~~~~~{.xml}
+<GamepadRumble>
+  <Name>GamepadRumble</Name>
+  <ControllerIndex>0</ControllerIndex>
+  <Strength>100</Strength>
+  <PortWeights>3=50</PortWeights>
+  <SustainMs>500</SustainMs>
+  <SustainFadeMs>800</SustainFadeMs>
+  <SustainLevel>0</SustainLevel>
+  <NumberOfOutputs>32</NumberOfOutputs>
+</GamepadRumble>
+~~~~~~~~~~~~~
+
+The toy section has to route a LedWizEquivalent to the outputs of the controller,
+otherwise the data from the ini files has nowhere to go. The following is
+shortened to the first two outputs; a complete example with all 32 outputs is
+included as config/examples/Cabinet.GamepadRumble.xml.
+
+~~~~~~~~~~~~~{.xml}
+<LedWizEquivalent>
+  <Name>LedWizEquivalent 1</Name>
+  <Outputs>
+    <LedWizEquivalentOutput>
+      <OutputName>GamepadRumble\GamepadRumble.1</OutputName>
+      <LedWizEquivalentOutputNumber>1</LedWizEquivalentOutputNumber>
+    </LedWizEquivalentOutput>
+    <LedWizEquivalentOutput>
+      <OutputName>GamepadRumble\GamepadRumble.2</OutputName>
+      <LedWizEquivalentOutputNumber>2</LedWizEquivalentOutputNumber>
+    </LedWizEquivalentOutput>
+  </Outputs>
+  <LedWizNumber>1</LedWizNumber>
+</LedWizEquivalent>
+~~~~~~~~~~~~~
+
+\subsection use_DirectOutput_Cab_Out_GamepadRumble_GamepadRumble_properties Properties
+
+GamepadRumble has the following 7 configurable properties:
+
+\subsubsection DirectOutput_Cab_Out_GamepadRumble_GamepadRumble_ControllerIndex ControllerIndex
+
+The XInput slot of the gamepad which receives the vibration.
+Valid values are 0 to 3, where 0 is the first controller.
+
+
+
+\subsubsection DirectOutput_Cab_Out_GamepadRumble_GamepadRumble_Name Name
+
+The name of the item.
+
+
+
+\subsubsection DirectOutput_Cab_Out_GamepadRumble_GamepadRumble_NumberOfOutputs NumberOfOutputs
+
+The number of outputs of the controller. 32 matches a LedWiz and is a sensible
+default.
+
+
+
+\subsubsection DirectOutput_Cab_Out_GamepadRumble_GamepadRumble_PortWeights PortWeights
+
+Weighting of individual outputs in percent, given as a comma separated list of
+port=percent pairs, for example 3=50. Ports which are not listed use 100 percent.
+
+Since the port numbers mean the same thing on every table when the assignment
+described in the setup section is used, this allows whole categories of feedback
+to be adjusted. The default value tones down gear motors.
+
+
+
+\subsubsection DirectOutput_Cab_Out_GamepadRumble_GamepadRumble_Strength Strength
+
+Overall strength of the vibration in percent. 100 lets a fully active output
+drive the motors at their maximum.
+Valid values are 0 to 300.
+
+
+
+\subsubsection DirectOutput_Cab_Out_GamepadRumble_GamepadRumble_SustainFadeMs SustainFadeMs
+
+The time in milliseconds it takes to fade a continuously active output from full
+strength down to SustainLevel.
+
+
+
+\subsubsection DirectOutput_Cab_Out_GamepadRumble_GamepadRumble_SustainLevel SustainLevel
+
+The level in percent at which a continuously active output settles.
+0 means such an output becomes silent after its initial kick.
+
+
+
+\subsubsection DirectOutput_Cab_Out_GamepadRumble_GamepadRumble_SustainMs SustainMs
+
+How long in milliseconds an output may stay active at full strength before the
+fade described above begins. Short hits are always below this value and are
+therefore never affected.
 
 
 
