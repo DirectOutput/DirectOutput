@@ -235,7 +235,7 @@ namespace DOFSetupB2SFixup
                         msg += "\r\n\r\n";
                     msg += err;
                 }
-                session.Message(InstallMessage.Error, new Record { FormatString = msg });
+                session.Message(InstallMessage.Warning, new Record { FormatString = msg });
             }
 
             return ActionResult.Success;

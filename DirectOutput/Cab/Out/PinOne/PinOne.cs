@@ -93,11 +93,20 @@ namespace DirectOutput.Cab.Out.PinOne
         #endregion
 
         #region ComPort property core parts
+
+        /// <summary>
+        /// Reserved ComPort value signaling that this controller talks over
+        /// the current-firmware USB HID vendor channel instead of a serial
+        /// port. Never collides with a real COM port name.
+        /// </summary>
+        public const string HidSentinel = "HID";
+
         private string _ComPort = "comm1";
         private bool ComPortSet = false;
         private object PortLocker = new object();
         // private bool isMaster = false; // not used
         private PinOneCommunication pinOneCommunication;
+        private PinOneHidDevice hidDevice;
 
         /// <summary>
         /// Gets or sets the minimal interval between command in milliseconds (Default: 1ms).
@@ -168,6 +177,16 @@ namespace DirectOutput.Cab.Out.PinOne
                 return false;
             }
 
+            if (ComPort == HidSentinel)
+            {
+                if (PinOneHidCommunication.FindDevice() == null)
+                {
+                    Log.Warning("{0} {1} is configured for USB HID, but no PinOne HID device was found.".Build(this.GetType().Name, Name));
+                    return false;
+                }
+                return true;
+            }
+
             if (!SerialPort.GetPortNames().Any(x => x.Equals(ComPort, StringComparison.InvariantCultureIgnoreCase)))
             {
                 Log.Warning("ComPort {2} is defined for {0} {1}, but does not exist.".Build(this.GetType().Name, Name, ComPort));
@@ -207,7 +226,14 @@ namespace DirectOutput.Cab.Out.PinOne
                         buf[0] = 0;             // USB report ID - always 0
                         buf[1] = pfx;			// message prefix
                         Array.Copy(NewOutputValues, i, buf, 2, lim - i);
-                        pinOneCommunication.Write(buf);
+                        if (ComPort == HidSentinel)
+                        {
+                            hidDevice?.WriteUSB(buf);
+                        }
+                        else
+                        {
+                            pinOneCommunication.Write(buf);
+                        }
 
                         // the new values are now the current values on the device
                         Array.Copy(NewOutputValues, i, OldOutputValues, i, lim - i);
@@ -235,6 +261,32 @@ namespace DirectOutput.Cab.Out.PinOne
         /// </summary>
         protected override void ConnectToController()
         {
+            if (ComPort == HidSentinel)
+            {
+                lock (PortLocker)
+                {
+                    if (hidDevice != null)
+                    {
+                        DisconnectFromController();
+                    }
+
+                    hidDevice = PinOneHidCommunication.FindDevice();
+                    if (hidDevice == null)
+                    {
+                        string Msg = "No PinOne HID device found for {0} {1}.".Build(this.GetType().Name, Name);
+                        Log.Warning(Msg);
+                        throw new Exception(Msg);
+                    }
+                    // No named-pipe broker needed here: unlike a serial
+                    // port, the HID device natively supports concurrent
+                    // access from multiple processes (e.g. the PinOne
+                    // Config Tool can have it open at the same time) - that
+                    // exclusivity problem is exactly what moving to HID
+                    // was meant to solve.
+                }
+                return;
+            }
+
             try
             {
                 lock (PortLocker)
@@ -258,7 +310,7 @@ namespace DirectOutput.Cab.Out.PinOne
                         {
                             throw new Exception("Unable to create server");
                         }
-                        
+
 
                     }
                 }
@@ -278,6 +330,13 @@ namespace DirectOutput.Cab.Out.PinOne
         {
             lock (PortLocker)
             {
+                if (ComPort == HidSentinel)
+                {
+                    hidDevice?.Close();
+                    hidDevice = null;
+                    return;
+                }
+
                 if (pinOneCommunication != null)
                 {
                     pinOneCommunication.DisconnectFromServer();

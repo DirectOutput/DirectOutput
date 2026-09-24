@@ -219,6 +219,7 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Management" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Text.RegularExpressions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Text.RegularExpressions.4.3.1\lib\net463\System.Text.RegularExpressions.dll</HintPath>
@@ -288,6 +289,7 @@
     <Compile Include="Cab\Out\PinOne\PinOne.cs" />
     <Compile Include="Cab\Out\PinOne\PinOneAutoConfigurator.cs" />
     <Compile Include="Cab\Out\PinOne\PinOneCommunication.cs" />
+    <Compile Include="Cab\Out\PinOne\PinOneHidCommunication.cs" />
     <Compile Include="Cab\Out\PSPico\PinscapePico.cs" />
     <Compile Include="Cab\Out\PSPico\PinscapePicoAutoConfigurator.cs" />
     <Compile Include="Cab\Out\PSPico\PSPico.cs" />

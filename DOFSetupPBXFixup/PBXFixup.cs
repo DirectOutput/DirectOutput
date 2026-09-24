@@ -263,7 +263,7 @@ namespace DOFSetupPBXFixup
 					padding = "\r\n\r\n";
 				}
 
-                session.Message(InstallMessage.Error, new Record { FormatString = msg });
+                session.Message(InstallMessage.Warning, new Record { FormatString = msg });
             }
 
             // done
